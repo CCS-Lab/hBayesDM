@@ -1,0 +1,22 @@
+Sep 29, 2016 (0.2.3.1)
+1. Change
+  * Add a function for plotting individual parameters (plotInd) 
+
+Sat July 16 2016 (0.2.3)
+1. Change
+  * Add a new task: the Ultimatum Game
+  * Add new models for the Probabilistic Reversal Learning and Risk Aversion tasks
+  * ‘bandit2arm’ -> change its name to ‘bandit2arm_delta’. Now all model names are in the same format (i.e., TASK_MODEL).
+  * Users can extract model-based regressors from gng_m* models
+  * Include the option of customizing control parameters (adapt_delta, max_treedepth, stepsize)
+  * ‘plotHDI’ function -> add ‘fontSize’ argument & change the color of histogram
+
+Sat Apr 02 2016 (0.2.1)
+1. Bug fixes 
+  * All models: Fix errors when indPars=“mode”
+  * ra_prospect model: Add description for column names of a data (*.txt) file
+2. Change
+  * Change standard deviations of ‘b’ and ‘pi’ priors in gng_* models	  
+
+Fri Mar 25 2016 (0.2.0)
+Initially released. 
