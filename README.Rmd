@@ -248,19 +248,19 @@ Let's first visually diagnose MCMC performance of hyper parameters with trace pl
 ```{r echo=TRUE}
 plot(output1, type="trace", fontSize=11)   # traceplot of hyper parameters. Set font size 11.
 ```
-![Figure caption here](MCMC.PNG) <br><br>
+![Figure caption here](output1_traceplot.png) <br><br>
 
 The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their $\hat{R}$ values (see [**here**](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples. 
 ```{r echo=TRUE}
 plot(output1, type="trace", inc_warmup=T)   # traceplot of hyper parameters w/ warmup samples
 ```
-![Figure caption here](MCMC2.PNG) <br><br>
+![Figure caption here](output1_traceplot_warmup.png) <br><br>
 
 You can also plot the posterior distributions of the hyper (group) parameters with `plot`:
 ```{r echo=TRUE}
 plot(output1)
 ```
-![Figure caption here](MCMC3.PNG) <br><br>
+![Figure caption here](output1.png) <br><br>
 
 <!-- 
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
@@ -272,7 +272,7 @@ To visualize individual parameters, you can use our newly updated function calle
 ```{r echo=TRUE, message=FALSE, warning=FALSE, fig.height=5, fig.width=8}
 plotInd(output1, "ep")  
 ```
-![Figure caption here](MCMC4.PNG) <br><br>
+![Figure caption here](plotInd.png) <br><br>
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
@@ -347,12 +347,12 @@ dim(output$modelRegressor$SV)  # number of rows=# of subjects (=10), number of c
 # visualize SV (Subject #1)
 plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")  
 ```
-![Figure caption here](Trail1.PNG) <br><br>
+![Figure caption here](sv_subj1.png) <br><br>
 ```{r eval=TRUE}
 # visualize SV (Subject #5)
 plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")  
 ```
-![Figure caption here](Trail2.PNG) <br><br>
+![Figure caption here](sv_subj5.png) <br><br>
 Similarly, users can extract and visualize other model-based regressors. **W(Go)**, **W(NoGo)**, **Q(Go)**, **Q(NoGo)** are stored in `Wgo`, `Wnogo`, `Qgo`, and `Qnogo`, respectively.
 
 <br>
