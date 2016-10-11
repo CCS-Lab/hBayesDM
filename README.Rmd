@@ -5,20 +5,7 @@
 - *Nate Haines (haines.175@osu.edu)*
 - *Lei Zhang (bnuzhanglei2008@gmail.com)*
 <br>
-# *September 29, 2016*
-<!-- output: -->
-<!--   html_document: -->
-<!--     fig_height: 3 -->
-<!--     fig_width: 8 -->
-<!--     keep_md: yes -->
-<!--     toc: yes -->
-<!--   pdf_document: -->
-<!--     toc: yes -->
-<!-- fig_caption: yes -->
-<!-- fontsize: 12pt -->
-<!-- header-includes: \setlength\parindent{24pt}\setlength{\parskip}{0.0pt plus 1.0pt} -->
-<!-- csl: apa-short-authors.csl -->
-<!-- bibliography: hBayesDM_bib.bib -->
+ *September 29, 2016*
 ---
 <br>
 
