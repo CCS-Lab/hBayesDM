@@ -17,7 +17,7 @@ hBayesDM (**_h_**ierarchical **_Bayes_**ian modeling of **_D_**ecision-**_M_**ak
 ### Latest Version
 
 <!--0.2.0 (March 21, 2016)<br><br> -->
-0.2.3.1 (as of `r format(Sys.time(), '%B %d, %Y')`) <br>
+0.2.3.1 (as of September 29, 2016) <br>
 
 **What's new in 0.2.3.1?**
 
@@ -60,7 +60,7 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 
 ### List of tasks and computational models implemented in hBayesDM
 
-Table: As of hBayesDM v0.2.3.1 (`r format(Sys.time(), '%B %d, %Y')`) <!-- (March 21, 2016) -->
+Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) -->
 library(pander)
 print(ascii(head(iris[,1:4])), style = 'rmarkdown')
 
