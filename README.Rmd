@@ -65,6 +65,9 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 
 
 ### List of tasks and computational models implemented in hBayesDM
+
+A table to be added here later
+
 <!--
 Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) 
 pander::pander(descr::CrossTable(mtcars$am, mtcars$gear))
@@ -100,7 +103,6 @@ pander::pander(descr::CrossTable(mtcars$am, mtcars$gear))
 | Ultimatum Game             |Ideal Bayesian observer model <br>  | ug_bayes <br>      | Xiang et al. (2013) <br>    |
 |                            |Rescorla-Wagner (delta) model       | ug_delta           | @gu2015necessary            |
 |----------------------------|------------------------------------|--------------------|-----------------------------|
-
 --> 
 
 ### How to install hBayesDM
