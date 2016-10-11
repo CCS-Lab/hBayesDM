@@ -61,9 +61,6 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 ### List of tasks and computational models implemented in hBayesDM
 
 Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) -->
-library(pander)
-print(ascii(head(iris[,1:4])), style = 'rmarkdown')
-
 
 +----------------------------+------------------------------------+--------------------+-----------------------------+
 | Task (alphabetical order)  |           Model name               | hBayesDM function  |  References (see below for  |
