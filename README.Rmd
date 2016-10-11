@@ -1,12 +1,11 @@
 # _**hBayesDM**_ Getting Started
 ---
-title: "_**hBayesDM**_ Getting Started"
 author:
-- <br>
+<br>
 - Woo-Young Ahn (ahn.280@osu.edu)
 - Nate Haines (haines.175@osu.edu)
 - Lei Zhang (bnuzhanglei2008@gmail.com)
-- <br>
+<br>
 # date: "r format(Sys.time(), "%B %d, %Y")"
 output:
   html_document:
