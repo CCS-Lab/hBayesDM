@@ -1,12 +1,13 @@
 # _**hBayesDM**_ Getting Started
----
+
 ### author:
 - *Woo-Young Ahn (ahn.280@osu.edu)*
 - *Nate Haines (haines.175@osu.edu)*
 - *Lei Zhang (bnuzhanglei2008@gmail.com)*
 <br>
- *September 29, 2016*
----
+###*September 29, 2016*
+
+
 <br>
 
 <style type="text/css">
