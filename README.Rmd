@@ -1,8 +1,6 @@
-```{r }
-set.seed(1234)
-library(ggplot2)
-library(lattice)
-```
+---
+output: html_document
+---
 
 # _**hBayesDM**_ Getting Started
 
@@ -67,6 +65,7 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 ### List of tasks and computational models implemented in hBayesDM
 
 Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) -->
+pander::pander(descr::CrossTable(mtcars$am, mtcars$gear))
 
 |----------------------------|------------------------------------|--------------------|-----------------------------|
 | Task (alphabetical order)  |           Model name               | hBayesDM function  |  References (see below for  |
@@ -165,9 +164,6 @@ output1 = gng_m1(data="example", niter=5000, nwarmup=2000, nchain=3, ncore=3)
 output1 = gng_m1("example", nchain=3, ncore=3)
 ```
 
-```{r echo=FALSE}
-load("~/Dropbox/output/m4/all_gng_m4data.RData")
-```
 <br>
 
 Executing the command will generate messages like below in the R console. It will take approximately 2~3 minutes (with the `gng_m1` model & "example" data) for the model fitting to complete. Note that you may get warning messages about "numerical problems" or that there are a certain number of "divergent transitions after warmup". When we check our models with example datasets, warning messages appear mostly at the beginning of the warmup period and there are very few divergent transitions after warmup. In such cases, you can ignore the warnings. Also see Appendix D of the [Stan Reference Manual](https://github.com/stan-dev/stan/releases/download/v2.9.0/stan-reference-2.9.0.pdf).
@@ -252,16 +248,20 @@ Let's first visually diagnose MCMC performance of hyper parameters with trace pl
 ```{r echo=TRUE}
 plot(output1, type="trace", fontSize=11)   # traceplot of hyper parameters. Set font size 11.
 ```
+![Figure caption here](MCMC.png) <br><br>
 
 The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their $\hat{R}$ values (see [**here**](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples. 
 ```{r echo=TRUE}
 plot(output1, type="trace", inc_warmup=T)   # traceplot of hyper parameters w/ warmup samples
 ```
+![Figure caption here](MCMC2.png) <br><br>
 
 You can also plot the posterior distributions of the hyper (group) parameters with `plot`:
 ```{r echo=TRUE}
 plot(output1)
 ```
+![Figure caption here](MCMC3.png) <br><br>
+
 <!-- 
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
@@ -272,7 +272,7 @@ To visualize individual parameters, you can use our newly updated function calle
 ```{r echo=TRUE, message=FALSE, warning=FALSE, fig.height=5, fig.width=8}
 plotInd(output1, "ep")  
 ```
-
+![Figure caption here](MCMC4.png) <br><br>
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
@@ -328,9 +328,6 @@ The biggest challenge for performing model-based fMRI/EEG is to learn how to ext
 <br>
 As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the follwoing (set the `modelRegressor` input variable to `TRUE`. Its default value is `FALSE`):
 
-```{r echo=FALSE}
-load("~/Dropbox/output/m3/modelRegressorSaved_m3.RData")
-```
 <br>
 
 ```{r eval=FALSE}
@@ -349,11 +346,13 @@ dim(output$modelRegressor$SV)  # number of rows=# of subjects (=10), number of c
 
 # visualize SV (Subject #1)
 plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")  
-
+```
+![Figure caption here](Trail1.png) <br><br>
+```{r eval=TRUE}
 # visualize SV (Subject #5)
 plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")  
 ```
-
+![Figure caption here](Trail2.png) <br><br>
 Similarly, users can extract and visualize other model-based regressors. **W(Go)**, **W(NoGo)**, **Q(Go)**, **Q(NoGo)** are stored in `Wgo`, `Wnogo`, `Qgo`, and `Qnogo`, respectively.
 
 <br>
