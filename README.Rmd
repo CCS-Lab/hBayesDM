@@ -1,3 +1,4 @@
+# _**hBayesDM**_ Getting Started
 ---
 title: "_**hBayesDM**_ Getting Started"
 author:
