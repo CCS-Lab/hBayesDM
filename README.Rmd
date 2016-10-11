@@ -1,6 +1,8 @@
-#---
-#output: html_document
-#---
+<!--
+---
+output: html_document
+--- 
+-->
 
 # _**hBayesDM**_ Getting Started
 
