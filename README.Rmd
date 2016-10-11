@@ -10,9 +10,6 @@
 ####*September 29, 2016*
 <br>
 
-```{r setup, include=F}
-```
-
 ### What is **hBayesDM**?
 
 hBayesDM (**_h_**ierarchical **_Bayes_**ian modeling of **_D_**ecision-**_M_**aking tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. Click [**here**](https://cran.r-project.org/web/packages/hBayesDM/hBayesDM.pdf) to download its help file (reference manual). Click [**here**](https://u.osu.edu/ccsl/files/2016/09/hBayesDM_poster-riborj.pdf) to download a poster we recently presented at several conferences/meetings. You can find hBayesDM on [CRAN](https://cran.r-project.org/web/packages/hBayesDM/) now. <br><br>
