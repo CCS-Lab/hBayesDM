@@ -1,3 +1,9 @@
+```{r }
+set.seed(1234)
+library(ggplot2)
+library(lattice)
+```
+
 # _**hBayesDM**_ Getting Started
 
 ## author:
