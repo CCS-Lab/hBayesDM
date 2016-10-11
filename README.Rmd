@@ -68,37 +68,37 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 
 Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) -->
 
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 | Task (alphabetical order)  |           Model name               | hBayesDM function  |  References (see below for  |
 |                            |                                    |                    |  full citations)            |
-+============================+====================================+====================+=============================+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 | Delay Discounting Task     |Constant-Sensitivity (CS) model <br>|   dd_cs   <br>     |@ebert2007 <br>              |
 |                            |Exponential model  <br>             |   dd_exp  <br>     |@samuelson1937 <br>          |
 |                            |Hyperbolic model                    |   dd_hyp           |@Mazur1987                   |
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 | Iowa Gambling Task (IGT)   | Prospect Valence Learning-DecayRI  | igt_pvl_decay <br> | Ahn et al. (2011; 2014) <br>|
 |                            | Prospect Valence Learning-Delta<br>| igt_pvl_delta <br> | @ahn2008cogsci <br>         |
 |                            | Value-Plus-Perseverance (VPP)      | igt_vpp            | @worthy2013                 |
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 |Orthogonalized Go/Nogo Task | RW+noise  <br>                     | gng_m1 <br>        | @guitart2012go <br>         |
 |                            | RW+noise+go bias <br>              | gng_m2 <br>        | @guitart2012go <br>         |
 |                            | RW+noise+go bias+Pav. bias <br>    | gng_m3 <br>        | @guitart2012go <br>         |
 |                            | M5 (see Table 1 of the reference)  | gng_m4 <br>        | @cavanagh2013jn <br>        |
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 |Probabilistic Reversal      | Experience-Weighted Attraction<br> | prl_ewa <br>       | @den2013dissociable <br>    |
 |Learning (PRL) Task         | Fictitious update <br>             | prl_fictitious<br> | @glascher2009    <br>       |
 |                            | Reward-Punishment   <br>           | prl_rp             | @den2013dissociable         |
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 |Risk-Aversion Task          | Prospect Theory (PT)     <br>      | ra_prospect <br>   | @sokol2009   <br>           |
 |                            | PT without loss aversion (LA) <br> | ra_noLA <br>       |          <br>               |   
 |                            | PT without risk aversion (RA)      | ra_noRA            | @Tom2007                    |
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 | Two-Armed Bandit           | Rescorla-Wagner                    | bandit2arm_delta   | @erev2010choice <br>        |
 | (Experience-based) Task    | (delta) model                      |                    | @Hertwig2004                |
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 | Ultimatum Game             |Ideal Bayesian observer model <br>  | ug_bayes <br>      | Xiang et al. (2013) <br>    |
 |                            |Rescorla-Wagner (delta) model       | ug_delta           | @gu2015necessary            |
-+----------------------------+------------------------------------+--------------------+-----------------------------+
+|----------------------------|------------------------------------|--------------------|-----------------------------|
 
 
 ### How to install hBayesDM
