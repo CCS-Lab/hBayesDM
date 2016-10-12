@@ -137,6 +137,13 @@ install.packages("hBayesDM", dependencies=TRUE)
 ```{r eval=FALSE}
 install.packages(pkgs="hBayesDM_0.2.3.1.tar.gz", dependencies=TRUE, repos=NULL)
 ```
+
+#### Method C
+1. Install the package from github.
+```{r eval=FALSE}
+install_github("CCS-Lab/hBayesDM", subdir="hBayesDM")
+```
+
 <br>
 
 
