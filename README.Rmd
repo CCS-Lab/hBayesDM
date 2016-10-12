@@ -43,6 +43,11 @@ We introduce a free R package **hBayesDM**, which offers HBA of various computat
 
 ![Figure caption here](HBA_concept.png) <br><br>
 
+<img src="HBA_concept.png" style="pointer-events: none !important;-moz-user-select: none;
+-khtml-user-select: none;
+-webkit-user-select: none;
+user-select: none;"/>
+
 Most computational models do not have closed form solutions and we need to estimate parameter values. Traditionally parameters are estimated at the individual level with maximum likelihood estimation (MLE): getting point estimates for each individual separately. However, individual MLE estimates are often noisy especially when there is insufficient amount of data. A group-level analysis (e.g., group-level MLE), which estimate a single set of parameters for the whole group of individuals, may generate more reliable estimates but inevitably ignores individual differences. 
 
 HBA and other hierarchical approaches [e.g., @huys2011disentangling] allow for individual differences while pooling information across individuals. Both individual and group parameter estimates (i.e., posterior distributions) are estimated simultaneously in a mutually constraining fashion. Consequently, individual parameter estimates tend to be more stable and reliable because commonalities among individuals are captured and informed by the group tendencies [e.g., @ahn2011model]. HBA also finds full posterior distributions instead of point estimates (thus providing rich information about the parameters). HBA also makes it easy to do group comparisons in a Bayesian fashion (e.g., comparing clinical and non-clinical groups, see an example below). 
@@ -66,7 +71,16 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 
 ### List of tasks and computational models implemented in hBayesDM
 
-A table to be added here later
+
+Task (alphabetical order)  | Model name | hBayesDM function | References (see below for full citations)
+--- | --- | --- | ---
+Delay Discounting Task  | Constant-Sensitivity (CS) model<br>Exponential model<br>Hyperbolic model| dd_cs<br>dd_exp<br>dd_hyp | @ebert2007 <br>@samuelson1937 <br>@Mazur1987
+Iowa Gambling Task (IGT)| Prospect Valence Learning-DecayRI<br>Prospect Valence Learning-Delta<br>Value-Plus-Perseverance (VPP) | igt_pvl_decay <br>igt_pvl_delta <br>igt_vpp | Ahn et al. (2011; 2014) <br>@ahn2008cogsci <br>@worthy2013
+Orthogonalized Go/Nogo Task | RW+noise  <br>RW+noise+go bias <br>RW+noise+go bias+Pav. bias <br>M5 (see Table 1 of the reference) | gng_m1 <br>gng_m2 <br>gng_m3 <br>gng_m4 <br> | @guitart2012go <br>@guitart2012go <br>@guitart2012go <br>@cavanagh2013jn <br>
+Probabilistic Reversal Learning (PRL) Task | Experience-Weighted Attraction<br>Fictitious update <br>Reward-Punishment   <br> | prl_ewa <br>prl_fictitious<br>prl_rp | @den2013dissociable <br>@glascher2009    <br>@den2013dissociable
+Risk-Aversion Task | Prospect Theory (PT)<br>PT without loss aversion (LA) <br>PT without risk aversion (RA) | ra_prospect <br>ra_noLA <br>ra_noRA | @sokol2009   <br><br>@Tom2007
+Two-Armed Bandit (Experience-based) Task | Rescorla-Wagner (delta) model | bandit2arm_delta | @erev2010choice <br>@Hertwig2004
+Ultimatum Game | Ideal Bayesian observer model <br>Rescorla-Wagner (delta) model | ug_bayes <br>ug_delta | Xiang et al. (2013) <br>@gu2015necessary
 
 <!--
 Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) 
