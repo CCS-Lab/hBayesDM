@@ -74,6 +74,9 @@ Delay Discounting Task  | Constant-Sensitivity (CS) model<br>Exponential model<b
 Iowa Gambling Task (IGT)| Prospect Valence Learning-DecayRI<br>Prospect Valence Learning-Delta<br>Value-Plus-Perseverance (VPP) | igt_pvl_decay <br>igt_pvl_delta <br>igt_vpp | Ahn et al. (2011; 2014) <br>@ahn2008cogsci <br>@worthy2013
 Orthogonalized Go/Nogo Task | RW+noise  <br>RW+noise+go bias <br>RW+noise+go bias+Pav. bias <br>M5 (see Table 1 of the reference) | gng_m1 <br>gng_m2 <br>gng_m3 <br>gng_m4 <br> | @guitart2012go <br>@guitart2012go <br>@guitart2012go <br>@cavanagh2013jn <br>
 Probabilistic Reversal Learning (PRL) Task | Experience-Weighted Attraction<br>Fictitious update <br>Reward-Punishment   <br> | prl_ewa <br>prl_fictitious<br>prl_rp | @den2013dissociable <br>@glascher2009    <br>@den2013dissociable
+Risk-Aversion Task | Prospect Theory (PT)<br>PT without loss aversion (LA) <br>PT without risk aversion (RA) | ra_prospect <br>ra_noLA <br>ra_noRA | @sokol2009   <br><br>@Tom2007
+Two-Armed Bandit (Experience-based) Task | Rescorla-Wagner (delta) model | bandit2arm_delta | @erev2010choice <br>@Hertwig2004
+Ultimatum Game | Ideal Bayesian observer model <br>Rescorla-Wagner (delta) model | ug_bayes <br>ug_delta | Xiang et al. (2013) <br>@gu2015necessary
 <!--
 Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) 
 pander::pander(descr::CrossTable(mtcars$am, mtcars$gear))
