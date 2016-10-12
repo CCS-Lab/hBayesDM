@@ -68,6 +68,10 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 
 A table to be added here later
 
+A  | B | C
+--- | --- | ---
+1  | Male | Blue
+2  | Female | Pink
 <!--
 Table: As of hBayesDM v0.2.3.1 (March 21, 2016) <!-- (March 21, 2016) 
 pander::pander(descr::CrossTable(mtcars$am, mtcars$gear))
