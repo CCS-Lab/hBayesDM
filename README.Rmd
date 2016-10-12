@@ -128,7 +128,6 @@ Use the following call:
 ```{r eval=FALSE}
 install.packages("hBayesDM", dependencies=TRUE)
 ```
-<br>
 
 #### Method B 
 1. Download a copy from [**here**](https://cran.r-project.org/src/contrib/hBayesDM_0.2.3.1.tar.gz) to a directory (e.g., "~/Downloads").
