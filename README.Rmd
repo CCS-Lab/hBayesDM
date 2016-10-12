@@ -43,7 +43,7 @@ We introduce a free R package **hBayesDM**, which offers HBA of various computat
 
 ![Figure caption here](HBA_concept.png) <br><br>
 
-<img src="HBA_concept.png" />
+<img src="HBA_concept.png" style="pointer-events: none"/>
 
 Most computational models do not have closed form solutions and we need to estimate parameter values. Traditionally parameters are estimated at the individual level with maximum likelihood estimation (MLE): getting point estimates for each individual separately. However, individual MLE estimates are often noisy especially when there is insufficient amount of data. A group-level analysis (e.g., group-level MLE), which estimate a single set of parameters for the whole group of individuals, may generate more reliable estimates but inevitably ignores individual differences. 
 
