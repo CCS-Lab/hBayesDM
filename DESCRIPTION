@@ -17,7 +17,7 @@ Imports:
     mail,
     modeest,
     ggplot2
-URL: http://u.osu.edu/ccsl/codedata/hbayesdm/
+URL: http://rpubs.com/CCSL/hBayesDM
 License: GPL-3
 LazyData: true
 Author: Woo-Young Ahn [aut, cre],

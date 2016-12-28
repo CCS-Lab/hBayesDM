@@ -45,6 +45,6 @@ Please cite as:
 Ahn, W.-Y., Haines, N., & Zhang, L. (2016). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. bioRxiv. http://doi.org/10.1101/064287
 }
 \seealso{
-For tutorials and further readings, visit : \url{http://u.osu.edu/ccsl/codedata/hbayesdm/}.
+For tutorials and further readings, visit : \url{http://rpubs.com/CCSL/hBayesDM}.
 }
 

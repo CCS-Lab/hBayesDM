@@ -24,7 +24,7 @@
 #' }
 #' 
 #' @seealso 
-#' For tutorials and further readings, visit : \url{http://u.osu.edu/ccsl/codedata/hbayesdm/}.
+#' For tutorials and further readings, visit : \url{http://rpubs.com/CCSL/hBayesDM}.
 #' 
 #' @references 
 #' Please cite as: 
