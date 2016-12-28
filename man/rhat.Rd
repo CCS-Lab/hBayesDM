@@ -4,7 +4,7 @@
 \alias{rhat}
 \title{Function for extracting Rhat values from an hBayesDM object}
 \usage{
-rhat(fit = NULL, less = F)
+rhat(fit = NULL, less = NULL)
 }
 \arguments{
 \item{fit}{Model output of class \code{hBayesDM}}
@@ -14,7 +14,7 @@ rhat(fit = NULL, less = F)
 \value{
 If \code{'less'} is specified, then \code{rhat(fit, less)} will return \code{TRUE} if all Rhat values are
 less than or equal to \code{'less'}. If any values are greater than \code{'less'}, \code{rhat(fit, less)} will 
-return \code{FALSE}. If \code{'less'} is left unspecified, \code{rhat(fit)} will return a \code{data.frame} object 
+return \code{FALSE}. If \code{'less'} is left unspecified (NULL), \code{rhat(fit)} will return a \code{data.frame} object 
 containing all Rhat values.
 }
 \description{
