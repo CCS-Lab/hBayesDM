@@ -21,11 +21,11 @@ rhat <- function(fit = NULL, less = F) {
   } else {
     rhatData <- data.frame(Rhat = summary(fit$fit)$summary[,"Rhat"])
   }
-  if (less!=F) {
+  if (less!=F) { 
     if (all(rhatData$Rhat<=less)) {
-      return(TRUE)
+      cat("TRUE: All Rhat values are less than ", less, sep="")
     } else {
-      return(FALSE)
+      cat("FALSE: Some Rhat values are greater than ", less, sep="")
     }
   } else {
     return(rhatData)
