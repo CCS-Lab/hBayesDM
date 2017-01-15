@@ -253,9 +253,9 @@ prl_ewa <- function(data          = "choose",
     options(mc.cores = 1)
   }
   
-  cat("************************************\n")
-  cat("**   Loading a precompiled model  **\n")
-  cat("************************************\n")
+  cat("***********************************\n")
+  cat("**  Loading a precompiled model  **\n")
+  cat("***********************************\n")
   
   # Fit the Stan model
   m = rstan::stan_model(modelPath)

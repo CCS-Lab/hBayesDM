@@ -261,9 +261,9 @@ gng_m2 <- function(data          = "choose",
   }
   
   
-  cat("************************************\n")
-  cat("**   Loading a precompiled model  **\n")
-  cat("************************************\n")
+  cat("***********************************\n")
+  cat("**  Loading a precompiled model  **\n")
+  cat("***********************************\n")
   
   # Fit the Stan model
   m = rstan::stan_model(modelPath)
