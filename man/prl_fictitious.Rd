@@ -5,9 +5,9 @@
 \title{Probabilistic Reversal Learning Task}
 \usage{
 prl_fictitious(data = "choose", niter = 3000, nwarmup = 1000,
-  nchain = 1, ncore = 1, nthin = 1, inits = "random",
+  nchain = 4, ncore = 1, nthin = 1, inits = "random",
   indPars = "mean", saveDir = NULL, email = NULL,
-  modelRegressor = FALSE, adapt_delta = 0.8, stepsize = 1,
+  modelRegressor = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10)
 }
 \arguments{

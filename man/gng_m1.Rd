@@ -4,10 +4,10 @@
 \alias{gng_m1}
 \title{Orthogonalized Go/Nogo Task}
 \usage{
-gng_m1(data = "choose", niter = 5000, nwarmup = 2000, nchain = 1,
+gng_m1(data = "choose", niter = 5000, nwarmup = 2000, nchain = 4,
   ncore = 1, nthin = 1, inits = "random", indPars = "mean",
   saveDir = NULL, email = NULL, modelRegressor = FALSE,
-  adapt_delta = 0.8, stepsize = 1, max_treedepth = 10)
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "cue", "keyPressed", and "outcome". See \bold{Details} below for more information.}

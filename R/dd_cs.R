@@ -115,7 +115,7 @@
 dd_cs <- function(data          = "choose",
                   niter         = 3000, 
                   nwarmup       = 1000, 
-                  nchain        = 1,
+                  nchain        = 4,
                   ncore         = 1, 
                   nthin         = 1,
                   inits         = "fixed",  
@@ -123,7 +123,7 @@ dd_cs <- function(data          = "choose",
                   saveDir       = NULL,
                   email         = NULL,
                   modelRegressor= FALSE,
-                  adapt_delta   = 0.8,
+                  adapt_delta   = 0.95,
                   stepsize      = 1,
                   max_treedepth = 10 ) {
 
@@ -131,7 +131,7 @@ dd_cs <- function(data          = "choose",
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
   } else {
-    modelPath <- system.file("stan", "dd_cs.stan", package="hBayesDM")
+    modelPath <- system.file("exec", "dd_cs.stan", package="hBayesDM")
   }
   
   # For using example data
@@ -266,11 +266,12 @@ dd_cs <- function(data          = "choose",
   }
   
   cat("************************************\n")
-  cat("** Building a model. Please wait. **\n")
+  cat("**   Loading a precompiled model  **\n")
   cat("************************************\n")
   
   # Fit the Stan model
-  fit <- rstan::stan(file   = modelPath, 
+  m = rstan::stan_model(modelPath)
+  fit <- rstan::sampling(m,
                      data   = dataList, 
                      pars   = POI,
                      warmup = nwarmup,

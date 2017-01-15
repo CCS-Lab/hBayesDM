@@ -4,12 +4,14 @@
 \alias{printFit}
 \title{Print model-fits (mean LOOIC and WAIC values) of hBayesDM Models}
 \usage{
-printFit(..., ncore = 2, roundTo = 3)
+printFit(..., ncore = 2, ic = "looic", roundTo = 3)
 }
 \arguments{
 \item{...}{Model objects output by hBayesDM functions (e.g. output1, output2, etc.)}
 
 \item{ncore}{Numer of cores to use when computing leave-one-out cross-validation}
+
+\item{ic}{Which information criterion to use? 'looic', 'waic', or 'both'}
 
 \item{roundTo}{Number of digits to the right of the decimal point in the output}
 }
@@ -26,8 +28,14 @@ output1 <- dd_hyperbolic("example", 2000, 1000, 3, 3)
 
 output2 <- dd_exp("example", 2000, 1000, 3, 3)
 
-# Show the WAIC and LOOIC model fit estimates 
-printFit(output1, outpu2)
+# Show the LOOIC model fit estimates 
+printFit(output1, output2)
+
+# To show the WAIC model fit estimates
+printFit(output1, output2, ic="waic")
+
+# To show both LOOIC and WAIC
+printFit(output1, output2, ic="both")
 }
 }
 

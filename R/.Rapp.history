@@ -1,4 +1,0 @@
-load("/Users/wahn/Dropbox/CCSL/R_Package_Project/Package_Build/hBayesDM_youngEdits/R/igt_pvl_delta.rda")
-ls()
-load("/Users/wahn/Dropbox/CCSL/R_Package_Project/Package_Build/hBayesDM_youngEdits/R/igt_vpp.rda")
-ls()

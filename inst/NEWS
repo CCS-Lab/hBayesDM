@@ -1,3 +1,10 @@
+Jan 15, 2017 (0.3.0)
+- Made several changes following the guidelines for R packages providing interfaces to Stan. 
+- Stan models are precompiled and models will run immediately when called. 
+- The default number of chains is set to 4. 
+- Set the default value of `adapt_delta` to 0.95 to reduce the potential for divergences.
+- rhat function uses LOOIC by default. Users can select WAIC or both (LOOIC & WAIC) if needed. 
+
 Dec 28, 2016 (0.2.3.3)
 1. Change
   * Add help files

@@ -1,0 +1,5 @@
+/*
+    hBayesDM is distributed under the terms of the GNU General Public 
+    License but without any warranty. See the GNU General Public 
+    License for more details.
+*/

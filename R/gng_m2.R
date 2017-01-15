@@ -110,7 +110,7 @@
 gng_m2 <- function(data          = "choose",
                    niter         = 5000, 
                    nwarmup       = 2000,
-                   nchain        = 1,
+                   nchain        = 4,
                    ncore         = 1,
                    nthin         = 1,
                    inits         = "random",  
@@ -118,18 +118,18 @@ gng_m2 <- function(data          = "choose",
                    saveDir       = NULL, 
                    email         = NULL,
                    modelRegressor= FALSE,
-                   adapt_delta   = 0.8,
+                   adapt_delta   = 0.95,
                    stepsize      = 1,
                    max_treedepth = 10 ) {
   
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    modelPath <- system.file("stan", "gng_m2_reg.stan", package="hBayesDM")
+    modelPath <- system.file("exec", "gng_m2_reg.stan", package="hBayesDM")
     cat("************************************\n")
     cat("** Extract model-based regressors **\n")
     cat("************************************\n")
   } else {
-    modelPath <- system.file("stan", "gng_m2.stan", package="hBayesDM")
+    modelPath <- system.file("exec", "gng_m2.stan", package="hBayesDM")
   }
   
   # To see how long computations take
@@ -262,11 +262,12 @@ gng_m2 <- function(data          = "choose",
   
   
   cat("************************************\n")
-  cat("** Building a model. Please wait. **\n")
+  cat("**   Loading a precompiled model  **\n")
   cat("************************************\n")
   
   # Fit the Stan model
-  fit <- rstan::stan(file   = modelPath, 
+  m = rstan::stan_model(modelPath)
+  fit <- rstan::sampling(m,
                      data   = dataList, 
                      pars   = POI,
                      warmup = nwarmup,

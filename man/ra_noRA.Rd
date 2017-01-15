@@ -4,10 +4,10 @@
 \alias{ra_noRA}
 \title{Risk Aversion Task}
 \usage{
-ra_noRA(data = "choose", niter = 4000, nwarmup = 1000, nchain = 1,
+ra_noRA(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
   ncore = 1, nthin = 1, inits = "random", indPars = "mean",
   saveDir = NULL, email = NULL, modelRegressor = FALSE,
-  adapt_delta = 0.8, stepsize = 1, max_treedepth = 10)
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "gain", "loss", "cert", and "gamble". See \bold{Details} below for more information.}
