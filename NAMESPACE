@@ -54,4 +54,3 @@ importFrom(stats,median)
 importFrom(stats,qnorm)
 importFrom(utils,read.table)
 useDynLib(hBayesDM, .registration = TRUE)
-
