@@ -32,22 +32,19 @@ printFit <- function(...,
                         roundTo = 3) {
   
   modelList <- list(...)
+  modelTable = data.frame(Model = NULL, LOOIC = NULL, WAIC = NULL)
   
   for (i in 1:length(modelList)) {
-    if (ic =="looic") {
-      modelTable = data.frame(Model = NULL, LOOIC = NULL)
-      modelTable[i, "Model"] = modelList[[i]]$model
-      modelTable[i, "LOOIC"] = round(extract_ic(modelList[[i]], core=ncore)$LOOIC$looic, roundTo)
-    } else if (ic == "waic") {
-      modelTable = data.frame(Model = NULL, WAIC = NULL)
-      modelTable[i, "Model"] = modelList[[i]]$model
-      modelTable[i, "WAIC"]  = round(extract_ic(modelList[[i]], core=ncore)$WAIC$waic, roundTo)
-    } else if (ic == "both") {
-      modelTable = data.frame(Model = NULL, LOOIC = NULL, WAIC = NULL)
-      modelTable[i, "Model"] = modelList[[i]]$model
-      modelTable[i, "LOOIC"] = round(extract_ic(modelList[[i]], core=ncore)$LOOIC$looic, roundTo)
-      modelTable[i, "WAIC"]  = round(extract_ic(modelList[[i]], core=ncore)$WAIC$waic, roundTo)
-    }
+    modelTable[i, "Model"] = modelList[[i]]$model
+    modelTable[i, "LOOIC"] = round(extract_ic(modelList[[i]], core=ncore)$LOOIC$looic, roundTo)
+    modelTable[i, "WAIC"]  = round(extract_ic(modelList[[i]], core=ncore)$WAIC$waic, roundTo)
   } 
+  
+  if (ic == "looic") {
+    modelTable = modelTable[, -3]  # remove WAIC
+  } else if (ic == "waic") {
+    modelTable = modelTable[, -2]  # remove LOOIC
+  }
+  
   return( modelTable )
 }
