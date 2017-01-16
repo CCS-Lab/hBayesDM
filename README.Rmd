@@ -13,7 +13,7 @@ if (packageVersion("devtools") < 1.6) {
 devtools::install_github("CCS-Lab/hBayesDM")
 ```
 
-Please go to **[hBayesDM Tutorial](http://rpubs.com/CCSL/hBayesDM)** for more information.
+Please go to **[hBayesDM Tutorial](http://rpubs.com/CCSL/hBayesDM)** for more information about the package.
 
 
 If you encounter a problem or a bug, please use our mailing list: https://groups.google.com/forum/#!forum/hbayesdm-users, or you can directly create an issue on [GitHub](https://github.com/CCS-Lab/hBayesDM/issues/new). 
