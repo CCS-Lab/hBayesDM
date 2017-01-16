@@ -24,9 +24,9 @@ rhat <- function(fit = NULL, less = NULL) {
   }
   if (!is.null(less)) { 
     if (all(rhatData$Rhat<=less)) {
-      cat("TRUE: All Rhat values are less than ", less, sep="")
+      cat("TRUE: All Rhat values are less than ", less, "\n", sep="")
     } else {
-      cat("FALSE: Some Rhat values are greater than ", less, sep="")
+      cat("FALSE: Some Rhat values are greater than ", less, "\n", sep="")
     }
   } else {
     return(rhatData)
