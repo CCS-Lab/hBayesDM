@@ -136,7 +136,7 @@ bandit2arm_delta <- function(data          = "choose",
   # For using example data
   if (data=="example") {
     data <- system.file("extdata", "bandit2arm_exampleData.txt", package = "hBayesDM")
-  } else if (data=="choose") {
+  } else if (data == "choose") {
     data <- file.choose()
   }
   
