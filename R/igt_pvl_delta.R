@@ -264,7 +264,7 @@ igt_pvl_delta <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$igt_pvl_delta
   fit <- rstan::sampling(m, 
                      data   = dataList, 
                      pars   = POI,

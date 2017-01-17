@@ -270,7 +270,7 @@ dd_cs <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$dd_cs
   fit <- rstan::sampling(m,
                      data   = dataList, 
                      pars   = POI,

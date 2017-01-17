@@ -258,7 +258,7 @@ prl_ewa <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$prl_ewa
   fit <- rstan::sampling(m,
                      data    = dataList, 
                      pars    = POI,

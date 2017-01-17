@@ -265,7 +265,7 @@ gng_m1 <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$gng_m1
   fit <- rstan::sampling(m,
                      data    = dataList, 
                      pars    = POI,

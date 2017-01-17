@@ -268,7 +268,7 @@ dd_exp <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$dd_exp
   fit <- rstan::sampling(m,
                      data   = dataList, 
                      pars   = POI,
