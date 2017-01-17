@@ -1,4 +1,12 @@
-#' @details
+#' This Is a Title
+#' @docType package
+#' @name hBayesDM-package
+#' @aliases hBayesDM
+#' @useDynLib hBayesDM, .registration = TRUE 
+#' 
+#' @import methods
+#' @import Rcpp
+#' @description
 #' Bolded tasks, followed by their respective models, are itemized below.  
 #' 
 #' \describe{
@@ -38,4 +46,4 @@
 #' Lei Zhang \email{bnuzhanglei2008@@gmail.com}
 #'
 #'
-"_PACKAGE"
+NULL
