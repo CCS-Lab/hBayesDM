@@ -248,7 +248,6 @@ igt_pvl_decay <- function(data          = "choose",
   }
   
   # For parallel computing if using multi-cores
-  rstan::rstan_options(auto_write = TRUE)
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore) {

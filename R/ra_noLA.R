@@ -247,7 +247,6 @@ ra_noLA <- function(data          = "choose",
     genInitList <- "random"
   }
   
-  rstan::rstan_options(auto_write = TRUE)
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore) {
