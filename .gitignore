@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+src/Modules*
+src/hBayesDM.so
+src/hBayesDM.dll
+src/include
+man/*.Rd
+
