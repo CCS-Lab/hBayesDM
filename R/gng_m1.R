@@ -246,7 +246,6 @@ gng_m1 <- function(data          = "choose",
     genInitList <- "random"
   }
   
-  rstan::rstan_options(auto_write = TRUE)
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore) {
@@ -265,7 +264,7 @@ gng_m1 <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$gng_m1
   fit <- rstan::sampling(m,
                      data    = dataList, 
                      pars    = POI,

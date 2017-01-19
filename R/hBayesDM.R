@@ -1,4 +1,13 @@
-#' @details
+#' Hierarchical Bayesian Modeling of Decision-Making Tasks
+#' @docType package
+#' @name hBayesDM-package
+#' @aliases hBayesDM
+#' @useDynLib hBayesDM, .registration = TRUE 
+#' 
+#' @import methods
+#' @import Rcpp
+#' @description
+#' Fit an array of decision-making tasks with computational models in a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of various computational models with a single line of coding.
 #' Bolded tasks, followed by their respective models, are itemized below.  
 #' 
 #' \describe{
@@ -38,4 +47,4 @@
 #' Lei Zhang \email{bnuzhanglei2008@@gmail.com}
 #'
 #'
-"_PACKAGE"
+NULL

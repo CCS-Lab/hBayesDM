@@ -248,7 +248,6 @@ igt_pvl_decay <- function(data          = "choose",
   }
   
   # For parallel computing if using multi-cores
-  rstan::rstan_options(auto_write = TRUE)
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore) {
@@ -266,7 +265,7 @@ igt_pvl_decay <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$igt_pvl_decay
   fit <- rstan::sampling(m, 
                      data   = dataList, 
                      pars   = POI,

@@ -247,7 +247,6 @@ ra_noRA <- function(data          = "choose",
     genInitList <- "random"
   }
   
-  rstan::rstan_options(auto_write = TRUE)
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore) {
@@ -265,7 +264,7 @@ ra_noRA <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = rstan::stan_model(modelPath)
+  m = stanmodels$ra_noRA
   fit <- rstan::sampling(m, 
                      data   = dataList, 
                      pars   = POI,

@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^.*\.o$
+^\cleanup*
+README.Rmd
+

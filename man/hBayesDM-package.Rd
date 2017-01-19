@@ -7,8 +7,6 @@
 \title{Hierarchical Bayesian Modeling of Decision-Making Tasks}
 \description{
 Fit an array of decision-making tasks with computational models in a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of various computational models with a single line of coding.
-}
-\details{
 Bolded tasks, followed by their respective models, are itemized below.  
 
 \describe{
