@@ -1,3 +1,7 @@
+** As of 1/19/2017 ** Some functions (e.g., plot(hBayesDM_object), printFit(hBayesDM_object)) don't work but it will be fixed within a day. Thanks for your patience. 
+
+
+
 The **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. 
 
 
