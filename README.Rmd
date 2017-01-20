@@ -1,4 +1,3 @@
-**(As of 1/19/2017)** Some functions (e.g., plot(hBayesDM_object), printFit(hBayesDM_object)) don't work but they will be fixed within a day. Thanks for your patience. <br><br>
 
 The **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. 
 
@@ -12,6 +11,8 @@ You can install the latest version from github with:
 if (packageVersion("devtools") < 1.6) {
   install.packages("devtools")
 }
+# install the latest loo package that fixed a bug (Jan 18, 2017)
+devtools::install_github("stan-dev/loo", build_vignettes = TRUE)  
 devtools::install_github("CCS-Lab/hBayesDM")
 ```
 
