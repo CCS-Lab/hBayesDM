@@ -8,9 +8,9 @@ Installation
 You can install the latest version from github with:
 
 ``` r
-if (packageVersion("devtools") < 1.6) {
-  install.packages("devtools")
-}
+# install 'devtools' if required
+if (!require(devtools)) install.packages("devtools")  
+
 # install the latest loo package that fixed a bug (Jan 18, 2017)
 devtools::install_github("stan-dev/loo", build_vignettes = TRUE)  
 devtools::install_github("CCS-Lab/hBayesDM")
