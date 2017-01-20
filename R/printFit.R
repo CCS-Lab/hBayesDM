@@ -6,9 +6,9 @@
 #' @param roundTo Number of digits to the right of the decimal point in the output
 #'
 #' @return modelTable A table with relevant model comparison data 
-#'
-#' @export 
-#' 
+
+#' @importFrom rstan rstan_options
+#' @export  
 #' @examples 
 #' \dontrun{
 #' # Run two models and store results in "output1" and "output2"
