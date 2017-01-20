@@ -265,7 +265,11 @@ gng_m2 <- function(data          = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = stanmodels$gng_m2
+  if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
+    m = stanmodels$gng_m2_reg
+  } else {
+    m = stanmodels$gng_m2
+  }
   fit <- rstan::sampling(m,
                      data   = dataList, 
                      pars   = POI,
