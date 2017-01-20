@@ -1,4 +1,4 @@
-Jan 15, 2017 (0.3.0)
+Jan 20, 2017 (0.3.0)
 - Made several changes following the guidelines for R packages providing interfaces to Stan. 
 - Stan models are precompiled and models will run immediately when called. 
 - The default number of chains is set to 4. 
