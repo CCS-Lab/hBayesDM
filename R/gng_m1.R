@@ -31,9 +31,8 @@
 #' }  
 #'
 #' @importFrom rstan stan rstan_options extract
-#' @importFrom modeest mlv
 #' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #'
 #' @details 
@@ -302,9 +301,9 @@ gng_m1 <- function(data          = "choose",
                             median(ep[, i]), 
                             median(rho[, i]) )
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( as.numeric(modeest::mlv(xi[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(ep[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(rho[, i], method="shorth")[1]) )
+      allIndPars[i, ] <- c( estimate_mode(xi[, i]),
+                            estimate_mode(ep[, i]),
+                            estimate_mode(rho[, i]) )
     }
   }
   
@@ -327,10 +326,10 @@ gng_m1 <- function(data          = "choose",
       Wgo   = apply(parVals$Wgo, c(2,3), median)
       Wnogo = apply(parVals$Wnogo, c(2,3), median)
     } else if (indPars=="mode") {
-      Qgo   = apply(parVals$Qgo, c(2,3), modeest::mfv)   # using mfv function
-      Qnogo = apply(parVals$Qnogo, c(2,3), modeest::mfv) # using mfv function
-      Wgo   = apply(parVals$Wgo, c(2,3), modeest::mfv)   # using mfv function
-      Wnogo = apply(parVals$Wnogo, c(2,3), modeest::mfv) # using mfv function
+      Qgo   = apply(parVals$Qgo, c(2,3), estimate_mode)   # using mfv function
+      Qnogo = apply(parVals$Qnogo, c(2,3), estimate_mode) # using mfv function
+      Wgo   = apply(parVals$Wgo, c(2,3), estimate_mode)   # using mfv function
+      Wnogo = apply(parVals$Wnogo, c(2,3), estimate_mode) # using mfv function
     }
     # initialize modelRegressor and add model-based regressors
     modelRegressor = NULL

@@ -34,9 +34,8 @@
 #' }
 #' 
 #' @importFrom rstan stan rstan_options extract
-#' @importFrom modeest mlv
 #' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #' 
 #' @details 
@@ -302,10 +301,10 @@ igt_pvl_decay <- function(data          = "choose",
                             median(cons[, i]), 
                             median(lambda[, i]) )
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( as.numeric(modeest::mlv(A[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(alpha[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(cons[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(lambda[, i], method="shorth")[1]) )
+      allIndPars[i, ] <- c( estimate_mode(A[, i]),
+                            estimate_mode(alpha[, i]),
+                            estimate_mode(cons[, i]),
+                            estimate_mode(lambda[, i]) )
     }
   }
   allIndPars           <- cbind(allIndPars, subjList)

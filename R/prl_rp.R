@@ -33,9 +33,8 @@
 #' }
 #' 
 #' @importFrom rstan stan rstan_options extract
-#' @importFrom modeest mlv
 #' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #'
 #' @details 
@@ -288,9 +287,9 @@ prl_rp <- function(data          = "choose",
                             median(Arew[, i]), 
                             median(beta[, i]) )
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( as.numeric(modeest::mlv(Apun[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(Arew[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(beta[, i], method="shorth")[1]) )
+      allIndPars[i, ] <- c( estimate_mode(Apun[, i]),
+                            estimate_mode(Arew[, i]),
+                            estimate_mode(beta[, i]) )
     }
   }
   

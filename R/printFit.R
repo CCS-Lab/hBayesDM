@@ -32,19 +32,28 @@ printFit <- function(...,
                         roundTo = 3) {
   
   modelList <- list(...)
-  modelTable = data.frame(Model = NULL, LOOIC = NULL, WAIC = NULL)
-  
-  for (i in 1:length(modelList)) {
-    modelTable[i, "Model"] = modelList[[i]]$model
-    modelTable[i, "LOOIC"] = round(extract_ic(modelList[[i]], core=ncore)$LOOIC$looic, roundTo)
-    modelTable[i, "WAIC"]  = round(extract_ic(modelList[[i]], core=ncore)$WAIC$waic, roundTo)
-  } 
-  
-  if (ic == "looic") {
-    modelTable = modelTable[, -3]  # remove WAIC
-  } else if (ic == "waic") {
-    modelTable = modelTable[, -2]  # remove LOOIC
+
+  if (ic == "looic") {  # compute only LOOIC
+    modelTable = data.frame(Model = NULL, LOOIC = NULL)
+    for (i in 1:length(modelList)) {
+      modelTable[i, "Model"] = modelList[[i]]$model
+      modelTable[i, "LOOIC"] = round(extract_ic(modelList[[i]], core=ncore, ic="looic")$LOOIC$looic, roundTo)
+    } 
+  } else if (ic == "waic") { # compute only WAIC
+    modelTable = data.frame(Model = NULL, WAIC = NULL)
+    for (i in 1:length(modelList)) {
+      modelTable[i, "Model"] = modelList[[i]]$model
+      modelTable[i, "WAIC"]  = round(extract_ic(modelList[[i]], core=ncore, ic="waic")$WAIC$waic, roundTo)
+    } 
+  } else if (ic == "both") { # compute both LOOIC and WAIC
+    modelTable = data.frame(Model = NULL, LOOIC = NULL, WAIC = NULL)
+    for (i in 1:length(modelList)) {
+      modelTable[i, "Model"] = modelList[[i]]$model
+      modelTable[i, "LOOIC"] = round(extract_ic(modelList[[i]], core=ncore, ic="both")$LOOIC$looic, roundTo)
+      modelTable[i, "WAIC"]  = round(extract_ic(modelList[[i]], core=ncore, ic="both")$WAIC$waic, roundTo)
+    } 
+  } else {
+    stop("Set 'ic' as 'looic', 'waic' or 'both' \n")
   }
-  
   return( modelTable )
 }

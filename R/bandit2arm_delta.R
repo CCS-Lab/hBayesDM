@@ -33,9 +33,8 @@
 #' }
 #' 
 #' @importFrom rstan stan rstan_options extract
-#' @importFrom modeest mlv
 #' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #'
 #' @details 
@@ -289,8 +288,8 @@ bandit2arm_delta <- function(data          = "choose",
       allIndPars[i, ] <- c( median(A[, i]), 
                             median(tau[, i]) )
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( modeest::mlv(A[, i], method="shorth")[1],
-                            modeest::mlv(tau[, i], method="shorth")[1] )
+      allIndPars[i, ] <- c( estimate_mode(A[, i]),
+                            estimate_mode(tau[, i]) )
     }
   }
   

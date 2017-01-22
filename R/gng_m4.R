@@ -31,9 +31,8 @@
 #' }  
 #'
 #' @importFrom rstan stan rstan_options extract
-#' @importFrom modeest mlv
 #' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #'
 #' @details 
@@ -313,12 +312,12 @@ gng_m4 <- function(data          = "choose",
                             median(rhoRew[, i]),
                             median(rhoPun[, i]) )
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( as.numeric(modeest::mlv(xi[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(ep[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(b[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(pi[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(rhoRew[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(rhoPun[, i], method="shorth")[1]) )
+      allIndPars[i, ] <- c( estimate_mode(xi[, i]),
+                            estimate_mode(ep[, i]),
+                            estimate_mode(b[, i]),
+                            estimate_mode(pi[, i]),
+                            estimate_mode(rhoRew[, i]),
+                            estimate_mode(rhoPun[, i]) )
     }
   }
   
@@ -346,11 +345,11 @@ gng_m4 <- function(data          = "choose",
       Wnogo = apply(parVals$Wnogo, c(2,3), median)
       SV    = apply(parVals$SV, c(2,3), median)
     } else if (indPars=="mode") {
-      Qgo   = apply(parVals$Qgo, c(2,3), modeest::mfv)   # using mfv function
-      Qnogo = apply(parVals$Qnogo, c(2,3), modeest::mfv) # using mfv function
-      Wgo   = apply(parVals$Wgo, c(2,3), modeest::mfv)   # using mfv function
-      Wnogo = apply(parVals$Wnogo, c(2,3), modeest::mfv) # using mfv function
-      SV    = apply(parVals$SV, c(2,3), modeest::mfv)    # using mfv function
+      Qgo   = apply(parVals$Qgo, c(2,3), estimate_mode)   # using mfv function
+      Qnogo = apply(parVals$Qnogo, c(2,3), estimate_mode) # using mfv function
+      Wgo   = apply(parVals$Wgo, c(2,3), estimate_mode)   # using mfv function
+      Wnogo = apply(parVals$Wnogo, c(2,3), estimate_mode) # using mfv function
+      SV    = apply(parVals$SV, c(2,3), estimate_mode)    # using mfv function
     }
     # initialize modelRegressor and add model-based regressors
     modelRegressor = NULL

@@ -34,9 +34,8 @@
 #' }
 #' 
 #' @importFrom rstan stan rstan_options extract
-#' @importFrom modeest mlv
 #' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #' 
 #' @details 
@@ -318,14 +317,14 @@ igt_vpp <- function(data          = "choose",
                             median(K[, i]), 
                             median(w[, i]) )
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( as.numeric(modeest::mlv(A[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(alpha[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(cons[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(lambda[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(epP[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(epN[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(K[, i], method="shorth")[1]),
-                            as.numeric(modeest::mlv(w[, i], method="shorth")[1]) )
+      allIndPars[i, ] <- c( estimate_mode(A[, i]),
+                            estimate_mode(alpha[, i]),
+                            estimate_mode(cons[, i]),
+                            estimate_mode(lambda[, i]),
+                            estimate_mode(epP[, i]),
+                            estimate_mode(epN[, i]),
+                            estimate_mode(K[, i]),
+                            estimate_mode(w[, i]) )
     }
   }
   allIndPars           <- cbind(allIndPars, subjList)

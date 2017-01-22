@@ -4,7 +4,7 @@
 \alias{extract_ic}
 \title{Extract Model Comparison Estimates}
 \usage{
-extract_ic(modelData = NULL, core = 2)
+extract_ic(modelData = NULL, ic = "looic", core = 2)
 }
 \arguments{
 \item{modelData}{Object returned by \code{'hBayesDM'} model function}

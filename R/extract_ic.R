@@ -10,6 +10,7 @@
 #' @export 
 
 extract_ic <- function(modelData = NULL,  
+                       ic = "looic",
                        core      = 2) {
   
   # Access fit within modelData
@@ -19,13 +20,21 @@ extract_ic <- function(modelData = NULL,
     IC <- list()
         
     lik    <- loo::extract_log_lik(stanfit = stanFit, parameter_name = 'log_lik')
-    LOOIC  <- loo::loo(lik, cores = core)
-    WAIC   <- loo::waic(lik)
     
-    IC$LOOIC <- LOOIC
-    IC$WAIC  <- WAIC
-    
+    if (ic == "looic") {
+      LOOIC  <- loo::loo(lik, cores = core)  
+      IC$LOOIC <- LOOIC
+    } else if (ic == "waic") {
+      WAIC   <- loo::waic(lik)  
+      IC$WAIC  <- WAIC
+    } else if (ic == "both") {
+      LOOIC  <- loo::loo(lik, cores = core)  
+      WAIC   <- loo::waic(lik)  
+      IC$LOOIC <- LOOIC
+      IC$WAIC  <- WAIC  
+    } else {
+      stop("Set 'ic' as 'looic', 'waic' or 'both' \n")
+    }
+
     return(IC)
 }
-
-
