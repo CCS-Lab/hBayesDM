@@ -1,3 +1,7 @@
+Jan 22, 2017 (0.3.1)
+- Remove dependence on the modeest package. Now use a built-in function to estimate the mode of a posterior distribution.
+- Rewrite the "printFit" function.
+
 Jan 20, 2017 (0.3.0)
 - Made several changes following the guidelines for R packages providing interfaces to Stan. 
 - Stan models are precompiled and models will run immediately when called. 
