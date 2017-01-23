@@ -9,12 +9,25 @@ extract_ic(modelData = NULL, ic = "looic", core = 2)
 \arguments{
 \item{modelData}{Object returned by \code{'hBayesDM'} model function}
 
+\item{ic}{Information Criterion. 'looic', 'waic', or 'both'}
+
 \item{core}{Number of cores to use for leave-one-out estimation}
 }
 \value{
-IC Leave-One-Out and Watanabe-Akaike information criterion estimates.
+IC Leave-One-Out and/or Watanabe-Akaike information criterion estimates.
 }
 \description{
 Extract Model Comparison Estimates
+}
+\examples{
+\dontrun{
+library(hBayesDM)
+output = bandit2arm_delta("example", niter=2000, nwarmup=1000, nchain=4, ncore = 1)
+# To show the LOOIC model fit estimates (a detailed report; c)
+extract_ic(output)
+# To show the WAIC model fit estimates
+extract_ic(output, ic="waic")
+}
+
 }
 
