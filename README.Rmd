@@ -1,9 +1,10 @@
 
-The **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. 
-
+The **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. The hBayesDM package uses [Stan](http://mc-stan.org/) for Bayesian inference. 
 
 Installation
 ------------
+**(Only for Windows users)** First download and install Rtools from this link: http://cran.r-project.org/bin/windows/Rtools/. For detailed instructions, please go to this link: https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows. 
+
 
 You can install the latest version from github with:
 
