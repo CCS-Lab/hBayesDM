@@ -179,4 +179,24 @@ plot_ug_delta <- function( obj, fontSize = 10, ncols = 3, binSize = 30 ) {
   return(h_all)
 }
 
+plot_bandit4arm_4par <- function( obj, fontSize = 10, ncols = 4, binSize = 30 ) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_Arew, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Rew], " (Learning rate(Rew)")))
+  h2 = plotDist(sample = pars$mu_Apun, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Pun], " (Learning rate(Pun)")))
+  h3 = plotDist(sample = pars$mu_R, fontSize = fontSize, binSize = binSize, xLab = "R (Rew. Sens.)")
+  h4 = plotDist(sample = pars$mu_P, fontSize = fontSize, binSize = binSize, xLab = "P (Pun. Sens.)")
+  h_all = multiplot(h1, h2, h3, h4, cols = ncols)
+  return(h_all)
+}
+
+plot_bandit4arm_lapse <- function( obj, fontSize = 10, ncols = 5, binSize = 30 ) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_Arew, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Rew], " (Learning rate(Rew)")))
+  h2 = plotDist(sample = pars$mu_Apun, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Pun], " (Learning rate(Pun)")))
+  h3 = plotDist(sample = pars$mu_R, fontSize = fontSize, binSize = binSize, xLab = "R (Rew. Sens.)")
+  h4 = plotDist(sample = pars$mu_P, fontSize = fontSize, binSize = binSize, xLab = "P (Pun. Sens.)")
+  h5 = plotDist(sample = pars$mu_xi, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(xi, " (Lapse)")))  
+  h_all = multiplot(h1, h2, h3, h4, h5, cols = ncols)
+  return(h_all)
+}
 
