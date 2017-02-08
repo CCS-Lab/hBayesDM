@@ -223,12 +223,12 @@ bandit4arm_lapse <- function(data          = "choose",
     genInitList <- function() {
       list(
         # Non-centered parameters
-        mu_p = c( qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3]/30), qnorm(inits_fixed[4]/30), qnorm(inits_fixed[5]) ),
+        mu_p = c( qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), log(inits_fixed[3]), log(inits_fixed[4]), qnorm(inits_fixed[5]) ),
         sigma = c(1.0, 1.0, 1.0, 1.0, 1.0),
         Arew_pr   = rep( qnorm(inits_fixed[1]), numSubjs),
         Apun_pr   = rep( qnorm(inits_fixed[2]), numSubjs),
-        R_pr      = rep( qnorm(inits_fixed[3]/30), numSubjs),
-        P_pr      = rep( qnorm(inits_fixed[4]/30), numSubjs),
+        R_pr      = rep( log(inits_fixed[3]), numSubjs),
+        P_pr      = rep( log(inits_fixed[4]), numSubjs),
         xi_pr      = rep( qnorm(inits_fixed[5]), numSubjs) 
       )
     }

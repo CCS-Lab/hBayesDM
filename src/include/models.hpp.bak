@@ -1081,9 +1081,9 @@ public:
                 current_statement_begin__ = 35;
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
                 current_statement_begin__ = 36;
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
                 current_statement_begin__ = 37;
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e,current_statement_begin__);
@@ -1383,9 +1383,9 @@ public:
                 current_statement_begin__ = 35;
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
                 current_statement_begin__ = 36;
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
                 current_statement_begin__ = 37;
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e,current_statement_begin__);
@@ -1444,9 +1444,9 @@ public:
             current_statement_begin__ = 107;
             stan::math::assign(mu_Apun, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
             current_statement_begin__ = 108;
-            stan::math::assign(mu_R, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 30));
+            stan::math::assign(mu_R, exp(get_base1(mu_p,3,"mu_p",1)));
             current_statement_begin__ = 109;
-            stan::math::assign(mu_P, (Phi_approx(get_base1(mu_p,4,"mu_p",1)) * 30));
+            stan::math::assign(mu_P, exp(get_base1(mu_p,4,"mu_p",1)));
 
             current_statement_begin__ = 112;
             for (int i = 1; i <= N; ++i) {
@@ -2122,9 +2122,9 @@ public:
                 current_statement_begin__ = 37;
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
                 current_statement_begin__ = 38;
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
                 current_statement_begin__ = 39;
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
                 current_statement_begin__ = 40;
                 stan::math::assign(get_base1_lhs(xi,i,"xi",1), Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(xi_pr,i,"xi_pr",1)))));
             }
@@ -2456,9 +2456,9 @@ public:
                 current_statement_begin__ = 37;
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
                 current_statement_begin__ = 38;
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
                 current_statement_begin__ = 39;
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
                 current_statement_begin__ = 40;
                 stan::math::assign(get_base1_lhs(xi,i,"xi",1), Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(xi_pr,i,"xi_pr",1)))));
             }
@@ -2528,9 +2528,9 @@ public:
             current_statement_begin__ = 111;
             stan::math::assign(mu_Apun, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
             current_statement_begin__ = 112;
-            stan::math::assign(mu_R, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 30));
+            stan::math::assign(mu_R, exp(get_base1(mu_p,3,"mu_p",1)));
             current_statement_begin__ = 113;
-            stan::math::assign(mu_P, (Phi_approx(get_base1(mu_p,4,"mu_p",1)) * 30));
+            stan::math::assign(mu_P, exp(get_base1(mu_p,4,"mu_p",1)));
             current_statement_begin__ = 114;
             stan::math::assign(mu_xi, Phi_approx(get_base1(mu_p,5,"mu_p",1)));
 

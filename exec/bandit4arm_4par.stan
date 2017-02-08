@@ -33,8 +33,8 @@ transformed parameters {
   for (i in 1:N) {
     Arew[i] = Phi_approx( mu_p[1] + sigma[1] * Arew_pr[i] );
     Apun[i] = Phi_approx( mu_p[2] + sigma[2] * Apun_pr[i] );
-    R[i]    = Phi_approx( mu_p[3] + sigma[3] * R_pr[i] ) * 30;
-    P[i]    = Phi_approx( mu_p[4] + sigma[4] * P_pr[i] ) * 30;
+    R[i]    = exp( mu_p[3] + sigma[3] * R_pr[i] );
+    P[i]    = exp( mu_p[4] + sigma[4] * P_pr[i] );
   }
 }
 model {
@@ -105,8 +105,8 @@ generated quantities {
 
   mu_Arew = Phi_approx(mu_p[1]);
   mu_Apun = Phi_approx(mu_p[2]);
-  mu_R    = Phi_approx(mu_p[3])*30;
-  mu_P    = Phi_approx(mu_p[4])*30;
+  mu_R    = exp(mu_p[3]);
+  mu_P    = exp(mu_p[4]);
   
   { # local section, this saves time and space
     for (i in 1:N) {

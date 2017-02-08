@@ -1050,8 +1050,8 @@ public:
 
                 stan::math::assign(get_base1_lhs(Arew,i,"Arew",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(Arew_pr,i,"Arew_pr",1)))));
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e,current_statement_begin__);
@@ -1325,8 +1325,8 @@ public:
 
                 stan::math::assign(get_base1_lhs(Arew,i,"Arew",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(Arew_pr,i,"Arew_pr",1)))));
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e,current_statement_begin__);
@@ -1382,8 +1382,8 @@ public:
         try {
             stan::math::assign(mu_Arew, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
             stan::math::assign(mu_Apun, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
-            stan::math::assign(mu_R, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 30));
-            stan::math::assign(mu_P, (Phi_approx(get_base1(mu_p,4,"mu_p",1)) * 30));
+            stan::math::assign(mu_R, exp(get_base1(mu_p,3,"mu_p",1)));
+            stan::math::assign(mu_P, exp(get_base1(mu_p,4,"mu_p",1)));
 
             for (int i = 1; i <= N; ++i) {
                 {
@@ -2037,8 +2037,8 @@ public:
 
                 stan::math::assign(get_base1_lhs(Arew,i,"Arew",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(Arew_pr,i,"Arew_pr",1)))));
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
                 stan::math::assign(get_base1_lhs(xi,i,"xi",1), Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(xi_pr,i,"xi_pr",1)))));
             }
         } catch (const std::exception& e) {
@@ -2342,8 +2342,8 @@ public:
 
                 stan::math::assign(get_base1_lhs(Arew,i,"Arew",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(Arew_pr,i,"Arew_pr",1)))));
                 stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
-                stan::math::assign(get_base1_lhs(R,i,"R",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))) * 30));
-                stan::math::assign(get_base1_lhs(P,i,"P",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))) * 30));
+                stan::math::assign(get_base1_lhs(R,i,"R",1), exp((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(R_pr,i,"R_pr",1)))));
+                stan::math::assign(get_base1_lhs(P,i,"P",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(P_pr,i,"P_pr",1)))));
                 stan::math::assign(get_base1_lhs(xi,i,"xi",1), Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(xi_pr,i,"xi_pr",1)))));
             }
         } catch (const std::exception& e) {
@@ -2409,8 +2409,8 @@ public:
         try {
             stan::math::assign(mu_Arew, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
             stan::math::assign(mu_Apun, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
-            stan::math::assign(mu_R, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 30));
-            stan::math::assign(mu_P, (Phi_approx(get_base1(mu_p,4,"mu_p",1)) * 30));
+            stan::math::assign(mu_R, exp(get_base1(mu_p,3,"mu_p",1)));
+            stan::math::assign(mu_P, exp(get_base1(mu_p,4,"mu_p",1)));
             stan::math::assign(mu_xi, Phi_approx(get_base1(mu_p,5,"mu_p",1)));
 
             for (int i = 1; i <= N; ++i) {
