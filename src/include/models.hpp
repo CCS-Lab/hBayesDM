@@ -1096,7 +1096,9 @@ public:
         check_greater_or_equal(function__,"Apun",Apun,0);
         check_less_or_equal(function__,"Apun",Apun,1);
         check_greater_or_equal(function__,"R",R,0);
+        check_less_or_equal(function__,"R",R,100);
         check_greater_or_equal(function__,"P",P,0);
+        check_less_or_equal(function__,"P",P,100);
 
         // model body
         try {
@@ -1340,7 +1342,9 @@ public:
         check_greater_or_equal(function__,"Apun",Apun,0);
         check_less_or_equal(function__,"Apun",Apun,1);
         check_greater_or_equal(function__,"R",R,0);
+        check_less_or_equal(function__,"R",R,100);
         check_greater_or_equal(function__,"P",P,0);
+        check_less_or_equal(function__,"P",P,100);
 
         // write transformed parameters
         for (int k_0__ = 0; k_0__ < N; ++k_0__) {
@@ -1457,7 +1461,9 @@ public:
         check_greater_or_equal(function__,"mu_Apun",mu_Apun,0);
         check_less_or_equal(function__,"mu_Apun",mu_Apun,1);
         check_greater_or_equal(function__,"mu_R",mu_R,0);
+        check_less_or_equal(function__,"mu_R",mu_R,100);
         check_greater_or_equal(function__,"mu_P",mu_P,0);
+        check_less_or_equal(function__,"mu_P",mu_P,100);
 
         // write generated quantities
         vars__.push_back(mu_Arew);
@@ -2091,7 +2097,9 @@ public:
         check_greater_or_equal(function__,"Apun",Apun,0);
         check_less_or_equal(function__,"Apun",Apun,1);
         check_greater_or_equal(function__,"R",R,0);
+        check_less_or_equal(function__,"R",R,100);
         check_greater_or_equal(function__,"P",P,0);
+        check_less_or_equal(function__,"P",P,100);
         check_greater_or_equal(function__,"xi",xi,0);
         check_less_or_equal(function__,"xi",xi,1);
 
@@ -2358,7 +2366,9 @@ public:
         check_greater_or_equal(function__,"Apun",Apun,0);
         check_less_or_equal(function__,"Apun",Apun,1);
         check_greater_or_equal(function__,"R",R,0);
+        check_less_or_equal(function__,"R",R,100);
         check_greater_or_equal(function__,"P",P,0);
+        check_less_or_equal(function__,"P",P,100);
         check_greater_or_equal(function__,"xi",xi,0);
         check_less_or_equal(function__,"xi",xi,1);
 
@@ -2485,7 +2495,9 @@ public:
         check_greater_or_equal(function__,"mu_Apun",mu_Apun,0);
         check_less_or_equal(function__,"mu_Apun",mu_Apun,1);
         check_greater_or_equal(function__,"mu_R",mu_R,0);
+        check_less_or_equal(function__,"mu_R",mu_R,100);
         check_greater_or_equal(function__,"mu_P",mu_P,0);
+        check_less_or_equal(function__,"mu_P",mu_P,100);
         check_greater_or_equal(function__,"mu_xi",mu_xi,0);
         check_less_or_equal(function__,"mu_xi",mu_xi,1);
 

@@ -28,8 +28,8 @@ transformed parameters {
   # Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] Arew;
   vector<lower=0, upper=1>[N] Apun;
-  vector<lower=0>[N] R;
-  vector<lower=0>[N] P;
+  vector<lower=0, upper=100>[N] R;
+  vector<lower=0, upper=100>[N] P;
   vector<lower=0, upper=1>[N] xi;
 
   for (i in 1:N) {
@@ -100,8 +100,8 @@ generated quantities {
   # For group level parameters
   real<lower=0,upper=1> mu_Arew;
   real<lower=0,upper=1> mu_Apun;
-  real<lower=0> mu_R;
-  real<lower=0> mu_P;
+  real<lower=0,upper=100> mu_R;
+  real<lower=0,upper=100> mu_P;
   real<lower=0,upper=1> mu_xi;
   
   # For log likelihood calculation

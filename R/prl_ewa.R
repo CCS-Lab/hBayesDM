@@ -318,7 +318,8 @@ prl_ewa <- function(data          = "choose",
     currHr    <- substr(currTime, 12, 13)
     currMin   <- substr(currTime, 15, 16)
     timeStamp <- paste0(currDate, "_", currHr, "_", currMin)
-    save(modelData, file=file.path(saveDir, paste0(modelName, "_", timeStamp, ".RData"  ) ) )
+    dataFileName = sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(data))
+    save(modelData, file=file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData"  ) ) )
   }
   
   # Send email to notify user of completion
