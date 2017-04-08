@@ -1,6 +1,12 @@
-^.*\.Rproj$
-^\.Rproj\.user$
 ^.*\.o$
 ^\cleanup*
-README.Rmd
-
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^appveyor\.yml$
+^NEWS\.md$
+^cran-comments\.md$
+^README\.Rmd$
+^docs$
+^_pkgdown.yml$
+^vignettes$
