@@ -11,7 +11,6 @@ Description: Fit an array of decision-making tasks with computational models in 
 Depends: R (>= 3.0.2), Rcpp (>= 0.12.8), methods (>= 3.3.2)
 Imports: rstan (>= 2.14.1), rstantools (>= 1.1.0), loo, grid, parallel, mail, ggplot2
 LinkingTo: StanHeaders (>= 2.14.0.1), rstan (>= 2.14.1), BH (>= 1.62.0.1), Rcpp (>= 0.12.8), RcppEigen (>= 0.3.2.9.0)
-URL: http://rpubs.com/CCSL/hBayesDM
 License: GPL-3
 LazyData: true
 Author: Woo-Young Ahn [aut, cre],
@@ -19,3 +18,5 @@ Author: Woo-Young Ahn [aut, cre],
 	Lei Zhang [aut]
 RoxygenNote: 5.0.1
 Suggests: testthat
+URL: https://github.com/CCS-Lab/hBayesDM
+BugReports: https://github.com/CCS-Lab/hBayesDM/issues
