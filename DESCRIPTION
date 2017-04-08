@@ -18,3 +18,4 @@ Author: Woo-Young Ahn [aut, cre],
 	Nate Haines [aut],
 	Lei Zhang [aut]
 RoxygenNote: 5.0.1
+Suggests: testthat
