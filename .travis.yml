@@ -1,7 +1,7 @@
 language: r
 
 # Be strict when checking our package
-warnings_are_errors: true
+warnings_are_errors: false
 
 # Sudo is required
 sudo: required
