@@ -1,31 +1,15 @@
----
-output:
-  md_document:
-    variant: markdown_github
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
 hBayesDM
 ========
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)[![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master)](https://travis-ci.org/CCS-Lab/hBayesDM)[![Build status](https://ci.appveyor.com/api/projects/status/hi3vp6ikm396pqcu?svg=true)](https://ci.appveyor.com/project/paulhendricks/hbayesdm)[![codecov](https://codecov.io/gh/CCS-Lab/hBayesDM/branch/master/graph/badge.svg)](https://codecov.io/gh/CCS-Lab/hBayesDM)
 
-
-The **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. The hBayesDM package uses [Stan](http://mc-stan.org/) for Bayesian inference. 
+The **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. The hBayesDM package uses [Stan](http://mc-stan.org/) for Bayesian inference.
 
 Installation
 ------------
-**(Only for Windows users)** First download and install Rtools from this link: http://cran.r-project.org/bin/windows/Rtools/. For detailed instructions, please go to this link: https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows. 
 
+**(Only for Windows users)** First download and install Rtools from this link: <http://cran.r-project.org/bin/windows/Rtools/>. For detailed instructions, please go to this link: <https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows>.
 
 You can install the latest version from github with:
 
@@ -40,6 +24,4 @@ devtools::install_github("CCS-Lab/hBayesDM")
 
 Please go to **[hBayesDM Tutorial](http://rpubs.com/CCSL/hBayesDM)** for more information about the package.
 
-
-If you encounter a problem or a bug, please use our mailing list: https://groups.google.com/forum/#!forum/hbayesdm-users, or you can directly create an issue on [GitHub](https://github.com/CCS-Lab/hBayesDM/issues/new). 
-
+If you encounter a problem or a bug, please use our mailing list: <https://groups.google.com/forum/#!forum/hbayesdm-users>, or you can directly create an issue on [GitHub](https://github.com/CCS-Lab/hBayesDM/issues/new).
