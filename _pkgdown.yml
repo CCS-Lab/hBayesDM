@@ -1,8 +1,0 @@
-navbar:
-  title: "hBayesDM"
-  type: inverse
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "Documentation"
-      href: reference/index.html
