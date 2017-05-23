@@ -26,7 +26,7 @@ instructions, please go to this link:
 precompiles all Stan models, which makes it faster to start MCMC
 sampling. But it may cause some memory allocation issues on a Windows
 machine.   
-<br><br><br>  
+<br><br>   
 
 **(For Mac/Linux users)** We strongly recommend users install this
 GitHub version. The GitHub version in the master repository is identical
