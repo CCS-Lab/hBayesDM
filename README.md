@@ -1,8 +1,4 @@
----
-output:
-  html_document: default
-  pdf_document: default
----
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 hBayesDM
 ========
