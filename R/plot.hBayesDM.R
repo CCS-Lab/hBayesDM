@@ -45,7 +45,7 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
     rstan::traceplot(x$fit, pars = paste0(parNames), ncol = ncols, ...)  
     
   } else if (type=="simple") {                           
-    rstan::plot(x$fit, pars = paste0(mu_pars, parNames), ...)         
+    rstan::plot(x$fit, pars = paste0(parNames), ...)         
   }
 }
 
