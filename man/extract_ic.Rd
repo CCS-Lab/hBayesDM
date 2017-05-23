@@ -30,4 +30,3 @@ extract_ic(output, ic="waic")
 }
 
 }
-

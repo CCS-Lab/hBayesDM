@@ -30,4 +30,3 @@ h1 Plot object
 \description{
 Plots the histogram of MCMC samples.
 }
-

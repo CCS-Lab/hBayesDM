@@ -5,7 +5,7 @@ data {
   int<lower=1, upper=T> Tsubj[N];
   real rew[N, T];
   real los[N, T];
-  int ydata[N, T];
+  int choice[N, T];
 }
 transformed data {
   vector[4] initV;
@@ -27,14 +27,14 @@ transformed parameters {
   # Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] Arew;
   vector<lower=0, upper=1>[N] Apun;
-  vector<lower=0, upper=100>[N] R;
-  vector<lower=0, upper=100>[N] P;
+  vector<lower=0>[N] R;
+  vector<lower=0>[N] P;
 
   for (i in 1:N) {
     Arew[i] = Phi_approx( mu_p[1] + sigma[1] * Arew_pr[i] );
     Apun[i] = Phi_approx( mu_p[2] + sigma[2] * Apun_pr[i] );
-    R[i]    = exp( mu_p[3] + sigma[3] * R_pr[i] );
-    P[i]    = exp( mu_p[4] + sigma[4] * P_pr[i] );
+    R[i]    = Phi_approx( mu_p[3] + sigma[3] * R_pr[i] ) * 30;
+    P[i]    = Phi_approx( mu_p[4] + sigma[4] * P_pr[i] ) * 30;
   }
 }
 model {
@@ -64,31 +64,31 @@ model {
     # Initialize values
     Qr    = initV;
     Qp    = initV;
+    Qsum  = initV;
 
-    for (t in 1:(Tsubj[i]-1)) {
+    for (t in 1:Tsubj[i]) {
+      # softmax choice
+      choice[i, t] ~ categorical_logit( Qsum );
+      
       # Prediction error signals
-      PEr     = R[i]*rew[i,t] - Qr[ ydata[i,t]];
-      PEp     = P[i]*los[i,t] - Qp[ ydata[i,t]];
+      PEr     = R[i]*rew[i,t] - Qr[ choice[i,t]];
+      PEp     = P[i]*los[i,t] - Qp[ choice[i,t]];
       PEr_fic = -Qr;
       PEp_fic = -Qp;
 
       # store chosen deck Q values (rew and pun)
-      Qr_chosen = Qr[ ydata[i,t]];
-      Qp_chosen = Qp[ ydata[i,t]];
+      Qr_chosen = Qr[ choice[i,t]];
+      Qp_chosen = Qp[ choice[i,t]];
       
       # First, update Qr & Qp for all decks w/ fictive updating   
       Qr = Qr + Arew[i] * PEr_fic;
       Qp = Qp + Apun[i] * PEp_fic;
       # Replace Q values of chosen deck with correct values using stored values
-      Qr[ ydata[i,t]] = Qr_chosen + Arew[i] * PEr;
-      Qp[ ydata[i,t]] = Qp_chosen + Apun[i] * PEp;
+      Qr[ choice[i,t]] = Qr_chosen + Arew[i] * PEr;
+      Qp[ choice[i,t]] = Qp_chosen + Apun[i] * PEp;
       
       # Q(sum)
       Qsum = Qr + Qp; 
-      
-      # softmax choice
-      ydata[i, t+1] ~ categorical_logit( Qsum );
-      
     }
   }
 }
@@ -97,16 +97,16 @@ generated quantities {
   # For group level parameters
   real<lower=0,upper=1> mu_Arew;
   real<lower=0,upper=1> mu_Apun;
-  real<lower=0,upper=100> mu_R;
-  real<lower=0,upper=100> mu_P;
+  real<lower=0> mu_R;
+  real<lower=0> mu_P;
   
   # For log likelihood calculation
   real log_lik[N];
 
   mu_Arew = Phi_approx(mu_p[1]);
   mu_Apun = Phi_approx(mu_p[2]);
-  mu_R    = exp(mu_p[3]);
-  mu_P    = exp(mu_p[4]);
+  mu_R    = Phi_approx(mu_p[3])*30;
+  mu_P    = Phi_approx(mu_p[4])*30;
   
   { # local section, this saves time and space
     for (i in 1:N) {
@@ -125,31 +125,32 @@ generated quantities {
       # Initialize values
       Qr   = initV;
       Qp   = initV;
+      Qsum = initV;
       log_lik[i] = 0.0;
   
-      for (t in 1:(Tsubj[i]-1)) {
+      for (t in 1:Tsubj[i]) {
+        # softmax choice
+        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | Qsum );
+        
         # Prediction error signals
-        PEr     = R[i]*rew[i,t] - Qr[ ydata[i,t]];
-        PEp     = P[i]*los[i,t] - Qp[ ydata[i,t]];
+        PEr     = R[i]*rew[i,t] - Qr[ choice[i,t]];
+        PEp     = P[i]*los[i,t] - Qp[ choice[i,t]];
         PEr_fic = -Qr;
         PEp_fic = -Qp;
   
         # store chosen deck Q values (rew and pun)
-        Qr_chosen = Qr[ ydata[i,t]];
-        Qp_chosen = Qp[ ydata[i,t]];
+        Qr_chosen = Qr[ choice[i,t]];
+        Qp_chosen = Qp[ choice[i,t]];
         
         # First, update Qr & Qp for all decks w/ fictive updating   
         Qr = Qr + Arew[i] * PEr_fic;
         Qp = Qp + Apun[i] * PEp_fic;
         # Replace Q values of chosen deck with correct values using stored values
-        Qr[ ydata[i,t]] = Qr_chosen + Arew[i] * PEr;
-        Qp[ ydata[i,t]] = Qp_chosen + Apun[i] * PEp;
+        Qr[ choice[i,t]] = Qr_chosen + Arew[i] * PEr;
+        Qp[ choice[i,t]] = Qp_chosen + Apun[i] * PEp;
 
         # Q(sum)
-        Qsum = Qr + Qp; 
-
-        # softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf( ydata[i, t+1] | Qsum );
+        Qsum = Qr + Qp;
       }
     }
   }  

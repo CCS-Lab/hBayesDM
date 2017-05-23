@@ -1,13 +1,22 @@
+May 20, 2017 (0.4.0)
+* Add a choice reaction time task and evidence accumulation models 
+  - Drift diffusion model (both hierarchical and single-subject)
+  - Linear Ballistic Accumulator (LBA) model (both hierarchical and single-subject)
+* Add PRL models that can fit multiple blocks
+* Add single-subject versions for the delay discounting task (`dd_hyperbolic_single` and `dd_cs_single`).
+* Standardize variable names across all models (e.g., `rewlos` --> `outcome` for all models)
+* Separate versions for CRAN and GitHub. All models/features are identical but the GitHub version contains precompilled models.
+
 Jan 22, 2017 (0.3.1)
-- Remove dependence on the modeest package. Now use a built-in function to estimate the mode of a posterior distribution.
-- Rewrite the "printFit" function.
+* Remove dependence on the modeest package. Now use a built-in function to estimate the mode of a posterior distribution.
+* Rewrite the "printFit" function.
 
 Jan 20, 2017 (0.3.0)
-- Made several changes following the guidelines for R packages providing interfaces to Stan. 
-- Stan models are precompiled and models will run immediately when called. 
-- The default number of chains is set to 4. 
-- The default value of `adapt_delta` is set to 0.95 to reduce the potential for divergences.
-- The “printFit” function uses LOOIC by default. Users can select WAIC or both (LOOIC & WAIC) if needed. 
+* Made several changes following the guidelines for R packages providing interfaces to Stan. 
+* Stan models are precompiled and models will run immediately when called. 
+* The default number of chains is set to 4. 
+* The default value of `adapt_delta` is set to 0.95 to reduce the potential for divergences.
+* The “printFit” function uses LOOIC by default. Users can select WAIC or both (LOOIC & WAIC) if needed. 
 
 Dec 28, 2016 (0.2.3.3)
 1. Change

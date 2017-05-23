@@ -2,8 +2,8 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1,upper=T> Tsubj[N];
-  real rewlos[N, T];
-  int ydata[N, T];
+  real outcome[N, T];
+  int choice[N, T];
 }
 
 transformed data {
@@ -60,19 +60,19 @@ model {
     theta = pow(3, cons[i]) -1;
     ev = initV; # initial ev values
         
-    for (t in 1:(Tsubj[i]-1)) {
-      if ( rewlos[i,t] >= 0) {  # x(t) >= 0
-        curUtil = pow(rewlos[i,t], alpha[i]);
+    for (t in 1:Tsubj[i]) {
+      # softmax choice
+      choice[i, t] ~ categorical_logit( theta * ev );
+      
+      if ( outcome[i,t] >= 0) {  # x(t) >= 0
+        curUtil = pow(outcome[i,t], alpha[i]);
       } else {                  # x(t) < 0
-        curUtil = -1 * lambda[i] * pow( -1*rewlos[i,t], alpha[i]);
+        curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
       }
             
       # decay-RI
       ev = ev * A[i];            
-      ev[ ydata[i, t] ] = ev[ ydata[i, t] ] + curUtil;
-
-      # softmax choice
-      ydata[i, t+1] ~ categorical_logit( theta * ev );
+      ev[ choice[i, t] ] = ev[ choice[i, t] ] + curUtil;
     }
   }
 }
@@ -104,19 +104,19 @@ generated quantities {
       theta = pow(3, cons[i]) -1;
       ev = initV; # initial ev values
             
-      for (t in 1:(Tsubj[i]-1)) {
-        if ( rewlos[i,t] >= 0) {  # x(t) >= 0
-          curUtil = pow(rewlos[i,t], alpha[i]);
+      for (t in 1:Tsubj[i]) {
+        # softmax choice
+        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | theta * ev );
+        
+        if ( outcome[i,t] >= 0) {  # x(t) >= 0
+          curUtil = pow(outcome[i,t], alpha[i]);
         } else {                  # x(t) < 0
-          curUtil = -1 * lambda[i] * pow( -1*rewlos[i,t], alpha[i]);
+          curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
         }
                 
         # decay-RI
         ev = ev * A[i];            
-        ev[ ydata[i, t] ] = ev[ ydata[i, t] ] + curUtil;
-
-        # softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf( ydata[i, t+1] | theta * ev );
+        ev[ choice[i, t] ] = ev[ choice[i, t] ] + curUtil;
       }
     }
   }

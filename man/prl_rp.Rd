@@ -4,7 +4,7 @@
 \alias{prl_rp}
 \title{Probabilistic Reversal Learning Task}
 \usage{
-prl_rp(data = "choose", niter = 3000, nwarmup = 1000, nchain = 4,
+prl_rp(data = "choice", niter = 3000, nwarmup = 1000, nchain = 1,
   ncore = 1, nthin = 1, inits = "random", indPars = "mean",
   saveDir = NULL, email = NULL, modelRegressor = FALSE,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
@@ -61,7 +61,7 @@ This section describes some of the function arguments in greater detail.
 
 \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 represent variables. For the Probabilistic Reversal Learning Task, there should be three columns of data 
 with the labels "subjID", "choice", and "outcome". It is not necessary for the columns to be in this particular order, 
 however it is necessary that they be labelled correctly and contain the information below:
@@ -124,4 +124,3 @@ Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
 }
-

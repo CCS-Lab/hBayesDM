@@ -3,7 +3,7 @@ data {
   int<lower=1> T;               
   int<lower=1,upper=T> Tsubj[N];                 
   int<lower=1,upper=2> choice[N,T];     
-  real rewlos[N,T];  # no lower and upper bounds   
+  real outcome[N,T];  # no lower and upper bounds   
 }
 
 transformed data {
@@ -54,7 +54,7 @@ model {
       choice[i,t] ~ categorical_logit( tau[i] * ev );
 
       # prediction error 
-      PE = rewlos[i,t] - ev[choice[i,t]];
+      PE = outcome[i,t] - ev[choice[i,t]];
 
       # value updating (learning) 
       ev[choice[i,t]] = ev[choice[i,t]] + A[i] * PE; 
@@ -88,7 +88,7 @@ generated quantities {
         log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i,t] | tau[i] * ev);
         
         # prediction error 
-        PE = rewlos[i,t] - ev[choice[i,t]];
+        PE = outcome[i,t] - ev[choice[i,t]];
 
         # value updating (learning) 
         ev[choice[i,t]] = ev[choice[i,t]] + A[i] * PE; 

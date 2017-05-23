@@ -42,7 +42,7 @@
 #' 
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-#' The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+#' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 #' represent variables. For the Delay Discounting Task, there should be six columns of data 
 #' with the labels "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", and "choice". 
 #' It is not necessary for the columns to be in this particular order, however it is necessary that they be labelled 
@@ -128,9 +128,10 @@ dd_hyperbolic <- function(data          = "choose",
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
-  } else {
-    modelPath <- system.file("exec", "dd_hyperbolic.stan", package="hBayesDM")
-  }
+  } 
+  
+  # To see how long computations take
+  startTime <- Sys.time()    
   
   # For using example data
   if (data=="example") {
@@ -152,9 +153,6 @@ dd_hyperbolic <- function(data          = "choose",
     rawdata = rawdata[-NA_rows, ]
     cat("The number of rows with NAs=", length(NA_rows), ". They are removed prior to modeling the data. \n", sep="")
   }
-  
-  # To see how long computations take
-  startTime <- Sys.time()    
   
   # Individual Subjects
   subjList <- unique(rawdata[,"subjID"])  # list of subjects x blocks
@@ -246,7 +244,6 @@ dd_hyperbolic <- function(data          = "choose",
   } else {
     genInitList <- "random"
   }
-    
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore){
@@ -268,16 +265,16 @@ dd_hyperbolic <- function(data          = "choose",
   # Fit the Stan model
   m = stanmodels$dd_hyperbolic
   fit <- rstan::sampling(m,
-                     data   = dataList, 
-                     pars   = POI,
-                     warmup = nwarmup,
-                     init   = genInitList, 
-                     iter   = niter, 
-                     chains = nchain,
-                     thin   = nthin,
-                     control = list(adapt_delta   = adapt_delta, 
-                                    max_treedepth = max_treedepth, 
-                                    stepsize      = stepsize) )
+                         data   = dataList, 
+                         pars   = POI,
+                         warmup = nwarmup,
+                         init   = genInitList, 
+                         iter   = niter, 
+                         chains = nchain,
+                         thin   = nthin,
+                         control = list(adapt_delta   = adapt_delta, 
+                                        max_treedepth = max_treedepth, 
+                                        stepsize      = stepsize) )
   
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)

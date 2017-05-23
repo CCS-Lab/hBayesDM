@@ -42,7 +42,7 @@
 #' 
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-#' The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+#' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 #' represent variables. For the Norm-Training Ultimatum Game, there should be three columns of data 
 #' with the labels "subjID", "offer", and "accept". It is not necessary for the columns to be in this particular order, 
 #' however it is necessary that they be labelled correctly and contain the information below:
@@ -107,27 +107,25 @@
 #' printFit(output)
 #' }
 
-ug_bayes <- function(data          = "choose",
-                     niter         = 3000, 
-                     nwarmup       = 1000, 
-                     nchain        = 4,
-                     ncore         = 1, 
-                     nthin         = 1,
-                     inits         = "random",  
-                     indPars       = "mean", 
-                     saveDir       = NULL,
-                     email         = NULL,
-                     modelRegressor= FALSE,
-                     adapt_delta   = 0.95,
-                     stepsize      = 1,
-                     max_treedepth = 10 ) {
+ug_bayes <- function(data           = "choose",
+                     niter          = 3000, 
+                     nwarmup        = 1000, 
+                     nchain         = 4,
+                     ncore          = 1, 
+                     nthin          = 1,
+                     inits          = "random",  
+                     indPars        = "mean", 
+                     saveDir        = NULL,
+                     email          = NULL,
+                     modelRegressor = FALSE,
+                     adapt_delta    = 0.95,
+                     stepsize       = 1,
+                     max_treedepth  = 10 ) {
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
-  } else {
-    modelPath <- system.file("exec", "ug_bayes.stan", package="hBayesDM")
-  }
+  } 
   
   # To see how long computations take
   startTime <- Sys.time()    
@@ -234,7 +232,6 @@ ug_bayes <- function(data          = "choose",
   } else {
     genInitList <- "random"
   }
-    
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore){
@@ -256,16 +253,16 @@ ug_bayes <- function(data          = "choose",
   # Fit the Stan model
   m = stanmodels$ug_bayes
   fit <- rstan::sampling(m,
-                     data   = dataList, 
-                     pars   = POI,
-                     warmup = nwarmup,
-                     init   = genInitList, 
-                     iter   = niter, 
-                     chains = nchain,
-                     thin   = nthin,
-                     control = list(adapt_delta   = adapt_delta, 
-                                    max_treedepth = max_treedepth, 
-                                    stepsize      = stepsize) )
+                         data   = dataList, 
+                         pars   = POI,
+                         warmup = nwarmup,
+                         init   = genInitList, 
+                         iter   = niter, 
+                         chains = nchain,
+                         thin   = nthin,
+                         control = list(adapt_delta   = adapt_delta, 
+                                        max_treedepth = max_treedepth, 
+                                        stepsize      = stepsize) )
   
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)

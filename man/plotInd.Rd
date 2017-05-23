@@ -36,4 +36,3 @@ plotInd(output, "beta")
 plotInd(output, "beta", show_density=F)
 }
 }
-

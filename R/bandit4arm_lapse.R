@@ -1,12 +1,12 @@
-#' 4-armed bandit task (Seymour et al 2012, J Neuro) w/o C (choice perseveration) but with xi (noise)
+#' 4-armed bandit task
 #' 
 #' @description 
-#' Hierarchical Bayesian Modeling of the 4-armed bandit task
+#' Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: "Arew" (Reward learning rate), "Apun" (Punishment learning rate), "R" (Reward sensitivity), "P" (Punishment sensitivity), and "xi" (Noise). 
 #' 
 #' \strong{MODEL:}
-#' 5 parameter model without C (choice perseveration) but with xi (noise)
+#' 5 parameter model without C (choice perseveration) but with xi (noise) (Seymour et al 2012, J Neuro)
 #' 
-#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "deck", "gain", and "loss". See \bold{Details} below for more information.
+#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "gain", and "loss". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
 #' @param nwarmup Number of iterations used for warm-up only.
 #' @param nchain Number of chains to be run.
@@ -16,13 +16,14 @@
 #' @param indPars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
 #' @param saveDir Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.
 #' @param email Character value containing email address to send notification of completion. Leave blank if not interested. 
+#' @param modelRegressor Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.
 #' @param adapt_delta Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.
 #' @param max_treedepth Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below. 
 #'  
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model ("igt_vpp").}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"bandit4arm_lapse"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter 
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -41,13 +42,13 @@
 #' 
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-#' The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
-#' represent variables. For the Iowa Gambling Task, there should be four columns of data with the labels 
-#' "subjID", "deck", "gain", and "loss". It is not necessary for the columns to be in this particular order, 
+#' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
+#' represent variables. For the 4-armed bandit task, there should be four columns of data with the labels 
+#' "subjID", "choice", "gain", and "loss". It is not necessary for the columns to be in this particular order, 
 #' however it is necessary that they be labelled correctly and contain the information below:
 #' \describe{
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"deck"}}{A nominal integer representing which deck was chosen within the given trial (e.g. A, B, C, or D == 1, 2, 3, or 4 in the IGT).}
+#'  \item{\code{"choice"}}{A nominal integer representing which choice was chosen within the given trial (e.g. 1, 2, 3, or 4).}
 #'  \item{\code{"gain"}}{A floating number representing the amount of currency won on the given trial (e.g. 50, 50, 100).}
 #'  \item{\code{"loss"}}{A floating number representing the amount of currency lost on the given trial (e.g. 0, -50).}
 #' } 
@@ -81,7 +82,7 @@
 #' 
 #' @references 
 #' 
-#' Seymour, Daw, Roiser, Dayan, & Dolan (2012) Serotonin Selectively Modulates Reward Value in Human Decision-Making. J Neuro, 32(17), 5833–5842.
+#' Seymour, Daw, Roiser, Dayan, & Dolan (2012) Serotonin Selectively Modulates Reward Value in Human Decision-Making. J Neuro, 32(17), 5833-5842.
 #' @seealso 
 #' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
 #' 
@@ -118,8 +119,13 @@ bandit4arm_lapse <- function(data          = "choose",
                              stepsize      = 1,
                              max_treedepth = 10 ) {
   
+  # Path to .stan model file
+  if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
+    stop("** Model-based regressors are not available for this model **\n")
+  } 
+  
   # To see how long computations take
-  startTime <- Sys.time()   
+  startTime <- Sys.time()  
   
   # For using example data
   if (data=="example") {
@@ -184,7 +190,7 @@ bandit4arm_lapse <- function(data          = "choose",
   
   rew <- array( 0, c(numSubjs, maxTrials ) )
   los <- array( 0, c(numSubjs, maxTrials ) )
-  Ydata    <- array(1, c(numSubjs, maxTrials) )
+  choice <- array(1, c(numSubjs, maxTrials) )
   
   for ( subjIdx in 1:numSubjs )   {
     #number of trials for each subj.
@@ -195,18 +201,18 @@ bandit4arm_lapse <- function(data          = "choose",
     los[subjIdx, 1:useTrials] <- -1 * abs( rawdata_curSubj[ , "loss" ])
     
     for ( tIdx in 1:useTrials ) {
-      Y_t                     <- rawdata_curSubj[ tIdx, "deck" ] # chosen Y on trial "t"
-      Ydata[ subjIdx , tIdx ] <- Y_t
+      Y_t                     <- rawdata_curSubj[ tIdx, "choice" ] # chosen Y on trial "t"
+      choice[ subjIdx , tIdx ] <- Y_t
     }
   }
   
   dataList <- list(
-    N     = numSubjs,
-    T     = maxTrials,
-    Tsubj = Tsubj ,
-    rew   = rew,     
-    los   = los,
-    ydata = Ydata
+    N      = numSubjs,
+    T      = maxTrials,
+    Tsubj  = Tsubj ,
+    rew    = rew,     
+    los    = los,
+    choice = choice
   )
   
   # inits
@@ -223,12 +229,12 @@ bandit4arm_lapse <- function(data          = "choose",
     genInitList <- function() {
       list(
         # Non-centered parameters
-        mu_p = c( qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), log(inits_fixed[3]), log(inits_fixed[4]), qnorm(inits_fixed[5]) ),
+        mu_p = c( qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3]/30), qnorm(inits_fixed[4]/30), qnorm(inits_fixed[5]) ),
         sigma = c(1.0, 1.0, 1.0, 1.0, 1.0),
         Arew_pr   = rep( qnorm(inits_fixed[1]), numSubjs),
         Apun_pr   = rep( qnorm(inits_fixed[2]), numSubjs),
-        R_pr      = rep( log(inits_fixed[3]), numSubjs),
-        P_pr      = rep( log(inits_fixed[4]), numSubjs),
+        R_pr      = rep( qnorm(inits_fixed[3]/30), numSubjs),
+        P_pr      = rep( qnorm(inits_fixed[4]/30), numSubjs),
         xi_pr      = rep( qnorm(inits_fixed[5]), numSubjs) 
       )
     }
@@ -236,17 +242,17 @@ bandit4arm_lapse <- function(data          = "choose",
     genInitList <- "random"
   }
   
-  # For parallel computing if using multi-cores
-  rstan::rstan_options(auto_write = TRUE)
   if (ncore > 1) {
     numCores <- parallel::detectCores()
-    if (numCores < ncore) {
+    if (numCores < ncore){
       options(mc.cores = numCores)
-      warning("Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.")
-    } else {
+      warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
+    }
+    else{
       options(mc.cores = ncore)
     }
-  } else {
+  }
+  else {
     options(mc.cores = 1)
   }
   
@@ -256,17 +262,17 @@ bandit4arm_lapse <- function(data          = "choose",
   
   # Fit the Stan model
   m = stanmodels$bandit4arm_lapse
-  fit <- rstan::sampling(m, 
-                     data   = dataList, 
-                     pars   = POI,
-                     warmup = nwarmup,
-                     init   = genInitList, 
-                     iter   = niter, 
-                     chains = nchain,
-                     thin   = nthin,
-                     control = list(adapt_delta   = adapt_delta, 
-                                    max_treedepth = max_treedepth, 
-                                    stepsize      = stepsize) )
+  fit <- rstan::sampling(m,
+                         data   = dataList, 
+                         pars   = POI,
+                         warmup = nwarmup,
+                         init   = genInitList, 
+                         iter   = niter, 
+                         chains = nchain,
+                         thin   = nthin,
+                         control = list(adapt_delta   = adapt_delta, 
+                                        max_treedepth = max_treedepth, 
+                                        stepsize      = stepsize) )
 
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)

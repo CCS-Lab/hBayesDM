@@ -26,8 +26,8 @@ transformed parameters {
 
   for (i in 1:N) {
     ep[i]    = Phi_approx( mu_p[1] + sigma[1] * ep_pr[i] );
-    alpha[i] = Phi_approx( mu_p[3] + sigma[3] * alpha_pr[i] ) * 20;
     tau[i]   = Phi_approx( mu_p[2] + sigma[2] * tau_pr[i] ) * 10;
+    alpha[i] = Phi_approx( mu_p[3] + sigma[3] * alpha_pr[i] ) * 20;
   }
 }
 model {
@@ -81,7 +81,7 @@ generated quantities {
   { # local section, this saves time and space
     for (i in 1:N) {
       # Define values
-      real f;    # Inernal norm
+      real f;    # Internal norm
       real PE;   # prediction error
       real util; # Utility of offer
       

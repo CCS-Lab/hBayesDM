@@ -21,4 +21,3 @@ containing all Rhat values.
 A convenience function for extracting Rhat values from an hBayesDM object. Can also 
 check if all Rhat values are less than or equal to a specified value.
 }
-

@@ -18,16 +18,18 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
                           fontSize = NULL,   # Defaults to 10
                           binSize  = NULL,   # Defaults to 30
                           ...) { 
-                           
   
-  # Find the number of parameters for the model
-  numPars <- dim(x$allIndPars)[2] - 1
+  # Find the number of parameters for the model (lba can have multiple drift rates)
+  if (grepl(pattern = "lba", x = x$model)) {
+    numPars <- 4
+  } else {
+    numPars <- dim(x$allIndPars)[2] - 1
+  }
   
   # Find names of parameters for model
-  parNames <- names(x$allIndPars)[1:numPars]
+  parNames <- names(x$parVals)[1:numPars]
   
   if (type=="dist") {
-    
     # Source functions containing model plotting functions
     source(file = system.file("plotting", "plot_functions.R", package="hBayesDM"),
            local = T)
@@ -39,11 +41,11 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
                                                ", binSize = ", binSize, ")")))
     invisible()
     
-  } else if (type=="trace") {                                    
-    rstan::traceplot(x$fit, pars = paste0("mu_", parNames), ncol = ncols, ...)  
+  } else if (type=="trace") {
+    rstan::traceplot(x$fit, pars = paste0(parNames), ncol = ncols, ...)  
     
   } else if (type=="simple") {                           
-    rstan::plot(x$fit, pars = paste0("mu_", parNames), ...)         
+    rstan::plot(x$fit, pars = paste0(mu_pars, parNames), ...)         
   }
 }
 

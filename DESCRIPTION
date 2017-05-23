@@ -1,22 +1,33 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.3.1.3
-Date: 2017-02-09
+Version: 0.4.0
+Date: 2017-05-21
 Authors@R: c(
-	person("Woo-Young", "Ahn", email = "ahn.280@osu.edu", role = c("aut", "cre")),
+	person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
 	person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
 	person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")) )
-Maintainer: Woo-Young Ahn <ahn.280@osu.edu>
-Description: Fit an array of decision-making tasks with computational models in a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of various computational models with a single line of coding. 
-Depends: R (>= 3.0.2), Rcpp (>= 0.12.8), methods (>= 3.3.2)
-Imports: rstan (>= 2.14.1), rstantools (>= 1.1.0), loo, grid, parallel, mail, ggplot2
-LinkingTo: StanHeaders (>= 2.14.0.1), rstan (>= 2.14.1), BH (>= 1.62.0.1), Rcpp (>= 0.12.8), RcppEigen (>= 0.3.2.9.0)
+Maintainer: Woo-Young Ahn <wooyoung.ahn@gmail.com>
+Description: Fit an array of decision-making tasks with computational models in
+    a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of
+    various computational models with a single line of coding.
+Depends:
+    R (>= 3.3.2),
+    Rcpp (>= 0.12.8),
+    methods (>= 3.3.2)
+Imports:
+    rstan (>= 2.14.1),
+    rstantools (>= 1.1.0),
+    loo (>= 1.1.0),
+    grid,
+    parallel,
+    mail,
+    ggplot2
+LinkingTo: StanHeaders (>= 2.14.0.1), rstan (>= 2.14.1), BH (>= 1.62.0.1), Rcpp
+    (>= 0.12.8), RcppEigen (>= 0.3.2.9.0)
+URL: http://rpubs.com/CCSL/hBayesDM
 License: GPL-3
 LazyData: true
 Author: Woo-Young Ahn [aut, cre],
-	Nate Haines [aut],
-	Lei Zhang [aut]
-RoxygenNote: 5.0.1
-Suggests: testthat
-URL: https://github.com/CCS-Lab/hBayesDM
-BugReports: https://github.com/CCS-Lab/hBayesDM/issues
+    Nate Haines [aut],
+    Lei Zhang [aut]
+RoxygenNote: 6.0.1

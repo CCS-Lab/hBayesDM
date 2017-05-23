@@ -42,7 +42,7 @@
 #' 
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-#' The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+#' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 #' represent variables. For the Two-Arm Bandit Task, there should be three columns of data 
 #' with the labels "subjID", "choice", and "outcome". It is not necessary for the columns to be in this particular order, 
 #' however it is necessary that they be labelled correctly and contain the information below:
@@ -128,10 +128,11 @@ bandit2arm_delta <- function(data          = "choose",
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
-  } else {
-    modelPath <- system.file("exec", "bandit2arm_delta.stan", package="hBayesDM")  
-  }
+  } 
 
+  # To see how long computations take
+  startTime <- Sys.time() 
+  
   # For using example data
   if (data=="example") {
     data <- system.file("extdata", "bandit2arm_exampleData.txt", package = "hBayesDM")
@@ -152,9 +153,6 @@ bandit2arm_delta <- function(data          = "choose",
     rawdata = rawdata[-NA_rows, ]
     cat("The number of rows with NAs=", length(NA_rows), ". They are removed prior to modeling the data. \n", sep="")
   }
-
-  # To see how long computations take
-  startTime <- Sys.time()    
   
   # Individual Subjects
   subjList <- unique(rawdata[,"subjID"])  # list of subjects x blocks
@@ -196,24 +194,24 @@ bandit2arm_delta <- function(data          = "choose",
   # Information for user continued
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
   
-  choice <- array(1, c(numSubjs, maxTrials) )
-  rewlos <- array(0, c(numSubjs, maxTrials) )
+  choice  <- array(1, c(numSubjs, maxTrials) )
+  outcome <- array(0, c(numSubjs, maxTrials) )
 
   for (i in 1:numSubjs) {
     curSubj      <- subjList[i]
     useTrials    <- Tsubj[i]
     tmp          <- subset(rawdata, rawdata$subjID == curSubj)
     choice[i, 1:useTrials] <- tmp$choice
-    rewlos[i, 1:useTrials] <- tmp$outcome
+    outcome[i, 1:useTrials] <- tmp$outcome
   }
   
   dataList <- list(
-    N       = numSubjs,
-    T       = maxTrials,
-    Tsubj   = Tsubj,
-    choice  = choice,
-    rewlos  = rewlos,
-    numPars = numPars
+    N        = numSubjs,
+    T        = maxTrials,
+    Tsubj    = Tsubj,
+    choice   = choice,
+    outcome  = outcome,
+    numPars  = numPars
   )
   
   # inits
@@ -238,7 +236,6 @@ bandit2arm_delta <- function(data          = "choose",
   } else {
     genInitList <- "random"
   }
-    
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore){
@@ -248,7 +245,8 @@ bandit2arm_delta <- function(data          = "choose",
     else{
       options(mc.cores = ncore)
     }
-  } else {
+  }
+  else {
     options(mc.cores = 1)
   }
   
@@ -259,16 +257,16 @@ bandit2arm_delta <- function(data          = "choose",
   # Fit the Stan model
   m = stanmodels$bandit2arm_delta
   fit <- rstan::sampling(m,
-                     data   = dataList, 
-                     pars   = POI,
-                     warmup = nwarmup,
-                     init   = genInitList, 
-                     iter   = niter, 
-                     chains = nchain,
-                     thin   = nthin,
-                     control = list(adapt_delta   = adapt_delta, 
-                                    max_treedepth = max_treedepth, 
-                                    stepsize      = stepsize) )
+                         data   = dataList, 
+                         pars   = POI,
+                         warmup = nwarmup,
+                         init   = genInitList, 
+                         iter   = niter, 
+                         chains = nchain,
+                         thin   = nthin,
+                         control = list(adapt_delta   = adapt_delta, 
+                                        max_treedepth = max_treedepth, 
+                                        stepsize      = stepsize) )
   
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)

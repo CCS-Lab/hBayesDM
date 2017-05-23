@@ -3,7 +3,7 @@ data {
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
   int<lower=1,upper=2> choice[N, T];
-  real rewlos[N, T];
+  real outcome[N, T];
 }
 transformed data {
   vector[2] init;
@@ -55,7 +55,10 @@ model {
     ev = init; # initial ev values
     ew = init; # initial ew values
         
-    for (t in 1:(Tsubj[i]-1)) {
+    for (t in 1:Tsubj[i]) {
+      # Softmax choice
+      choice[i,t] ~ categorical_logit( ev * beta[i] );
+      
       # Store previous experience weight value
       ewt1 = ew[ choice[i,t]];
             
@@ -63,10 +66,7 @@ model {
       ew[ choice[i,t]] = ew[ choice[i,t]] * rho[i] + 1;
             
       # Update expected value of chosen stimulus
-      ev[ choice[i,t]] = ( ev[ choice[i,t]] * phi[i] * ewt1 + rewlos[i,t] ) /  ew[ choice[i,t]];
-            
-      # Softmax choice
-      choice[i, t+1] ~ categorical_logit( ev * beta[i] );
+      ev[ choice[i,t]] = ( ev[ choice[i,t]] * phi[i] * ewt1 + outcome[i,t] ) /  ew[ choice[i,t]];
     }
   }
 }
@@ -98,7 +98,10 @@ generated quantities {
           
       log_lik[i] = 0;
             
-      for (t in 1:(Tsubj[i]-1)) {
+      for (t in 1:Tsubj[i]) {
+        # Softmax choice
+        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i,t] | ev * beta[i]);
+        
         # Store previous experience weight value
         ewt1 = ew[ choice[i,t]];
                 
@@ -106,10 +109,7 @@ generated quantities {
         ew[ choice[i,t]] = ew[ choice[i,t]] * rho[i] + 1;
                 
         # Update expected value of chosen stimulus
-        ev[ choice[i,t]] = ( ev[ choice[i,t]] * phi[i] * ewt1 + rewlos[i,t] ) /  ew[ choice[i,t]];
-                
-        # Softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t+1] | ev * beta[i]);
+        ev[ choice[i,t]] = ( ev[ choice[i,t]] * phi[i] * ewt1 + outcome[i,t] ) /  ew[ choice[i,t]];
       }
     }
   }

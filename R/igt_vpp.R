@@ -6,7 +6,7 @@
 #' \strong{MODEL:}
 #' Value-Plus-Perseverance (Worthy et al., 2014, Frontiers in Psychology) 
 #' 
-#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "deck", "gain", and "loss". See \bold{Details} below for more information.
+#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "gain", and "loss". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
 #' @param nwarmup Number of iterations used for warm-up only.
 #' @param nchain Number of chains to be run.
@@ -24,7 +24,7 @@
 #'  
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model ("igt_vpp").}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"igt_vpp"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter 
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -43,13 +43,13 @@
 #' 
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-#' The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+#' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 #' represent variables. For the Iowa Gambling Task, there should be four columns of data with the labels 
-#' "subjID", "deck", "gain", and "loss". It is not necessary for the columns to be in this particular order, 
+#' "subjID", "choice", "gain", and "loss". It is not necessary for the columns to be in this particular order, 
 #' however it is necessary that they be labelled correctly and contain the information below:
 #' \describe{
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"deck"}}{A nominal integer representing which deck was chosen within the given trial (e.g. A, B, C, or D == 1, 2, 3, or 4 in the IGT).}
+#'  \item{\code{"choice"}}{A nominal integer representing which deck was chosen within the given trial (e.g. A, B, C, or D == 1, 2, 3, or 4 in the IGT).}
 #'  \item{\code{"gain"}}{A floating number representing the amount of currency won on the given trial (e.g. 50, 50, 100).}
 #'  \item{\code{"loss"}}{A floating number representing the amount of currency lost on the given trial (e.g. 0, -50).}
 #' } 
@@ -128,9 +128,7 @@ igt_vpp <- function(data          = "choose",
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
-  } else {
-    modelPath <- system.file("exec", "igt_vpp.stan", package="hBayesDM")
-  }
+  } 
   
   # To see how long computations take
   startTime <- Sys.time()   
@@ -207,17 +205,17 @@ igt_vpp <- function(data          = "choose",
     RLmatrix[subjIdx, 1:useTrials] <- rawdata_curSubj[, "gain"] -1 * abs( rawdata_curSubj[ , "loss" ])
     
     for ( tIdx in 1:useTrials ) {
-      Y_t                     <- rawdata_curSubj[ tIdx, "deck" ] # chosen Y on trial "t"
+      Y_t                     <- rawdata_curSubj[ tIdx, "choice" ] # chosen Y on trial "t"
       Ydata[ subjIdx , tIdx ] <- Y_t
     }
   }
   
   dataList <- list(
-    N      = numSubjs,
-    T      = maxTrials,
-    Tsubj  = Tsubj,
-    rewlos = RLmatrix / payscale,
-    ydata  = Ydata
+    N       = numSubjs,
+    T       = maxTrials,
+    Tsubj   = Tsubj,
+    outcome = RLmatrix / payscale,
+    choice  = Ydata
   )
   
   # inits
@@ -249,17 +247,17 @@ igt_vpp <- function(data          = "choose",
   } else {
     genInitList <- "random"
   }
-  
-  # For parallel computing if using multi-cores
   if (ncore > 1) {
     numCores <- parallel::detectCores()
-    if (numCores < ncore) {
+    if (numCores < ncore){
       options(mc.cores = numCores)
-      warning("Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.")
-    } else {
+      warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
+    }
+    else{
       options(mc.cores = ncore)
     }
-  } else {
+  }
+  else {
     options(mc.cores = 1)
   }
   
@@ -269,17 +267,17 @@ igt_vpp <- function(data          = "choose",
   
   # Fit the Stan model
   m = stanmodels$igt_vpp
-  fit <- rstan::sampling(m, 
-                     data   = dataList, 
-                     pars   = POI,
-                     warmup = nwarmup,
-                     init   = genInitList, 
-                     iter   = niter, 
-                     chains = nchain,
-                     thin   = nthin,
-                     control = list(adapt_delta   = adapt_delta, 
-                                    max_treedepth = max_treedepth, 
-                                    stepsize      = stepsize) )
+  fit <- rstan::sampling(m,
+                         data   = dataList, 
+                         pars   = POI,
+                         warmup = nwarmup,
+                         init   = genInitList, 
+                         iter   = niter, 
+                         chains = nchain,
+                         thin   = nthin,
+                         control = list(adapt_delta   = adapt_delta, 
+                                        max_treedepth = max_treedepth, 
+                                        stepsize      = stepsize) )
 
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)
@@ -340,12 +338,12 @@ igt_vpp <- function(data          = "choose",
   
   # Wrap up data into a list
   modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")  
+  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
   class(modelData) <- "hBayesDM"
   
   # Total time of computations
   endTime  <- Sys.time()
-  timeTook <- endTime - startTime  # time took to run the code
+  timeTook <- endTime - startTime
   
   # If saveDir is specified, save modelData as a file. If not, don't save
   # Save each file with its model name and time stamp (date & time (hr & min))

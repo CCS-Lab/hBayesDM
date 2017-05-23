@@ -38,4 +38,3 @@ printFit(output1, output2, ic="waic")
 printFit(output1, output2, ic="both")
 }
 }
-

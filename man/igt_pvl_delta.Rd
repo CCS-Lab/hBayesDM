@@ -10,7 +10,7 @@ igt_pvl_delta(data = "choose", niter = 3000, nwarmup = 1000, nchain = 4,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "deck", "gain", and "loss". See \bold{Details} below for more information.}
+\item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "gain", and "loss". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up.}
 
@@ -43,7 +43,7 @@ igt_pvl_delta(data = "choose", niter = 3000, nwarmup = 1000, nchain = 4,
 \value{
 \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 \describe{
- \item{\code{model}}{Character string with the name of the model ("igt_pvl_delta").}
+ \item{\code{model}}{Character string with the name of the model (\code{"igt_pvl_delta"}).}
  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter 
    values (as specified by \code{"indPars"}) for each subject.}
  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -63,13 +63,13 @@ This section describes some of the function arguments in greater detail.
 
 \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 represent variables. For the Iowa Gambling Task, there should be four columns of data with the labels 
-"subjID", "deck", "gain", and "loss". It is not necessary for the columns to be in this particular order, 
+"subjID", "choice", "gain", and "loss". It is not necessary for the columns to be in this particular order, 
 however it is necessary that they be labelled correctly and contain the information below:
 \describe{
  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
- \item{\code{"deck"}}{A nominal integer representing which deck was chosen within the given trial (e.g. A, B, C, or D == 1, 2, 3, or 4 in the IGT).}
+ \item{\code{"choice"}}{A nominal integer representing which deck was chosen within the given trial (e.g. A, B, C, or D == 1, 2, 3, or 4 in the IGT).}
  \item{\code{"gain"}}{A floating number representing the amount of currency won on the given trial (e.g. 50, 50, 100).}
  \item{\code{"loss"}}{A floating number representing the amount of currency lost on the given trial (e.g. 0, -50).}
 } 
@@ -127,4 +127,3 @@ Journal of Machine Learning Research, 15(1), 1593-1623.
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
 }
-

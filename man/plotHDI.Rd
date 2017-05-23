@@ -30,4 +30,3 @@ A vector containing the limits of the HDI
 \description{
 Based on John Kruschke's codes \url{http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/}
 }
-

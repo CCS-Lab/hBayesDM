@@ -3,7 +3,7 @@ data {
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
   int<lower=1,upper=2> choice[N, T];
-  real rewlos[N, T];
+  real outcome[N, T];
 }
 transformed data {
   vector[2] initV;
@@ -52,15 +52,15 @@ model {
     # Initialize values    
     ev = initV; # initial ev values
         
-    for (t in 1:(Tsubj[i]-1)) {
+    for (t in 1:Tsubj[i]) {
+      # Softmax choice
+      choice[i, t] ~ categorical_logit( ev * beta[i] );
+      
       # Prediction Error
-      PE = rewlos[i,t] - ev[ choice[i,t]];
+      PE = outcome[i,t] - ev[ choice[i,t]];
             
       # Update expected value of chosen stimulus
-      ev[ choice[i,t]] = ev[ choice[i,t]] + (Apun[i] * (1-rewlos[i,t])) * PE + (Arew[i] * (rewlos[i,t])) * PE;
-          
-      # Softmax choice
-      choice[i, t+1] ~ categorical_logit( ev * beta[i] );
+      ev[ choice[i,t]] = ev[ choice[i,t]] + (Apun[i] * (1-outcome[i,t])) * PE + (Arew[i] * (outcome[i,t])) * PE;
     }
   }
 }
@@ -88,15 +88,15 @@ generated quantities {
       ev = initV; # initial ev values
       log_lik[i] = 0;
             
-      for (t in 1:(Tsubj[i]-1)) {
+      for (t in 1:Tsubj[i]) {
+        # Softmax choice
+        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | ev * beta[i]);
+        
         # Prediction Error
-        PE = rewlos[i,t] - ev[ choice[i,t]];
+        PE = outcome[i,t] - ev[ choice[i,t]];
                 
         # Update expected value of chosen stimulus
-        ev[ choice[i,t]] = ev[ choice[i,t]] + (Apun[i] * (1-rewlos[i,t])) * PE + (Arew[i] * (rewlos[i,t])) * PE;
-                
-        # Softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t+1] | ev * beta[i]);
+        ev[ choice[i,t]] = ev[ choice[i,t]] + (Apun[i] * (1-outcome[i,t])) * PE + (Arew[i] * (outcome[i,t])) * PE;
       }
     }
   }

@@ -102,7 +102,7 @@ generated quantities {
     
       log_lik[i] = 0;
 
-      for (t in 1:T)  {
+      for (t in 1:Tsubj[i])  {
         wv_g[ cue[i,t] ]  = qv_g[ cue[i,t] ] + b[i];
         wv_ng[ cue[i,t] ] = qv_ng[ cue[i,t] ];  # qv_ng is always equal to wv_ng (regardless of action)      
         pGo[ cue[i,t] ]   = inv_logit( wv_g[ cue[i,t] ] - wv_ng[ cue[i,t] ] ); 

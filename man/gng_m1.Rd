@@ -59,7 +59,7 @@ This section describes some of the function arguments in greater detail.
 
 \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 represent variables. For the Go/No-Go Task, there should be four columns of data with the labels "subjID", 
 "cue", "keyPressed", and "outcome". It is not necessary for the columns to be in this particular order, 
 however it is necessary that they be labelled correctly and contain the information below:
@@ -123,4 +123,3 @@ Journal of Machine Learning Research, 15(1), 1593-1623.
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
 }
-

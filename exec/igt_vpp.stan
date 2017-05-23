@@ -2,8 +2,8 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
-  real rewlos[N, T];
-  int ydata[N, T];
+  real outcome[N, T];
+  int choice[N, T];
 }
 transformed data {
   vector[4] initV;
@@ -82,25 +82,28 @@ model {
     
     # Initialize values
     theta = pow(3, cons[i]) -1;
-    ev = initV; # initial ev values
-    pers = initV; # initial pers values
+    ev    = initV; # initial ev values
+    pers  = initV; # initial pers values
+    V     = initV; 
 
-    for (t in 1:(Tsubj[i]-1)) {
+    for (t in 1:Tsubj[i]) {
+      # softmax choice
+      choice[i, t] ~ categorical_logit( theta * V );
+      
+      # perseverance decay
       pers = pers * K[i]; # decay
-      if ( rewlos[i,t] >= 0) {  # x(t) >= 0
-        curUtil = pow(rewlos[i,t], alpha[i]);
-        pers[ ydata[i,t] ] = pers[ ydata[i,t] ] + epP[i];  # perseverance term
+      
+      if ( outcome[i,t] >= 0) {  # x(t) >= 0
+        curUtil = pow(outcome[i,t], alpha[i]);
+        pers[ choice[i,t] ] = pers[ choice[i,t] ] + epP[i];  # perseverance term
       } else {                  # x(t) < 0
-        curUtil = -1 * lambda[i] * pow( -1*rewlos[i,t], alpha[i]);
-        pers[ ydata[i,t] ] = pers[ ydata[i,t] ] + epN[i];  # perseverance term
+        curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
+        pers[ choice[i,t] ] = pers[ choice[i,t] ] + epN[i];  # perseverance term
       }
 
-      ev[ ydata[i, t] ] = ev[ ydata[i, t] ] + A[i] * (curUtil - ev[ ydata[i, t] ] );
+      ev[ choice[i, t] ] = ev[ choice[i, t] ] + A[i] * (curUtil - ev[ choice[i, t] ] );
       # calculate V
       V = w[i]*ev + (1-w[i])*pers;
-      # softmax choice
-      ydata[i, t+1] ~ categorical_logit( theta * V );
-      
     }
   }
 }
@@ -145,22 +148,26 @@ generated quantities {
       theta      = pow(3, cons[i]) -1;
       ev         = initV; # initial ev values
       pers       = initV; # initial pers values
+      V          = initV;
   
-      for (t in 1:(Tsubj[i]-1)) {
+      for (t in 1:Tsubj[i]) {
+        # softmax choice
+        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | theta * V );
+        
+        # perseverance decay
         pers = pers * K[i]; # decay
-        if ( rewlos[i,t] >= 0) {  # x(t) >= 0
-          curUtil = pow(rewlos[i,t], alpha[i]);
-          pers[ ydata[i,t] ] = pers[ ydata[i,t] ] + epP[i];  # perseverance term
+        
+        if ( outcome[i,t] >= 0) {  # x(t) >= 0
+          curUtil = pow(outcome[i,t], alpha[i]);
+          pers[ choice[i,t] ] = pers[ choice[i,t] ] + epP[i];  # perseverance term
         } else {                  # x(t) < 0
-          curUtil = -1 * lambda[i] * pow( -1*rewlos[i,t], alpha[i]);
-          pers[ ydata[i,t] ] = pers[ ydata[i,t] ] + epN[i];  # perseverance term
+          curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
+          pers[ choice[i,t] ] = pers[ choice[i,t] ] + epN[i];  # perseverance term
         }
   
-        ev[ ydata[i, t] ] = ev[ ydata[i, t] ] + A[i] * (curUtil - ev[ ydata[i, t] ] );
+        ev[ choice[i, t] ] = ev[ choice[i, t] ] + A[i] * (curUtil - ev[ choice[i, t] ] );
         # calculate V
         V = w[i]*ev + (1-w[i])*pers;
-        # softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf( ydata[i, t+1] | theta * V );
       }
     }
   }  

@@ -40,7 +40,7 @@
 #' 
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-#' The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
+#' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 #' represent variables. For the Go/No-Go Task, there should be four columns of data with the labels "subjID", 
 #' "cue", "keyPressed", and "outcome". It is not necessary for the columns to be in this particular order, 
 #' however it is necessary that they be labelled correctly and contain the information below:
@@ -123,13 +123,10 @@ gng_m2 <- function(data          = "choose",
   
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    modelPath <- system.file("exec", "gng_m2_reg.stan", package="hBayesDM")
     cat("************************************\n")
     cat("** Extract model-based regressors **\n")
     cat("************************************\n")
-  } else {
-    modelPath <- system.file("exec", "gng_m2.stan", package="hBayesDM")
-  }
+  } 
   
   # To see how long computations take
   startTime <- Sys.time()    
@@ -245,19 +242,19 @@ gng_m2 <- function(data          = "choose",
   } else {
     genInitList <- "random"
   }
-  
   if (ncore > 1) {
     numCores <- parallel::detectCores()
-    if (numCores < ncore) {
+    if (numCores < ncore){
       options(mc.cores = numCores)
-      warning("Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.")
-    } else {
+      warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
+    }
+    else{
       options(mc.cores = ncore)
     }
-  } else {
+  }
+  else {
     options(mc.cores = 1)
   }
-  
   
   cat("***********************************\n")
   cat("**  Loading a precompiled model  **\n")
@@ -270,16 +267,16 @@ gng_m2 <- function(data          = "choose",
     m = stanmodels$gng_m2
   }
   fit <- rstan::sampling(m,
-                     data   = dataList, 
-                     pars   = POI,
-                     warmup = nwarmup,
-                     init   = genInitList, 
-                     iter   = niter, 
-                     chains = nchain,
-                     thin   = nthin,
-                     control = list(adapt_delta   = adapt_delta, 
-                                    max_treedepth = max_treedepth, 
-                                    stepsize      = stepsize) )
+                         data   = dataList, 
+                         pars   = POI,
+                         warmup = nwarmup,
+                         init   = genInitList, 
+                         iter   = niter, 
+                         chains = nchain,
+                         thin   = nthin,
+                         control = list(adapt_delta   = adapt_delta, 
+                                        max_treedepth = max_treedepth, 
+                                        stepsize      = stepsize) )
   
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)

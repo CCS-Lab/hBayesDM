@@ -3,7 +3,7 @@ data {
   int<lower=1> T;
   int<lower=1,upper=T> Tsubj[N];
   int<lower=1,upper=2> choice[N, T];
-  real rewlos[N, T];
+  real outcome[N, T];
 }
 transformed data {
   vector[2] initV;
@@ -61,8 +61,8 @@ model {
       choice[i,t] ~ categorical( prob );
 
       # prediction error
-      PE   =  rewlos[i,t] - ev[choice[i,t]];
-      PEnc = -rewlos[i,t] - ev[3-choice[i,t]];
+      PE   =  outcome[i,t] - ev[choice[i,t]];
+      PEnc = -outcome[i,t] - ev[3-choice[i,t]];
 
       # value updating (learning)
       ev[choice[i,t]]   = ev[choice[i,t]]   + eta[i] * PE; 
@@ -104,8 +104,8 @@ generated quantities {
         log_lik[i] = log_lik[i] + categorical_lpmf( choice[i, t] | prob );
 
         # prediction error
-        PE   =  rewlos[i,t] - ev[choice[i,t]];
-        PEnc = -rewlos[i,t] - ev[3-choice[i,t]];
+        PE   =  outcome[i,t] - ev[choice[i,t]];
+        PEnc = -outcome[i,t] - ev[3-choice[i,t]];
 
         # value updating (learning)
         ev[choice[i,t]]   = ev[choice[i,t]]   + eta[i] * PE; 
