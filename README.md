@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 hBayesDM
 ========
@@ -25,9 +30,9 @@ instructions, please go to this link:
 **You need to install the hBayesDM from CRAN.** The GitHub version
 precompiles all Stan models, which makes it faster to start MCMC
 sampling. But it may cause some memory allocation issues on a Windows
-machine.
-
-
+machine.  
+<br>
+<br>
 **(For Mac/Linux users)** We strongly recommend users install this
 GitHub version. The GitHub version in the master repository is identical
 to the CRAN version, except that all models are precompiled in the
