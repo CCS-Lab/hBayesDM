@@ -26,6 +26,9 @@ instructions, please go to this link:
 precompiles all Stan models, which makes it faster to start MCMC
 sampling. But it may cause some memory allocation issues on a Windows
 machine.   
+``` r
+install.packages("hBayesDM", dependencies = T)
+```
 <br><br>   
 
 **(For Mac/Linux users)** We strongly recommend users install this
