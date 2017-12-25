@@ -1,4 +1,4 @@
-# Seymour et al 2012 J neuro model, w/o C (chioce perseveration) but with xi (lapse rate)
+// Seymour et al 2012 J neuro model, w/o C (chioce perseveration) but with xi (lapse rate)
 data {
   int<lower=1> N;
   int<lower=1> T;
@@ -12,12 +12,12 @@ transformed data {
   initV = rep_vector(0.0, 4);
 }
 parameters {
-  # Declare all parameters as vectors for vectorizing
-  # Hyper(group)-parameters  
+  // Declare all parameters as vectors for vectorizing
+  // Hyper(group)-parameters  
   vector[5] mu_p;  
   vector<lower=0>[5] sigma;
     
-  # Subject-level raw parameters (for Matt trick)
+  // Subject-level raw parameters (for Matt trick)
   vector[N] Arew_pr;
   vector[N] Apun_pr;
   vector[N] R_pr;
@@ -25,7 +25,7 @@ parameters {
   vector[N] xi_pr;
 }
 transformed parameters {
-  # Transform subject-level raw parameters
+  // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] Arew;
   vector<lower=0, upper=1>[N] Apun;
   vector<lower=0>[N] R;
@@ -41,11 +41,11 @@ transformed parameters {
   }
 }
 model {
-  # Hyperparameters
+  // Hyperparameters
   mu_p  ~ normal(0, 1);
   sigma ~ cauchy(0, 5);
   
-  # individual parameters
+  // individual parameters
   Arew_pr  ~ normal(0, 1.0);
   Apun_pr  ~ normal(0, 1.0);
   R_pr     ~ normal(0, 1.0);
@@ -53,60 +53,70 @@ model {
   xi_pr    ~ normal(0, 1.0);
 
   for (i in 1:N) {
-    # Define values
+    // Define values
     vector[4] Qr;
     vector[4] Qp;
-    vector[4] PEr_fic; # prediction error - for reward fictive updating (for unchosen options)
-    vector[4] PEp_fic; # prediction error - for punishment fictive updating (for unchosen options)
-    vector[4] Qsum;    # Qsum = Qrew + Qpun + perseverance 
+    vector[4] PEr_fic; // prediction error - for reward fictive updating (for unchosen options)
+    vector[4] PEp_fic; // prediction error - for punishment fictive updating (for unchosen options)
+    vector[4] Qsum;    // Qsum = Qrew + Qpun + perseverance 
 
     real Qr_chosen;
     real Qp_chosen;
-    real PEr; # prediction error - for reward of the chosen option
-    real PEp; # prediction error - for punishment of the chosen option
+    real PEr; // prediction error - for reward of the chosen option
+    real PEp; // prediction error - for punishment of the chosen option
     
-    # Initialize values
+    // Initialize values
     Qr    = initV;
     Qp    = initV;
     Qsum  = initV;
 
     for (t in 1:Tsubj[i]) {
-      # softmax choice + xi (noise)
+      // softmax choice + xi (noise)
       choice[i,t] ~ categorical( softmax(Qsum)*(1-xi[i]) + xi[i]/4 );
       
-      # Prediction error signals
+      // Prediction error signals
       PEr     = R[i]*rew[i,t] - Qr[ choice[i,t]];
       PEp     = P[i]*los[i,t] - Qp[ choice[i,t]];
       PEr_fic = -Qr;
       PEp_fic = -Qp;
 
-      # store chosen deck Q values (rew and pun)
+      // store chosen deck Q values (rew and pun)
       Qr_chosen = Qr[ choice[i,t]];
       Qp_chosen = Qp[ choice[i,t]];
       
-      # First, update Qr & Qp for all decks w/ fictive updating   
+      // First, update Qr & Qp for all decks w/ fictive updating   
       Qr = Qr + Arew[i] * PEr_fic;
       Qp = Qp + Apun[i] * PEp_fic;
-      # Replace Q values of chosen deck with correct values using stored values
+      // Replace Q values of chosen deck with correct values using stored values
       Qr[ choice[i,t]] = Qr_chosen + Arew[i] * PEr;
       Qp[ choice[i,t]] = Qp_chosen + Apun[i] * PEp;
       
-      # Q(sum)
+      // Q(sum)
       Qsum = Qr + Qp; 
     }
   }
 }
 
 generated quantities {
-  # For group level parameters
+  // For group level parameters
   real<lower=0,upper=1> mu_Arew;
   real<lower=0,upper=1> mu_Apun;
   real<lower=0> mu_R;
   real<lower=0> mu_P;
   real<lower=0,upper=1> mu_xi;
   
-  # For log likelihood calculation
+  // For log likelihood calculation
   real log_lik[N];
+  
+  // For posterior predictive check
+  real y_pred[N,T]; 
+  
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      y_pred[i,t] = -1;
+    }
+  }
 
   mu_Arew = Phi_approx(mu_p[1]);
   mu_Apun = Phi_approx(mu_p[2]);
@@ -114,48 +124,51 @@ generated quantities {
   mu_P    = Phi_approx(mu_p[4])*30;
   mu_xi   = Phi_approx(mu_p[5]);
   
-  { # local section, this saves time and space
+  { // local section, this saves time and space
     for (i in 1:N) {
-      # Define values
+      // Define values
       vector[4] Qr;
       vector[4] Qp;
-      vector[4] PEr_fic; # prediction error - for reward fictive updating (for unchosen options)
-      vector[4] PEp_fic; # prediction error - for punishment fictive updating (for unchosen options)
-      vector[4] Qsum;    # Qsum = Qrew + Qpun + perseverance 
+      vector[4] PEr_fic; // prediction error - for reward fictive updating (for unchosen options)
+      vector[4] PEp_fic; // prediction error - for punishment fictive updating (for unchosen options)
+      vector[4] Qsum;    // Qsum = Qrew + Qpun + perseverance 
   
       real Qr_chosen;
       real Qp_chosen;
-      real PEr; # prediction error - for reward of the chosen option
-      real PEp; # prediction error - for punishment of the chosen option
+      real PEr; // prediction error - for reward of the chosen option
+      real PEp; // prediction error - for punishment of the chosen option
       
-      # Initialize values
+      // Initialize values
       Qr   = initV;
       Qp   = initV;
       Qsum  = initV;
       log_lik[i] = 0.0;
   
       for (t in 1:Tsubj[i]) {
-        # softmax choice
+        // compute log likelihood of current trial
         log_lik[i] = log_lik[i] + categorical_lpmf( choice[i,t] | softmax(Qsum)*(1-xi[i]) + xi[i]/4 );
         
-        # Prediction error signals
+        // generate posterior prediction for current trial
+        y_pred[i,t] = categorical_rng(softmax(Qsum)*(1-xi[i]) + xi[i]/4 );
+        
+        // Prediction error signals
         PEr     = R[i]*rew[i,t] - Qr[ choice[i,t]];
         PEp     = P[i]*los[i,t] - Qp[ choice[i,t]];
         PEr_fic = -Qr;
         PEp_fic = -Qp;
   
-        # store chosen deck Q values (rew and pun)
+        // store chosen deck Q values (rew and pun)
         Qr_chosen = Qr[ choice[i,t]];
         Qp_chosen = Qp[ choice[i,t]];
         
-        # First, update Qr & Qp for all decks w/ fictive updating   
+        // First, update Qr & Qp for all decks w/ fictive updating   
         Qr = Qr + Arew[i] * PEr_fic;
         Qp = Qp + Apun[i] * PEp_fic;
-        # Replace Q values of chosen deck with correct values using stored values
+        // Replace Q values of chosen deck with correct values using stored values
         Qr[ choice[i,t]] = Qr_chosen + Arew[i] * PEr;
         Qp[ choice[i,t]] = Qp_chosen + Apun[i] * PEp;
         
-        # Q(sum)
+        // Q(sum)
         Qsum = Qr + Qp; 
       }
     }

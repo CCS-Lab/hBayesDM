@@ -6,8 +6,8 @@
 \usage{
 prl_rp_multipleB(data = "choice", niter = 3000, nwarmup = 1000,
   nchain = 1, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", saveDir = NULL, email = NULL,
-  modelRegressor = FALSE, adapt_delta = 0.95, stepsize = 1,
+  indPars = "mean", saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
+  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10)
 }
 \arguments{
@@ -29,9 +29,11 @@ prl_rp_multipleB(data = "choice", niter = 3000, nwarmup = 1000,
 
 \item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
 
-\item{email}{Character value containing email address to send notification of completion. Leave blank if not interested.}
-
 \item{modelRegressor}{Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.}
+
+\item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.}
+
+\item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.}
 
 \item{adapt_delta}{Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
 

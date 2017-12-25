@@ -2,7 +2,7 @@
 #' @docType package
 #' @name hBayesDM-package
 #' @aliases hBayesDM 
-#' @useDynLib hBayesDM, .registration = TRUE
+#' @useDynLib hBayesDM, .registration = TRUE 
 #' 
 #' @import methods
 #' @import Rcpp
@@ -26,11 +26,13 @@
 #'  \item{\strong{Iowa Gambling}}{Prospect Valence Learning-DecayRI --- \link{igt_pvl_decay} \cr
 #'                                Prospect Valence Learning-Delta --- \link{igt_pvl_delta} \cr
 #'                                Value-Plus_Perseverance --- \link{igt_vpp}}
+#'  \item{\strong{Peer influence task}}{OCU model --- \link{peer_ocu}}
 #'  \item{\strong{Probabilistic Reversal Learning}}{Fictitious Update --- \link{prl_fictitious} \cr
 #'                                                  Fictitious Update and multiple blocks per subject --- \link{prl_fictitious_multipleB} \cr
 #'                                                  Experience-Weighted Attraction --- \link{prl_ewa} \cr
 #'                                                  Reward-Punishment --- \link{prl_rp} \cr
-#'                                                  Reward-Punishment and multiple blocks per subject --- \link{prl_rp_multipleB}}
+#'                                                  Reward-Punishment and multiple blocks per subject --- \link{prl_rp_multipleB} \cr
+#'                                                  Fictitious Update with separate learning for Reward-Punishment --- \link{prl_fictitious_rp}}
 #'  \item{\strong{Risk Aversion}}{Prospect Theory (PT) --- \link{ra_prospect} \cr
 #'                                PT without a loss aversion parameter --- \link{ra_noLA} \cr
 #'                                PT without a risk aversion parameter --- \link{ra_noRA}}
@@ -50,7 +52,7 @@
 #' Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. \emph{Computational Psychiatry}. 1:1. https://doi.org/10.1101/064287
 #'
 #' @author
-#' Woo-Young Ahn \email{ahn.280@@osu.edu}
+#' Woo-Young Ahn \email{wooyoung.ahn@@gmail.com}
 #'
 #' Nathaniel Haines \email{haines.175@@osu.edu}
 #'

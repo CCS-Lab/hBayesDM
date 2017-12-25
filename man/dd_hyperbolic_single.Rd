@@ -4,10 +4,10 @@
 \alias{dd_hyperbolic_single}
 \title{Delay Discounting Task (Ebert & Prelec, 2007)}
 \usage{
-dd_hyperbolic_single(data = NULL, niter = 3000, nwarmup = 1000,
+dd_hyperbolic_single(data = "choose", niter = 3000, nwarmup = 1000,
   nchain = 4, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", saveDir = NULL, email = NULL,
-  modelRegressor = FALSE, adapt_delta = 0.95, stepsize = 1,
+  indPars = "mean", saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
+  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10)
 }
 \arguments{
@@ -29,9 +29,11 @@ dd_hyperbolic_single(data = NULL, niter = 3000, nwarmup = 1000,
 
 \item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
 
-\item{email}{Character value containing email address to send notification of completion. Leave blank if not interested.}
-
 \item{modelRegressor}{Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.}
+
+\item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.}
+
+\item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.}
 
 \item{adapt_delta}{Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
 
@@ -42,7 +44,7 @@ dd_hyperbolic_single(data = NULL, niter = 3000, nwarmup = 1000,
 \value{
 \code{modelData}  A class \code{'hBayesDM'} object with the following components:
 \describe{
- \item{\code{model}}{Character string with the name of the model (\code{"dd_hyperbolic_single"}).}
+ \item{\code{model}}{Character string with the name of the model ("dd_hyperbolic_single").}
  \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter 
    values (as specified by \code{'indPars'}) for each subject.}
  \item{\code{parVals}}{A \code{'list'} where each element contains posterior samples

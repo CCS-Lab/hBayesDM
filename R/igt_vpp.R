@@ -16,15 +16,16 @@
 #' @param indPars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
 #' @param saveDir Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.
 #' @param payscale Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100
-#' @param email Character value containing email address to send notification of completion. Leave blank if not interested. 
 #' @param modelRegressor Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.
+#' @param vb             Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.
+#' @param inc_postpred Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.
 #' @param adapt_delta Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.
 #' @param max_treedepth Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below. 
 #'  
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"igt_vpp"}).}
+#'  \item{\code{model}}{Character string with the name of the model ("igt_vpp").}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter 
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -33,8 +34,8 @@
 #'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 #' }
 #' 
-#' @importFrom rstan stan rstan_options extract
-#' @importFrom mail sendmail
+#' @importFrom rstan vb sampling stan_model rstan_options extract
+#' @importFrom parallel detectCores
 #' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #' 
@@ -109,21 +110,22 @@
 #' printFit(output)
 #' }
 
-igt_vpp <- function(data          = "choose",
-                    niter         = 3000, 
-                    nwarmup       = 1000,
-                    nchain        = 4,
-                    ncore         = 1, 
-                    nthin         = 1,
-                    inits         = "random",
-                    indPars       = "mean", 
-                    payscale      = 100,
-                    saveDir       = NULL,
-                    email         = NULL,
-                    modelRegressor= FALSE,
-                    adapt_delta   = 0.95,
-                    stepsize      = 1,
-                    max_treedepth = 10 ) {
+igt_vpp <- function(data           = "choose",
+                    niter          = 3000, 
+                    nwarmup        = 1000,
+                    nchain         = 4,
+                    ncore          = 1, 
+                    nthin          = 1,
+                    inits          = "random",
+                    indPars        = "mean", 
+                    payscale       = 100,
+                    saveDir        = NULL,
+                    modelRegressor = FALSE,
+                    vb             = FALSE,
+                    inc_postpred   = FALSE,
+                    adapt_delta    = 0.95,
+                    stepsize       = 1,
+                    max_treedepth  = 10 ) {
   
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
@@ -165,16 +167,24 @@ igt_vpp <- function(data          = "choose",
                "A", "alpha", "cons", "lambda", "epP", "epN", "K", "w",
                "log_lik")
   
+  if (inc_postpred) {
+    POI <- c(POI, "y_pred")
+  }
+  
   modelName <- "igt_vpp"
   
   # Information for user
   cat("\nModel name = ", modelName, "\n")
   cat("Data file  = ", data, "\n")
   cat("\nDetails:\n")
-  cat(" # of chains                   = ", nchain, "\n")
-  cat(" # of cores used               = ", ncore, "\n")
-  cat(" # of MCMC samples (per chain) = ", niter, "\n")
-  cat(" # of burn-in samples          = ", nwarmup, "\n")
+  if (vb) {
+    cat(" # Using variational inference # \n")
+  } else {
+    cat(" # of chains                   = ", nchain, "\n")
+    cat(" # of cores used               = ", ncore, "\n")
+    cat(" # of MCMC samples (per chain) = ", niter, "\n")
+    cat(" # of burn-in samples          = ", nwarmup, "\n")
+  }
   cat(" # of subjects                 = ", numSubjs, "\n")
   cat(" # Payscale                    = ", payscale, "\n")
   
@@ -195,7 +205,7 @@ igt_vpp <- function(data          = "choose",
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
   
   RLmatrix <- array( 0, c(numSubjs, maxTrials ) )
-  Ydata    <- array(1, c(numSubjs, maxTrials) )
+  Ydata    <- array(-1, c(numSubjs, maxTrials) )
   
   for ( subjIdx in 1:numSubjs )   {
     #number of trials for each subj.
@@ -247,17 +257,17 @@ igt_vpp <- function(data          = "choose",
   } else {
     genInitList <- "random"
   }
+
+  # For parallel computing if using multi-cores
   if (ncore > 1) {
     numCores <- parallel::detectCores()
-    if (numCores < ncore){
+    if (numCores < ncore) {
       options(mc.cores = numCores)
-      warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
-    }
-    else{
+      warning("Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.")
+    } else {
       options(mc.cores = ncore)
     }
-  }
-  else {
+  } else {
     options(mc.cores = 1)
   }
   
@@ -267,21 +277,30 @@ igt_vpp <- function(data          = "choose",
   
   # Fit the Stan model
   m = stanmodels$igt_vpp
-  fit <- rstan::sampling(m,
-                         data   = dataList, 
-                         pars   = POI,
-                         warmup = nwarmup,
-                         init   = genInitList, 
-                         iter   = niter, 
-                         chains = nchain,
-                         thin   = nthin,
-                         control = list(adapt_delta   = adapt_delta, 
-                                        max_treedepth = max_treedepth, 
-                                        stepsize      = stepsize) )
-
+  if (vb) {   # if variational Bayesian
+    fit = rstan::vb(m, 
+                    data   = dataList, 
+                    pars   = POI,
+                    init   = genInitList)
+  } else {
+    fit = rstan::sampling(m, 
+                          data   = dataList, 
+                          pars   = POI,
+                          warmup = nwarmup,
+                          init   = genInitList, 
+                          iter   = niter, 
+                          chains = nchain,
+                          thin   = nthin,
+                          control = list(adapt_delta   = adapt_delta, 
+                                         max_treedepth = max_treedepth, 
+                                         stepsize      = stepsize) )
+  }
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)
-
+  if (inc_postpred) {
+    parVals$y_pred[parVals$y_pred==-1] <- NA
+  }
+  
   A      <- parVals$A
   alpha  <- parVals$alpha
   cons   <- parVals$cons
@@ -290,7 +309,7 @@ igt_vpp <- function(data          = "choose",
   epN    <- parVals$epN
   K      <- parVals$K
   w      <- parVals$w
-
+  
   # Individual parameters (e.g., individual posterior means)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
@@ -357,11 +376,6 @@ igt_vpp <- function(data          = "choose",
     save(modelData, file=file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData"  ) ) )
   }
   
-  # Send email to notify user of completion
-  if (is.null(email)==F) {
-    mail::sendmail(email, paste("model=", modelName, ", fileName = ", data),
-                   paste("Check ", getwd(), ". It took ", as.character.Date(timeTook), sep="") )
-  }
   # Inform user of completion
   cat("\n************************************\n")
   cat("**** Model fitting is complete! ****\n")

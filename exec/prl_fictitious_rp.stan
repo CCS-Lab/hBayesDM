@@ -10,27 +10,30 @@ transformed data {
   initV = rep_vector(0.0, 2);
 }
 parameters {
-// Declare all parameters as vectors for vectorizing
+  // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters  
-  vector[3] mu_p;  
-  vector<lower=0>[3] sigma;
+  vector[4] mu_p;  
+  vector<lower=0>[4] sigma;
     
   // Subject-level raw parameters (for Matt trick)
-  vector[N] eta_pr;   // learning rate
+  vector[N] eta_pos_pr;   // learning rate, positive PE
+  vector[N] eta_neg_pr;   // learning rate, negative PE
   vector[N] alpha_pr; // indecision point
   vector[N] beta_pr;  // inverse temperature
 }
 
 transformed parameters {
   // Transform subject-level raw parameters
-  vector<lower=0,upper=1>[N] eta;
+  vector<lower=0,upper=1>[N] eta_pos;
+  vector<lower=0,upper=1>[N] eta_neg;
   vector<lower=0,upper=1>[N] alpha;
   vector<lower=0,upper=5>[N] beta;
         
   for (i in 1:N) {
-    eta[i]   = Phi_approx( mu_p[1] + sigma[1] * eta_pr[i] );
-    alpha[i] = Phi_approx( mu_p[2] + sigma[2] * alpha_pr[i] );
-    beta[i]  = Phi_approx( mu_p[3] + sigma[3] * beta_pr[i] ) * 5;
+    eta_pos[i]   = Phi_approx( mu_p[1] + sigma[1] * eta_pos_pr[i] );
+    eta_neg[i]   = Phi_approx( mu_p[2] + sigma[2] * eta_neg_pr[i] );
+    alpha[i]     = Phi_approx( mu_p[3] + sigma[3] * alpha_pr[i] );
+    beta[i]      = Phi_approx( mu_p[4] + sigma[4] * beta_pr[i] ) * 5;
   }
 }
 
@@ -40,9 +43,10 @@ model {
   sigma ~ cauchy(0, 5);
   
   // individual parameters
-  eta_pr    ~ normal(0,1);
-  alpha_pr  ~ normal(0,1);
-  beta_pr   ~ normal(0,1);
+  eta_pos_pr ~ normal(0,1);
+  eta_neg_pr ~ normal(0,1);
+  alpha_pr   ~ normal(0,1);
+  beta_pr    ~ normal(0,1);
     
   for (i in 1:N) {
     // Define values
@@ -65,15 +69,21 @@ model {
       PEnc = -outcome[i,t] - ev[3-choice[i,t]];
 
       // value updating (learning)
-      ev[choice[i,t]]   = ev[choice[i,t]]   + eta[i] * PE; 
-      ev[3-choice[i,t]] = ev[3-choice[i,t]] + eta[i] * PEnc;
+      if (PE >=0) {
+        ev[choice[i,t]]   = ev[choice[i,t]]   + eta_pos[i] * PE; 
+        ev[3-choice[i,t]] = ev[3-choice[i,t]] + eta_pos[i] * PEnc;
+      } else {
+        ev[choice[i,t]]   = ev[choice[i,t]]   + eta_neg[i] * PE; 
+        ev[3-choice[i,t]] = ev[3-choice[i,t]] + eta_neg[i] * PEnc;
+      }
     }
   }
 }
 
 generated quantities {
   // For group level parameters
-  real<lower=0,upper=1> mu_eta;
+  real<lower=0,upper=1> mu_eta_pos;
+  real<lower=0,upper=1> mu_eta_neg;
   real<lower=0,upper=1> mu_alpha;
   real<lower=0,upper=5> mu_beta;
   
@@ -90,9 +100,10 @@ generated quantities {
     }
   }
 
-  mu_eta    = Phi_approx(mu_p[1]);
-  mu_alpha  = Phi_approx(mu_p[2]);
-  mu_beta   = Phi_approx(mu_p[3]) * 5;
+  mu_eta_pos = Phi_approx(mu_p[1]);
+  mu_eta_neg = Phi_approx(mu_p[2]);
+  mu_alpha   = Phi_approx(mu_p[3]);
+  mu_beta    = Phi_approx(mu_p[4]) * 5;
     
   { // local section, this saves time and space
     for (i in 1:N) {
@@ -121,8 +132,13 @@ generated quantities {
         PEnc = -outcome[i,t] - ev[3-choice[i,t]];
 
         // value updating (learning)
-        ev[choice[i,t]]   = ev[choice[i,t]]   + eta[i] * PE; 
-        ev[3-choice[i,t]] = ev[3-choice[i,t]] + eta[i] * PEnc;
+        if (PE >=0) {
+          ev[choice[i,t]]   = ev[choice[i,t]]   + eta_pos[i] * PE; 
+          ev[3-choice[i,t]] = ev[3-choice[i,t]] + eta_pos[i] * PEnc;
+        } else {
+          ev[choice[i,t]]   = ev[choice[i,t]]   + eta_neg[i] * PE; 
+          ev[3-choice[i,t]] = ev[3-choice[i,t]] + eta_neg[i] * PEnc;
+        }
       }
     }
   }

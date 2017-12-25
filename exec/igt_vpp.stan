@@ -10,12 +10,12 @@ transformed data {
   initV  = rep_vector(0.0, 4);
 }
 parameters {
-# Declare all parameters as vectors for vectorizing
-  # Hyper(group)-parameters  
+// Declare all parameters as vectors for vectorizing
+  // Hyper(group)-parameters  
   vector[8] mu_p;  
   vector<lower=0>[8] sigma;
     
-  # Subject-level raw parameters (for Matt trick)
+  // Subject-level raw parameters (for Matt trick)
   vector[N] A_pr;
   vector[N] alpha_pr;
   vector[N] cons_pr;
@@ -26,7 +26,7 @@ parameters {
   vector[N] w_pr;
 }
 transformed parameters {
-  # Transform subject-level raw parameters
+  // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N]  A;
   vector<lower=0, upper=2>[N]  alpha;
   vector<lower=0, upper=5>[N]  cons;
@@ -48,7 +48,7 @@ transformed parameters {
   epN = mu_p[6] + sigma[6] * epN_pr;
 }
 model {
-  # Hyperparameters
+  // Hyperparameters
   mu_p[1]  ~ normal(0, 1.0); 
   mu_p[2]  ~ normal(0, 1.0); 
   mu_p[3]  ~ normal(0, 1.0); 
@@ -59,7 +59,7 @@ model {
   mu_p[8]  ~ normal(0, 1.0); 
   sigma ~ cauchy(0, 5);
   
-  # individual parameters
+  // individual parameters
   A_pr      ~ normal(0, 1.0);
   alpha_pr  ~ normal(0, 1.0);
   cons_pr   ~ normal(0, 1.0);
@@ -70,46 +70,46 @@ model {
   w_pr      ~ normal(0, 1.0);
 
   for (i in 1:N) {
-    # Define values
+    // Define values
     vector[4] ev;
     vector[4] p_next;
     vector[4] str;
-    vector[4] pers;   # perseverance
-    vector[4] V;   # weighted sum of ev and pers
+    vector[4] pers;   // perseverance
+    vector[4] V;   // weighted sum of ev and pers
 
-    real curUtil;     # utility of curFb
-    real theta;       # theta = 3^c - 1
+    real curUtil;     // utility of curFb
+    real theta;       // theta = 3^c - 1
     
-    # Initialize values
+    // Initialize values
     theta = pow(3, cons[i]) -1;
-    ev    = initV; # initial ev values
-    pers  = initV; # initial pers values
-    V     = initV; 
+    ev    = initV; // initial ev values
+    pers  = initV; // initial pers values
+    V     = initV;
 
     for (t in 1:Tsubj[i]) {
-      # softmax choice
+      // softmax choice
       choice[i, t] ~ categorical_logit( theta * V );
       
-      # perseverance decay
-      pers = pers * K[i]; # decay
+      // perseverance decay
+      pers = pers * K[i]; // decay
       
-      if ( outcome[i,t] >= 0) {  # x(t) >= 0
+      if ( outcome[i,t] >= 0) {  // x(t) >= 0
         curUtil = pow(outcome[i,t], alpha[i]);
-        pers[ choice[i,t] ] = pers[ choice[i,t] ] + epP[i];  # perseverance term
-      } else {                  # x(t) < 0
+        pers[ choice[i,t] ] = pers[ choice[i,t] ] + epP[i];  // perseverance term
+      } else {                  // x(t) < 0
         curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
-        pers[ choice[i,t] ] = pers[ choice[i,t] ] + epN[i];  # perseverance term
+        pers[ choice[i,t] ] = pers[ choice[i,t] ] + epN[i];  // perseverance term
       }
 
       ev[ choice[i, t] ] = ev[ choice[i, t] ] + A[i] * (curUtil - ev[ choice[i, t] ] );
-      # calculate V
+      // calculate V
       V = w[i]*ev + (1-w[i])*pers;
     }
   }
 }
 
 generated quantities {
-  # For group level parameters
+  // For group level parameters
   real<lower=0,upper=1>  mu_A;
   real<lower=0,upper=2>  mu_alpha;
   real<lower=0,upper=5>  mu_cons;
@@ -119,8 +119,18 @@ generated quantities {
   real<lower=0,upper=1> mu_K;
   real<lower=0,upper=1> mu_w;
   
-  # For log likelihood calculation
+  // For log likelihood calculation
   real log_lik[N];
+
+  // For posterior predictive check
+  real y_pred[N,T]; 
+  
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      y_pred[i,t] = -1;
+    }
+  }
 
   mu_A      = Phi_approx(mu_p[1]);
   mu_alpha  = Phi_approx(mu_p[2]) * 2;
@@ -131,42 +141,45 @@ generated quantities {
   mu_K      = Phi_approx(mu_p[7]);
   mu_w      = Phi_approx(mu_p[8]);
   
-  { # local section, this saves time and space
+  { // local section, this saves time and space
     for (i in 1:N) {
-      # Define values
+      // Define values
       vector[4] ev;
       vector[4] p_next;
       vector[4] str;
-      vector[4] pers;   # perseverance
-      vector[4] V;   # weighted sum of ev and pers
+      vector[4] pers;   // perseverance
+      vector[4] V;   // weighted sum of ev and pers
   
-      real curUtil;     # utility of curFb
-      real theta;       # theta = 3^c - 1
+      real curUtil;     // utility of curFb
+      real theta;       // theta = 3^c - 1
       
-      # Initialize values 
+      // Initialize values 
       log_lik[i] = 0;
       theta      = pow(3, cons[i]) -1;
-      ev         = initV; # initial ev values
-      pers       = initV; # initial pers values
+      ev         = initV; // initial ev values
+      pers       = initV; // initial pers values
       V          = initV;
   
       for (t in 1:Tsubj[i]) {
-        # softmax choice
+        // softmax choice
         log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | theta * V );
         
-        # perseverance decay
-        pers = pers * K[i]; # decay
+        // generate posterior prediction for current trial
+        y_pred[i,t] = categorical_rng(softmax(theta * V));
         
-        if ( outcome[i,t] >= 0) {  # x(t) >= 0
+        // perseverance decay
+        pers = pers * K[i]; // decay
+        
+        if ( outcome[i,t] >= 0) {  // x(t) >= 0
           curUtil = pow(outcome[i,t], alpha[i]);
-          pers[ choice[i,t] ] = pers[ choice[i,t] ] + epP[i];  # perseverance term
-        } else {                  # x(t) < 0
+          pers[ choice[i,t] ] = pers[ choice[i,t] ] + epP[i];  // perseverance term
+        } else {                  // x(t) < 0
           curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
-          pers[ choice[i,t] ] = pers[ choice[i,t] ] + epN[i];  # perseverance term
+          pers[ choice[i,t] ] = pers[ choice[i,t] ] + epN[i];  // perseverance term
         }
   
         ev[ choice[i, t] ] = ev[ choice[i, t] ] + A[i] * (curUtil - ev[ choice[i, t] ] );
-        # calculate V
+        // calculate V
         V = w[i]*ev + (1-w[i])*pers;
       }
     }

@@ -1,5 +1,5 @@
 #' Choice Reaction Time task, drift diffusion modeling
-#' 
+#'
 #' @description 
 #' Hierarchical Bayesian Modeling of choice/reaction time data with the following parameters: "alpha" (boundary separation), "beta" (bias), "delta" (drift rate), "tau" (non-decision time). 
 #' The code is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potentially others @ Stan mailing 
@@ -18,9 +18,10 @@
 #' @param inits Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.
 #' @param indPars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
 #' @param saveDir Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.
-#' @param email Character value containing email address to send notification of completion. Leave blank if not interested. 
 #' @param RTbound A floating point number representing the lower bound (i.e. minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).
 #' @param modelRegressor Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.
+#' @param vb             Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.
+#' @param inc_postpred (\strong{Not currently available for DDM models}) Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.
 #' @param adapt_delta Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.
 #' @param max_treedepth Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.
@@ -36,9 +37,9 @@
 #'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 #' } 
 #'
-#' @importFrom rstan stan rstan_options extract
-#' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom rstan vb sampling stan_model rstan_options extract
+#' @importFrom parallel detectCores
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #'
 #' @details 
@@ -113,15 +114,16 @@
 choiceRT_ddm <- function(data           = "choose",
                          niter          = 3000, 
                          nwarmup        = 1000, 
-                         nchain         = 2,
-                         ncore          = 2, 
+                         nchain         = 4,
+                         ncore          = 1, 
                          nthin          = 1,
                          inits          = "fixed",  
                          indPars        = "mean", 
                          saveDir        = NULL,
-                         email          = NULL,
                          RTbound        = 0.1,
                          modelRegressor = FALSE,
+                         vb             = FALSE,
+                         inc_postpred   = FALSE,
                          adapt_delta    = 0.95,
                          stepsize       = 1,
                          max_treedepth  = 10 ) {
@@ -133,7 +135,7 @@ choiceRT_ddm <- function(data           = "choose",
   
   # To see how long computations take
   startTime <- Sys.time()    
-
+  
   # For using example data
   if (data=="example") {
     data <- system.file("extdata", "choiceRT_exampleData.txt", package = "hBayesDM")
@@ -159,6 +161,10 @@ choiceRT_ddm <- function(data           = "choose",
                "alpha", "beta", "delta", "tau", 
                "log_lik")
   
+  if (inc_postpred) {
+    stop("Posterior Predictions are not yet available for this model. Please set inc_postpred to FALSE")
+  }
+  
   # parameters of the DDM (parameter names in Ratcliffs DDM), from https://github.com/gbiele/stan_wiener_test/blob/master/stan_wiener_test.R
   # alpha (a): Boundary separation or Speed-accuracy trade-off (high alpha means high accuracy). alpha > 0
   # beta (b): Initial bias Bias for either response (beta > 0.5 means bias towards "upper" response 'A'). 0 < beta < 1
@@ -166,23 +172,27 @@ choiceRT_ddm <- function(data           = "choose",
   # tau (ter): Nondecision time + Motor response time + encoding time (high means slow encoding, execution). 0 < ter (in seconds)
   
   modelName <- "choiceRT_ddm"
-
+  
   # Information for user
   cat("\nModel name = ", modelName, "\n")
   cat("Data file  = ", data, "\n")
   cat("\nDetails:\n")
-  cat(" # of chains                       = ", nchain, "\n")
-  cat(" # of cores used                   = ", ncore, "\n")
-  cat(" # of MCMC samples (per chain)     = ", niter, "\n")
-  cat(" # of burn-in samples              = ", nwarmup, "\n")
-  cat(" # of subjects                     = ", numSubjs, "\n")
+  if (vb) {
+    cat(" # Using variational inference # \n")
+  } else {
+    cat(" # of chains                   = ", nchain, "\n")
+    cat(" # of cores used               = ", ncore, "\n")
+    cat(" # of MCMC samples (per chain) = ", niter, "\n")
+    cat(" # of burn-in samples          = ", nwarmup, "\n")
+  }
+  cat(" # of subjects                 = ", numSubjs, "\n")
   
   ################################################################################
   # THE DATA.  ###################################################################
   ################################################################################
   
   Tsubj <- as.vector( rep( 0, numSubjs ) ) # number of trials for each subject
-
+  
   for ( i in 1:numSubjs )  {
     curSubj  <- subjList[i]
     Tsubj[i] <- sum( rawdata$subjID == curSubj )  # Tsubj[N]
@@ -202,8 +212,8 @@ choiceRT_ddm <- function(data           = "choose",
   minRT <- with(rawdata, aggregate(RT, by=list(y=subjID), FUN=min)[["x"]])
   
   # Reaction times for upper and lower boundary responses
-  RTu <- array(0, c(numSubjs, max(Nu)) ) 
-  RTl <- array(0, c(numSubjs, max(Nl)) )
+  RTu <- array(-1, c(numSubjs, max(Nu)) ) 
+  RTl <- array(-1, c(numSubjs, max(Nl)) )
   
   # Store each subjects' reaction time data
   for (i in 1:numSubjs) {
@@ -212,7 +222,7 @@ choiceRT_ddm <- function(data           = "choose",
     RTu[i, 1:Nu[i]] <- tmp$RT[tmp$choice==2] # (Nu/Nl[i]+1):Nu/Nl_max will be padded with 0's 
     RTl[i, 1:Nl[i]] <- tmp$RT[tmp$choice==1] # 0 padding is skipped in likelihood calculation
   }
-
+  
   # List of data sent to Stan
   dataList <- list(
     N       = numSubjs, # Number of subjects
@@ -250,7 +260,7 @@ choiceRT_ddm <- function(data           = "choose",
   } else {
     genInitList <- "random"
   }
-    
+  
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore){
@@ -271,29 +281,35 @@ choiceRT_ddm <- function(data           = "choose",
   
   # Fit the Stan model
   m = stanmodels$choiceRT_ddm
-  fit <- rstan::sampling(m,
-                         data   = dataList, 
-                         pars   = POI,
-                         warmup = nwarmup,
-                         init   = genInitList, 
-                         iter   = niter, 
-                         chains = nchain,
-                         thin   = nthin,
-                         control = list(adapt_delta   = adapt_delta, 
-                                        max_treedepth = max_treedepth, 
-                                        stepsize      = stepsize) )
-  
+  if (vb) {   # if variational Bayesian
+    fit = rstan::vb(m, 
+                    data   = dataList, 
+                    pars   = POI,
+                    init   = genInitList)
+  } else {
+    fit = rstan::sampling(m, 
+                          data   = dataList, 
+                          pars   = POI,
+                          warmup = nwarmup,
+                          init   = genInitList, 
+                          iter   = niter, 
+                          chains = nchain,
+                          thin   = nthin,
+                          control = list(adapt_delta   = adapt_delta, 
+                                         max_treedepth = max_treedepth, 
+                                         stepsize      = stepsize) )
+  }
   parVals <- rstan::extract(fit, permuted=T)
   
   alpha <- parVals$alpha
   beta  <- parVals$beta
   delta <- parVals$delta
   tau   <- parVals$tau
-
+  
   # Individual parameters (e.g., individual posterior means)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
-                 
+  
   for (i in 1:numSubjs) {
     if (indPars=="mean") {
       allIndPars[i, ] <- c( mean(alpha[, i]), 
@@ -323,7 +339,7 @@ choiceRT_ddm <- function(data           = "choose",
   modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
   names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")  
   class(modelData) <- "hBayesDM"
-
+  
   # Total time of computations
   endTime  <- Sys.time()
   timeTook <- endTime - startTime
@@ -340,11 +356,6 @@ choiceRT_ddm <- function(data           = "choose",
     save(modelData, file=file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData"  ) ) )
   }
   
-  # Send email to notify user of completion
-  if (is.null(email)==F) {
-    mail::sendmail(email, paste("model=", modelName, ", fileName = ", data),
-             paste("Check ", getwd(), ". It took ", as.character.Date(timeTook), sep="") )
-  }
   # Inform user of completion
   cat("\n************************************\n")
   cat("**** Model fitting is complete! ****\n")

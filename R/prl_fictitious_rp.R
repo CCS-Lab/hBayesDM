@@ -1,17 +1,17 @@
-#' Risk Aversion Task 
+#' Probabilistic Reversal Learning Task
 #' 
 #' @description 
-#' Hierarchical Bayesian Modeling of the Risk Aversion Task with the following parameters: "rho" (risk aversion) and "tau" (inverse temp).
+#' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta_pos" (learning rate, +PE), "eta_neg" (learning rate, -PE), "alpha" (indecision point), "beta" (inverse temperature).
 #' 
 #' \strong{MODEL:}
-#' Prospect Theory without a loss aversion (LA) parameter
+#' Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex) + separate learning rates for + and - prediction error (PE)
 #' 
-#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "gain", "loss", "cert", and "gamble". See \bold{Details} below for more information. 
+#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", and "outcome". See \bold{Details} below for more information. 
 #' @param niter Number of iterations, including warm-up.
 #' @param nwarmup Number of iterations used for warm-up only.
 #' @param nchain Number of chains to be run.
 #' @param ncore Integer value specifying how many CPUs to run the MCMC sampling on. Defaults to 1. 
-#' @param nthin Every \code{i == nthin} sample will be used to generate the posterior distribution. Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is high.
+#' @param nthin Every \code{i == nthin} sample will be used to generate the posterior distribution. Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is high. 
 #' @param inits Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.
 #' @param indPars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
 #' @param saveDir Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.
@@ -24,7 +24,7 @@
 #'  
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"ra_prospect"}).}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"prl_fictitious"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter 
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -44,15 +44,13 @@
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
 #' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
-#' represent variables. For the Risk Aversion Task, there should be four columns of data  with the labels 
-#' "subjID", "riskyGain", "riskyLoss", and "safeOption". It is not necessary for the columns to be in this 
-#' particular order, however it is necessary that they be labelled correctly and contain the information below:
+#' represent variables. For the Probabilistic Reversal Learning Task, there should be three columns of data 
+#' with the labels "subjID", "choice", and "outcome". It is not necessary for the columns to be in this particular order, 
+#' however it is necessary that they be labelled correctly and contain the information below:
 #' \describe{
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"gain"}}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
-#'  \item{\code{"loss"}}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
-#'  \item{\code{"cert"}}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
-#'  \item{\code{"gamble"}}{If gamble was taken, gamble == 1, else gamble == 0.}
+#'  \item{\code{"choice"}}{An integer value representing the chosen choice option within the given trial (e.g., 1 or 2 in PRL).}
+#'  \item{\code{"outcome"}}{A 1 or -1 for outcome within each given trial (1 = reward, -1 = loss).}
 #' } 
 #' \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 #' names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
@@ -83,16 +81,22 @@
 #' @export 
 #' 
 #' @references 
+#' Glascher, J., Hampton, A. N., & O'Doherty, J. P. (2009). Determining a Role for Ventromedial Prefrontal Cortex in Encoding 
+#' Action-Based Value Signals During Reward-Related Decision Making. Cerebral Cortex, 19(2), 483-495. http://doi.org/10.1093/cercor/bhn098
+#' 
 #' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The 
 #' Journal of Machine Learning Research, 15(1), 1593-1623.
 #' 
+#' Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable 
+#' Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
+
 #' @seealso 
 #' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
 #' 
 #' @examples 
 #' \dontrun{
 #' # Run the model and store results in "output"
-#' output <- ra_noLA(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+#' output <- prl_fictitious_rp(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
 #' 
 #' # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
 #' plot(output, type = 'trace')
@@ -105,30 +109,24 @@
 #' 
 #' # Show the WAIC and LOOIC model fit estimates 
 #' printFit(output)
-#' 
-#' 
-#' # Paths to data published in Sokol-Hessner et al. (2009)
-#' path_to_attend_data=system.file("extdata/ra_data_attend.txt", package="hBayesDM")
-#' 
-#' path_to_regulate_data=system.file("extdata/ra_data_reappraisal.txt", package="hBayesDM")
 #' }
 
-ra_noLA <- function(data           = "choose",
-                    niter          = 4000, 
-                    nwarmup        = 1000, 
-                    nchain         = 4,
-                    ncore          = 1, 
-                    nthin          = 1,
-                    inits          = "random",  
-                    indPars        = "mean", 
-                    saveDir        = NULL,
-                    modelRegressor = FALSE,
-                    vb             = FALSE,
-                    inc_postpred   = FALSE,
-                    adapt_delta    = 0.95,
-                    stepsize       = 1,
-                    max_treedepth  = 10 ) {
-
+prl_fictitious_rp <- function(data           = "choice",
+                              niter          = 3000, 
+                              nwarmup        = 1000, 
+                              nchain         = 1,
+                              ncore          = 1, 
+                              nthin          = 1,
+                              inits          = "random",  
+                              indPars        = "mean", 
+                              saveDir        = NULL,
+                              modelRegressor = FALSE,
+                              vb             = FALSE,
+                              inc_postpred   = FALSE,
+                              adapt_delta    = 0.95,
+                              stepsize       = 1,
+                              max_treedepth  = 10 ) {
+  
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
@@ -139,7 +137,7 @@ ra_noLA <- function(data           = "choose",
   
   # For using example data
   if (data=="example") {
-    data <- system.file("extdata", "ra_exampleData.txt", package = "hBayesDM")
+    data <- system.file("extdata", "prl_exampleData.txt", package = "hBayesDM")
   } else if (data=="choose") {
     data <- file.choose()
   }
@@ -159,21 +157,21 @@ ra_noLA <- function(data           = "choose",
   }
   
   # Individual Subjects
-  subjList <- unique(rawdata[,"subjID"]) # list of subjects x blocks
-  numSubjs <- length(subjList)           # number of subjects
+  subjList <- unique(rawdata[,"subjID"])  # list of subjects x blocks
+  numSubjs <- length(subjList)  # number of subjects
   
   # Specify the number of parameters and parameters of interest 
-  numPars <- 2
-  POI     <- c("mu_rho", "mu_tau",
+  numPars <- 4
+  POI     <- c("mu_eta_pos", "mu_eta_neg", "mu_alpha", "mu_beta", 
                "sigma",
-               "rho" , "tau",
+               "eta_pos", "eta_neg", "alpha", "beta", 
                "log_lik")
   
   if (inc_postpred) {
     POI <- c(POI, "y_pred")
   }
   
-  modelName <- "ra_noLA"
+  modelName <- "prl_fictitious_rp"
   
   # Information for user
   cat("\nModel name = ", modelName, "\n")
@@ -195,46 +193,41 @@ ra_noLA <- function(data           = "choose",
   
   Tsubj <- as.vector( rep( 0, numSubjs ) ) # number of trials for each subject
   
-  for ( sIdx in 1:numSubjs )  {
-    curSubj     <- subjList[ sIdx ]
-    Tsubj[sIdx] <- sum( rawdata$subjID == curSubj )  # Tsubj[N]
+  for ( i in 1:numSubjs )  {
+    curSubj  <- subjList[ i ]
+    Tsubj[i] <- sum( rawdata$subjID == curSubj )  # Tsubj[N]
   }
   
+  # Setting maxTrials
   maxTrials <- max(Tsubj)
   
   # Information for user continued
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
   
-  # for multiple subjects
-  gain    <- array(0, c(numSubjs, maxTrials) )
-  loss    <- array(0, c(numSubjs, maxTrials) )
-  cert    <- array(0, c(numSubjs, maxTrials))
-  gamble  <- array(-1, c(numSubjs, maxTrials))
+  choice  <- array(-1, c(numSubjs, maxTrials) )
+  outcome <- array(0, c(numSubjs, maxTrials) )
   
   for (i in 1:numSubjs) {
     curSubj      <- subjList[i]
     useTrials    <- Tsubj[i]
     tmp          <- subset(rawdata, rawdata$subjID == curSubj)
-    gain[i, 1:useTrials]    <- tmp[1:useTrials, "gain"]
-    loss[i, 1:useTrials]    <- abs(tmp[1:useTrials, "loss"])  # absolute loss amount
-    cert[i, 1:useTrials]    <- tmp[1:useTrials, "cert"]
-    gamble[i, 1:useTrials]  <- tmp[1:useTrials, "gamble"]
+    choice[i, 1:useTrials] <- tmp$choice
+    outcome[i, 1:useTrials] <- sign(tmp$outcome)  # use sign
   }
   
   dataList <- list(
     N       = numSubjs,
     T       = maxTrials,
     Tsubj   = Tsubj,
-    numPars = numPars,
-    gain    = gain,
-    loss    = loss,
-    cert    = cert,
-    gamble  = gamble )
+    choice  = choice,
+    outcome = outcome,
+    numPars = numPars
+  )
   
   # inits
   if (inits[1] != "random") {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(1.0, 1.0)
+      inits_fixed <- c(0.5, 0.5, 0.1, 1.0)
     } else {
       if (length(inits)==numPars) {
         inits_fixed <- inits
@@ -244,10 +237,12 @@ ra_noLA <- function(data           = "choose",
     }  
     genInitList <- function() {
       list(
-        mu_p     = c( qnorm( inits_fixed[1]/2 ), qnorm( inits_fixed[2]/5 ) ),
-        sigma    = c(1.0, 1.0),
-        rho_p    = rep(qnorm( inits_fixed[1]/2 ), numSubjs),
-        tau_p    = rep(qnorm( inits_fixed[2]/5 ), numSubjs) 
+        mu_p     = c( qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3]), qnorm(inits_fixed[4] / 5) ),
+        sigma    = c(1.0, 1.0, 1.0, 1.0),
+        eta_pos_pr = rep(qnorm(inits_fixed[1]), numSubjs),
+        eta_neg_pr = rep(qnorm(inits_fixed[2]), numSubjs),
+        alpha_pr = rep(qnorm(inits_fixed[3]), numSubjs),
+        beta_pr  = rep(qnorm(inits_fixed[4]/5), numSubjs)
       )
     }
   } else {
@@ -256,9 +251,9 @@ ra_noLA <- function(data           = "choose",
   
   if (ncore > 1) {
     numCores <- parallel::detectCores()
-    if (numCores < ncore) {
+    if (numCores < ncore){
       options(mc.cores = numCores)
-      warning("Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.")
+      warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
     } else {
       options(mc.cores = ncore)
     }
@@ -271,7 +266,7 @@ ra_noLA <- function(data           = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = stanmodels$ra_noLA
+  m = stanmodels$prl_fictitious_rp
   if (vb) {   # if variational Bayesian
     fit = rstan::vb(m, 
                     data   = dataList, 
@@ -290,14 +285,16 @@ ra_noLA <- function(data           = "choose",
                                          max_treedepth = max_treedepth, 
                                          stepsize      = stepsize) )
   }
-  # Extract the Stan fit object
+  ## Extract parameters
   parVals <- rstan::extract(fit, permuted=T)
   if (inc_postpred) {
     parVals$y_pred[parVals$y_pred==-1] <- NA
   }
   
-  rho    <- parVals$rho
-  tau    <- parVals$tau
+  eta_pos <- parVals$eta_pos
+  eta_neg <- parVals$eta_neg
+  alpha   <- parVals$alpha
+  beta    <- parVals$beta
   
   # Individual parameters (e.g., individual posterior means)
   allIndPars <- array(NA, c(numSubjs, numPars))
@@ -305,25 +302,33 @@ ra_noLA <- function(data           = "choose",
   
   for (i in 1:numSubjs) {
     if (indPars=="mean") {
-      allIndPars[i, ] <- c( mean(rho[, i]), 
-                            mean(tau[, i]) )    
+      allIndPars[i, ] <- c( mean(eta_pos[, i]), 
+                            mean(eta_neg[, i]), 
+                            mean(alpha[, i]), 
+                            mean(beta[, i]) )
     } else if (indPars=="median") {
-      allIndPars[i, ] <- c( median(rho[, i]), 
-                            median(tau[, i]) )
+      allIndPars[i, ] <- c( median(eta_pos[, i]),
+                            median(eta_neg[, i]), 
+                            median(alpha[, i]), 
+                            median(beta[, i]) )
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( estimate_mode(rho[, i]), 
-                            estimate_mode(tau[, i]) )
-    }   
-  }  
+      allIndPars[i, ] <- c( estimate_mode(eta_pos[, i]),
+                            estimate_mode(eta_neg[, i]),
+                            estimate_mode(alpha[, i]),
+                            estimate_mode(beta[, i]) )
+    }
+  }
   
   allIndPars           <- cbind(allIndPars, subjList)
-  colnames(allIndPars) <- c("rho", 
-                            "tau", 
+  colnames(allIndPars) <- c("eta_pos", 
+                            "eta_neg",
+                            "alpha", 
+                            "beta", 
                             "subjID")
-
+  
   # Wrap up data into a list
   modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")    
+  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
   class(modelData) <- "hBayesDM"
   
   # Total time of computations

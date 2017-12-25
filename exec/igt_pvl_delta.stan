@@ -12,12 +12,12 @@ transformed data {
 }
 
 parameters {
-# Declare all parameters as vectors for vectorizing
-  # Hyper(group)-parameters  
+// Declare all parameters as vectors for vectorizing
+  // Hyper(group)-parameters  
   vector[4] mu_p;  
   vector<lower=0>[4] sigma;
     
-  # Subject-level raw parameters (for Matt trick)
+  // Subject-level raw parameters (for Matt trick)
   vector[N] A_pr;
   vector[N] alpha_pr;
   vector[N] cons_pr;
@@ -25,7 +25,7 @@ parameters {
 }
 
 transformed parameters {
-  # Transform subject-level raw parameters 
+  // Transform subject-level raw parameters 
   vector<lower=0,upper=1>[N]  A;
   vector<lower=0,upper=2>[N]  alpha;
   vector<lower=0,upper=5>[N]  cons;
@@ -40,80 +40,93 @@ transformed parameters {
 }
 
 model {
-# Hyperparameters
+// Hyperparameters
   mu_p  ~ normal(0, 1);
   sigma ~ cauchy(0, 5);
   
-  # individual parameters
+  // individual parameters
   A_pr      ~ normal(0,1);
   alpha_pr  ~ normal(0,1);
   cons_pr   ~ normal(0,1);
   lambda_pr ~ normal(0,1);
     
   for (i in 1:N) {
-    # Define values
+    // Define values
     vector[4] ev;
-    real curUtil;     # utility of curFb
-    real theta;       # theta = 3^c - 1  
+    real curUtil;     // utility of curFb
+    real theta;       // theta = 3^c - 1  
 
-    # Initialize values
+    // Initialize values
     theta = pow(3, cons[i]) -1;
-    ev = initV; # initial ev values
+    ev = initV; // initial ev values
         
     for (t in 1:Tsubj[i]) {
-      # softmax choice
+      // softmax choice
       choice[i, t] ~ categorical_logit( theta * ev );
       
-      if ( outcome[i,t] >= 0) {  # x(t) >= 0
+      if ( outcome[i,t] >= 0) {  // x(t) >= 0
         curUtil = pow(outcome[i,t], alpha[i]);
-      } else {                  # x(t) < 0
+      } else {                  // x(t) < 0
         curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
       }
             
-      # delta
+      // delta
       ev[ choice[i, t] ] = ev[ choice[i, t] ] + A[i]*(curUtil - ev[ choice[i, t] ]);
     }
   }
 }
 
 generated quantities {
-  # For group level parameters
+  // For group level parameters
   real<lower=0,upper=1>  mu_A;
   real<lower=0,upper=2>  mu_alpha;
   real<lower=0,upper=5>  mu_cons;
   real<lower=0,upper=10> mu_lambda;
   
-  # For log likelihood calculation
+  // For log likelihood calculation
   real log_lik[N];
+  
+  // For posterior predictive check
+  real y_pred[N,T]; 
+  
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      y_pred[i,t] = -1;
+    }
+  }
 
   mu_A      = Phi_approx(mu_p[1]);
   mu_alpha  = Phi_approx(mu_p[2]) * 2;
   mu_cons   = Phi_approx(mu_p[3]) * 5;
   mu_lambda = Phi_approx(mu_p[4]) * 10;
 
-  { # local section, this saves time and space
+  { // local section, this saves time and space
     for (i in 1:N) {
-      # Define values
+      // Define values
       vector[4] ev;
-      real curUtil;     # utility of curFb
-      real theta;       # theta = 3^c - 1  
+      real curUtil;     // utility of curFb
+      real theta;       // theta = 3^c - 1  
       
-      # Initialize values
+      // Initialize values
       log_lik[i] = 0;
       theta      = pow(3, cons[i]) -1;
-      ev         = initV; # initial ev values
+      ev         = initV; // initial ev values
             
       for (t in 1:Tsubj[i]) {
-        # softmax choice
+        // softmax choice
         log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | theta * ev );
         
-        if ( outcome[i,t] >= 0) {  # x(t) >= 0
+        // generate posterior prediction for current trial
+        y_pred[i,t] = categorical_rng(softmax(theta * ev));
+        
+        if ( outcome[i,t] >= 0) {  // x(t) >= 0
           curUtil = pow(outcome[i,t], alpha[i]);
-        } else {                  # x(t) < 0
+        } else {                  // x(t) < 0
           curUtil = -1 * lambda[i] * pow( -1*outcome[i,t], alpha[i]);
         }
               
-        # delta
+        // delta
         ev[ choice[i, t] ] = ev[ choice[i, t] ] + A[i]*(curUtil - ev[ choice[i, t] ]);
       }
     }

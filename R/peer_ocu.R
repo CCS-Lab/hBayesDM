@@ -1,10 +1,10 @@
-#' Risk Aversion Task 
+#' Peer influence task (Chung et al., 2015 Nature Neuroscience)
 #' 
 #' @description 
-#' Hierarchical Bayesian Modeling of the Risk Aversion Task with the following parameters: "rho" (risk aversion) and "tau" (inverse temp).
+#' Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters: "rho" (risk preference), "tau" (inverse temperature), and "ocu" (other-conferred utility)
 #' 
 #' \strong{MODEL:}
-#' Prospect Theory without a loss aversion (LA) parameter
+#' Peer influence task - OCU (other-conferred utility) model
 #' 
 #' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "gain", "loss", "cert", and "gamble". See \bold{Details} below for more information. 
 #' @param niter Number of iterations, including warm-up.
@@ -45,14 +45,17 @@
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
 #' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
 #' represent variables. For the Risk Aversion Task, there should be four columns of data  with the labels 
-#' "subjID", "riskyGain", "riskyLoss", and "safeOption". It is not necessary for the columns to be in this 
+#' "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". It is not necessary for the columns to be in this 
 #' particular order, however it is necessary that they be labelled correctly and contain the information below:
 #' \describe{
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"gain"}}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
-#'  \item{\code{"loss"}}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
-#'  \item{\code{"cert"}}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
-#'  \item{\code{"gamble"}}{If gamble was taken, gamble == 1, else gamble == 0.}
+#'  \item{\code{"condition"}}{0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky)}
+#'  \item{\code{"p_gamble"}}{Probability of receiving a high payoff (same for both options)}
+#'  \item{\code{"safe_Hpayoff"}}{High payoff of the safe option}
+#'  \item{\code{"safe_Lpayoff"}}{Low payoff of the safe option}
+#'  \item{\code{"risky_Hpayoff"}}{High payoff of the risky option}
+#'  \item{\code{"risky_Lpayoff"}}{Low payoff of the risky option}
+#'  \item{\code{"choice"}}{Which option was chosen? 0: safe 1: risky}
 #' } 
 #' \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 #' names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
@@ -83,8 +86,8 @@
 #' @export 
 #' 
 #' @references 
-#' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The 
-#' Journal of Machine Learning Research, 15(1), 1593-1623.
+#' Chung, D., Christopoulos, G. I., King-Casas, B., Ball, S. B., & Chiu, P. H. (2015). Social signals of safety and risk confer utility and have asymmetric effects on observers' choices. 
+#' Nature neuroscience, 18(6), 912-916.
 #' 
 #' @seealso 
 #' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
@@ -92,7 +95,7 @@
 #' @examples 
 #' \dontrun{
 #' # Run the model and store results in "output"
-#' output <- ra_noLA(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+#' output <- peer_ocu(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
 #' 
 #' # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
 #' plot(output, type = 'trace')
@@ -107,28 +110,24 @@
 #' printFit(output)
 #' 
 #' 
-#' # Paths to data published in Sokol-Hessner et al. (2009)
-#' path_to_attend_data=system.file("extdata/ra_data_attend.txt", package="hBayesDM")
-#' 
-#' path_to_regulate_data=system.file("extdata/ra_data_reappraisal.txt", package="hBayesDM")
 #' }
 
-ra_noLA <- function(data           = "choose",
-                    niter          = 4000, 
-                    nwarmup        = 1000, 
-                    nchain         = 4,
-                    ncore          = 1, 
-                    nthin          = 1,
-                    inits          = "random",  
-                    indPars        = "mean", 
-                    saveDir        = NULL,
-                    modelRegressor = FALSE,
-                    vb             = FALSE,
-                    inc_postpred   = FALSE,
-                    adapt_delta    = 0.95,
-                    stepsize       = 1,
-                    max_treedepth  = 10 ) {
-
+peer_ocu <- function(data           = "choose",
+                     niter          = 4000, 
+                     nwarmup        = 1000, 
+                     nchain         = 4,
+                     ncore          = 1, 
+                     nthin          = 1,
+                     inits          = "fixed",  
+                     indPars        = "mean", 
+                     saveDir        = NULL,
+                     modelRegressor = FALSE,
+                     vb             = FALSE,
+                     inc_postpred   = FALSE,
+                     adapt_delta    = 0.95,
+                     stepsize       = 1,
+                     max_treedepth  = 10 ) {
+  
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
@@ -139,7 +138,7 @@ ra_noLA <- function(data           = "choose",
   
   # For using example data
   if (data=="example") {
-    data <- system.file("extdata", "ra_exampleData.txt", package = "hBayesDM")
+    data <- system.file("extdata", "peer_exampleData.txt", package = "hBayesDM")
   } else if (data=="choose") {
     data <- file.choose()
   }
@@ -163,17 +162,17 @@ ra_noLA <- function(data           = "choose",
   numSubjs <- length(subjList)           # number of subjects
   
   # Specify the number of parameters and parameters of interest 
-  numPars <- 2
-  POI     <- c("mu_rho", "mu_tau",
+  numPars <- 3
+  POI     <- c("mu_rho", "mu_tau", "mu_ocu",
                "sigma",
-               "rho" , "tau",
+               "rho" , "tau", "ocu",
                "log_lik")
   
   if (inc_postpred) {
     POI <- c(POI, "y_pred")
   }
   
-  modelName <- "ra_noLA"
+  modelName <- "peer_ocu"
   
   # Information for user
   cat("\nModel name = ", modelName, "\n")
@@ -206,19 +205,25 @@ ra_noLA <- function(data           = "choose",
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
   
   # for multiple subjects
-  gain    <- array(0, c(numSubjs, maxTrials) )
-  loss    <- array(0, c(numSubjs, maxTrials) )
-  cert    <- array(0, c(numSubjs, maxTrials))
-  gamble  <- array(-1, c(numSubjs, maxTrials))
+  safe_Hpayoff    <- array(0, c(numSubjs, maxTrials) )
+  safe_Lpayoff    <- array(0, c(numSubjs, maxTrials) )
+  risky_Hpayoff    <- array(0, c(numSubjs, maxTrials) )
+  risky_Lpayoff    <- array(0, c(numSubjs, maxTrials) )
+  condition    <- array(0, c(numSubjs, maxTrials))
+  p_gamble    <- array(0, c(numSubjs, maxTrials))
+  choice  <- array(-1, c(numSubjs, maxTrials))
   
   for (i in 1:numSubjs) {
     curSubj      <- subjList[i]
     useTrials    <- Tsubj[i]
     tmp          <- subset(rawdata, rawdata$subjID == curSubj)
-    gain[i, 1:useTrials]    <- tmp[1:useTrials, "gain"]
-    loss[i, 1:useTrials]    <- abs(tmp[1:useTrials, "loss"])  # absolute loss amount
-    cert[i, 1:useTrials]    <- tmp[1:useTrials, "cert"]
-    gamble[i, 1:useTrials]  <- tmp[1:useTrials, "gamble"]
+    safe_Hpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "safe_Hpayoff"]
+    safe_Lpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "safe_Lpayoff"]
+    risky_Hpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "risky_Hpayoff"]
+    risky_Lpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "risky_Lpayoff"]
+    condition[i, 1:useTrials]    <- tmp[1:useTrials, "condition"]
+    p_gamble[i, 1:useTrials]    <- tmp[1:useTrials, "p_gamble"]
+    choice[i, 1:useTrials]    <- tmp[1:useTrials, "choice"]
   }
   
   dataList <- list(
@@ -226,15 +231,19 @@ ra_noLA <- function(data           = "choose",
     T       = maxTrials,
     Tsubj   = Tsubj,
     numPars = numPars,
-    gain    = gain,
-    loss    = loss,
-    cert    = cert,
-    gamble  = gamble )
+    safe_Hpayoff    = safe_Hpayoff,
+    safe_Lpayoff    = safe_Lpayoff,
+    risky_Hpayoff    = risky_Hpayoff,
+    risky_Lpayoff    = risky_Lpayoff,
+    condition  = condition,
+    p_gamble = p_gamble,
+    choice = choice
+  )
   
   # inits
   if (inits[1] != "random") {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(1.0, 1.0)
+      inits_fixed <- c(1.0, 1.0, 0.0)
     } else {
       if (length(inits)==numPars) {
         inits_fixed <- inits
@@ -244,10 +253,11 @@ ra_noLA <- function(data           = "choose",
     }  
     genInitList <- function() {
       list(
-        mu_p     = c( qnorm( inits_fixed[1]/2 ), qnorm( inits_fixed[2]/5 ) ),
-        sigma    = c(1.0, 1.0),
+        mu_p     = c( qnorm( inits_fixed[1]/2 ), log( inits_fixed[2]), inits_fixed[3] ),
+        sigma    = c(1.0, 1.0, 1.0),
         rho_p    = rep(qnorm( inits_fixed[1]/2 ), numSubjs),
-        tau_p    = rep(qnorm( inits_fixed[2]/5 ), numSubjs) 
+        tau_p    = rep(log( inits_fixed[2]), numSubjs,
+        ocu_p    = rep(inits_fixed[3]), numSubjs) 
       )
     }
   } else {
@@ -271,7 +281,7 @@ ra_noLA <- function(data           = "choose",
   cat("***********************************\n")
   
   # Fit the Stan model
-  m = stanmodels$ra_noLA
+  m = stanmodels$peer_ocu
   if (vb) {   # if variational Bayesian
     fit = rstan::vb(m, 
                     data   = dataList, 
@@ -298,6 +308,7 @@ ra_noLA <- function(data           = "choose",
   
   rho    <- parVals$rho
   tau    <- parVals$tau
+  ocu    <- parVals$ocu
   
   # Individual parameters (e.g., individual posterior means)
   allIndPars <- array(NA, c(numSubjs, numPars))
@@ -306,21 +317,25 @@ ra_noLA <- function(data           = "choose",
   for (i in 1:numSubjs) {
     if (indPars=="mean") {
       allIndPars[i, ] <- c( mean(rho[, i]), 
-                            mean(tau[, i]) )    
+                            mean(tau[, i]),
+                            mean(ocu[, i]) )    
     } else if (indPars=="median") {
       allIndPars[i, ] <- c( median(rho[, i]), 
-                            median(tau[, i]) )
+                            median(tau[, i]),
+                            median(ocu[, i]) )    
     } else if (indPars=="mode") {
       allIndPars[i, ] <- c( estimate_mode(rho[, i]), 
-                            estimate_mode(tau[, i]) )
+                            estimate_mode(tau[, i]),
+                            estimate_mode(ocu[, i]) )    
     }   
   }  
   
   allIndPars           <- cbind(allIndPars, subjList)
   colnames(allIndPars) <- c("rho", 
                             "tau", 
+                            "ocu",
                             "subjID")
-
+  
   # Wrap up data into a list
   modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
   names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")    

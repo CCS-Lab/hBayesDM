@@ -25,11 +25,13 @@ Bolded tasks, followed by their respective models, are itemized below.
  \item{\strong{Iowa Gambling}}{Prospect Valence Learning-DecayRI --- \link{igt_pvl_decay} \cr
                                Prospect Valence Learning-Delta --- \link{igt_pvl_delta} \cr
                                Value-Plus_Perseverance --- \link{igt_vpp}}
+ \item{\strong{Peer influence task}}{OCU model --- \link{peer_ocu}}
  \item{\strong{Probabilistic Reversal Learning}}{Fictitious Update --- \link{prl_fictitious} \cr
                                                  Fictitious Update and multiple blocks per subject --- \link{prl_fictitious_multipleB} \cr
                                                  Experience-Weighted Attraction --- \link{prl_ewa} \cr
                                                  Reward-Punishment --- \link{prl_rp} \cr
-                                                 Reward-Punishment and multiple blocks per subject --- \link{prl_rp_multipleB}}
+                                                 Reward-Punishment and multiple blocks per subject --- \link{prl_rp_multipleB} \cr
+                                                 Fictitious Update with separate learning for Reward-Punishment --- \link{prl_fictitious_rp}}
  \item{\strong{Risk Aversion}}{Prospect Theory (PT) --- \link{ra_prospect} \cr
                                PT without a loss aversion parameter --- \link{ra_noLA} \cr
                                PT without a risk aversion parameter --- \link{ra_noRA}}
@@ -49,7 +51,7 @@ Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechan
 For tutorials and further readings, visit : \url{http://rpubs.com/CCSL/hBayesDM}.
 }
 \author{
-Woo-Young Ahn \email{ahn.280@osu.edu}
+Woo-Young Ahn \email{wooyoung.ahn@gmail.com}
 
 Nathaniel Haines \email{haines.175@osu.edu}
 

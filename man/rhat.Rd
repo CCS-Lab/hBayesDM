@@ -19,5 +19,6 @@ containing all Rhat values.
 }
 \description{
 A convenience function for extracting Rhat values from an hBayesDM object. Can also 
-check if all Rhat values are less than or equal to a specified value.
+check if all Rhat values are less than or equal to a specified value. 
+If variational inference was used, an error message will be displayed.
 }

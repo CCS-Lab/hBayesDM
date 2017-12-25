@@ -15,15 +15,16 @@
 #' @param inits Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.
 #' @param indPars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
 #' @param saveDir Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.
-#' @param email Character value containing email address to send notification of completion. Leave blank if not interested. 
 #' @param modelRegressor Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.
+#' @param vb             Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.
+#' @param inc_postpred Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.
 #' @param adapt_delta Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.
 #' @param max_treedepth Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.
 #' 
 #' @return \code{modelData}  A class \code{'hBayesDM'} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{'prl_fictitious_multipleB'}).}
+#'  \item{\code{model}}{Character string with the name of the model ("prl_fictitious_multipleB").}
 #'  \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter 
 #'    values (as specified by \code{'indPars'}) for each subject.}
 #'  \item{\code{parVals}}{A \code{'list'} where each element contains posterior samples
@@ -32,9 +33,9 @@
 #'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 #' }
 #' 
-#' @importFrom rstan stan rstan_options extract
-#' @importFrom mail sendmail
-#' @importFrom stats median qnorm
+#' @importFrom rstan vb sampling stan_model rstan_options extract
+#' @importFrom parallel detectCores
+#' @importFrom stats median qnorm density
 #' @importFrom utils read.table
 #'
 #' @details 
@@ -101,20 +102,21 @@ prl_fictitious_multipleB <- function(data           = "choice",
                                      inits          = "random",  
                                      indPars        = "mean", 
                                      saveDir        = NULL,
-                                     email          = NULL,
                                      modelRegressor = FALSE,
+                                     vb             = FALSE,
+                                     inc_postpred   = FALSE,
                                      adapt_delta    = 0.95,
                                      stepsize       = 1,
                                      max_treedepth  = 10 ) {
-
+  
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
-  } 
-
+  }
+  
   # To see how long computations take
   startTime <- Sys.time()    
-
+  
   # For using example data
   if (data=="example") {
     data <- system.file("extdata", "prl_multipleB_exampleData.txt", package = "hBayesDM")
@@ -145,16 +147,24 @@ prl_fictitious_multipleB <- function(data           = "choice",
                "eta", "alpha", "beta", 
                "log_lik")
   
+  if (inc_postpred) {
+    POI <- c(POI, "y_pred")
+  }
+  
   modelName <- "prl_fictitious_multipleB"
   
   # Information for user
   cat("\nModel name = ", modelName, "\n")
   cat("Data file  = ", data, "\n")
   cat("\nDetails:\n")
-  cat(" # of chains                   = ", nchain, "\n")
-  cat(" # of cores used               = ", ncore, "\n")
-  cat(" # of MCMC samples (per chain) = ", niter, "\n")
-  cat(" # of burn-in samples          = ", nwarmup, "\n")
+  if (vb) {
+    cat(" # Using variational inference # \n")
+  } else {
+    cat(" # of chains                   = ", nchain, "\n")
+    cat(" # of cores used               = ", ncore, "\n")
+    cat(" # of MCMC samples (per chain) = ", niter, "\n")
+    cat(" # of burn-in samples          = ", nwarmup, "\n")
+  }
   cat(" # of subjects                 = ", numSubjs, "\n")
   
   ################################################################################
@@ -182,10 +192,10 @@ prl_fictitious_multipleB <- function(data           = "choice",
   # Information for user continued
   cat(" # of (max) blocks per subject = ", maxB,      "\n\n")
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
-
-  choice  <- array(1, c(numSubjs, maxB, maxTrials) )
+  
+  choice  <- array(-1, c(numSubjs, maxB, maxTrials) )
   outcome <- array(0, c(numSubjs, maxB, maxTrials) )
-
+  
   for (i in 1:numSubjs) {
     curSubj      <- subjList[i]
     tmpDat = subset(rawdata, rawdata$subjID == curSubj)
@@ -237,7 +247,7 @@ prl_fictitious_multipleB <- function(data           = "choice",
   } else {
     genInitList <- "random"
   }
-    
+  
   if (ncore > 1) {
     numCores <- parallel::detectCores()
     if (numCores < ncore){
@@ -258,19 +268,28 @@ prl_fictitious_multipleB <- function(data           = "choice",
   
   # Fit the Stan model
   m = stanmodels$prl_fictitious_multipleB
-  fit <- rstan::sampling(m,
-                         data   = dataList, 
-                         pars   = POI,
-                         warmup = nwarmup,
-                         init   = genInitList, 
-                         iter   = niter, 
-                         chains = nchain,
-                         thin   = nthin,
-                         control = list(adapt_delta   = adapt_delta, 
-                                        max_treedepth = max_treedepth, 
-                                        stepsize      = stepsize) )
-  
+  if (vb) {   # if variational Bayesian
+    fit = rstan::vb(m, 
+                    data   = dataList, 
+                    pars   = POI,
+                    init   = genInitList)
+  } else {
+    fit = rstan::sampling(m, 
+                          data   = dataList, 
+                          pars   = POI,
+                          warmup = nwarmup,
+                          init   = genInitList, 
+                          iter   = niter, 
+                          chains = nchain,
+                          thin   = nthin,
+                          control = list(adapt_delta   = adapt_delta, 
+                                         max_treedepth = max_treedepth, 
+                                         stepsize      = stepsize) )
+  }
   parVals <- rstan::extract(fit, permuted=T)
+  if (inc_postpred) {
+    parVals$y_pred[parVals$y_pred==-1] <- NA
+  }
   
   eta   <- parVals$eta
   alpha <- parVals$alpha
@@ -290,7 +309,7 @@ prl_fictitious_multipleB <- function(data           = "choice",
     } else if (indPars=="mode") {
       allIndPars[i, ] <- c( estimate_mode(eta[, i]),
                             estimate_mode(alpha[, i]),
-                            estimate_mode(beta[, i]) ) 
+                            estimate_mode(beta[, i]) )
     }
   }
   
@@ -299,7 +318,7 @@ prl_fictitious_multipleB <- function(data           = "choice",
                             "alpha", 
                             "beta", 
                             "subjID")
-
+  
   # Wrap up data into a list
   modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
   names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
@@ -321,11 +340,6 @@ prl_fictitious_multipleB <- function(data           = "choice",
     save(modelData, file=file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData"  ) ) )
   }
   
-  # Send email to notify user of completion
-  if (is.null(email)==F) {
-    mail::sendmail(email, paste("model=", modelName, ", fileName = ", data),
-             paste("Check ", getwd(), ". It took ", as.character.Date(timeTook), sep="") )
-  }
   # Inform user of completion
   cat("\n************************************\n")
   cat("**** Model fitting is complete! ****\n")

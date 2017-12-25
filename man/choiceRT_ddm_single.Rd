@@ -5,9 +5,9 @@
 \title{Choice Reaction Time task, drift diffusion modeling}
 \usage{
 choiceRT_ddm_single(data = "choose", niter = 3000, nwarmup = 1000,
-  nchain = 2, ncore = 2, nthin = 1, inits = "random",
-  indPars = "mean", saveDir = NULL, email = NULL, RTbound = 0.1,
-  modelRegressor = FALSE, adapt_delta = 0.95, stepsize = 1,
+  nchain = 4, ncore = 1, nthin = 1, inits = "fixed", indPars = "mean",
+  saveDir = NULL, RTbound = 0.1, modelRegressor = FALSE, vb = FALSE,
+  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10)
 }
 \arguments{
@@ -29,11 +29,13 @@ choiceRT_ddm_single(data = "choose", niter = 3000, nwarmup = 1000,
 
 \item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
 
-\item{email}{Character value containing email address to send notification of completion. Leave blank if not interested.}
-
 \item{RTbound}{A floating point number representing the lower bound (i.e. minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).}
 
 \item{modelRegressor}{Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.}
+
+\item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.}
+
+\item{inc_postpred}{(\strong{Not currently available for DDM models}) Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.}
 
 \item{adapt_delta}{Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
 

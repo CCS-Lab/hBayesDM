@@ -2,7 +2,7 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
-  int<lower=1,upper=2> choice[N, T];
+  int<lower=-1,upper=2> choice[N, T];
   real outcome[N, T];
 }
 transformed data {
@@ -10,19 +10,19 @@ transformed data {
   initV = rep_vector(0.0, 2);
 }
 parameters {
-# Declare all parameters as vectors for vectorizing
-  # Hyper(group)-parameters  
+// Declare all parameters as vectors for vectorizing
+  // Hyper(group)-parameters  
   vector[3] mu_p;  
   vector<lower=0>[3] sigma;
       
-  # Subject-level raw parameters (for Matt trick)
-  vector[N] Apun_pr;   # learning rate (punishment)
-  vector[N] Arew_pr;   # learning rate (reward)
-  vector[N] beta_pr;   # inverse temperature
+  // Subject-level raw parameters (for Matt trick)
+  vector[N] Apun_pr;   // learning rate (punishment)
+  vector[N] Arew_pr;   // learning rate (reward)
+  vector[N] beta_pr;   // inverse temperature
 }
 
 transformed parameters {
-  # Transform subject-level raw parameters 
+  // Transform subject-level raw parameters 
   vector<lower=0,upper=1>[N]  Apun;
   vector<lower=0,upper=1>[N]  Arew;
   vector<lower=0,upper=10>[N] beta;
@@ -35,67 +35,80 @@ transformed parameters {
 }
 
 model {
-  # Hyperparameters
+  // Hyperparameters
   mu_p  ~ normal(0, 1); 
   sigma ~ cauchy(0, 5);  
   
-  # individual parameters
+  // individual parameters
   Apun_pr ~ normal(0,1);
   Arew_pr ~ normal(0,1);
   beta_pr ~ normal(0,1);
     
   for (i in 1:N) {
-    # Define Values
-    vector[2] ev; # Expected value
-    real PE; # prediction error
+    // Define Values
+    vector[2] ev; // Expected value
+    real PE; // prediction error
     
-    # Initialize values    
-    ev = initV; # initial ev values
+    // Initialize values    
+    ev = initV; // initial ev values
         
     for (t in 1:Tsubj[i]) {
-      # Softmax choice
+      // Softmax choice
       choice[i, t] ~ categorical_logit( ev * beta[i] );
       
-      # Prediction Error
+      // Prediction Error
       PE = outcome[i,t] - ev[ choice[i,t]];
             
-      # Update expected value of chosen stimulus
+      // Update expected value of chosen stimulus
       ev[ choice[i,t]] = ev[ choice[i,t]] + (Apun[i] * (1-outcome[i,t])) * PE + (Arew[i] * (outcome[i,t])) * PE;
     }
   }
 }
 
 generated quantities {
-  # For group level parameters 
+  // For group level parameters 
   real<lower=0,upper=1>  mu_Apun;
   real<lower=0,upper=1>  mu_Arew;
   real<lower=0,upper=10> mu_beta;
   
-  # For log likelihood calculation
+  // For log likelihood calculation
   real log_lik[N];
+  
+  // For posterior predictive check
+  real y_pred[N,T]; 
+  
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      y_pred[i,t] = -1;
+    }
+  }
 
   mu_Apun = Phi_approx(mu_p[1]);
   mu_Arew = Phi_approx(mu_p[2]);
   mu_beta = Phi_approx(mu_p[3]) * 10;
     
-  { # local section, this saves time and space
+  { // local section, this saves time and space
     for (i in 1:N) {
-      # Define values
-      vector[2] ev; # Expected value
-      real PE; # prediction error
+      // Define values
+      vector[2] ev; // Expected value
+      real PE; // prediction error
       
-      # Initialize values      
-      ev = initV; # initial ev values
+      // Initialize values      
+      ev = initV; // initial ev values
       log_lik[i] = 0;
             
       for (t in 1:Tsubj[i]) {
-        # Softmax choice
+        // Softmax choice
         log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | ev * beta[i]);
         
-        # Prediction Error
+        // generate posterior prediction for current trial
+        y_pred[i,t] = categorical_rng(softmax(ev * beta[i]));
+        
+        // Prediction Error
         PE = outcome[i,t] - ev[ choice[i,t]];
                 
-        # Update expected value of chosen stimulus
+        // Update expected value of chosen stimulus
         ev[ choice[i,t]] = ev[ choice[i,t]] + (Apun[i] * (1-outcome[i,t])) * PE + (Arew[i] * (outcome[i,t])) * PE;
       }
     }

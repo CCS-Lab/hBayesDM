@@ -6,8 +6,9 @@
 \usage{
 gng_m4(data = "choose", niter = 5000, nwarmup = 2000, nchain = 4,
   ncore = 1, nthin = 1, inits = "fixed", indPars = "mean",
-  saveDir = NULL, email = NULL, modelRegressor = FALSE,
-  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
+  saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
+  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
+  max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "cue", "keyPressed", and "outcome". See \bold{Details} below for more information.}
@@ -28,9 +29,11 @@ gng_m4(data = "choose", niter = 5000, nwarmup = 2000, nchain = 4,
 
 \item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
 
-\item{email}{Character value containing email address to send notification of completion. Leave blank if not interested.}
-
 \item{modelRegressor}{Exporting model-based regressors (Q(Go), Q(NoGo))? TRUE or FALSE.}
+
+\item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.}
+
+\item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.}
 
 \item{adapt_delta}{Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
 

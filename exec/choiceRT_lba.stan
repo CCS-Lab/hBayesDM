@@ -1,5 +1,7 @@
+// The model published in Annis, J., Miller, B. J., & Palmeri, T. J. (2016). 
+// Bayesian inference with Stan: A tutorial on adding custom distributions. Behavior research methods, 1-24.
 functions{
-  real lba_pdf(real t, real b, real A, real v_pdf, real s){
+  real lba_pdf(real t, real b, real A, real v_pdf, real s) {
     //PDF of the LBA model
     real b_A_tv_ts;
     real b_tv_ts;
@@ -22,7 +24,7 @@ functions{
     return pdf;
   }
      
-  real lba_cdf(real t, real b, real A, real v_cdf, real s){
+  real lba_cdf(real t, real b, real A, real v_cdf, real s) {
     //CDF of the LBA model
     real b_A_tv;
     real b_tv;
@@ -47,7 +49,7 @@ functions{
     return cdf;
   }
      
-  real lba_lpdf(matrix RT, real d, real A, vector v, real s, real tau){
+  real lba_lpdf(matrix RT, real d, real A, vector v, real s, real tau) {
           
     real t;
     real b;
@@ -58,28 +60,28 @@ functions{
     real prob_neg;
           
     b = A + d;
-    for (i in 1:cols(RT)){	
+    for (i in 1:cols(RT)) {	
       t = RT[1,i] - tau;
-      if(t > 0){			
+      if(t > 0) {			
         cdf = 1;
-        for(j in 1:num_elements(v)){
+        for(j in 1:num_elements(v)) {
           if(RT[2,i] == j){
             pdf = lba_pdf(t, b, A, v[j], s);
-          }else{	
+          } else {	
             cdf = lba_cdf(t, b, A, v[j], s) * cdf;
           }
         }
         prob_neg = 1;
-        for(j in 1:num_elements(v)){
+        for(j in 1:num_elements(v)) {
           prob_neg = Phi(-v[j]/s) * prob_neg;    
         }
         prob[i] = pdf*(1-cdf);		
         prob[i] = prob[i]/(1-prob_neg);	
-        if(prob[i] < 1e-10){
+        if(prob[i] < 1e-10) {
           prob[i] = 1e-10;				
         }
                     
-      }else{
+      } else {
         prob[i] = 1e-10;			
       }		
     }
@@ -87,7 +89,7 @@ functions{
     return out;		
   }
      
-  vector lba_rng(real d, real A, vector v, real s, real tau){
+  vector lba_rng(real d, real A, vector v, real s, real tau) {
           
     int get_pos_drift;	
     int no_pos_drift;
@@ -107,27 +109,27 @@ functions{
     no_pos_drift  = 0;
     max_iter      = 1000;
     iter          = 0;
-    while(get_pos_drift){
-      for(j in 1:num_elements(v)){
+    while(get_pos_drift) {
+      for(j in 1:num_elements(v)) {
         drift[j] = normal_rng(v[j],s);
-        if(drift[j] > 0){
+        if(drift[j] > 0) {
           get_pos_drift = 0;
         }
       }
       iter = iter + 1;
-      if(iter > max_iter){
+      if(iter > max_iter) {
         get_pos_drift = 0;
         no_pos_drift  = 1;
       }	
     }
     //if both drift rates are <= 0
     //return an infinite response time
-    if(no_pos_drift){
+    if(no_pos_drift) {
       pred[1] = -1;
       pred[2] = -1;
-    }else{
+    } else {
       b = A + d;
-      for(i in 1:num_elements(v)){
+      for(i in 1:num_elements(v)) {
         //start time of each accumulator	
         start[i] = uniform_rng(0,A);
         //finish times
@@ -139,7 +141,7 @@ functions{
       ttf           = sort_asc(ttf);
       get_first_pos = 1;
       iter          = 1;
-      while(get_first_pos){
+      while(get_first_pos) {
         if(ttf[iter] > 0){
           pred[1]       = ttf[iter];
           pred[2]       = resp[iter]; 
@@ -162,19 +164,19 @@ data {
 
 }
 parameters {
-  # Hyperparameter means
+  // Hyperparameter means
   real<lower=0> mu_d;
   real<lower=0> mu_A;
   real<lower=0> mu_tau;
   vector<lower=0>[N_choices] mu_v[N_cond];
   
-  # Hyperparameter sigmas
+  // Hyperparameter sigmas
   real<lower=0> sigma_d;
   real<lower=0> sigma_A;
   real<lower=0> sigma_tau;
   vector<lower=0>[N_choices] sigma_v[N_cond];
   
-  # Individual parameters
+  // Individual parameters
   real<lower=0> d[N];
   real<lower=0> A[N];
   real<lower=0> tau[N];
@@ -182,71 +184,89 @@ parameters {
 }
 
 transformed parameters {
-  # s is set to 1 to make model identifiable
+  // s is set to 1 to make model identifiable
   real s;
   s = 1;
 }
 
 model {
-  # Hyperparameter means
+  // Hyperparameter means
   mu_d   ~ normal(.5,1)T[0,];
   mu_A   ~ normal(.5,1)T[0,];
   mu_tau ~ normal(.5,.5)T[0,];
   
-  # Hyperparameter sigmas
+  // Hyperparameter sigmas
   sigma_d   ~ gamma(1,1);
   sigma_A   ~ gamma(1,1);
   sigma_tau ~ gamma(1,1);
   
-  # Hyperparameter means and sigmas for multiple drift rates
-  for(j in 1:N_cond){
-    for(n in 1:N_choices){
+  // Hyperparameter means and sigmas for multiple drift rates
+  for(j in 1:N_cond) {
+    for(n in 1:N_choices) {
       mu_v[j,n]    ~ normal(2,1)T[0,];
       sigma_v[j,n] ~ gamma(1,1);
     }
   }
      
-  for(i in 1:N){		
-    # Declare variables
+  for(i in 1:N) {		
+    // Declare variables
     int n_trials;
     
-    # Individual parameters
+    // Individual parameters
     d[i]   ~ normal(mu_d, sigma_d)T[0,];
     A[i]   ~ normal(mu_A, sigma_A)T[0,];
     tau[i] ~ normal(mu_tau, sigma_tau)T[0,];
     
     for(j in 1:N_cond) {
-      # Store number of trials for subject/condition pair
+      // Store number of trials for subject/condition pair
       n_trials = N_tr_cond[i,j];
       
       for(n in 1:N_choices){
-        # Drift rate is normally distributed
+        // Drift rate is normally distributed
         v[i,j,n] ~ normal(mu_v[j,n], sigma_v[j,n])T[0,];
       }
-      # Likelihood of RT x Choice
+      // Likelihood of RT x Choice
       RT[i,j,,1:n_trials] ~ lba(d[i], A[i], v[i,j,], s, tau[i]);
     }		
   }	
 }
 generated quantities {
-  # Declare variables
+  // Declare variables
   int n_trials;
-  # For log likelihood calculation
+  
+  // For log likelihood calculation
   real log_lik[N];
+  
+  // For posterior predictive check
+  matrix[2, Max_tr] y_pred[N, N_cond];
+  
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (j in 1:N_cond) {
+      for (t in 1:Max_tr) {
+        y_pred[i,j,,t] = rep_vector(-1, 2);
+      }
+    }
+  }
    
-  { # local section, this saves time and space
-    for(i in 1:N){
-      # Initialize variables
+  { // local section, this saves time and space
+    for(i in 1:N) {
+      // Initialize variables
       log_lik[i] = 0;
       
       for(j in 1:N_cond) {
-        # Store number of trials for subject/condition pair
+        // Store number of trials for subject/condition pair
         n_trials = N_tr_cond[i,j];
         
-        # Sum likelihood over conditions within subjects
+        // Sum likelihood over conditions within subjects
         log_lik[i] = log_lik[i] + lba_lpdf(RT[i,j,,1:n_trials] | d[i], A[i], v[i,j,], s, tau[i]);
+        
+        for (t in 1:n_trials) {
+          // generate posterior predictions
+          y_pred[i,j,,t] = lba_rng(d[i], A[i], v[i,j,], s, tau[i]);
+        }
       }
     }
-    # end of subject loop
+    // end of subject loop
   }
 }

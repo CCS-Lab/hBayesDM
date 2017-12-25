@@ -3,23 +3,23 @@ data {
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
   real offer[N, T];
-  int<lower=0, upper=1> accept[N, T];
+  int<lower=-1, upper=1> accept[N, T];
 }
 transformed data {
 }
 parameters {
-# Declare all parameters as vectors for vectorizing
-  # Hyper(group)-parameters  
+// Declare all parameters as vectors for vectorizing
+  // Hyper(group)-parameters  
   vector[3] mu_p;  
   vector<lower=0>[3] sigma;
       
-  # Subject-level raw parameters (for Matt trick)
-  vector[N] ep_pr;     # ep: Norm adaptation rate
-  vector[N] alpha_pr;  # alpha: Envy (sensitivity to norm prediction error)
-  vector[N] tau_pr;    # tau: Inverse temperature 
+  // Subject-level raw parameters (for Matt trick)
+  vector[N] ep_pr;     // ep: Norm adaptation rate
+  vector[N] alpha_pr;  // alpha: Envy (sensitivity to norm prediction error)
+  vector[N] tau_pr;    // tau: Inverse temperature 
 }
 transformed parameters {
-  # Transform subject-level raw parameters 
+  // Transform subject-level raw parameters 
   real<lower=0,upper=1> ep[N]; 
   real<lower=0,upper=20> alpha[N];  
   real<lower=0,upper=10> tau[N];   
@@ -31,78 +31,91 @@ transformed parameters {
   }
 }
 model {
-  # Hyperparameters
+  // Hyperparameters
   mu_p  ~ normal(0, 1); 
   sigma ~ cauchy(0, 5);  
   
-  # individual parameters
+  // individual parameters
   ep_pr    ~ normal(0, 1.0);   
   alpha_pr ~ normal(0, 1.0);   
   tau_pr   ~ normal(0, 1.0);
   
   for (i in 1:N) {
-    # Define values
-    real f;    # Internal norm
-    real PE;   # Prediction error
-    real util; # Utility of offer
+    // Define values
+    real f;    // Internal norm
+    real PE;   // Prediction error
+    real util; // Utility of offer
     
-    # Initialize values
+    // Initialize values
     f = 10.0;
 
     for (t in 1:Tsubj[i]) {
-      # calculate prediction error
+      // calculate prediction error
       PE = offer[i,t] - f;
       
-      # Update utility
+      // Update utility
       util = offer[i,t] - alpha[i] * fmax(f - offer[i,t], 0.0); 
       
-      # Sampling statement
+      // Sampling statement
       accept[i,t] ~ bernoulli_logit( util * tau[i] ); 
       
-      # Update internal norm
+      // Update internal norm
       f = f + ep[i] * PE;
       
-    } # end of t loop
-  } # end of i loop 
+    } // end of t loop
+  } // end of i loop 
 }
 generated quantities {
-  # For group level parameters 
+  // For group level parameters 
   real<lower=0,upper=1> mu_ep; 
   real<lower=0,upper=10> mu_tau;   
   real<lower=0,upper=20> mu_alpha;  
   
-  # For log likelihood calculation
+  // For log likelihood calculation
   real log_lik[N];
+  
+  // For posterior predictive check
+  real y_pred[N,T]; 
+  
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      y_pred[i,t] = -1;
+    }
+  }
   
   mu_ep    = Phi_approx(mu_p[1]);
   mu_tau   = Phi_approx(mu_p[2]) * 10; 
   mu_alpha = Phi_approx(mu_p[3]) * 20;  
   
-  { # local section, this saves time and space
+  { // local section, this saves time and space
     for (i in 1:N) {
-      # Define values
-      real f;    # Internal norm
-      real PE;   # prediction error
-      real util; # Utility of offer
+      // Define values
+      real f;    // Internal norm
+      real PE;   // prediction error
+      real util; // Utility of offer
       
-      # Initialize values
+      // Initialize values
       f = 10.0;
       log_lik[i] = 0.0;
       
       for (t in 1:Tsubj[i]) {
-        # calculate prediction error
+        // calculate prediction error
         PE = offer[i,t] - f;
         
-        # Update utility
+        // Update utility
         util = offer[i,t] - alpha[i] * fmax(f - offer[i,t], 0.0); 
         
-        # Calculate log likelihood
+        // Calculate log likelihood
         log_lik[i] = log_lik[i] + bernoulli_logit_lpmf( accept[i,t] | util * tau[i] );
         
-        # Update internal norm
+        // generate posterior prediction for current trial
+        y_pred[i,t] = bernoulli_rng(inv_logit(util * tau[i]));
+        
+        // Update internal norm
         f = f + ep[i] * PE;
 
-      } # end of t loop 
-    } # end of i loop
-  } # end of local section
+      } // end of t loop 
+    } // end of i loop
+  } // end of local section
 } 
