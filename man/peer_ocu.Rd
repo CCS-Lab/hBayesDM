@@ -54,7 +54,8 @@ peer_ocu(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters: "rho" (risk preference), "tau" (inverse temperature), and "ocu" (other-conferred utility)
+Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters: "rho" (risk preference), "tau" (inverse temperature), and "ocu" (other-conferred utility).\cr\cr
+Contributor: Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 
 \strong{MODEL:}
 Peer influence task - OCU (other-conferred utility) model
