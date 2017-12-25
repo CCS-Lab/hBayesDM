@@ -1,4 +1,5 @@
 #' Peer influence task (Chung et al., 2015 Nature Neuroscience)
+#' Contributor: Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 #' 
 #' @description 
 #' Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters: "rho" (risk preference), "tau" (inverse temperature), and "ocu" (other-conferred utility)
