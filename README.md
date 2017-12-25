@@ -25,21 +25,20 @@ instructions, please go to this link:
 **You need to install the hBayesDM from CRAN.** The GitHub version
 precompiles all Stan models, which makes it faster to start MCMC
 sampling. But it may cause some memory allocation issues on a Windows
-machine.   
-<br><br>   
+machine.
 
-**(For Mac/Linux users)** We strongly recommend users install this
-GitHub version. The GitHub version in the master repository is identical
-to the CRAN version, except that all models are precompiled in the
-GitHub version, which saves time for compiling Stan models.
+**(For Mac/Linux users)** If you are a Mac user, [make sure Xcode is
+installed](https://github.com/stan-dev/rstan/wiki/RStan-Mac-OS-X-Prerequisite-Installation-Instructions#step2_3).
+We strongly recommend users install this GitHub version. The GitHub
+version in the master repository is identical to the CRAN version,
+except that all models are precompiled in the GitHub version, which
+saves time for compiling Stan models.
 
 You can install the latest version from github with:
 
-``` r
-# install 'devtools' if required
-if (!require(devtools)) install.packages("devtools")  
-devtools::install_github("CCS-Lab/hBayesDM")
-```
+    # install 'devtools' if required
+    if (!require(devtools)) install.packages("devtools")  
+    devtools::install_github("CCS-Lab/hBayesDM")
 
 Please go to **[hBayesDM Tutorial](http://rpubs.com/CCSL/hBayesDM)** for
 more information about the package.
