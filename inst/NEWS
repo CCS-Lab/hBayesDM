@@ -1,8 +1,8 @@
 Dec 25, 2017 (0.5.0)
 * Support variational Bayesian methods (vb=TRUE)
-* Allow posterior predictive checks, except for diffusion models (inc_postpred=TRUE)
+* Allow posterior predictive checks, except for drift-diffusion models (inc_postpred=TRUE)
 * Add the peer influence task (Chung et al., 2015, USE WITH CAUTION for now and PLEASE GIVE US FEEDBACK!)
-# Add 'prl_fictitious_rp' model 
+* Add 'prl_fictitious_rp' model 
 * Made changes to be compatible with the newest Stan version (e.g., // instead of # for commenting). 
 * In 'prl_*' models, 'rewlos' is replaced by 'outcome' so that column names and labels would be consistent across tasks as much as possible.
 * Email feature is disabled as R mail package does not allow users to send anonymous emails anymore.
