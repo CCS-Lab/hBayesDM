@@ -45,7 +45,6 @@ model {
     for (t in 1:Tsubj[i]) {
       real U_safe;    
       real U_risky; 
-      real p_risky;
       
       U_safe  = p_gamble[i,t]*pow(safe_Hpayoff[i,t], rho[i])  + (1-p_gamble[i,t]) * pow(safe_Lpayoff[i,t], rho[i]);  
       U_risky = p_gamble[i,t]*pow(risky_Hpayoff[i,t], rho[i]) + (1-p_gamble[i,t]) * pow(risky_Lpayoff[i,t], rho[i]);
@@ -91,7 +90,6 @@ generated quantities {
       for (t in 1:Tsubj[i]) {
         real U_safe;    
         real U_risky; 
-        real p_risky;
         
         U_safe  = p_gamble[i,t]*pow(safe_Hpayoff[i,t], rho[i])  + (1-p_gamble[i,t]) * pow(safe_Lpayoff[i,t], rho[i]);  
         U_risky = p_gamble[i,t]*pow(risky_Hpayoff[i,t], rho[i]) + (1-p_gamble[i,t]) * pow(risky_Lpayoff[i,t], rho[i]);
