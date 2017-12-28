@@ -5,10 +5,9 @@
 #' @param ncols Integer value specifying how many plots there should be per row. Defaults to the number of parameters.
 #' @param fontSize Integer value specifying the size of the font used for plotting. Defaults to 10.
 #' @param binSize Integer value specifying how wide the bars on the histogram should be. Defaults to 30.
-#' @param smoothing_ws Integer value specifying the smoothing window size for posterior predictive checks. Defaults to 3.
 #' @param ... Additional arguments to be passed on 
 #' 
-#' @importFrom rstan traceplot
+#' @importFrom rstan traceplot summary
 #' 
 #' @method plot hBayesDM
 #' @export
@@ -18,7 +17,6 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
                           ncols    = NULL,   # Defaults to the number of hyperparameters
                           fontSize = NULL,   # Defaults to 10
                           binSize  = NULL,   # Defaults to 30
-                          smoothing_ws = 3,  # Defaults to 3. Smoothing window size. 
                           ...) { 
   
   # Find the number of parameters for the model (lba can have multiple drift rates)
@@ -38,9 +36,9 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
     
     # Calling function for respective model
     eval(parse(text = paste0("plot_", x$model, "(obj = x",
-                                               ", fontSize = ", fontSize,
-                                               ", ncols = ", ncols, 
-                                               ", binSize = ", binSize, ")")))
+                             ", fontSize = ", fontSize,
+                             ", ncols = ", ncols, 
+                             ", binSize = ", binSize, ")")))
     invisible()
     
   } else if (type=="trace") {
@@ -51,13 +49,13 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
   }
   
   # Show a warning message if variance inference was used
-  `%notin%` <- Negate(`%in%`)  # define %notin% --> opposite of %in%
-  summaryData <- rstan::summary(x$fit)
-  if ("Rhat" %notin% colnames(summaryData[["summary"]])) {   # if 'Rhat' does not exist
-    cat("\n************************************************************************\n")
-    cat("Variational inference was used to approximate posterior distributions!!\n")
-    cat("For final inferences, we strongly recommend using MCMC sampling.\n")
-    cat("************************************************************************\n")
-  }
+  # `%notin%` <- Negate(`%in%`)  # define %notin% --> opposite of %in%
+  # summaryData <- rstan::summary(x$fit)
+  # if ("Rhat" %notin% colnames(summaryData[["summary"]])) {   # if 'Rhat' does not exist
+  #   cat("\n************************************************************************\n")
+  #   cat("Variational inference was used to approximate posterior distributions!!\n")
+  #   cat("For final inferences, we strongly recommend using MCMC sampling.\n")
+  #   cat("************************************************************************\n")
+  # }
   
 }

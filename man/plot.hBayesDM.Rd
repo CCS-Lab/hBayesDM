@@ -5,7 +5,7 @@
 \title{General Purpose Plotting for hBayesDM. This function plots hyper parameters.}
 \usage{
 \method{plot}{hBayesDM}(x = NULL, type = "dist", ncols = NULL,
-  fontSize = NULL, binSize = NULL, smoothing_ws = 3, ...)
+  fontSize = NULL, binSize = NULL, ...)
 }
 \arguments{
 \item{x}{Model output of class hBayesDM}
@@ -17,8 +17,6 @@
 \item{fontSize}{Integer value specifying the size of the font used for plotting. Defaults to 10.}
 
 \item{binSize}{Integer value specifying how wide the bars on the histogram should be. Defaults to 30.}
-
-\item{smoothing_ws}{Integer value specifying the smoothing window size for posterior predictive checks. Defaults to 3.}
 
 \item{...}{Additional arguments to be passed on}
 }

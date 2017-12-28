@@ -25744,7 +25744,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_peer_ocu");
-    reader.add_event(110, 110, "end", "model_peer_ocu");
+    reader.add_event(108, 108, "end", "model_peer_ocu");
     return reader;
 }
 
@@ -26247,31 +26247,25 @@ public:
 
                     stan::math::initialize(U_risky, DUMMY_VAR__);
                     stan::math::fill(U_risky,DUMMY_VAR__);
-                    current_statement_begin__ = 48;
-                    T__ p_risky;
-                    (void) p_risky;  // dummy to suppress unused var warning
-
-                    stan::math::initialize(p_risky, DUMMY_VAR__);
-                    stan::math::fill(p_risky,DUMMY_VAR__);
 
 
-                    current_statement_begin__ = 50;
+                    current_statement_begin__ = 49;
                     stan::math::assign(U_safe, ((get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2) * pow(get_base1(get_base1(safe_Hpayoff,i,"safe_Hpayoff",1),t,"safe_Hpayoff",2),get_base1(rho,i,"rho",1))) + ((1 - get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2)) * pow(get_base1(get_base1(safe_Lpayoff,i,"safe_Lpayoff",1),t,"safe_Lpayoff",2),get_base1(rho,i,"rho",1)))));
-                    current_statement_begin__ = 51;
+                    current_statement_begin__ = 50;
                     stan::math::assign(U_risky, ((get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2) * pow(get_base1(get_base1(risky_Hpayoff,i,"risky_Hpayoff",1),t,"risky_Hpayoff",2),get_base1(rho,i,"rho",1))) + ((1 - get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2)) * pow(get_base1(get_base1(risky_Lpayoff,i,"risky_Lpayoff",1),t,"risky_Lpayoff",2),get_base1(rho,i,"rho",1)))));
-                    current_statement_begin__ = 52;
+                    current_statement_begin__ = 51;
                     if (as_bool(logical_eq(get_base1(get_base1(condition,i,"condition",1),t,"condition",2),1))) {
 
-                        current_statement_begin__ = 53;
+                        current_statement_begin__ = 52;
                         stan::math::assign(U_safe, (U_safe + get_base1(ocu,i,"ocu",1)));
                     }
-                    current_statement_begin__ = 55;
+                    current_statement_begin__ = 54;
                     if (as_bool(logical_eq(get_base1(get_base1(condition,i,"condition",1),t,"condition",2),3))) {
 
-                        current_statement_begin__ = 56;
+                        current_statement_begin__ = 55;
                         stan::math::assign(U_risky, (U_risky + get_base1(ocu,i,"ocu",1)));
                     }
-                    current_statement_begin__ = 58;
+                    current_statement_begin__ = 57;
                     lp_accum__.add(bernoulli_logit_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), (get_base1(tau,i,"tau",1) * (U_risky - U_safe))));
                     }
                 }
@@ -26459,30 +26453,30 @@ public:
 
             if (!include_gqs__) return;
             // declare and define generated quantities
-            current_statement_begin__ = 64;
+            current_statement_begin__ = 63;
             double mu_rho(0.0);
             (void) mu_rho;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_rho, std::numeric_limits<double>::quiet_NaN());
             stan::math::fill(mu_rho,DUMMY_VAR__);
-            current_statement_begin__ = 65;
+            current_statement_begin__ = 64;
             double mu_tau(0.0);
             (void) mu_tau;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_tau, std::numeric_limits<double>::quiet_NaN());
             stan::math::fill(mu_tau,DUMMY_VAR__);
-            current_statement_begin__ = 66;
+            current_statement_begin__ = 65;
             double mu_ocu(0.0);
             (void) mu_ocu;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_ocu, std::numeric_limits<double>::quiet_NaN());
             stan::math::fill(mu_ocu,DUMMY_VAR__);
-            current_statement_begin__ = 69;
+            current_statement_begin__ = 68;
             validate_non_negative_index("log_lik", "N", N);
             vector<double> log_lik(N, 0.0);
             stan::math::initialize(log_lik, std::numeric_limits<double>::quiet_NaN());
             stan::math::fill(log_lik,DUMMY_VAR__);
-            current_statement_begin__ = 72;
+            current_statement_begin__ = 71;
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<double> > y_pred(N, (vector<double>(T, 0.0)));
@@ -26490,84 +26484,78 @@ public:
             stan::math::fill(y_pred,DUMMY_VAR__);
 
 
-            current_statement_begin__ = 75;
+            current_statement_begin__ = 74;
             for (int i = 1; i <= N; ++i) {
 
-                current_statement_begin__ = 76;
+                current_statement_begin__ = 75;
                 for (int t = 1; t <= T; ++t) {
 
-                    current_statement_begin__ = 77;
+                    current_statement_begin__ = 76;
                     stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), -(1));
                 }
             }
-            current_statement_begin__ = 81;
+            current_statement_begin__ = 80;
             stan::math::assign(mu_rho, (Phi_approx(get_base1(mu_p,1,"mu_p",1)) * 2));
-            current_statement_begin__ = 82;
+            current_statement_begin__ = 81;
             stan::math::assign(mu_tau, exp(get_base1(mu_p,2,"mu_p",1)));
-            current_statement_begin__ = 83;
+            current_statement_begin__ = 82;
             stan::math::assign(mu_ocu, get_base1(mu_p,3,"mu_p",1));
 
-            current_statement_begin__ = 86;
+            current_statement_begin__ = 85;
             for (int i = 1; i <= N; ++i) {
 
-                current_statement_begin__ = 89;
+                current_statement_begin__ = 88;
                 stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), 0.0);
-                current_statement_begin__ = 91;
+                current_statement_begin__ = 90;
                 for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
                     {
-                    current_statement_begin__ = 92;
+                    current_statement_begin__ = 91;
                     double U_safe(0.0);
                     (void) U_safe;  // dummy to suppress unused var warning
 
                     stan::math::initialize(U_safe, std::numeric_limits<double>::quiet_NaN());
                     stan::math::fill(U_safe,DUMMY_VAR__);
-                    current_statement_begin__ = 93;
+                    current_statement_begin__ = 92;
                     double U_risky(0.0);
                     (void) U_risky;  // dummy to suppress unused var warning
 
                     stan::math::initialize(U_risky, std::numeric_limits<double>::quiet_NaN());
                     stan::math::fill(U_risky,DUMMY_VAR__);
+
+
                     current_statement_begin__ = 94;
-                    double p_risky(0.0);
-                    (void) p_risky;  // dummy to suppress unused var warning
-
-                    stan::math::initialize(p_risky, std::numeric_limits<double>::quiet_NaN());
-                    stan::math::fill(p_risky,DUMMY_VAR__);
-
-
-                    current_statement_begin__ = 96;
                     stan::math::assign(U_safe, ((get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2) * pow(get_base1(get_base1(safe_Hpayoff,i,"safe_Hpayoff",1),t,"safe_Hpayoff",2),get_base1(rho,i,"rho",1))) + ((1 - get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2)) * pow(get_base1(get_base1(safe_Lpayoff,i,"safe_Lpayoff",1),t,"safe_Lpayoff",2),get_base1(rho,i,"rho",1)))));
-                    current_statement_begin__ = 97;
+                    current_statement_begin__ = 95;
                     stan::math::assign(U_risky, ((get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2) * pow(get_base1(get_base1(risky_Hpayoff,i,"risky_Hpayoff",1),t,"risky_Hpayoff",2),get_base1(rho,i,"rho",1))) + ((1 - get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2)) * pow(get_base1(get_base1(risky_Lpayoff,i,"risky_Lpayoff",1),t,"risky_Lpayoff",2),get_base1(rho,i,"rho",1)))));
-                    current_statement_begin__ = 98;
+                    current_statement_begin__ = 96;
                     if (as_bool(logical_eq(get_base1(get_base1(condition,i,"condition",1),t,"condition",2),1))) {
 
-                        current_statement_begin__ = 99;
+                        current_statement_begin__ = 97;
                         stan::math::assign(U_safe, (U_safe + get_base1(ocu,i,"ocu",1)));
                     }
-                    current_statement_begin__ = 101;
+                    current_statement_begin__ = 99;
                     if (as_bool(logical_eq(get_base1(get_base1(condition,i,"condition",1),t,"condition",2),3))) {
 
-                        current_statement_begin__ = 102;
+                        current_statement_begin__ = 100;
                         stan::math::assign(U_risky, (U_risky + get_base1(ocu,i,"ocu",1)));
                     }
-                    current_statement_begin__ = 104;
+                    current_statement_begin__ = 102;
                     stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + bernoulli_logit_log(get_base1(get_base1(choice,i,"choice",1),t,"choice",2),(get_base1(tau,i,"tau",1) * (U_risky - U_safe)))));
-                    current_statement_begin__ = 106;
+                    current_statement_begin__ = 104;
                     stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), bernoulli_rng(inv_logit((get_base1(tau,i,"tau",1) * (U_risky - U_safe))), base_rng__));
                     }
                 }
             }
 
             // validate generated quantities
-            current_statement_begin__ = 64;
+            current_statement_begin__ = 63;
             check_greater_or_equal(function__,"mu_rho",mu_rho,0);
             check_less_or_equal(function__,"mu_rho",mu_rho,2);
-            current_statement_begin__ = 65;
+            current_statement_begin__ = 64;
             check_greater_or_equal(function__,"mu_tau",mu_tau,0);
-            current_statement_begin__ = 66;
-            current_statement_begin__ = 69;
-            current_statement_begin__ = 72;
+            current_statement_begin__ = 65;
+            current_statement_begin__ = 68;
+            current_statement_begin__ = 71;
 
             // write generated quantities
         vars__.push_back(mu_rho);

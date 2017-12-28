@@ -23273,7 +23273,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_peer_ocu");
-    reader.add_event(110, 110, "end", "model_peer_ocu");
+    reader.add_event(108, 108, "end", "model_peer_ocu");
     return reader;
 }
 
@@ -23732,11 +23732,6 @@ public:
 
                     stan::math::initialize(U_risky, DUMMY_VAR__);
                     stan::math::fill(U_risky,DUMMY_VAR__);
-                    T__ p_risky;
-                    (void) p_risky;  // dummy to suppress unused var warning
-
-                    stan::math::initialize(p_risky, DUMMY_VAR__);
-                    stan::math::fill(p_risky,DUMMY_VAR__);
 
 
                     stan::math::assign(U_safe, ((get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2) * pow(get_base1(get_base1(safe_Hpayoff,i,"safe_Hpayoff",1),t,"safe_Hpayoff",2),get_base1(rho,i,"rho",1))) + ((1 - get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2)) * pow(get_base1(get_base1(safe_Lpayoff,i,"safe_Lpayoff",1),t,"safe_Lpayoff",2),get_base1(rho,i,"rho",1)))));
@@ -23978,11 +23973,6 @@ public:
 
                     stan::math::initialize(U_risky, std::numeric_limits<double>::quiet_NaN());
                     stan::math::fill(U_risky,DUMMY_VAR__);
-                    double p_risky(0.0);
-                    (void) p_risky;  // dummy to suppress unused var warning
-
-                    stan::math::initialize(p_risky, std::numeric_limits<double>::quiet_NaN());
-                    stan::math::fill(p_risky,DUMMY_VAR__);
 
 
                     stan::math::assign(U_safe, ((get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2) * pow(get_base1(get_base1(safe_Hpayoff,i,"safe_Hpayoff",1),t,"safe_Hpayoff",2),get_base1(rho,i,"rho",1))) + ((1 - get_base1(get_base1(p_gamble,i,"p_gamble",1),t,"p_gamble",2)) * pow(get_base1(get_base1(safe_Lpayoff,i,"safe_Lpayoff",1),t,"safe_Lpayoff",2),get_base1(rho,i,"rho",1)))));
