@@ -19,6 +19,16 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
                           binSize  = NULL,   # Defaults to 30
                           ...) { 
   
+  # Show a warning message if variational inference was used
+  `%notin%` <- Negate(`%in%`)  # define %notin% --> opposite of %in%
+  summaryData <- rstan::summary(x$fit)
+  if ("Rhat" %notin% colnames(summaryData[["summary"]])) {   # if 'Rhat' does not exist
+    cat("\n************************************************************************\n")
+    cat("Variational inference was used to approximate posterior distributions!!\n")
+    cat("For final inferences, we strongly recommend using MCMC sampling.\n")
+    cat("************************************************************************\n")
+  }
+  
   # Find the number of parameters for the model (lba can have multiple drift rates)
   if (grepl(pattern = "lba", x = x$model)) {
     numPars <- 4
@@ -47,15 +57,4 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
   } else if (type=="simple") {                           
     rstan::plot(x$fit, pars = paste0(parNames), ...)         
   }
-  
-  # Show a warning message if variance inference was used
-  # `%notin%` <- Negate(`%in%`)  # define %notin% --> opposite of %in%
-  # summaryData <- rstan::summary(x$fit)
-  # if ("Rhat" %notin% colnames(summaryData[["summary"]])) {   # if 'Rhat' does not exist
-  #   cat("\n************************************************************************\n")
-  #   cat("Variational inference was used to approximate posterior distributions!!\n")
-  #   cat("For final inferences, we strongly recommend using MCMC sampling.\n")
-  #   cat("************************************************************************\n")
-  # }
-  
 }
