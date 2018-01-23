@@ -1,8 +1,8 @@
 citHeader("To cite hBayesDM in publications use:")
 
 citEntry(entry = "Article",
-  key          = "ahn2017revealing",
-  title        = "Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the hBayesDM Package",
+  key          = "hBayesDM",
+  title        = "Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package",
   author       = personList(as.person("Woo-Young Ahn"),
                             as.person("Nathaniel Haines"),
                             as.person("Lei Zhang")),
