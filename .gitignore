@@ -43,4 +43,3 @@ src/Modules*
 src/hBayesDM.so
 src/hBayesDM.dll
 src/include
-hBayesDM.Rproj
