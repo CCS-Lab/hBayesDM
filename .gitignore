@@ -43,4 +43,5 @@ src/Modules*
 src/hBayesDM.so
 src/hBayesDM.dll
 src/include
-.Rproj.user
+
+src/RcppExports.*
