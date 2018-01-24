@@ -1,6 +1,3 @@
-# Created by https://www.gitignore.io/api/r
-
-### R ###
 # History files
 .Rhistory
 .Rapp.history
@@ -18,9 +15,6 @@
 # Output files from R CMD check
 /*.Rcheck/
 
-# RStudio files
-.Rproj.user/
-
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
@@ -36,12 +30,13 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
-
-# End of https://www.gitignore.io/api/r
-
+# Source files
 src/Modules*
 src/hBayesDM.so
 src/hBayesDM.dll
 src/include
-
 src/RcppExports.*
+
+# RStudio files
+.Rproj.user
+
