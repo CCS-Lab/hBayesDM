@@ -1,0 +1,21 @@
+citHeader("To cite hBayesDM in publications use:")
+
+citEntry(entry = "Article",
+  key          = "hBayesDM",
+  title        = "Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package",
+  author       = personList(as.person("Woo-Young Ahn"),
+                            as.person("Nathaniel Haines"),
+                            as.person("Lei Zhang")),
+  journal      = "Computational Psychiatry",
+  year         = "2017",
+  volume       = "1",
+  number       = "",
+  pages        = "24--57",
+  url          = "https://doi.org/10.1162/CPSY_a_00002",
+
+  textVersion  =
+  paste("Ahn, W.-Y., Haines, N., & Zhang, L. (2017)",
+        "Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package.",
+        "Computational Psychiatry, 1:1.",
+        "https://doi.org/10.1162/CPSY_a_00002.")
+)
