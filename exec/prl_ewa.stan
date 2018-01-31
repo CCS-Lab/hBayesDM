@@ -62,8 +62,8 @@ model {
     real ewt1; // Experience weight of trial (t - 1)
 
     // Initialize values
-    ev = init; // initial ev values
-    ew = init; // initial ew values
+    ev = initV; // initial ev values
+    ew = initV; // initial ew values
 
     for (t in 1:Tsubj[i]) {
       // Softmax choice
@@ -89,6 +89,10 @@ generated quantities {
 
   // For log likelihood calculation
   real log_lik[N];
+
+  // For model regressors
+  real mr_ev[N, T];   // Expected value
+  real mr_ew[N, T];   // Experience weight
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -133,6 +137,10 @@ generated quantities {
 
         // Update expected value of chosen stimulus
         ev[choice[i, t]] = (ev[choice[i, t]] * phi[i] * ewt1 + outcome[i, t]) /  ew[choice[i, t]];
+
+        // Store values for model regressors
+        mr_ev[i, t] = ev[choice[i, t]];
+        mr_ew[i, t] = ew[choice[i, t]];
       }
     }
   }
