@@ -126,7 +126,9 @@ prl_ewa <- function(data           = "choice",
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    stop("** Model-based regressors are not available for this model **\n")
+    cat("************************************\n")
+    cat("** Extract model-based regressors **\n")
+    cat("************************************\n")
   }
 
   # To see how long computations take
@@ -163,6 +165,10 @@ prl_ewa <- function(data           = "choice",
                "sigma",
                "phi", "rho", "beta",
                "log_lik")
+
+  if (modelRegressor) {
+    POI <- c(POI, "mr_ev", "mr_ew")
+  }
 
   if (inc_postpred) {
     POI <- c(POI, "y_pred")
@@ -219,7 +225,7 @@ prl_ewa <- function(data           = "choice",
     choice  = choice,
     outcome = outcome,
     numPars = numPars
-)
+  )
 
   # inits
   if (inits[1] != "random") {
@@ -239,7 +245,7 @@ prl_ewa <- function(data           = "choice",
         phi_pr  = rep(qnorm(inits_fixed[1]), numSubjs),
         rho_pr  = rep(qnorm(inits_fixed[2]), numSubjs),
         beta_pr = rep(qnorm(inits_fixed[3]/10), numSubjs)
-)
+      )
     }
   } else {
     genInitList <- "random"
@@ -318,9 +324,29 @@ prl_ewa <- function(data           = "choice",
                             "beta",
                             "subjID")
 
-  # Wrap up data into a list
-  modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
+  if (modelRegressor) {
+    # Choose the summarizing function for individual parameters
+    id_ <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
+
+    ew <- apply(parVals$mr_ew, c(2, 3), id_)
+    ev <- apply(parVals$mr_ev, c(2, 3), id_)
+
+    # Remove the summarizing function
+    rm(id_)
+
+    # Initialize modelRegressor and add model-based regressors
+    modelRegressor <- NULL
+    modelRegressor$ew <- ew
+    modelRegressor$ev <- ev
+
+    # Wrap up data into a list
+    modelData        <- list(modelName, allIndPars, parVals, fit, rawdata, modelRegressor)
+    names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata", "modelRegressor")
+  } else {
+    # Wrap up data into a list
+    modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
+    names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
+  }
   class(modelData) <- "hBayesDM"
 
   # Total time of computations
