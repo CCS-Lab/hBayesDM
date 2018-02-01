@@ -1,20 +1,29 @@
+/**
+ * Probabilistic Reversal Learning (PRL) Task
+ *
+ * Reward-Punishment Model with multiple blocks per subject by Ouden et al. (2013) Neuron
+ */
+
 data {
-  int<lower=1> N;
-  int<lower=0> T;
-  int<lower=1> maxB; // new
-  int<lower=1> B[N]; // number of blocks for each subject // new
-  int<lower=0, upper=T> Tsubj[N, maxB];           //new
-  int<lower=-1, upper=2> choice[N, maxB, T];  //new
-  real outcome[N, maxB, T];  //new
+  int<lower=1> N;                             // Number of subjects
+  int<lower=0> T;                             // Maximum number of trials across subjects
+
+  int<lower=1> maxB;                          // Maximum number of blocks across subjects
+  int<lower=1> B[N];                          // Number of blocks for each subject
+
+  int<lower=0, upper=T> Tsubj[N, maxB];       // Number of trials/blocks for each subject
+  int<lower=-1, upper=2> choice[N, maxB, T];  // The choices subjects made
+  real outcome[N, maxB, T];                   // The outcome
 }
 
 transformed data {
+  // Default value for (re-)initializing parameter vectors
   vector[2] initV;
-  initV  = rep_vector(0.0, 2);
+  initV = rep_vector(0.0, 2);
 }
 
-parameters {
 // Declare all parameters as vectors for vectorizing
+parameters {
   // Hyper(group)-parameters
   vector[3] mu_p;
   vector<lower=0>[3] sigma;
@@ -24,6 +33,7 @@ parameters {
   vector[N] Arew_pr;   // learning rate (reward)
   vector[N] beta_pr;   // inverse temperature
 }
+
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] Apun;
@@ -36,6 +46,7 @@ transformed parameters {
     beta[i]  = Phi_approx(mu_p[3] + sigma[3] * beta_pr[i]) * 10;
   }
 }
+
 model {
   // Hyperparameters
   mu_p  ~ normal(0, 1);
@@ -49,11 +60,11 @@ model {
   for (i in 1:N) {
     for (bIdx in 1:B[i]) {  // new
       // Define Values
-      vector[2] ev; // Expected value
-      real PE; // prediction error
+      vector[2] ev;   // Expected value
+      real PE;        // prediction error
 
       // Initialize values
-      ev = initV; // initial ev values
+      ev = initV;     // Initial ev values
 
       for (t in 1:Tsubj[i, bIdx]) {
         // Softmax choice
@@ -63,15 +74,15 @@ model {
         PE = outcome[i, bIdx, t] - ev[choice[i, bIdx, t]];
 
         // Update expected value of chosen stimulus
-        if (outcome[i, bIdx, t] >=0) {
+        if (outcome[i, bIdx, t] >=0)
           ev[choice[i, bIdx, t]] = ev[choice[i, bIdx, t]] + Arew[i] * PE;
-        } else {
+        else
           ev[choice[i, bIdx, t]] = ev[choice[i, bIdx, t]] + Apun[i] * PE;
-        }
       }
     }
   }
 }
+
 generated quantities {
   // For group level parameters
   real<lower=0, upper=1> mu_Apun;
@@ -81,6 +92,9 @@ generated quantities {
   // For log likelihood calculation
   real log_lik[N];
 
+  // For model regressors
+  real mr_ev[N, maxB, T];
+
   // For posterior predictive check
   real y_pred[N, maxB, T];
 
@@ -88,6 +102,7 @@ generated quantities {
   for (i in 1:N) {
     for (b in 1:maxB) {
       for (t in 1:T) {
+        mr_ev[i, b, t] = -1;
         y_pred[i, b, t] = -1;
       }
     }
@@ -121,11 +136,13 @@ generated quantities {
           PE = outcome[i, bIdx, t] - ev[choice[i, bIdx, t]];
 
           // Update expected value of chosen stimulus
-          if (outcome[i, bIdx, t] >=0) {
+          if (outcome[i, bIdx, t] >=0)
             ev[choice[i, bIdx, t]] = ev[choice[i, bIdx, t]] + Arew[i] * PE;
-          } else {
+          else
             ev[choice[i, bIdx, t]] = ev[choice[i, bIdx, t]] + Apun[i] * PE;
-          }
+
+          // Store values for model regressors
+          mr_ev[i, bIdx, t] = ev[choice[i, bIdx, t]];
         }
       }
     }

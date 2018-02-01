@@ -126,7 +126,9 @@ prl_ewa <- function(data           = "choice",
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    stop("** Model-based regressors are not available for this model **\n")
+    cat("************************************\n")
+    cat("** Extract model-based regressors **\n")
+    cat("************************************\n")
   }
 
   # To see how long computations take
@@ -145,6 +147,7 @@ prl_ewa <- function(data           = "choice",
   } else {
     stop("** The data file does not exist. Please check it again. **\n  e.g., data = '/MyFolder/SubFolder/dataFile.txt', ... **\n")
   }
+
   # Remove rows containing NAs
   NA_rows_all = which(is.na(rawdata), arr.ind = T)  # rows with NAs
   NA_rows = unique(NA_rows_all[, "row"])
@@ -164,9 +167,11 @@ prl_ewa <- function(data           = "choice",
                "phi", "rho", "beta",
                "log_lik")
 
-  if (inc_postpred) {
+  if (modelRegressor)
+    POI <- c(POI, "mr_ev", "mr_ew")
+
+  if (inc_postpred)
     POI <- c(POI, "y_pred")
-  }
 
   modelName <- "prl_ewa"
 
@@ -219,19 +224,21 @@ prl_ewa <- function(data           = "choice",
     choice  = choice,
     outcome = outcome,
     numPars = numPars
-)
+  )
 
   # inits
-  if (inits[1] != "random") {
+  if (inits[1] == "random") {
+    genInitList <- "random"
+  } else {
     if (inits[1] == "fixed") {
       inits_fixed <- c(0.5, 0.1, 1.0)
     } else {
-      if (length(inits) == numPars) {
+      if (length(inits) == numPars)
         inits_fixed <- inits
-      } else {
+      else
         stop("Check your inital values!")
-      }
     }
+
     genInitList <- function() {
       list(
         mu_p    = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 10)),
@@ -239,10 +246,8 @@ prl_ewa <- function(data           = "choice",
         phi_pr  = rep(qnorm(inits_fixed[1]), numSubjs),
         rho_pr  = rep(qnorm(inits_fixed[2]), numSubjs),
         beta_pr = rep(qnorm(inits_fixed[3]/10), numSubjs)
-)
+      )
     }
-  } else {
-    genInitList <- "random"
   }
 
   if (ncore > 1) {
@@ -250,12 +255,10 @@ prl_ewa <- function(data           = "choice",
     if (numCores < ncore) {
       options(mc.cores = numCores)
       warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
-    }
-    else{
+    } else {
       options(mc.cores = ncore)
     }
-  }
-  else {
+  } else {
     options(mc.cores = 1)
   }
 
@@ -264,52 +267,46 @@ prl_ewa <- function(data           = "choice",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m = stanmodels$prl_ewa
+  m <- stanmodels$prl_ewa
+
   if (vb) {   # if variational Bayesian
-    fit = rstan::vb(m,
-                    data   = dataList,
-                    pars   = POI,
-                    init   = genInitList)
+    fit <- rstan::vb(m,
+                     data   = dataList,
+                     pars   = POI,
+                     init   = genInitList)
   } else {
-    fit = rstan::sampling(m,
-                          data   = dataList,
-                          pars   = POI,
-                          warmup = nwarmup,
-                          init   = genInitList,
-                          iter   = niter,
-                          chains = nchain,
-                          thin   = nthin,
-                          control = list(adapt_delta   = adapt_delta,
-                                         max_treedepth = max_treedepth,
-                                         stepsize      = stepsize))
+    fit <- rstan::sampling(m,
+                           data   = dataList,
+                           pars   = POI,
+                           warmup = nwarmup,
+                           init   = genInitList,
+                           iter   = niter,
+                           chains = nchain,
+                           thin   = nthin,
+                           control = list(adapt_delta   = adapt_delta,
+                                          max_treedepth = max_treedepth,
+                                          stepsize      = stepsize))
   }
+
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted = T)
-  if (inc_postpred) {
+  if (inc_postpred)
     parVals$y_pred[parVals$y_pred == -1] <- NA
-  }
 
   phi  <- parVals$phi
   rho  <- parVals$rho
   beta <- parVals$beta
+
   # Individual parameters (e.g., individual posterior means)
+  measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
 
+  # TODO: Use *apply function instead of for loop
   for (i in 1:numSubjs) {
-    if (indPars == "mean") {
-      allIndPars[i,] <- c(mean(phi[, i]),
-                            mean(rho[, i]),
-                            mean(beta[, i]))
-    } else if (indPars == "median") {
-      allIndPars[i,] <- c(median(phi[, i]),
-                            median(rho[, i]),
-                            median(beta[, i]))
-    } else if (indPars == "mode") {
-      allIndPars[i,] <- c(estimate_mode(phi[, i]),
-                            estimate_mode(rho[, i]),
-                            estimate_mode(beta[, i]))
-    }
+    allIndPars[i, ] <- c(measureIndPars(phi[, i]),
+                         measureIndPars(rho[, i]),
+                         measureIndPars(beta[, i]))
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
@@ -319,8 +316,26 @@ prl_ewa <- function(data           = "choice",
                             "subjID")
 
   # Wrap up data into a list
-  modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
+  modelData                 <- list()
+  modelData$model           <- modelName
+  modelData$allIndPars      <- allIndPars
+  modelData$parVals         <- parVals
+  modelData$fit             <- fit
+  modelData$rawdata         <- rawdata
+  modelData$modelRegressor  <- NA
+
+  if (modelRegressor) {
+    ew <- apply(parVals$mr_ew, c(2, 3), measureIndPars)
+    ev <- apply(parVals$mr_ev, c(2, 3), measureIndPars)
+
+    # Initialize modelRegressor and add model-based regressors
+    regressors    <- NULL
+    regressors$ew <- ew
+    regressors$ev <- ev
+
+    modelData$modelRegressor <- regressors
+  }
+
   class(modelData) <- "hBayesDM"
 
   # Total time of computations
