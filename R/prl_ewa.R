@@ -147,6 +147,7 @@ prl_ewa <- function(data           = "choice",
   } else {
     stop("** The data file does not exist. Please check it again. **\n  e.g., data = '/MyFolder/SubFolder/dataFile.txt', ... **\n")
   }
+
   # Remove rows containing NAs
   NA_rows_all = which(is.na(rawdata), arr.ind = T)  # rows with NAs
   NA_rows = unique(NA_rows_all[, "row"])
@@ -314,23 +315,27 @@ prl_ewa <- function(data           = "choice",
                             "beta",
                             "subjID")
 
+  # Wrap up data into a list
+  modelData                 <- list()
+  modelData$model           <- modelName
+  modelData$allIndPars      <- allIndPars
+  modelData$parVals         <- parVals
+  modelData$fit             <- fit
+  modelData$rawdata         <- rawdata
+  modelData$modelRegressor  <- NA
+
   if (modelRegressor) {
     ew <- apply(parVals$mr_ew, c(2, 3), measureIndPars)
     ev <- apply(parVals$mr_ev, c(2, 3), measureIndPars)
 
     # Initialize modelRegressor and add model-based regressors
-    modelRegressor    <- NULL
-    modelRegressor$ew <- ew
-    modelRegressor$ev <- ev
+    regressors    <- NULL
+    regressors$ew <- ew
+    regressors$ev <- ev
 
-    # Wrap up data into a list
-    modelData        <- list(modelName, allIndPars, parVals, fit, rawdata, modelRegressor)
-    names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata", "modelRegressor")
-  } else {
-    # Wrap up data into a list
-    modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-    names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
+    modelData$modelRegressor <- regressors
   }
+
   class(modelData) <- "hBayesDM"
 
   # Total time of computations
