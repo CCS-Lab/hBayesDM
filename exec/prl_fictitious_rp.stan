@@ -1,18 +1,26 @@
+/**
+ * Probabilistic Reversal Learning (PRL) Task
+ *
+ * Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
+ */
+
 data {
-  int<lower=1> N;
-  int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=-1, upper=2> choice[N, T];
-  real outcome[N, T];
+  int<lower=1> N;                                     // Number of subjects
+  int<lower=1> T;                                     // Max number of trials across subjects
+  int<lower=1, upper=T> Tsubj[N];                     // Number of trials/blocks for each subject
+
+  int<lower=-1, upper=2> choice[N, T];                // The choices subjects made
+  real outcome[N, T];                                 // The outcome
 }
 
 transformed data {
+  // Default value for (re-)initializing parameter vectors
   vector[2] initV;
   initV = rep_vector(0.0, 2);
 }
 
+// Declare all parameters as vectors for vectorizing
 parameters {
-  // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
   vector[4] mu_p;
   vector<lower=0>[4] sigma;
@@ -20,9 +28,10 @@ parameters {
   // Subject-level raw parameters (for Matt trick)
   vector[N] eta_pos_pr;   // learning rate, positive PE
   vector[N] eta_neg_pr;   // learning rate, negative PE
-  vector[N] alpha_pr; // indecision point
-  vector[N] beta_pr;  // inverse temperature
+  vector[N] alpha_pr;     // indecision point
+  vector[N] beta_pr;      // inverse temperature
 }
+
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] eta_pos;
@@ -37,6 +46,7 @@ transformed parameters {
     beta[i]      = Phi_approx(mu_p[4] + sigma[4] * beta_pr[i]) * 5;
   }
 }
+
 model {
   // Hyperparameters
   mu_p  ~ normal(0, 1);
@@ -50,8 +60,9 @@ model {
 
   for (i in 1:N) {
     // Define values
-    vector[2] ev;
-    vector[2] prob;
+    vector[2] ev;     // expected value
+    vector[2] prob;   // probability
+
     real PE;     // prediction error
     real PEnc;   // fictitious prediction error (PE-non-chosen)
 
@@ -79,6 +90,7 @@ model {
     }
   }
 }
+
 generated quantities {
   // For group level parameters
   real<lower=0, upper=1> mu_eta_pos;
@@ -88,6 +100,10 @@ generated quantities {
 
   // For log likelihood calculation
   real log_lik[N];
+
+  // For model regressors
+  real mr_ev[N, T];   // expected value
+  real mr_prob[N, T];   // probability
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -107,14 +123,16 @@ generated quantities {
   { // local section, this saves time and space
     for (i in 1:N) {
       // Define values
-      vector[2] ev;
-      vector[2] prob;
+      vector[2] ev;     // expected value
+      vector[2] prob;   // probability
+
       real PE;     // prediction error
       real PEnc;   // fictitious prediction error (PE-non-chosen)
 
       // Initialize values
-      log_lik[i] = 0;
       ev = initV; // initial ev values
+
+      log_lik[i] = 0;
 
       for (t in 1:(Tsubj[i])) {
         // compute action probabilities
@@ -138,6 +156,10 @@ generated quantities {
           ev[choice[i, t]]   = ev[choice[i, t]]   + eta_neg[i] * PE;
           ev[3-choice[i, t]] = ev[3-choice[i, t]] + eta_neg[i] * PEnc;
         }
+
+        // Store values for model regressors
+        mr_ev[i, t] = ev[choice[i, t]];
+        mr_prob[i, t] = prob[choice[i, t]];
       }
     }
   }

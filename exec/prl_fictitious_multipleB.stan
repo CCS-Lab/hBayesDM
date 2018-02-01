@@ -1,20 +1,28 @@
+/**
+ * Probabilistic Reversal Learning (PRL) Task
+ *
+ * Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
+ */
+
 data {
-  int<lower=1> N;                          // Number of subjects
-  int<lower=0> T;                          // Max number of trials across subjects
-  int<lower=1> maxB;                       // Max number of blocks across subjects
-  int<lower=1> B[N];                       // Number of blocks for each subject
-  int<lower=0, upper=T> Tsubj[N, maxB];    // Number of trials/block for each subject
-  int<lower=-1, upper=2> choice[N, maxB, T]; // Choice for each subject-block-trial
-  real outcome[N, maxB, T];                 // Outcome (reward/loss) for each subject-block-trial
+  int<lower=1> N;                             // Number of subjects
+  int<lower=0> T;                             // Max number of trials across subjects
+  int<lower=1> maxB;                          // Max number of blocks across subjects
+  int<lower=1> B[N];                          // Number of blocks for each subject
+  int<lower=0, upper=T> Tsubj[N, maxB];       // Number of trials/block for each subject
+
+  int<lower=-1, upper=2> choice[N, maxB, T];  // Choice for each subject-block-trial
+  real outcome[N, maxB, T];                   // Outcome (reward/loss) for each subject-block-trial
 }
 
 transformed data {
+  // Default value for (re-)initializing parameter vectors
   vector[2] initV;
   initV = rep_vector(0.0, 2);
 }
 
-parameters {
 // Declare all parameters as vectors for vectorizing
+parameters {
   // Hyper(group)-parameters
   vector[3] mu_p;
   vector<lower=0>[3] sigma;
@@ -24,6 +32,7 @@ parameters {
   vector[N] alpha_pr; // indecision point
   vector[N] beta_pr;  // inverse temperature
 }
+
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] eta;
@@ -49,8 +58,9 @@ model {
   for (i in 1:N) {
     for (bIdx in 1:B[i]) {  // new
       // Define values
-      vector[2] ev;
-      vector[2] prob;
+      vector[2] ev;    // expected value
+      vector[2] prob;  // probability
+
       real PE;     // prediction error
       real PEnc;   // fictitious prediction error (PE-non-chosen)
 
@@ -84,6 +94,10 @@ generated quantities {
   // For log likelihood calculation
   real log_lik[N];
 
+  // For model regressors
+  real mr_ev[N, maxB, T];   // expected value
+  real mr_prob[N, maxB, T];   // probability
+
   // For posterior predictive check
   real y_pred[N, maxB, T];
 
@@ -107,8 +121,9 @@ generated quantities {
 
       for (bIdx in 1:B[i]) {
         // Define values
-        vector[2] ev;
-        vector[2] prob;
+        vector[2] ev;     // expected value
+        vector[2] prob;   // probability
+
         real PE;     // prediction error
         real PEnc;   // fictitious prediction error (PE-non-chosen)
 
@@ -132,6 +147,10 @@ generated quantities {
           // value updating (learning)
           ev[choice[i, bIdx, t]]   = ev[choice[i, bIdx, t]]   + eta[i] * PE;   //new
           ev[3-choice[i, bIdx, t]] = ev[3-choice[i, bIdx, t]] + eta[i] * PEnc;  //new
+
+          // Store values for model regressors
+          mr_ev[i, bIdx, t] = ev[choice[i, bIdx, t]];
+          mr_prob[i, bIdx, t] = prob[choice[i, bIdx, t]];
         } // end of t loop
       } // end of bIdx loop
     }

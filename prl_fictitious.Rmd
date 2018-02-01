@@ -1,0 +1,44 @@
+---
+title: "Testing model regressors"
+author: "Jaeyeong Yang"
+date: "1/31/2018"
+output: html_document
+---
+
+```{r}
+library(hBayesDM)
+```
+
+```{r}
+output <- prl_fictitious_rp(data = "example",
+                  niter = 2000,
+                  nwarmup = 1000,
+                  modelRegressor = TRUE)
+```
+
+```{r}
+# Store all subjects' expected value in `ev_all`
+ev_all <- output$modelRegressor$ev
+
+# number of rows    = # of subjects
+# number of columns = # of trials
+dim(ev_all)
+```
+
+```{r}
+# Plot the expected value of subject #1
+plot(ev_all[1, ],
+     main = "Expected Value of Subject #1",
+     xlab = "Trial",
+     ylab = "Expected Value",
+     type = "l")
+```
+
+```{r}
+# Plot the expected value of subject #3
+plot(ev_all[3, ],
+     main = "Expected Value of Subject #3",
+     xlab = "Trial",
+     ylab = "Expected Value",
+     type = "l")
+```
