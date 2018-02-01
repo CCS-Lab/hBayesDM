@@ -4,7 +4,7 @@
 #' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta" (learning rate), "alpha" (indecision point), "beta" (inverse temperature).
 #'
 #' \strong{MODEL:}
-#' Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex)
+#' Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
 #'
 #' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", and "outcome". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
@@ -126,7 +126,9 @@ prl_fictitious <- function(data           = "choice",
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    stop("** Model-based regressors are not available for this model **\n")
+    cat("************************************\n")
+    cat("** Extract model-based regressors **\n")
+    cat("************************************\n")
   }
 
   # To see how long computations take
@@ -164,9 +166,11 @@ prl_fictitious <- function(data           = "choice",
                "eta", "alpha", "beta",
                "log_lik")
 
-  if (inc_postpred) {
+  if (modelRegressor)
+    POI <- c(POI, "mr_ev", "mr_prob")
+
+  if (inc_postpred)
     POI <- c(POI, "y_pred")
-  }
 
   modelName <- "prl_fictitious"
 
@@ -222,16 +226,18 @@ prl_fictitious <- function(data           = "choice",
 )
 
   # inits
-  if (inits[1] != "random") {
+  if (inits[1] == "random") {
+    genInitList <- "random"
+  } else {
     if (inits[1] == "fixed") {
       inits_fixed <- c(0.5, 0.1, 1.0)
     } else {
-      if (length(inits) == numPars) {
+      if (length(inits) == numPars)
         inits_fixed <- inits
-      } else {
+      else
         stop("Check your inital values!")
-      }
     }
+
     genInitList <- function() {
       list(
         mu_p     = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 5)),
@@ -239,10 +245,8 @@ prl_fictitious <- function(data           = "choice",
         eta_pr   = rep(qnorm(inits_fixed[1]), numSubjs),
         alpha_pr = rep(qnorm(inits_fixed[2]), numSubjs),
         beta_pr  = rep(qnorm(inits_fixed[3]/5), numSubjs)
-)
+      )
     }
-  } else {
-    genInitList <- "random"
   }
 
   if (ncore > 1) {
@@ -250,12 +254,10 @@ prl_fictitious <- function(data           = "choice",
     if (numCores < ncore) {
       options(mc.cores = numCores)
       warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
-    }
-    else{
+    } else {
       options(mc.cores = ncore)
     }
-  }
-  else {
+  } else {
     options(mc.cores = 1)
   }
 
@@ -264,9 +266,10 @@ prl_fictitious <- function(data           = "choice",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m = stanmodels$prl_fictitious
+  m <- stanmodels$prl_fictitious
+
   if (vb) {   # if variational Bayesian
-    fit = rstan::vb(m,
+    fit <- rstan::vb(m,
                     data   = dataList,
                     pars   = POI,
                     init   = genInitList)
@@ -283,34 +286,26 @@ prl_fictitious <- function(data           = "choice",
                                          max_treedepth = max_treedepth,
                                          stepsize      = stepsize))
   }
+
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted = T)
-  if (inc_postpred) {
+  if (inc_postpred)
     parVals$y_pred[parVals$y_pred == -1] <- NA
-  }
 
   eta   <- parVals$eta
   alpha <- parVals$alpha
   beta  <- parVals$beta
 
   # Individual parameters (e.g., individual posterior means)
+  measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
 
+  # TODO: Use *apply function instead of for loop
   for (i in 1:numSubjs) {
-    if (indPars == "mean") {
-      allIndPars[i,] <- c(mean(eta[, i]),
-                            mean(alpha[, i]),
-                            mean(beta[, i]))
-    } else if (indPars == "median") {
-      allIndPars[i,] <- c(median(eta[, i]),
-                            median(alpha[, i]),
-                            median(beta[, i]))
-    } else if (indPars == "mode") {
-      allIndPars[i,] <- c(estimate_mode(eta[, i]),
-                            estimate_mode(alpha[, i]),
-                            estimate_mode(beta[, i]))
-    }
+    allIndPars[i, ] <- c(measureIndPars(eta[, i]),
+                         measureIndPars(alpha[, i]),
+                         measureIndPars(beta[, i]))
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
@@ -320,8 +315,26 @@ prl_fictitious <- function(data           = "choice",
                             "subjID")
 
   # Wrap up data into a list
-  modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
+  modelData                 <- list()
+  modelData$model           <- modelName
+  modelData$allIndPars      <- allIndPars
+  modelData$parVals         <- parVals
+  modelData$fit             <- fit
+  modelData$rawdata         <- rawdata
+  modelData$modelRegressor  <- NA
+
+  if (modelRegressor) {
+    ev    <- apply(parVals$mr_ev, c(2, 3), measureIndPars)
+    prob  <- apply(parVals$mr_prob, c(2, 3), measureIndPars)
+
+    # Initialize modelRegressor and add model-based regressors
+    regressors    <- NULL
+    regressors$ev <- ev
+    regressors$prob <- prob
+
+    modelData$modelRegressor <- regressors
+  }
+
   class(modelData) <- "hBayesDM"
 
   # Total time of computations

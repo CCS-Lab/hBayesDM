@@ -1,18 +1,26 @@
+/**
+ * Probabilistic Reversal Learning (PRL) Task
+ *
+ * Experience-Weighted Attraction model by Ouden et al. (2013) Neuron
+ */
+
 data {
-  int<lower=1> N;
-  int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=-1, upper=2> choice[N, T];
-  real outcome[N, T];
+  int<lower=1> N;                       // Number of subjects
+  int<lower=1> T;                       // Maximum number of trials across subjects
+  int<lower=1, upper=T> Tsubj[N];       // Number of trials/blocks for each subject
+
+  int<lower=-1, upper=2> choice[N, T];  // The choices subjects made
+  real outcome[N, T];                   // The outcome
 }
 
 transformed data {
-  vector[2] init;
-  init = rep_vector(0.0, 2);
+  // Default value for (re-)initializing parameter vectors
+  vector[2] initV;
+  initV = rep_vector(0.0, 2);
 }
 
-parameters {
 // Declare all parameters as vectors for vectorizing
+parameters {
   // Hyper(group)-parameters
   vector[3] mu_p;
   vector<lower=0>[3] sigma;
@@ -22,6 +30,7 @@ parameters {
   vector[N] rho_pr;     // experience decay factor
   vector[N] beta_pr;    // inverse temperature
 }
+
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N]  phi;
@@ -34,26 +43,27 @@ transformed parameters {
     beta[i] = Phi_approx(mu_p[3] + sigma[3] * beta_pr[i]) * 10;
   }
 }
+
 model {
   // Hyperparameters
   mu_p  ~ normal(0, 1);
   sigma ~ cauchy(0, 5);
 
-  // individual parameters
+  // Individual parameters
   phi_pr  ~ normal(0, 1);
   rho_pr  ~ normal(0, 1);
   beta_pr ~ normal(0, 1);
 
   for (i in 1:N) {
-    // Define Values
+    // Define values
     vector[2] ev; // Expected value
     vector[2] ew; // Experience weight
 
-    real ewt1; // Experience weight (t-1)
+    real ewt1; // Experience weight of trial (t - 1)
 
     // Initialize values
-    ev = init; // initial ev values
-    ew = init; // initial ew values
+    ev = initV; // initial ev values
+    ew = initV; // initial ew values
 
     for (t in 1:Tsubj[i]) {
       // Softmax choice
@@ -70,6 +80,7 @@ model {
     }
   }
 }
+
 generated quantities {
   // For group level parameters
   real<lower=0, upper=1>  mu_phi;
@@ -78,6 +89,10 @@ generated quantities {
 
   // For log likelihood calculation
   real log_lik[N];
+
+  // For model regressors
+  real mr_ev[N, T];   // Expected value
+  real mr_ew[N, T];   // Experience weight
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -95,15 +110,15 @@ generated quantities {
 
   { // local section, this saves time and space
     for (i in 1:N) {
-      // Define Values
+      // Define values
       vector[2] ev; // Expected value
       vector[2] ew; // Experience weight
 
-      real ewt1; // Experience weight (t-1)
+      real ewt1; // Experience weight of trial (t-1)
 
-      // Initialize Values
-      ev = init; // initial ev values
-      ew = init; // initial ew values
+      // Initialize values
+      ev = initV; // initial ev values
+      ew = initV; // initial ew values
 
       log_lik[i] = 0;
 
@@ -122,6 +137,10 @@ generated quantities {
 
         // Update expected value of chosen stimulus
         ev[choice[i, t]] = (ev[choice[i, t]] * phi[i] * ewt1 + outcome[i, t]) /  ew[choice[i, t]];
+
+        // Store values for model regressors
+        mr_ev[i, t] = ev[choice[i, t]];
+        mr_ew[i, t] = ew[choice[i, t]];
       }
     }
   }

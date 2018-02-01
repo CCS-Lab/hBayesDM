@@ -127,7 +127,9 @@ prl_rp_multipleB <- function(data           = "choice",
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    stop("** Model-based regressors are not available for this model **\n")
+    cat("************************************\n")
+    cat("** Extract model-based regressors **\n")
+    cat("************************************\n")
   }
 
   # To see how long computations take
@@ -146,6 +148,7 @@ prl_rp_multipleB <- function(data           = "choice",
   } else {
     stop("** The data file does not exist. Please check it again. **\n  e.g., data = '/MyFolder/SubFolder/dataFile.txt', ... **\n")
   }
+
   # Remove rows containing NAs
   NA_rows_all = which(is.na(rawdata), arr.ind = T)  # rows with NAs
   NA_rows = unique(NA_rows_all[, "row"])
@@ -165,9 +168,11 @@ prl_rp_multipleB <- function(data           = "choice",
                "Apun", "Arew", "beta",
                "log_lik")
 
-  if (inc_postpred) {
+  if (modelRegressor)
+    POI <- c(POI, "mr_ev")
+
+  if (inc_postpred)
     POI <- c(POI, "y_pred")
-  }
 
   modelName <- "prl_rp_multipleB"
 
@@ -189,20 +194,18 @@ prl_rp_multipleB <- function(data           = "choice",
   # THE DATA.  ###################################################################
   ################################################################################
 
-  maxB = length(unique(rawdata$block))  # maximum number of block
-  B = NULL  # number of blocks for each subject
-
-  #Tsubj <- as.vector(rep(0, numSubjs)) # number of trials for each subject
-  Tsubj <- array(0, c(numSubjs, maxB)) # number of trials for each subject, in each block
+  maxB  <- length(unique(rawdata$block))  # maximum number of block
+  B     <- NULL                           # number of blocks for each subject
+  Tsubj <- array(0, c(numSubjs, maxB))    # number of trials for each subject, in each block
 
   for (i in 1:numSubjs)  {
-    curSubj  <- subjList[i]
-    tmpDat = subset(rawdata, rawdata$subjID == curSubj)
-    tmpAllBlocks = unique(tmpDat$block) # temp. subject's all blocks
-    B[i] = length(tmpAllBlocks)
-    for (bIdx in 1:B[i]) {
+    curSubj       <- subjList[i]
+    tmpDat        <- subset(rawdata, rawdata$subjID == curSubj)
+    tmpAllBlocks  <- unique(tmpDat$block) # temp. subject's all blocks
+    B[i]          <- length(tmpAllBlocks)
+
+    for (bIdx in 1:B[i])
       Tsubj[i, bIdx] = sum(tmpDat$block == tmpAllBlocks[bIdx])
-    }
   }
 
   # Setting maxTrials
@@ -216,14 +219,15 @@ prl_rp_multipleB <- function(data           = "choice",
   outcome <- array(0, c(numSubjs, maxB, maxTrials))
 
   for (i in 1:numSubjs) {
-    curSubj      <- subjList[i]
-    tmpDat = subset(rawdata, rawdata$subjID == curSubj)
-    tmpAllBlocks = unique(tmpDat$block) # temp. subject's all blocks
+    curSubj       <- subjList[i]
+    tmpDat        <- subset(rawdata, rawdata$subjID == curSubj)
+    tmpAllBlocks  <- unique(tmpDat$block) # temp. subject's all blocks
 
     for (bIdx in 1:B[i]) {
-      tmp = subset(tmpDat, tmpDat$block == tmpAllBlocks[bIdx])
+      tmp       <- subset(tmpDat, tmpDat$block == tmpAllBlocks[bIdx])
       useTrials <- Tsubj[i, bIdx]
-      choice[i, bIdx, 1:useTrials] <- tmp$choice
+
+      choice[i, bIdx, 1:useTrials]  <- tmp$choice
       outcome[i, bIdx, 1:useTrials] <- sign(tmp$outcome)  # use sign
     }
   }
@@ -240,40 +244,39 @@ prl_rp_multipleB <- function(data           = "choice",
 )
 
   # inits
-  if (inits[1] != "random") {
+  if (inits[1] == "random") {
+    genInitList <- "random"
+  } else {
     if (inits[1] == "fixed") {
       inits_fixed <- c(0.1, 0.1, 1.0)
     } else {
-      if (length(inits) == numPars) {
+      if (length(inits) == numPars)
         inits_fixed <- inits
-      } else {
+      else
         stop("Check your inital values!")
-      }
     }
+
     genInitList <- function() {
       list(
         mu_p    = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 10)),
         sigma   = c(1.0, 1.0, 1.0),
         Apun_pr = rep(qnorm(inits_fixed[1]), numSubjs),
         Arew_pr = rep(qnorm(inits_fixed[2]), numSubjs),
-        beta_pr = rep(qnorm(inits_fixed[3]/10), numSubjs)
-)
+        beta_pr = rep(qnorm(inits_fixed[3] / 10), numSubjs)
+      )
     }
-  } else {
-    genInitList <- "random"
   }
 
   if (ncore > 1) {
     numCores <- parallel::detectCores()
+
     if (numCores < ncore) {
       options(mc.cores = numCores)
       warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
-    }
-    else{
+    } else {
       options(mc.cores = ncore)
     }
-  }
-  else {
+  } else {
     options(mc.cores = 1)
   }
 
@@ -282,53 +285,44 @@ prl_rp_multipleB <- function(data           = "choice",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m = stanmodels$prl_rp_multipleB
+  m <- stanmodels$prl_rp_multipleB
+
   if (vb) {   # if variational Bayesian
-    fit = rstan::vb(m,
-                    data   = dataList,
-                    pars   = POI,
-                    init   = genInitList)
+    fit <- rstan::vb(m,
+                     data   = dataList,
+                     pars   = POI,
+                     init   = genInitList)
   } else {
-    fit = rstan::sampling(m,
-                          data   = dataList,
-                          pars   = POI,
-                          warmup = nwarmup,
-                          init   = genInitList,
-                          iter   = niter,
-                          chains = nchain,
-                          thin   = nthin,
-                          control = list(adapt_delta   = adapt_delta,
-                                         max_treedepth = max_treedepth,
-                                         stepsize      = stepsize))
+    fit <- rstan::sampling(m,
+                           data    = dataList,
+                           pars    = POI,
+                           warmup  = nwarmup,
+                           init    = genInitList,
+                           iter    = niter,
+                           chains  = nchain,
+                           thin    = nthin,
+                           control = list(adapt_delta   = adapt_delta,
+                                          max_treedepth = max_treedepth,
+                                          stepsize      = stepsize))
   }
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted = T)
-  if (inc_postpred) {
+  if (inc_postpred)
     parVals$y_pred[parVals$y_pred == -1] <- NA
-  }
 
   Apun <- parVals$Apun
   Arew <- parVals$Arew
   beta <- parVals$beta
 
   # Individual parameters (e.g., individual posterior means)
+  measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
 
   for (i in 1:numSubjs) {
-    if (indPars == "mean") {
-      allIndPars[i,] <- c(mean(Apun[, i]),
-                            mean(Arew[, i]),
-                            mean(beta[, i]))
-    } else if (indPars == "median") {
-      allIndPars[i,] <- c(median(Apun[, i]),
-                            median(Arew[, i]),
-                            median(beta[, i]))
-    } else if (indPars == "mode") {
-      allIndPars[i,] <- c(estimate_mode(Apun[, i]),
-                            estimate_mode(Arew[, i]),
-                            estimate_mode(beta[, i]))
-    }
+    allIndPars[i,] <- c(measureIndPars(Apun[, i]),
+                        measureIndPars(Arew[, i]),
+                        measureIndPars(beta[, i]))
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
@@ -338,8 +332,24 @@ prl_rp_multipleB <- function(data           = "choice",
                             "subjID")
 
   # Wrap up data into a list
-  modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
+  modelData                 <- list()
+  modelData$model           <- modelName
+  modelData$allIndPars      <- allIndPars
+  modelData$parVals         <- parVals
+  modelData$fit             <- fit
+  modelData$rawdata         <- rawdata
+  modelData$modelRegressor  <- NA
+
+  if (modelRegressor) {
+    ev <- apply(parVals$mr_ev, c(2, 3, 4), measureIndPars)
+
+    # Initialize modelRegressor and add model-based regressors
+    regressors    <- NULL
+    regressors$ev <- ev
+
+    modelData$modelRegressor <- regressors
+  }
+
   class(modelData) <- "hBayesDM"
 
   # Total time of computations
