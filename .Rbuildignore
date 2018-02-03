@@ -2,5 +2,7 @@
 ^\.Rproj\.user$
 ^.*\.o$
 ^\cleanup*
-README.Rmd
-
+^*.Rmd
+^\.editorconfig
+^\.travis\.yml
+^\.gitignore
