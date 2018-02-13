@@ -1,0 +1,8 @@
+ignore:
+  - "docs/"
+  - "inst/"
+  - "man/"
+  - "src/"
+  - "tools/"
+
+comment: false
