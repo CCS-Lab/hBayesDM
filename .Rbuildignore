@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^.*\.o$
 ^\cleanup*
-^*.Rmd
+^.*\.Rmd
 ^\.editorconfig
 ^\.travis\.yml
 ^\.gitignore
