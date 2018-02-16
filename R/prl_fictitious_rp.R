@@ -330,13 +330,19 @@ prl_fictitious_rp <- function(data           = "choice",
   modelData$modelRegressor  <- NA
 
   if (modelRegressor) {
-    ev    <- apply(parVals$mr_ev, c(2, 3), measureIndPars)
-    prob  <- apply(parVals$mr_prob, c(2, 3), measureIndPars)
+    ev_c  <- apply(parVals$mr_ev_c, c(2, 3), measureIndPars)
+    ev_nc <- apply(parVals$mr_ev_nc, c(2, 3), measureIndPars)
+    pe_c  <- apply(parVals$mr_pe_c, c(2, 3), measureIndPars)
+    pe_nc <- apply(parVals$mr_pe_nc, c(2, 3), measureIndPars)
+    dv    <- apply(parVals$mr_dv, c(2, 3), measureIndPars)
 
     # Initialize modelRegressor and add model-based regressors
-    regressors    <- NULL
-    regressors$ev <- ev
-    regressors$prob <- prob
+    regressors        <- NULL
+    regressors$ev_c   <- ev_c
+    regressors$ev_nc  <- ev_nc
+    regressors$pe_c   <- pe_c
+    regressors$pe_nc  <- pe_nc
+    regressors$dv     <- dv
 
     modelData$modelRegressor <- regressors
   }
