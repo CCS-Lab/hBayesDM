@@ -169,7 +169,7 @@ prl_rp_multipleB <- function(data           = "choice",
                "log_lik")
 
   if (modelRegressor)
-    POI <- c(POI, "mr_ev")
+    POI <- c(POI, "mr_ev_c", "mr_ev_nc", "mr_pe")
 
   if (inc_postpred)
     POI <- c(POI, "y_pred")

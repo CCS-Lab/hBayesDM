@@ -170,7 +170,7 @@ prl_fictitious_rp <- function(data           = "choice",
                "log_lik")
 
   if (modelRegressor)
-    POI <- c(POI, "mr_ev", "mr_prob")
+    POI <- c(POI, "mr_ev_c", "mr_ev_nc", "mr_pe_c", "mr_pe_nc", "mr_dv")
 
   if (inc_postpred)
     POI <- c(POI, "y_pred")
