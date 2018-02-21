@@ -168,7 +168,7 @@ prl_ewa <- function(data           = "choice",
                "log_lik")
 
   if (modelRegressor)
-    POI <- c(POI, "mr_ev", "mr_ew")
+    POI <- c(POI, "mr_ev_c", "mr_ev_nc", "mr_ew_c", "mr_ew_nc")
 
   if (inc_postpred)
     POI <- c(POI, "y_pred")
@@ -325,13 +325,18 @@ prl_ewa <- function(data           = "choice",
   modelData$modelRegressor  <- NA
 
   if (modelRegressor) {
-    ew <- apply(parVals$mr_ew, c(2, 3), measureIndPars)
-    ev <- apply(parVals$mr_ev, c(2, 3), measureIndPars)
+    ev_c  <- apply(parVals$mr_ev_c, c(2, 3), measureIndPars)
+    ev_nc <- apply(parVals$mr_ev_nc, c(2, 3), measureIndPars)
+    ew_c  <- apply(parVals$mr_ew_c, c(2, 3), measureIndPars)
+    ew_nc <- apply(parVals$mr_ew_nc, c(2, 3), measureIndPars)
 
     # Initialize modelRegressor and add model-based regressors
     regressors    <- NULL
-    regressors$ew <- ew
-    regressors$ev <- ev
+    regressors$ev_c <- ev_c
+    regressors$ev_nc <- ev_nc
+    regressors$ew_c <- ew_c
+    regressors$ew_nc <- ew_nc
+
 
     modelData$modelRegressor <- regressors
   }
