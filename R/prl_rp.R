@@ -324,11 +324,15 @@ prl_rp <- function(data           = "choice",
   modelData$modelRegressor  <- NA
 
   if (modelRegressor) {
-    ev <- apply(parVals$mr_ev, c(2, 3), measureIndPars)
+    ev_c  <- apply(parVals$mr_ev_c, c(2, 3), measureIndPars)
+    ev_nc <- apply(parVals$mr_ev_nc, c(2, 3), measureIndPars)
+    pe    <- apply(parVals$mr_pe, c(2, 3), measureIndPars)
 
     # Initialize modelRegressor and add model-based regressors
-    regressors    <- NULL
-    regressors$ev <- ev
+    regressors        <- NULL
+    regressors$ev_c   <- ev_c
+    regressors$ev_nc  <- ev_nc
+    regressors$pe     <- pe
 
     modelData$modelRegressor <- regressors
   }
