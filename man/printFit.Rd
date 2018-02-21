@@ -28,13 +28,13 @@ output1 <- dd_hyperbolic("example", 2000, 1000, 3, 3)
 
 output2 <- dd_exp("example", 2000, 1000, 3, 3)
 
-# Show the LOOIC model fit estimates 
+# Show the LOOIC model fit estimates
 printFit(output1, output2)
 
 # To show the WAIC model fit estimates
-printFit(output1, output2, ic="waic")
+printFit(output1, output2, ic = "waic")
 
 # To show both LOOIC and WAIC
-printFit(output1, output2, ic="both")
+printFit(output1, output2, ic = "both")
 }
 }

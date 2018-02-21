@@ -45,7 +45,7 @@ prl_rp_multipleB(data = "choice", niter = 3000, nwarmup = 1000,
 \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 \describe{
  \item{\code{model}}{Character string with the name of the model (\code{"prl_rp_multipleB"}).}
- \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter 
+ \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
    values (as specified by \code{"indPars"}) for each subject.}
  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
    over different model parameters. }
@@ -62,42 +62,42 @@ Reward-Punishment Model (Ouden et al., 2013, Neuron)
 \details{
 This section describes some of the function arguments in greater detail.
 
-\strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
-(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
-represent variables. For the Probabilistic Reversal Learning Task, there should be three columns of data 
-with the labels "subjID", "choice", and "outcome". It is not necessary for the columns to be in this particular order, 
+\strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
+(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
+The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
+represent variables. For the Probabilistic Reversal Learning Task, there should be three columns of data
+with the labels "subjID", "choice", and "outcome". It is not necessary for the columns to be in this particular order,
 however it is necessary that they be labelled correctly and contain the information below:
 \describe{
  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
  \item{\code{"choice"}}{An integer value representing the chosen choice option within the given trial (e.g., 1 or 2 in PRL).}
  \item{\code{"outcome"}}{A 1 or -1 for outcome within each given trial (1 = reward, -1 = loss).}
  \item{\code{"block"}}{An integer value representing the block number of the current trial (e.g., 1 1 1 2 2 2).}
-} 
+}
 \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
-there is no need to remove other miscellaneous data columns.    
- 
-\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the 
-beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample. 
-Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence 
-on the generated posterior distributions. The \code{nwarmup} argument can be set to a high number in order to curb the 
-effects that initial values have on the resulting posteriors.  
+there is no need to remove other miscellaneous data columns.
+
+\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the
+beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
+Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
+on the generated posterior distributions. The \code{nwarmup} argument can be set to a high number in order to curb the
+effects that initial values have on the resulting posteriors.
 
 \strong{nchain} is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
-used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling 
+used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
 process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
 sampling is completed, the multiple chains may be checked for convergence with the \code{plot(myModel, type = "trace")}
 command. The chains should resemble a "furry caterpillar".
 
-\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen 
-to generate the posterior distributions. By default, \code{nthin} is equal to 1, hence every sample is used to 
-generate the posterior. 
+\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
+to generate the posterior distributions. By default, \code{nthin} is equal to 1, hence every sample is used to
+generate the posterior.
 
-\strong{Contol Parameters:} adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control 
+\strong{Contol Parameters:} adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control
 over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
-can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for 
-more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the  
+can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for
+more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
 \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
 }
 \examples{
@@ -114,15 +114,15 @@ rhat(output)
 # Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)
 plot(output)
 
-# Show the WAIC and LOOIC model fit estimates 
+# Show the WAIC and LOOIC model fit estimates
 printFit(output)
 }
 }
 \references{
-Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The 
+Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 Journal of Machine Learning Research, 15(1), 1593-1623.
 
-Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable 
+Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable
 Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
 }
 \seealso{

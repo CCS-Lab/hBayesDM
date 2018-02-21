@@ -45,7 +45,7 @@ choiceRT_lba_single(data = "choose", niter = 3000, nwarmup = 1000,
 \code{modelData}  A class \code{'hBayesDM'} object with the following components:
 \describe{
  \item{\code{model}}{Character string with the name of the model (\code{"choiceRT_lba_single"}).}
- \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter 
+ \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter
    values (as specified by \code{'indPars'}) for each subject.}
  \item{\code{parVals}}{A \code{'list'} where each element contains posterior samples
    over different model parameters. }
@@ -66,11 +66,11 @@ drift rates will be estimated. For details on implementation, see Annis et al. (
 \details{
 This section describes some of the function arguments in greater detail.
 
-\strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
-(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
-represent variables. For choice/reaction time tasks, there should be four columns of data 
-with the labels "choice", "RT", and "condition". It is not necessary for the columns to be in this particular order, 
+\strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
+(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
+The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
+represent variables. For choice/reaction time tasks, there should be four columns of data
+with the labels "choice", "RT", and "condition". It is not necessary for the columns to be in this particular order,
 however it is necessary that they be labelled correctly and contain the information below:
 \describe{
  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
@@ -81,27 +81,27 @@ however it is necessary that they be labelled correctly and contain the informat
 \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
 there is no need to remove other miscellaneous data columns.
- 
-\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the 
-beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample. 
-Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence 
-on the generated posterior distributions. The \strong{nwarmup} argument can be set to a high number in order to curb the 
-effects that initial values have on the resulting posteriors.  
+
+\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the
+beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
+Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
+on the generated posterior distributions. The \strong{nwarmup} argument can be set to a high number in order to curb the
+effects that initial values have on the resulting posteriors.
 
 \strong{nchain} is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
-used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling 
+used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
 process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
 sampling is completed, the multiple chains may be checked for convergence with the \code{plot(myModel, type = "trace")}
 command. The chains should resemble a "furry caterpillar".
 
-\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen 
-to generate the posterior distributions. By default, \strong{nthin} is equal to 1, hence every sample is used to 
-generate the posterior. 
+\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
+to generate the posterior distributions. By default, \strong{nthin} is equal to 1, hence every sample is used to
+generate the posterior.
 
-\strong{Contol Parameters:} adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control 
+\strong{Contol Parameters:} adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control
 over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
-can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for 
-more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the  
+can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for
+more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
 \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
 }
 \examples{
@@ -118,18 +118,18 @@ rhat(output)
 # Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)
 plot(output)
 
-# Show the WAIC and LOOIC model fit estimates 
+# Show the WAIC and LOOIC model fit estimates
 printFit(output)
 }
 }
 \references{
-Brown, S. D., & Heathcote, A. (2008). The simplest complete model of choice response time: Linear ballistic accumulation. 
+Brown, S. D., & Heathcote, A. (2008). The simplest complete model of choice response time: Linear ballistic accumulation.
 Cognitive Psychology, 57(3), 153-178. http://doi.org/10.1016/j.cogpsych.2007.12.002
 
-Annis, J., Miller, B. J., & Palmeri, T. J. (2016). Bayesian inference with Stan: A tutorial on adding custom distributions. 
+Annis, J., Miller, B. J., & Palmeri, T. J. (2016). Bayesian inference with Stan: A tutorial on adding custom distributions.
 Behavior research methods, 1-24.
 
-Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The 
+Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 Journal of Machine Learning Research, 15(1), 1593-1623.
 }
 \seealso{

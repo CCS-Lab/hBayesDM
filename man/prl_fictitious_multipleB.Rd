@@ -2,7 +2,7 @@
 % Please edit documentation in R/prl_fictitious_multipleB.R
 \name{prl_fictitious_multipleB}
 \alias{prl_fictitious_multipleB}
-\title{Probabilistic Reversal Learning Task (Glascher et al, 2009), multiple blocks per subject}
+\title{Probabilistic Reversal Learning Task (Glascher et al, 2008), multiple blocks per subject}
 \usage{
 prl_fictitious_multipleB(data = "choice", niter = 3000, nwarmup = 1000,
   nchain = 1, ncore = 1, nthin = 1, inits = "random",
@@ -45,7 +45,7 @@ prl_fictitious_multipleB(data = "choice", niter = 3000, nwarmup = 1000,
 \code{modelData}  A class \code{'hBayesDM'} object with the following components:
 \describe{
  \item{\code{model}}{Character string with the name of the model ("prl_fictitious_multipleB").}
- \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter 
+ \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter
    values (as specified by \code{'indPars'}) for each subject.}
  \item{\code{parVals}}{A \code{'list'} where each element contains posterior samples
    over different model parameters. }
@@ -57,47 +57,47 @@ prl_fictitious_multipleB(data = "choice", niter = 3000, nwarmup = 1000,
 Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta" (learning rate), "alpha" (indecision point), "beta" (inverse temperature).
 
 \strong{MODEL:}
-Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex)
+Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
 }
 \details{
 This section describes some of the function arguments in greater detail.
 
-\strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension 
-(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns 
-represent variables. For the Probabilistic Reversal Learning Task, there should be three columns of data 
-with the labels "subjID", "choice", and "rewlos". It is not necessary for the columns to be in this particular order, 
+\strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
+(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
+The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
+represent variables. For the Probabilistic Reversal Learning Task, there should be three columns of data
+with the labels "subjID", "choice", and "rewlos". It is not necessary for the columns to be in this particular order,
 however it is necessary that they be labelled correctly and contain the information below:
 \describe{
  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
  \item{\code{"choice"}}{An integer value representing the chosen choice option within the given trial (e.g., 1 or 2 in PRL).}
  \item{\code{"outcome"}}{A 1 or -1 for outcome within each given trial (1 = reward, -1 = loss).}
  \item{\code{"block"}}{An integer value representing the block number of the current trial (e.g., 1 1 1 2 2 2).}
-} 
+}
 \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
-there is no need to remove other miscellaneous data columns.    
- 
-\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the 
-beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample. 
-Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence 
-on the generated posterior distributions. The \strong{nwarmup} argument can be set to a high number in order to curb the 
-effects that initial values have on the resulting posteriors.  
+there is no need to remove other miscellaneous data columns.
+
+\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the
+beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
+Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
+on the generated posterior distributions. The \strong{nwarmup} argument can be set to a high number in order to curb the
+effects that initial values have on the resulting posteriors.
 
 \strong{nchain} is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
-used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling 
+used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
 process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
 sampling is completed, the multiple chains may be checked for convergence with the \code{plot(myModel, type = "trace")}
-command. The chains should resemble a "furry caterpillar". 
+command. The chains should resemble a "furry caterpillar".
 
-\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen 
-to generate the posterior distributions. By default, \strong{nthin} is equal to 1, hence every sample is used to 
+\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
+to generate the posterior distributions. By default, \strong{nthin} is equal to 1, hence every sample is used to
 generate the posterior.
 }
 \examples{
 \dontrun{
 # Run the model and store results in "output"
-output <- prl_fictitious_multipleB(data="example", niter=2000, nwarmup=1000, nchain=3, ncore=3)
+output <- prl_fictitious_multipleB(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
 
 # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
 plot(output, type = 'trace')
@@ -108,7 +108,7 @@ rhat(output)
 # Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)
 plot(output)
 
-# Show the WAIC and LOOIC model fit estimates 
+# Show the WAIC and LOOIC model fit estimates
 printFit(output)
 }
 }
