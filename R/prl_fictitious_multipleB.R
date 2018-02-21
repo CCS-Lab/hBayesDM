@@ -152,7 +152,7 @@ prl_fictitious_multipleB <- function(data           = "choice",
                "log_lik")
 
   if (modelRegressor)
-    POI <- c(POI, "mr_ev", "mr_prob")
+    POI <- c(POI, "mr_ev_c", "mr_ev_nc", "mr_pe_c", "mr_pe_nc", "mr_dv")
 
   if (inc_postpred) {
     POI <- c(POI, "y_pred")
@@ -325,13 +325,19 @@ prl_fictitious_multipleB <- function(data           = "choice",
   modelData$modelRegressor  <- NA
 
   if (modelRegressor) {
-    ev    <- apply(parVals$mr_ev, c(2, 3, 4), measureIndPars)
-    prob  <- apply(parVals$mr_prob, c(2, 3, 4), measureIndPars)
+    ev_c  <- apply(parVals$mr_ev_c, c(2, 3, 4), measureIndPars)
+    ev_nc  <- apply(parVals$mr_ev_nc, c(2, 3, 4), measureIndPars)
+    pe_c    <- apply(parVals$mr_pe_c, c(2, 3, 4), measureIndPars)
+    pe_nc  <- apply(parVals$mr_pe_nc, c(2, 3, 4), measureIndPars)
+    dv    <- apply(parVals$mr_dv, c(2, 3, 4), measureIndPars)
 
     # Initialize modelRegressor and add model-based regressors
     regressors    <- NULL
-    regressors$ev <- ev
-    regressors$prob <- prob
+    regressors$ev_c <- ev_c
+    regressors$ev_nc <- ev_nc
+    regressors$pe_c <- pe_c
+    regressors$pe_nc <- pe_nc
+    regressors$dv <- dv
 
     modelData$modelRegressor <- regressors
   }

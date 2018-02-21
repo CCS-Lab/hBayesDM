@@ -33,6 +33,6 @@ plotInd(output, "k")
 plotInd(output, "beta")
 
 # Plot individual 'beta' parameters but don't show density
-plotInd(output, "beta", show_density=F)
+plotInd(output, "beta", show_density = F)
 }
 }

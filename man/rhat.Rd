@@ -13,12 +13,12 @@ rhat(fit = NULL, less = NULL)
 }
 \value{
 If \code{'less'} is specified, then \code{rhat(fit, less)} will return \code{TRUE} if all Rhat values are
-less than or equal to \code{'less'}. If any values are greater than \code{'less'}, \code{rhat(fit, less)} will 
-return \code{FALSE}. If \code{'less'} is left unspecified (NULL), \code{rhat(fit)} will return a \code{data.frame} object 
+less than or equal to \code{'less'}. If any values are greater than \code{'less'}, \code{rhat(fit, less)} will
+return \code{FALSE}. If \code{'less'} is left unspecified (NULL), \code{rhat(fit)} will return a \code{data.frame} object
 containing all Rhat values.
 }
 \description{
-A convenience function for extracting Rhat values from an hBayesDM object. Can also 
-check if all Rhat values are less than or equal to a specified value. 
+A convenience function for extracting Rhat values from an hBayesDM object. Can also
+check if all Rhat values are less than or equal to a specified value.
 If variational inference was used, an error message will be displayed.
 }

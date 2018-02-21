@@ -57,7 +57,7 @@ model {
   for (i in 1:N) {
     // Define Values
     vector[2] ev;   // Expected value
-    real PE;        // prediction error
+    real pe;        // prediction error
 
     // Initialize values
     ev = initV;     // initial ev values
@@ -67,10 +67,13 @@ model {
       choice[i, t] ~ categorical_logit(ev * beta[i]);
 
       // Prediction Error
-      PE = outcome[i, t] - ev[choice[i, t]];
+      pe = outcome[i, t] - ev[choice[i, t]];
 
       // Update expected value of chosen stimulus
-      ev[choice[i, t]] = ev[choice[i, t]] + (Apun[i] * (1-outcome[i, t])) * PE + (Arew[i] * (outcome[i, t])) * PE;
+      if (outcome[i, t] > 0)
+        ev[choice[i, t]] += Arew[i] * pe;
+      else
+        ev[choice[i, t]] += Apun[i] * pe;
     }
   }
 }
@@ -85,15 +88,21 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real mr_ev[N, T];
+  real mr_ev_c[N, T];   // Expected value of the chosen option
+  real mr_ev_nc[N, T];  // Expected value of the non-chosen option
+  real mr_pe[N, T];     // Prediction error
 
   // For posterior predictive check
   real y_pred[N, T];
 
-  // Set all posterior predictions to 0 (avoids NULL values)
+  // Initialize all the variables to avoid NULL values
   for (i in 1:N) {
     for (t in 1:T) {
-      y_pred[i, t] = -1;
+      mr_ev_c[i, t]   = 0;
+      mr_ev_nc[i, t]  = 0;
+      mr_pe[i, t]     = 0;
+
+      y_pred[i, t]    = -1;
     }
   }
 
@@ -105,7 +114,7 @@ generated quantities {
     for (i in 1:N) {
       // Define values
       vector[2] ev; // Expected value
-      real PE; // prediction error
+      real pe;      // Prediction error
 
       // Initialize values
       ev = initV; // initial ev values
@@ -113,19 +122,24 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         // Softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, t] | ev * beta[i]);
+        log_lik[i]  += categorical_logit_lpmf(choice[i, t] | ev * beta[i]);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(softmax(ev * beta[i]));
 
         // Prediction Error
-        PE = outcome[i, t] - ev[choice[i, t]];
-
-        // Update expected value of chosen stimulus
-        ev[choice[i, t]] = ev[choice[i, t]] + (Apun[i] * (1-outcome[i, t])) * PE + (Arew[i] * (outcome[i, t])) * PE;
+        pe = outcome[i, t] - ev[choice[i, t]];
 
         // Store values for model regressors
-        mr_ev[i, t] = ev[choice[i, t]];
+        mr_ev_c[i, t]   = ev[choice[i, t]];
+        mr_ev_nc[i, t]  = ev[3 - choice[i, t]];
+        mr_pe[i, t]     = pe;
+
+        // Update expected value of chosen stimulus
+        if (outcome[i, t] > 0)
+          ev[choice[i, t]] += Arew[i] * pe;
+        else
+          ev[choice[i, t]] += Apun[i] * pe;
       }
     }
   }
