@@ -31,7 +31,6 @@ r:
 
 script:
   - travis_wait 30 R CMD build .
-  - travis_wait 30 R CHECK *tar.gz
 
 r_binary_packages:
   - testthat
