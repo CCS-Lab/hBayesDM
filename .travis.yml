@@ -16,8 +16,12 @@ os:
 
 # System dependencies for HTTP calling
 apt_packages:
- - libcurl4-openssl-dev
- - libxml2-dev
+  - libcurl4-openssl-dev
+  - libxml2-dev
+
+script:
+  - travis_wait 30 R CMD build .
+  - travis_wait 30 R CHECK *tar.gz
 
 r_binary_packages:
  - testthat
