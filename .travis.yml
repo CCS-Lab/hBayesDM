@@ -24,11 +24,6 @@ addons:
       - libcurl4-openssl-dev
       - libxml2-dev
 
-r:
-  - oldrel
-  - release
-  - devel
-
 script:
   - travis_wait 30 R CMD build .
 
