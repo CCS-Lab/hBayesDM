@@ -1,5 +1,5 @@
 /**
- * Probabilistic Reversal Learning (PRL) Task
+ * Probabilistic Reversal Learning (PRL) Task without alpha (indecision point)
  *
  * Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
  */
@@ -22,25 +22,22 @@ transformed data {
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
-  vector[3] mu_p;
-  vector<lower=0>[3] sigma;
+  vector[2] mu_p;
+  vector<lower=0>[2] sigma;
 
   // Subject-level raw parameters (for Matt trick)
   vector[N] eta_pr;   // learning rate
-  vector[N] alpha_pr; // indecision point
   vector[N] beta_pr;  // inverse temperature
 }
 
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] eta;
-  vector<lower=0, upper=1>[N] alpha;
   vector<lower=0, upper=5>[N] beta;
 
   for (i in 1:N) {
     eta[i]   = Phi_approx(mu_p[1] + sigma[1] * eta_pr[i]);
-    alpha[i] = Phi_approx(mu_p[2] + sigma[2] * alpha_pr[i]);
-    beta[i]  = Phi_approx(mu_p[3] + sigma[3] * beta_pr[i]) * 5;
+    beta[i]  = Phi_approx(mu_p[2] + sigma[2] * beta_pr[i]) * 5;
   }
 }
 
@@ -51,7 +48,6 @@ model {
 
   // Individual parameters
   eta_pr    ~ normal(0, 1);
-  alpha_pr  ~ normal(0, 1);
   beta_pr   ~ normal(0, 1);
 
   for (i in 1:N) {
@@ -67,7 +63,7 @@ model {
 
     for (t in 1:(Tsubj[i])) {
       // Compute action probabilities
-      prob[1] = 1 / (1 + exp(beta[i] * (alpha[i] - (ev[1] - ev[2]))));
+      prob[1] = 1 / (1 + exp(beta[i] * (ev[2] - ev[1])));
       prob[2] = 1 - prob[1];
       choice[i, t] ~ categorical(prob);
 
@@ -85,7 +81,6 @@ model {
 generated quantities {
   // For group level parameters
   real<lower=0, upper=1> mu_eta;
-  real<lower=0, upper=1> mu_alpha;
   real<lower=0, upper=5> mu_beta;
 
   // For log likelihood calculation
@@ -117,8 +112,7 @@ generated quantities {
   }
 
   mu_eta    = Phi_approx(mu_p[1]);
-  mu_alpha  = Phi_approx(mu_p[2]);
-  mu_beta   = Phi_approx(mu_p[3]) * 5;
+  mu_beta   = Phi_approx(mu_p[2]) * 5;
 
   { // local section, this saves time and space
     for (i in 1:N) {
@@ -136,7 +130,7 @@ generated quantities {
 
       for (t in 1:(Tsubj[i])) {
         // compute action probabilities
-        prob[1] = 1 / (1 + exp(beta[i] * (alpha[i] - (ev[1] - ev[2]))));
+        prob[1] = 1 / (1 + exp(beta[i] * (ev[2] - ev[1])));
         prob[2] = 1 - prob[1];
 
         log_lik[i] = log_lik[i] + categorical_lpmf(choice[i, t] | prob);

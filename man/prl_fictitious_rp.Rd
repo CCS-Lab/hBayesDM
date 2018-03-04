@@ -57,7 +57,7 @@ prl_fictitious_rp(data = "choice", niter = 3000, nwarmup = 1000,
 Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta_pos" (learning rate, +PE), "eta_neg" (learning rate, -PE), "alpha" (indecision point), "beta" (inverse temperature).
 
 \strong{MODEL:}
-Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex) + separate learning rates for + and - prediction error (PE)
+Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex) + separate learning rates for + and - prediction error (PE) without alpha (indecision point)
 }
 \details{
 This section describes some of the function arguments in greater detail.
