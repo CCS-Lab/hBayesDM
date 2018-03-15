@@ -1,11 +1,11 @@
 #' Two-Step Task (Daw et al., 2011, Neuron)
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the Two-Step Task using the following 4 parameters: with the following parameters: "a" (learnign rate for both stages 1 and 2), "beta" (inverse temperature for both stages 1 and 2), "pi" (perseverance), and "w" (model-based weight).
+#' Hierarchical Bayesian Modeling of the Two-Step Task with the following 6 parameters: "a1" (learnign rate in stage 1), "a2" (learnign rate in stage 2), "beta1" (inverse temperature in stage 1), "beta2" (inverse temperature in stage 2), "pi" (perseverance), and "w" (model-based weight).
 #' THIS CODE IS NOT RIGOROUSLY TESTED YET! PLEASE TRY IT AND GIVE US FEEDBACK (https://groups.google.com/d/forum/hbayesdm-users)
 #'
 #' \strong{MODEL:}
-#' Hybrid model (Daw et al., 2011; Wunderlich et al, 2012) with four parameters
+#' Hybrid model (Daw et al., 2011, Neuron)
 #'
 #' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "level1_choice", "level2_choice", "reward". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
@@ -25,7 +25,7 @@
 #'
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"ts_par4"}).}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"ts_par6"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -86,9 +86,6 @@
 #' Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011). Model-Based Influences on Humans'
 #' Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
 #'
-#' Wunderlich, K., Smittenaar, P., & Dolan, R. J. (2012). Dopamine enhances model-based over model-free choice behavior.
-#' Neuron, 75(3), 418-424.
-#'
 #' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 #' Journal of Machine Learning Research, 15(1), 1593-1623.
 #'
@@ -98,7 +95,7 @@
 #' @examples
 #' \dontrun{
 #' # Run the model and store results in "output"
-#' output <- ts_par4(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+#' output <- ts_par6(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
 #'
 #' # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
 #' plot(output, type = 'trace')
@@ -115,28 +112,28 @@
 #'
 #' }
 
-ts_par4 <- function(data           = "choose",
-                     niter          = 4000,
-                     nwarmup        = 1000,
-                     nchain         = 4,
-                     ncore          = 1,
-                     nthin          = 1,
-                     inits          = "random",
-                     indPars        = "mean",
-                     saveDir        = NULL,
-                     modelRegressor = FALSE,
-                     vb             = FALSE,
-                     inc_postpred   = FALSE,
-                     adapt_delta    = 0.95,
-                     stepsize       = 1,
-                     max_treedepth  = 10,
-                     trans_prob     = 0.7) {
+ts_par6 <- function(data           = "choose",
+                    niter          = 4000,
+                    nwarmup        = 1000,
+                    nchain         = 4,
+                    ncore          = 1,
+                    nthin          = 1,
+                    inits          = "fixed",
+                    indPars        = "mean",
+                    saveDir        = NULL,
+                    modelRegressor = FALSE,
+                    vb             = FALSE,
+                    inc_postpred   = FALSE,
+                    adapt_delta    = 0.95,
+                    stepsize       = 1,
+                    max_treedepth  = 10,
+                    trans_prob     = 0.7) {
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
   } else {
-    modelPath <- system.file("stan", "ts_par4.stan", package="hBayesDM")
+    modelPath <- system.file("stan", "ts_par6.stan", package="hBayesDM")
   }
 
   # To see how long computations take
@@ -168,17 +165,17 @@ ts_par4 <- function(data           = "choose",
   numSubjs <- length(subjList)           # number of subjects
 
   # Specify the number of parameters and parameters of interest
-  numPars <- 4
-  POI     <- c("mu_a", "mu_beta", "mu_pi", "mu_w",
+  numPars <- 6
+  POI     <- c("mu_a1", "mu_beta1", "mu_a2", "mu_beta2", "mu_pi", "mu_w",
                "sigma",
-               "a", "beta", "pi", "w",
+               "a1", "beta1", "a2", "beta2", "pi", "w",
                "log_lik")
 
   if (inc_postpred) {
     POI <- c(POI, "y_pred_step1", "y_pred_step2")
   }
 
-  modelName <- "ts_par4"
+  modelName <- "ts_par6"
 
   # Information for user
   cat("\nModel name = ", modelName, "\n")
@@ -238,7 +235,7 @@ ts_par4 <- function(data           = "choose",
   # inits
   if (inits[1] != "random") {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(0.5, 1.0,  1.0, 0.5)  # "a", "beta", "pi", "w"
+      inits_fixed <- c(0.5, 1.0, 0.5, 1.0,  1.0, 0.5)  # "a1", "beta1", "a2", "beta2", "pi", "w"
     } else {
       if (length(inits)==numPars) {
         inits_fixed <- inits
@@ -248,13 +245,15 @@ ts_par4 <- function(data           = "choose",
     }
     genInitList <- function() {
       list(
-        mu_p      = c(qnorm(inits_fixed[1]), log(inits_fixed[2]), qnorm(inits_fixed[3]/5), qnorm(inits_fixed[4])),
-        sigma     = c(1.0, 1.0, 1.0, 1.0),
-        a_pr     = rep(qnorm(inits_fixed[1]), numSubjs),
-        beta_pr  = rep(log(inits_fixed[2]), numSubjs),
-        pi_pr     = rep(qnorm(inits_fixed[3]/5), numSubjs),
-        w_pr      = rep(qnorm(inits_fixed[4]), numSubjs)
-        )
+        mu_p      = c(qnorm(inits_fixed[1]), log(inits_fixed[2]), qnorm(inits_fixed[3]), log(inits_fixed[4]) , qnorm(inits_fixed[5]/5), qnorm(inits_fixed[6])),
+        sigma     = c(1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
+        a1_pr     = rep(qnorm(inits_fixed[1]), numSubjs),
+        beta1_pr  = rep(log(inits_fixed[2]), numSubjs),
+        a2_pr     = rep(qnorm(inits_fixed[3]), numSubjs),
+        beta2_pr  = rep(log(inits_fixed[4]), numSubjs),
+        pi_pr     = rep(qnorm(inits_fixed[5]/5), numSubjs),
+        w_pr      = rep(qnorm(inits_fixed[6]), numSubjs)
+      )
     }
   } else {
     genInitList <- "random"
@@ -277,7 +276,7 @@ ts_par4 <- function(data           = "choose",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m = stanmodels$ts_par4
+  m = stanmodels$ts_par6
   if (vb) {   # if variational Bayesian
     fit = rstan::vb(m,
                     data   = dataList,
@@ -303,8 +302,10 @@ ts_par4 <- function(data           = "choose",
     parVals$y_pred_step2[parVals$y_pred_step2==-1] <- NA
   }
 
-  a     <- parVals$a
-  beta  <- parVals$beta
+  a1     <- parVals$a1
+  beta1  <- parVals$beta1
+  a2     <- parVals$a2
+  beta2  <- parVals$beta2
   pi     <- parVals$pi
   w      <- parVals$w
 
@@ -314,26 +315,34 @@ ts_par4 <- function(data           = "choose",
 
   for (i in 1:numSubjs) {
     if (indPars=="mean") {
-      allIndPars[i, ] <- c( mean(a[, i]),
-                            mean(beta[, i]),
+      allIndPars[i, ] <- c( mean(a1[, i]),
+                            mean(beta1[, i]),
+                            mean(a2[, i]),
+                            mean(beta2[, i]),
                             mean(pi[, i]),
-                            mean(w[, i]) )
+                            mean(w[, i]))
     } else if (indPars=="median") {
-      allIndPars[i, ] <- c( median(a[, i]),
-                            median(beta[, i]),
+      allIndPars[i, ] <- c( median(a1[, i]),
+                            median(beta1[, i]),
+                            median(a2[, i]),
+                            median(beta2[, i]),
                             median(pi[, i]),
-                            median(w[, i]) )
+                            median(w[, i]))
     } else if (indPars=="mode") {
-      allIndPars[i, ] <- c( estimate_mode(a[, i]),
-                            estimate_mode(beta[, i]),
+      allIndPars[i, ] <- c( estimate_mode(a1[, i]),
+                            estimate_mode(beta1[, i]),
+                            estimate_mode(a2[, i]),
+                            estimate_mode(beta2[, i]),
                             estimate_mode(pi[, i]),
-                            estimate_mode(w[, i]) )
+                            estimate_mode(w[, i]))
     }
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
-  colnames(allIndPars) <- c("a",
-                            "beta",
+  colnames(allIndPars) <- c("a1",
+                            "beta1",
+                            "a2",
+                            "beta2",
                             "pi",
                             "w",
                             "subjID")
