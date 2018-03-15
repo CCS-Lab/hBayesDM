@@ -330,3 +330,16 @@ plot_ts_par4 <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
   h_all = multiplot(h1, h2, h3, h4, cols = ncols)
   return(h_all)
 }
+
+plot_ts_par6 <- function(obj, fontSize = 10, ncols = 7, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_a1, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(alpha, " (Lev 1)")))
+  h2 = plotDist(sample = pars$mu_beta1, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Lev 1)")))
+  h3 = plotDist(sample = pars$mu_a2, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(alpha, " (Lev 2)")))
+  h4 = plotDist(sample = pars$mu_beta2, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Lev 2)")))
+  h5 = plotDist(sample = pars$mu_pi, fontSize = fontSize, binSize = binSize, xLab = expression(paste(pi, " (Pers.)")))
+  h6 = plotDist(sample = pars$mu_w, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(omega, " (weight)")))
+  h_all = multiplot(h1, h2, h3, h4, h5, h6, cols = ncols)
+  return(h_all)
+}
+
