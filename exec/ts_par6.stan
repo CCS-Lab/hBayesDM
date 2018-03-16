@@ -104,6 +104,9 @@ model {
       // Update Level 2 v_mf of the chosen option. Level 2--> choose one of level 2 options and observe reward
       v_mf[2+ level2_choice[i,t]] = v_mf[2+ level2_choice[i,t]] + a2[i]*(reward[i,t] - v_mf[2+ level2_choice[i,t] ] );
 
+      // Update Level 1 v_mf
+      v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + a1[i] * (reward[i,t] - v_mf[2+level2_choice[i,t]]);
+
     } // end of t loop
   } // end of i loop
 }
@@ -197,6 +200,9 @@ generated quantities {
       // After observing the reward at Level 2...
       // Update Level 2 v_mf of the chosen option. Level 2--> choose one of level 2 options and observe reward
       v_mf[2+ level2_choice[i,t]] = v_mf[2+ level2_choice[i,t]] + a2[i]*(reward[i,t] - v_mf[2+ level2_choice[i,t] ] );
+
+      // Update Level 1 v_mf
+      v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + a1[i] * (reward[i,t] - v_mf[2+level2_choice[i,t]]);
 
       } // end of t loop
     } // end of i loop
