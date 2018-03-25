@@ -2,9 +2,10 @@
 #'
 #' @description
 #' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta" (learning rate), "alpha" (indecision point), "beta" (inverse temperature).
+#' Contributor (for model-based regressors): Jaeyeong Yang (https://ccs-lab.github.io/team/jaeyeong-yang/) and Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 #'
 #' \strong{MODEL:}
-#' Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex) without alpha (indecision point)
+#' Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
 #'
 #' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "outcome", adn "block". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
@@ -145,10 +146,10 @@ prl_fictitious_multipleB <- function(data           = "choice",
   numSubjs <- length(subjList)  # number of subjects
 
   # Specify the number of parameters and parameters of interest
-  numPars <- 2
-  POI     <- c("mu_eta", "mu_beta",
+  numPars <- 3
+  POI     <- c("mu_eta", "mu_alpha", "mu_beta",
                "sigma",
-               "eta", "beta",
+               "eta", "alpha", "beta",
                "log_lik")
 
   if (modelRegressor)
@@ -232,7 +233,7 @@ prl_fictitious_multipleB <- function(data           = "choice",
     genInitList <- "random"
   } else {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(0.5, 1.0)
+      inits_fixed <- c(0.5, 0.0, 1.0)
     } else {
       if (length(inits) == numPars)
         inits_fixed <- inits
@@ -242,10 +243,11 @@ prl_fictitious_multipleB <- function(data           = "choice",
 
     genInitList <- function() {
       list(
-        mu_p     = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2] / 10)),
-        sigma    = c(1.0, 1.0),
+        mu_p     = c(qnorm(inits_fixed[1]), inits_fixed[2], qnorm(inits_fixed[3] / 10)),
+        sigma    = c(1.0, 1.0, 1.0),
         eta_pr   = rep(qnorm(inits_fixed[1]), numSubjs),
-        beta_pr  = rep(qnorm(inits_fixed[2]/10), numSubjs)
+        alpha_pr = rep(inits_fixed[2], numSubjs),
+        beta_pr  = rep(qnorm(inits_fixed[3]/10), numSubjs)
       )
     }
   }
@@ -293,6 +295,7 @@ prl_fictitious_multipleB <- function(data           = "choice",
     parVals$y_pred[parVals$y_pred == -1] <- NA
 
   eta   <- parVals$eta
+  alpha <- parVals$alpha
   beta  <- parVals$beta
 
   # Individual parameters (e.g., individual posterior means)
@@ -303,11 +306,13 @@ prl_fictitious_multipleB <- function(data           = "choice",
   # TODO: Use *apply function instead of for loop
   for (i in 1:numSubjs) {
     allIndPars[i, ] <- c(measureIndPars(eta[, i]),
+                         measureIndPars(alpha[, i]),
                          measureIndPars(beta[, i]))
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
   colnames(allIndPars) <- c("eta",
+                            "alpha",
                             "beta",
                             "subjID")
 

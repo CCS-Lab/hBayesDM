@@ -1,3 +1,10 @@
+March 26, 2018 (0.5.1)
+* Add models for the Two Step task
+* Add models without indecision point parameter (alpha) for the PRL task (prl_*_woa.stan)
+* Model-based regressors for the PRL task are now available
+* For the PRL task & prl_fictitious.stan & prl_fictitious_rp.stan --> change the range of alpha (indecision point) from [0, 1] to [-Inf, Inf]
+
+
 Dec 25, 2017 (0.5.0)
 * Support variational Bayesian methods (vb=TRUE)
 * Allow posterior predictive checks, except for drift-diffusion models (inc_postpred=TRUE)

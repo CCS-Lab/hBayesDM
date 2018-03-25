@@ -40,6 +40,8 @@ ts_par6(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 \item{stepsize}{Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
 
 \item{max_treedepth}{Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
+
+\item{trans_prob}{Common state transition probability from Stage (Level) 1 to Stage 2. Defaults to 0.7.}
 }
 \value{
 \code{modelData}  A class \code{"hBayesDM"} object with the following components:
@@ -54,11 +56,11 @@ ts_par6(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Two-Step Task with the following 6 parameters: "a1" (learnign rate in stage 1), "a2" (learnign rate in stage 2), "beta1" (inverse temperature in stage 1), "beta2" (inverse temperature in stage 2), "pi" (perseverance), and "w" (model-based weight).
-THIS CODE IS NOT RIGOROUSLY TESTED YET! PLEASE TRY IT AND GIVE US FEEDBACK (https://groups.google.com/d/forum/hbayesdm-users)
+Hierarchical Bayesian Modeling of the Two-Step Task with the following 6 parameters: "a1" (learnign rate in stage 1), "a2" (learnign rate in stage 2), "beta1" (inverse temperature in stage 1), "beta2" (inverse temperature in stage 2), "pi" (perseverance), and "w" (model-based weight).\cr\cr
+Contributor: Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 
 \strong{MODEL:}
-Hybrid model (Daw et al., 2011, Neuron)
+Hybrid model (Daw et al., 2011, Neuron) with 6 parameters
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -71,11 +73,13 @@ represent variables. For the Two-Step Task, there should be four columns of data
 particular order, however it is necessary that they be labelled correctly and contain the information below:
 \describe{
  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
- \item{\code{"level1_choice"}}{Choice of the level1. 1: stimulus1, 2: stimulus2}
- \item{\code{"level2_choice"}}{Choice of the level2. 1: stimulus3, 2: stimulus4, 3: stimulus5, 4: stimulus6}
- \item{\code{"reward"}}{Reward of the level2(0 or 1)}#'
+ \item{\code{"level1_choice"}}{Choice of the level 1. 1: stimulus 1, 2: stimulus 2}
+ \item{\code{"level2_choice"}}{Choice of the level 2. 1: stimulus 3, 2: stimulus 4, 3: stimulus 5, 4: stimulus 6.}
+ \item{\code{"reward"}}{Reward of the level 2 (0 or 1)}
 }
-\strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
+\strong{*} Note: In our notation, choosing stimulus 1 in Level 1 leads to stimulus 3 & 4 in Level 2 with a common (0.7 by default) transition.
+Choosing stimulus 3 in Level 1 leads to stimulus 5 & 6 in Level 2 with a common (0.7 by default) transition.
+The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
 there is no need to remove other miscellaneous data columns.
 

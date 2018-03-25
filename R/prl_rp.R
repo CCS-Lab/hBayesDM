@@ -2,6 +2,7 @@
 #'
 #' @description
 #' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "Apun" (punishment learning rate), "Arew" (reward learning rate), and "beta" (inverse temperature).
+#' Contributor (for model-based regressors): Jaeyeong Yang (https://ccs-lab.github.io/team/jaeyeong-yang/) and Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 #'
 #' \strong{MODEL:}
 #' Reward-Punishment Model (Ouden et al., 2013, Neuron)
