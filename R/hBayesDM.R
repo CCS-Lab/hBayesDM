@@ -44,6 +44,10 @@
 #'                                       Drift Diffusion Model for single subject --- \link{choiceRT_ddm_single} \cr
 #'                                       Linear Ballistic Accumulator --- \link{choiceRT_lba} \cr
 #'                                       Linear Ballistic Accumulator for single subject --- \link{choiceRT_lba_single}}
+#'  \item{\strong{Two-Step task}}{Full model (7 parameters) --- \link{ts_par7} \cr
+#'                                6 parameter model (without eligibility trace, lambda) --- \link{ts_par6} \cr
+#'                                4 parameter model --- \link{ts_par4}}
+#'                                       
 #' }
 #' 
 #' @seealso 
@@ -51,7 +55,7 @@
 #' 
 #' @references 
 #' Please cite as: 
-#' Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. \emph{Computational Psychiatry}. 1:1. https://doi.org/10.1101/064287
+#' Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. \emph{Computational Psychiatry}. 1, 24-57. https://doi.org/10.1162/CPSY_a_00002
 #'
 #' @author
 #' Woo-Young Ahn \email{wooyoung.ahn@@gmail.com}
