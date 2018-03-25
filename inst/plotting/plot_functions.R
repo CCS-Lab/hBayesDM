@@ -342,7 +342,7 @@ plot_ts_par4 <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
   return(h_all)
 }
 
-plot_ts_par6 <- function(obj, fontSize = 10, ncols = 7, binSize = 30) {
+plot_ts_par6 <- function(obj, fontSize = 10, ncols = 6, binSize = 30) {
   pars = obj$parVals
   h1 = plotDist(sample = pars$mu_a1, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(alpha, " (Lev 1)")))
   h2 = plotDist(sample = pars$mu_beta1, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Lev 1)")))
