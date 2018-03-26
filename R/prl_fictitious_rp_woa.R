@@ -1,13 +1,13 @@
-#' Probabilistic Reversal Learning Task, multiple blocks per subject
+#' Probabilistic Reversal Learning Task
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "Apun" (punishment learning rate), "Arew" (reward learning rate), and "beta" (inverse temperature).
+#' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta_pos" (learning rate, +PE), "eta_neg" (learning rate, -PE), "alpha" (indecision point), "beta" (inverse temperature).
 #' Contributor (for model-based regressors): Jaeyeong Yang (https://ccs-lab.github.io/team/jaeyeong-yang/) and Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 #'
 #' \strong{MODEL:}
-#' Reward-Punishment Model (Ouden et al., 2013, Neuron)
+#' Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex) + separate learning rates for + and - prediction error (PE) without alpha (indecision point)
 #'
-#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "outcome", and "block". See \bold{Details} below for more information.
+#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", and "outcome". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
 #' @param nwarmup Number of iterations used for warm-up only.
 #' @param nchain Number of chains to be run.
@@ -25,7 +25,7 @@
 #'
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"prl_rp_multipleB"}).}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"prl_fictitious"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -52,7 +52,6 @@
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
 #'  \item{\code{"choice"}}{An integer value representing the chosen choice option within the given trial (e.g., 1 or 2 in PRL).}
 #'  \item{\code{"outcome"}}{A 1 or -1 for outcome within each given trial (1 = reward, -1 = loss).}
-#'  \item{\code{"block"}}{An integer value representing the block number of the current trial (e.g., 1 1 1 2 2 2).}
 #' }
 #' \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 #' names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
@@ -83,19 +82,22 @@
 #' @export
 #'
 #' @references
+#' Glascher, J., Hampton, A. N., & O'Doherty, J. P. (2009). Determining a Role for Ventromedial Prefrontal Cortex in Encoding
+#' Action-Based Value Signals During Reward-Related Decision Making. Cerebral Cortex, 19(2), 483-495. http://doi.org/10.1093/cercor/bhn098
+#'
 #' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 #' Journal of Machine Learning Research, 15(1), 1593-1623.
 #'
 #' Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable
 #' Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
-#'
+
 #' @seealso
 #' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
 #'
 #' @examples
 #' \dontrun{
 #' # Run the model and store results in "output"
-#' output <- prl_rp_multipleB(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+#' output <- prl_fictitious_rp_woa(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
 #'
 #' # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
 #' plot(output, type = 'trace')
@@ -110,21 +112,21 @@
 #' printFit(output)
 #' }
 
-prl_rp_multipleB <- function(data           = "choice",
-                             niter          = 3000,
-                             nwarmup        = 1000,
-                             nchain         = 1,
-                             ncore          = 1,
-                             nthin          = 1,
-                             inits          = "random",
-                             indPars        = "mean",
-                             saveDir        = NULL,
-                             modelRegressor = FALSE,
-                             vb             = FALSE,
-                             inc_postpred   = FALSE,
-                             adapt_delta    = 0.95,
-                             stepsize       = 1,
-                             max_treedepth  = 10) {
+prl_fictitious_rp_woa <- function(data           = "choice",
+                                  niter          = 3000,
+                                  nwarmup        = 1000,
+                                  nchain         = 1,
+                                  ncore          = 1,
+                                  nthin          = 1,
+                                  inits          = "random",
+                                  indPars        = "mean",
+                                  saveDir        = NULL,
+                                  modelRegressor = FALSE,
+                                  vb             = FALSE,
+                                  inc_postpred   = FALSE,
+                                  adapt_delta    = 0.95,
+                                  stepsize       = 1,
+                                  max_treedepth  = 10) {
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
@@ -138,18 +140,17 @@ prl_rp_multipleB <- function(data           = "choice",
 
   # For using example data
   if (data == "example") {
-    data <- system.file("extdata", "prl_multipleB_exampleData.txt", package = "hBayesDM")
+    data <- system.file("extdata", "prl_exampleData.txt", package = "hBayesDM")
   } else if (data == "choose") {
     data <- file.choose()
   }
 
   # Load data
   if (file.exists(data)) {
-    rawdata <- read.table(data, header = T)
+    rawdata <- read.table(data, header = T, sep = "\t")
   } else {
     stop("** The data file does not exist. Please check it again. **\n  e.g., data = '/MyFolder/SubFolder/dataFile.txt', ... **\n")
   }
-
   # Remove rows containing NAs
   NA_rows_all = which(is.na(rawdata), arr.ind = T)  # rows with NAs
   NA_rows = unique(NA_rows_all[, "row"])
@@ -164,18 +165,18 @@ prl_rp_multipleB <- function(data           = "choice",
 
   # Specify the number of parameters and parameters of interest
   numPars <- 3
-  POI     <- c("mu_Apun", "mu_Arew", "mu_beta",
+  POI     <- c("mu_eta_pos", "mu_eta_neg", "mu_beta",
                "sigma",
-               "Apun", "Arew", "beta",
+               "eta_pos", "eta_neg", "beta",
                "log_lik")
 
   if (modelRegressor)
-    POI <- c(POI, "mr_ev_c", "mr_ev_nc", "mr_pe")
+    POI <- c(POI, "mr_ev_c", "mr_ev_nc", "mr_pe_c", "mr_pe_nc", "mr_dv")
 
   if (inc_postpred)
     POI <- c(POI, "y_pred")
 
-  modelName <- "prl_rp_multipleB"
+  modelName <- "prl_fictitious_rp_woa"
 
   # Information for user
   cat("\nModel name = ", modelName, "\n")
@@ -195,49 +196,33 @@ prl_rp_multipleB <- function(data           = "choice",
   # THE DATA.  ###################################################################
   ################################################################################
 
-  maxB  <- length(unique(rawdata$block))  # maximum number of block
-  B     <- NULL                           # number of blocks for each subject
-  Tsubj <- array(0, c(numSubjs, maxB))    # number of trials for each subject, in each block
+  Tsubj <- as.vector(rep(0, numSubjs)) # number of trials for each subject
 
   for (i in 1:numSubjs)  {
-    curSubj       <- subjList[i]
-    tmpDat        <- subset(rawdata, rawdata$subjID == curSubj)
-    tmpAllBlocks  <- unique(tmpDat$block) # temp. subject's all blocks
-    B[i]          <- length(tmpAllBlocks)
-
-    for (bIdx in 1:B[i])
-      Tsubj[i, bIdx] = sum(tmpDat$block == tmpAllBlocks[bIdx])
+    curSubj  <- subjList[i]
+    Tsubj[i] <- sum(rawdata$subjID == curSubj)  # Tsubj[N]
   }
 
   # Setting maxTrials
   maxTrials <- max(Tsubj)
 
   # Information for user continued
-  cat(" # of (max) blocks per subject = ", maxB,      "\n\n")
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
 
-  choice  <- array(-1, c(numSubjs, maxB, maxTrials))
-  outcome <- array(0, c(numSubjs, maxB, maxTrials))
+  choice  <- array(-1, c(numSubjs, maxTrials))
+  outcome <- array(0, c(numSubjs, maxTrials))
 
   for (i in 1:numSubjs) {
-    curSubj       <- subjList[i]
-    tmpDat        <- subset(rawdata, rawdata$subjID == curSubj)
-    tmpAllBlocks  <- unique(tmpDat$block) # temp. subject's all blocks
-
-    for (bIdx in 1:B[i]) {
-      tmp       <- subset(tmpDat, tmpDat$block == tmpAllBlocks[bIdx])
-      useTrials <- Tsubj[i, bIdx]
-
-      choice[i, bIdx, 1:useTrials]  <- tmp$choice
-      outcome[i, bIdx, 1:useTrials] <- sign(tmp$outcome)  # use sign
-    }
+    curSubj      <- subjList[i]
+    useTrials    <- Tsubj[i]
+    tmp          <- subset(rawdata, rawdata$subjID == curSubj)
+    choice[i, 1:useTrials] <- tmp$choice
+    outcome[i, 1:useTrials] <- sign(tmp$outcome)  # use sign
   }
 
   dataList <- list(
     N       = numSubjs,
     T       = maxTrials,
-    maxB    = maxB,
-    B       = B,
     Tsubj   = Tsubj,
     choice  = choice,
     outcome = outcome,
@@ -249,7 +234,7 @@ prl_rp_multipleB <- function(data           = "choice",
     genInitList <- "random"
   } else {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(0.1, 0.1, 1.0)
+      inits_fixed <- c(0.5, 0.5, 1.0)
     } else {
       if (length(inits) == numPars)
         inits_fixed <- inits
@@ -259,18 +244,17 @@ prl_rp_multipleB <- function(data           = "choice",
 
     genInitList <- function() {
       list(
-        mu_p    = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 10)),
-        sigma   = c(1.0, 1.0, 1.0),
-        Apun_pr = rep(qnorm(inits_fixed[1]), numSubjs),
-        Arew_pr = rep(qnorm(inits_fixed[2]), numSubjs),
-        beta_pr = rep(qnorm(inits_fixed[3] / 10), numSubjs)
+        mu_p     = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 5)),
+        sigma    = c(1.0, 1.0, 1.0),
+        eta_pos_pr = rep(qnorm(inits_fixed[1]), numSubjs),
+        eta_neg_pr = rep(qnorm(inits_fixed[2]), numSubjs),
+        beta_pr  = rep(qnorm(inits_fixed[3]/5), numSubjs)
       )
     }
   }
 
   if (ncore > 1) {
     numCores <- parallel::detectCores()
-
     if (numCores < ncore) {
       options(mc.cores = numCores)
       warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
@@ -286,49 +270,50 @@ prl_rp_multipleB <- function(data           = "choice",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m <- stanmodels$prl_rp_multipleB
-
+  m = stanmodels$prl_fictitious_rp_woa
   if (vb) {   # if variational Bayesian
-    fit <- rstan::vb(m,
-                     data   = dataList,
-                     pars   = POI,
-                     init   = genInitList)
+    fit = rstan::vb(m,
+                    data   = dataList,
+                    pars   = POI,
+                    init   = genInitList)
   } else {
-    fit <- rstan::sampling(m,
-                           data    = dataList,
-                           pars    = POI,
-                           warmup  = nwarmup,
-                           init    = genInitList,
-                           iter    = niter,
-                           chains  = nchain,
-                           thin    = nthin,
-                           control = list(adapt_delta   = adapt_delta,
-                                          max_treedepth = max_treedepth,
-                                          stepsize      = stepsize))
+    fit = rstan::sampling(m,
+                          data   = dataList,
+                          pars   = POI,
+                          warmup = nwarmup,
+                          init   = genInitList,
+                          iter   = niter,
+                          chains = nchain,
+                          thin   = nthin,
+                          control = list(adapt_delta   = adapt_delta,
+                                         max_treedepth = max_treedepth,
+                                         stepsize      = stepsize))
   }
   ## Extract parameters
   parVals <- rstan::extract(fit, permuted = T)
-  if (inc_postpred)
+  if (inc_postpred) {
     parVals$y_pred[parVals$y_pred == -1] <- NA
+  }
 
-  Apun <- parVals$Apun
-  Arew <- parVals$Arew
-  beta <- parVals$beta
+  eta_pos <- parVals$eta_pos
+  eta_neg <- parVals$eta_neg
+  beta    <- parVals$beta
 
   # Individual parameters (e.g., individual posterior means)
   measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
 
+  # TODO: Use *apply function instead of for loop
   for (i in 1:numSubjs) {
-    allIndPars[i,] <- c(measureIndPars(Apun[, i]),
-                        measureIndPars(Arew[, i]),
-                        measureIndPars(beta[, i]))
+    allIndPars[i, ] <- c(measureIndPars(eta_pos[, i]),
+                         measureIndPars(eta_neg[, i]),
+                         measureIndPars(beta[, i]))
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
-  colnames(allIndPars) <- c("Apun",
-                            "Arew",
+  colnames(allIndPars) <- c("eta_pos",
+                            "eta_neg",
                             "beta",
                             "subjID")
 
@@ -342,15 +327,19 @@ prl_rp_multipleB <- function(data           = "choice",
   modelData$modelRegressor  <- NA
 
   if (modelRegressor) {
-    ev_c  <- apply(parVals$mr_ev_c, c(2, 3, 4), measureIndPars)
-    ev_nc <- apply(parVals$mr_ev_nc, c(2, 3, 4), measureIndPars)
-    pe    <- apply(parVals$mr_pe, c(2, 3, 4), measureIndPars)
+    ev_c  <- apply(parVals$mr_ev_c, c(2, 3), measureIndPars)
+    ev_nc <- apply(parVals$mr_ev_nc, c(2, 3), measureIndPars)
+    pe_c  <- apply(parVals$mr_pe_c, c(2, 3), measureIndPars)
+    pe_nc <- apply(parVals$mr_pe_nc, c(2, 3), measureIndPars)
+    dv    <- apply(parVals$mr_dv, c(2, 3), measureIndPars)
 
     # Initialize modelRegressor and add model-based regressors
     regressors        <- NULL
     regressors$ev_c   <- ev_c
     regressors$ev_nc  <- ev_nc
-    regressors$pe     <- pe
+    regressors$pe_c   <- pe_c
+    regressors$pe_nc  <- pe_nc
+    regressors$dv     <- dv
 
     modelData$modelRegressor <- regressors
   }

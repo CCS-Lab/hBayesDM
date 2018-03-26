@@ -25203,7 +25203,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_prl_fictitious");
-    reader.add_event(165, 165, "end", "model_prl_fictitious");
+    reader.add_event(164, 164, "end", "model_prl_fictitious");
     return reader;
 }
 
@@ -25521,7 +25521,7 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1)))));
+                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
 
@@ -25552,8 +25552,6 @@ public:
             (void) function__;  // dummy to suppress unused var warning
             check_greater_or_equal(function__,"eta",eta,0);
             check_less_or_equal(function__,"eta",eta,1);
-            check_greater_or_equal(function__,"alpha",alpha,0);
-            check_less_or_equal(function__,"alpha",alpha,1);
             check_greater_or_equal(function__,"beta",beta,0);
             check_less_or_equal(function__,"beta",beta,5);
 
@@ -25779,15 +25777,13 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1)))));
+                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
 
             // validate transformed parameters
             check_greater_or_equal(function__,"eta",eta,0);
             check_less_or_equal(function__,"eta",eta,1);
-            check_greater_or_equal(function__,"alpha",alpha,0);
-            check_less_or_equal(function__,"alpha",alpha,1);
             check_greater_or_equal(function__,"beta",beta,0);
             check_less_or_equal(function__,"beta",beta,5);
 
@@ -25868,7 +25864,7 @@ public:
                 }
             }
             stan::math::assign(mu_eta, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
-            stan::math::assign(mu_alpha, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
+            stan::math::assign(mu_alpha, get_base1(mu_p,2,"mu_p",1));
             stan::math::assign(mu_beta, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 5));
 
             for (int i = 1; i <= N; ++i) {
@@ -25921,8 +25917,6 @@ public:
             // validate generated quantities
             check_greater_or_equal(function__,"mu_eta",mu_eta,0);
             check_less_or_equal(function__,"mu_eta",mu_eta,1);
-            check_greater_or_equal(function__,"mu_alpha",mu_alpha,0);
-            check_less_or_equal(function__,"mu_alpha",mu_alpha,1);
             check_greater_or_equal(function__,"mu_beta",mu_beta,0);
             check_less_or_equal(function__,"mu_beta",mu_beta,5);
 
@@ -26596,7 +26590,7 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1)))));
+                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 10));
             }
 
@@ -26627,8 +26621,6 @@ public:
             (void) function__;  // dummy to suppress unused var warning
             check_greater_or_equal(function__,"eta",eta,0);
             check_less_or_equal(function__,"eta",eta,1);
-            check_greater_or_equal(function__,"alpha",alpha,0);
-            check_less_or_equal(function__,"alpha",alpha,1);
             check_greater_or_equal(function__,"beta",beta,0);
             check_less_or_equal(function__,"beta",beta,10);
 
@@ -26863,15 +26855,13 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1)))));
+                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 10));
             }
 
             // validate transformed parameters
             check_greater_or_equal(function__,"eta",eta,0);
             check_less_or_equal(function__,"eta",eta,1);
-            check_greater_or_equal(function__,"alpha",alpha,0);
-            check_less_or_equal(function__,"alpha",alpha,1);
             check_greater_or_equal(function__,"beta",beta,0);
             check_less_or_equal(function__,"beta",beta,10);
 
@@ -26961,7 +26951,7 @@ public:
                 }
             }
             stan::math::assign(mu_eta, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
-            stan::math::assign(mu_alpha, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
+            stan::math::assign(mu_alpha, get_base1(mu_p,2,"mu_p",1));
             stan::math::assign(mu_beta, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 10));
 
             for (int i = 1; i <= N; ++i) {
@@ -27017,8 +27007,6 @@ public:
             // validate generated quantities
             check_greater_or_equal(function__,"mu_eta",mu_eta,0);
             check_less_or_equal(function__,"mu_eta",mu_eta,1);
-            check_greater_or_equal(function__,"mu_alpha",mu_alpha,0);
-            check_less_or_equal(function__,"mu_alpha",mu_alpha,1);
             check_greater_or_equal(function__,"mu_beta",mu_beta,0);
             check_less_or_equal(function__,"mu_beta",mu_beta,10);
 
@@ -27370,7 +27358,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_prl_fictitious_rp");
-    reader.add_event(180, 180, "end", "model_prl_fictitious_rp");
+    reader.add_event(179, 179, "end", "model_prl_fictitious_rp");
     return reader;
 }
 
@@ -27719,7 +27707,7 @@ public:
 
                 stan::math::assign(get_base1_lhs(eta_pos,i,"eta_pos",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pos_pr,i,"eta_pos_pr",1)))));
                 stan::math::assign(get_base1_lhs(eta_neg,i,"eta_neg",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(eta_neg_pr,i,"eta_neg_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1)))));
+                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
 
@@ -27759,8 +27747,6 @@ public:
             check_less_or_equal(function__,"eta_pos",eta_pos,1);
             check_greater_or_equal(function__,"eta_neg",eta_neg,0);
             check_less_or_equal(function__,"eta_neg",eta_neg,1);
-            check_greater_or_equal(function__,"alpha",alpha,0);
-            check_less_or_equal(function__,"alpha",alpha,1);
             check_greater_or_equal(function__,"beta",beta,0);
             check_less_or_equal(function__,"beta",beta,5);
 
@@ -28016,7 +28002,7 @@ public:
 
                 stan::math::assign(get_base1_lhs(eta_pos,i,"eta_pos",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pos_pr,i,"eta_pos_pr",1)))));
                 stan::math::assign(get_base1_lhs(eta_neg,i,"eta_neg",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(eta_neg_pr,i,"eta_neg_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1)))));
+                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
 
@@ -28025,8 +28011,6 @@ public:
             check_less_or_equal(function__,"eta_pos",eta_pos,1);
             check_greater_or_equal(function__,"eta_neg",eta_neg,0);
             check_less_or_equal(function__,"eta_neg",eta_neg,1);
-            check_greater_or_equal(function__,"alpha",alpha,0);
-            check_less_or_equal(function__,"alpha",alpha,1);
             check_greater_or_equal(function__,"beta",beta,0);
             check_less_or_equal(function__,"beta",beta,5);
 
@@ -28116,7 +28100,7 @@ public:
             }
             stan::math::assign(mu_eta_pos, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
             stan::math::assign(mu_eta_neg, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
-            stan::math::assign(mu_alpha, Phi_approx(get_base1(mu_p,3,"mu_p",1)));
+            stan::math::assign(mu_alpha, get_base1(mu_p,3,"mu_p",1));
             stan::math::assign(mu_beta, (Phi_approx(get_base1(mu_p,4,"mu_p",1)) * 5));
 
             for (int i = 1; i <= N; ++i) {
@@ -28178,8 +28162,6 @@ public:
             check_less_or_equal(function__,"mu_eta_pos",mu_eta_pos,1);
             check_greater_or_equal(function__,"mu_eta_neg",mu_eta_neg,0);
             check_less_or_equal(function__,"mu_eta_neg",mu_eta_neg,1);
-            check_greater_or_equal(function__,"mu_alpha",mu_alpha,0);
-            check_less_or_equal(function__,"mu_alpha",mu_alpha,1);
             check_greater_or_equal(function__,"mu_beta",mu_beta,0);
             check_less_or_equal(function__,"mu_beta",mu_beta,5);
 
@@ -28438,6 +28420,1987 @@ public:
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
         param_name_stream__ << "mu_alpha";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+}; // model
+
+}
+
+
+
+
+// Code generated by Stan version 2.17.0
+
+#include <stan/model/model_header.hpp>
+
+namespace model_prl_fictitious_rp_woa_namespace {
+
+using std::istream;
+using std::string;
+using std::stringstream;
+using std::vector;
+using stan::io::dump;
+using stan::math::lgamma;
+using stan::model::prob_grad;
+using namespace stan::math;
+
+typedef Eigen::Matrix<double,Eigen::Dynamic,1> vector_d;
+typedef Eigen::Matrix<double,1,Eigen::Dynamic> row_vector_d;
+typedef Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic> matrix_d;
+
+static int current_statement_begin__;
+
+stan::io::program_reader prog_reader__() {
+    stan::io::program_reader reader;
+    reader.add_event(0, 0, "start", "model_prl_fictitious_rp_woa");
+    reader.add_event(173, 173, "end", "model_prl_fictitious_rp_woa");
+    return reader;
+}
+
+class model_prl_fictitious_rp_woa : public prob_grad {
+private:
+    int N;
+    int T;
+    vector<int> Tsubj;
+    vector<vector<int> > choice;
+    vector<vector<double> > outcome;
+    vector_d initV;
+public:
+    model_prl_fictitious_rp_woa(stan::io::var_context& context__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, 0, pstream__);
+    }
+
+    model_prl_fictitious_rp_woa(stan::io::var_context& context__,
+        unsigned int random_seed__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, random_seed__, pstream__);
+    }
+
+    void ctor_body(stan::io::var_context& context__,
+                   unsigned int random_seed__,
+                   std::ostream* pstream__) {
+        boost::ecuyer1988 base_rng__ =
+          stan::services::util::create_rng(random_seed__, 0);
+        (void) base_rng__;  // suppress unused var warning
+
+        current_statement_begin__ = -1;
+
+        static const char* function__ = "model_prl_fictitious_rp_woa_namespace::model_prl_fictitious_rp_woa";
+        (void) function__;  // dummy to suppress unused var warning
+        size_t pos__;
+        (void) pos__;  // dummy to suppress unused var warning
+        std::vector<int> vals_i__;
+        std::vector<double> vals_r__;
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        // initialize member variables
+        try {
+            context__.validate_dims("data initialization", "N", "int", context__.to_vec());
+            N = int(0);
+            vals_i__ = context__.vals_i("N");
+            pos__ = 0;
+            N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "T", "int", context__.to_vec());
+            T = int(0);
+            vals_i__ = context__.vals_i("T");
+            pos__ = 0;
+            T = vals_i__[pos__++];
+            validate_non_negative_index("Tsubj", "N", N);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Tsubj", "N", N);
+            Tsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Tsubj");
+            pos__ = 0;
+            size_t Tsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
+                Tsubj[i_0__] = vals_i__[pos__++];
+            }
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("choice");
+            pos__ = 0;
+            size_t choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
+                size_t choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
+                    choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
+            pos__ = 0;
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
+                }
+            }
+
+            // validate, data variables
+            check_greater_or_equal(function__,"N",N,1);
+            check_greater_or_equal(function__,"T",T,1);
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                check_greater_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],1);
+                check_less_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],T);
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],2);
+                }
+            }
+            // initialize data variables
+            validate_non_negative_index("initV", "2", 2);
+            initV = vector_d(static_cast<Eigen::VectorXd::Index>(2));
+            stan::math::fill(initV,DUMMY_VAR__);
+
+            stan::math::assign(initV, rep_vector(0.0,2));
+
+            // validate transformed data
+
+            // validate, set parameter ranges
+            num_params_r__ = 0U;
+            param_ranges_i__.clear();
+            validate_non_negative_index("mu_p", "3", 3);
+            num_params_r__ += 3;
+            validate_non_negative_index("sigma", "3", 3);
+            num_params_r__ += 3;
+            validate_non_negative_index("eta_pos_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("eta_neg_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("beta_pr", "N", N);
+            num_params_r__ += N;
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    ~model_prl_fictitious_rp_woa() { }
+
+
+    void transform_inits(const stan::io::var_context& context__,
+                         std::vector<int>& params_i__,
+                         std::vector<double>& params_r__,
+                         std::ostream* pstream__) const {
+        stan::io::writer<double> writer__(params_r__,params_i__);
+        size_t pos__;
+        (void) pos__; // dummy call to supress warning
+        std::vector<double> vals_r__;
+        std::vector<int> vals_i__;
+
+        if (!(context__.contains_r("mu_p")))
+            throw std::runtime_error("variable mu_p missing");
+        vals_r__ = context__.vals_r("mu_p");
+        pos__ = 0U;
+        validate_non_negative_index("mu_p", "3", 3);
+        context__.validate_dims("initialization", "mu_p", "vector_d", context__.to_vec(3));
+        vector_d mu_p(static_cast<Eigen::VectorXd::Index>(3));
+        for (int j1__ = 0U; j1__ < 3; ++j1__)
+            mu_p(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(mu_p);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable mu_p: ") + e.what());
+        }
+
+        if (!(context__.contains_r("sigma")))
+            throw std::runtime_error("variable sigma missing");
+        vals_r__ = context__.vals_r("sigma");
+        pos__ = 0U;
+        validate_non_negative_index("sigma", "3", 3);
+        context__.validate_dims("initialization", "sigma", "vector_d", context__.to_vec(3));
+        vector_d sigma(static_cast<Eigen::VectorXd::Index>(3));
+        for (int j1__ = 0U; j1__ < 3; ++j1__)
+            sigma(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_lb_unconstrain(0,sigma);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable sigma: ") + e.what());
+        }
+
+        if (!(context__.contains_r("eta_pos_pr")))
+            throw std::runtime_error("variable eta_pos_pr missing");
+        vals_r__ = context__.vals_r("eta_pos_pr");
+        pos__ = 0U;
+        validate_non_negative_index("eta_pos_pr", "N", N);
+        context__.validate_dims("initialization", "eta_pos_pr", "vector_d", context__.to_vec(N));
+        vector_d eta_pos_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            eta_pos_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(eta_pos_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable eta_pos_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("eta_neg_pr")))
+            throw std::runtime_error("variable eta_neg_pr missing");
+        vals_r__ = context__.vals_r("eta_neg_pr");
+        pos__ = 0U;
+        validate_non_negative_index("eta_neg_pr", "N", N);
+        context__.validate_dims("initialization", "eta_neg_pr", "vector_d", context__.to_vec(N));
+        vector_d eta_neg_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            eta_neg_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(eta_neg_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable eta_neg_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("beta_pr")))
+            throw std::runtime_error("variable beta_pr missing");
+        vals_r__ = context__.vals_r("beta_pr");
+        pos__ = 0U;
+        validate_non_negative_index("beta_pr", "N", N);
+        context__.validate_dims("initialization", "beta_pr", "vector_d", context__.to_vec(N));
+        vector_d beta_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            beta_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(beta_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable beta_pr: ") + e.what());
+        }
+
+        params_r__ = writer__.data_r();
+        params_i__ = writer__.data_i();
+    }
+
+    void transform_inits(const stan::io::var_context& context,
+                         Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                         std::ostream* pstream__) const {
+      std::vector<double> params_r_vec;
+      std::vector<int> params_i_vec;
+      transform_inits(context, params_i_vec, params_r_vec, pstream__);
+      params_r.resize(params_r_vec.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r(i) = params_r_vec[i];
+    }
+
+
+    template <bool propto__, bool jacobian__, typename T__>
+    T__ log_prob(vector<T__>& params_r__,
+                 vector<int>& params_i__,
+                 std::ostream* pstream__ = 0) const {
+
+        T__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        T__ lp__(0.0);
+        stan::math::accumulator<T__> lp_accum__;
+
+        try {
+            // model parameters
+            stan::io::reader<T__> in__(params_r__,params_i__);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  mu_p;
+            (void) mu_p;  // dummy to suppress unused var warning
+            if (jacobian__)
+                mu_p = in__.vector_constrain(3,lp__);
+            else
+                mu_p = in__.vector_constrain(3);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  sigma;
+            (void) sigma;  // dummy to suppress unused var warning
+            if (jacobian__)
+                sigma = in__.vector_lb_constrain(0,3,lp__);
+            else
+                sigma = in__.vector_lb_constrain(0,3);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  eta_pos_pr;
+            (void) eta_pos_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                eta_pos_pr = in__.vector_constrain(N,lp__);
+            else
+                eta_pos_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  eta_neg_pr;
+            (void) eta_neg_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                eta_neg_pr = in__.vector_constrain(N,lp__);
+            else
+                eta_neg_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta_pr;
+            (void) beta_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                beta_pr = in__.vector_constrain(N,lp__);
+            else
+                beta_pr = in__.vector_constrain(N);
+
+
+            // transformed parameters
+            validate_non_negative_index("eta_pos", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  eta_pos(static_cast<Eigen::VectorXd::Index>(N));
+            (void) eta_pos;  // dummy to suppress unused var warning
+
+            stan::math::initialize(eta_pos, DUMMY_VAR__);
+            stan::math::fill(eta_pos,DUMMY_VAR__);
+            validate_non_negative_index("eta_neg", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  eta_neg(static_cast<Eigen::VectorXd::Index>(N));
+            (void) eta_neg;  // dummy to suppress unused var warning
+
+            stan::math::initialize(eta_neg, DUMMY_VAR__);
+            stan::math::fill(eta_neg,DUMMY_VAR__);
+            validate_non_negative_index("beta", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta, DUMMY_VAR__);
+            stan::math::fill(beta,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(eta_pos,i,"eta_pos",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pos_pr,i,"eta_pos_pr",1)))));
+                stan::math::assign(get_base1_lhs(eta_neg,i,"eta_neg",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(eta_neg_pr,i,"eta_neg_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
+            }
+
+            // validate transformed parameters
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(eta_pos(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: eta_pos" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(eta_neg(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: eta_neg" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(beta(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: beta" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+
+            const char* function__ = "validate transformed params";
+            (void) function__;  // dummy to suppress unused var warning
+            check_greater_or_equal(function__,"eta_pos",eta_pos,0);
+            check_less_or_equal(function__,"eta_pos",eta_pos,1);
+            check_greater_or_equal(function__,"eta_neg",eta_neg,0);
+            check_less_or_equal(function__,"eta_neg",eta_neg,1);
+            check_greater_or_equal(function__,"beta",beta,0);
+            check_less_or_equal(function__,"beta",beta,5);
+
+            // model body
+
+            lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
+            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(eta_pos_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(eta_neg_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("ev", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  ev(static_cast<Eigen::VectorXd::Index>(2));
+                (void) ev;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ev, DUMMY_VAR__);
+                stan::math::fill(ev,DUMMY_VAR__);
+                validate_non_negative_index("prob", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  prob(static_cast<Eigen::VectorXd::Index>(2));
+                (void) prob;  // dummy to suppress unused var warning
+
+                stan::math::initialize(prob, DUMMY_VAR__);
+                stan::math::fill(prob,DUMMY_VAR__);
+                T__ pe_c;
+                (void) pe_c;  // dummy to suppress unused var warning
+
+                stan::math::initialize(pe_c, DUMMY_VAR__);
+                stan::math::fill(pe_c,DUMMY_VAR__);
+                T__ pe_nc;
+                (void) pe_nc;  // dummy to suppress unused var warning
+
+                stan::math::initialize(pe_nc, DUMMY_VAR__);
+                stan::math::fill(pe_nc,DUMMY_VAR__);
+
+
+                stan::math::assign(ev, initV);
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(prob,1,"prob",1), (1 / (1 + exp((get_base1(beta,i,"beta",1) * (get_base1(ev,2,"ev",1) - get_base1(ev,1,"ev",1)))))));
+                    stan::math::assign(get_base1_lhs(prob,2,"prob",1), (1 - get_base1(prob,1,"prob",1)));
+                    lp_accum__.add(categorical_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), prob));
+                    stan::math::assign(pe_c, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(pe_nc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    if (as_bool(logical_gte(pe_c,0))) {
+
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1) + (get_base1(eta_pos,i,"eta_pos",1) * pe_c)));
+                        stan::math::assign(get_base1_lhs(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), (get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1) + (get_base1(eta_pos,i,"eta_pos",1) * pe_nc)));
+                    } else {
+
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1) + (get_base1(eta_neg,i,"eta_neg",1) * pe_c)));
+                        stan::math::assign(get_base1_lhs(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), (get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1) + (get_base1(eta_neg,i,"eta_neg",1) * pe_nc)));
+                    }
+                }
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+
+        lp_accum__.add(lp__);
+        return lp_accum__.sum();
+
+    } // log_prob()
+
+    template <bool propto, bool jacobian, typename T_>
+    T_ log_prob(Eigen::Matrix<T_,Eigen::Dynamic,1>& params_r,
+               std::ostream* pstream = 0) const {
+      std::vector<T_> vec_params_r;
+      vec_params_r.reserve(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        vec_params_r.push_back(params_r(i));
+      std::vector<int> vec_params_i;
+      return log_prob<propto,jacobian,T_>(vec_params_r, vec_params_i, pstream);
+    }
+
+
+    void get_param_names(std::vector<std::string>& names__) const {
+        names__.resize(0);
+        names__.push_back("mu_p");
+        names__.push_back("sigma");
+        names__.push_back("eta_pos_pr");
+        names__.push_back("eta_neg_pr");
+        names__.push_back("beta_pr");
+        names__.push_back("eta_pos");
+        names__.push_back("eta_neg");
+        names__.push_back("beta");
+        names__.push_back("mu_eta_pos");
+        names__.push_back("mu_eta_neg");
+        names__.push_back("mu_beta");
+        names__.push_back("log_lik");
+        names__.push_back("mr_ev_c");
+        names__.push_back("mr_ev_nc");
+        names__.push_back("mr_pe_c");
+        names__.push_back("mr_pe_nc");
+        names__.push_back("mr_dv");
+        names__.push_back("y_pred");
+    }
+
+
+    void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
+        dimss__.resize(0);
+        std::vector<size_t> dims__;
+        dims__.resize(0);
+        dims__.push_back(3);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(3);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng__,
+                     std::vector<double>& params_r__,
+                     std::vector<int>& params_i__,
+                     std::vector<double>& vars__,
+                     bool include_tparams__ = true,
+                     bool include_gqs__ = true,
+                     std::ostream* pstream__ = 0) const {
+        vars__.resize(0);
+        stan::io::reader<double> in__(params_r__,params_i__);
+        static const char* function__ = "model_prl_fictitious_rp_woa_namespace::write_array";
+        (void) function__;  // dummy to suppress unused var warning
+        // read-transform, write parameters
+        vector_d mu_p = in__.vector_constrain(3);
+        vector_d sigma = in__.vector_lb_constrain(0,3);
+        vector_d eta_pos_pr = in__.vector_constrain(N);
+        vector_d eta_neg_pr = in__.vector_constrain(N);
+        vector_d beta_pr = in__.vector_constrain(N);
+            for (int k_0__ = 0; k_0__ < 3; ++k_0__) {
+            vars__.push_back(mu_p[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < 3; ++k_0__) {
+            vars__.push_back(sigma[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(eta_pos_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(eta_neg_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta_pr[k_0__]);
+            }
+
+        if (!include_tparams__) return;
+        // declare and define transformed parameters
+        double lp__ = 0.0;
+        (void) lp__;  // dummy to suppress unused var warning
+        stan::math::accumulator<double> lp_accum__;
+
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        try {
+            validate_non_negative_index("eta_pos", "N", N);
+            vector_d eta_pos(static_cast<Eigen::VectorXd::Index>(N));
+            (void) eta_pos;  // dummy to suppress unused var warning
+
+            stan::math::initialize(eta_pos, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(eta_pos,DUMMY_VAR__);
+            validate_non_negative_index("eta_neg", "N", N);
+            vector_d eta_neg(static_cast<Eigen::VectorXd::Index>(N));
+            (void) eta_neg;  // dummy to suppress unused var warning
+
+            stan::math::initialize(eta_neg, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(eta_neg,DUMMY_VAR__);
+            validate_non_negative_index("beta", "N", N);
+            vector_d beta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(beta,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(eta_pos,i,"eta_pos",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pos_pr,i,"eta_pos_pr",1)))));
+                stan::math::assign(get_base1_lhs(eta_neg,i,"eta_neg",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(eta_neg_pr,i,"eta_neg_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
+            }
+
+            // validate transformed parameters
+            check_greater_or_equal(function__,"eta_pos",eta_pos,0);
+            check_less_or_equal(function__,"eta_pos",eta_pos,1);
+            check_greater_or_equal(function__,"eta_neg",eta_neg,0);
+            check_less_or_equal(function__,"eta_neg",eta_neg,1);
+            check_greater_or_equal(function__,"beta",beta,0);
+            check_less_or_equal(function__,"beta",beta,5);
+
+            // write transformed parameters
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(eta_pos[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(eta_neg[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta[k_0__]);
+            }
+
+            if (!include_gqs__) return;
+            // declare and define generated quantities
+            double mu_eta_pos(0.0);
+            (void) mu_eta_pos;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_eta_pos, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_eta_pos,DUMMY_VAR__);
+            double mu_eta_neg(0.0);
+            (void) mu_eta_neg;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_eta_neg, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_eta_neg,DUMMY_VAR__);
+            double mu_beta(0.0);
+            (void) mu_beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_beta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_beta,DUMMY_VAR__);
+            validate_non_negative_index("log_lik", "N", N);
+            vector<double> log_lik(N, 0.0);
+            stan::math::initialize(log_lik, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(log_lik,DUMMY_VAR__);
+            validate_non_negative_index("mr_ev_c", "N", N);
+            validate_non_negative_index("mr_ev_c", "T", T);
+            vector<vector<double> > mr_ev_c(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_ev_c, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_ev_c,DUMMY_VAR__);
+            validate_non_negative_index("mr_ev_nc", "N", N);
+            validate_non_negative_index("mr_ev_nc", "T", T);
+            vector<vector<double> > mr_ev_nc(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_ev_nc, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("mr_pe_c", "N", N);
+            validate_non_negative_index("mr_pe_c", "T", T);
+            vector<vector<double> > mr_pe_c(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_pe_c, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_pe_c,DUMMY_VAR__);
+            validate_non_negative_index("mr_pe_nc", "N", N);
+            validate_non_negative_index("mr_pe_nc", "T", T);
+            vector<vector<double> > mr_pe_nc(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_pe_nc, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_pe_nc,DUMMY_VAR__);
+            validate_non_negative_index("mr_dv", "N", N);
+            validate_non_negative_index("mr_dv", "T", T);
+            vector<vector<double> > mr_dv(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_dv, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_dv,DUMMY_VAR__);
+            validate_non_negative_index("y_pred", "N", N);
+            validate_non_negative_index("y_pred", "T", T);
+            vector<vector<double> > y_pred(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                for (int t = 1; t <= T; ++t) {
+
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_c,i,"mr_ev_c",1),t,"mr_ev_c",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_nc,i,"mr_ev_nc",1),t,"mr_ev_nc",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_c,i,"mr_pe_c",1),t,"mr_pe_c",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_nc,i,"mr_pe_nc",1),t,"mr_pe_nc",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_dv,i,"mr_dv",1),t,"mr_dv",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), -(1));
+                }
+            }
+            stan::math::assign(mu_eta_pos, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
+            stan::math::assign(mu_eta_neg, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
+            stan::math::assign(mu_beta, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 5));
+
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("ev", "2", 2);
+                vector_d ev(static_cast<Eigen::VectorXd::Index>(2));
+                (void) ev;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ev, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(ev,DUMMY_VAR__);
+                validate_non_negative_index("prob", "2", 2);
+                vector_d prob(static_cast<Eigen::VectorXd::Index>(2));
+                (void) prob;  // dummy to suppress unused var warning
+
+                stan::math::initialize(prob, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(prob,DUMMY_VAR__);
+                double pe_c(0.0);
+                (void) pe_c;  // dummy to suppress unused var warning
+
+                stan::math::initialize(pe_c, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(pe_c,DUMMY_VAR__);
+                double pe_nc(0.0);
+                (void) pe_nc;  // dummy to suppress unused var warning
+
+                stan::math::initialize(pe_nc, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(pe_nc,DUMMY_VAR__);
+
+
+                stan::math::assign(ev, initV);
+                stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), 0);
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(prob,1,"prob",1), (1 / (1 + exp((get_base1(beta,i,"beta",1) * (get_base1(ev,2,"ev",1) - get_base1(ev,1,"ev",1)))))));
+                    stan::math::assign(get_base1_lhs(prob,2,"prob",1), (1 - get_base1(prob,1,"prob",1)));
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + categorical_log(get_base1(get_base1(choice,i,"choice",1),t,"choice",2),prob)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), categorical_rng(prob, base_rng__));
+                    stan::math::assign(pe_c, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(pe_nc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_c,i,"mr_ev_c",1),t,"mr_ev_c",2), get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_nc,i,"mr_ev_nc",1),t,"mr_ev_nc",2), get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_c,i,"mr_pe_c",1),t,"mr_pe_c",2), pe_c);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_nc,i,"mr_pe_nc",1),t,"mr_pe_nc",2), pe_nc);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_dv,i,"mr_dv",1),t,"mr_dv",2), (pe_c - pe_nc));
+                    if (as_bool(logical_gte(pe_c,0))) {
+
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1) + (get_base1(eta_pos,i,"eta_pos",1) * pe_c)));
+                        stan::math::assign(get_base1_lhs(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), (get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1) + (get_base1(eta_pos,i,"eta_pos",1) * pe_nc)));
+                    } else {
+
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1) + (get_base1(eta_neg,i,"eta_neg",1) * pe_c)));
+                        stan::math::assign(get_base1_lhs(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), (get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1) + (get_base1(eta_neg,i,"eta_neg",1) * pe_nc)));
+                    }
+                }
+                }
+            }
+
+            // validate generated quantities
+            check_greater_or_equal(function__,"mu_eta_pos",mu_eta_pos,0);
+            check_less_or_equal(function__,"mu_eta_pos",mu_eta_pos,1);
+            check_greater_or_equal(function__,"mu_eta_neg",mu_eta_neg,0);
+            check_less_or_equal(function__,"mu_eta_neg",mu_eta_neg,1);
+            check_greater_or_equal(function__,"mu_beta",mu_beta,0);
+            check_less_or_equal(function__,"mu_beta",mu_beta,5);
+
+            // write generated quantities
+        vars__.push_back(mu_eta_pos);
+        vars__.push_back(mu_eta_neg);
+        vars__.push_back(mu_beta);
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(log_lik[k_0__]);
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_pe_c[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_pe_nc[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_dv[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred[k_0__][k_1__]);
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& vars,
+                     bool include_tparams = true,
+                     bool include_gqs = true,
+                     std::ostream* pstream = 0) const {
+      std::vector<double> params_r_vec(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r_vec[i] = params_r(i);
+      std::vector<double> vars_vec;
+      std::vector<int> params_i_vec;
+      write_array(base_rng,params_r_vec,params_i_vec,vars_vec,include_tparams,include_gqs,pstream);
+      vars.resize(vars_vec.size());
+      for (int i = 0; i < vars.size(); ++i)
+        vars(i) = vars_vec[i];
+    }
+
+    static std::string model_name() {
+        return "model_prl_fictitious_rp_woa";
+    }
+
+
+    void constrained_param_names(std::vector<std::string>& param_names__,
+                                 bool include_tparams__ = true,
+                                 bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 3; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 3; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_pos_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_neg_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_pos" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_neg" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_eta_pos";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_eta_neg";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+
+    void unconstrained_param_names(std::vector<std::string>& param_names__,
+                                   bool include_tparams__ = true,
+                                   bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 3; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 3; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_pos_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_neg_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_pos" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_neg" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_eta_pos";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_eta_neg";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+}; // model
+
+}
+
+
+
+
+// Code generated by Stan version 2.17.0
+
+#include <stan/model/model_header.hpp>
+
+namespace model_prl_fictitious_woa_namespace {
+
+using std::istream;
+using std::string;
+using std::stringstream;
+using std::vector;
+using stan::io::dump;
+using stan::math::lgamma;
+using stan::model::prob_grad;
+using namespace stan::math;
+
+typedef Eigen::Matrix<double,Eigen::Dynamic,1> vector_d;
+typedef Eigen::Matrix<double,1,Eigen::Dynamic> row_vector_d;
+typedef Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic> matrix_d;
+
+static int current_statement_begin__;
+
+stan::io::program_reader prog_reader__() {
+    stan::io::program_reader reader;
+    reader.add_event(0, 0, "start", "model_prl_fictitious_woa");
+    reader.add_event(158, 158, "end", "model_prl_fictitious_woa");
+    return reader;
+}
+
+class model_prl_fictitious_woa : public prob_grad {
+private:
+    int N;
+    int T;
+    vector<int> Tsubj;
+    vector<vector<int> > choice;
+    vector<vector<double> > outcome;
+    vector_d initV;
+public:
+    model_prl_fictitious_woa(stan::io::var_context& context__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, 0, pstream__);
+    }
+
+    model_prl_fictitious_woa(stan::io::var_context& context__,
+        unsigned int random_seed__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, random_seed__, pstream__);
+    }
+
+    void ctor_body(stan::io::var_context& context__,
+                   unsigned int random_seed__,
+                   std::ostream* pstream__) {
+        boost::ecuyer1988 base_rng__ =
+          stan::services::util::create_rng(random_seed__, 0);
+        (void) base_rng__;  // suppress unused var warning
+
+        current_statement_begin__ = -1;
+
+        static const char* function__ = "model_prl_fictitious_woa_namespace::model_prl_fictitious_woa";
+        (void) function__;  // dummy to suppress unused var warning
+        size_t pos__;
+        (void) pos__;  // dummy to suppress unused var warning
+        std::vector<int> vals_i__;
+        std::vector<double> vals_r__;
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        // initialize member variables
+        try {
+            context__.validate_dims("data initialization", "N", "int", context__.to_vec());
+            N = int(0);
+            vals_i__ = context__.vals_i("N");
+            pos__ = 0;
+            N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "T", "int", context__.to_vec());
+            T = int(0);
+            vals_i__ = context__.vals_i("T");
+            pos__ = 0;
+            T = vals_i__[pos__++];
+            validate_non_negative_index("Tsubj", "N", N);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Tsubj", "N", N);
+            Tsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Tsubj");
+            pos__ = 0;
+            size_t Tsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
+                Tsubj[i_0__] = vals_i__[pos__++];
+            }
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("choice");
+            pos__ = 0;
+            size_t choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
+                size_t choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
+                    choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
+            pos__ = 0;
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
+                }
+            }
+
+            // validate, data variables
+            check_greater_or_equal(function__,"N",N,1);
+            check_greater_or_equal(function__,"T",T,1);
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                check_greater_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],1);
+                check_less_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],T);
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],2);
+                }
+            }
+            // initialize data variables
+            validate_non_negative_index("initV", "2", 2);
+            initV = vector_d(static_cast<Eigen::VectorXd::Index>(2));
+            stan::math::fill(initV,DUMMY_VAR__);
+
+            stan::math::assign(initV, rep_vector(0.0,2));
+
+            // validate transformed data
+
+            // validate, set parameter ranges
+            num_params_r__ = 0U;
+            param_ranges_i__.clear();
+            validate_non_negative_index("mu_p", "2", 2);
+            num_params_r__ += 2;
+            validate_non_negative_index("sigma", "2", 2);
+            num_params_r__ += 2;
+            validate_non_negative_index("eta_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("beta_pr", "N", N);
+            num_params_r__ += N;
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    ~model_prl_fictitious_woa() { }
+
+
+    void transform_inits(const stan::io::var_context& context__,
+                         std::vector<int>& params_i__,
+                         std::vector<double>& params_r__,
+                         std::ostream* pstream__) const {
+        stan::io::writer<double> writer__(params_r__,params_i__);
+        size_t pos__;
+        (void) pos__; // dummy call to supress warning
+        std::vector<double> vals_r__;
+        std::vector<int> vals_i__;
+
+        if (!(context__.contains_r("mu_p")))
+            throw std::runtime_error("variable mu_p missing");
+        vals_r__ = context__.vals_r("mu_p");
+        pos__ = 0U;
+        validate_non_negative_index("mu_p", "2", 2);
+        context__.validate_dims("initialization", "mu_p", "vector_d", context__.to_vec(2));
+        vector_d mu_p(static_cast<Eigen::VectorXd::Index>(2));
+        for (int j1__ = 0U; j1__ < 2; ++j1__)
+            mu_p(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(mu_p);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable mu_p: ") + e.what());
+        }
+
+        if (!(context__.contains_r("sigma")))
+            throw std::runtime_error("variable sigma missing");
+        vals_r__ = context__.vals_r("sigma");
+        pos__ = 0U;
+        validate_non_negative_index("sigma", "2", 2);
+        context__.validate_dims("initialization", "sigma", "vector_d", context__.to_vec(2));
+        vector_d sigma(static_cast<Eigen::VectorXd::Index>(2));
+        for (int j1__ = 0U; j1__ < 2; ++j1__)
+            sigma(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_lb_unconstrain(0,sigma);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable sigma: ") + e.what());
+        }
+
+        if (!(context__.contains_r("eta_pr")))
+            throw std::runtime_error("variable eta_pr missing");
+        vals_r__ = context__.vals_r("eta_pr");
+        pos__ = 0U;
+        validate_non_negative_index("eta_pr", "N", N);
+        context__.validate_dims("initialization", "eta_pr", "vector_d", context__.to_vec(N));
+        vector_d eta_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            eta_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(eta_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable eta_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("beta_pr")))
+            throw std::runtime_error("variable beta_pr missing");
+        vals_r__ = context__.vals_r("beta_pr");
+        pos__ = 0U;
+        validate_non_negative_index("beta_pr", "N", N);
+        context__.validate_dims("initialization", "beta_pr", "vector_d", context__.to_vec(N));
+        vector_d beta_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            beta_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(beta_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable beta_pr: ") + e.what());
+        }
+
+        params_r__ = writer__.data_r();
+        params_i__ = writer__.data_i();
+    }
+
+    void transform_inits(const stan::io::var_context& context,
+                         Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                         std::ostream* pstream__) const {
+      std::vector<double> params_r_vec;
+      std::vector<int> params_i_vec;
+      transform_inits(context, params_i_vec, params_r_vec, pstream__);
+      params_r.resize(params_r_vec.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r(i) = params_r_vec[i];
+    }
+
+
+    template <bool propto__, bool jacobian__, typename T__>
+    T__ log_prob(vector<T__>& params_r__,
+                 vector<int>& params_i__,
+                 std::ostream* pstream__ = 0) const {
+
+        T__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        T__ lp__(0.0);
+        stan::math::accumulator<T__> lp_accum__;
+
+        try {
+            // model parameters
+            stan::io::reader<T__> in__(params_r__,params_i__);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  mu_p;
+            (void) mu_p;  // dummy to suppress unused var warning
+            if (jacobian__)
+                mu_p = in__.vector_constrain(2,lp__);
+            else
+                mu_p = in__.vector_constrain(2);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  sigma;
+            (void) sigma;  // dummy to suppress unused var warning
+            if (jacobian__)
+                sigma = in__.vector_lb_constrain(0,2,lp__);
+            else
+                sigma = in__.vector_lb_constrain(0,2);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  eta_pr;
+            (void) eta_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                eta_pr = in__.vector_constrain(N,lp__);
+            else
+                eta_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta_pr;
+            (void) beta_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                beta_pr = in__.vector_constrain(N,lp__);
+            else
+                beta_pr = in__.vector_constrain(N);
+
+
+            // transformed parameters
+            validate_non_negative_index("eta", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  eta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) eta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(eta, DUMMY_VAR__);
+            stan::math::fill(eta,DUMMY_VAR__);
+            validate_non_negative_index("beta", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta, DUMMY_VAR__);
+            stan::math::fill(beta,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
+            }
+
+            // validate transformed parameters
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(eta(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: eta" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(beta(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: beta" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+
+            const char* function__ = "validate transformed params";
+            (void) function__;  // dummy to suppress unused var warning
+            check_greater_or_equal(function__,"eta",eta,0);
+            check_less_or_equal(function__,"eta",eta,1);
+            check_greater_or_equal(function__,"beta",beta,0);
+            check_less_or_equal(function__,"beta",beta,5);
+
+            // model body
+
+            lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
+            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(eta_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("ev", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  ev(static_cast<Eigen::VectorXd::Index>(2));
+                (void) ev;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ev, DUMMY_VAR__);
+                stan::math::fill(ev,DUMMY_VAR__);
+                validate_non_negative_index("prob", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  prob(static_cast<Eigen::VectorXd::Index>(2));
+                (void) prob;  // dummy to suppress unused var warning
+
+                stan::math::initialize(prob, DUMMY_VAR__);
+                stan::math::fill(prob,DUMMY_VAR__);
+                T__ PE;
+                (void) PE;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PE, DUMMY_VAR__);
+                stan::math::fill(PE,DUMMY_VAR__);
+                T__ PEnc;
+                (void) PEnc;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEnc, DUMMY_VAR__);
+                stan::math::fill(PEnc,DUMMY_VAR__);
+
+
+                stan::math::assign(ev, initV);
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(prob,1,"prob",1), (1 / (1 + exp((get_base1(beta,i,"beta",1) * (get_base1(ev,2,"ev",1) - get_base1(ev,1,"ev",1)))))));
+                    stan::math::assign(get_base1_lhs(prob,2,"prob",1), (1 - get_base1(prob,1,"prob",1)));
+                    lp_accum__.add(categorical_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), prob));
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1) + (get_base1(eta,i,"eta",1) * PE)));
+                    stan::math::assign(get_base1_lhs(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), (get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1) + (get_base1(eta,i,"eta",1) * PEnc)));
+                }
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+
+        lp_accum__.add(lp__);
+        return lp_accum__.sum();
+
+    } // log_prob()
+
+    template <bool propto, bool jacobian, typename T_>
+    T_ log_prob(Eigen::Matrix<T_,Eigen::Dynamic,1>& params_r,
+               std::ostream* pstream = 0) const {
+      std::vector<T_> vec_params_r;
+      vec_params_r.reserve(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        vec_params_r.push_back(params_r(i));
+      std::vector<int> vec_params_i;
+      return log_prob<propto,jacobian,T_>(vec_params_r, vec_params_i, pstream);
+    }
+
+
+    void get_param_names(std::vector<std::string>& names__) const {
+        names__.resize(0);
+        names__.push_back("mu_p");
+        names__.push_back("sigma");
+        names__.push_back("eta_pr");
+        names__.push_back("beta_pr");
+        names__.push_back("eta");
+        names__.push_back("beta");
+        names__.push_back("mu_eta");
+        names__.push_back("mu_beta");
+        names__.push_back("log_lik");
+        names__.push_back("mr_ev_c");
+        names__.push_back("mr_ev_nc");
+        names__.push_back("mr_pe_c");
+        names__.push_back("mr_pe_nc");
+        names__.push_back("mr_dv");
+        names__.push_back("y_pred");
+    }
+
+
+    void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
+        dimss__.resize(0);
+        std::vector<size_t> dims__;
+        dims__.resize(0);
+        dims__.push_back(2);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(2);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng__,
+                     std::vector<double>& params_r__,
+                     std::vector<int>& params_i__,
+                     std::vector<double>& vars__,
+                     bool include_tparams__ = true,
+                     bool include_gqs__ = true,
+                     std::ostream* pstream__ = 0) const {
+        vars__.resize(0);
+        stan::io::reader<double> in__(params_r__,params_i__);
+        static const char* function__ = "model_prl_fictitious_woa_namespace::write_array";
+        (void) function__;  // dummy to suppress unused var warning
+        // read-transform, write parameters
+        vector_d mu_p = in__.vector_constrain(2);
+        vector_d sigma = in__.vector_lb_constrain(0,2);
+        vector_d eta_pr = in__.vector_constrain(N);
+        vector_d beta_pr = in__.vector_constrain(N);
+            for (int k_0__ = 0; k_0__ < 2; ++k_0__) {
+            vars__.push_back(mu_p[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < 2; ++k_0__) {
+            vars__.push_back(sigma[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(eta_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta_pr[k_0__]);
+            }
+
+        if (!include_tparams__) return;
+        // declare and define transformed parameters
+        double lp__ = 0.0;
+        (void) lp__;  // dummy to suppress unused var warning
+        stan::math::accumulator<double> lp_accum__;
+
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        try {
+            validate_non_negative_index("eta", "N", N);
+            vector_d eta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) eta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(eta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(eta,DUMMY_VAR__);
+            validate_non_negative_index("beta", "N", N);
+            vector_d beta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(beta,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
+            }
+
+            // validate transformed parameters
+            check_greater_or_equal(function__,"eta",eta,0);
+            check_less_or_equal(function__,"eta",eta,1);
+            check_greater_or_equal(function__,"beta",beta,0);
+            check_less_or_equal(function__,"beta",beta,5);
+
+            // write transformed parameters
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(eta[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta[k_0__]);
+            }
+
+            if (!include_gqs__) return;
+            // declare and define generated quantities
+            double mu_eta(0.0);
+            (void) mu_eta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_eta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_eta,DUMMY_VAR__);
+            double mu_beta(0.0);
+            (void) mu_beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_beta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_beta,DUMMY_VAR__);
+            validate_non_negative_index("log_lik", "N", N);
+            vector<double> log_lik(N, 0.0);
+            stan::math::initialize(log_lik, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(log_lik,DUMMY_VAR__);
+            validate_non_negative_index("mr_ev_c", "N", N);
+            validate_non_negative_index("mr_ev_c", "T", T);
+            vector<vector<double> > mr_ev_c(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_ev_c, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_ev_c,DUMMY_VAR__);
+            validate_non_negative_index("mr_ev_nc", "N", N);
+            validate_non_negative_index("mr_ev_nc", "T", T);
+            vector<vector<double> > mr_ev_nc(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_ev_nc, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("mr_pe_c", "N", N);
+            validate_non_negative_index("mr_pe_c", "T", T);
+            vector<vector<double> > mr_pe_c(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_pe_c, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_pe_c,DUMMY_VAR__);
+            validate_non_negative_index("mr_pe_nc", "N", N);
+            validate_non_negative_index("mr_pe_nc", "T", T);
+            vector<vector<double> > mr_pe_nc(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_pe_nc, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_pe_nc,DUMMY_VAR__);
+            validate_non_negative_index("mr_dv", "N", N);
+            validate_non_negative_index("mr_dv", "T", T);
+            vector<vector<double> > mr_dv(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(mr_dv, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mr_dv,DUMMY_VAR__);
+            validate_non_negative_index("y_pred", "N", N);
+            validate_non_negative_index("y_pred", "T", T);
+            vector<vector<double> > y_pred(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                for (int t = 1; t <= T; ++t) {
+
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_c,i,"mr_ev_c",1),t,"mr_ev_c",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_nc,i,"mr_ev_nc",1),t,"mr_ev_nc",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_c,i,"mr_pe_c",1),t,"mr_pe_c",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_nc,i,"mr_pe_nc",1),t,"mr_pe_nc",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_dv,i,"mr_dv",1),t,"mr_dv",2), 0);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), -(1));
+                }
+            }
+            stan::math::assign(mu_eta, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
+            stan::math::assign(mu_beta, (Phi_approx(get_base1(mu_p,2,"mu_p",1)) * 5));
+
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("ev", "2", 2);
+                vector_d ev(static_cast<Eigen::VectorXd::Index>(2));
+                (void) ev;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ev, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(ev,DUMMY_VAR__);
+                validate_non_negative_index("prob", "2", 2);
+                vector_d prob(static_cast<Eigen::VectorXd::Index>(2));
+                (void) prob;  // dummy to suppress unused var warning
+
+                stan::math::initialize(prob, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(prob,DUMMY_VAR__);
+                double PE(0.0);
+                (void) PE;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PE, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(PE,DUMMY_VAR__);
+                double PEnc(0.0);
+                (void) PEnc;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEnc, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(PEnc,DUMMY_VAR__);
+
+
+                stan::math::assign(ev, initV);
+                stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), 0);
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(prob,1,"prob",1), (1 / (1 + exp((get_base1(beta,i,"beta",1) * (get_base1(ev,2,"ev",1) - get_base1(ev,1,"ev",1)))))));
+                    stan::math::assign(get_base1_lhs(prob,2,"prob",1), (1 - get_base1(prob,1,"prob",1)));
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + categorical_log(get_base1(get_base1(choice,i,"choice",1),t,"choice",2),prob)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), categorical_rng(prob, base_rng__));
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_c,i,"mr_ev_c",1),t,"mr_ev_c",2), get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_ev_nc,i,"mr_ev_nc",1),t,"mr_ev_nc",2), get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_c,i,"mr_pe_c",1),t,"mr_pe_c",2), PE);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_pe_nc,i,"mr_pe_nc",1),t,"mr_pe_nc",2), PEnc);
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mr_dv,i,"mr_dv",1),t,"mr_dv",2), (PE - PEnc));
+                    stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1) + (get_base1(eta,i,"eta",1) * PE)));
+                    stan::math::assign(get_base1_lhs(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), (get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1) + (get_base1(eta,i,"eta",1) * PEnc)));
+                }
+                }
+            }
+
+            // validate generated quantities
+            check_greater_or_equal(function__,"mu_eta",mu_eta,0);
+            check_less_or_equal(function__,"mu_eta",mu_eta,1);
+            check_greater_or_equal(function__,"mu_beta",mu_beta,0);
+            check_less_or_equal(function__,"mu_beta",mu_beta,5);
+
+            // write generated quantities
+        vars__.push_back(mu_eta);
+        vars__.push_back(mu_beta);
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(log_lik[k_0__]);
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_pe_c[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_pe_nc[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(mr_dv[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred[k_0__][k_1__]);
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& vars,
+                     bool include_tparams = true,
+                     bool include_gqs = true,
+                     std::ostream* pstream = 0) const {
+      std::vector<double> params_r_vec(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r_vec[i] = params_r(i);
+      std::vector<double> vars_vec;
+      std::vector<int> params_i_vec;
+      write_array(base_rng,params_r_vec,params_i_vec,vars_vec,include_tparams,include_gqs,pstream);
+      vars.resize(vars_vec.size());
+      for (int i = 0; i < vars.size(); ++i)
+        vars(i) = vars_vec[i];
+    }
+
+    static std::string model_name() {
+        return "model_prl_fictitious_woa";
+    }
+
+
+    void constrained_param_names(std::vector<std::string>& param_names__,
+                                 bool include_tparams__ = true,
+                                 bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 2; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 2; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_eta";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+
+    void unconstrained_param_names(std::vector<std::string>& param_names__,
+                                   bool include_tparams__ = true,
+                                   bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 2; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 2; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "eta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_eta";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
         param_name_stream__ << "mu_beta";
@@ -32939,6 +34902,3846 @@ public:
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
                 param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+}; // model
+
+}
+
+
+
+
+// Code generated by Stan version 2.17.0
+
+#include <stan/model/model_header.hpp>
+
+namespace model_ts_par4_namespace {
+
+using std::istream;
+using std::string;
+using std::stringstream;
+using std::vector;
+using stan::io::dump;
+using stan::math::lgamma;
+using stan::model::prob_grad;
+using namespace stan::math;
+
+typedef Eigen::Matrix<double,Eigen::Dynamic,1> vector_d;
+typedef Eigen::Matrix<double,1,Eigen::Dynamic> row_vector_d;
+typedef Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic> matrix_d;
+
+static int current_statement_begin__;
+
+stan::io::program_reader prog_reader__() {
+    stan::io::program_reader reader;
+    reader.add_event(0, 0, "start", "model_ts_par4");
+    reader.add_event(201, 201, "end", "model_ts_par4");
+    return reader;
+}
+
+class model_ts_par4 : public prob_grad {
+private:
+    int N;
+    int T;
+    vector<int> Tsubj;
+    vector<vector<int> > level1_choice;
+    vector<vector<int> > level2_choice;
+    vector<vector<int> > reward;
+    double trans_prob;
+public:
+    model_ts_par4(stan::io::var_context& context__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, 0, pstream__);
+    }
+
+    model_ts_par4(stan::io::var_context& context__,
+        unsigned int random_seed__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, random_seed__, pstream__);
+    }
+
+    void ctor_body(stan::io::var_context& context__,
+                   unsigned int random_seed__,
+                   std::ostream* pstream__) {
+        boost::ecuyer1988 base_rng__ =
+          stan::services::util::create_rng(random_seed__, 0);
+        (void) base_rng__;  // suppress unused var warning
+
+        current_statement_begin__ = -1;
+
+        static const char* function__ = "model_ts_par4_namespace::model_ts_par4";
+        (void) function__;  // dummy to suppress unused var warning
+        size_t pos__;
+        (void) pos__;  // dummy to suppress unused var warning
+        std::vector<int> vals_i__;
+        std::vector<double> vals_r__;
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        // initialize member variables
+        try {
+            context__.validate_dims("data initialization", "N", "int", context__.to_vec());
+            N = int(0);
+            vals_i__ = context__.vals_i("N");
+            pos__ = 0;
+            N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "T", "int", context__.to_vec());
+            T = int(0);
+            vals_i__ = context__.vals_i("T");
+            pos__ = 0;
+            T = vals_i__[pos__++];
+            validate_non_negative_index("Tsubj", "N", N);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Tsubj", "N", N);
+            Tsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Tsubj");
+            pos__ = 0;
+            size_t Tsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
+                Tsubj[i_0__] = vals_i__[pos__++];
+            }
+            validate_non_negative_index("level1_choice", "N", N);
+            validate_non_negative_index("level1_choice", "T", T);
+            context__.validate_dims("data initialization", "level1_choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("level1_choice", "N", N);
+            validate_non_negative_index("level1_choice", "T", T);
+            level1_choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("level1_choice");
+            pos__ = 0;
+            size_t level1_choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < level1_choice_limit_1__; ++i_1__) {
+                size_t level1_choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < level1_choice_limit_0__; ++i_0__) {
+                    level1_choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("level2_choice", "N", N);
+            validate_non_negative_index("level2_choice", "T", T);
+            context__.validate_dims("data initialization", "level2_choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("level2_choice", "N", N);
+            validate_non_negative_index("level2_choice", "T", T);
+            level2_choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("level2_choice");
+            pos__ = 0;
+            size_t level2_choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < level2_choice_limit_1__; ++i_1__) {
+                size_t level2_choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < level2_choice_limit_0__; ++i_0__) {
+                    level2_choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("reward", "N", N);
+            validate_non_negative_index("reward", "T", T);
+            context__.validate_dims("data initialization", "reward", "int", context__.to_vec(N,T));
+            validate_non_negative_index("reward", "N", N);
+            validate_non_negative_index("reward", "T", T);
+            reward = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("reward");
+            pos__ = 0;
+            size_t reward_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < reward_limit_1__; ++i_1__) {
+                size_t reward_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < reward_limit_0__; ++i_0__) {
+                    reward[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            context__.validate_dims("data initialization", "trans_prob", "double", context__.to_vec());
+            trans_prob = double(0);
+            vals_r__ = context__.vals_r("trans_prob");
+            pos__ = 0;
+            trans_prob = vals_r__[pos__++];
+
+            // validate, data variables
+            check_greater_or_equal(function__,"N",N,1);
+            check_greater_or_equal(function__,"T",T,1);
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                check_greater_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],1);
+                check_less_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],T);
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"level1_choice[k0__][k1__]",level1_choice[k0__][k1__],1);
+                    check_less_or_equal(function__,"level1_choice[k0__][k1__]",level1_choice[k0__][k1__],2);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"level2_choice[k0__][k1__]",level2_choice[k0__][k1__],1);
+                    check_less_or_equal(function__,"level2_choice[k0__][k1__]",level2_choice[k0__][k1__],4);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"reward[k0__][k1__]",reward[k0__][k1__],0);
+                    check_less_or_equal(function__,"reward[k0__][k1__]",reward[k0__][k1__],1);
+                }
+            }
+            check_greater_or_equal(function__,"trans_prob",trans_prob,0);
+            check_less_or_equal(function__,"trans_prob",trans_prob,1);
+            // initialize data variables
+
+
+            // validate transformed data
+
+            // validate, set parameter ranges
+            num_params_r__ = 0U;
+            param_ranges_i__.clear();
+            validate_non_negative_index("mu_p", "4", 4);
+            num_params_r__ += 4;
+            validate_non_negative_index("sigma", "4", 4);
+            num_params_r__ += 4;
+            validate_non_negative_index("a_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("beta_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("pi_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("w_pr", "N", N);
+            num_params_r__ += N;
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    ~model_ts_par4() { }
+
+
+    void transform_inits(const stan::io::var_context& context__,
+                         std::vector<int>& params_i__,
+                         std::vector<double>& params_r__,
+                         std::ostream* pstream__) const {
+        stan::io::writer<double> writer__(params_r__,params_i__);
+        size_t pos__;
+        (void) pos__; // dummy call to supress warning
+        std::vector<double> vals_r__;
+        std::vector<int> vals_i__;
+
+        if (!(context__.contains_r("mu_p")))
+            throw std::runtime_error("variable mu_p missing");
+        vals_r__ = context__.vals_r("mu_p");
+        pos__ = 0U;
+        validate_non_negative_index("mu_p", "4", 4);
+        context__.validate_dims("initialization", "mu_p", "vector_d", context__.to_vec(4));
+        vector_d mu_p(static_cast<Eigen::VectorXd::Index>(4));
+        for (int j1__ = 0U; j1__ < 4; ++j1__)
+            mu_p(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(mu_p);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable mu_p: ") + e.what());
+        }
+
+        if (!(context__.contains_r("sigma")))
+            throw std::runtime_error("variable sigma missing");
+        vals_r__ = context__.vals_r("sigma");
+        pos__ = 0U;
+        validate_non_negative_index("sigma", "4", 4);
+        context__.validate_dims("initialization", "sigma", "vector_d", context__.to_vec(4));
+        vector_d sigma(static_cast<Eigen::VectorXd::Index>(4));
+        for (int j1__ = 0U; j1__ < 4; ++j1__)
+            sigma(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_lb_unconstrain(0,sigma);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable sigma: ") + e.what());
+        }
+
+        if (!(context__.contains_r("a_pr")))
+            throw std::runtime_error("variable a_pr missing");
+        vals_r__ = context__.vals_r("a_pr");
+        pos__ = 0U;
+        validate_non_negative_index("a_pr", "N", N);
+        context__.validate_dims("initialization", "a_pr", "vector_d", context__.to_vec(N));
+        vector_d a_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            a_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(a_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable a_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("beta_pr")))
+            throw std::runtime_error("variable beta_pr missing");
+        vals_r__ = context__.vals_r("beta_pr");
+        pos__ = 0U;
+        validate_non_negative_index("beta_pr", "N", N);
+        context__.validate_dims("initialization", "beta_pr", "vector_d", context__.to_vec(N));
+        vector_d beta_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            beta_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(beta_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable beta_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("pi_pr")))
+            throw std::runtime_error("variable pi_pr missing");
+        vals_r__ = context__.vals_r("pi_pr");
+        pos__ = 0U;
+        validate_non_negative_index("pi_pr", "N", N);
+        context__.validate_dims("initialization", "pi_pr", "vector_d", context__.to_vec(N));
+        vector_d pi_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            pi_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(pi_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable pi_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("w_pr")))
+            throw std::runtime_error("variable w_pr missing");
+        vals_r__ = context__.vals_r("w_pr");
+        pos__ = 0U;
+        validate_non_negative_index("w_pr", "N", N);
+        context__.validate_dims("initialization", "w_pr", "vector_d", context__.to_vec(N));
+        vector_d w_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            w_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(w_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable w_pr: ") + e.what());
+        }
+
+        params_r__ = writer__.data_r();
+        params_i__ = writer__.data_i();
+    }
+
+    void transform_inits(const stan::io::var_context& context,
+                         Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                         std::ostream* pstream__) const {
+      std::vector<double> params_r_vec;
+      std::vector<int> params_i_vec;
+      transform_inits(context, params_i_vec, params_r_vec, pstream__);
+      params_r.resize(params_r_vec.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r(i) = params_r_vec[i];
+    }
+
+
+    template <bool propto__, bool jacobian__, typename T__>
+    T__ log_prob(vector<T__>& params_r__,
+                 vector<int>& params_i__,
+                 std::ostream* pstream__ = 0) const {
+
+        T__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        T__ lp__(0.0);
+        stan::math::accumulator<T__> lp_accum__;
+
+        try {
+            // model parameters
+            stan::io::reader<T__> in__(params_r__,params_i__);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  mu_p;
+            (void) mu_p;  // dummy to suppress unused var warning
+            if (jacobian__)
+                mu_p = in__.vector_constrain(4,lp__);
+            else
+                mu_p = in__.vector_constrain(4);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  sigma;
+            (void) sigma;  // dummy to suppress unused var warning
+            if (jacobian__)
+                sigma = in__.vector_lb_constrain(0,4,lp__);
+            else
+                sigma = in__.vector_lb_constrain(0,4);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a_pr;
+            (void) a_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                a_pr = in__.vector_constrain(N,lp__);
+            else
+                a_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta_pr;
+            (void) beta_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                beta_pr = in__.vector_constrain(N,lp__);
+            else
+                beta_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  pi_pr;
+            (void) pi_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                pi_pr = in__.vector_constrain(N,lp__);
+            else
+                pi_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  w_pr;
+            (void) w_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                w_pr = in__.vector_constrain(N,lp__);
+            else
+                w_pr = in__.vector_constrain(N);
+
+
+            // transformed parameters
+            validate_non_negative_index("a", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a, DUMMY_VAR__);
+            stan::math::fill(a,DUMMY_VAR__);
+            validate_non_negative_index("beta", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta, DUMMY_VAR__);
+            stan::math::fill(beta,DUMMY_VAR__);
+            validate_non_negative_index("pi", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  pi(static_cast<Eigen::VectorXd::Index>(N));
+            (void) pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(pi, DUMMY_VAR__);
+            stan::math::fill(pi,DUMMY_VAR__);
+            validate_non_negative_index("w", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  w(static_cast<Eigen::VectorXd::Index>(N));
+            (void) w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(w, DUMMY_VAR__);
+            stan::math::fill(w,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(a,i,"a",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(a_pr,i,"a_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta,i,"beta",1), exp((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))));
+                stan::math::assign(get_base1_lhs(pi,i,"pi",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(pi_pr,i,"pi_pr",1)))) * 5));
+                stan::math::assign(get_base1_lhs(w,i,"w",1), Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(w_pr,i,"w_pr",1)))));
+            }
+
+            // validate transformed parameters
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(a(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: a" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(beta(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: beta" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(pi(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: pi" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(w(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: w" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+
+            const char* function__ = "validate transformed params";
+            (void) function__;  // dummy to suppress unused var warning
+            check_greater_or_equal(function__,"a",a,0);
+            check_less_or_equal(function__,"a",a,1);
+            check_greater_or_equal(function__,"beta",beta,0);
+            check_greater_or_equal(function__,"pi",pi,0);
+            check_less_or_equal(function__,"pi",pi,5);
+            check_greater_or_equal(function__,"w",w,0);
+            check_less_or_equal(function__,"w",w,1);
+
+            // model body
+
+            lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
+            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(a_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(pi_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(w_pr, 0, 1));
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("v_mb", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_mb(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_mb;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mb, DUMMY_VAR__);
+                stan::math::fill(v_mb,DUMMY_VAR__);
+                validate_non_negative_index("v_mf", "6", 6);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_mf(static_cast<Eigen::VectorXd::Index>(6));
+                (void) v_mf;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mf, DUMMY_VAR__);
+                stan::math::fill(v_mf,DUMMY_VAR__);
+                validate_non_negative_index("v_hybrid", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_hybrid(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_hybrid;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_hybrid, DUMMY_VAR__);
+                stan::math::fill(v_hybrid,DUMMY_VAR__);
+                T__ level1_prob_choice2;
+                (void) level1_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level1_prob_choice2, DUMMY_VAR__);
+                stan::math::fill(level1_prob_choice2,DUMMY_VAR__);
+                T__ level2_prob_choice2;
+                (void) level2_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level2_prob_choice2, DUMMY_VAR__);
+                stan::math::fill(level2_prob_choice2,DUMMY_VAR__);
+                int level1_choice_01(0);
+                (void) level1_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level1_choice_01, std::numeric_limits<int>::min());
+                int level2_choice_01(0);
+                (void) level2_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level2_choice_01, std::numeric_limits<int>::min());
+
+
+                stan::math::assign(v_mb, rep_vector(0.0,2));
+                stan::math::assign(v_mf, rep_vector(0.0,6));
+                stan::math::assign(v_hybrid, rep_vector(0.0,2));
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(v_mb,1,"v_mb",1), ((trans_prob * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + ((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mb,2,"v_mb",1), (((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + (trans_prob * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,1,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,1,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,1,"v_mf",1))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,2,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,2,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,2,"v_mf",1))));
+                    stan::math::assign(level1_choice_01, (get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2) - 1));
+                    if (as_bool(logical_eq(t,1))) {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit((get_base1(beta,i,"beta",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1)))));
+                    } else {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit(((get_base1(beta,i,"beta",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1))) + (get_base1(pi,i,"pi",1) * ((2 * get_base1(get_base1(level1_choice,i,"level1_choice",1),(t - 1),"level1_choice",2)) - 3)))));
+                    }
+                    lp_accum__.add(bernoulli_log<propto__>(level1_choice_01, level1_prob_choice2));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a,i,"a",1) * (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) - get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1)))));
+                    stan::math::assign(level2_choice_01, (1 - modulus(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2)));
+                    if (as_bool(logical_gt(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2))) {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta,i,"beta",1) * (get_base1(v_mf,6,"v_mf",1) - get_base1(v_mf,5,"v_mf",1)))));
+                    } else {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta,i,"beta",1) * (get_base1(v_mf,4,"v_mf",1) - get_base1(v_mf,3,"v_mf",1)))));
+                    }
+                    lp_accum__.add(bernoulli_log<propto__>(level2_choice_01, level2_prob_choice2));
+                    stan::math::assign(get_base1_lhs(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1), (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) + (get_base1(a,i,"a",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a,i,"a",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                }
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+
+        lp_accum__.add(lp__);
+        return lp_accum__.sum();
+
+    } // log_prob()
+
+    template <bool propto, bool jacobian, typename T_>
+    T_ log_prob(Eigen::Matrix<T_,Eigen::Dynamic,1>& params_r,
+               std::ostream* pstream = 0) const {
+      std::vector<T_> vec_params_r;
+      vec_params_r.reserve(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        vec_params_r.push_back(params_r(i));
+      std::vector<int> vec_params_i;
+      return log_prob<propto,jacobian,T_>(vec_params_r, vec_params_i, pstream);
+    }
+
+
+    void get_param_names(std::vector<std::string>& names__) const {
+        names__.resize(0);
+        names__.push_back("mu_p");
+        names__.push_back("sigma");
+        names__.push_back("a_pr");
+        names__.push_back("beta_pr");
+        names__.push_back("pi_pr");
+        names__.push_back("w_pr");
+        names__.push_back("a");
+        names__.push_back("beta");
+        names__.push_back("pi");
+        names__.push_back("w");
+        names__.push_back("mu_a");
+        names__.push_back("mu_beta");
+        names__.push_back("mu_pi");
+        names__.push_back("mu_w");
+        names__.push_back("log_lik");
+        names__.push_back("y_pred_step1");
+        names__.push_back("y_pred_step2");
+    }
+
+
+    void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
+        dimss__.resize(0);
+        std::vector<size_t> dims__;
+        dims__.resize(0);
+        dims__.push_back(4);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(4);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng__,
+                     std::vector<double>& params_r__,
+                     std::vector<int>& params_i__,
+                     std::vector<double>& vars__,
+                     bool include_tparams__ = true,
+                     bool include_gqs__ = true,
+                     std::ostream* pstream__ = 0) const {
+        vars__.resize(0);
+        stan::io::reader<double> in__(params_r__,params_i__);
+        static const char* function__ = "model_ts_par4_namespace::write_array";
+        (void) function__;  // dummy to suppress unused var warning
+        // read-transform, write parameters
+        vector_d mu_p = in__.vector_constrain(4);
+        vector_d sigma = in__.vector_lb_constrain(0,4);
+        vector_d a_pr = in__.vector_constrain(N);
+        vector_d beta_pr = in__.vector_constrain(N);
+        vector_d pi_pr = in__.vector_constrain(N);
+        vector_d w_pr = in__.vector_constrain(N);
+            for (int k_0__ = 0; k_0__ < 4; ++k_0__) {
+            vars__.push_back(mu_p[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < 4; ++k_0__) {
+            vars__.push_back(sigma[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(pi_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(w_pr[k_0__]);
+            }
+
+        if (!include_tparams__) return;
+        // declare and define transformed parameters
+        double lp__ = 0.0;
+        (void) lp__;  // dummy to suppress unused var warning
+        stan::math::accumulator<double> lp_accum__;
+
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        try {
+            validate_non_negative_index("a", "N", N);
+            vector_d a(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(a,DUMMY_VAR__);
+            validate_non_negative_index("beta", "N", N);
+            vector_d beta(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(beta,DUMMY_VAR__);
+            validate_non_negative_index("pi", "N", N);
+            vector_d pi(static_cast<Eigen::VectorXd::Index>(N));
+            (void) pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(pi, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(pi,DUMMY_VAR__);
+            validate_non_negative_index("w", "N", N);
+            vector_d w(static_cast<Eigen::VectorXd::Index>(N));
+            (void) w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(w, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(w,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(a,i,"a",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(a_pr,i,"a_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta,i,"beta",1), exp((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))));
+                stan::math::assign(get_base1_lhs(pi,i,"pi",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(pi_pr,i,"pi_pr",1)))) * 5));
+                stan::math::assign(get_base1_lhs(w,i,"w",1), Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(w_pr,i,"w_pr",1)))));
+            }
+
+            // validate transformed parameters
+            check_greater_or_equal(function__,"a",a,0);
+            check_less_or_equal(function__,"a",a,1);
+            check_greater_or_equal(function__,"beta",beta,0);
+            check_greater_or_equal(function__,"pi",pi,0);
+            check_less_or_equal(function__,"pi",pi,5);
+            check_greater_or_equal(function__,"w",w,0);
+            check_less_or_equal(function__,"w",w,1);
+
+            // write transformed parameters
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(pi[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(w[k_0__]);
+            }
+
+            if (!include_gqs__) return;
+            // declare and define generated quantities
+            double mu_a(0.0);
+            (void) mu_a;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_a, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_a,DUMMY_VAR__);
+            double mu_beta(0.0);
+            (void) mu_beta;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_beta, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_beta,DUMMY_VAR__);
+            double mu_pi(0.0);
+            (void) mu_pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_pi, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_pi,DUMMY_VAR__);
+            double mu_w(0.0);
+            (void) mu_w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_w, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_w,DUMMY_VAR__);
+            validate_non_negative_index("log_lik", "N", N);
+            vector<double> log_lik(N, 0.0);
+            stan::math::initialize(log_lik, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(log_lik,DUMMY_VAR__);
+            validate_non_negative_index("y_pred_step1", "N", N);
+            validate_non_negative_index("y_pred_step1", "T", T);
+            vector<vector<double> > y_pred_step1(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred_step1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred_step1,DUMMY_VAR__);
+            validate_non_negative_index("y_pred_step2", "N", N);
+            validate_non_negative_index("y_pred_step2", "T", T);
+            vector<vector<double> > y_pred_step2(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred_step2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred_step2,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                for (int t = 1; t <= T; ++t) {
+
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step1,i,"y_pred_step1",1),t,"y_pred_step1",2), -(1));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step2,i,"y_pred_step2",1),t,"y_pred_step2",2), -(1));
+                }
+            }
+            stan::math::assign(mu_a, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
+            stan::math::assign(mu_beta, exp(get_base1(mu_p,2,"mu_p",1)));
+            stan::math::assign(mu_pi, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 5));
+            stan::math::assign(mu_w, Phi_approx(get_base1(mu_p,4,"mu_p",1)));
+
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("v_mb", "2", 2);
+                vector_d v_mb(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_mb;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mb, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_mb,DUMMY_VAR__);
+                validate_non_negative_index("v_mf", "6", 6);
+                vector_d v_mf(static_cast<Eigen::VectorXd::Index>(6));
+                (void) v_mf;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mf, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_mf,DUMMY_VAR__);
+                validate_non_negative_index("v_hybrid", "2", 2);
+                vector_d v_hybrid(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_hybrid;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_hybrid, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_hybrid,DUMMY_VAR__);
+                double level1_prob_choice2(0.0);
+                (void) level1_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level1_prob_choice2, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(level1_prob_choice2,DUMMY_VAR__);
+                double level2_prob_choice2(0.0);
+                (void) level2_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level2_prob_choice2, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(level2_prob_choice2,DUMMY_VAR__);
+                int level1_choice_01(0);
+                (void) level1_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level1_choice_01, std::numeric_limits<int>::min());
+                int level2_choice_01(0);
+                (void) level2_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level2_choice_01, std::numeric_limits<int>::min());
+
+
+                stan::math::assign(v_mb, rep_vector(0.0,2));
+                stan::math::assign(v_mf, rep_vector(0.0,6));
+                stan::math::assign(v_hybrid, rep_vector(0.0,2));
+                stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), 0);
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(v_mb,1,"v_mb",1), ((trans_prob * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + ((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mb,2,"v_mb",1), (((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + (trans_prob * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,1,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,1,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,1,"v_mf",1))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,2,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,2,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,2,"v_mf",1))));
+                    stan::math::assign(level1_choice_01, (get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2) - 1));
+                    if (as_bool(logical_eq(t,1))) {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit((get_base1(beta,i,"beta",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1)))));
+                    } else {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit(((get_base1(beta,i,"beta",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1))) + (get_base1(pi,i,"pi",1) * ((2 * get_base1(get_base1(level1_choice,i,"level1_choice",1),(t - 1),"level1_choice",2)) - 3)))));
+                    }
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + bernoulli_log(level1_choice_01,level1_prob_choice2)));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a,i,"a",1) * (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) - get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1)))));
+                    stan::math::assign(level2_choice_01, (1 - modulus(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2)));
+                    if (as_bool(logical_gt(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2))) {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta,i,"beta",1) * (get_base1(v_mf,6,"v_mf",1) - get_base1(v_mf,5,"v_mf",1)))));
+                    } else {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta,i,"beta",1) * (get_base1(v_mf,4,"v_mf",1) - get_base1(v_mf,3,"v_mf",1)))));
+                    }
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + bernoulli_log(level2_choice_01,level2_prob_choice2)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step1,i,"y_pred_step1",1),t,"y_pred_step1",2), bernoulli_rng(level1_prob_choice2, base_rng__));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step2,i,"y_pred_step2",1),t,"y_pred_step2",2), bernoulli_rng(level2_prob_choice2, base_rng__));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a,i,"a",1) * (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) - get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1), (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) + (get_base1(a,i,"a",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a,i,"a",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                }
+                }
+            }
+
+            // validate generated quantities
+            check_greater_or_equal(function__,"mu_a",mu_a,0);
+            check_less_or_equal(function__,"mu_a",mu_a,1);
+            check_greater_or_equal(function__,"mu_beta",mu_beta,0);
+            check_greater_or_equal(function__,"mu_pi",mu_pi,0);
+            check_less_or_equal(function__,"mu_pi",mu_pi,5);
+            check_greater_or_equal(function__,"mu_w",mu_w,0);
+            check_less_or_equal(function__,"mu_w",mu_w,1);
+
+            // write generated quantities
+        vars__.push_back(mu_a);
+        vars__.push_back(mu_beta);
+        vars__.push_back(mu_pi);
+        vars__.push_back(mu_w);
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(log_lik[k_0__]);
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred_step1[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred_step2[k_0__][k_1__]);
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& vars,
+                     bool include_tparams = true,
+                     bool include_gqs = true,
+                     std::ostream* pstream = 0) const {
+      std::vector<double> params_r_vec(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r_vec[i] = params_r(i);
+      std::vector<double> vars_vec;
+      std::vector<int> params_i_vec;
+      write_array(base_rng,params_r_vec,params_i_vec,vars_vec,include_tparams,include_gqs,pstream);
+      vars.resize(vars_vec.size());
+      for (int i = 0; i < vars.size(); ++i)
+        vars(i) = vars_vec[i];
+    }
+
+    static std::string model_name() {
+        return "model_ts_par4";
+    }
+
+
+    void constrained_param_names(std::vector<std::string>& param_names__,
+                                 bool include_tparams__ = true,
+                                 bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 4; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 4; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_pi";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_w";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step1" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step2" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+
+    void unconstrained_param_names(std::vector<std::string>& param_names__,
+                                   bool include_tparams__ = true,
+                                   bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 4; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 4; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_pi";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_w";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step1" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step2" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+}; // model
+
+}
+
+
+
+
+// Code generated by Stan version 2.17.0
+
+#include <stan/model/model_header.hpp>
+
+namespace model_ts_par6_namespace {
+
+using std::istream;
+using std::string;
+using std::stringstream;
+using std::vector;
+using stan::io::dump;
+using stan::math::lgamma;
+using stan::model::prob_grad;
+using namespace stan::math;
+
+typedef Eigen::Matrix<double,Eigen::Dynamic,1> vector_d;
+typedef Eigen::Matrix<double,1,Eigen::Dynamic> row_vector_d;
+typedef Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic> matrix_d;
+
+static int current_statement_begin__;
+
+stan::io::program_reader prog_reader__() {
+    stan::io::program_reader reader;
+    reader.add_event(0, 0, "start", "model_ts_par6");
+    reader.add_event(210, 210, "end", "model_ts_par6");
+    return reader;
+}
+
+class model_ts_par6 : public prob_grad {
+private:
+    int N;
+    int T;
+    vector<int> Tsubj;
+    vector<vector<int> > level1_choice;
+    vector<vector<int> > level2_choice;
+    vector<vector<int> > reward;
+    double trans_prob;
+public:
+    model_ts_par6(stan::io::var_context& context__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, 0, pstream__);
+    }
+
+    model_ts_par6(stan::io::var_context& context__,
+        unsigned int random_seed__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, random_seed__, pstream__);
+    }
+
+    void ctor_body(stan::io::var_context& context__,
+                   unsigned int random_seed__,
+                   std::ostream* pstream__) {
+        boost::ecuyer1988 base_rng__ =
+          stan::services::util::create_rng(random_seed__, 0);
+        (void) base_rng__;  // suppress unused var warning
+
+        current_statement_begin__ = -1;
+
+        static const char* function__ = "model_ts_par6_namespace::model_ts_par6";
+        (void) function__;  // dummy to suppress unused var warning
+        size_t pos__;
+        (void) pos__;  // dummy to suppress unused var warning
+        std::vector<int> vals_i__;
+        std::vector<double> vals_r__;
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        // initialize member variables
+        try {
+            context__.validate_dims("data initialization", "N", "int", context__.to_vec());
+            N = int(0);
+            vals_i__ = context__.vals_i("N");
+            pos__ = 0;
+            N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "T", "int", context__.to_vec());
+            T = int(0);
+            vals_i__ = context__.vals_i("T");
+            pos__ = 0;
+            T = vals_i__[pos__++];
+            validate_non_negative_index("Tsubj", "N", N);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Tsubj", "N", N);
+            Tsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Tsubj");
+            pos__ = 0;
+            size_t Tsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
+                Tsubj[i_0__] = vals_i__[pos__++];
+            }
+            validate_non_negative_index("level1_choice", "N", N);
+            validate_non_negative_index("level1_choice", "T", T);
+            context__.validate_dims("data initialization", "level1_choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("level1_choice", "N", N);
+            validate_non_negative_index("level1_choice", "T", T);
+            level1_choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("level1_choice");
+            pos__ = 0;
+            size_t level1_choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < level1_choice_limit_1__; ++i_1__) {
+                size_t level1_choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < level1_choice_limit_0__; ++i_0__) {
+                    level1_choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("level2_choice", "N", N);
+            validate_non_negative_index("level2_choice", "T", T);
+            context__.validate_dims("data initialization", "level2_choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("level2_choice", "N", N);
+            validate_non_negative_index("level2_choice", "T", T);
+            level2_choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("level2_choice");
+            pos__ = 0;
+            size_t level2_choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < level2_choice_limit_1__; ++i_1__) {
+                size_t level2_choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < level2_choice_limit_0__; ++i_0__) {
+                    level2_choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("reward", "N", N);
+            validate_non_negative_index("reward", "T", T);
+            context__.validate_dims("data initialization", "reward", "int", context__.to_vec(N,T));
+            validate_non_negative_index("reward", "N", N);
+            validate_non_negative_index("reward", "T", T);
+            reward = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("reward");
+            pos__ = 0;
+            size_t reward_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < reward_limit_1__; ++i_1__) {
+                size_t reward_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < reward_limit_0__; ++i_0__) {
+                    reward[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            context__.validate_dims("data initialization", "trans_prob", "double", context__.to_vec());
+            trans_prob = double(0);
+            vals_r__ = context__.vals_r("trans_prob");
+            pos__ = 0;
+            trans_prob = vals_r__[pos__++];
+
+            // validate, data variables
+            check_greater_or_equal(function__,"N",N,1);
+            check_greater_or_equal(function__,"T",T,1);
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                check_greater_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],1);
+                check_less_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],T);
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"level1_choice[k0__][k1__]",level1_choice[k0__][k1__],1);
+                    check_less_or_equal(function__,"level1_choice[k0__][k1__]",level1_choice[k0__][k1__],2);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"level2_choice[k0__][k1__]",level2_choice[k0__][k1__],1);
+                    check_less_or_equal(function__,"level2_choice[k0__][k1__]",level2_choice[k0__][k1__],4);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"reward[k0__][k1__]",reward[k0__][k1__],0);
+                    check_less_or_equal(function__,"reward[k0__][k1__]",reward[k0__][k1__],1);
+                }
+            }
+            check_greater_or_equal(function__,"trans_prob",trans_prob,0);
+            check_less_or_equal(function__,"trans_prob",trans_prob,1);
+            // initialize data variables
+
+
+            // validate transformed data
+
+            // validate, set parameter ranges
+            num_params_r__ = 0U;
+            param_ranges_i__.clear();
+            validate_non_negative_index("mu_p", "6", 6);
+            num_params_r__ += 6;
+            validate_non_negative_index("sigma", "6", 6);
+            num_params_r__ += 6;
+            validate_non_negative_index("a1_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("beta1_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("a2_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("beta2_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("pi_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("w_pr", "N", N);
+            num_params_r__ += N;
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    ~model_ts_par6() { }
+
+
+    void transform_inits(const stan::io::var_context& context__,
+                         std::vector<int>& params_i__,
+                         std::vector<double>& params_r__,
+                         std::ostream* pstream__) const {
+        stan::io::writer<double> writer__(params_r__,params_i__);
+        size_t pos__;
+        (void) pos__; // dummy call to supress warning
+        std::vector<double> vals_r__;
+        std::vector<int> vals_i__;
+
+        if (!(context__.contains_r("mu_p")))
+            throw std::runtime_error("variable mu_p missing");
+        vals_r__ = context__.vals_r("mu_p");
+        pos__ = 0U;
+        validate_non_negative_index("mu_p", "6", 6);
+        context__.validate_dims("initialization", "mu_p", "vector_d", context__.to_vec(6));
+        vector_d mu_p(static_cast<Eigen::VectorXd::Index>(6));
+        for (int j1__ = 0U; j1__ < 6; ++j1__)
+            mu_p(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(mu_p);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable mu_p: ") + e.what());
+        }
+
+        if (!(context__.contains_r("sigma")))
+            throw std::runtime_error("variable sigma missing");
+        vals_r__ = context__.vals_r("sigma");
+        pos__ = 0U;
+        validate_non_negative_index("sigma", "6", 6);
+        context__.validate_dims("initialization", "sigma", "vector_d", context__.to_vec(6));
+        vector_d sigma(static_cast<Eigen::VectorXd::Index>(6));
+        for (int j1__ = 0U; j1__ < 6; ++j1__)
+            sigma(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_lb_unconstrain(0,sigma);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable sigma: ") + e.what());
+        }
+
+        if (!(context__.contains_r("a1_pr")))
+            throw std::runtime_error("variable a1_pr missing");
+        vals_r__ = context__.vals_r("a1_pr");
+        pos__ = 0U;
+        validate_non_negative_index("a1_pr", "N", N);
+        context__.validate_dims("initialization", "a1_pr", "vector_d", context__.to_vec(N));
+        vector_d a1_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            a1_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(a1_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable a1_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("beta1_pr")))
+            throw std::runtime_error("variable beta1_pr missing");
+        vals_r__ = context__.vals_r("beta1_pr");
+        pos__ = 0U;
+        validate_non_negative_index("beta1_pr", "N", N);
+        context__.validate_dims("initialization", "beta1_pr", "vector_d", context__.to_vec(N));
+        vector_d beta1_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            beta1_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(beta1_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable beta1_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("a2_pr")))
+            throw std::runtime_error("variable a2_pr missing");
+        vals_r__ = context__.vals_r("a2_pr");
+        pos__ = 0U;
+        validate_non_negative_index("a2_pr", "N", N);
+        context__.validate_dims("initialization", "a2_pr", "vector_d", context__.to_vec(N));
+        vector_d a2_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            a2_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(a2_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable a2_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("beta2_pr")))
+            throw std::runtime_error("variable beta2_pr missing");
+        vals_r__ = context__.vals_r("beta2_pr");
+        pos__ = 0U;
+        validate_non_negative_index("beta2_pr", "N", N);
+        context__.validate_dims("initialization", "beta2_pr", "vector_d", context__.to_vec(N));
+        vector_d beta2_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            beta2_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(beta2_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable beta2_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("pi_pr")))
+            throw std::runtime_error("variable pi_pr missing");
+        vals_r__ = context__.vals_r("pi_pr");
+        pos__ = 0U;
+        validate_non_negative_index("pi_pr", "N", N);
+        context__.validate_dims("initialization", "pi_pr", "vector_d", context__.to_vec(N));
+        vector_d pi_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            pi_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(pi_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable pi_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("w_pr")))
+            throw std::runtime_error("variable w_pr missing");
+        vals_r__ = context__.vals_r("w_pr");
+        pos__ = 0U;
+        validate_non_negative_index("w_pr", "N", N);
+        context__.validate_dims("initialization", "w_pr", "vector_d", context__.to_vec(N));
+        vector_d w_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            w_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(w_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable w_pr: ") + e.what());
+        }
+
+        params_r__ = writer__.data_r();
+        params_i__ = writer__.data_i();
+    }
+
+    void transform_inits(const stan::io::var_context& context,
+                         Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                         std::ostream* pstream__) const {
+      std::vector<double> params_r_vec;
+      std::vector<int> params_i_vec;
+      transform_inits(context, params_i_vec, params_r_vec, pstream__);
+      params_r.resize(params_r_vec.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r(i) = params_r_vec[i];
+    }
+
+
+    template <bool propto__, bool jacobian__, typename T__>
+    T__ log_prob(vector<T__>& params_r__,
+                 vector<int>& params_i__,
+                 std::ostream* pstream__ = 0) const {
+
+        T__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        T__ lp__(0.0);
+        stan::math::accumulator<T__> lp_accum__;
+
+        try {
+            // model parameters
+            stan::io::reader<T__> in__(params_r__,params_i__);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  mu_p;
+            (void) mu_p;  // dummy to suppress unused var warning
+            if (jacobian__)
+                mu_p = in__.vector_constrain(6,lp__);
+            else
+                mu_p = in__.vector_constrain(6);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  sigma;
+            (void) sigma;  // dummy to suppress unused var warning
+            if (jacobian__)
+                sigma = in__.vector_lb_constrain(0,6,lp__);
+            else
+                sigma = in__.vector_lb_constrain(0,6);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a1_pr;
+            (void) a1_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                a1_pr = in__.vector_constrain(N,lp__);
+            else
+                a1_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta1_pr;
+            (void) beta1_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                beta1_pr = in__.vector_constrain(N,lp__);
+            else
+                beta1_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a2_pr;
+            (void) a2_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                a2_pr = in__.vector_constrain(N,lp__);
+            else
+                a2_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta2_pr;
+            (void) beta2_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                beta2_pr = in__.vector_constrain(N,lp__);
+            else
+                beta2_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  pi_pr;
+            (void) pi_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                pi_pr = in__.vector_constrain(N,lp__);
+            else
+                pi_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  w_pr;
+            (void) w_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                w_pr = in__.vector_constrain(N,lp__);
+            else
+                w_pr = in__.vector_constrain(N);
+
+
+            // transformed parameters
+            validate_non_negative_index("a1", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a1, DUMMY_VAR__);
+            stan::math::fill(a1,DUMMY_VAR__);
+            validate_non_negative_index("beta1", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta1, DUMMY_VAR__);
+            stan::math::fill(beta1,DUMMY_VAR__);
+            validate_non_negative_index("a2", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a2, DUMMY_VAR__);
+            stan::math::fill(a2,DUMMY_VAR__);
+            validate_non_negative_index("beta2", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta2, DUMMY_VAR__);
+            stan::math::fill(beta2,DUMMY_VAR__);
+            validate_non_negative_index("pi", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  pi(static_cast<Eigen::VectorXd::Index>(N));
+            (void) pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(pi, DUMMY_VAR__);
+            stan::math::fill(pi,DUMMY_VAR__);
+            validate_non_negative_index("w", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  w(static_cast<Eigen::VectorXd::Index>(N));
+            (void) w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(w, DUMMY_VAR__);
+            stan::math::fill(w,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(a1,i,"a1",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(a1_pr,i,"a1_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta1,i,"beta1",1), exp((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta1_pr,i,"beta1_pr",1)))));
+                stan::math::assign(get_base1_lhs(a2,i,"a2",1), Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(a2_pr,i,"a2_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta2,i,"beta2",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta2_pr,i,"beta2_pr",1)))));
+                stan::math::assign(get_base1_lhs(pi,i,"pi",1), (Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(pi_pr,i,"pi_pr",1)))) * 5));
+                stan::math::assign(get_base1_lhs(w,i,"w",1), Phi_approx((get_base1(mu_p,6,"mu_p",1) + (get_base1(sigma,6,"sigma",1) * get_base1(w_pr,i,"w_pr",1)))));
+            }
+
+            // validate transformed parameters
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(a1(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: a1" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(beta1(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: beta1" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(a2(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: a2" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(beta2(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: beta2" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(pi(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: pi" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(w(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: w" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+
+            const char* function__ = "validate transformed params";
+            (void) function__;  // dummy to suppress unused var warning
+            check_greater_or_equal(function__,"a1",a1,0);
+            check_less_or_equal(function__,"a1",a1,1);
+            check_greater_or_equal(function__,"beta1",beta1,0);
+            check_greater_or_equal(function__,"a2",a2,0);
+            check_less_or_equal(function__,"a2",a2,1);
+            check_greater_or_equal(function__,"beta2",beta2,0);
+            check_greater_or_equal(function__,"pi",pi,0);
+            check_less_or_equal(function__,"pi",pi,5);
+            check_greater_or_equal(function__,"w",w,0);
+            check_less_or_equal(function__,"w",w,1);
+
+            // model body
+
+            lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
+            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(a1_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(beta1_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(a2_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(beta2_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(pi_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(w_pr, 0, 1));
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("v_mb", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_mb(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_mb;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mb, DUMMY_VAR__);
+                stan::math::fill(v_mb,DUMMY_VAR__);
+                validate_non_negative_index("v_mf", "6", 6);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_mf(static_cast<Eigen::VectorXd::Index>(6));
+                (void) v_mf;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mf, DUMMY_VAR__);
+                stan::math::fill(v_mf,DUMMY_VAR__);
+                validate_non_negative_index("v_hybrid", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_hybrid(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_hybrid;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_hybrid, DUMMY_VAR__);
+                stan::math::fill(v_hybrid,DUMMY_VAR__);
+                T__ level1_prob_choice2;
+                (void) level1_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level1_prob_choice2, DUMMY_VAR__);
+                stan::math::fill(level1_prob_choice2,DUMMY_VAR__);
+                T__ level2_prob_choice2;
+                (void) level2_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level2_prob_choice2, DUMMY_VAR__);
+                stan::math::fill(level2_prob_choice2,DUMMY_VAR__);
+                int level1_choice_01(0);
+                (void) level1_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level1_choice_01, std::numeric_limits<int>::min());
+                int level2_choice_01(0);
+                (void) level2_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level2_choice_01, std::numeric_limits<int>::min());
+
+
+                stan::math::assign(v_mb, rep_vector(0.0,2));
+                stan::math::assign(v_mf, rep_vector(0.0,6));
+                stan::math::assign(v_hybrid, rep_vector(0.0,2));
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(v_mb,1,"v_mb",1), ((trans_prob * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + ((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mb,2,"v_mb",1), (((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + (trans_prob * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,1,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,1,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,1,"v_mf",1))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,2,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,2,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,2,"v_mf",1))));
+                    stan::math::assign(level1_choice_01, (get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2) - 1));
+                    if (as_bool(logical_eq(t,1))) {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1)))));
+                    } else {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit(((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1))) + (get_base1(pi,i,"pi",1) * ((2 * get_base1(get_base1(level1_choice,i,"level1_choice",1),(t - 1),"level1_choice",2)) - 3)))));
+                    }
+                    lp_accum__.add(bernoulli_log<propto__>(level1_choice_01, level1_prob_choice2));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a1,i,"a1",1) * (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) - get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1)))));
+                    stan::math::assign(level2_choice_01, (1 - modulus(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2)));
+                    if (as_bool(logical_gt(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2))) {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,6,"v_mf",1) - get_base1(v_mf,5,"v_mf",1)))));
+                    } else {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,4,"v_mf",1) - get_base1(v_mf,3,"v_mf",1)))));
+                    }
+                    lp_accum__.add(bernoulli_log<propto__>(level2_choice_01, level2_prob_choice2));
+                    stan::math::assign(get_base1_lhs(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1), (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) + (get_base1(a2,i,"a2",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a1,i,"a1",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                }
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+
+        lp_accum__.add(lp__);
+        return lp_accum__.sum();
+
+    } // log_prob()
+
+    template <bool propto, bool jacobian, typename T_>
+    T_ log_prob(Eigen::Matrix<T_,Eigen::Dynamic,1>& params_r,
+               std::ostream* pstream = 0) const {
+      std::vector<T_> vec_params_r;
+      vec_params_r.reserve(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        vec_params_r.push_back(params_r(i));
+      std::vector<int> vec_params_i;
+      return log_prob<propto,jacobian,T_>(vec_params_r, vec_params_i, pstream);
+    }
+
+
+    void get_param_names(std::vector<std::string>& names__) const {
+        names__.resize(0);
+        names__.push_back("mu_p");
+        names__.push_back("sigma");
+        names__.push_back("a1_pr");
+        names__.push_back("beta1_pr");
+        names__.push_back("a2_pr");
+        names__.push_back("beta2_pr");
+        names__.push_back("pi_pr");
+        names__.push_back("w_pr");
+        names__.push_back("a1");
+        names__.push_back("beta1");
+        names__.push_back("a2");
+        names__.push_back("beta2");
+        names__.push_back("pi");
+        names__.push_back("w");
+        names__.push_back("mu_a1");
+        names__.push_back("mu_beta1");
+        names__.push_back("mu_a2");
+        names__.push_back("mu_beta2");
+        names__.push_back("mu_pi");
+        names__.push_back("mu_w");
+        names__.push_back("log_lik");
+        names__.push_back("y_pred_step1");
+        names__.push_back("y_pred_step2");
+    }
+
+
+    void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
+        dimss__.resize(0);
+        std::vector<size_t> dims__;
+        dims__.resize(0);
+        dims__.push_back(6);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(6);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng__,
+                     std::vector<double>& params_r__,
+                     std::vector<int>& params_i__,
+                     std::vector<double>& vars__,
+                     bool include_tparams__ = true,
+                     bool include_gqs__ = true,
+                     std::ostream* pstream__ = 0) const {
+        vars__.resize(0);
+        stan::io::reader<double> in__(params_r__,params_i__);
+        static const char* function__ = "model_ts_par6_namespace::write_array";
+        (void) function__;  // dummy to suppress unused var warning
+        // read-transform, write parameters
+        vector_d mu_p = in__.vector_constrain(6);
+        vector_d sigma = in__.vector_lb_constrain(0,6);
+        vector_d a1_pr = in__.vector_constrain(N);
+        vector_d beta1_pr = in__.vector_constrain(N);
+        vector_d a2_pr = in__.vector_constrain(N);
+        vector_d beta2_pr = in__.vector_constrain(N);
+        vector_d pi_pr = in__.vector_constrain(N);
+        vector_d w_pr = in__.vector_constrain(N);
+            for (int k_0__ = 0; k_0__ < 6; ++k_0__) {
+            vars__.push_back(mu_p[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < 6; ++k_0__) {
+            vars__.push_back(sigma[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a1_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta1_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a2_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta2_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(pi_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(w_pr[k_0__]);
+            }
+
+        if (!include_tparams__) return;
+        // declare and define transformed parameters
+        double lp__ = 0.0;
+        (void) lp__;  // dummy to suppress unused var warning
+        stan::math::accumulator<double> lp_accum__;
+
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        try {
+            validate_non_negative_index("a1", "N", N);
+            vector_d a1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(a1,DUMMY_VAR__);
+            validate_non_negative_index("beta1", "N", N);
+            vector_d beta1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(beta1,DUMMY_VAR__);
+            validate_non_negative_index("a2", "N", N);
+            vector_d a2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(a2,DUMMY_VAR__);
+            validate_non_negative_index("beta2", "N", N);
+            vector_d beta2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(beta2,DUMMY_VAR__);
+            validate_non_negative_index("pi", "N", N);
+            vector_d pi(static_cast<Eigen::VectorXd::Index>(N));
+            (void) pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(pi, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(pi,DUMMY_VAR__);
+            validate_non_negative_index("w", "N", N);
+            vector_d w(static_cast<Eigen::VectorXd::Index>(N));
+            (void) w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(w, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(w,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(a1,i,"a1",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(a1_pr,i,"a1_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta1,i,"beta1",1), exp((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta1_pr,i,"beta1_pr",1)))));
+                stan::math::assign(get_base1_lhs(a2,i,"a2",1), Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(a2_pr,i,"a2_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta2,i,"beta2",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta2_pr,i,"beta2_pr",1)))));
+                stan::math::assign(get_base1_lhs(pi,i,"pi",1), (Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(pi_pr,i,"pi_pr",1)))) * 5));
+                stan::math::assign(get_base1_lhs(w,i,"w",1), Phi_approx((get_base1(mu_p,6,"mu_p",1) + (get_base1(sigma,6,"sigma",1) * get_base1(w_pr,i,"w_pr",1)))));
+            }
+
+            // validate transformed parameters
+            check_greater_or_equal(function__,"a1",a1,0);
+            check_less_or_equal(function__,"a1",a1,1);
+            check_greater_or_equal(function__,"beta1",beta1,0);
+            check_greater_or_equal(function__,"a2",a2,0);
+            check_less_or_equal(function__,"a2",a2,1);
+            check_greater_or_equal(function__,"beta2",beta2,0);
+            check_greater_or_equal(function__,"pi",pi,0);
+            check_less_or_equal(function__,"pi",pi,5);
+            check_greater_or_equal(function__,"w",w,0);
+            check_less_or_equal(function__,"w",w,1);
+
+            // write transformed parameters
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a1[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta1[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a2[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta2[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(pi[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(w[k_0__]);
+            }
+
+            if (!include_gqs__) return;
+            // declare and define generated quantities
+            double mu_a1(0.0);
+            (void) mu_a1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_a1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_a1,DUMMY_VAR__);
+            double mu_beta1(0.0);
+            (void) mu_beta1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_beta1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_beta1,DUMMY_VAR__);
+            double mu_a2(0.0);
+            (void) mu_a2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_a2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_a2,DUMMY_VAR__);
+            double mu_beta2(0.0);
+            (void) mu_beta2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_beta2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_beta2,DUMMY_VAR__);
+            double mu_pi(0.0);
+            (void) mu_pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_pi, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_pi,DUMMY_VAR__);
+            double mu_w(0.0);
+            (void) mu_w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_w, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_w,DUMMY_VAR__);
+            validate_non_negative_index("log_lik", "N", N);
+            vector<double> log_lik(N, 0.0);
+            stan::math::initialize(log_lik, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(log_lik,DUMMY_VAR__);
+            validate_non_negative_index("y_pred_step1", "N", N);
+            validate_non_negative_index("y_pred_step1", "T", T);
+            vector<vector<double> > y_pred_step1(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred_step1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred_step1,DUMMY_VAR__);
+            validate_non_negative_index("y_pred_step2", "N", N);
+            validate_non_negative_index("y_pred_step2", "T", T);
+            vector<vector<double> > y_pred_step2(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred_step2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred_step2,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                for (int t = 1; t <= T; ++t) {
+
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step1,i,"y_pred_step1",1),t,"y_pred_step1",2), -(1));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step2,i,"y_pred_step2",1),t,"y_pred_step2",2), -(1));
+                }
+            }
+            stan::math::assign(mu_a1, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
+            stan::math::assign(mu_beta1, exp(get_base1(mu_p,2,"mu_p",1)));
+            stan::math::assign(mu_a2, Phi_approx(get_base1(mu_p,3,"mu_p",1)));
+            stan::math::assign(mu_beta2, exp(get_base1(mu_p,4,"mu_p",1)));
+            stan::math::assign(mu_pi, (Phi_approx(get_base1(mu_p,5,"mu_p",1)) * 5));
+            stan::math::assign(mu_w, Phi_approx(get_base1(mu_p,6,"mu_p",1)));
+
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("v_mb", "2", 2);
+                vector_d v_mb(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_mb;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mb, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_mb,DUMMY_VAR__);
+                validate_non_negative_index("v_mf", "6", 6);
+                vector_d v_mf(static_cast<Eigen::VectorXd::Index>(6));
+                (void) v_mf;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mf, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_mf,DUMMY_VAR__);
+                validate_non_negative_index("v_hybrid", "2", 2);
+                vector_d v_hybrid(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_hybrid;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_hybrid, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_hybrid,DUMMY_VAR__);
+                double level1_prob_choice2(0.0);
+                (void) level1_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level1_prob_choice2, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(level1_prob_choice2,DUMMY_VAR__);
+                double level2_prob_choice2(0.0);
+                (void) level2_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level2_prob_choice2, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(level2_prob_choice2,DUMMY_VAR__);
+                int level1_choice_01(0);
+                (void) level1_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level1_choice_01, std::numeric_limits<int>::min());
+                int level2_choice_01(0);
+                (void) level2_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level2_choice_01, std::numeric_limits<int>::min());
+
+
+                stan::math::assign(v_mb, rep_vector(0.0,2));
+                stan::math::assign(v_mf, rep_vector(0.0,6));
+                stan::math::assign(v_hybrid, rep_vector(0.0,2));
+                stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), 0);
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(v_mb,1,"v_mb",1), ((trans_prob * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + ((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mb,2,"v_mb",1), (((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + (trans_prob * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,1,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,1,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,1,"v_mf",1))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,2,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,2,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,2,"v_mf",1))));
+                    stan::math::assign(level1_choice_01, (get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2) - 1));
+                    if (as_bool(logical_eq(t,1))) {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1)))));
+                    } else {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit(((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1))) + (get_base1(pi,i,"pi",1) * ((2 * get_base1(get_base1(level1_choice,i,"level1_choice",1),(t - 1),"level1_choice",2)) - 3)))));
+                    }
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + bernoulli_log(level1_choice_01,level1_prob_choice2)));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a1,i,"a1",1) * (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) - get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1)))));
+                    stan::math::assign(level2_choice_01, (1 - modulus(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2)));
+                    if (as_bool(logical_gt(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2))) {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,6,"v_mf",1) - get_base1(v_mf,5,"v_mf",1)))));
+                    } else {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,4,"v_mf",1) - get_base1(v_mf,3,"v_mf",1)))));
+                    }
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + bernoulli_log(level2_choice_01,level2_prob_choice2)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step1,i,"y_pred_step1",1),t,"y_pred_step1",2), bernoulli_rng(level1_prob_choice2, base_rng__));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step2,i,"y_pred_step2",1),t,"y_pred_step2",2), bernoulli_rng(level2_prob_choice2, base_rng__));
+                    stan::math::assign(get_base1_lhs(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1), (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) + (get_base1(a2,i,"a2",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a1,i,"a1",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                }
+                }
+            }
+
+            // validate generated quantities
+            check_greater_or_equal(function__,"mu_a1",mu_a1,0);
+            check_less_or_equal(function__,"mu_a1",mu_a1,1);
+            check_greater_or_equal(function__,"mu_beta1",mu_beta1,0);
+            check_greater_or_equal(function__,"mu_a2",mu_a2,0);
+            check_less_or_equal(function__,"mu_a2",mu_a2,1);
+            check_greater_or_equal(function__,"mu_beta2",mu_beta2,0);
+            check_greater_or_equal(function__,"mu_pi",mu_pi,0);
+            check_less_or_equal(function__,"mu_pi",mu_pi,5);
+            check_greater_or_equal(function__,"mu_w",mu_w,0);
+            check_less_or_equal(function__,"mu_w",mu_w,1);
+
+            // write generated quantities
+        vars__.push_back(mu_a1);
+        vars__.push_back(mu_beta1);
+        vars__.push_back(mu_a2);
+        vars__.push_back(mu_beta2);
+        vars__.push_back(mu_pi);
+        vars__.push_back(mu_w);
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(log_lik[k_0__]);
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred_step1[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred_step2[k_0__][k_1__]);
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& vars,
+                     bool include_tparams = true,
+                     bool include_gqs = true,
+                     std::ostream* pstream = 0) const {
+      std::vector<double> params_r_vec(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r_vec[i] = params_r(i);
+      std::vector<double> vars_vec;
+      std::vector<int> params_i_vec;
+      write_array(base_rng,params_r_vec,params_i_vec,vars_vec,include_tparams,include_gqs,pstream);
+      vars.resize(vars_vec.size());
+      for (int i = 0; i < vars.size(); ++i)
+        vars(i) = vars_vec[i];
+    }
+
+    static std::string model_name() {
+        return "model_ts_par6";
+    }
+
+
+    void constrained_param_names(std::vector<std::string>& param_names__,
+                                 bool include_tparams__ = true,
+                                 bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 6; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 6; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_pi";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_w";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step1" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step2" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+
+    void unconstrained_param_names(std::vector<std::string>& param_names__,
+                                   bool include_tparams__ = true,
+                                   bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 6; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 6; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_pi";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_w";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step1" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step2" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+}; // model
+
+}
+
+
+
+
+// Code generated by Stan version 2.17.0
+
+#include <stan/model/model_header.hpp>
+
+namespace model_ts_par7_namespace {
+
+using std::istream;
+using std::string;
+using std::stringstream;
+using std::vector;
+using stan::io::dump;
+using stan::math::lgamma;
+using stan::model::prob_grad;
+using namespace stan::math;
+
+typedef Eigen::Matrix<double,Eigen::Dynamic,1> vector_d;
+typedef Eigen::Matrix<double,1,Eigen::Dynamic> row_vector_d;
+typedef Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic> matrix_d;
+
+static int current_statement_begin__;
+
+stan::io::program_reader prog_reader__() {
+    stan::io::program_reader reader;
+    reader.add_event(0, 0, "start", "model_ts_par7");
+    reader.add_event(214, 214, "end", "model_ts_par7");
+    return reader;
+}
+
+class model_ts_par7 : public prob_grad {
+private:
+    int N;
+    int T;
+    vector<int> Tsubj;
+    vector<vector<int> > level1_choice;
+    vector<vector<int> > level2_choice;
+    vector<vector<int> > reward;
+    double trans_prob;
+public:
+    model_ts_par7(stan::io::var_context& context__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, 0, pstream__);
+    }
+
+    model_ts_par7(stan::io::var_context& context__,
+        unsigned int random_seed__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, random_seed__, pstream__);
+    }
+
+    void ctor_body(stan::io::var_context& context__,
+                   unsigned int random_seed__,
+                   std::ostream* pstream__) {
+        boost::ecuyer1988 base_rng__ =
+          stan::services::util::create_rng(random_seed__, 0);
+        (void) base_rng__;  // suppress unused var warning
+
+        current_statement_begin__ = -1;
+
+        static const char* function__ = "model_ts_par7_namespace::model_ts_par7";
+        (void) function__;  // dummy to suppress unused var warning
+        size_t pos__;
+        (void) pos__;  // dummy to suppress unused var warning
+        std::vector<int> vals_i__;
+        std::vector<double> vals_r__;
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        // initialize member variables
+        try {
+            context__.validate_dims("data initialization", "N", "int", context__.to_vec());
+            N = int(0);
+            vals_i__ = context__.vals_i("N");
+            pos__ = 0;
+            N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "T", "int", context__.to_vec());
+            T = int(0);
+            vals_i__ = context__.vals_i("T");
+            pos__ = 0;
+            T = vals_i__[pos__++];
+            validate_non_negative_index("Tsubj", "N", N);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Tsubj", "N", N);
+            Tsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Tsubj");
+            pos__ = 0;
+            size_t Tsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
+                Tsubj[i_0__] = vals_i__[pos__++];
+            }
+            validate_non_negative_index("level1_choice", "N", N);
+            validate_non_negative_index("level1_choice", "T", T);
+            context__.validate_dims("data initialization", "level1_choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("level1_choice", "N", N);
+            validate_non_negative_index("level1_choice", "T", T);
+            level1_choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("level1_choice");
+            pos__ = 0;
+            size_t level1_choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < level1_choice_limit_1__; ++i_1__) {
+                size_t level1_choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < level1_choice_limit_0__; ++i_0__) {
+                    level1_choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("level2_choice", "N", N);
+            validate_non_negative_index("level2_choice", "T", T);
+            context__.validate_dims("data initialization", "level2_choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("level2_choice", "N", N);
+            validate_non_negative_index("level2_choice", "T", T);
+            level2_choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("level2_choice");
+            pos__ = 0;
+            size_t level2_choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < level2_choice_limit_1__; ++i_1__) {
+                size_t level2_choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < level2_choice_limit_0__; ++i_0__) {
+                    level2_choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("reward", "N", N);
+            validate_non_negative_index("reward", "T", T);
+            context__.validate_dims("data initialization", "reward", "int", context__.to_vec(N,T));
+            validate_non_negative_index("reward", "N", N);
+            validate_non_negative_index("reward", "T", T);
+            reward = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("reward");
+            pos__ = 0;
+            size_t reward_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < reward_limit_1__; ++i_1__) {
+                size_t reward_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < reward_limit_0__; ++i_0__) {
+                    reward[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            context__.validate_dims("data initialization", "trans_prob", "double", context__.to_vec());
+            trans_prob = double(0);
+            vals_r__ = context__.vals_r("trans_prob");
+            pos__ = 0;
+            trans_prob = vals_r__[pos__++];
+
+            // validate, data variables
+            check_greater_or_equal(function__,"N",N,1);
+            check_greater_or_equal(function__,"T",T,1);
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                check_greater_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],1);
+                check_less_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],T);
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"level1_choice[k0__][k1__]",level1_choice[k0__][k1__],1);
+                    check_less_or_equal(function__,"level1_choice[k0__][k1__]",level1_choice[k0__][k1__],2);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"level2_choice[k0__][k1__]",level2_choice[k0__][k1__],1);
+                    check_less_or_equal(function__,"level2_choice[k0__][k1__]",level2_choice[k0__][k1__],4);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"reward[k0__][k1__]",reward[k0__][k1__],0);
+                    check_less_or_equal(function__,"reward[k0__][k1__]",reward[k0__][k1__],1);
+                }
+            }
+            check_greater_or_equal(function__,"trans_prob",trans_prob,0);
+            check_less_or_equal(function__,"trans_prob",trans_prob,1);
+            // initialize data variables
+
+
+            // validate transformed data
+
+            // validate, set parameter ranges
+            num_params_r__ = 0U;
+            param_ranges_i__.clear();
+            validate_non_negative_index("mu_p", "7", 7);
+            num_params_r__ += 7;
+            validate_non_negative_index("sigma", "7", 7);
+            num_params_r__ += 7;
+            validate_non_negative_index("a1_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("beta1_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("a2_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("beta2_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("pi_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("w_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("lambda_pr", "N", N);
+            num_params_r__ += N;
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    ~model_ts_par7() { }
+
+
+    void transform_inits(const stan::io::var_context& context__,
+                         std::vector<int>& params_i__,
+                         std::vector<double>& params_r__,
+                         std::ostream* pstream__) const {
+        stan::io::writer<double> writer__(params_r__,params_i__);
+        size_t pos__;
+        (void) pos__; // dummy call to supress warning
+        std::vector<double> vals_r__;
+        std::vector<int> vals_i__;
+
+        if (!(context__.contains_r("mu_p")))
+            throw std::runtime_error("variable mu_p missing");
+        vals_r__ = context__.vals_r("mu_p");
+        pos__ = 0U;
+        validate_non_negative_index("mu_p", "7", 7);
+        context__.validate_dims("initialization", "mu_p", "vector_d", context__.to_vec(7));
+        vector_d mu_p(static_cast<Eigen::VectorXd::Index>(7));
+        for (int j1__ = 0U; j1__ < 7; ++j1__)
+            mu_p(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(mu_p);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable mu_p: ") + e.what());
+        }
+
+        if (!(context__.contains_r("sigma")))
+            throw std::runtime_error("variable sigma missing");
+        vals_r__ = context__.vals_r("sigma");
+        pos__ = 0U;
+        validate_non_negative_index("sigma", "7", 7);
+        context__.validate_dims("initialization", "sigma", "vector_d", context__.to_vec(7));
+        vector_d sigma(static_cast<Eigen::VectorXd::Index>(7));
+        for (int j1__ = 0U; j1__ < 7; ++j1__)
+            sigma(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_lb_unconstrain(0,sigma);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable sigma: ") + e.what());
+        }
+
+        if (!(context__.contains_r("a1_pr")))
+            throw std::runtime_error("variable a1_pr missing");
+        vals_r__ = context__.vals_r("a1_pr");
+        pos__ = 0U;
+        validate_non_negative_index("a1_pr", "N", N);
+        context__.validate_dims("initialization", "a1_pr", "vector_d", context__.to_vec(N));
+        vector_d a1_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            a1_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(a1_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable a1_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("beta1_pr")))
+            throw std::runtime_error("variable beta1_pr missing");
+        vals_r__ = context__.vals_r("beta1_pr");
+        pos__ = 0U;
+        validate_non_negative_index("beta1_pr", "N", N);
+        context__.validate_dims("initialization", "beta1_pr", "vector_d", context__.to_vec(N));
+        vector_d beta1_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            beta1_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(beta1_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable beta1_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("a2_pr")))
+            throw std::runtime_error("variable a2_pr missing");
+        vals_r__ = context__.vals_r("a2_pr");
+        pos__ = 0U;
+        validate_non_negative_index("a2_pr", "N", N);
+        context__.validate_dims("initialization", "a2_pr", "vector_d", context__.to_vec(N));
+        vector_d a2_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            a2_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(a2_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable a2_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("beta2_pr")))
+            throw std::runtime_error("variable beta2_pr missing");
+        vals_r__ = context__.vals_r("beta2_pr");
+        pos__ = 0U;
+        validate_non_negative_index("beta2_pr", "N", N);
+        context__.validate_dims("initialization", "beta2_pr", "vector_d", context__.to_vec(N));
+        vector_d beta2_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            beta2_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(beta2_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable beta2_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("pi_pr")))
+            throw std::runtime_error("variable pi_pr missing");
+        vals_r__ = context__.vals_r("pi_pr");
+        pos__ = 0U;
+        validate_non_negative_index("pi_pr", "N", N);
+        context__.validate_dims("initialization", "pi_pr", "vector_d", context__.to_vec(N));
+        vector_d pi_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            pi_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(pi_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable pi_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("w_pr")))
+            throw std::runtime_error("variable w_pr missing");
+        vals_r__ = context__.vals_r("w_pr");
+        pos__ = 0U;
+        validate_non_negative_index("w_pr", "N", N);
+        context__.validate_dims("initialization", "w_pr", "vector_d", context__.to_vec(N));
+        vector_d w_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            w_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(w_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable w_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("lambda_pr")))
+            throw std::runtime_error("variable lambda_pr missing");
+        vals_r__ = context__.vals_r("lambda_pr");
+        pos__ = 0U;
+        validate_non_negative_index("lambda_pr", "N", N);
+        context__.validate_dims("initialization", "lambda_pr", "vector_d", context__.to_vec(N));
+        vector_d lambda_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            lambda_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(lambda_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable lambda_pr: ") + e.what());
+        }
+
+        params_r__ = writer__.data_r();
+        params_i__ = writer__.data_i();
+    }
+
+    void transform_inits(const stan::io::var_context& context,
+                         Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                         std::ostream* pstream__) const {
+      std::vector<double> params_r_vec;
+      std::vector<int> params_i_vec;
+      transform_inits(context, params_i_vec, params_r_vec, pstream__);
+      params_r.resize(params_r_vec.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r(i) = params_r_vec[i];
+    }
+
+
+    template <bool propto__, bool jacobian__, typename T__>
+    T__ log_prob(vector<T__>& params_r__,
+                 vector<int>& params_i__,
+                 std::ostream* pstream__ = 0) const {
+
+        T__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        T__ lp__(0.0);
+        stan::math::accumulator<T__> lp_accum__;
+
+        try {
+            // model parameters
+            stan::io::reader<T__> in__(params_r__,params_i__);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  mu_p;
+            (void) mu_p;  // dummy to suppress unused var warning
+            if (jacobian__)
+                mu_p = in__.vector_constrain(7,lp__);
+            else
+                mu_p = in__.vector_constrain(7);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  sigma;
+            (void) sigma;  // dummy to suppress unused var warning
+            if (jacobian__)
+                sigma = in__.vector_lb_constrain(0,7,lp__);
+            else
+                sigma = in__.vector_lb_constrain(0,7);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a1_pr;
+            (void) a1_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                a1_pr = in__.vector_constrain(N,lp__);
+            else
+                a1_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta1_pr;
+            (void) beta1_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                beta1_pr = in__.vector_constrain(N,lp__);
+            else
+                beta1_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a2_pr;
+            (void) a2_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                a2_pr = in__.vector_constrain(N,lp__);
+            else
+                a2_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta2_pr;
+            (void) beta2_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                beta2_pr = in__.vector_constrain(N,lp__);
+            else
+                beta2_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  pi_pr;
+            (void) pi_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                pi_pr = in__.vector_constrain(N,lp__);
+            else
+                pi_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  w_pr;
+            (void) w_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                w_pr = in__.vector_constrain(N,lp__);
+            else
+                w_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  lambda_pr;
+            (void) lambda_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                lambda_pr = in__.vector_constrain(N,lp__);
+            else
+                lambda_pr = in__.vector_constrain(N);
+
+
+            // transformed parameters
+            validate_non_negative_index("a1", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a1, DUMMY_VAR__);
+            stan::math::fill(a1,DUMMY_VAR__);
+            validate_non_negative_index("beta1", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta1, DUMMY_VAR__);
+            stan::math::fill(beta1,DUMMY_VAR__);
+            validate_non_negative_index("a2", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  a2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a2, DUMMY_VAR__);
+            stan::math::fill(a2,DUMMY_VAR__);
+            validate_non_negative_index("beta2", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  beta2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta2, DUMMY_VAR__);
+            stan::math::fill(beta2,DUMMY_VAR__);
+            validate_non_negative_index("pi", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  pi(static_cast<Eigen::VectorXd::Index>(N));
+            (void) pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(pi, DUMMY_VAR__);
+            stan::math::fill(pi,DUMMY_VAR__);
+            validate_non_negative_index("w", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  w(static_cast<Eigen::VectorXd::Index>(N));
+            (void) w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(w, DUMMY_VAR__);
+            stan::math::fill(w,DUMMY_VAR__);
+            validate_non_negative_index("lambda", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  lambda(static_cast<Eigen::VectorXd::Index>(N));
+            (void) lambda;  // dummy to suppress unused var warning
+
+            stan::math::initialize(lambda, DUMMY_VAR__);
+            stan::math::fill(lambda,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(a1,i,"a1",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(a1_pr,i,"a1_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta1,i,"beta1",1), exp((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta1_pr,i,"beta1_pr",1)))));
+                stan::math::assign(get_base1_lhs(a2,i,"a2",1), Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(a2_pr,i,"a2_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta2,i,"beta2",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta2_pr,i,"beta2_pr",1)))));
+                stan::math::assign(get_base1_lhs(pi,i,"pi",1), (Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(pi_pr,i,"pi_pr",1)))) * 5));
+                stan::math::assign(get_base1_lhs(w,i,"w",1), Phi_approx((get_base1(mu_p,6,"mu_p",1) + (get_base1(sigma,6,"sigma",1) * get_base1(w_pr,i,"w_pr",1)))));
+                stan::math::assign(get_base1_lhs(lambda,i,"lambda",1), Phi_approx((get_base1(mu_p,7,"mu_p",1) + (get_base1(sigma,7,"sigma",1) * get_base1(lambda_pr,i,"lambda_pr",1)))));
+            }
+
+            // validate transformed parameters
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(a1(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: a1" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(beta1(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: beta1" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(a2(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: a2" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(beta2(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: beta2" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(pi(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: pi" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(w(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: w" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(lambda(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: lambda" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+
+            const char* function__ = "validate transformed params";
+            (void) function__;  // dummy to suppress unused var warning
+            check_greater_or_equal(function__,"a1",a1,0);
+            check_less_or_equal(function__,"a1",a1,1);
+            check_greater_or_equal(function__,"beta1",beta1,0);
+            check_greater_or_equal(function__,"a2",a2,0);
+            check_less_or_equal(function__,"a2",a2,1);
+            check_greater_or_equal(function__,"beta2",beta2,0);
+            check_greater_or_equal(function__,"pi",pi,0);
+            check_less_or_equal(function__,"pi",pi,5);
+            check_greater_or_equal(function__,"w",w,0);
+            check_less_or_equal(function__,"w",w,1);
+            check_greater_or_equal(function__,"lambda",lambda,0);
+            check_less_or_equal(function__,"lambda",lambda,1);
+
+            // model body
+
+            lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
+            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(a1_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(beta1_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(a2_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(beta2_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(pi_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(w_pr, 0, 1));
+            lp_accum__.add(normal_log<propto__>(lambda_pr, 0, 1));
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("v_mb", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_mb(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_mb;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mb, DUMMY_VAR__);
+                stan::math::fill(v_mb,DUMMY_VAR__);
+                validate_non_negative_index("v_mf", "6", 6);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_mf(static_cast<Eigen::VectorXd::Index>(6));
+                (void) v_mf;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mf, DUMMY_VAR__);
+                stan::math::fill(v_mf,DUMMY_VAR__);
+                validate_non_negative_index("v_hybrid", "2", 2);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  v_hybrid(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_hybrid;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_hybrid, DUMMY_VAR__);
+                stan::math::fill(v_hybrid,DUMMY_VAR__);
+                T__ level1_prob_choice2;
+                (void) level1_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level1_prob_choice2, DUMMY_VAR__);
+                stan::math::fill(level1_prob_choice2,DUMMY_VAR__);
+                T__ level2_prob_choice2;
+                (void) level2_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level2_prob_choice2, DUMMY_VAR__);
+                stan::math::fill(level2_prob_choice2,DUMMY_VAR__);
+                int level1_choice_01(0);
+                (void) level1_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level1_choice_01, std::numeric_limits<int>::min());
+                int level2_choice_01(0);
+                (void) level2_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level2_choice_01, std::numeric_limits<int>::min());
+
+
+                stan::math::assign(v_mb, rep_vector(0.0,2));
+                stan::math::assign(v_mf, rep_vector(0.0,6));
+                stan::math::assign(v_hybrid, rep_vector(0.0,2));
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(v_mb,1,"v_mb",1), ((trans_prob * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + ((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mb,2,"v_mb",1), (((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + (trans_prob * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,1,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,1,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,1,"v_mf",1))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,2,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,2,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,2,"v_mf",1))));
+                    stan::math::assign(level1_choice_01, (get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2) - 1));
+                    if (as_bool(logical_eq(t,1))) {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1)))));
+                    } else {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit(((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1))) + (get_base1(pi,i,"pi",1) * ((2 * get_base1(get_base1(level1_choice,i,"level1_choice",1),(t - 1),"level1_choice",2)) - 3)))));
+                    }
+                    lp_accum__.add(bernoulli_log<propto__>(level1_choice_01, level1_prob_choice2));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a1,i,"a1",1) * (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) - get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1)))));
+                    stan::math::assign(level2_choice_01, (1 - modulus(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2)));
+                    if (as_bool(logical_gt(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2))) {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,6,"v_mf",1) - get_base1(v_mf,5,"v_mf",1)))));
+                    } else {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,4,"v_mf",1) - get_base1(v_mf,3,"v_mf",1)))));
+                    }
+                    lp_accum__.add(bernoulli_log<propto__>(level2_choice_01, level2_prob_choice2));
+                    stan::math::assign(get_base1_lhs(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1), (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) + (get_base1(a2,i,"a2",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + ((get_base1(lambda,i,"lambda",1) * get_base1(a1,i,"a1",1)) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                }
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+
+        lp_accum__.add(lp__);
+        return lp_accum__.sum();
+
+    } // log_prob()
+
+    template <bool propto, bool jacobian, typename T_>
+    T_ log_prob(Eigen::Matrix<T_,Eigen::Dynamic,1>& params_r,
+               std::ostream* pstream = 0) const {
+      std::vector<T_> vec_params_r;
+      vec_params_r.reserve(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        vec_params_r.push_back(params_r(i));
+      std::vector<int> vec_params_i;
+      return log_prob<propto,jacobian,T_>(vec_params_r, vec_params_i, pstream);
+    }
+
+
+    void get_param_names(std::vector<std::string>& names__) const {
+        names__.resize(0);
+        names__.push_back("mu_p");
+        names__.push_back("sigma");
+        names__.push_back("a1_pr");
+        names__.push_back("beta1_pr");
+        names__.push_back("a2_pr");
+        names__.push_back("beta2_pr");
+        names__.push_back("pi_pr");
+        names__.push_back("w_pr");
+        names__.push_back("lambda_pr");
+        names__.push_back("a1");
+        names__.push_back("beta1");
+        names__.push_back("a2");
+        names__.push_back("beta2");
+        names__.push_back("pi");
+        names__.push_back("w");
+        names__.push_back("lambda");
+        names__.push_back("mu_a1");
+        names__.push_back("mu_beta1");
+        names__.push_back("mu_a2");
+        names__.push_back("mu_beta2");
+        names__.push_back("mu_pi");
+        names__.push_back("mu_w");
+        names__.push_back("mu_lambda");
+        names__.push_back("log_lik");
+        names__.push_back("y_pred_step1");
+        names__.push_back("y_pred_step2");
+    }
+
+
+    void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
+        dimss__.resize(0);
+        std::vector<size_t> dims__;
+        dims__.resize(0);
+        dims__.push_back(7);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(7);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng__,
+                     std::vector<double>& params_r__,
+                     std::vector<int>& params_i__,
+                     std::vector<double>& vars__,
+                     bool include_tparams__ = true,
+                     bool include_gqs__ = true,
+                     std::ostream* pstream__ = 0) const {
+        vars__.resize(0);
+        stan::io::reader<double> in__(params_r__,params_i__);
+        static const char* function__ = "model_ts_par7_namespace::write_array";
+        (void) function__;  // dummy to suppress unused var warning
+        // read-transform, write parameters
+        vector_d mu_p = in__.vector_constrain(7);
+        vector_d sigma = in__.vector_lb_constrain(0,7);
+        vector_d a1_pr = in__.vector_constrain(N);
+        vector_d beta1_pr = in__.vector_constrain(N);
+        vector_d a2_pr = in__.vector_constrain(N);
+        vector_d beta2_pr = in__.vector_constrain(N);
+        vector_d pi_pr = in__.vector_constrain(N);
+        vector_d w_pr = in__.vector_constrain(N);
+        vector_d lambda_pr = in__.vector_constrain(N);
+            for (int k_0__ = 0; k_0__ < 7; ++k_0__) {
+            vars__.push_back(mu_p[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < 7; ++k_0__) {
+            vars__.push_back(sigma[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a1_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta1_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a2_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta2_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(pi_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(w_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(lambda_pr[k_0__]);
+            }
+
+        if (!include_tparams__) return;
+        // declare and define transformed parameters
+        double lp__ = 0.0;
+        (void) lp__;  // dummy to suppress unused var warning
+        stan::math::accumulator<double> lp_accum__;
+
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        try {
+            validate_non_negative_index("a1", "N", N);
+            vector_d a1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(a1,DUMMY_VAR__);
+            validate_non_negative_index("beta1", "N", N);
+            vector_d beta1(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(beta1,DUMMY_VAR__);
+            validate_non_negative_index("a2", "N", N);
+            vector_d a2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) a2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(a2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(a2,DUMMY_VAR__);
+            validate_non_negative_index("beta2", "N", N);
+            vector_d beta2(static_cast<Eigen::VectorXd::Index>(N));
+            (void) beta2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(beta2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(beta2,DUMMY_VAR__);
+            validate_non_negative_index("pi", "N", N);
+            vector_d pi(static_cast<Eigen::VectorXd::Index>(N));
+            (void) pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(pi, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(pi,DUMMY_VAR__);
+            validate_non_negative_index("w", "N", N);
+            vector_d w(static_cast<Eigen::VectorXd::Index>(N));
+            (void) w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(w, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(w,DUMMY_VAR__);
+            validate_non_negative_index("lambda", "N", N);
+            vector_d lambda(static_cast<Eigen::VectorXd::Index>(N));
+            (void) lambda;  // dummy to suppress unused var warning
+
+            stan::math::initialize(lambda, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(lambda,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(a1,i,"a1",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(a1_pr,i,"a1_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta1,i,"beta1",1), exp((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta1_pr,i,"beta1_pr",1)))));
+                stan::math::assign(get_base1_lhs(a2,i,"a2",1), Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(a2_pr,i,"a2_pr",1)))));
+                stan::math::assign(get_base1_lhs(beta2,i,"beta2",1), exp((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta2_pr,i,"beta2_pr",1)))));
+                stan::math::assign(get_base1_lhs(pi,i,"pi",1), (Phi_approx((get_base1(mu_p,5,"mu_p",1) + (get_base1(sigma,5,"sigma",1) * get_base1(pi_pr,i,"pi_pr",1)))) * 5));
+                stan::math::assign(get_base1_lhs(w,i,"w",1), Phi_approx((get_base1(mu_p,6,"mu_p",1) + (get_base1(sigma,6,"sigma",1) * get_base1(w_pr,i,"w_pr",1)))));
+                stan::math::assign(get_base1_lhs(lambda,i,"lambda",1), Phi_approx((get_base1(mu_p,7,"mu_p",1) + (get_base1(sigma,7,"sigma",1) * get_base1(lambda_pr,i,"lambda_pr",1)))));
+            }
+
+            // validate transformed parameters
+            check_greater_or_equal(function__,"a1",a1,0);
+            check_less_or_equal(function__,"a1",a1,1);
+            check_greater_or_equal(function__,"beta1",beta1,0);
+            check_greater_or_equal(function__,"a2",a2,0);
+            check_less_or_equal(function__,"a2",a2,1);
+            check_greater_or_equal(function__,"beta2",beta2,0);
+            check_greater_or_equal(function__,"pi",pi,0);
+            check_less_or_equal(function__,"pi",pi,5);
+            check_greater_or_equal(function__,"w",w,0);
+            check_less_or_equal(function__,"w",w,1);
+            check_greater_or_equal(function__,"lambda",lambda,0);
+            check_less_or_equal(function__,"lambda",lambda,1);
+
+            // write transformed parameters
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a1[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta1[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(a2[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(beta2[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(pi[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(w[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(lambda[k_0__]);
+            }
+
+            if (!include_gqs__) return;
+            // declare and define generated quantities
+            double mu_a1(0.0);
+            (void) mu_a1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_a1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_a1,DUMMY_VAR__);
+            double mu_beta1(0.0);
+            (void) mu_beta1;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_beta1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_beta1,DUMMY_VAR__);
+            double mu_a2(0.0);
+            (void) mu_a2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_a2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_a2,DUMMY_VAR__);
+            double mu_beta2(0.0);
+            (void) mu_beta2;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_beta2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_beta2,DUMMY_VAR__);
+            double mu_pi(0.0);
+            (void) mu_pi;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_pi, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_pi,DUMMY_VAR__);
+            double mu_w(0.0);
+            (void) mu_w;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_w, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_w,DUMMY_VAR__);
+            double mu_lambda(0.0);
+            (void) mu_lambda;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_lambda, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_lambda,DUMMY_VAR__);
+            validate_non_negative_index("log_lik", "N", N);
+            vector<double> log_lik(N, 0.0);
+            stan::math::initialize(log_lik, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(log_lik,DUMMY_VAR__);
+            validate_non_negative_index("y_pred_step1", "N", N);
+            validate_non_negative_index("y_pred_step1", "T", T);
+            vector<vector<double> > y_pred_step1(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred_step1, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred_step1,DUMMY_VAR__);
+            validate_non_negative_index("y_pred_step2", "N", N);
+            validate_non_negative_index("y_pred_step2", "T", T);
+            vector<vector<double> > y_pred_step2(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred_step2, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred_step2,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                for (int t = 1; t <= T; ++t) {
+
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step1,i,"y_pred_step1",1),t,"y_pred_step1",2), -(1));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step2,i,"y_pred_step2",1),t,"y_pred_step2",2), -(1));
+                }
+            }
+            stan::math::assign(mu_a1, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
+            stan::math::assign(mu_beta1, exp(get_base1(mu_p,2,"mu_p",1)));
+            stan::math::assign(mu_a2, Phi_approx(get_base1(mu_p,3,"mu_p",1)));
+            stan::math::assign(mu_beta2, exp(get_base1(mu_p,4,"mu_p",1)));
+            stan::math::assign(mu_pi, (Phi_approx(get_base1(mu_p,5,"mu_p",1)) * 5));
+            stan::math::assign(mu_w, Phi_approx(get_base1(mu_p,6,"mu_p",1)));
+            stan::math::assign(mu_lambda, Phi_approx(get_base1(mu_p,7,"mu_p",1)));
+
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("v_mb", "2", 2);
+                vector_d v_mb(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_mb;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mb, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_mb,DUMMY_VAR__);
+                validate_non_negative_index("v_mf", "6", 6);
+                vector_d v_mf(static_cast<Eigen::VectorXd::Index>(6));
+                (void) v_mf;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_mf, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_mf,DUMMY_VAR__);
+                validate_non_negative_index("v_hybrid", "2", 2);
+                vector_d v_hybrid(static_cast<Eigen::VectorXd::Index>(2));
+                (void) v_hybrid;  // dummy to suppress unused var warning
+
+                stan::math::initialize(v_hybrid, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(v_hybrid,DUMMY_VAR__);
+                double level1_prob_choice2(0.0);
+                (void) level1_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level1_prob_choice2, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(level1_prob_choice2,DUMMY_VAR__);
+                double level2_prob_choice2(0.0);
+                (void) level2_prob_choice2;  // dummy to suppress unused var warning
+
+                stan::math::initialize(level2_prob_choice2, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(level2_prob_choice2,DUMMY_VAR__);
+                int level1_choice_01(0);
+                (void) level1_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level1_choice_01, std::numeric_limits<int>::min());
+                int level2_choice_01(0);
+                (void) level2_choice_01;  // dummy to suppress unused var warning
+
+                stan::math::fill(level2_choice_01, std::numeric_limits<int>::min());
+
+
+                stan::math::assign(v_mb, rep_vector(0.0,2));
+                stan::math::assign(v_mf, rep_vector(0.0,6));
+                stan::math::assign(v_hybrid, rep_vector(0.0,2));
+                stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), 0);
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(v_mb,1,"v_mb",1), ((trans_prob * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + ((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mb,2,"v_mb",1), (((1 - trans_prob) * stan::math::fmax(get_base1(v_mf,3,"v_mf",1),get_base1(v_mf,4,"v_mf",1))) + (trans_prob * stan::math::fmax(get_base1(v_mf,5,"v_mf",1),get_base1(v_mf,6,"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,1,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,1,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,1,"v_mf",1))));
+                    stan::math::assign(get_base1_lhs(v_hybrid,2,"v_hybrid",1), ((get_base1(w,i,"w",1) * get_base1(v_mb,2,"v_mb",1)) + ((1 - get_base1(w,i,"w",1)) * get_base1(v_mf,2,"v_mf",1))));
+                    stan::math::assign(level1_choice_01, (get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2) - 1));
+                    if (as_bool(logical_eq(t,1))) {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1)))));
+                    } else {
+
+                        stan::math::assign(level1_prob_choice2, inv_logit(((get_base1(beta1,i,"beta1",1) * (get_base1(v_hybrid,2,"v_hybrid",1) - get_base1(v_hybrid,1,"v_hybrid",1))) + (get_base1(pi,i,"pi",1) * ((2 * get_base1(get_base1(level1_choice,i,"level1_choice",1),(t - 1),"level1_choice",2)) - 3)))));
+                    }
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + bernoulli_log(level1_choice_01,level1_prob_choice2)));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + (get_base1(a1,i,"a1",1) * (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) - get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1)))));
+                    stan::math::assign(level2_choice_01, (1 - modulus(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2)));
+                    if (as_bool(logical_gt(get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2),2))) {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,6,"v_mf",1) - get_base1(v_mf,5,"v_mf",1)))));
+                    } else {
+
+                        stan::math::assign(level2_prob_choice2, inv_logit((get_base1(beta2,i,"beta2",1) * (get_base1(v_mf,4,"v_mf",1) - get_base1(v_mf,3,"v_mf",1)))));
+                    }
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + bernoulli_log(level2_choice_01,level2_prob_choice2)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step1,i,"y_pred_step1",1),t,"y_pred_step1",2), bernoulli_rng(level1_prob_choice2, base_rng__));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred_step2,i,"y_pred_step2",1),t,"y_pred_step2",2), bernoulli_rng(level2_prob_choice2, base_rng__));
+                    stan::math::assign(get_base1_lhs(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1), (get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1) + (get_base1(a2,i,"a2",1) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                    stan::math::assign(get_base1_lhs(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1), (get_base1(v_mf,get_base1(get_base1(level1_choice,i,"level1_choice",1),t,"level1_choice",2),"v_mf",1) + ((get_base1(lambda,i,"lambda",1) * get_base1(a1,i,"a1",1)) * (get_base1(get_base1(reward,i,"reward",1),t,"reward",2) - get_base1(v_mf,(2 + get_base1(get_base1(level2_choice,i,"level2_choice",1),t,"level2_choice",2)),"v_mf",1)))));
+                }
+                }
+            }
+
+            // validate generated quantities
+            check_greater_or_equal(function__,"mu_a1",mu_a1,0);
+            check_less_or_equal(function__,"mu_a1",mu_a1,1);
+            check_greater_or_equal(function__,"mu_beta1",mu_beta1,0);
+            check_greater_or_equal(function__,"mu_a2",mu_a2,0);
+            check_less_or_equal(function__,"mu_a2",mu_a2,1);
+            check_greater_or_equal(function__,"mu_beta2",mu_beta2,0);
+            check_greater_or_equal(function__,"mu_pi",mu_pi,0);
+            check_less_or_equal(function__,"mu_pi",mu_pi,5);
+            check_greater_or_equal(function__,"mu_w",mu_w,0);
+            check_less_or_equal(function__,"mu_w",mu_w,1);
+            check_greater_or_equal(function__,"mu_lambda",mu_lambda,0);
+            check_less_or_equal(function__,"mu_lambda",mu_lambda,1);
+
+            // write generated quantities
+        vars__.push_back(mu_a1);
+        vars__.push_back(mu_beta1);
+        vars__.push_back(mu_a2);
+        vars__.push_back(mu_beta2);
+        vars__.push_back(mu_pi);
+        vars__.push_back(mu_w);
+        vars__.push_back(mu_lambda);
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(log_lik[k_0__]);
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred_step1[k_0__][k_1__]);
+                }
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred_step2[k_0__][k_1__]);
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& vars,
+                     bool include_tparams = true,
+                     bool include_gqs = true,
+                     std::ostream* pstream = 0) const {
+      std::vector<double> params_r_vec(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r_vec[i] = params_r(i);
+      std::vector<double> vars_vec;
+      std::vector<int> params_i_vec;
+      write_array(base_rng,params_r_vec,params_i_vec,vars_vec,include_tparams,include_gqs,pstream);
+      vars.resize(vars_vec.size());
+      for (int i = 0; i < vars.size(); ++i)
+        vars(i) = vars_vec[i];
+    }
+
+    static std::string model_name() {
+        return "model_ts_par7";
+    }
+
+
+    void constrained_param_names(std::vector<std::string>& param_names__,
+                                 bool include_tparams__ = true,
+                                 bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 7; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 7; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lambda_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lambda" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_pi";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_w";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_lambda";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step1" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step2" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+
+    void unconstrained_param_names(std::vector<std::string>& param_names__,
+                                   bool include_tparams__ = true,
+                                   bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 7; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 7; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lambda_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta1" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "a2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "beta2" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "pi" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "w" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lambda" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta1";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_a2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_beta2";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_pi";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_w";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_lambda";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step1" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred_step2" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }

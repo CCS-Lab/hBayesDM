@@ -36,12 +36,12 @@ parameters {
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] eta;
-  vector<lower=0, upper=1>[N] alpha;
+  vector[N] alpha;
   vector<lower=0, upper=10>[N] beta;
 
   for (i in 1:N) {
     eta[i]    = Phi_approx(mu_p[1] + sigma[1] * eta_pr[i]);
-    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_pr[i]);
+    alpha[i]  = mu_p[2] + sigma[2] * alpha_pr[i];
     beta[i]   = Phi_approx(mu_p[3] + sigma[3] * beta_pr[i]) * 10;
   }
 }
@@ -89,7 +89,7 @@ model {
 generated quantities {
   // For group level parameters
   real<lower=0, upper=1> mu_eta;
-  real<lower=0, upper=1> mu_alpha;
+  real mu_alpha;
   real<lower=0, upper=10> mu_beta;
 
   // For log likelihood calculation
@@ -123,7 +123,7 @@ generated quantities {
   }
 
   mu_eta    = Phi_approx(mu_p[1]);
-  mu_alpha  = Phi_approx(mu_p[2]);
+  mu_alpha  = mu_p[2];
   mu_beta   = Phi_approx(mu_p[3]) * 10;
 
   { // local section, this saves time and space

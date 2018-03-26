@@ -1,13 +1,13 @@
-#' Probabilistic Reversal Learning Task, multiple blocks per subject
+#' Two-Step Task (Daw et al., 2011, Neuron)
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "Apun" (punishment learning rate), "Arew" (reward learning rate), and "beta" (inverse temperature).
-#' Contributor (for model-based regressors): Jaeyeong Yang (https://ccs-lab.github.io/team/jaeyeong-yang/) and Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
+#' Hierarchical Bayesian Modeling of the Two-Step Task using the following 4 parameters: with the following parameters: "a" (learnign rate for both stages 1 and 2), "beta" (inverse temperature for both stages 1 and 2), "pi" (perseverance), and "w" (model-based weight).\cr\cr
+#' Contributor: Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 #'
 #' \strong{MODEL:}
-#' Reward-Punishment Model (Ouden et al., 2013, Neuron)
+#' Hybrid model (Daw et al., 2011; Wunderlich et al, 2012) with four parameters
 #'
-#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "outcome", and "block". See \bold{Details} below for more information.
+#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "level1_choice", "level2_choice", "reward". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
 #' @param nwarmup Number of iterations used for warm-up only.
 #' @param nchain Number of chains to be run.
@@ -22,10 +22,11 @@
 #' @param adapt_delta Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.
 #' @param max_treedepth Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.
+#' @param trans_prob Common state transition probability from Stage (Level) 1 to Stage 2. Defaults to 0.7.
 #'
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"prl_rp_multipleB"}).}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"ts_par4"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -45,16 +46,18 @@
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
 #' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
-#' represent variables. For the Probabilistic Reversal Learning Task, there should be three columns of data
-#' with the labels "subjID", "choice", and "outcome". It is not necessary for the columns to be in this particular order,
-#' however it is necessary that they be labelled correctly and contain the information below:
+#' represent variables. For the Two-Step Task, there should be four columns of data  with the labels
+#' "subjID", "level1_choice", "level2_choice", "reward". It is not necessary for the columns to be in this
+#' particular order, however it is necessary that they be labelled correctly and contain the information below:
 #' \describe{
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"choice"}}{An integer value representing the chosen choice option within the given trial (e.g., 1 or 2 in PRL).}
-#'  \item{\code{"outcome"}}{A 1 or -1 for outcome within each given trial (1 = reward, -1 = loss).}
-#'  \item{\code{"block"}}{An integer value representing the block number of the current trial (e.g., 1 1 1 2 2 2).}
+#'  \item{\code{"level1_choice"}}{Choice of the level 1. 1: stimulus 1, 2: stimulus 2}
+#'  \item{\code{"level2_choice"}}{Choice of the level 2. 1: stimulus 3, 2: stimulus 4, 3: stimulus 5, 4: stimulus 6.}
+#'  \item{\code{"reward"}}{Reward of the level 2 (0 or 1)}
 #' }
-#' \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
+#' \strong{*} Note: In our notation, choosing stimulus 1 in Level 1 leads to stimulus 3 & 4 in Level 2 with a common (0.7 by default) transition.
+#' Choosing stimulus 3 in Level 1 leads to stimulus 5 & 6 in Level 2 with a common (0.7 by default) transition.
+#' The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 #' names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
 #' there is no need to remove other miscellaneous data columns.
 #'
@@ -83,11 +86,14 @@
 #' @export
 #'
 #' @references
+#' Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011). Model-Based Influences on Humans'
+#' Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
+#'
+#' Wunderlich, K., Smittenaar, P., & Dolan, R. J. (2012). Dopamine enhances model-based over model-free choice behavior.
+#' Neuron, 75(3), 418-424.
+#'
 #' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 #' Journal of Machine Learning Research, 15(1), 1593-1623.
-#'
-#' Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable
-#' Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
 #'
 #' @seealso
 #' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
@@ -95,7 +101,7 @@
 #' @examples
 #' \dontrun{
 #' # Run the model and store results in "output"
-#' output <- prl_rp_multipleB(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+#' output <- ts_par4(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
 #'
 #' # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
 #' plot(output, type = 'trace')
@@ -108,74 +114,74 @@
 #'
 #' # Show the WAIC and LOOIC model fit estimates
 #' printFit(output)
+#'
+#'
 #' }
 
-prl_rp_multipleB <- function(data           = "choice",
-                             niter          = 3000,
-                             nwarmup        = 1000,
-                             nchain         = 1,
-                             ncore          = 1,
-                             nthin          = 1,
-                             inits          = "random",
-                             indPars        = "mean",
-                             saveDir        = NULL,
-                             modelRegressor = FALSE,
-                             vb             = FALSE,
-                             inc_postpred   = FALSE,
-                             adapt_delta    = 0.95,
-                             stepsize       = 1,
-                             max_treedepth  = 10) {
+ts_par4 <- function(data           = "choose",
+                     niter          = 4000,
+                     nwarmup        = 1000,
+                     nchain         = 4,
+                     ncore          = 1,
+                     nthin          = 1,
+                     inits          = "random",
+                     indPars        = "mean",
+                     saveDir        = NULL,
+                     modelRegressor = FALSE,
+                     vb             = FALSE,
+                     inc_postpred   = FALSE,
+                     adapt_delta    = 0.95,
+                     stepsize       = 1,
+                     max_treedepth  = 10,
+                     trans_prob     = 0.7) {
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    cat("************************************\n")
-    cat("** Extract model-based regressors **\n")
-    cat("************************************\n")
+    stop("** Model-based regressors are not available for this model **\n")
+  } else {
+    modelPath <- system.file("stan", "ts_par4.stan", package="hBayesDM")
   }
 
   # To see how long computations take
   startTime <- Sys.time()
 
   # For using example data
-  if (data == "example") {
-    data <- system.file("extdata", "prl_multipleB_exampleData.txt", package = "hBayesDM")
-  } else if (data == "choose") {
+  if (data=="example") {
+    data <- system.file("extdata", "ts_exampleData.txt", package = "hBayesDM")
+  } else if (data=="choose") {
     data <- file.choose()
   }
 
   # Load data
   if (file.exists(data)) {
-    rawdata <- read.table(data, header = T)
+    rawdata <- read.table( data, header = T, sep="\t")
   } else {
     stop("** The data file does not exist. Please check it again. **\n  e.g., data = '/MyFolder/SubFolder/dataFile.txt', ... **\n")
   }
-
   # Remove rows containing NAs
   NA_rows_all = which(is.na(rawdata), arr.ind = T)  # rows with NAs
   NA_rows = unique(NA_rows_all[, "row"])
   if (length(NA_rows) > 0) {
-    rawdata = rawdata[-NA_rows,]
-    cat("The number of rows with NAs = ", length(NA_rows), ". They are removed prior to modeling the data. \n", sep = "")
+    rawdata = rawdata[-NA_rows, ]
+    cat("The number of rows with NAs=", length(NA_rows), ". They are removed prior to modeling the data. \n", sep="")
   }
 
   # Individual Subjects
-  subjList <- unique(rawdata[,"subjID"])  # list of subjects x blocks
-  numSubjs <- length(subjList)  # number of subjects
+  subjList <- unique(rawdata[,"subjID"]) # list of subjects x blocks
+  numSubjs <- length(subjList)           # number of subjects
 
   # Specify the number of parameters and parameters of interest
-  numPars <- 3
-  POI     <- c("mu_Apun", "mu_Arew", "mu_beta",
+  numPars <- 4
+  POI     <- c("mu_a", "mu_beta", "mu_pi", "mu_w",
                "sigma",
-               "Apun", "Arew", "beta",
+               "a", "beta", "pi", "w",
                "log_lik")
 
-  if (modelRegressor)
-    POI <- c(POI, "mr_ev_c", "mr_ev_nc", "mr_pe")
+  if (inc_postpred) {
+    POI <- c(POI, "y_pred_step1", "y_pred_step2")
+  }
 
-  if (inc_postpred)
-    POI <- c(POI, "y_pred")
-
-  modelName <- "prl_rp_multipleB"
+  modelName <- "ts_par4"
 
   # Information for user
   cat("\nModel name = ", modelName, "\n")
@@ -195,85 +201,73 @@ prl_rp_multipleB <- function(data           = "choice",
   # THE DATA.  ###################################################################
   ################################################################################
 
-  maxB  <- length(unique(rawdata$block))  # maximum number of block
-  B     <- NULL                           # number of blocks for each subject
-  Tsubj <- array(0, c(numSubjs, maxB))    # number of trials for each subject, in each block
+  Tsubj <- as.vector( rep( 0, numSubjs ) ) # number of trials for each subject
 
-  for (i in 1:numSubjs)  {
-    curSubj       <- subjList[i]
-    tmpDat        <- subset(rawdata, rawdata$subjID == curSubj)
-    tmpAllBlocks  <- unique(tmpDat$block) # temp. subject's all blocks
-    B[i]          <- length(tmpAllBlocks)
-
-    for (bIdx in 1:B[i])
-      Tsubj[i, bIdx] = sum(tmpDat$block == tmpAllBlocks[bIdx])
+  for ( sIdx in 1:numSubjs )  {
+    curSubj     <- subjList[ sIdx ]
+    Tsubj[sIdx] <- sum( rawdata$subjID == curSubj )  # Tsubj[N]
   }
 
-  # Setting maxTrials
   maxTrials <- max(Tsubj)
 
   # Information for user continued
-  cat(" # of (max) blocks per subject = ", maxB,      "\n\n")
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
 
-  choice  <- array(-1, c(numSubjs, maxB, maxTrials))
-  outcome <- array(0, c(numSubjs, maxB, maxTrials))
+  # for multiple subjects
+  level1_choice    <- array(1, c(numSubjs, maxTrials) )
+  level2_choice    <- array(1, c(numSubjs, maxTrials) )
+  reward    <- array(0, c(numSubjs, maxTrials) )
 
   for (i in 1:numSubjs) {
-    curSubj       <- subjList[i]
-    tmpDat        <- subset(rawdata, rawdata$subjID == curSubj)
-    tmpAllBlocks  <- unique(tmpDat$block) # temp. subject's all blocks
-
-    for (bIdx in 1:B[i]) {
-      tmp       <- subset(tmpDat, tmpDat$block == tmpAllBlocks[bIdx])
-      useTrials <- Tsubj[i, bIdx]
-
-      choice[i, bIdx, 1:useTrials]  <- tmp$choice
-      outcome[i, bIdx, 1:useTrials] <- sign(tmp$outcome)  # use sign
-    }
+    curSubj      <- subjList[i]
+    useTrials    <- Tsubj[i]
+    tmp          <- subset(rawdata, rawdata$subjID == curSubj)
+    level1_choice[i, 1:useTrials]    <- tmp[1:useTrials, "level1_choice"]
+    level2_choice[i, 1:useTrials]    <- tmp[1:useTrials, "level2_choice"]
+    reward[i, 1:useTrials]    <- tmp[1:useTrials, "reward"]
   }
 
   dataList <- list(
     N       = numSubjs,
     T       = maxTrials,
-    maxB    = maxB,
-    B       = B,
     Tsubj   = Tsubj,
-    choice  = choice,
-    outcome = outcome,
-    numPars = numPars
-)
+    numPars = numPars,
+    level1_choice    = level1_choice,
+    level2_choice    = level2_choice,
+    reward    = reward,
+    trans_prob = trans_prob
+  )
 
   # inits
-  if (inits[1] == "random") {
-    genInitList <- "random"
-  } else {
+  if (inits[1] != "random") {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(0.1, 0.1, 1.0)
+      inits_fixed <- c(0.5, 1.0,  1.0, 0.5)  # "a", "beta", "pi", "w"
     } else {
-      if (length(inits) == numPars)
+      if (length(inits)==numPars) {
         inits_fixed <- inits
-      else
+      } else {
         stop("Check your inital values!")
+      }
     }
-
     genInitList <- function() {
       list(
-        mu_p    = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 10)),
-        sigma   = c(1.0, 1.0, 1.0),
-        Apun_pr = rep(qnorm(inits_fixed[1]), numSubjs),
-        Arew_pr = rep(qnorm(inits_fixed[2]), numSubjs),
-        beta_pr = rep(qnorm(inits_fixed[3] / 10), numSubjs)
-      )
+        mu_p      = c(qnorm(inits_fixed[1]), log(inits_fixed[2]), qnorm(inits_fixed[3]/5), qnorm(inits_fixed[4])),
+        sigma     = c(1.0, 1.0, 1.0, 1.0),
+        a_pr     = rep(qnorm(inits_fixed[1]), numSubjs),
+        beta_pr  = rep(log(inits_fixed[2]), numSubjs),
+        pi_pr     = rep(qnorm(inits_fixed[3]/5), numSubjs),
+        w_pr      = rep(qnorm(inits_fixed[4]), numSubjs)
+        )
     }
+  } else {
+    genInitList <- "random"
   }
-
+  rstan::rstan_options(auto_write = TRUE)
   if (ncore > 1) {
     numCores <- parallel::detectCores()
-
     if (numCores < ncore) {
       options(mc.cores = numCores)
-      warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
+      warning("Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.")
     } else {
       options(mc.cores = ncore)
     }
@@ -286,75 +280,70 @@ prl_rp_multipleB <- function(data           = "choice",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m <- stanmodels$prl_rp_multipleB
-
+  m = stanmodels$ts_par4
   if (vb) {   # if variational Bayesian
-    fit <- rstan::vb(m,
-                     data   = dataList,
-                     pars   = POI,
-                     init   = genInitList)
+    fit = rstan::vb(m,
+                    data   = dataList,
+                    pars   = POI,
+                    init   = genInitList)
   } else {
-    fit <- rstan::sampling(m,
-                           data    = dataList,
-                           pars    = POI,
-                           warmup  = nwarmup,
-                           init    = genInitList,
-                           iter    = niter,
-                           chains  = nchain,
-                           thin    = nthin,
-                           control = list(adapt_delta   = adapt_delta,
-                                          max_treedepth = max_treedepth,
-                                          stepsize      = stepsize))
+    fit = rstan::sampling(m,
+                          data   = dataList,
+                          pars   = POI,
+                          warmup = nwarmup,
+                          init   = genInitList,
+                          iter   = niter,
+                          chains = nchain,
+                          thin   = nthin,
+                          control = list(adapt_delta   = adapt_delta,
+                                         max_treedepth = max_treedepth,
+                                         stepsize      = stepsize) )
   }
-  ## Extract parameters
-  parVals <- rstan::extract(fit, permuted = T)
-  if (inc_postpred)
-    parVals$y_pred[parVals$y_pred == -1] <- NA
+  # Extract the Stan fit object
+  parVals <- rstan::extract(fit, permuted=T)
+  if (inc_postpred) {
+    parVals$y_pred_step1[parVals$y_pred_step1==-1] <- NA
+    parVals$y_pred_step2[parVals$y_pred_step2==-1] <- NA
+  }
 
-  Apun <- parVals$Apun
-  Arew <- parVals$Arew
-  beta <- parVals$beta
+  a     <- parVals$a
+  beta  <- parVals$beta
+  pi     <- parVals$pi
+  w      <- parVals$w
 
   # Individual parameters (e.g., individual posterior means)
-  measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
 
   for (i in 1:numSubjs) {
-    allIndPars[i,] <- c(measureIndPars(Apun[, i]),
-                        measureIndPars(Arew[, i]),
-                        measureIndPars(beta[, i]))
+    if (indPars=="mean") {
+      allIndPars[i, ] <- c( mean(a[, i]),
+                            mean(beta[, i]),
+                            mean(pi[, i]),
+                            mean(w[, i]) )
+    } else if (indPars=="median") {
+      allIndPars[i, ] <- c( median(a[, i]),
+                            median(beta[, i]),
+                            median(pi[, i]),
+                            median(w[, i]) )
+    } else if (indPars=="mode") {
+      allIndPars[i, ] <- c( estimate_mode(a[, i]),
+                            estimate_mode(beta[, i]),
+                            estimate_mode(pi[, i]),
+                            estimate_mode(w[, i]) )
+    }
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
-  colnames(allIndPars) <- c("Apun",
-                            "Arew",
+  colnames(allIndPars) <- c("a",
                             "beta",
+                            "pi",
+                            "w",
                             "subjID")
 
   # Wrap up data into a list
-  modelData                 <- list()
-  modelData$model           <- modelName
-  modelData$allIndPars      <- allIndPars
-  modelData$parVals         <- parVals
-  modelData$fit             <- fit
-  modelData$rawdata         <- rawdata
-  modelData$modelRegressor  <- NA
-
-  if (modelRegressor) {
-    ev_c  <- apply(parVals$mr_ev_c, c(2, 3, 4), measureIndPars)
-    ev_nc <- apply(parVals$mr_ev_nc, c(2, 3, 4), measureIndPars)
-    pe    <- apply(parVals$mr_pe, c(2, 3, 4), measureIndPars)
-
-    # Initialize modelRegressor and add model-based regressors
-    regressors        <- NULL
-    regressors$ev_c   <- ev_c
-    regressors$ev_nc  <- ev_nc
-    regressors$pe     <- pe
-
-    modelData$modelRegressor <- regressors
-  }
-
+  modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
+  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
   class(modelData) <- "hBayesDM"
 
   # Total time of computations
@@ -370,7 +359,7 @@ prl_rp_multipleB <- function(data           = "choice",
     currMin   <- substr(currTime, 15, 16)
     timeStamp <- paste0(currDate, "_", currHr, "_", currMin)
     dataFileName = sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(data))
-    save(modelData, file = file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData")))
+    save(modelData, file=file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData"  ) ) )
   }
 
   # Inform user of completion

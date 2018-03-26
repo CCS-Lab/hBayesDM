@@ -27,11 +27,13 @@ Bolded tasks, followed by their respective models, are itemized below.
                                Value-Plus_Perseverance --- \link{igt_vpp}}
  \item{\strong{Peer influence task}}{OCU model --- \link{peer_ocu}}
  \item{\strong{Probabilistic Reversal Learning}}{Fictitious Update --- \link{prl_fictitious} \cr
+                                                 Fictitious Update w/o alpha (indecision point) --- \link{prl_fictitious_woa} \cr
                                                  Fictitious Update and multiple blocks per subject --- \link{prl_fictitious_multipleB} \cr
                                                  Experience-Weighted Attraction --- \link{prl_ewa} \cr
                                                  Reward-Punishment --- \link{prl_rp} \cr
                                                  Reward-Punishment and multiple blocks per subject --- \link{prl_rp_multipleB} \cr
-                                                 Fictitious Update with separate learning for Reward-Punishment --- \link{prl_fictitious_rp}}
+                                                 Fictitious Update with separate learning for Reward-Punishment --- \link{prl_fictitious_rp} \cr
+                                                 Fictitious Update with separate learning for Reward-Punishment w/o alpha (indecision point) --- \link{prl_fictitious_rp_woa}}
  \item{\strong{Risk Aversion}}{Prospect Theory (PT) --- \link{ra_prospect} \cr
                                PT without a loss aversion parameter --- \link{ra_noLA} \cr
                                PT without a risk aversion parameter --- \link{ra_noRA}}
@@ -41,11 +43,15 @@ Bolded tasks, followed by their respective models, are itemized below.
                                       Drift Diffusion Model for single subject --- \link{choiceRT_ddm_single} \cr
                                       Linear Ballistic Accumulator --- \link{choiceRT_lba} \cr
                                       Linear Ballistic Accumulator for single subject --- \link{choiceRT_lba_single}}
+ \item{\strong{Two-Step task}}{Full model (7 parameters) --- \link{ts_par7} \cr
+                               6 parameter model (without eligibility trace, lambda) --- \link{ts_par6} \cr
+                               4 parameter model --- \link{ts_par4}}
+                                      
 }
 }
 \references{
 Please cite as: 
-Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. \emph{Computational Psychiatry}. 1:1. https://doi.org/10.1101/064287
+Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. \emph{Computational Psychiatry}. 1, 24-57. https://doi.org/10.1162/CPSY_a_00002
 }
 \seealso{
 For tutorials and further readings, visit : \url{http://rpubs.com/CCSL/hBayesDM}.

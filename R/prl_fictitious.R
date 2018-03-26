@@ -2,6 +2,7 @@
 #'
 #' @description
 #' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta" (learning rate), "alpha" (indecision point), "beta" (inverse temperature).
+#' Contributor (for model-based regressors): Jaeyeong Yang (https://ccs-lab.github.io/team/jaeyeong-yang/) and Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
 #'
 #' \strong{MODEL:}
 #' Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
@@ -230,7 +231,7 @@ prl_fictitious <- function(data           = "choice",
     genInitList <- "random"
   } else {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(0.5, 0.1, 1.0)
+      inits_fixed <- c(0.5, 0.0, 1.0)
     } else {
       if (length(inits) == numPars)
         inits_fixed <- inits
@@ -240,10 +241,10 @@ prl_fictitious <- function(data           = "choice",
 
     genInitList <- function() {
       list(
-        mu_p     = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 5)),
+        mu_p     = c(qnorm(inits_fixed[1]), inits_fixed[2], qnorm(inits_fixed[3] / 5)),
         sigma    = c(1.0, 1.0, 1.0),
         eta_pr   = rep(qnorm(inits_fixed[1]), numSubjs),
-        alpha_pr = rep(qnorm(inits_fixed[2]), numSubjs),
+        alpha_pr = rep(inits_fixed[2], numSubjs),
         beta_pr  = rep(qnorm(inits_fixed[3]/5), numSubjs)
       )
     }
