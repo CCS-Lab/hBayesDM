@@ -2,7 +2,8 @@
 #'
 #' @description
 #' Hierarchical Bayesian Modeling of the Two-Step Task using the following 4 parameters: with the following parameters: "a" (learnign rate for both stages 1 and 2), "beta" (inverse temperature for both stages 1 and 2), "pi" (perseverance), and "w" (model-based weight).\cr\cr
-#' Contributor: Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
+#'
+#' Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 #'
 #' \strong{MODEL:}
 #' Hybrid model (Daw et al., 2011; Wunderlich et al, 2012) with four parameters
