@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Choice Reaction Time task, drift diffusion modeling — choiceRT_ddm • hBayesDM</title>
+<title>Two-Step Task (Daw et al., 2011, Neuron) — ts_par4 • hBayesDM</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,14 +25,12 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Choice Reaction Time task, drift diffusion modeling — choiceRT_ddm" />
+<meta property="og:title" content="Two-Step Task (Daw et al., 2011, Neuron) — ts_par4" />
 
-<meta property="og:description" content="Hierarchical Bayesian Modeling of choice/reaction time data with the following parameters: "alpha" (boundary separation), "beta" (bias), "delta" (drift rate), "tau" (non-decision time).
-The code is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potentially others @ Stan mailing
+<meta property="og:description" content="Hierarchical Bayesian Modeling of the Two-Step Task using the following 4 parameters: with the following parameters: "a" (learnign rate for both stages 1 and 2), "beta" (inverse temperature for both stages 1 and 2), "pi" (perseverance), and "w" (model-based weight).
+Contributor: Harhim Park
 MODEL:
-Ratcliff drift diffusion model - multiple subjects. Note that this implementation is not the full drift diffusion model as described in
-Ratcliff (1978). This implementation estimates the drift rate, boundary separation, starting point, and non-decision time, but not the between-
-and within-trial variances in these parameters." />
+Hybrid model (Daw et al., 2011; Wunderlich et al, 2012) with four parameters" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -90,31 +88,29 @@ and within-trial variances in these parameters." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Choice Reaction Time task, drift diffusion modeling</h1>
+    <h1>Two-Step Task (Daw et al., 2011, Neuron)</h1>
     
     </div>
 
     
-    <p>Hierarchical Bayesian Modeling of choice/reaction time data with the following parameters: "alpha" (boundary separation), "beta" (bias), "delta" (drift rate), "tau" (non-decision time).
-The code is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potentially others @ Stan mailing</p>
+    <p>Hierarchical Bayesian Modeling of the Two-Step Task using the following 4 parameters: with the following parameters: "a" (learnign rate for both stages 1 and 2), "beta" (inverse temperature for both stages 1 and 2), "pi" (perseverance), and "w" (model-based weight).<br /><br /></p>
+<p>Contributor: <a href='https://ccs-lab.github.io/team/harhim-park/'>Harhim Park</a></p>
 <p><strong>MODEL:</strong>
-Ratcliff drift diffusion model - multiple subjects. Note that this implementation is <strong>not</strong> the full drift diffusion model as described in
-Ratcliff (1978). This implementation estimates the drift rate, boundary separation, starting point, and non-decision time, but not the between-
-and within-trial variances in these parameters.</p>
+Hybrid model (Daw et al., 2011; Wunderlich et al, 2012) with four parameters</p>
     
 
-    <pre class="usage"><span class='fu'>choiceRT_ddm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>3000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>RTbound</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>ts_par4</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+  <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>trans_prob</span> <span class='kw'>=</span> <span class='fl'>0.7</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID, ""choice", and "RT". See <b>Details</b> below for more information.</p></td>
+      <td><p>A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "level1_choice", "level2_choice", "reward". See <b>Details</b> below for more information.</p></td>
     </tr>
     <tr>
       <th>niter</th>
@@ -149,10 +145,6 @@ and within-trial variances in these parameters.</p>
       <td><p>Path to directory where .RData file of model output (<code>modelData</code>) can be saved. Leave blank if not interested.</p></td>
     </tr>
     <tr>
-      <th>RTbound</th>
-      <td><p>A floating point number representing the lower bound (i.e. minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).</p></td>
-    </tr>
-    <tr>
       <th>modelRegressor</th>
       <td><p>Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.</p></td>
     </tr>
@@ -162,7 +154,7 @@ and within-trial variances in these parameters.</p>
     </tr>
     <tr>
       <th>inc_postpred</th>
-      <td><p>(<strong>Not currently available for DDM models</strong>) Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.</p></td>
+      <td><p>Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.</p></td>
     </tr>
     <tr>
       <th>adapt_delta</th>
@@ -176,17 +168,21 @@ and within-trial variances in these parameters.</p>
       <th>max_treedepth</th>
       <td><p>Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See <b>Details</b> below.</p></td>
     </tr>
+    <tr>
+      <th>trans_prob</th>
+      <td><p>Common state transition probability from Stage (Level) 1 to Stage 2. Defaults to 0.7.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>modelData</code>  A class <code>'hBayesDM'</code> object with the following components:</p><dl class='dl-horizontal'>
- <dt><code>model</code></dt><dd><p>Character string with the name of the model (<code>"choiceRT_ddm"</code>).</p></dd>
- <dt><code>allIndPars</code></dt><dd><p><code>'data.frame'</code> containing the summarized parameter
-   values (as specified by <code>'indPars'</code>) for each subject.</p></dd>
- <dt><code>parVals</code></dt><dd><p>A <code>'list'</code> where each element contains posterior samples
+    <p><code>modelData</code>  A class <code>"hBayesDM"</code> object with the following components:</p><dl class='dl-horizontal'>
+ <dt><code>model</code></dt><dd><p>Character string with the name of the model (<code>"ts_par4"</code>).</p></dd>
+ <dt><code>allIndPars</code></dt><dd><p><code>"data.frame"</code> containing the summarized parameter
+   values (as specified by <code>"indPars"</code>) for each subject.</p></dd>
+ <dt><code>parVals</code></dt><dd><p>A <code>"list"</code> where each element contains posterior samples
    over different model parameters.</p></dd>
- <dt><code>fit</code></dt><dd><p>A class <code>'stanfit'</code> object containing the fitted model.</p></dd>
+ <dt><code>fit</code></dt><dd><p>A class <code>"stanfit"</code> object containing the fitted model.</p></dd>
  <dt><code>rawdata</code></dt><dd><p><code>"data.frame"</code> containing the raw data used to fit the model, as specified by the user.</p></dd>
 </dl>
 
@@ -197,19 +193,22 @@ and within-trial variances in these parameters.</p>
 <p><strong>data</strong> should be assigned a character value specifying the full path and name of the file, including the file extension
 (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
 The file should be a <strong>tab-delimited</strong> text (.txt) file whose rows represent trial-by-trial observations and columns
-represent variables. For choice/reaction-time tasks, there should be three columns of data with the labels "subjID", "choice", and "RT".
-It is not necessary for the columns to be in this particular order, however it is necessary that they be labelled
-correctly and contain the information below:</p><dl class='dl-horizontal'>
+represent variables. For the Two-Step Task, there should be four columns of data  with the labels
+"subjID", "level1_choice", "level2_choice", "reward". It is not necessary for the columns to be in this
+particular order, however it is necessary that they be labelled correctly and contain the information below:</p><dl class='dl-horizontal'>
  <dt><code>"subjID"</code></dt><dd><p>A unique identifier for each subject within data-set to be analyzed.</p></dd>
- <dt><code>"choice"</code></dt><dd><p>An integer representing the choice made on the current trial. Lower/upper boundary or left/right choices should be coded as 1/2 (e.g., 1 1 1 2 1 2).</p></dd>
- <dt><code>"RT"</code></dt><dd><p>A floating number the choice reaction time in <strong>seconds</strong>. (e.g., 0.435 0.383 0.314 0.309, etc.).</p></dd>
-</dl><p><strong>*</strong>Note: The data.txt file may contain other columns of data (e.g. "stimulus_name", "trial_number", etc.), but only the data with the column
+ <dt><code>"level1_choice"</code></dt><dd><p>Choice of the level 1. 1: stimulus 1, 2: stimulus 2</p></dd>
+ <dt><code>"level2_choice"</code></dt><dd><p>Choice of the level 2. 1: stimulus 3, 2: stimulus 4, 3: stimulus 5, 4: stimulus 6.</p></dd>
+ <dt><code>"reward"</code></dt><dd><p>Reward of the level 2 (0 or 1)</p></dd>
+</dl><p><strong>*</strong> Note: In our notation, choosing stimulus 1 in Level 1 leads to stimulus 3 &amp; 4 in Level 2 with a common (0.7 by default) transition.
+Choosing stimulus 3 in Level 1 leads to stimulus 5 &amp; 6 in Level 2 with a common (0.7 by default) transition.
+The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
 there is no need to remove other miscellaneous data columns.</p>
 <p><strong>nwarmup</strong> is a numerical value that specifies how many MCMC samples should not be stored upon the
 beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
 Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
-on the generated posterior distributions. The <strong>nwarmup</strong> argument can be set to a high number in order to curb the
+on the generated posterior distributions. The <code>nwarmup</code> argument can be set to a high number in order to curb the
 effects that initial values have on the resulting posteriors.</p>
 <p><strong>nchain</strong> is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
 used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
@@ -217,7 +216,7 @@ process, it is good practice to run multiple chains to ensure that a representat
 sampling is completed, the multiple chains may be checked for convergence with the <code>plot(myModel, type = "trace")</code>
 command. The chains should resemble a "furry caterpillar".</p>
 <p><strong>nthin</strong> is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
-to generate the posterior distributions. By default, <strong>nthin</strong> is equal to 1, hence every sample is used to
+to generate the posterior distributions. By default, <code>nthin</code> is equal to 1, hence every sample is used to
 generate the posterior.</p>
 <p><strong>Contol Parameters:</strong> adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control
 over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
@@ -227,7 +226,10 @@ more information on the functioning of the sampler control parameters. One can a
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Ratcliff, R. (1978). A theory of memory retrieval. Psychological Review, 85(2), 59-108. http://doi.org/10.1037/0033-295X.85.2.59</p>
+    <p>Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., &amp; Dolan, R. J. (2011). Model-Based Influences on Humans'
+Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027</p>
+<p>Wunderlich, K., Smittenaar, P., &amp; Dolan, R. J. (2012). Dopamine enhances model-based over model-free choice behavior.
+Neuron, 75(3), 418-424.</p>
 <p>Hoffman, M. D., &amp; Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 Journal of Machine Learning Research, 15(1), 1593-1623.</p>
     
@@ -239,7 +241,7 @@ Journal of Machine Learning Research, 15(1), 1593-1623.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># Run the model and store results in "output"</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>choiceRT_ddm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>ts_par4</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
 <span class='co'># Visually check convergence of the sampling chains (should like like 'hairy caterpillars')</span>
 <span class='fu'>plot</span>(<span class='no'>output</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'trace'</span>)
@@ -252,6 +254,8 @@ Journal of Machine Learning Research, 15(1), 1593-1623.</p>
 
 <span class='co'># Show the WAIC and LOOIC model fit estimates</span>
 <span class='fu'><a href='printFit.html'>printFit</a></span>(<span class='no'>output</span>)
+
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

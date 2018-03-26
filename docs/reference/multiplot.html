@@ -18,19 +18,29 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+<meta property="og:title" content="Function to plot multiple figures — multiplot" />
+
+<meta property="og:description" content="Plots multiple figures
+Based on codes from 'http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/'" />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -44,11 +54,21 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">hBayesDM</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">hBayesDM</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -67,24 +87,32 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Function to plot multiple figures</h1>
+    
     </div>
 
     
     <p>Plots multiple figures
-Based on codes from &#39;http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/&#39;</p>
+Based on codes from 'http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/'</p>
     
 
-    <pre><span class='fu'>multiplot</span>(<span class='no'>...</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>multiplot</span>(<span class='no'>...</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>...</dt>
-      <dd>Plot objects</dd>
-      <dt>plots</dt>
-      <dd>List containing plot objects</dd>
-      <dt>cols</dt>
-      <dd>Number of columns within the multi-figure plot</dd>
-    </dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>...</th>
+      <td><p>Plot objects</p></td>
+    </tr>
+    <tr>
+      <th>plots</th>
+      <td><p>List containing plot objects</p></td>
+    </tr>
+    <tr>
+      <th>cols</th>
+      <td><p>Number of columns within the multi-figure plot</p></td>
+    </tr>
+    </table>
     
 
   </div>
@@ -103,7 +131,7 @@ Based on codes from &#39;http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -111,3 +139,4 @@ Based on codes from &#39;http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one
 
   </body>
 </html>
+

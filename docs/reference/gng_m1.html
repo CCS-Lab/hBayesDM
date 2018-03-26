@@ -18,19 +18,30 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+<meta property="og:title" content="Orthogonalized Go/Nogo Task — gng_m1" />
+
+<meta property="og:description" content="Hierarchical Bayesian Modeling of the Orthogonolized Go/Nogo Task using the following parameters: "xi" (noise), "ep" (learning rate), and "rho" (effective size).
+MODEL:
+RW + noise (Guitart-Masip et al., 2012, Neuroimage)" />
+<meta name="twitter:card" content="summary" />
+
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -44,11 +55,21 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">hBayesDM</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">hBayesDM</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -67,129 +88,161 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Orthogonalized Go/Nogo Task</h1>
+    
     </div>
 
     
-    <p>Hierarchical Bayesian Modeling of the Orthogonolized Go/Nogo Task using the following parameters: &quot;xi&quot; (noise), &quot;ep&quot; (learning rate), and &quot;rho&quot; (effective size).</p>
-
-    <p><strong>MODEL:</strong>
+    <p>Hierarchical Bayesian Modeling of the Orthogonolized Go/Nogo Task using the following parameters: "xi" (noise), "ep" (learning rate), and "rho" (effective size).</p>
+<p><strong>MODEL:</strong>
 RW + noise (Guitart-Masip et al., 2012, Neuroimage)</p>
     
 
-    <pre><span class='fu'>gng_m1</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+    <pre class="usage"><span class='fu'>gng_m1</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+  <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>data</dt>
-      <dd>A .txt file containing the data to be modeled. Data columns should be labelled as follows: &quot;subjID&quot;, &quot;cue&quot;, &quot;keyPressed&quot;, and &quot;outcome&quot;. See <b>Details</b> below for more information.</dd>
-      <dt>niter</dt>
-      <dd>Number of iterations, including warm-up.</dd>
-      <dt>nwarmup</dt>
-      <dd>Number of iterations used for warm-up only.</dd>
-      <dt>nchain</dt>
-      <dd>Number of chains to be run.</dd>
-      <dt>ncore</dt>
-      <dd>Integer value specifying how many CPUs to run the MCMC sampling on. Defaults to 1.</dd>
-      <dt>nthin</dt>
-      <dd>Every <code>i == nthin</code> sample will be used to generate the posterior distribution. Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is high.</dd>
-      <dt>inits</dt>
-      <dd>Character value specifying how the initial values should be generated. Options are &quot;fixed&quot; or &quot;random&quot; or your own initial values.</dd>
-      <dt>indPars</dt>
-      <dd>Character value specifying how to summarize individual parameters. Current options are: &quot;mean&quot;, &quot;median&quot;, or &quot;mode&quot;.</dd>
-      <dt>saveDir</dt>
-      <dd>Path to directory where .RData file of model output (<code>modelData</code>) can be saved. Leave blank if not interested.</dd>
-      <dt>email</dt>
-      <dd>Character value containing email address to send notification of completion. Leave blank if not interested.</dd>
-      <dt>modelRegressor</dt>
-      <dd>Exporting model-based regressors (Q(Go), Q(NoGo))? TRUE or FALSE.</dd>
-      <dt>adapt_delta</dt>
-      <dd>Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See <b>Details</b> below.</dd>
-      <dt>stepsize</dt>
-      <dd>Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See <b>Details</b> below.</dd>
-      <dt>max_treedepth</dt>
-      <dd>Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See <b>Details</b> below.</dd>
-    </dl>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "cue", "keyPressed", and "outcome". See <b>Details</b> below for more information.</p></td>
+    </tr>
+    <tr>
+      <th>niter</th>
+      <td><p>Number of iterations, including warm-up.</p></td>
+    </tr>
+    <tr>
+      <th>nwarmup</th>
+      <td><p>Number of iterations used for warm-up only.</p></td>
+    </tr>
+    <tr>
+      <th>nchain</th>
+      <td><p>Number of chains to be run.</p></td>
+    </tr>
+    <tr>
+      <th>ncore</th>
+      <td><p>Integer value specifying how many CPUs to run the MCMC sampling on. Defaults to 1.</p></td>
+    </tr>
+    <tr>
+      <th>nthin</th>
+      <td><p>Every <code>i == nthin</code> sample will be used to generate the posterior distribution. Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is high.</p></td>
+    </tr>
+    <tr>
+      <th>inits</th>
+      <td><p>Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.</p></td>
+    </tr>
+    <tr>
+      <th>indPars</th>
+      <td><p>Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".</p></td>
+    </tr>
+    <tr>
+      <th>saveDir</th>
+      <td><p>Path to directory where .RData file of model output (<code>modelData</code>) can be saved. Leave blank if not interested.</p></td>
+    </tr>
+    <tr>
+      <th>modelRegressor</th>
+      <td><p>Exporting model-based regressors (Q(Go), Q(NoGo))? TRUE or FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>vb</th>
+      <td><p>Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>inc_postpred</th>
+      <td><p>Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>adapt_delta</th>
+      <td><p>Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See <b>Details</b> below.</p></td>
+    </tr>
+    <tr>
+      <th>stepsize</th>
+      <td><p>Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See <b>Details</b> below.</p></td>
+    </tr>
+    <tr>
+      <th>max_treedepth</th>
+      <td><p>Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See <b>Details</b> below.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>modelData</code>  A class <code>&quot;hBayesDM&quot;</code> object with the following components:
-<dl class='dl-horizontal'>
- <dt><code>model</code></dt><dd>Character string with the name of the model (<code>&quot;gng_m1&quot;</code>).</dd>
- <dt><code>allIndPars</code></dt><dd><code>&quot;data.frame&quot;</code> containing the summarized parameter values (as specified by <code>&quot;indPars&quot;</code>) for each subject.</dd>
- <dt><code>parVals</code></dt><dd>A <code>&quot;list&quot;</code> where each element contains posterior samples over different model parameters. </dd>
- <dt><code>fit</code></dt><dd>A class <code>&quot;stanfit&quot;</code> object containing the fitted model.</dd>
- <dt><code>rawdata</code></dt><dd><code>&quot;data.frame&quot;</code> containing the raw data used to fit the model, as specified by the user.</dd>
-</dl></p>
+    <p><code>modelData</code>  A class <code>"hBayesDM"</code> object with the following components:</p><dl class='dl-horizontal'>
+ <dt><code>model</code></dt><dd><p>Character string with the name of the model (<code>"gng_m1"</code>).</p></dd>
+ <dt><code>allIndPars</code></dt><dd><p><code>"data.frame"</code> containing the summarized parameter values (as specified by <code>"indPars"</code>) for each subject.</p></dd>
+ <dt><code>parVals</code></dt><dd><p>A <code>"list"</code> where each element contains posterior samples over different model parameters.</p></dd>
+ <dt><code>fit</code></dt><dd><p>A class <code>"stanfit"</code> object containing the fitted model.</p></dd>
+ <dt><code>rawdata</code></dt><dd><p><code>"data.frame"</code> containing the raw data used to fit the model, as specified by the user.</p></dd>
+</dl>
+
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This section describes some of the function arguments in greater detail.</p>
-    <p><strong>data</strong> should be assigned a character value specifying the full path and name of the file, including the file extension 
-(e.g. &quot;.txt&quot;), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a <strong>tab-delimited</strong> text (.txt) file whose rows represent trial-by-trial observations and columns 
-represent variables. For the Go/No-Go Task, there should be four columns of data with the labels &quot;subjID&quot;, 
-&quot;cue&quot;, &quot;keyPressed&quot;, and &quot;outcome&quot;. It is not necessary for the columns to be in this particular order, 
-however it is necessary that they be labelled correctly and contain the information below:
-<dl class='dl-horizontal'>
- <dt><code>&quot;subjID&quot;</code></dt><dd>A unique identifier for each subject within data-set to be analyzed.</dd>
- <dt><code>&quot;cue&quot;</code></dt><dd>A nominal integer that specifies the cue shown within the given trial (e.g. 1, 2, 3, or 4 in the GNG).</dd>
- <dt><code>&quot;keyPressed&quot;</code></dt><dd>A binary value representing whether or not the participant responded on the given trial (1 == Press; 0 == No press).</dd>
- <dt><code>&quot;outcome&quot;</code></dt><dd>A 1, 0, or -1 for each given trial (1 == Positive Feedback; 0 == Neutral Feedback; -1 == Negative Feedback).</dd>
-</dl></p>
-    <p><strong>*</strong>Note: The data.txt file may contain other columns of data (e.g. &quot;Reaction_Time&quot;, &quot;trial_number&quot;, etc.), but only the data with the column
+<p><strong>data</strong> should be assigned a character value specifying the full path and name of the file, including the file extension
+(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
+The file should be a <strong>tab-delimited</strong> text (.txt) file whose rows represent trial-by-trial observations and columns
+represent variables. For the Go/No-Go Task, there should be four columns of data with the labels "subjID",
+"cue", "keyPressed", and "outcome". It is not necessary for the columns to be in this particular order,
+however it is necessary that they be labelled correctly and contain the information below:</p><dl class='dl-horizontal'>
+ <dt><code>"subjID"</code></dt><dd><p>A unique identifier for each subject within data-set to be analyzed.</p></dd>
+ <dt><code>"cue"</code></dt><dd><p>A nominal integer that specifies the cue shown within the given trial (e.g. 1, 2, 3, or 4 in the GNG).</p></dd>
+ <dt><code>"keyPressed"</code></dt><dd><p>A binary value representing whether or not the participant responded on the given trial (1 == Press; 0 == No press).</p></dd>
+ <dt><code>"outcome"</code></dt><dd><p>A 1, 0, or -1 for each given trial (1 == Positive Feedback; 0 == Neutral Feedback; -1 == Negative Feedback).</p></dd>
+</dl><p><strong>*</strong>Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
 there is no need to remove other miscellaneous data columns.</p>
-    <p><strong>nwarmup</strong> is a numerical value that specifies how many MCMC samples should not be stored upon the 
-beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample. 
-Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence 
-on the generated posterior distributions. The <code>nwarmup</code> argument can be set to a high number in order to curb the 
+<p><strong>nwarmup</strong> is a numerical value that specifies how many MCMC samples should not be stored upon the
+beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
+Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
+on the generated posterior distributions. The <code>nwarmup</code> argument can be set to a high number in order to curb the
 effects that initial values have on the resulting posteriors.</p>
-    <p><strong>nchain</strong> is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
-used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling 
+<p><strong>nchain</strong> is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
+used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
 process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
-sampling is completed, the multiple chains may be checked for convergence with the <code>plot(myModel, type = &quot;trace&quot;)</code>
-command. The chains should resemble a &quot;furry caterpillar&quot;.</p>
-    <p><strong>nthin</strong> is a numerical value that specifies the &quot;skipping&quot; behavior of the MCMC samples being chosen 
-to generate the posterior distributions. By default, <code>nthin</code> is equal to 1, hence every sample is used to 
+sampling is completed, the multiple chains may be checked for convergence with the <code>plot(myModel, type = "trace")</code>
+command. The chains should resemble a "furry caterpillar".</p>
+<p><strong>nthin</strong> is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
+to generate the posterior distributions. By default, <code>nthin</code> is equal to 1, hence every sample is used to
 generate the posterior.</p>
-    <p><strong>Contol Parameters:</strong> adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control 
-over Stan&#39;s MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
-can profoundly change the sampler&#39;s behavior. Refer to Hoffman &amp; Gelman (2014, Journal of Machine Learning Research) for 
-more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the  
-<a href = 'Stan User&#39;s Manual'>http://mc-stan.org/documentation/</a> for a less technical description of these arguments.</p>
+<p><strong>Contol Parameters:</strong> adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control
+over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
+can profoundly change the sampler's behavior. Refer to Hoffman &amp; Gelman (2014, Journal of Machine Learning Research) for
+more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
+<a href='http://mc-stan.org/documentation/'>Stan User's Manual</a> for a less technical description of these arguments.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., &amp; Dolan, R. J. (2012). Go and no-go learning in 
+    <p>Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., &amp; Dolan, R. J. (2012). Go and no-go learning in
 reward and punishment: Interactions between affect and effect. Neuroimage, 62(1), 154-166. http://doi.org/10.1016/j.neuroimage.2012.04.024</p>
-    <p>Hoffman, M. D., &amp; Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The 
+<p>Hoffman, M. D., &amp; Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 Journal of Machine Learning Research, 15(1), 1593-1623.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>We refer users to our in-depth tutorial for an example of using hBayesDM: <a href = 'https://rpubs.com/CCSL/hBayesDM'>https://rpubs.com/CCSL/hBayesDM</a></p>
+    <p>We refer users to our in-depth tutorial for an example of using hBayesDM: <a href='https://rpubs.com/CCSL/hBayesDM'>https://rpubs.com/CCSL/hBayesDM</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # Run the model and store results in "output"</span>
-<span class='co'># output &lt;- gng_m1(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)</span>
-<span class='co'># </span>
-<span class='co'># # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')</span>
-<span class='co'># plot(output, type = 'trace')</span>
-<span class='co'># </span>
-<span class='co'># # Check Rhat values (all Rhat values should be less than or equal to 1.1)</span>
-<span class='co'># rhat(output)</span>
-<span class='co'># </span>
-<span class='co'># # Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)</span>
-<span class='co'># plot(output)</span>
-<span class='co'># </span>
-<span class='co'># # Show the WAIC and LOOIC model fit estimates </span>
-<span class='co'># printFit(output)</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Run the model and store results in "output"</span>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>gng_m1</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+
+<span class='co'># Visually check convergence of the sampling chains (should like like 'hairy caterpillars')</span>
+<span class='fu'>plot</span>(<span class='no'>output</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'trace'</span>)
+
+<span class='co'># Check Rhat values (all Rhat values should be less than or equal to 1.1)</span>
+<span class='fu'><a href='rhat.html'>rhat</a></span>(<span class='no'>output</span>)
+
+<span class='co'># Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)</span>
+<span class='fu'>plot</span>(<span class='no'>output</span>)
+
+<span class='co'># Show the WAIC and LOOIC model fit estimates</span>
+<span class='fu'><a href='printFit.html'>printFit</a></span>(<span class='no'>output</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -216,7 +269,7 @@ Journal of Machine Learning Research, 15(1), 1593-1623.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -224,3 +277,4 @@ Journal of Machine Learning Research, 15(1), 1593-1623.</p>
 
   </body>
 </html>
+
