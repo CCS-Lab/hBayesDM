@@ -2,7 +2,8 @@
 #'
 #' @description
 #' Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters: "rho" (risk preference), "tau" (inverse temperature), and "ocu" (other-conferred utility).\cr\cr
-#' Contributor: Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
+#'
+#' Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 #'
 #' \strong{MODEL:}
 #' Peer influence task - OCU (other-conferred utility) model

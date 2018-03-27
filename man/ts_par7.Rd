@@ -57,7 +57,8 @@ ts_par7(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 }
 \description{
 Hierarchical Bayesian Modeling of the Two-Step Task with the following 7 parameters: "a1" (learnign rate in stage 1), "a2" (learnign rate in stage 2), "beta1" (inverse temperature in stage 1), "beta2" (inverse temperature in stage 2), "pi" (perseverance), "lambda" (eligibility trace), and "w" (model-based weight).\cr\cr
-Contributor: Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
+
+Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 
 \strong{MODEL:}
 Hybrid model (Daw et al., 2011, Neuron) with seven parameters (original model)

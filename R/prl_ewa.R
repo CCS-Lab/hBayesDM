@@ -2,7 +2,8 @@
 #'
 #' @description
 #' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "phi" (1 - learning rate), "rho" (experience decay factor), and "beta" (inverse temperature).
-#' Contributor (model-based regressors): Jaeyeong Yang (https://ccs-lab.github.io/team/jaeyeong-yang/) and Harhim Park (https://ccs-lab.github.io/team/harhim-park/)
+#'
+#' Contributor (for model-based regressors): \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 #'
 #' \strong{MODEL:}
 #' Experience-Weighted Attraction Model (Ouden et al., 2013, Neuron)
