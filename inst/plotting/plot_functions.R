@@ -354,3 +354,12 @@ plot_ts_par6 <- function(obj, fontSize = 10, ncols = 6, binSize = 30) {
   return(h_all)
 }
 
+plot_wcs_sql <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_r, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(r, " (Reward Sensitivity)")))
+  h2 = plotDist(sample = pars$mu_p, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(p, " (Punishment Sensitivity)")))
+  h3 = plotDist(sample = pars$mu_d, fontSize = fontSize, binSize = binSize, xLab = expression(paste(d, " (Decision Donsistency)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
+  return(h_all)
+}
+
