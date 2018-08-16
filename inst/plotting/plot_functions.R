@@ -354,3 +354,12 @@ plot_ts_par6 <- function(obj, fontSize = 10, ncols = 6, binSize = 30) {
   return(h_all)
 }
 
+plot_bart_par4 <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_phi, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(phi, " (Prior Belief)")))
+  h2 = plotDist(sample = pars$mu_eta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(eta, " (Updating Rate)")))
+  h3 = plotDist(sample = pars$mu_gam, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gam, " (Risk-Taking Parameter)")))
+  h4 = plotDist(sample = pars$mu_tau, fontSize = fontSize, binSize = binSize, xLab = expression(paste(tau, " (Inversed Temperature)")))
+  h_all = multiplot(h1, h2, h3, h4, cols = ncols)
+  return(h_all)
+}
