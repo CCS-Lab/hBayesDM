@@ -1,14 +1,14 @@
-#' Peer influence task (Chung et al., 2015 Nature Neuroscience)
+#' Balloon Analogue Risk Task (Ravenzwaaij et al., 2011, Journal of Mathematical Psychology)
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters: "rho" (risk preference), "tau" (inverse temperature), and "ocu" (other-conferred utility).\cr\cr
+#' Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task with the following 4 parameters: "phi" (prior belief of the balloon not going to be burst), "eta" (updating rate), "gam" (risk-taking parameter), and "tau" (inverse temperature).\cr\cr
 #'
-#' Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
+#' Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} \href{https://ccs-lab.github.io/team/ayoung-lee/}{Ayoung Lee} \href{https://ccs-lab.github.io/team/jeongbin-oh/}{Jeongbin Oh} \href{https://ccs-lab.github.io/team/jiyoon-lee/}{Jiyoon Lee} \href{https://ccs-lab.github.io/team/junha-jang/}{Junha Jang}
 #'
 #' \strong{MODEL:}
-#' Peer influence task - OCU (other-conferred utility) model
+#' Reparameterized version (by Harhim Park & Jaeyeong Yang) of Balloon Analogue Risk Task model (Ravenzwaaij et al., 2011) with four parameters
 #'
-#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "gain", "loss", "cert", and "gamble". See \bold{Details} below for more information.
+#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "pumps", and "explosion". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
 #' @param nwarmup Number of iterations used for warm-up only.
 #' @param nchain Number of chains to be run.
@@ -26,7 +26,7 @@
 #'
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"peer_ocu"}).}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"bart_par4"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -46,18 +46,13 @@
 #' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
 #' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
 #' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
-#' represent variables. For the Peer Influence Task, there should be eight columns of data  with the labels
-#' "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". It is not necessary for the columns to be in this
+#' represent variables. For the Balloon Analogue Risk Task, there should be three columns of data  with the labels
+#' "subjID", "pumps", "explosion". It is not necessary for the columns to be in this
 #' particular order, however it is necessary that they be labelled correctly and contain the information below:
 #' \describe{
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"condition"}}{0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky)}
-#'  \item{\code{"p_gamble"}}{Probability of receiving a high payoff (same for both options)}
-#'  \item{\code{"safe_Hpayoff"}}{High payoff of the safe option}
-#'  \item{\code{"safe_Lpayoff"}}{Low payoff of the safe option}
-#'  \item{\code{"risky_Hpayoff"}}{High payoff of the risky option}
-#'  \item{\code{"risky_Lpayoff"}}{Low payoff of the risky option}
-#'  \item{\code{"choice"}}{Which option was chosen? 0: safe 1: risky}
+#'  \item{\code{"pumps"}}{The number of pumps}
+#'  \item{\code{"explosion"}}{0: intact, 1: burst}
 #' }
 #' \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 #' names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
@@ -88,8 +83,8 @@
 #' @export
 #'
 #' @references
-#' Chung, D., Christopoulos, G. I., King-Casas, B., Ball, S. B., & Chiu, P. H. (2015). Social signals of safety and risk confer utility and have asymmetric effects on observers' choices.
-#' Nature neuroscience, 18(6), 912-916.
+#' van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model decomposition of the BART: Assessment and application.
+#' Journal of Mathematical Psychology, 55(1), 94-105.
 #'
 #' @seealso
 #' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
@@ -97,7 +92,7 @@
 #' @examples
 #' \dontrun{
 #' # Run the model and store results in "output"
-#' output <- peer_ocu(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+#' output <- bart_par4(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
 #'
 #' # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
 #' plot(output, type = 'trace')
@@ -114,21 +109,21 @@
 #'
 #' }
 
-peer_ocu <- function(data           = "choose",
-                     niter          = 4000,
-                     nwarmup        = 1000,
-                     nchain         = 4,
-                     ncore          = 1,
-                     nthin          = 1,
-                     inits          = "fixed",
-                     indPars        = "mean",
-                     saveDir        = NULL,
-                     modelRegressor = FALSE,
-                     vb             = FALSE,
-                     inc_postpred   = FALSE,
-                     adapt_delta    = 0.95,
-                     stepsize       = 1,
-                     max_treedepth  = 10) {
+bart_par4 <- function(data           = "choose",
+                            niter          = 4000,
+                            nwarmup        = 1000,
+                            nchain         = 4,
+                            ncore          = 1,
+                            nthin          = 1,
+                            inits          = "fixed",
+                            indPars        = "mean",
+                            saveDir        = NULL,
+                            modelRegressor = FALSE,
+                            vb             = FALSE,
+                            inc_postpred   = FALSE,
+                            adapt_delta    = 0.95,
+                            stepsize       = 1,
+                            max_treedepth  = 10) {
 
   # Path to .stan model file
   if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
@@ -140,7 +135,7 @@ peer_ocu <- function(data           = "choose",
 
   # For using example data
   if (data == "example") {
-    data <- system.file("extdata", "peer_exampleData.txt", package = "hBayesDM")
+    data <- system.file("extdata", "bart_exampleData.txt", package = "hBayesDM")
   } else if (data == "choose") {
     data <- file.choose()
   }
@@ -164,17 +159,17 @@ peer_ocu <- function(data           = "choose",
   numSubjs <- length(subjList)           # number of subjects
 
   # Specify the number of parameters and parameters of interest
-  numPars <- 3
-  POI     <- c("mu_rho", "mu_tau", "mu_ocu",
+  numPars <- 4
+  POI     <- c("mu_phi", "mu_eta", "mu_gam", "mu_tau",
                "sigma",
-               "rho" , "tau", "ocu",
+               "phi", "eta", "gam", "tau",
                "log_lik")
 
   if (inc_postpred) {
     POI <- c(POI, "y_pred")
   }
 
-  modelName <- "peer_ocu"
+  modelName <- "bart_par4"
 
   # Information for user
   cat("\nModel name = ", modelName, "\n")
@@ -207,45 +202,34 @@ peer_ocu <- function(data           = "choose",
   cat(" # of (max) trials per subject = ", maxTrials, "\n\n")
 
   # for multiple subjects
-  safe_Hpayoff    <- array(0, c(numSubjs, maxTrials))
-  safe_Lpayoff    <- array(0, c(numSubjs, maxTrials))
-  risky_Hpayoff    <- array(0, c(numSubjs, maxTrials))
-  risky_Lpayoff    <- array(0, c(numSubjs, maxTrials))
-  condition    <- array(0, c(numSubjs, maxTrials))
-  p_gamble    <- array(0, c(numSubjs, maxTrials))
-  choice  <- array(-1, c(numSubjs, maxTrials))
+  pumps     <- array(0, c(numSubjs, maxTrials))
+  explosion <- array(0, c(numSubjs, maxTrials))
 
   for (i in 1:numSubjs) {
-    curSubj      <- subjList[i]
-    useTrials    <- Tsubj[i]
-    tmp          <- subset(rawdata, rawdata$subjID == curSubj)
-    safe_Hpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "safe_Hpayoff"]
-    safe_Lpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "safe_Lpayoff"]
-    risky_Hpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "risky_Hpayoff"]
-    risky_Lpayoff[i, 1:useTrials]    <- tmp[1:useTrials, "risky_Lpayoff"]
-    condition[i, 1:useTrials]    <- tmp[1:useTrials, "condition"]
-    p_gamble[i, 1:useTrials]    <- tmp[1:useTrials, "p_gamble"]
-    choice[i, 1:useTrials]    <- tmp[1:useTrials, "choice"]
+    curSubj   <- subjList[i]
+    useTrials <- Tsubj[i]
+    tmp       <- subset(rawdata, rawdata$subjID == curSubj)
+
+    pumps[i, 1:useTrials]     <- tmp[1:useTrials, "pumps"]
+    explosion[i, 1:useTrials] <- tmp[1:useTrials, "explosion"]
   }
 
+  maxPumps <- max(pumps)
+
   dataList <- list(
-    N       = numSubjs,
-    T       = maxTrials,
-    Tsubj   = Tsubj,
-    numPars = numPars,
-    safe_Hpayoff    = safe_Hpayoff,
-    safe_Lpayoff    = safe_Lpayoff,
-    risky_Hpayoff    = risky_Hpayoff,
-    risky_Lpayoff    = risky_Lpayoff,
-    condition  = condition,
-    p_gamble = p_gamble,
-    choice = choice
-)
+    N         = numSubjs,
+    T         = maxTrials,
+    P         = maxPumps + 1,
+    Tsubj     = Tsubj,
+    numPars   = numPars,
+    pumps     = pumps,
+    explosion = explosion
+  )
 
   # inits
   if (inits[1] != "random") {
     if (inits[1] == "fixed") {
-      inits_fixed <- c(1.0, 1.0, 0.0)
+      inits_fixed <- c(0.5, 1.0, 1.0, 1.0)
     } else {
       if (length(inits) == numPars) {
         inits_fixed <- inits
@@ -255,12 +239,13 @@ peer_ocu <- function(data           = "choose",
     }
     genInitList <- function() {
       list(
-        mu_p     = c(qnorm(inits_fixed[1]/2), log(inits_fixed[2]), inits_fixed[3]),
-        sigma    = c(1.0, 1.0, 1.0),
-        rho_p    = rep(qnorm(inits_fixed[1]/2), numSubjs),
-        tau_p    = rep(log(inits_fixed[2]), numSubjs,
-        ocu_p    = rep(inits_fixed[3]), numSubjs)
-)
+        mu_p  = c(qnorm(inits_fixed[1]), log(inits_fixed[2:4])),
+        sigma = c(1.0, 1.0, 1.0, 1.0),
+        phi_p = rep(qnorm(inits_fixed[1]), numSubjs),
+        eta_p = rep(log(inits_fixed[2]), numSubjs),
+        gam_p = rep(log(inits_fixed[3]), numSubjs),
+        tau_p = rep(log(inits_fixed[4]), numSubjs)
+      )
     }
   } else {
     genInitList <- "random"
@@ -283,7 +268,7 @@ peer_ocu <- function(data           = "choose",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m = stanmodels$peer_ocu
+  m = stanmodels$bart_par4
   if (vb) {   # if variational Bayesian
     fit = rstan::vb(m,
                     data   = dataList,
@@ -308,34 +293,28 @@ peer_ocu <- function(data           = "choose",
     parVals$y_pred[parVals$y_pred == -1] <- NA
   }
 
-  rho    <- parVals$rho
-  tau    <- parVals$tau
-  ocu    <- parVals$ocu
+  phi <- parVals$phi
+  eta <- parVals$eta
+  gam <- parVals$gam
+  tau <- parVals$tau
 
   # Individual parameters (e.g., individual posterior means)
+  measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
   allIndPars <- array(NA, c(numSubjs, numPars))
   allIndPars <- as.data.frame(allIndPars)
 
   for (i in 1:numSubjs) {
-    if (indPars == "mean") {
-      allIndPars[i,] <- c(mean(rho[, i]),
-                            mean(tau[, i]),
-                            mean(ocu[, i]))
-    } else if (indPars == "median") {
-      allIndPars[i,] <- c(median(rho[, i]),
-                            median(tau[, i]),
-                            median(ocu[, i]))
-    } else if (indPars == "mode") {
-      allIndPars[i,] <- c(estimate_mode(rho[, i]),
-                            estimate_mode(tau[, i]),
-                            estimate_mode(ocu[, i]))
-    }
+    allIndPars[i,] <- c(measureIndPars(phi[, i]),
+                        measureIndPars(eta[, i]),
+                        measureIndPars(gam[, i]),
+                        measureIndPars(tau[, i]))
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
-  colnames(allIndPars) <- c("rho",
+  colnames(allIndPars) <- c("phi",
+                            "eta",
+                            "gam",
                             "tau",
-                            "ocu",
                             "subjID")
 
   # Wrap up data into a list
