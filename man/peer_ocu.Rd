@@ -44,7 +44,7 @@ peer_ocu(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 \value{
 \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 \describe{
- \item{\code{model}}{Character string with the name of the model (\code{"ra_prospect"}).}
+ \item{\code{model}}{Character string with the name of the model (\code{"peer_ocu"}).}
  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
    values (as specified by \code{"indPars"}) for each subject.}
  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -67,7 +67,7 @@ This section describes some of the function arguments in greater detail.
 \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
 (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
 The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
-represent variables. For the Risk Aversion Task, there should be four columns of data  with the labels
+represent variables. For the Peer Influence Task, there should be eight columns of data  with the labels
 "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". It is not necessary for the columns to be in this
 particular order, however it is necessary that they be labelled correctly and contain the information below:
 \describe{
