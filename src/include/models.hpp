@@ -348,7 +348,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(A_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(tau_pr, 0, 1));
             for (int i = 1; i <= N; ++i) {
@@ -1183,7 +1183,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(Arew_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(Apun_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(R_pr, 0, 1.0));
@@ -2280,7 +2280,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(Arew_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(Apun_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(R_pr, 0, 1.0));
@@ -3416,7 +3416,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(delta_pr, 0, 1));
@@ -7339,7 +7339,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(r_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(s_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
@@ -8791,7 +8791,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(r_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
             for (int i = 1; i <= N; ++i) {
@@ -9597,7 +9597,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(k_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
             for (int i = 1; i <= N; ++i) {
@@ -10951,7 +10951,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(rho_pr, 0, 1.0));
@@ -11882,7 +11882,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(rho_pr, 0, 1.0));
@@ -12555,7 +12555,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_gng_m2");
-    reader.add_event(140, 140, "end", "model_gng_m2");
+    reader.add_event(142, 142, "end", "model_gng_m2");
     return reader;
 }
 
@@ -12974,7 +12974,9 @@ public:
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,2,"mu_p",1), 0, 1.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,3,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,4,"mu_p",1), 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(get_base1(sigma,3,"sigma",1), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,4,"sigma",1), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(b_pr, 0, 1.0));
@@ -13586,7 +13588,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_gng_m2_reg");
-    reader.add_event(150, 150, "end", "model_gng_m2_reg");
+    reader.add_event(152, 152, "end", "model_gng_m2_reg");
     return reader;
 }
 
@@ -14005,7 +14007,9 @@ public:
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,2,"mu_p",1), 0, 1.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,3,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,4,"mu_p",1), 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(get_base1(sigma,3,"sigma",1), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,4,"sigma",1), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(b_pr, 0, 1.0));
@@ -14737,7 +14741,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_gng_m3");
-    reader.add_event(157, 157, "end", "model_gng_m3");
+    reader.add_event(159, 159, "end", "model_gng_m3");
     return reader;
 }
 
@@ -15195,7 +15199,9 @@ public:
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,3,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,4,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,5,"mu_p",1), 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(3, 4), stan::model::nil_index_list()), "sigma"), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,5,"sigma",1), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(b_pr, 0, 1.0));
@@ -15882,7 +15888,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_gng_m3_reg");
-    reader.add_event(169, 169, "end", "model_gng_m3_reg");
+    reader.add_event(171, 171, "end", "model_gng_m3_reg");
     return reader;
 }
 
@@ -16340,7 +16346,9 @@ public:
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,3,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,4,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,5,"mu_p",1), 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(3, 4), stan::model::nil_index_list()), "sigma"), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,5,"sigma",1), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(b_pr, 0, 1.0));
@@ -17177,7 +17185,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_gng_m4");
-    reader.add_event(188, 188, "end", "model_gng_m4");
+    reader.add_event(190, 190, "end", "model_gng_m4");
     return reader;
 }
 
@@ -17675,7 +17683,9 @@ public:
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,4,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,5,"mu_p",1), 0, 1.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,6,"mu_p",1), 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(3, 4), stan::model::nil_index_list()), "sigma"), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(5, 6), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(b_pr, 0, 1.0));
@@ -18459,7 +18469,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_gng_m4_reg");
-    reader.add_event(200, 200, "end", "model_gng_m4_reg");
+    reader.add_event(202, 202, "end", "model_gng_m4_reg");
     return reader;
 }
 
@@ -18957,7 +18967,9 @@ public:
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,4,"mu_p",1), 0, 10.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,5,"mu_p",1), 0, 1.0));
             lp_accum__.add(normal_log<propto__>(get_base1(mu_p,6,"mu_p",1), 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(3, 4), stan::model::nil_index_list()), "sigma"), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(5, 6), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(xi_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(b_pr, 0, 1.0));
@@ -19871,6 +19883,1203 @@ public:
 
 #include <stan/model/model_header.hpp>
 
+namespace model_igt_orl_namespace {
+
+using std::istream;
+using std::string;
+using std::stringstream;
+using std::vector;
+using stan::io::dump;
+using stan::math::lgamma;
+using stan::model::prob_grad;
+using namespace stan::math;
+
+typedef Eigen::Matrix<double,Eigen::Dynamic,1> vector_d;
+typedef Eigen::Matrix<double,1,Eigen::Dynamic> row_vector_d;
+typedef Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic> matrix_d;
+
+static int current_statement_begin__;
+
+stan::io::program_reader prog_reader__() {
+    stan::io::program_reader reader;
+    reader.add_event(0, 0, "start", "model_igt_orl");
+    reader.add_event(204, 204, "end", "model_igt_orl");
+    return reader;
+}
+
+class model_igt_orl : public prob_grad {
+private:
+    int N;
+    int T;
+    vector<int> Tsubj;
+    vector<vector<double> > outcome;
+    vector<vector<double> > sign_out;
+    vector<vector<int> > choice;
+    vector_d initV;
+public:
+    model_igt_orl(stan::io::var_context& context__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, 0, pstream__);
+    }
+
+    model_igt_orl(stan::io::var_context& context__,
+        unsigned int random_seed__,
+        std::ostream* pstream__ = 0)
+        : prob_grad(0) {
+        ctor_body(context__, random_seed__, pstream__);
+    }
+
+    void ctor_body(stan::io::var_context& context__,
+                   unsigned int random_seed__,
+                   std::ostream* pstream__) {
+        boost::ecuyer1988 base_rng__ =
+          stan::services::util::create_rng(random_seed__, 0);
+        (void) base_rng__;  // suppress unused var warning
+
+        current_statement_begin__ = -1;
+
+        static const char* function__ = "model_igt_orl_namespace::model_igt_orl";
+        (void) function__;  // dummy to suppress unused var warning
+        size_t pos__;
+        (void) pos__;  // dummy to suppress unused var warning
+        std::vector<int> vals_i__;
+        std::vector<double> vals_r__;
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        // initialize member variables
+        try {
+            context__.validate_dims("data initialization", "N", "int", context__.to_vec());
+            N = int(0);
+            vals_i__ = context__.vals_i("N");
+            pos__ = 0;
+            N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "T", "int", context__.to_vec());
+            T = int(0);
+            vals_i__ = context__.vals_i("T");
+            pos__ = 0;
+            T = vals_i__[pos__++];
+            validate_non_negative_index("Tsubj", "N", N);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Tsubj", "N", N);
+            Tsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Tsubj");
+            pos__ = 0;
+            size_t Tsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
+                Tsubj[i_0__] = vals_i__[pos__++];
+            }
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
+            pos__ = 0;
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
+                }
+            }
+            validate_non_negative_index("sign_out", "N", N);
+            validate_non_negative_index("sign_out", "T", T);
+            context__.validate_dims("data initialization", "sign_out", "double", context__.to_vec(N,T));
+            validate_non_negative_index("sign_out", "N", N);
+            validate_non_negative_index("sign_out", "T", T);
+            sign_out = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("sign_out");
+            pos__ = 0;
+            size_t sign_out_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < sign_out_limit_1__; ++i_1__) {
+                size_t sign_out_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < sign_out_limit_0__; ++i_0__) {
+                    sign_out[i_0__][i_1__] = vals_r__[pos__++];
+                }
+            }
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("choice");
+            pos__ = 0;
+            size_t choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
+                size_t choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
+                    choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+
+            // validate, data variables
+            check_greater_or_equal(function__,"N",N,1);
+            check_greater_or_equal(function__,"T",T,1);
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                check_greater_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],1);
+                check_less_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],T);
+            }
+            // initialize data variables
+            validate_non_negative_index("initV", "4", 4);
+            initV = vector_d(static_cast<Eigen::VectorXd::Index>(4));
+            stan::math::fill(initV,DUMMY_VAR__);
+
+            stan::math::assign(initV, rep_vector(0.0,4));
+
+            // validate transformed data
+
+            // validate, set parameter ranges
+            num_params_r__ = 0U;
+            param_ranges_i__.clear();
+            validate_non_negative_index("mu_p", "5", 5);
+            num_params_r__ += 5;
+            validate_non_negative_index("sigma", "5", 5);
+            num_params_r__ += 5;
+            validate_non_negative_index("Arew_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("Apun_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("K_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("betaF_pr", "N", N);
+            num_params_r__ += N;
+            validate_non_negative_index("betaP_pr", "N", N);
+            num_params_r__ += N;
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    ~model_igt_orl() { }
+
+
+    void transform_inits(const stan::io::var_context& context__,
+                         std::vector<int>& params_i__,
+                         std::vector<double>& params_r__,
+                         std::ostream* pstream__) const {
+        stan::io::writer<double> writer__(params_r__,params_i__);
+        size_t pos__;
+        (void) pos__; // dummy call to supress warning
+        std::vector<double> vals_r__;
+        std::vector<int> vals_i__;
+
+        if (!(context__.contains_r("mu_p")))
+            throw std::runtime_error("variable mu_p missing");
+        vals_r__ = context__.vals_r("mu_p");
+        pos__ = 0U;
+        validate_non_negative_index("mu_p", "5", 5);
+        context__.validate_dims("initialization", "mu_p", "vector_d", context__.to_vec(5));
+        vector_d mu_p(static_cast<Eigen::VectorXd::Index>(5));
+        for (int j1__ = 0U; j1__ < 5; ++j1__)
+            mu_p(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(mu_p);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable mu_p: ") + e.what());
+        }
+
+        if (!(context__.contains_r("sigma")))
+            throw std::runtime_error("variable sigma missing");
+        vals_r__ = context__.vals_r("sigma");
+        pos__ = 0U;
+        validate_non_negative_index("sigma", "5", 5);
+        context__.validate_dims("initialization", "sigma", "vector_d", context__.to_vec(5));
+        vector_d sigma(static_cast<Eigen::VectorXd::Index>(5));
+        for (int j1__ = 0U; j1__ < 5; ++j1__)
+            sigma(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_lb_unconstrain(0,sigma);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable sigma: ") + e.what());
+        }
+
+        if (!(context__.contains_r("Arew_pr")))
+            throw std::runtime_error("variable Arew_pr missing");
+        vals_r__ = context__.vals_r("Arew_pr");
+        pos__ = 0U;
+        validate_non_negative_index("Arew_pr", "N", N);
+        context__.validate_dims("initialization", "Arew_pr", "vector_d", context__.to_vec(N));
+        vector_d Arew_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            Arew_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(Arew_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable Arew_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("Apun_pr")))
+            throw std::runtime_error("variable Apun_pr missing");
+        vals_r__ = context__.vals_r("Apun_pr");
+        pos__ = 0U;
+        validate_non_negative_index("Apun_pr", "N", N);
+        context__.validate_dims("initialization", "Apun_pr", "vector_d", context__.to_vec(N));
+        vector_d Apun_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            Apun_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(Apun_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable Apun_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("K_pr")))
+            throw std::runtime_error("variable K_pr missing");
+        vals_r__ = context__.vals_r("K_pr");
+        pos__ = 0U;
+        validate_non_negative_index("K_pr", "N", N);
+        context__.validate_dims("initialization", "K_pr", "vector_d", context__.to_vec(N));
+        vector_d K_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            K_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(K_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable K_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("betaF_pr")))
+            throw std::runtime_error("variable betaF_pr missing");
+        vals_r__ = context__.vals_r("betaF_pr");
+        pos__ = 0U;
+        validate_non_negative_index("betaF_pr", "N", N);
+        context__.validate_dims("initialization", "betaF_pr", "vector_d", context__.to_vec(N));
+        vector_d betaF_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            betaF_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(betaF_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable betaF_pr: ") + e.what());
+        }
+
+        if (!(context__.contains_r("betaP_pr")))
+            throw std::runtime_error("variable betaP_pr missing");
+        vals_r__ = context__.vals_r("betaP_pr");
+        pos__ = 0U;
+        validate_non_negative_index("betaP_pr", "N", N);
+        context__.validate_dims("initialization", "betaP_pr", "vector_d", context__.to_vec(N));
+        vector_d betaP_pr(static_cast<Eigen::VectorXd::Index>(N));
+        for (int j1__ = 0U; j1__ < N; ++j1__)
+            betaP_pr(j1__) = vals_r__[pos__++];
+        try {
+            writer__.vector_unconstrain(betaP_pr);
+        } catch (const std::exception& e) { 
+            throw std::runtime_error(std::string("Error transforming variable betaP_pr: ") + e.what());
+        }
+
+        params_r__ = writer__.data_r();
+        params_i__ = writer__.data_i();
+    }
+
+    void transform_inits(const stan::io::var_context& context,
+                         Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                         std::ostream* pstream__) const {
+      std::vector<double> params_r_vec;
+      std::vector<int> params_i_vec;
+      transform_inits(context, params_i_vec, params_r_vec, pstream__);
+      params_r.resize(params_r_vec.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r(i) = params_r_vec[i];
+    }
+
+
+    template <bool propto__, bool jacobian__, typename T__>
+    T__ log_prob(vector<T__>& params_r__,
+                 vector<int>& params_i__,
+                 std::ostream* pstream__ = 0) const {
+
+        T__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        T__ lp__(0.0);
+        stan::math::accumulator<T__> lp_accum__;
+
+        try {
+            // model parameters
+            stan::io::reader<T__> in__(params_r__,params_i__);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  mu_p;
+            (void) mu_p;  // dummy to suppress unused var warning
+            if (jacobian__)
+                mu_p = in__.vector_constrain(5,lp__);
+            else
+                mu_p = in__.vector_constrain(5);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  sigma;
+            (void) sigma;  // dummy to suppress unused var warning
+            if (jacobian__)
+                sigma = in__.vector_lb_constrain(0,5,lp__);
+            else
+                sigma = in__.vector_lb_constrain(0,5);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  Arew_pr;
+            (void) Arew_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                Arew_pr = in__.vector_constrain(N,lp__);
+            else
+                Arew_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  Apun_pr;
+            (void) Apun_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                Apun_pr = in__.vector_constrain(N,lp__);
+            else
+                Apun_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  K_pr;
+            (void) K_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                K_pr = in__.vector_constrain(N,lp__);
+            else
+                K_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  betaF_pr;
+            (void) betaF_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                betaF_pr = in__.vector_constrain(N,lp__);
+            else
+                betaF_pr = in__.vector_constrain(N);
+
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  betaP_pr;
+            (void) betaP_pr;  // dummy to suppress unused var warning
+            if (jacobian__)
+                betaP_pr = in__.vector_constrain(N,lp__);
+            else
+                betaP_pr = in__.vector_constrain(N);
+
+
+            // transformed parameters
+            validate_non_negative_index("Arew", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  Arew(static_cast<Eigen::VectorXd::Index>(N));
+            (void) Arew;  // dummy to suppress unused var warning
+
+            stan::math::initialize(Arew, DUMMY_VAR__);
+            stan::math::fill(Arew,DUMMY_VAR__);
+            validate_non_negative_index("Apun", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  Apun(static_cast<Eigen::VectorXd::Index>(N));
+            (void) Apun;  // dummy to suppress unused var warning
+
+            stan::math::initialize(Apun, DUMMY_VAR__);
+            stan::math::fill(Apun,DUMMY_VAR__);
+            validate_non_negative_index("K", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  K(static_cast<Eigen::VectorXd::Index>(N));
+            (void) K;  // dummy to suppress unused var warning
+
+            stan::math::initialize(K, DUMMY_VAR__);
+            stan::math::fill(K,DUMMY_VAR__);
+            validate_non_negative_index("betaF", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  betaF(static_cast<Eigen::VectorXd::Index>(N));
+            (void) betaF;  // dummy to suppress unused var warning
+
+            stan::math::initialize(betaF, DUMMY_VAR__);
+            stan::math::fill(betaF,DUMMY_VAR__);
+            validate_non_negative_index("betaP", "N", N);
+            Eigen::Matrix<T__,Eigen::Dynamic,1>  betaP(static_cast<Eigen::VectorXd::Index>(N));
+            (void) betaP;  // dummy to suppress unused var warning
+
+            stan::math::initialize(betaP, DUMMY_VAR__);
+            stan::math::fill(betaP,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(Arew,i,"Arew",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(Arew_pr,i,"Arew_pr",1)))));
+                stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
+                stan::math::assign(get_base1_lhs(K,i,"K",1), (Phi_approx(((get_base1(mu_p,3,"mu_p",1) + get_base1(sigma,3,"sigma",1)) + get_base1(K_pr,i,"K_pr",1))) * 5));
+            }
+            stan::math::assign(betaF, add(get_base1(mu_p,4,"mu_p",1),multiply(get_base1(sigma,4,"sigma",1),betaF_pr)));
+            stan::math::assign(betaP, add(get_base1(mu_p,5,"mu_p",1),multiply(get_base1(sigma,5,"sigma",1),betaP_pr)));
+
+            // validate transformed parameters
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(Arew(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: Arew" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(Apun(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: Apun" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(K(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: K" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(betaF(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: betaF" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+            for (int i0__ = 0; i0__ < N; ++i0__) {
+                if (stan::math::is_uninitialized(betaP(i0__))) {
+                    std::stringstream msg__;
+                    msg__ << "Undefined transformed parameter: betaP" << '[' << i0__ << ']';
+                    throw std::runtime_error(msg__.str());
+                }
+            }
+
+            const char* function__ = "validate transformed params";
+            (void) function__;  // dummy to suppress unused var warning
+            check_greater_or_equal(function__,"Arew",Arew,0);
+            check_less_or_equal(function__,"Arew",Arew,1);
+            check_greater_or_equal(function__,"Apun",Apun,0);
+            check_less_or_equal(function__,"Apun",Apun,1);
+            check_greater_or_equal(function__,"K",K,0);
+            check_less_or_equal(function__,"K",K,5);
+
+            // model body
+
+            lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 3), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(4, 5), stan::model::nil_index_list()), "sigma"), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(Arew_pr, 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(Apun_pr, 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(K_pr, 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(betaF_pr, 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(betaP_pr, 0, 1.0));
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("ef", "4", 4);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  ef(static_cast<Eigen::VectorXd::Index>(4));
+                (void) ef;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ef, DUMMY_VAR__);
+                stan::math::fill(ef,DUMMY_VAR__);
+                validate_non_negative_index("ev", "4", 4);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  ev(static_cast<Eigen::VectorXd::Index>(4));
+                (void) ev;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ev, DUMMY_VAR__);
+                stan::math::fill(ev,DUMMY_VAR__);
+                validate_non_negative_index("PEfreq_fic", "4", 4);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  PEfreq_fic(static_cast<Eigen::VectorXd::Index>(4));
+                (void) PEfreq_fic;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEfreq_fic, DUMMY_VAR__);
+                stan::math::fill(PEfreq_fic,DUMMY_VAR__);
+                validate_non_negative_index("PEval_fic", "4", 4);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  PEval_fic(static_cast<Eigen::VectorXd::Index>(4));
+                (void) PEval_fic;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEval_fic, DUMMY_VAR__);
+                stan::math::fill(PEval_fic,DUMMY_VAR__);
+                validate_non_negative_index("pers", "4", 4);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  pers(static_cast<Eigen::VectorXd::Index>(4));
+                (void) pers;  // dummy to suppress unused var warning
+
+                stan::math::initialize(pers, DUMMY_VAR__);
+                stan::math::fill(pers,DUMMY_VAR__);
+                validate_non_negative_index("util", "4", 4);
+                Eigen::Matrix<T__,Eigen::Dynamic,1>  util(static_cast<Eigen::VectorXd::Index>(4));
+                (void) util;  // dummy to suppress unused var warning
+
+                stan::math::initialize(util, DUMMY_VAR__);
+                stan::math::fill(util,DUMMY_VAR__);
+                T__ PEval;
+                (void) PEval;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEval, DUMMY_VAR__);
+                stan::math::fill(PEval,DUMMY_VAR__);
+                T__ PEfreq;
+                (void) PEfreq;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEfreq, DUMMY_VAR__);
+                stan::math::fill(PEfreq,DUMMY_VAR__);
+                T__ efChosen;
+                (void) efChosen;  // dummy to suppress unused var warning
+
+                stan::math::initialize(efChosen, DUMMY_VAR__);
+                stan::math::fill(efChosen,DUMMY_VAR__);
+                T__ evChosen;
+                (void) evChosen;  // dummy to suppress unused var warning
+
+                stan::math::initialize(evChosen, DUMMY_VAR__);
+                stan::math::fill(evChosen,DUMMY_VAR__);
+                T__ K_tr;
+                (void) K_tr;  // dummy to suppress unused var warning
+
+                stan::math::initialize(K_tr, DUMMY_VAR__);
+                stan::math::fill(K_tr,DUMMY_VAR__);
+
+
+                stan::math::assign(ef, initV);
+                stan::math::assign(ev, initV);
+                stan::math::assign(pers, initV);
+                stan::math::assign(util, initV);
+                stan::math::assign(K_tr, (pow(3,get_base1(K,i,"K",1)) - 1));
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    lp_accum__.add(categorical_logit_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), util));
+                    stan::math::assign(PEval, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEfreq, (get_base1(get_base1(sign_out,i,"sign_out",1),t,"sign_out",2) - get_base1(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1)));
+                    stan::math::assign(PEfreq_fic, subtract((-(get_base1(get_base1(sign_out,i,"sign_out",1),t,"sign_out",2)) / 3),ef));
+                    stan::math::assign(efChosen, get_base1(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1));
+                    stan::math::assign(evChosen, get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1));
+                    if (as_bool(logical_gte(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2),0))) {
+
+                        stan::math::assign(ef, add(ef,multiply(get_base1(Apun,i,"Apun",1),PEfreq_fic)));
+                        stan::math::assign(get_base1_lhs(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1), (efChosen + (get_base1(Arew,i,"Arew",1) * PEfreq)));
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (evChosen + (get_base1(Arew,i,"Arew",1) * PEval)));
+                    } else {
+
+                        stan::math::assign(ef, add(ef,multiply(get_base1(Arew,i,"Arew",1),PEfreq_fic)));
+                        stan::math::assign(get_base1_lhs(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1), (efChosen + (get_base1(Apun,i,"Apun",1) * PEfreq)));
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (evChosen + (get_base1(Apun,i,"Apun",1) * PEval)));
+                    }
+                    stan::math::assign(get_base1_lhs(pers,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"pers",1), 1);
+                    stan::math::assign(pers, divide(pers,(1 + K_tr)));
+                    stan::math::assign(util, add(add(ev,multiply(ef,get_base1(betaF,i,"betaF",1))),multiply(pers,get_base1(betaP,i,"betaP",1))));
+                }
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+
+        lp_accum__.add(lp__);
+        return lp_accum__.sum();
+
+    } // log_prob()
+
+    template <bool propto, bool jacobian, typename T_>
+    T_ log_prob(Eigen::Matrix<T_,Eigen::Dynamic,1>& params_r,
+               std::ostream* pstream = 0) const {
+      std::vector<T_> vec_params_r;
+      vec_params_r.reserve(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        vec_params_r.push_back(params_r(i));
+      std::vector<int> vec_params_i;
+      return log_prob<propto,jacobian,T_>(vec_params_r, vec_params_i, pstream);
+    }
+
+
+    void get_param_names(std::vector<std::string>& names__) const {
+        names__.resize(0);
+        names__.push_back("mu_p");
+        names__.push_back("sigma");
+        names__.push_back("Arew_pr");
+        names__.push_back("Apun_pr");
+        names__.push_back("K_pr");
+        names__.push_back("betaF_pr");
+        names__.push_back("betaP_pr");
+        names__.push_back("Arew");
+        names__.push_back("Apun");
+        names__.push_back("K");
+        names__.push_back("betaF");
+        names__.push_back("betaP");
+        names__.push_back("mu_Arew");
+        names__.push_back("mu_Apun");
+        names__.push_back("mu_K");
+        names__.push_back("mu_betaF");
+        names__.push_back("mu_betaP");
+        names__.push_back("log_lik");
+        names__.push_back("y_pred");
+    }
+
+
+    void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
+        dimss__.resize(0);
+        std::vector<size_t> dims__;
+        dims__.resize(0);
+        dims__.push_back(5);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(5);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(N);
+        dims__.push_back(T);
+        dimss__.push_back(dims__);
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng__,
+                     std::vector<double>& params_r__,
+                     std::vector<int>& params_i__,
+                     std::vector<double>& vars__,
+                     bool include_tparams__ = true,
+                     bool include_gqs__ = true,
+                     std::ostream* pstream__ = 0) const {
+        vars__.resize(0);
+        stan::io::reader<double> in__(params_r__,params_i__);
+        static const char* function__ = "model_igt_orl_namespace::write_array";
+        (void) function__;  // dummy to suppress unused var warning
+        // read-transform, write parameters
+        vector_d mu_p = in__.vector_constrain(5);
+        vector_d sigma = in__.vector_lb_constrain(0,5);
+        vector_d Arew_pr = in__.vector_constrain(N);
+        vector_d Apun_pr = in__.vector_constrain(N);
+        vector_d K_pr = in__.vector_constrain(N);
+        vector_d betaF_pr = in__.vector_constrain(N);
+        vector_d betaP_pr = in__.vector_constrain(N);
+            for (int k_0__ = 0; k_0__ < 5; ++k_0__) {
+            vars__.push_back(mu_p[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < 5; ++k_0__) {
+            vars__.push_back(sigma[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(Arew_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(Apun_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(K_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(betaF_pr[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(betaP_pr[k_0__]);
+            }
+
+        if (!include_tparams__) return;
+        // declare and define transformed parameters
+        double lp__ = 0.0;
+        (void) lp__;  // dummy to suppress unused var warning
+        stan::math::accumulator<double> lp_accum__;
+
+        double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+        try {
+            validate_non_negative_index("Arew", "N", N);
+            vector_d Arew(static_cast<Eigen::VectorXd::Index>(N));
+            (void) Arew;  // dummy to suppress unused var warning
+
+            stan::math::initialize(Arew, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(Arew,DUMMY_VAR__);
+            validate_non_negative_index("Apun", "N", N);
+            vector_d Apun(static_cast<Eigen::VectorXd::Index>(N));
+            (void) Apun;  // dummy to suppress unused var warning
+
+            stan::math::initialize(Apun, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(Apun,DUMMY_VAR__);
+            validate_non_negative_index("K", "N", N);
+            vector_d K(static_cast<Eigen::VectorXd::Index>(N));
+            (void) K;  // dummy to suppress unused var warning
+
+            stan::math::initialize(K, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(K,DUMMY_VAR__);
+            validate_non_negative_index("betaF", "N", N);
+            vector_d betaF(static_cast<Eigen::VectorXd::Index>(N));
+            (void) betaF;  // dummy to suppress unused var warning
+
+            stan::math::initialize(betaF, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(betaF,DUMMY_VAR__);
+            validate_non_negative_index("betaP", "N", N);
+            vector_d betaP(static_cast<Eigen::VectorXd::Index>(N));
+            (void) betaP;  // dummy to suppress unused var warning
+
+            stan::math::initialize(betaP, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(betaP,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                stan::math::assign(get_base1_lhs(Arew,i,"Arew",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(Arew_pr,i,"Arew_pr",1)))));
+                stan::math::assign(get_base1_lhs(Apun,i,"Apun",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(Apun_pr,i,"Apun_pr",1)))));
+                stan::math::assign(get_base1_lhs(K,i,"K",1), (Phi_approx(((get_base1(mu_p,3,"mu_p",1) + get_base1(sigma,3,"sigma",1)) + get_base1(K_pr,i,"K_pr",1))) * 5));
+            }
+            stan::math::assign(betaF, add(get_base1(mu_p,4,"mu_p",1),multiply(get_base1(sigma,4,"sigma",1),betaF_pr)));
+            stan::math::assign(betaP, add(get_base1(mu_p,5,"mu_p",1),multiply(get_base1(sigma,5,"sigma",1),betaP_pr)));
+
+            // validate transformed parameters
+            check_greater_or_equal(function__,"Arew",Arew,0);
+            check_less_or_equal(function__,"Arew",Arew,1);
+            check_greater_or_equal(function__,"Apun",Apun,0);
+            check_less_or_equal(function__,"Apun",Apun,1);
+            check_greater_or_equal(function__,"K",K,0);
+            check_less_or_equal(function__,"K",K,5);
+
+            // write transformed parameters
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(Arew[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(Apun[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(K[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(betaF[k_0__]);
+            }
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(betaP[k_0__]);
+            }
+
+            if (!include_gqs__) return;
+            // declare and define generated quantities
+            double mu_Arew(0.0);
+            (void) mu_Arew;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_Arew, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_Arew,DUMMY_VAR__);
+            double mu_Apun(0.0);
+            (void) mu_Apun;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_Apun, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_Apun,DUMMY_VAR__);
+            double mu_K(0.0);
+            (void) mu_K;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_K, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_K,DUMMY_VAR__);
+            double mu_betaF(0.0);
+            (void) mu_betaF;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_betaF, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_betaF,DUMMY_VAR__);
+            double mu_betaP(0.0);
+            (void) mu_betaP;  // dummy to suppress unused var warning
+
+            stan::math::initialize(mu_betaP, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(mu_betaP,DUMMY_VAR__);
+            validate_non_negative_index("log_lik", "N", N);
+            vector<double> log_lik(N, 0.0);
+            stan::math::initialize(log_lik, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(log_lik,DUMMY_VAR__);
+            validate_non_negative_index("y_pred", "N", N);
+            validate_non_negative_index("y_pred", "T", T);
+            vector<vector<double> > y_pred(N, (vector<double>(T, 0.0)));
+            stan::math::initialize(y_pred, std::numeric_limits<double>::quiet_NaN());
+            stan::math::fill(y_pred,DUMMY_VAR__);
+
+
+            for (int i = 1; i <= N; ++i) {
+
+                for (int t = 1; t <= T; ++t) {
+
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), -(1));
+                }
+            }
+            stan::math::assign(mu_Arew, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
+            stan::math::assign(mu_Apun, Phi_approx(get_base1(mu_p,2,"mu_p",1)));
+            stan::math::assign(mu_K, (Phi_approx(get_base1(mu_p,3,"mu_p",1)) * 5));
+            stan::math::assign(mu_betaF, get_base1(mu_p,4,"mu_p",1));
+            stan::math::assign(mu_betaP, get_base1(mu_p,5,"mu_p",1));
+
+            for (int i = 1; i <= N; ++i) {
+                {
+                validate_non_negative_index("ef", "4", 4);
+                vector_d ef(static_cast<Eigen::VectorXd::Index>(4));
+                (void) ef;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ef, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(ef,DUMMY_VAR__);
+                validate_non_negative_index("ev", "4", 4);
+                vector_d ev(static_cast<Eigen::VectorXd::Index>(4));
+                (void) ev;  // dummy to suppress unused var warning
+
+                stan::math::initialize(ev, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(ev,DUMMY_VAR__);
+                validate_non_negative_index("PEfreq_fic", "4", 4);
+                vector_d PEfreq_fic(static_cast<Eigen::VectorXd::Index>(4));
+                (void) PEfreq_fic;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEfreq_fic, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(PEfreq_fic,DUMMY_VAR__);
+                validate_non_negative_index("PEval_fic", "4", 4);
+                vector_d PEval_fic(static_cast<Eigen::VectorXd::Index>(4));
+                (void) PEval_fic;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEval_fic, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(PEval_fic,DUMMY_VAR__);
+                validate_non_negative_index("pers", "4", 4);
+                vector_d pers(static_cast<Eigen::VectorXd::Index>(4));
+                (void) pers;  // dummy to suppress unused var warning
+
+                stan::math::initialize(pers, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(pers,DUMMY_VAR__);
+                validate_non_negative_index("util", "4", 4);
+                vector_d util(static_cast<Eigen::VectorXd::Index>(4));
+                (void) util;  // dummy to suppress unused var warning
+
+                stan::math::initialize(util, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(util,DUMMY_VAR__);
+                double PEval(0.0);
+                (void) PEval;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEval, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(PEval,DUMMY_VAR__);
+                double PEfreq(0.0);
+                (void) PEfreq;  // dummy to suppress unused var warning
+
+                stan::math::initialize(PEfreq, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(PEfreq,DUMMY_VAR__);
+                double efChosen(0.0);
+                (void) efChosen;  // dummy to suppress unused var warning
+
+                stan::math::initialize(efChosen, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(efChosen,DUMMY_VAR__);
+                double evChosen(0.0);
+                (void) evChosen;  // dummy to suppress unused var warning
+
+                stan::math::initialize(evChosen, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(evChosen,DUMMY_VAR__);
+                double K_tr(0.0);
+                (void) K_tr;  // dummy to suppress unused var warning
+
+                stan::math::initialize(K_tr, std::numeric_limits<double>::quiet_NaN());
+                stan::math::fill(K_tr,DUMMY_VAR__);
+
+
+                stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), 0);
+                stan::math::assign(ef, initV);
+                stan::math::assign(ev, initV);
+                stan::math::assign(pers, initV);
+                stan::math::assign(util, initV);
+                stan::math::assign(K_tr, (pow(3,get_base1(K,i,"K",1)) - 1));
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
+
+                    stan::math::assign(get_base1_lhs(log_lik,i,"log_lik",1), (get_base1(log_lik,i,"log_lik",1) + categorical_logit_log(get_base1(get_base1(choice,i,"choice",1),t,"choice",2),util)));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(y_pred,i,"y_pred",1),t,"y_pred",2), categorical_rng(softmax(util), base_rng__));
+                    stan::math::assign(PEval, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEfreq, (get_base1(get_base1(sign_out,i,"sign_out",1),t,"sign_out",2) - get_base1(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1)));
+                    stan::math::assign(PEfreq_fic, subtract((-(get_base1(get_base1(sign_out,i,"sign_out",1),t,"sign_out",2)) / 3),ef));
+                    stan::math::assign(efChosen, get_base1(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1));
+                    stan::math::assign(evChosen, get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1));
+                    if (as_bool(logical_gte(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2),0))) {
+
+                        stan::math::assign(ef, add(ef,multiply(get_base1(Apun,i,"Apun",1),PEfreq_fic)));
+                        stan::math::assign(get_base1_lhs(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1), (efChosen + (get_base1(Arew,i,"Arew",1) * PEfreq)));
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (evChosen + (get_base1(Arew,i,"Arew",1) * PEval)));
+                    } else {
+
+                        stan::math::assign(ef, add(ef,multiply(get_base1(Arew,i,"Arew",1),PEfreq_fic)));
+                        stan::math::assign(get_base1_lhs(ef,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ef",1), (efChosen + (get_base1(Apun,i,"Apun",1) * PEfreq)));
+                        stan::math::assign(get_base1_lhs(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), (evChosen + (get_base1(Apun,i,"Apun",1) * PEval)));
+                    }
+                    stan::math::assign(get_base1_lhs(pers,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"pers",1), 1);
+                    stan::math::assign(pers, divide(pers,(1 + K_tr)));
+                    stan::math::assign(util, add(add(ev,multiply(ef,get_base1(betaF,i,"betaF",1))),multiply(pers,get_base1(betaP,i,"betaP",1))));
+                }
+                }
+            }
+
+            // validate generated quantities
+            check_greater_or_equal(function__,"mu_Arew",mu_Arew,0);
+            check_less_or_equal(function__,"mu_Arew",mu_Arew,1);
+            check_greater_or_equal(function__,"mu_Apun",mu_Apun,0);
+            check_less_or_equal(function__,"mu_Apun",mu_Apun,1);
+            check_greater_or_equal(function__,"mu_K",mu_K,0);
+            check_less_or_equal(function__,"mu_K",mu_K,5);
+
+            // write generated quantities
+        vars__.push_back(mu_Arew);
+        vars__.push_back(mu_Apun);
+        vars__.push_back(mu_K);
+        vars__.push_back(mu_betaF);
+        vars__.push_back(mu_betaP);
+            for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+            vars__.push_back(log_lik[k_0__]);
+            }
+            for (int k_1__ = 0; k_1__ < T; ++k_1__) {
+                for (int k_0__ = 0; k_0__ < N; ++k_0__) {
+                vars__.push_back(y_pred[k_0__][k_1__]);
+                }
+            }
+
+        } catch (const std::exception& e) {
+            stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+            // Next line prevents compiler griping about no return
+            throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+        }
+    }
+
+    template <typename RNG>
+    void write_array(RNG& base_rng,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& params_r,
+                     Eigen::Matrix<double,Eigen::Dynamic,1>& vars,
+                     bool include_tparams = true,
+                     bool include_gqs = true,
+                     std::ostream* pstream = 0) const {
+      std::vector<double> params_r_vec(params_r.size());
+      for (int i = 0; i < params_r.size(); ++i)
+        params_r_vec[i] = params_r(i);
+      std::vector<double> vars_vec;
+      std::vector<int> params_i_vec;
+      write_array(base_rng,params_r_vec,params_i_vec,vars_vec,include_tparams,include_gqs,pstream);
+      vars.resize(vars_vec.size());
+      for (int i = 0; i < vars.size(); ++i)
+        vars(i) = vars_vec[i];
+    }
+
+    static std::string model_name() {
+        return "model_igt_orl";
+    }
+
+
+    void constrained_param_names(std::vector<std::string>& param_names__,
+                                 bool include_tparams__ = true,
+                                 bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 5; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 5; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Arew_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Apun_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "K_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaF_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaP_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Arew" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Apun" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "K" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaF" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaP" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_Arew";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_Apun";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_K";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_betaF";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_betaP";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+
+    void unconstrained_param_names(std::vector<std::string>& param_names__,
+                                   bool include_tparams__ = true,
+                                   bool include_gqs__ = true) const {
+        std::stringstream param_name_stream__;
+        for (int k_0__ = 1; k_0__ <= 5; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "mu_p" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= 5; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "sigma" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Arew_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Apun_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "K_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaF_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaP_pr" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__ && !include_tparams__) return;
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Arew" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "Apun" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "K" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaF" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "betaP" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+
+        if (!include_gqs__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_Arew";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_Apun";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_K";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_betaF";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "mu_betaP";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "log_lik" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
+            for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+    }
+
+}; // model
+
+}
+
+
+
+
+// Code generated by Stan version 2.17.0
+
+#include <stan/model/model_header.hpp>
+
 namespace model_igt_pvl_decay_namespace {
 
 using std::istream;
@@ -20282,7 +21491,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(A_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(cons_pr, 0, 1));
@@ -21255,7 +22464,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(A_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(cons_pr, 0, 1));
@@ -21835,7 +23044,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_igt_vpp");
-    reader.add_event(190, 190, "end", "model_igt_vpp");
+    reader.add_event(185, 185, "end", "model_igt_vpp");
     return reader;
 }
 
@@ -22381,15 +23590,10 @@ public:
 
             // model body
 
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,1,"mu_p",1), 0, 1.0));
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,2,"mu_p",1), 0, 1.0));
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,3,"mu_p",1), 0, 1.0));
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,4,"mu_p",1), 0, 1.0));
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,5,"mu_p",1), 0, 10.0));
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,6,"mu_p",1), 0, 10.0));
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,7,"mu_p",1), 0, 1.0));
-            lp_accum__.add(normal_log<propto__>(get_base1(mu_p,8,"mu_p",1), 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(mu_p, 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 4), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(5, 6), stan::model::nil_index_list()), "sigma"), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(7, 8), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(A_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(cons_pr, 0, 1.0));
@@ -23273,7 +24477,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_peer_ocu");
-    reader.add_event(111, 111, "end", "model_peer_ocu");
+    reader.add_event(112, 112, "end", "model_peer_ocu");
     return reader;
 }
 
@@ -23714,7 +24918,8 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(get_base1(sigma,3,"sigma",1), 0, 1.0));
             lp_accum__.add(normal_log<propto__>(rho_p, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(tau_p, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(ocu_p, 0, 1.0));
@@ -24570,7 +25775,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(phi_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(rho_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
@@ -25203,7 +26408,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_prl_fictitious");
-    reader.add_event(164, 164, "end", "model_prl_fictitious");
+    reader.add_event(166, 166, "end", "model_prl_fictitious");
     return reader;
 }
 
@@ -25521,9 +26726,9 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
+            stan::math::assign(alpha, add(get_base1(mu_p,2,"mu_p",1),multiply(get_base1(sigma,2,"sigma",1),alpha_pr)));
 
             // validate transformed parameters
             for (int i0__ = 0; i0__ < N; ++i0__) {
@@ -25558,7 +26763,9 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,1,"sigma",1), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(get_base1(sigma,2,"sigma",1), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,3,"sigma",1), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(eta_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
@@ -25777,9 +26984,9 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
+            stan::math::assign(alpha, add(get_base1(mu_p,2,"mu_p",1),multiply(get_base1(sigma,2,"sigma",1),alpha_pr)));
 
             // validate transformed parameters
             check_greater_or_equal(function__,"eta",eta,0);
@@ -26232,7 +27439,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_prl_fictitious_multipleB");
-    reader.add_event(174, 174, "end", "model_prl_fictitious_multipleB");
+    reader.add_event(176, 176, "end", "model_prl_fictitious_multipleB");
     return reader;
 }
 
@@ -26590,9 +27797,9 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 10));
             }
+            stan::math::assign(alpha, add(get_base1(mu_p,2,"mu_p",1),multiply(get_base1(sigma,2,"sigma",1),alpha_pr)));
 
             // validate transformed parameters
             for (int i0__ = 0; i0__ < N; ++i0__) {
@@ -26627,7 +27834,9 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,1,"sigma",1), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(get_base1(sigma,2,"sigma",1), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,3,"sigma",1), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(eta_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
@@ -26855,9 +28064,9 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(eta,i,"eta",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pr,i,"eta_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 10));
             }
+            stan::math::assign(alpha, add(get_base1(mu_p,2,"mu_p",1),multiply(get_base1(sigma,2,"sigma",1),alpha_pr)));
 
             // validate transformed parameters
             check_greater_or_equal(function__,"eta",eta,0);
@@ -27358,7 +28567,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_prl_fictitious_rp");
-    reader.add_event(179, 179, "end", "model_prl_fictitious_rp");
+    reader.add_event(181, 181, "end", "model_prl_fictitious_rp");
     return reader;
 }
 
@@ -27707,9 +28916,9 @@ public:
 
                 stan::math::assign(get_base1_lhs(eta_pos,i,"eta_pos",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pos_pr,i,"eta_pos_pr",1)))));
                 stan::math::assign(get_base1_lhs(eta_neg,i,"eta_neg",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(eta_neg_pr,i,"eta_neg_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
+            stan::math::assign(alpha, add(get_base1(mu_p,3,"mu_p",1),multiply(get_base1(sigma,3,"sigma",1),alpha_pr)));
 
             // validate transformed parameters
             for (int i0__ = 0; i0__ < N; ++i0__) {
@@ -27753,7 +28962,9 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(stan::model::rvalue(sigma, stan::model::cons_list(stan::model::index_min_max(1, 2), stan::model::nil_index_list()), "sigma"), 0, 0.20000000000000001));
+            lp_accum__.add(cauchy_log<propto__>(get_base1(sigma,3,"sigma",1), 0, 1.0));
+            lp_accum__.add(normal_log<propto__>(get_base1(sigma,4,"sigma",1), 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(eta_pos_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(eta_neg_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1));
@@ -28002,9 +29213,9 @@ public:
 
                 stan::math::assign(get_base1_lhs(eta_pos,i,"eta_pos",1), Phi_approx((get_base1(mu_p,1,"mu_p",1) + (get_base1(sigma,1,"sigma",1) * get_base1(eta_pos_pr,i,"eta_pos_pr",1)))));
                 stan::math::assign(get_base1_lhs(eta_neg,i,"eta_neg",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(eta_neg_pr,i,"eta_neg_pr",1)))));
-                stan::math::assign(get_base1_lhs(alpha,i,"alpha",1), (get_base1(mu_p,3,"mu_p",1) + (get_base1(sigma,3,"sigma",1) * get_base1(alpha_pr,i,"alpha_pr",1))));
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), (Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))) * 5));
             }
+            stan::math::assign(alpha, add(get_base1(mu_p,3,"mu_p",1),multiply(get_base1(sigma,3,"sigma",1),alpha_pr)));
 
             // validate transformed parameters
             check_greater_or_equal(function__,"eta_pos",eta_pos,0);
@@ -28861,7 +30072,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(eta_pos_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(eta_neg_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
@@ -29870,7 +31081,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(eta_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
             for (int i = 1; i <= N; ++i) {
@@ -30842,7 +32053,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(Apun_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(Arew_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
@@ -31833,7 +33044,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(Apun_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(Arew_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
@@ -32821,7 +34032,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(rho_p, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(tau_p, 0, 1.0));
             for (int i = 1; i <= N; ++i) {
@@ -33610,7 +34821,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(lambda_p, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(tau_p, 0, 1.0));
             for (int i = 1; i <= N; ++i) {
@@ -34439,7 +35650,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1.0));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5.0));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(rho_p, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(lambda_p, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(tau_p, 0, 1.0));
@@ -35365,7 +36576,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(a_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(pi_pr, 0, 1));
@@ -36555,7 +37766,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(a1_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta1_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(a2_pr, 0, 1));
@@ -37908,7 +39119,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(a1_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(beta1_pr, 0, 1));
             lp_accum__.add(normal_log<propto__>(a2_pr, 0, 1));
@@ -39150,7 +40361,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(Beta_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(tau_pr, 0, 1.0));
@@ -40095,7 +41306,7 @@ public:
             // model body
 
             lp_accum__.add(normal_log<propto__>(mu_p, 0, 1));
-            lp_accum__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum__.add(normal_log<propto__>(sigma, 0, 0.20000000000000001));
             lp_accum__.add(normal_log<propto__>(ep_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(alpha_pr, 0, 1.0));
             lp_accum__.add(normal_log<propto__>(tau_pr, 0, 1.0));

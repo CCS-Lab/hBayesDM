@@ -38,7 +38,8 @@ model {
   // peer_ocu
   // hyper parameters
   mu_p  ~ normal(0, 1.0);
-  sigma ~ cauchy(0, 5.0);
+  sigma[1:2] ~ normal(0, 0.2);
+  sigma[3]   ~ cauchy(0, 1.0);
 
   // individual parameters w/ Matt trick
   rho_p ~ normal(0, 1.0);

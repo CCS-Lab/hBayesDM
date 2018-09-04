@@ -76,6 +76,17 @@ plot_igt_vpp <- function(obj, fontSize = 10, ncols = 8, binSize = 30) {
   return(h_all)
 }
 
+plot_igt_orl <- function( obj, fontSize = 10, ncols = 5, binSize = 30 ) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_Arew, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Rew], " (Rew. Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_Apun, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Pun], " (Pun. Learning Rate)")))
+  h3 = plotDist(sample = pars$mu_K, fontSize = fontSize, binSize = binSize, xLim = c(0,5), xLab = "Perseverance Decay")
+  h4 = plotDist(sample = pars$mu_betaF, fontSize = fontSize, binSize = binSize, xLim = c(-10,10), xLab = expression(paste(beta[F], " (Outcome Frequency Weight)")))
+  h5 = plotDist(sample = pars$mu_betaP, fontSize = fontSize, binSize = binSize, xLim = c(-10,10), xLab = expression(paste(beta[P], " (Perseverance Weight)")))
+  h_all = multiplot(h1, h2, h3, h4, h5, cols = ncols)
+  return(h_all)
+}
+
 plot_ra_noLA <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
   pars = obj$parVals
   h1 = plotDist(sample = pars$mu_rho, fontSize = fontSize, binSize = binSize, xLab = expression(paste(rho, " (Risk Aversion)")))

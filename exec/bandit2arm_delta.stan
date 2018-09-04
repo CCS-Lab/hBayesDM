@@ -32,7 +32,7 @@ transformed parameters {
 model {
   // Hyperparameters
   mu_p  ~ normal(0, 1);
-  sigma ~ cauchy(0, 5);
+  sigma ~ normal(0, 0.2);
 
   // individual parameters
   A_pr   ~ normal(0, 1);

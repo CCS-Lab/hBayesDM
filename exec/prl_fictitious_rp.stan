@@ -41,15 +41,17 @@ transformed parameters {
   for (i in 1:N) {
     eta_pos[i]  = Phi_approx(mu_p[1] + sigma[1] * eta_pos_pr[i]);
     eta_neg[i]  = Phi_approx(mu_p[2] + sigma[2] * eta_neg_pr[i]);
-    alpha[i]    = mu_p[3] + sigma[3] * alpha_pr[i];
     beta[i]     = Phi_approx(mu_p[4] + sigma[4] * beta_pr[i]) * 5;
   }
+  alpha = mu_p[3] + sigma[3] * alpha_pr;
 }
 
 model {
   // Hyperparameters
   mu_p  ~ normal(0, 1);
-  sigma ~ cauchy(0, 5);
+  sigma[1:2] ~ normal(0, 0.2);
+  sigma[3]   ~ cauchy(0, 1.0);
+  sigma[4]   ~ normal(0, 0.2);
 
   // individual parameters
   eta_pos_pr ~ normal(0, 1);
