@@ -4,14 +4,14 @@
 \alias{extract_ic}
 \title{Extract Model Comparison Estimates}
 \usage{
-extract_ic(modelData = NULL, ic = "looic", core = 2)
+extract_ic(modelData = NULL, ic = "looic", ncore = 2)
 }
 \arguments{
 \item{modelData}{Object returned by \code{'hBayesDM'} model function}
 
 \item{ic}{Information Criterion. 'looic', 'waic', or 'both'}
 
-\item{core}{Number of cores to use for leave-one-out estimation}
+\item{ncore}{Number of corse to use when computing LOOIC}
 }
 \value{
 IC Leave-One-Out and/or Watanabe-Akaike information criterion estimates.
