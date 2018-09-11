@@ -362,6 +362,14 @@ plot_wcs_sql <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
   h_all = multiplot(h1, h2, h3, cols = ncols)
   return(h_all)
 }
+plot_cra_linear <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_alpha, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha, " (Risk attitude)")))
+  h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Ambiguity attitude)")))
+  h3 = plotDist(sample = pars$mu_gamma, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gamma, " (Inverse temperature)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
+  return(h_all)
+}
 
 plot_bart_par4 <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
   pars = obj$parVals
@@ -370,5 +378,14 @@ plot_bart_par4 <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
   h3 = plotDist(sample = pars$mu_gam, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gam, " (Risk-Taking Parameter)")))
   h4 = plotDist(sample = pars$mu_tau, fontSize = fontSize, binSize = binSize, xLab = expression(paste(tau, " (Inversed Temperature)")))
   h_all = multiplot(h1, h2, h3, h4, cols = ncols)
+  return(h_all)
+}
+
+plot_cra_exp <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_alpha, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha, " (Risk attitude)")))
+  h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Ambiguity attitude)")))
+  h3 = plotDist(sample = pars$mu_gamma, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gamma, " (Inverse temperature)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
   return(h_all)
 }
