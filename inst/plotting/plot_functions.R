@@ -415,8 +415,8 @@ plot_cra_exp <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
 
 plot_pst_gainloss_Q <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
   pars = obj$parVals
-  h1 = plotDist(sample = pars$mu_alpha_pos, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha[pos], " (Risk attitude)")))
-  h2 = plotDist(sample = pars$mu_alpha_neg, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha[neg], " (Ambiguity attitude)")))
+  h1 = plotDist(sample = pars$mu_alpha_pos, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha[pos], " (+Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_alpha_neg, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha[neg], " (-Learning Rate)")))
   h3 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse temperature)")))
   h_all = multiplot(h1, h2, h3, cols = ncols)
   return(h_all)
