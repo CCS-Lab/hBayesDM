@@ -1,7 +1,7 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.5.1
-Date: 2018-03-25
+Version: 0.6.0
+Date: 2018-09-11
 Authors@R: c(
 	person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
 	person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
@@ -29,4 +29,4 @@ LazyData: true
 Author: Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
     Lei Zhang [aut]
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
