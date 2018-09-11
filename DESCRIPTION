@@ -1,7 +1,7 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.5.1
-Date: 2018-03-25
+Version: 0.6.0
+Date: 2018-09-11
 Authors@R: c(
 	person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
 	person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
@@ -11,13 +11,13 @@ Description: Fit an array of decision-making tasks with computational models in
     a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of
     various computational models with a single line of coding.
 Depends:
-    R (>= 3.3.0),
+    R (>= 3.4.0),
     Rcpp (>= 0.12.14),
     methods 
 Imports:
     rstan (>= 2.17.0),
     rstantools (>= 1.4.0),
-    loo (>= 1.1.0),
+    loo (>= 2.0),
     grid,
     parallel,
     ggplot2

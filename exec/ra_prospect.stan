@@ -31,7 +31,7 @@ model {
   // ra_prospect: Original model in Soko-Hessner et al 2009 PNAS
   // hyper parameters
   mu_p  ~ normal(0, 1.0);
-  sigma ~ cauchy(0, 5.0);
+  sigma ~ normal(0, 0.2);
 
   // individual parameters w/ Matt trick
   rho_p    ~ normal(0, 1.0);

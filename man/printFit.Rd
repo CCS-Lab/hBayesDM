@@ -2,24 +2,24 @@
 % Please edit documentation in R/printFit.R
 \name{printFit}
 \alias{printFit}
-\title{Print model-fits (mean LOOIC and WAIC values) of hBayesDM Models}
+\title{Print model-fits (mean LOOIC or WAIC values in addition to Akaike weights) of hBayesDM Models}
 \usage{
-printFit(..., ncore = 2, ic = "looic", roundTo = 3)
+printFit(..., ic = "looic", ncore = 2, roundTo = 3)
 }
 \arguments{
 \item{...}{Model objects output by hBayesDM functions (e.g. output1, output2, etc.)}
 
-\item{ncore}{Numer of cores to use when computing leave-one-out cross-validation}
+\item{ic}{Which model comparison information criterion to use? 'looic', 'waic', or 'both}
 
-\item{ic}{Which information criterion to use? 'looic', 'waic', or 'both'}
+\item{ncore}{Number of corse to use when computing LOOIC}
 
 \item{roundTo}{Number of digits to the right of the decimal point in the output}
 }
 \value{
-modelTable A table with relevant model comparison data
+modelTable A table with relevant model comparison data. LOOIC and WAIC weights are computed as Akaike weights.
 }
 \description{
-Print model-fits (mean LOOIC and WAIC values) of hBayesDM Models
+Print model-fits (mean LOOIC or WAIC values in addition to Akaike weights) of hBayesDM Models
 }
 \examples{
 \dontrun{

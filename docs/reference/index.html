@@ -21,11 +21,17 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Function reference" />
+
 
 
 <!-- mathjax -->
@@ -52,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -72,6 +78,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -79,313 +86,354 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
       <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="HDIofMCMC.html">HDIofMCMC()</a></code> </p>
-          </td>
-          <td><p>Compute Highest-Density Interval</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="bandit2arm_delta.html">bandit2arm_delta()</a></code> </p>
-          </td>
-          <td><p>Two-Arm Bandit Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="bandit4arm_4par.html">bandit4arm_4par()</a></code> </p>
-          </td>
-          <td><p>4-armed bandit task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="bandit4arm_lapse.html">bandit4arm_lapse()</a></code> </p>
-          </td>
-          <td><p>4-armed bandit task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="choiceRT_ddm.html">choiceRT_ddm()</a></code> </p>
-          </td>
-          <td><p>Choice Reaction Time task, drift diffusion modeling</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="choiceRT_ddm_single.html">choiceRT_ddm_single()</a></code> </p>
-          </td>
-          <td><p>Choice Reaction Time task, drift diffusion modeling</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="choiceRT_lba.html">choiceRT_lba()</a></code> </p>
-          </td>
-          <td><p>Choice Reaction Time task, linear ballistic accumulator modeling</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="choiceRT_lba_single.html">choiceRT_lba_single()</a></code> </p>
-          </td>
-          <td><p>Choice Reaction Time task, linear ballistic accumulator modeling</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="dd_cs.html">dd_cs()</a></code> </p>
-          </td>
-          <td><p>Delay Discounting Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="dd_cs_single.html">dd_cs_single()</a></code> </p>
-          </td>
-          <td><p>Delay Discounting Task (Ebert &amp; Prelec, 2007)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="dd_exp.html">dd_exp()</a></code> </p>
-          </td>
-          <td><p>Delay Discounting Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="dd_hyperbolic.html">dd_hyperbolic()</a></code> </p>
-          </td>
-          <td><p>Delay Discounting Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="dd_hyperbolic_single.html">dd_hyperbolic_single()</a></code> </p>
-          </td>
-          <td><p>Delay Discounting Task (Ebert &amp; Prelec, 2007)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="estimate_mode.html">estimate_mode()</a></code> </p>
-          </td>
-          <td><p>Function to estimate mode of MCMC samples</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="extract_ic.html">extract_ic()</a></code> </p>
-          </td>
-          <td><p>Extract Model Comparison Estimates</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="gng_m1.html">gng_m1()</a></code> </p>
-          </td>
-          <td><p>Orthogonalized Go/Nogo Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="gng_m2.html">gng_m2()</a></code> </p>
-          </td>
-          <td><p>Orthogonalized Go/Nogo Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="gng_m3.html">gng_m3()</a></code> </p>
-          </td>
-          <td><p>Orthogonalized Go/Nogo Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="gng_m4.html">gng_m4()</a></code> </p>
-          </td>
-          <td><p>Orthogonalized Go/Nogo Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="hBayesDM-package.html">hBayesDM-package</a></code> </p>
-          </td>
-          <td><p>Hierarchical Bayesian Modeling of Decision-Making Tasks</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="igt_pvl_decay.html">igt_pvl_decay()</a></code> </p>
-          </td>
-          <td><p>Iowa Gambling Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="igt_pvl_delta.html">igt_pvl_delta()</a></code> </p>
-          </td>
-          <td><p>Iowa Gambling Task (Ahn et al., 2008)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="igt_vpp.html">igt_vpp()</a></code> </p>
-          </td>
-          <td><p>Iowa Gambling Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="multiplot.html">multiplot()</a></code> </p>
-          </td>
-          <td><p>Function to plot multiple figures</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="peer_ocu.html">peer_ocu()</a></code> </p>
-          </td>
-          <td><p>Peer influence task (Chung et al., 2015 Nature Neuroscience)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plot.hBayesDM.html">plot(<i>&lt;hBayesDM&gt;</i>)</a></code> </p>
-          </td>
-          <td><p>General Purpose Plotting for hBayesDM. This function plots hyper parameters.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plotDist.html">plotDist()</a></code> </p>
-          </td>
-          <td><p>Plots the histogram of MCMC samples.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plotHDI.html">plotHDI()</a></code> </p>
-          </td>
-          <td><p>Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console. HDI is indicated by a red line.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plotInd.html">plotInd()</a></code> </p>
-          </td>
-          <td><p>Plots individual posterior distributions, using the stan_plot function of the rstan package</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="printFit.html">printFit()</a></code> </p>
-          </td>
-          <td><p>Print model-fits (mean LOOIC and WAIC values) of hBayesDM Models</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_ewa.html">prl_ewa()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_fictitious.html">prl_fictitious()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_fictitious_multipleB.html">prl_fictitious_multipleB()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task (Glascher et al, 2008), multiple blocks per subject</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_fictitious_rp.html">prl_fictitious_rp()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_fictitious_rp_woa.html">prl_fictitious_rp_woa()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_fictitious_woa.html">prl_fictitious_woa()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_rp.html">prl_rp()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="prl_rp_multipleB.html">prl_rp_multipleB()</a></code> </p>
-          </td>
-          <td><p>Probabilistic Reversal Learning Task, multiple blocks per subject</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ra_noLA.html">ra_noLA()</a></code> </p>
-          </td>
-          <td><p>Risk Aversion Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ra_noRA.html">ra_noRA()</a></code> </p>
-          </td>
-          <td><p>Risk Aversion Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ra_prospect.html">ra_prospect()</a></code> </p>
-          </td>
-          <td><p>Risk Aversion Task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="rhat.html">rhat()</a></code> </p>
-          </td>
-          <td><p>Function for extracting Rhat values from an hBayesDM object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ts_par4.html">ts_par4()</a></code> </p>
-          </td>
-          <td><p>Two-Step Task (Daw et al., 2011, Neuron)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ts_par6.html">ts_par6()</a></code> </p>
-          </td>
-          <td><p>Two-Step Task (Daw et al., 2011, Neuron)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ts_par7.html">ts_par7()</a></code> </p>
-          </td>
-          <td><p>Two-Step Task (Daw et al., 2011, Neuron)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ug_bayes.html">ug_bayes()</a></code> </p>
-          </td>
-          <td><p>Norm-Training Ultimatum Game</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ug_delta.html">ug_delta()</a></code> </p>
-          </td>
-          <td><p>Norm-Training Ultimatum Game</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="HDIofMCMC.html">HDIofMCMC()</a></code> </p>
+        </td>
+        <td><p>Compute Highest-Density Interval</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bandit2arm_delta.html">bandit2arm_delta()</a></code> </p>
+        </td>
+        <td><p>Two-Arm Bandit Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bandit4arm_4par.html">bandit4arm_4par()</a></code> </p>
+        </td>
+        <td><p>4-armed bandit task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bandit4arm_lapse.html">bandit4arm_lapse()</a></code> </p>
+        </td>
+        <td><p>4-armed bandit task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bart_par4.html">bart_par4()</a></code> </p>
+        </td>
+        <td><p>Balloon Analogue Risk Task (Ravenzwaaij et al., 2011, Journal of Mathematical Psychology)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="choiceRT_ddm.html">choiceRT_ddm()</a></code> </p>
+        </td>
+        <td><p>Choice Reaction Time task, drift diffusion modeling</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="choiceRT_ddm_single.html">choiceRT_ddm_single()</a></code> </p>
+        </td>
+        <td><p>Choice Reaction Time task, drift diffusion modeling</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="choiceRT_lba.html">choiceRT_lba()</a></code> </p>
+        </td>
+        <td><p>Choice Reaction Time task, linear ballistic accumulator modeling</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="choiceRT_lba_single.html">choiceRT_lba_single()</a></code> </p>
+        </td>
+        <td><p>Choice Reaction Time task, linear ballistic accumulator modeling</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cra_exp.html">cra_exp()</a></code> </p>
+        </td>
+        <td><p>Choice under Risk and Ambiguity Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cra_linear.html">cra_linear()</a></code> </p>
+        </td>
+        <td><p>Choice under Risk and Ambiguity Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dd_cs.html">dd_cs()</a></code> </p>
+        </td>
+        <td><p>Delay Discounting Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dd_cs_single.html">dd_cs_single()</a></code> </p>
+        </td>
+        <td><p>Delay Discounting Task (Ebert &amp; Prelec, 2007)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dd_exp.html">dd_exp()</a></code> </p>
+        </td>
+        <td><p>Delay Discounting Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dd_hyperbolic.html">dd_hyperbolic()</a></code> </p>
+        </td>
+        <td><p>Delay Discounting Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dd_hyperbolic_single.html">dd_hyperbolic_single()</a></code> </p>
+        </td>
+        <td><p>Delay Discounting Task (Ebert &amp; Prelec, 2007)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="estimate_mode.html">estimate_mode()</a></code> </p>
+        </td>
+        <td><p>Function to estimate mode of MCMC samples</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="extract_ic.html">extract_ic()</a></code> </p>
+        </td>
+        <td><p>Extract Model Comparison Estimates</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gng_m1.html">gng_m1()</a></code> </p>
+        </td>
+        <td><p>Orthogonalized Go/Nogo Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gng_m2.html">gng_m2()</a></code> </p>
+        </td>
+        <td><p>Orthogonalized Go/Nogo Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gng_m3.html">gng_m3()</a></code> </p>
+        </td>
+        <td><p>Orthogonalized Go/Nogo Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gng_m4.html">gng_m4()</a></code> </p>
+        </td>
+        <td><p>Orthogonalized Go/Nogo Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="hBayesDM-package.html">hBayesDM-package</a></code> </p>
+        </td>
+        <td><p>Hierarchical Bayesian Modeling of Decision-Making Tasks</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="igt_orl.html">igt_orl()</a></code> </p>
+        </td>
+        <td><p>Iowa Gambling Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="igt_pvl_decay.html">igt_pvl_decay()</a></code> </p>
+        </td>
+        <td><p>Iowa Gambling Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="igt_pvl_delta.html">igt_pvl_delta()</a></code> </p>
+        </td>
+        <td><p>Iowa Gambling Task (Ahn et al., 2008)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="igt_vpp.html">igt_vpp()</a></code> </p>
+        </td>
+        <td><p>Iowa Gambling Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="multiplot.html">multiplot()</a></code> </p>
+        </td>
+        <td><p>Function to plot multiple figures</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="peer_ocu.html">peer_ocu()</a></code> </p>
+        </td>
+        <td><p>Peer influence task (Chung et al., 2015 Nature Neuroscience)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.hBayesDM.html">plot(<i>&lt;hBayesDM&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>General Purpose Plotting for hBayesDM. This function plots hyper parameters.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotDist.html">plotDist()</a></code> </p>
+        </td>
+        <td><p>Plots the histogram of MCMC samples.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotHDI.html">plotHDI()</a></code> </p>
+        </td>
+        <td><p>Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console. HDI is indicated by a red line.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotInd.html">plotInd()</a></code> </p>
+        </td>
+        <td><p>Plots individual posterior distributions, using the stan_plot function of the rstan package</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="printFit.html">printFit()</a></code> </p>
+        </td>
+        <td><p>Print model-fits (mean LOOIC or WAIC values in addition to Akaike weights) of hBayesDM Models</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_ewa.html">prl_ewa()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_fictitious.html">prl_fictitious()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_fictitious_multipleB.html">prl_fictitious_multipleB()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task (Glascher et al, 2008), multiple blocks per subject</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_fictitious_rp.html">prl_fictitious_rp()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_fictitious_rp_woa.html">prl_fictitious_rp_woa()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_fictitious_woa.html">prl_fictitious_woa()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_rp.html">prl_rp()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prl_rp_multipleB.html">prl_rp_multipleB()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Reversal Learning Task, multiple blocks per subject</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pst_gainloss_Q.html">pst_gainloss_Q()</a></code> </p>
+        </td>
+        <td><p>Probabilistic Selection Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ra_noLA.html">ra_noLA()</a></code> </p>
+        </td>
+        <td><p>Risk Aversion Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ra_noRA.html">ra_noRA()</a></code> </p>
+        </td>
+        <td><p>Risk Aversion Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ra_prospect.html">ra_prospect()</a></code> </p>
+        </td>
+        <td><p>Risk Aversion Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rdt_happiness.html">rdt_happiness()</a></code> </p>
+        </td>
+        <td><p>Risky Decision Task</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rhat.html">rhat()</a></code> </p>
+        </td>
+        <td><p>Function for extracting Rhat values from an hBayesDM object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ts_par4.html">ts_par4()</a></code> </p>
+        </td>
+        <td><p>Two-Step Task (Daw et al., 2011, Neuron)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ts_par6.html">ts_par6()</a></code> </p>
+        </td>
+        <td><p>Two-Step Task (Daw et al., 2011, Neuron)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ts_par7.html">ts_par7()</a></code> </p>
+        </td>
+        <td><p>Two-Step Task (Daw et al., 2011, Neuron)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ug_bayes.html">ug_bayes()</a></code> </p>
+        </td>
+        <td><p>Norm-Training Ultimatum Game</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ug_delta.html">ug_delta()</a></code> </p>
+        </td>
+        <td><p>Norm-Training Ultimatum Game</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="wcs_sql.html">wcs_sql()</a></code> </p>
+        </td>
+        <td><p>Wisconsin Card Sorting Task</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -407,6 +455,8 @@
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

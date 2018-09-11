@@ -2,9 +2,9 @@
 #'
 #' @param modelData Object returned by \code{'hBayesDM'} model function
 #' @param ic Information Criterion. 'looic', 'waic', or 'both'
-#' @param core Number of cores to use for leave-one-out estimation
+#' @param ncore Number of corse to use when computing LOOIC
 #'
-#' @importFrom loo extract_log_lik loo waic
+#' @importFrom loo extract_log_lik relative_eff loo waic
 #'
 #' @return IC Leave-One-Out and/or Watanabe-Akaike information criterion estimates.
 #'
@@ -20,31 +20,29 @@
 #' }
 #'
 extract_ic <- function(modelData = NULL,
-                       ic = "looic",
-                       core      = 2) {
-
+                       ic        = "looic", 
+                       ncore     = 2) {
+  
   # Access fit within modelData
-    stanFit <- modelData$fit
-
+  stanFit  <- modelData$fit
+  n_chains <- length(stanFit@stan_args)
+  
   # extract LOOIC and WAIC, from Stanfit
-    IC <- list()
-
-    lik    <- loo::extract_log_lik(stanfit = stanFit, parameter_name = 'log_lik')
-
-    if (ic == "looic") {
-      LOOIC  <- loo::loo(lik, cores = core)
-      IC$LOOIC <- LOOIC
-    } else if (ic == "waic") {
-      WAIC   <- loo::waic(lik)
-      IC$WAIC  <- WAIC
-    } else if (ic == "both") {
-      LOOIC  <- loo::loo(lik, cores = core)
-      WAIC   <- loo::waic(lik)
-      IC$LOOIC <- LOOIC
-      IC$WAIC  <- WAIC
-    } else {
-      stop("Set 'ic' as 'looic', 'waic' or 'both' \n")
-    }
-
-    return(IC)
+  IC <- list()
+  
+  lik     <- loo::extract_log_lik(stanfit = stanFit, parameter_name = 'log_lik')
+  rel_eff <- loo::relative_eff(exp(lik), chain_id = rep(1:n_chains, nrow(lik)/n_chains), cores = getOption("mc.cores", ncore))
+  
+  if (ic == "looic") {
+    IC$LOOIC <- loo::loo(lik, r_eff = rel_eff, cores = getOption("mc.cores", ncore))
+  } else if (ic == "waic") {
+    IC$WAIC <- loo::waic(lik)
+  } else if (ic == "both") {
+    IC$LOOIC <- loo::loo(lik, r_eff = rel_eff, cores = getOption("mc.cores", ncore))
+    IC$WAIC  <- loo::waic(lik)
+  } else {
+    stop("Set 'ic' as 'looic', 'waic' or 'both' \n")
+  }
+  
+  return(IC)
 }

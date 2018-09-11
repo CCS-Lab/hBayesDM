@@ -1,9 +1,14 @@
+Sep 11, 2018 (0.6.0)
+* Add new tasks (Balloon Analogue Risk Task, Choice under Risk and Ambiguity Task, Probabilistic Selection Task, Risky Decision Task (a.k.a. Happiness task), Wisconsin Card Sorting Task)
+* Add a new model for the Iowa Gambling Task (igt_orl) 
+* Change priors (Half-Cauchy(0, 5) --> Half-Cauchy(0, 1) or Half-Normal(0, 0.2)
+* printFit function now provides LOOIC weights and/or WAIC weights 
+
 March 26, 2018 (0.5.1)
 * Add models for the Two Step task
 * Add models without indecision point parameter (alpha) for the PRL task (prl_*_woa.stan)
 * Model-based regressors for the PRL task are now available
 * For the PRL task & prl_fictitious.stan & prl_fictitious_rp.stan --> change the range of alpha (indecision point) from [0, 1] to [-Inf, Inf]
-
 
 Dec 25, 2017 (0.5.0)
 * Support variational Bayesian methods (vb=TRUE)
