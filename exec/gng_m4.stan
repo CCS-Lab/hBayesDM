@@ -51,7 +51,9 @@ model {
   mu_p[4]  ~ normal(0, 10.0);
   mu_p[5]  ~ normal(0, 1.0);
   mu_p[6]  ~ normal(0, 1.0);
-  sigma ~ cauchy(0, 5.0);
+  sigma[1:2] ~ normal(0, 0.2);
+  sigma[3:4] ~ cauchy(0, 1.0);
+  sigma[5:6] ~ normal(0, 0.2);
 
   // individual parameters w/ Matt trick
   xi_pr     ~ normal(0, 1.0);

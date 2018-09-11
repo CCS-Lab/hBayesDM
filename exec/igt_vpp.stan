@@ -53,15 +53,10 @@ transformed parameters {
 
 model {
   // Hyperparameters
-  mu_p[1]  ~ normal(0, 1.0);
-  mu_p[2]  ~ normal(0, 1.0);
-  mu_p[3]  ~ normal(0, 1.0);
-  mu_p[4]  ~ normal(0, 1.0);
-  mu_p[5]  ~ normal(0, 10.0);
-  mu_p[6]  ~ normal(0, 10.0);
-  mu_p[7]  ~ normal(0, 1.0);
-  mu_p[8]  ~ normal(0, 1.0);
-  sigma ~ cauchy(0, 5);
+  mu_p       ~ normal(0, 1.0);
+  sigma[1:4] ~ normal(0, 0.2);
+  sigma[5:6] ~ cauchy(0, 1.0);
+  sigma[7:8] ~ normal(0, 0.2);
 
   // individual parameters
   A_pr      ~ normal(0, 1.0);

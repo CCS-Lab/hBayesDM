@@ -354,3 +354,71 @@ plot_ts_par6 <- function(obj, fontSize = 10, ncols = 6, binSize = 30) {
   return(h_all)
 }
 
+plot_igt_orl <- function( obj, fontSize = 10, ncols = 5, binSize = 30 ) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_Arew, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Rew], " (Rew. Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_Apun, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[Pun], " (Pun. Learning Rate)")))
+  h3 = plotDist(sample = pars$mu_K, fontSize = fontSize, binSize = binSize, xLim = c(0,5), xLab = expression(paste(K, " (Perseverance Decay)")))
+  h4 = plotDist(sample = pars$mu_betaF, fontSize = fontSize, binSize = binSize, xLim = c(-10,10), xLab = expression(paste(beta[F], " (Outcome Frequency Weight)")))
+  h5 = plotDist(sample = pars$mu_betaP, fontSize = fontSize, binSize = binSize, xLim = c(-10,10), xLab = expression(paste(beta[P], " (Perseverance Weight)")))
+  h_all = multiplot(h1, h2, h3, h4, h5, cols = ncols)
+  return(h_all)
+}
+
+plot_wcs_sql <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_r, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(r, " (Reward Sensitivity)")))
+  h2 = plotDist(sample = pars$mu_p, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(p, " (Punishment Sensitivity)")))
+  h3 = plotDist(sample = pars$mu_d, fontSize = fontSize, binSize = binSize, xLab = expression(paste(d, " (Decision Consistency)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
+  return(h_all)
+}
+
+plot_bart_par4 <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_phi, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(phi, " (Prior Belief)")))
+  h2 = plotDist(sample = pars$mu_eta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(eta, " (Updating Rate)")))
+  h3 = plotDist(sample = pars$mu_gam, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gamma, " (Risk-Taking Parameter)")))
+  h4 = plotDist(sample = pars$mu_tau, fontSize = fontSize, binSize = binSize, xLab = expression(paste(tau, " (Inversed Temp.)")))
+  h_all = multiplot(h1, h2, h3, h4, cols = ncols)
+  return(h_all)
+}
+
+plot_rdt_happiness <- function(obj, fontSize = 10, ncols = 5, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_w0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(w[0], " (Constant)")))
+  h2 = plotDist(sample = pars$mu_w1, fontSize = fontSize, binSize = binSize, xLab = expression(paste(w[1], " (CR)")))
+  h3 = plotDist(sample = pars$mu_w2, fontSize = fontSize, binSize = binSize, xLab = expression(paste(w[2], " (EV)")))
+  h4 = plotDist(sample = pars$mu_w3, fontSize = fontSize, binSize = binSize, xLab = expression(paste(w[3], " (RPE)")))
+  h5 = plotDist(sample = pars$mu_gam, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gamma, " (Forgetting)")))
+  h_all = multiplot(h1, h2, h3, h4, h5, cols = ncols)
+  return(h_all)
+}
+
+plot_cra_linear <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_alpha, fontSize = fontSize, binSize = binSize, xLab = expression(paste(alpha, " (Risk Att.)")))
+  h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Ambiguity Att.)")))
+  h3 = plotDist(sample = pars$mu_gamma, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gamma, " (Inversed Temp.)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
+  return(h_all)
+}
+
+plot_cra_exp <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_alpha, fontSize = fontSize, binSize = binSize, xLab = expression(paste(alpha, " (Risk Att.)")))
+  h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Ambiguity Att.)")))
+  h3 = plotDist(sample = pars$mu_gamma, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gamma, " (Inversed Temp.)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
+  return(h_all)
+}
+
+plot_pst_gainloss_Q <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_alpha_pos, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha[pos], " (Risk attitude)")))
+  h2 = plotDist(sample = pars$mu_alpha_neg, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha[neg], " (Ambiguity attitude)")))
+  h3 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse temperature)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
+  return(h_all)
+}
+

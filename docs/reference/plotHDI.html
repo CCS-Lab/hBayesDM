@@ -21,14 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console. HDI is indicated by a red line. — plotHDI" />
 
 <meta property="og:description" content="Based on John Kruschke's codes http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -55,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -75,6 +81,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -82,16 +89,19 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console. HDI is indicated by a red line.</h1>
     
+    <div class="hidden name"><code>plotHDI.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Based on John Kruschke's codes <a href='http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/'>http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/</a></p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>plotHDI</span>(<span class='kw'>sample</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>credMass</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>Title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xLab</span> <span class='kw'>=</span> <span class='st'>"Value"</span>,
   <span class='kw'>yLab</span> <span class='kw'>=</span> <span class='st'>"Density"</span>, <span class='kw'>fontSize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>binSize</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='no'>...</span>)</pre>
@@ -161,6 +171,8 @@
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

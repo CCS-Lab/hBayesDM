@@ -89,6 +89,35 @@ RCPP_MODULE(stan_fit4bandit4arm_lapse_mod) {
 using namespace Rcpp ;
 #include "include/models.hpp"
 
+RCPP_MODULE(stan_fit4bart_par4_mod) {
+
+
+    class_<rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> >("model_bart_par4")
+
+    .constructor<SEXP,SEXP>()
+
+
+    .method("call_sampler", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::call_sampler)
+    .method("param_names", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::param_names)
+    .method("param_names_oi", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::param_names_oi)
+    .method("param_fnames_oi", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::param_fnames_oi)
+    .method("param_dims", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::param_dims)
+    .method("param_dims_oi", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::param_dims_oi)
+    .method("update_param_oi", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::update_param_oi)
+    .method("param_oi_tidx", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::param_oi_tidx)
+    .method("grad_log_prob", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::grad_log_prob)
+    .method("log_prob", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::log_prob)
+    .method("unconstrain_pars", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::unconstrain_pars)
+    .method("constrain_pars", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::constrain_pars)
+    .method("num_pars_unconstrained", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::num_pars_unconstrained)
+    .method("unconstrained_param_names", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::unconstrained_param_names)
+    .method("constrained_param_names", &rstan::stan_fit<model_bart_par4_namespace::model_bart_par4, boost::random::ecuyer1988> ::constrained_param_names)
+    ;
+}
+#include <Rcpp.h>
+using namespace Rcpp ;
+#include "include/models.hpp"
+
 RCPP_MODULE(stan_fit4choiceRT_ddm_mod) {
 
 
@@ -199,6 +228,64 @@ RCPP_MODULE(stan_fit4choiceRT_lba_single_mod) {
     .method("num_pars_unconstrained", &rstan::stan_fit<model_choiceRT_lba_single_namespace::model_choiceRT_lba_single, boost::random::ecuyer1988> ::num_pars_unconstrained)
     .method("unconstrained_param_names", &rstan::stan_fit<model_choiceRT_lba_single_namespace::model_choiceRT_lba_single, boost::random::ecuyer1988> ::unconstrained_param_names)
     .method("constrained_param_names", &rstan::stan_fit<model_choiceRT_lba_single_namespace::model_choiceRT_lba_single, boost::random::ecuyer1988> ::constrained_param_names)
+    ;
+}
+#include <Rcpp.h>
+using namespace Rcpp ;
+#include "include/models.hpp"
+
+RCPP_MODULE(stan_fit4cra_exp_mod) {
+
+
+    class_<rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> >("model_cra_exp")
+
+    .constructor<SEXP,SEXP>()
+
+
+    .method("call_sampler", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::call_sampler)
+    .method("param_names", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::param_names)
+    .method("param_names_oi", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::param_names_oi)
+    .method("param_fnames_oi", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::param_fnames_oi)
+    .method("param_dims", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::param_dims)
+    .method("param_dims_oi", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::param_dims_oi)
+    .method("update_param_oi", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::update_param_oi)
+    .method("param_oi_tidx", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::param_oi_tidx)
+    .method("grad_log_prob", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::grad_log_prob)
+    .method("log_prob", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::log_prob)
+    .method("unconstrain_pars", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::unconstrain_pars)
+    .method("constrain_pars", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::constrain_pars)
+    .method("num_pars_unconstrained", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::num_pars_unconstrained)
+    .method("unconstrained_param_names", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::unconstrained_param_names)
+    .method("constrained_param_names", &rstan::stan_fit<model_cra_exp_namespace::model_cra_exp, boost::random::ecuyer1988> ::constrained_param_names)
+    ;
+}
+#include <Rcpp.h>
+using namespace Rcpp ;
+#include "include/models.hpp"
+
+RCPP_MODULE(stan_fit4cra_linear_mod) {
+
+
+    class_<rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> >("model_cra_linear")
+
+    .constructor<SEXP,SEXP>()
+
+
+    .method("call_sampler", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::call_sampler)
+    .method("param_names", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::param_names)
+    .method("param_names_oi", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::param_names_oi)
+    .method("param_fnames_oi", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::param_fnames_oi)
+    .method("param_dims", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::param_dims)
+    .method("param_dims_oi", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::param_dims_oi)
+    .method("update_param_oi", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::update_param_oi)
+    .method("param_oi_tidx", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::param_oi_tidx)
+    .method("grad_log_prob", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::grad_log_prob)
+    .method("log_prob", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::log_prob)
+    .method("unconstrain_pars", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::unconstrain_pars)
+    .method("constrain_pars", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::constrain_pars)
+    .method("num_pars_unconstrained", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::num_pars_unconstrained)
+    .method("unconstrained_param_names", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::unconstrained_param_names)
+    .method("constrained_param_names", &rstan::stan_fit<model_cra_linear_namespace::model_cra_linear, boost::random::ecuyer1988> ::constrained_param_names)
     ;
 }
 #include <Rcpp.h>
@@ -582,6 +669,35 @@ RCPP_MODULE(stan_fit4gng_m4_reg_mod) {
 using namespace Rcpp ;
 #include "include/models.hpp"
 
+RCPP_MODULE(stan_fit4igt_orl_mod) {
+
+
+    class_<rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> >("model_igt_orl")
+
+    .constructor<SEXP,SEXP>()
+
+
+    .method("call_sampler", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::call_sampler)
+    .method("param_names", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::param_names)
+    .method("param_names_oi", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::param_names_oi)
+    .method("param_fnames_oi", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::param_fnames_oi)
+    .method("param_dims", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::param_dims)
+    .method("param_dims_oi", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::param_dims_oi)
+    .method("update_param_oi", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::update_param_oi)
+    .method("param_oi_tidx", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::param_oi_tidx)
+    .method("grad_log_prob", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::grad_log_prob)
+    .method("log_prob", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::log_prob)
+    .method("unconstrain_pars", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::unconstrain_pars)
+    .method("constrain_pars", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::constrain_pars)
+    .method("num_pars_unconstrained", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::num_pars_unconstrained)
+    .method("unconstrained_param_names", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::unconstrained_param_names)
+    .method("constrained_param_names", &rstan::stan_fit<model_igt_orl_namespace::model_igt_orl, boost::random::ecuyer1988> ::constrained_param_names)
+    ;
+}
+#include <Rcpp.h>
+using namespace Rcpp ;
+#include "include/models.hpp"
+
 RCPP_MODULE(stan_fit4igt_pvl_decay_mod) {
 
 
@@ -930,6 +1046,35 @@ RCPP_MODULE(stan_fit4prl_rp_multipleB_mod) {
 using namespace Rcpp ;
 #include "include/models.hpp"
 
+RCPP_MODULE(stan_fit4pst_gainloss_Q_mod) {
+
+
+    class_<rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> >("model_pst_gainloss_Q")
+
+    .constructor<SEXP,SEXP>()
+
+
+    .method("call_sampler", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::call_sampler)
+    .method("param_names", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::param_names)
+    .method("param_names_oi", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::param_names_oi)
+    .method("param_fnames_oi", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::param_fnames_oi)
+    .method("param_dims", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::param_dims)
+    .method("param_dims_oi", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::param_dims_oi)
+    .method("update_param_oi", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::update_param_oi)
+    .method("param_oi_tidx", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::param_oi_tidx)
+    .method("grad_log_prob", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::grad_log_prob)
+    .method("log_prob", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::log_prob)
+    .method("unconstrain_pars", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::unconstrain_pars)
+    .method("constrain_pars", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::constrain_pars)
+    .method("num_pars_unconstrained", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::num_pars_unconstrained)
+    .method("unconstrained_param_names", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::unconstrained_param_names)
+    .method("constrained_param_names", &rstan::stan_fit<model_pst_gainloss_Q_namespace::model_pst_gainloss_Q, boost::random::ecuyer1988> ::constrained_param_names)
+    ;
+}
+#include <Rcpp.h>
+using namespace Rcpp ;
+#include "include/models.hpp"
+
 RCPP_MODULE(stan_fit4ra_noLA_mod) {
 
 
@@ -1011,6 +1156,35 @@ RCPP_MODULE(stan_fit4ra_prospect_mod) {
     .method("num_pars_unconstrained", &rstan::stan_fit<model_ra_prospect_namespace::model_ra_prospect, boost::random::ecuyer1988> ::num_pars_unconstrained)
     .method("unconstrained_param_names", &rstan::stan_fit<model_ra_prospect_namespace::model_ra_prospect, boost::random::ecuyer1988> ::unconstrained_param_names)
     .method("constrained_param_names", &rstan::stan_fit<model_ra_prospect_namespace::model_ra_prospect, boost::random::ecuyer1988> ::constrained_param_names)
+    ;
+}
+#include <Rcpp.h>
+using namespace Rcpp ;
+#include "include/models.hpp"
+
+RCPP_MODULE(stan_fit4rdt_happiness_mod) {
+
+
+    class_<rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> >("model_rdt_happiness")
+
+    .constructor<SEXP,SEXP>()
+
+
+    .method("call_sampler", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::call_sampler)
+    .method("param_names", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::param_names)
+    .method("param_names_oi", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::param_names_oi)
+    .method("param_fnames_oi", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::param_fnames_oi)
+    .method("param_dims", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::param_dims)
+    .method("param_dims_oi", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::param_dims_oi)
+    .method("update_param_oi", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::update_param_oi)
+    .method("param_oi_tidx", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::param_oi_tidx)
+    .method("grad_log_prob", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::grad_log_prob)
+    .method("log_prob", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::log_prob)
+    .method("unconstrain_pars", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::unconstrain_pars)
+    .method("constrain_pars", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::constrain_pars)
+    .method("num_pars_unconstrained", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::num_pars_unconstrained)
+    .method("unconstrained_param_names", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::unconstrained_param_names)
+    .method("constrained_param_names", &rstan::stan_fit<model_rdt_happiness_namespace::model_rdt_happiness, boost::random::ecuyer1988> ::constrained_param_names)
     ;
 }
 #include <Rcpp.h>
@@ -1156,5 +1330,34 @@ RCPP_MODULE(stan_fit4ug_delta_mod) {
     .method("num_pars_unconstrained", &rstan::stan_fit<model_ug_delta_namespace::model_ug_delta, boost::random::ecuyer1988> ::num_pars_unconstrained)
     .method("unconstrained_param_names", &rstan::stan_fit<model_ug_delta_namespace::model_ug_delta, boost::random::ecuyer1988> ::unconstrained_param_names)
     .method("constrained_param_names", &rstan::stan_fit<model_ug_delta_namespace::model_ug_delta, boost::random::ecuyer1988> ::constrained_param_names)
+    ;
+}
+#include <Rcpp.h>
+using namespace Rcpp ;
+#include "include/models.hpp"
+
+RCPP_MODULE(stan_fit4wcs_sql_mod) {
+
+
+    class_<rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> >("model_wcs_sql")
+
+    .constructor<SEXP,SEXP>()
+
+
+    .method("call_sampler", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::call_sampler)
+    .method("param_names", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::param_names)
+    .method("param_names_oi", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::param_names_oi)
+    .method("param_fnames_oi", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::param_fnames_oi)
+    .method("param_dims", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::param_dims)
+    .method("param_dims_oi", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::param_dims_oi)
+    .method("update_param_oi", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::update_param_oi)
+    .method("param_oi_tidx", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::param_oi_tidx)
+    .method("grad_log_prob", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::grad_log_prob)
+    .method("log_prob", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::log_prob)
+    .method("unconstrain_pars", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::unconstrain_pars)
+    .method("constrain_pars", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::constrain_pars)
+    .method("num_pars_unconstrained", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::num_pars_unconstrained)
+    .method("unconstrained_param_names", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::unconstrained_param_names)
+    .method("constrained_param_names", &rstan::stan_fit<model_wcs_sql_namespace::model_wcs_sql, boost::random::ecuyer1988> ::constrained_param_names)
     ;
 }

@@ -21,16 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="4-armed bandit task — bandit4arm_4par" />
 
-<meta property="og:description" content="Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: "Arew" (Reward learning rate), "Apun" (Punishment learning rate), "R" (Reward sensitivity), and "P" (Punishment sensitivity).
+<meta property="og:description" content="Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: &quot;Arew&quot; (Reward learning rate), &quot;Apun&quot; (Punishment learning rate), &quot;R&quot; (Reward sensitivity), and &quot;P&quot; (Punishment sensitivity).
 MODEL:
 4 parameter model without C (choice perseveration) (Seymour et al 2012, J Neuro)" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +63,7 @@ MODEL:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
       </span>
     </div>
 
@@ -77,6 +83,7 @@ MODEL:
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -84,18 +91,21 @@ MODEL:
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>4-armed bandit task</h1>
     
+    <div class="hidden name"><code>bandit4arm_4par.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: "Arew" (Reward learning rate), "Apun" (Punishment learning rate), "R" (Reward sensitivity), and "P" (Punishment sensitivity).</p>
 <p><strong>MODEL:</strong>
 4 parameter model without C (choice perseveration) (Seymour et al 2012, J Neuro)</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>bandit4arm_4par</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>2000</span>,
   <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>,
@@ -222,7 +232,7 @@ more information on the functioning of the sampler control parameters. One can a
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>We refer users to our in-depth tutorial for an example of using hBayesDM: <a href='https://rpubs.com/CCSL/hBayesDM'>https://rpubs.com/CCSL/hBayesDM</a></p>
+    <div class='dont-index'><p>We refer users to our in-depth tutorial for an example of using hBayesDM: <a href='https://rpubs.com/CCSL/hBayesDM'>https://rpubs.com/CCSL/hBayesDM</a></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -274,6 +284,8 @@ more information on the functioning of the sampler control parameters. One can a
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>
