@@ -47,3 +47,10 @@ If you encounter a problem or a bug, please use our mailing list:
 <https://groups.google.com/forum/#!forum/hbayesdm-users>, or you can
 directly create an issue on
 [GitHub](https://github.com/CCS-Lab/hBayesDM/issues/new).
+
+
+How to cite hBayesDM
+------------
+If you used hBayesDM or some of its codes for your research, please cite this paper: 
+
+Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. Computational Psychiatry, 1, 24-57. https://doi.org/10.1162/CPSY_a_00002. 
