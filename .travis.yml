@@ -15,7 +15,9 @@ os:
   - osx
 
 # Use cache for packages
-cache: packages
+cache:
+  apt: true
+  packages: true
 
 # System dependencies for HTTP calling
 addons:
