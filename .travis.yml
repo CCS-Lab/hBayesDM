@@ -1,4 +1,7 @@
 language: r
+r:
+  - oldrel
+  - release
 
 # Be strict when checking our package
 warnings_are_errors: false
