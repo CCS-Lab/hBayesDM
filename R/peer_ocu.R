@@ -258,9 +258,9 @@ peer_ocu <- function(data           = "choose",
         mu_p     = c(qnorm(inits_fixed[1]/2), log(inits_fixed[2]), inits_fixed[3]),
         sigma    = c(1.0, 1.0, 1.0),
         rho_p    = rep(qnorm(inits_fixed[1]/2), numSubjs),
-        tau_p    = rep(log(inits_fixed[2]), numSubjs,
-        ocu_p    = rep(inits_fixed[3]), numSubjs)
-)
+        tau_p    = rep(log(inits_fixed[2]), numSubjs),
+        ocu_p    = rep(inits_fixed[3], numSubjs)
+      )
     }
   } else {
     genInitList <- "random"
