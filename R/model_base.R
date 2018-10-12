@@ -115,20 +115,20 @@ model_base <- function(task_name,
       }
       init <- function() {
         primes <- vector()
-        for (pIdx in 1:length(parameters)) {
-          lb <- parameters[[pIdx]][1]   # lower bound
-          ub <- parameters[[pIdx]][3]   # upper bound
+        for (i in 1:length(parameters)) {
+          lb <- parameters[[i]][1]   # lower bound
+          ub <- parameters[[i]][3]   # upper bound
           if (is.finite(lb) && (lb != 0)) {
             warning("Message to Dev: This is the first occurrence of a finite non-zero",
                     " lower bound for a parameter. Please make sure to re-adjust the",
                     " Stan file(s) accordingly, then move on to delete this warning.\n")
           }
           if (is.infinite(lb)) {
-            primes[pIdx] <- inits[pIdx]                             # (-Inf, Inf)
+            primes[i] <- inits[i]                             # (-Inf, Inf)
           } else if (is.infinite(ub)) {
-            primes[pIdx] <- log(inits[pIdx] - lb)                   # (  lb, Inf)
+            primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
           } else {
-            primes[pIdx] <- qnorm((inits[pIdx] - lb) / (ub - lb))   # (  lb,  ub)
+            primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
           }
         }
         group_level          <- list(mu_p  = primes,
@@ -219,8 +219,8 @@ model_base <- function(task_name,
 
     # Measure all individual parameters (per subject)
     allIndPars <- as.data.frame(array(NA, c(data_list$N, length(parameters))))
-    for (sIdx in 1:data_list$N) {
-      allIndPars[sIdx, ] <- mapply(function(x) measure_indPars(parVals[[x]][, sIdx]), names(parameters))
+    for (i in 1:data_list$N) {
+      allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), names(parameters))
     }
     allIndPars <- cbind(data_list$ID, allIndPars)
     colnames(allIndPars) <- c("subjID", names(parameter))
