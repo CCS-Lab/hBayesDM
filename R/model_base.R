@@ -250,18 +250,6 @@ model_base <- function(task_name,
 
     class(modelData) <- "hBayesDM"
 
-    # If saveDir is specified, save modelData as a file.
-    if (!is.null(saveDir)) {
-      currDate     <- Sys.Date()
-      currTime     <- Sys.time()
-      currHr       <- substr(currTime, 12, 13)
-      currMin      <- substr(currTime, 15, 16)
-      timeStamp    <- paste0(currDate, "_", currHr, "_", currMin)
-      dataFileName <- sub("\\..*$", "", basename(data))
-      # Save file with its model name, data info, and time stamp (date & time (hr & min))
-      save(modelData, file = file.path(saveDir, paste0(model, "_", dataFileName, "_", timeStamp, ".RData")))
-    }
-
     # Inform user of completion
     cat("\n")
     cat("************************************\n")
