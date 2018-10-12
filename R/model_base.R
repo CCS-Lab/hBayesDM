@@ -171,7 +171,7 @@ model_base <- function(task_name,
       cat(" # of burn-in samples           =  ", nwarmup, "\n", sep = "")
     }
     cat(" # of subjects                  =  ", stan_data$N, "\n", sep = "")
-    if (model_type == "multipleB") {
+    if (!is.null(model_type) && model_type == "multipleB") {
       cat(" # of (max) blocks per subject  =  ", stan_data$maxB, "\n", sep = "")
     }
     cat(" # of (max) trials per subject  =  ", stan_data$T, "\n", sep = "")
