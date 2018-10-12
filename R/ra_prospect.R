@@ -142,9 +142,6 @@ ra_prospect <- model_base(
 
     t_max <- max(t_subjs)
 
-    # Information for user continued
-    cat(" # of (max) trials per subject = ", t_max, "\n\n")
-
     # for multiple subjects
     gain    <- array(0, c(n_subj, t_max))
     loss    <- array(0, c(n_subj, t_max))
