@@ -1,4 +1,7 @@
 language: r
+r:
+  - oldrel
+  - release
 
 # Be strict when checking our package
 warnings_are_errors: false
@@ -15,12 +18,15 @@ os:
   - osx
 
 # Use cache for packages
-cache: packages
+cache:
+  apt: true
+  packages: true
 
 # System dependencies for HTTP calling
 addons:
   apt:
     packages:
+      - libgit2-dev
       - libcurl4-openssl-dev
       - libxml2-dev
 
