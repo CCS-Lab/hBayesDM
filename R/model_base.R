@@ -180,9 +180,9 @@ model_base <- function(task_name,
 
     # Path to .stan file
     if (FLAG_CRAN_VERSION) {
-      stan_model <- rstan::stan_model(system.file("stan", paste0(model, ".stan"), package = "hBayesDM"))
+      m <- rstan::stan_model(system.file("stan", paste0(model, ".stan"), package = "hBayesDM"))
     } else {
-      stan_model <- stanmodels$model
+      m <- stanmodels$model
       cat("\n")
       cat("************************************\n")
       cat("**  Loading a pre-compiled model  **\n")
@@ -191,12 +191,12 @@ model_base <- function(task_name,
 
     # Fit the Stan model
     if (vb) {   # if variational Bayesian
-      fit <- rstan::vb(object = stan_model,
+      fit <- rstan::vb(m,
                        data   = stan_data,
                        pars   = stan_pars,
                        init   = stan_init)
     } else {
-      fit <- rstan::sampling(object  = stan_model,
+      fit <- rstan::sampling(m,
                              data    = stan_data,
                              pars    = stan_pars,
                              init    = stan_init,
