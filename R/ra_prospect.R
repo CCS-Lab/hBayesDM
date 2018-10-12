@@ -126,7 +126,7 @@ ra_prospect <- model_base(
                     lambda = c(0, 1, 5),
                     tau = c(0, 1, 5)),
 
-  preprecess_function = function(rawdata) {
+  preprocess_function = function(rawdata) {
     # list of subjects x blocks
     subjs <- unique(rawdata$subjid)
     # number of subjects
