@@ -130,7 +130,7 @@ ra_prospect <- model_base(
     # list of subjects x blocks
     subjs <- unique(rawdata$subjid)
     # number of subjects
-    n_subj <- length(subjList)
+    n_subj <- length(subjs)
 
     # number of trials for each subject
     t_subjs <- as.vector(rep(0, n_subj))
@@ -151,7 +151,7 @@ ra_prospect <- model_base(
     cert    <- array(0, c(n_subj, t_max))
     gamble  <- array(-1, c(n_subj, t_max))
 
-    for (i in 1:numSubjs) {
+    for (i in 1:n_subj) {
       subj <- subjs[i]
       t    <- t_subjs[i]
       tmp  <- subset(rawdata, rawdata$subjid == subj)
