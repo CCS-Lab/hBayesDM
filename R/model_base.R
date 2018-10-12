@@ -131,11 +131,11 @@ model_base <- function(task_name,
             primes[pIdx] <- qnorm((inits[pIdx] - lb) / (ub - lb))   # (  lb,  ub)
           }
         }
-        l1 <- list(mu_p  = primes,
-                   sigma = rep(1.0, length(primes)))
-        l2 <- lapply(primes, function(x) rep(x, data_list$N))
-        names(l2) <- paste0(names(parameters), "_p")
-        return(c(l1, l2))
+        group_level          <- list(mu_p  = primes,
+                                     sigma = rep(1.0, length(primes)))
+        indiv_level          <- lapply(primes, function(x) rep(x, data_list$N))
+        names(indiv_level)   <- paste0(names(parameters), "_p")
+        return(c(group_level, indiv_level))
       }
     }
 
