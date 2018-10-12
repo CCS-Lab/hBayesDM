@@ -4,7 +4,7 @@
 #' @param data_columns Names of the necessary columns for the data, e.g. \code{c("subjID", "cue", "keyPressed", "outcome")}. Must be the entirety of necessary data columns that will be used at some point in the code, i.e. must always include \code{"subjID"}, and should include \code{"block"} in the case of 'multipleB' type models.
 #' @param parameters A list object whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector of 3 elements: the parameter's lower bound, plausible value, and upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2.0), Inf))}.
 #' @param regressors Names of the model-based regressors, e.g. \code{c("Qgo", "Qnogo", "Wgo", "Wnogo")}; OR if model-based regressors are not available for this model, \code{NULL}.
-#' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes a data.frame object \code{raw_data} as argument, and returns a list object \code{stan_data}.
+#' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes a data.frame object \code{raw_data} as argument, and returns a list object \code{data_list}.
 
 model_base <- function(task_name,
                        model_name,
@@ -81,31 +81,31 @@ model_base <- function(task_name,
     }
 
     #########################################################
-    ##   Prepare: stan_data                             #####
-    ##            stan_pars                             #####
-    ##            stan_init       for passing to Stan   #####
+    ##   Prepare: data_list                             #####
+    ##            pars                                  #####
+    ##            init            for passing to Stan   #####
     #########################################################
 
     # Preprocess the raw data to pass to Stan
-    stan_data <- preprocess_function(raw_data)
+    data_list <- preprocess_function(raw_data)
 
     # The parameters of interest for Stan
-    stan_pars <- c(paste0("mu_", names(parameters)),
-                   "sigma",
-                   names(parameters),
-                   "log_lik")
+    pars <- c(paste0("mu_", names(parameters)),
+              "sigma",
+              names(parameters),
+              "log_lik")
 
     if (modelRegressor) {
-      stan_pars <- c(stan_pars, regressors)
+      pars <- c(pars, regressors)
     }
 
     if (inc_postpred) {
-      stan_pars <- c(stan_pars, "y_pred")
+      pars <- c(pars, "y_pred")
     }
 
     # Initial values for the parameters
     if (inits[1] == "random") {
-      stan_init <- "random"
+      init <- "random"
     } else {
       if (inits[1] == "fixed") {
         inits <- unlist(lapply(parameters, "[", 2))   # plausible values of each parameter
@@ -114,7 +114,7 @@ model_base <- function(task_name,
         stop("** Length of 'inits' must be ", length(parameters),
              " (= the number of parameters of this model). Please check again. **\n")
       }
-      stan_init <- function() {
+      init <- function() {
         primes <- vector()
         for (pIdx in 1:length(parameters)) {
           lb <- parameters[[pIdx]][1]   # lower bound
@@ -134,7 +134,7 @@ model_base <- function(task_name,
         }
         l1 <- list(mu_p  = primes,
                    sigma = rep(1.0, length(primes)))
-        l2 <- lapply(primes, function(x) rep(x, stan_data$N))
+        l2 <- lapply(primes, function(x) rep(x, data_list$N))
         names(l2) <- paste0(names(parameters), "_p")
         return(c(l1, l2))
       }
@@ -170,11 +170,11 @@ model_base <- function(task_name,
       cat(" # of MCMC samples (per chain)  =  ", niter, "\n", sep = "")
       cat(" # of burn-in samples           =  ", nwarmup, "\n", sep = "")
     }
-    cat(" # of subjects                  =  ", stan_data$N, "\n", sep = "")
+    cat(" # of subjects                  =  ", data_list$N, "\n", sep = "")
     if (!is.null(model_type) && model_type == "multipleB") {
-      cat(" # of (max) blocks per subject  =  ", stan_data$maxB, "\n", sep = "")
+      cat(" # of (max) blocks per subject  =  ", data_list$maxB, "\n", sep = "")
     }
-    cat(" # of (max) trials per subject  =  ", stan_data$T, "\n", sep = "")
+    cat(" # of (max) trials per subject  =  ", data_list$T, "\n", sep = "")
 
     ############### Fit & extract ###############
 
@@ -192,14 +192,14 @@ model_base <- function(task_name,
     # Fit the Stan model
     if (vb) {   # if variational Bayesian
       fit <- rstan::vb(m,
-                       data   = stan_data,
-                       pars   = stan_pars,
-                       init   = stan_init)
+                       data   = data_list,
+                       pars   = pars,
+                       init   = init)
     } else {
       fit <- rstan::sampling(m,
-                             data    = stan_data,
-                             pars    = stan_pars,
-                             init    = stan_init,
+                             data    = data_list,
+                             pars    = pars,
+                             init    = init,
                              chains  = nchain,
                              iter    = niter,
                              warmup  = nwarmup,
@@ -219,11 +219,11 @@ model_base <- function(task_name,
     measure_indPars <- switch(indPars, mean = mean, median = median, mode = estimate_mode)
 
     # Measure all individual parameters (per subject)
-    allIndPars <- as.data.frame(array(NA, c(stan_data$N, length(parameters))))
-    for (sIdx in 1:stan_data$N) {
+    allIndPars <- as.data.frame(array(NA, c(data_list$N, length(parameters))))
+    for (sIdx in 1:data_list$N) {
       allIndPars[sIdx, ] <- mapply(function(x) measure_indPars(parVals[[x]][, sIdx]), names(parameters))
     }
-    allIndPars <- cbind(stan_data$ID, allIndPars)
+    allIndPars <- cbind(data_list$ID, allIndPars)
     colnames(allIndPars) <- c("subjID", names(parameter))
 
     # Model regressors (for model-based neuroimaging, etc.)
