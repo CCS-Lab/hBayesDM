@@ -114,7 +114,9 @@ model_base <- function(task_name,
       b_max     <- max(b_subjs)
       t_subjs   <- array(0, c(n_subj, b_max))
       for (i in 1:n_subj) {
-        t_subjs[i, 1:b_subjs[i]] <- DT_trials[subjid==subjs[i]]$N
+        subj <- subjs[i]
+        b <- b_subjs[i]
+        t_subjs[i, 1:b] <- DT_trials[subjid == subj]$N
       }
       t_max     <- max(t_subjs)
     }
@@ -157,8 +159,8 @@ model_base <- function(task_name,
       init <- function() {
         primes <- vector()
         for (i in 1:length(parameters)) {
-          lb <- parameters[[i]][1]   # lower bound
-          ub <- parameters[[i]][3]   # upper bound
+          lb <- parameters[[i]][1]                    # lower bound
+          ub <- parameters[[i]][3]                    # upper bound
           if (is.finite(lb) && (lb != 0)) {
             warning("Message to Dev: This is the first occurrence of a finite non-zero",
                     " lower bound for a parameter. Please make sure to re-adjust the",
