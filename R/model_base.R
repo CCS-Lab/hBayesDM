@@ -1,14 +1,14 @@
 #' @param task_name Name of the task, e.g. \code{"gng"}.
 #' @param model_name Name of the model, e.g. \code{"m1"}.
-#' @param model_type One of the following three: \code{NULL} OR \code{"single"} OR \code{"multipleB"}.
-#' @param data_columns Names of the necessary columns for the data, e.g. \code{c("subjID", "cue", "keyPressed", "outcome")}. Must be the entirety of necessary data columns that will be used at some point in the code, i.e. must always include \code{"subjID"}, and should include \code{"block"} in the case of 'multipleB' type models.
-#' @param parameters A list object whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector of 3 elements: the parameter's lower bound, plausible value, and upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2.0), Inf))}.
-#' @param regressors Names of the model-based regressors, e.g. \code{c("Qgo", "Qnogo", "Wgo", "Wnogo")}; OR if model-based regressors are not available for this model, \code{NULL}.
-#' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes a data.frame object \code{raw_data} as argument, and returns a list object \code{data_list}.
+#' @param model_type One of the following three: \code{""} OR \code{"single"} OR \code{"multipleB"}.
+#' @param data_columns Names of the necessary columns for the data, e.g. \code{c("subjID", "cue", "keyPressed", "outcome")}. Must be the entirety of necessary data columns that will be used at some point in the code; i.e. must always include \code{"subjID"}, and should include \code{"block"} in the case of 'multipleB' type models.
+#' @param parameters A list object whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector of 3 elements: the parameter's lower bound, plausible value, and upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2), Inf))}.
+#' @param regressors Names of the model-based regressors, e.g. \code{c("Qgo", "Qnogo", "Wgo", "Wnogo")}. OR if model-based regressors are not available for this model, \code{NULL}.
+#' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list}.
 
 model_base <- function(task_name,
                        model_name,
-                       model_type = NULL,
+                       model_type = "",
                        data_columns,
                        parameters,
                        regressors = NULL,
@@ -39,7 +39,11 @@ model_base <- function(task_name,
 
     # For using "example" or "choose" data
     if (data == "example") {
-      example_filename <- paste0(c(task_name, model_type, "exampleData.txt"), collapse = "_")
+      if (model_type == "") {
+        example_filename <- paste0(task_name, "_", "exampleData.txt")
+      } else {
+        example_filename <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
+      }
       data <- system.file("extdata", example_filename, package = "hBayesDM")
     } else if (data == "choose") {
       data <- file.choose()
@@ -79,6 +83,45 @@ model_base <- function(task_name,
       cat("These rows are removed prior to modeling the data.\n")
     }
 
+    ####################################################
+    ##   Prepare general info about the raw data   #####
+    ####################################################
+
+    subjs    <- NULL   # List of unique subjects (1D)
+    n_subj   <- NULL   # Total number of subjects (0D)
+
+    b_subjs  <- NULL   # Number of blocks per each subject (1D)
+    b_max    <- NULL   # Maximum number of blocks across all subjects (0D)
+
+    t_subjs  <- NULL   # Number of trials (per block) per subject (2D or 1D)
+    t_max    <- NULL   # Maximum number of trials across all blocks & subjects (0D)
+
+    if (model_type != "multipleB") {
+      DT_trials <- as.data.table(raw_data)[, .N, by = "subjid"]
+      subjs     <- DT_trials$subjid
+      n_subj    <- length(subjs)
+      t_subjs   <- DT_trials$N
+      t_max     <- max(t_subjs)
+      if ((model_type == "single") && (n_subj != 1)) {
+        stop("** More than 1 unique subjects exist in data file, while using 'single' type model. **\n")
+      }
+    } else {
+      DT_trials <- as.data.table(raw_data)[, .N, by = c("subjid", "block")]
+      DT_blocks <- DT_trials[, .N, by = "subjid"]
+      subjs     <- DT_blocks$subjid
+      n_subj    <- length(subjs)
+      b_subjs   <- DT_blocks$N
+      b_max     <- max(b_subjs)
+      t_subjs   <- array(0, c(n_subj, b_max))
+      for (i in 1:n_subj) {
+        t_subjs[i, 1:b_subjs[i]] <- DT_trials[subjid==subjs[i]]$N
+      }
+      t_max     <- max(t_subjs)
+    }
+
+    general_info <- list(subjs, n_subj, b_subjs, b_max, t_subjs, t_max)
+    names(general_info) <- c(subjs, n_subj, b_subjs, b_max, t_subjs, t_max)
+
     #########################################################
     ##   Prepare: data_list                             #####
     ##            pars                                  #####
@@ -86,18 +129,16 @@ model_base <- function(task_name,
     #########################################################
 
     # Preprocess the raw data to pass to Stan
-    data_list <- preprocess_function(raw_data)
+    data_list <- preprocess_function(raw_data, general_info)
 
     # The parameters of interest for Stan
     pars <- c(paste0("mu_", names(parameters)),
               "sigma",
               names(parameters),
               "log_lik")
-
     if (modelRegressor) {
       pars <- c(pars, regressors)
     }
-
     if (inc_postpred) {
       pars <- c(pars, "y_pred")
     }
@@ -133,7 +174,7 @@ model_base <- function(task_name,
         }
         group_level          <- list(mu_p  = primes,
                                      sigma = rep(1.0, length(primes)))
-        indiv_level          <- lapply(primes, function(x) rep(x, data_list$N))
+        indiv_level          <- lapply(primes, function(x) rep(x, n_subj))
         names(indiv_level)   <- paste0(names(parameters), "_p")
         return(c(group_level, indiv_level))
       }
@@ -169,11 +210,11 @@ model_base <- function(task_name,
       cat(" # of MCMC samples (per chain)  =  ", niter, "\n", sep = "")
       cat(" # of burn-in samples           =  ", nwarmup, "\n", sep = "")
     }
-    cat(" # of subjects                  =  ", data_list$N, "\n", sep = "")
-    if (!is.null(model_type) && model_type == "multipleB") {
-      cat(" # of (max) blocks per subject  =  ", data_list$maxB, "\n", sep = "")
+    cat(" # of subjects                  =  ", n_subj, "\n", sep = "")
+    if (model_type == "multipleB") {
+      cat(" # of (max) blocks per subject  =  ", b_max, "\n", sep = "")
     }
-    cat(" # of (max) trials per subject  =  ", data_list$T, "\n", sep = "")
+    cat(" # of (max) trials per subject  =  ", t_max, "\n", sep = "")
 
     ############### Fit & extract ###############
 
@@ -218,11 +259,11 @@ model_base <- function(task_name,
     measure_indPars <- switch(indPars, mean = mean, median = median, mode = estimate_mode)
 
     # Measure all individual parameters (per subject)
-    allIndPars <- as.data.frame(array(NA, c(data_list$N, length(parameters))))
-    for (i in 1:data_list$N) {
+    allIndPars <- as.data.frame(array(NA, c(n_subj, length(parameters))))
+    for (i in 1:n_subj) {
       allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), names(parameters))
     }
-    allIndPars <- cbind(data_list$ID, allIndPars)
+    allIndPars <- cbind(subjs, allIndPars)
     colnames(allIndPars) <- c("subjID", names(parameter))
 
     # Model regressors (for model-based neuroimaging, etc.)
