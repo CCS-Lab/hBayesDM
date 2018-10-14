@@ -122,7 +122,7 @@ model_base <- function(task_name,
     }
 
     general_info <- list(subjs, n_subj, b_subjs, b_max, t_subjs, t_max)
-    names(general_info) <- c(subjs, n_subj, b_subjs, b_max, t_subjs, t_max)
+    names(general_info) <- c("subjs", "n_subj", "b_subjs", "b_max", "t_subjs", "t_max")
 
     #########################################################
     ##   Prepare: data_list                             #####
@@ -266,7 +266,7 @@ model_base <- function(task_name,
       allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), names(parameters))
     }
     allIndPars <- cbind(subjs, allIndPars)
-    colnames(allIndPars) <- c("subjID", names(parameter))
+    colnames(allIndPars) <- c("subjID", names(parameters))
 
     # Model regressors (for model-based neuroimaging, etc.)
     if (modelRegressor) {
