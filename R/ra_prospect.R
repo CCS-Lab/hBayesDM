@@ -37,6 +37,7 @@
 #' @importFrom parallel detectCores
 #' @importFrom stats median qnorm density
 #' @importFrom utils read.table
+#' @importFrom data.table as.data.table
 #'
 #' @details
 #' This section describes some of the function arguments in greater detail.
