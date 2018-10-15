@@ -20,7 +20,8 @@ Imports:
     loo (>= 2.0),
     grid,
     parallel,
-    ggplot2
+    ggplot2,
+    data.table (>= 1.11.8)
 LinkingTo: StanHeaders (>= 2.17.0), rstan (>= 2.17.0), BH (>= 1.65.0.1), Rcpp
     (>= 0.12.14), RcppEigen (>= 0.3.3.3.1)
 URL: http://rpubs.com/CCSL/hBayesDM
