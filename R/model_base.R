@@ -230,7 +230,7 @@ model_base <- function(task_name,
     if (FLAG_CRAN_VERSION) {
       m <- rstan::stan_model(system.file("stan", paste0(model, ".stan"), package = "hBayesDM"))
     } else {
-      m <- stanmodels$model
+      m <- stanmodels[[model]]
       cat("\n")
       cat("************************************\n")
       cat("**  Loading a pre-compiled model  **\n")
