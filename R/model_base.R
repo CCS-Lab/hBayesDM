@@ -1,10 +1,13 @@
+#' Model Base
+#'
 #' @param task_name Name of the task, e.g. \code{"gng"}.
 #' @param model_name Name of the model, e.g. \code{"m1"}.
 #' @param model_type One of the following three: \code{""} OR \code{"single"} OR \code{"multipleB"}.
 #' @param data_columns Names of the necessary columns for the data, e.g. \code{c("subjID", "cue", "keyPressed", "outcome")}. Must be the entirety of necessary data columns that will be used at some point in the code; i.e. must always include \code{"subjID"}, and should include \code{"block"} in the case of 'multipleB' type models.
 #' @param parameters A list object whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector of 3 elements: the parameter's lower bound, plausible value, and upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2), Inf))}.
-#' @param regressors Names of the model-based regressors, e.g. \code{c("Qgo", "Qnogo", "Wgo", "Wnogo")}. OR if model-based regressors are not available for this model, \code{NULL}.
-#' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list}.
+#' @param regressors A list object whose keys are the model-based regressors for this model. Each regressor key must be assigned a single numeric value, indicating the number of dimensions its data will be extracted as. E.g. \code{list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)}. OR if model-based regressors are not available for this model, this argument should just be \code{NULL}.
+#' @param postpreds Name(s) of the trial-level posterior predictive simulations. Default is \code{"y_pred"}; though any other character vector holding appropriate names is possible, for certain models like the Two-Step Task models.
+#' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.
 #'
 #' @importFrom utils read.table head
 #' @importFrom stats complete.cases qnorm median
@@ -18,6 +21,7 @@ model_base <- function(task_name,
                        data_columns,
                        parameters,
                        regressors = NULL,
+                       postpreds = "y_pred",
                        preprocess_function) {
 
   # The resulting hBayesDM model function to be returned
@@ -145,10 +149,10 @@ model_base <- function(task_name,
               names(parameters),
               "log_lik")
     if (modelRegressor) {
-      pars <- c(pars, regressors)
+      pars <- c(pars, names(regressors))
     }
     if (inc_postpred) {
-      pars <- c(pars, "y_pred")
+      pars <- c(pars, postpreds)
     }
 
     # Initial values for the parameters
@@ -260,7 +264,9 @@ model_base <- function(task_name,
     # Extract from the Stan fit object
     parVals <- rstan::extract(fit, permuted = TRUE)
     if (inc_postpred) {
-      parVals$y_pred[parVals$y_pred == -1] <- NA
+      for (pp in postpreds) {
+        parVals[[pp]][parVals[[pp]] == -1] <- NA
+      }
     }
 
     # Define measurement of individual parameters
@@ -281,8 +287,10 @@ model_base <- function(task_name,
       cat("**  Extract model-based regressors  **\n")
       cat("**************************************\n")
 
-      model_regressor <- lapply(regressors, function(x) apply(parVals[[x]], c(2, 3), measure_indPars))
-      names(model_regressor) <- regressors
+      model_regressor <- list()
+      for (r in names(regressors)) {
+        model_regressor[[r]] <- apply(parVals[[r]], c(1:regressors[[r]]) + 1, measure_indPars)
+      }
     }
 
     # Wrap up data into a list
