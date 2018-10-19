@@ -35,7 +35,7 @@
 #'
 #' @export
 #'
-#' @include model_base.R
+#' @include hBayesDM_model.R
 #' @importFrom data.table as.data.table
 #'
 #' @details
