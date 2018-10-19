@@ -9,22 +9,23 @@
 #' @param postpreds Name(s) of the trial-level posterior predictive simulations. Default is \code{"y_pred"}; though any other character vector holding appropriate names is possible, for certain models like the Two-Step Task models.
 #' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.
 #'
+#' @export
+#' @keywords internal
+#'
 #' @importFrom utils read.table head
 #' @importFrom stats complete.cases qnorm median
 #' @importFrom data.table as.data.table
 #' @importFrom parallel detectCores
 #' @importFrom rstan stan_model vb sampling extract
-#'
-#' @export
-#' @keywords internal
-model_base <- function(task_name,
-                       model_name,
-                       model_type = "",
-                       data_columns,
-                       parameters,
-                       regressors = NULL,
-                       postpreds = "y_pred",
-                       preprocess_function) {
+
+hBayesDM_model <- function(task_name,
+                           model_name,
+                           model_type = "",
+                           data_columns,
+                           parameters,
+                           regressors = NULL,
+                           postpreds = "y_pred",
+                           preprocess_function) {
 
   # The resulting hBayesDM model function to be returned
   function(data           = "choose",

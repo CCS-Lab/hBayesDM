@@ -33,6 +33,8 @@
 #'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 #' }
 #'
+#' @export
+#'
 #' @include model_base.R
 #' @importFrom data.table as.data.table
 #'
@@ -78,8 +80,6 @@
 #' more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
 #' \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
 #'
-#' @export
-#'
 #' @references
 #' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 #' Journal of Machine Learning Research, 15(1), 1593-1623.
@@ -115,7 +115,7 @@
 #' path_to_regulate_data = system.file("extdata/ra_data_reappraisal.txt", package = "hBayesDM")
 #' }
 
-ra_prospect <- model_base(
+ra_prospect <- hBayesDM_model(
   task_name           = "ra",
   model_name          = "prospect",
   data_columns        = c("subjID", "gain", "loss", "cert", "gamble"),
