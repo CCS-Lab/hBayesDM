@@ -14,7 +14,9 @@
 #' @importFrom data.table as.data.table
 #' @importFrom parallel detectCores
 #' @importFrom rstan stan_model vb sampling extract
-
+#'
+#' @export
+#' @keywords internal
 model_base <- function(task_name,
                        model_name,
                        model_type = "",

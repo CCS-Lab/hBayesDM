@@ -27,3 +27,4 @@ model_base(task_name, model_name, model_type = "", data_columns, parameters,
 \description{
 Model Base
 }
+\keyword{internal}
