@@ -1,3 +1,6 @@
+Oct 19, 2018 (0.6.2)
+* Fix an error on choiceRT_ddm (#44)
+
 Oct 9, 2018 (0.6.1)
 * Solve an issue with built binary files.
 * Fix an error on peer_ocu with misplaced parentheses.
