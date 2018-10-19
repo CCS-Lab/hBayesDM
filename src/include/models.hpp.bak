@@ -4822,7 +4822,7 @@ public:
                 current_statement_begin__ = 45;
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))));
                 current_statement_begin__ = 46;
-                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,N,"minRT",1) - RTbound)) + RTbound));
+                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,i,"minRT",1) - RTbound)) + RTbound));
             }
             current_statement_begin__ = 48;
             stan::math::assign(alpha, exp(add(get_base1(mu_p,1,"mu_p",1),multiply(get_base1(sigma,1,"sigma",1),alpha_pr))));
@@ -5068,7 +5068,7 @@ public:
                 current_statement_begin__ = 45;
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))));
                 current_statement_begin__ = 46;
-                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,N,"minRT",1) - RTbound)) + RTbound));
+                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,i,"minRT",1) - RTbound)) + RTbound));
             }
             current_statement_begin__ = 48;
             stan::math::assign(alpha, exp(add(get_base1(mu_p,1,"mu_p",1),multiply(get_base1(sigma,1,"sigma",1),alpha_pr))));

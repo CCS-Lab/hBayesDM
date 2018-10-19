@@ -1,6 +1,6 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.6.1
+Version: 0.6.2
 Date: 2018-10-09
 Authors@R: c(
 	person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),

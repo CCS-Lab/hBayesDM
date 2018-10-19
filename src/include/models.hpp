@@ -4365,7 +4365,7 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))));
-                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,N,"minRT",1) - RTbound)) + RTbound));
+                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,i,"minRT",1) - RTbound)) + RTbound));
             }
             stan::math::assign(alpha, exp(add(get_base1(mu_p,1,"mu_p",1),multiply(get_base1(sigma,1,"sigma",1),alpha_pr))));
             stan::math::assign(delta, exp(add(get_base1(mu_p,3,"mu_p",1),multiply(get_base1(sigma,3,"sigma",1),delta_pr))));
@@ -4589,7 +4589,7 @@ public:
             for (int i = 1; i <= N; ++i) {
 
                 stan::math::assign(get_base1_lhs(beta,i,"beta",1), Phi_approx((get_base1(mu_p,2,"mu_p",1) + (get_base1(sigma,2,"sigma",1) * get_base1(beta_pr,i,"beta_pr",1)))));
-                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,N,"minRT",1) - RTbound)) + RTbound));
+                stan::math::assign(get_base1_lhs(tau,i,"tau",1), ((Phi_approx((get_base1(mu_p,4,"mu_p",1) + (get_base1(sigma,4,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * (get_base1(minRT,i,"minRT",1) - RTbound)) + RTbound));
             }
             stan::math::assign(alpha, exp(add(get_base1(mu_p,1,"mu_p",1),multiply(get_base1(sigma,1,"sigma",1),alpha_pr))));
             stan::math::assign(delta, exp(add(get_base1(mu_p,3,"mu_p",1),multiply(get_base1(sigma,3,"sigma",1),delta_pr))));
