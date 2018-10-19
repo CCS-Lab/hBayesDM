@@ -43,7 +43,7 @@ transformed parameters {
 
   for (i in 1:N) {
     beta[i] = Phi_approx(mu_p[2] + sigma[2] * beta_pr[i]);
-    tau[i]  = Phi_approx(mu_p[4] + sigma[4] * tau_pr[i]) * (minRT[N]-RTbound) + RTbound;
+    tau[i]  = Phi_approx(mu_p[4] + sigma[4] * tau_pr[i]) * (minRT[i] - RTbound) + RTbound;
   }
   alpha = exp(mu_p[1] + sigma[1] * alpha_pr);
   delta = exp(mu_p[3] + sigma[3] * delta_pr);
