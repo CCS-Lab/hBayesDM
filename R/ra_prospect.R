@@ -33,10 +33,7 @@
 #'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 #' }
 #'
-#' @importFrom rstan vb sampling stan_model rstan_options extract
-#' @importFrom parallel detectCores
-#' @importFrom stats median qnorm density
-#' @importFrom utils read.table
+#' @include model_base.R
 #' @importFrom data.table as.data.table
 #'
 #' @details
