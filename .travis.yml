@@ -22,17 +22,26 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - libgit2-dev
-            - libcurl4-openssl-dev
-            - libxml2-dev
-            - gcc-6
-            - g++-6
+            - gcc-8
+            - g++-8
       env:
-        - MATRIX_EVAL = "CC=gcc-6 && CXX=g++-6"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+    - os: linux
+      dist: trusty
+      r: release
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+          packages:
+            - clang-6.0
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
     - os: osx
       r: release
       env:
-        - MATRIX_EVAL = "CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
 
 
 before_install:
@@ -41,7 +50,7 @@ before_install:
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = $CXX" >> ~/.R/Makevars
   - echo "CXX14 = $CXX" >> ~/.R/Makevars
-  - echo "CXX14FLAGS = `R CMD config CXXFLAGS` -pedantic -g0 -fPIC" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-macro-redefined -Wno-unknown-pragmas" >> ~/.R/Makevars
 
 script:
   - travis_wait 30 R CMD build .
