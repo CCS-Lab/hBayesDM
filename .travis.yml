@@ -20,6 +20,10 @@ matrix:
     - os: linux
       dist: trusty
       r: release
+      compiler: gcc
+      addons:
+        apt:
+          packages: ['g++-6']
       env: CXX=g++-6 CXX14=g++-6
     - os: osx
       r: release
