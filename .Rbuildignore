@@ -1,8 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^.*\.Rmd$
 ^.*\.o$
-^\cleanup*
-^.*\.Rmd
-^\.editorconfig
-^\.travis\.yml
-^\.gitignore
+^cleanup.*$
+^\.editorconfig$
+^\.gitignore$
+^\.travis\.yml$
