@@ -11,6 +11,12 @@ cache:
   apt: true
   packages: true
 
+addons:
+  apt:
+    packages:
+      - gfortran
+      - r-base-dev
+
 # Use both linux and osx operating systems
 matrix:
   include:
@@ -22,11 +28,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-8
-            - g++-8
-            - gfortran
+            - gcc-6
+            - g++-6
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
     - os: linux
       dist: trusty
       r: release
@@ -37,7 +42,6 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - clang-6.0
-            - gfortran
       env:
         - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
     - os: osx
