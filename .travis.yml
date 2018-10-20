@@ -3,8 +3,8 @@ language: r
 # Be strict when checking our package
 warnings_are_errors: false
 
-# Sudo is not used
-sudo: false
+# Sudo is required
+sudo: true
 
 # Use cache for packages
 cache:
@@ -27,7 +27,8 @@ matrix:
             - libxml2-dev
             - gcc-6
             - g++-6
-      env: CC=gcc-6 CXX=g++-6 CXX14=g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
     - os: osx
       r: release
 
