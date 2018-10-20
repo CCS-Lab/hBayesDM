@@ -37,6 +37,7 @@ matrix:
 
 before_install:
   - eval "${MATRIX_EVAL}"
+  - mkdir ~/.R; touch ~/.R/Makevars
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = $CXX" >> ~/.R/Makevars
   - echo "CXX14 = $CXX" >> ~/.R/Makevars
