@@ -22,6 +22,13 @@ cache:
   apt: true
   packages: true
 
+# Env
+matrix:
+  include:
+    - os: linux
+      env:
+        - CXX14=g++-6
+
 # System dependencies for HTTP calling
 addons:
   apt:
@@ -29,6 +36,7 @@ addons:
       - libgit2-dev
       - libcurl4-openssl-dev
       - libxml2-dev
+
 
 script:
   - travis_wait 30 R CMD build .
