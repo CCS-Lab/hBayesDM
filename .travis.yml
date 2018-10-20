@@ -1,7 +1,4 @@
 language: r
-r:
-  - oldrel
-  - release
 
 # Be strict when checking our package
 warnings_are_errors: false
@@ -22,8 +19,10 @@ matrix:
   include:
     - os: linux
       dist: trusty
+      r: release
       env: CXX=g++-6 CXX14=g++-6
     - os: osx
+      r: release
 
 # System dependencies for HTTP calling
 addons:
