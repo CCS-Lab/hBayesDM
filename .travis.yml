@@ -14,8 +14,7 @@ cache:
 addons:
   apt:
     packages:
-      - gfortran
-      - r-base-dev
+      - libomp-dev
 
 # Use both linux and osx operating systems
 matrix:
@@ -30,6 +29,7 @@ matrix:
           packages:
             - gcc-6
             - g++-6
+            - gfortran-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
     - os: linux
