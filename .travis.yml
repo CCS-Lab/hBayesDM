@@ -29,6 +29,7 @@ addons:
       - libgit2-dev
       - libcurl4-openssl-dev
       - libxml2-dev
+      - g++-6
 
 script:
   - travis_wait 30 R CMD build .
