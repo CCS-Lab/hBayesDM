@@ -58,8 +58,8 @@ script:
 r_binary_packages:
   - testthat
 
-r_github_packages:
-  - r-lib/covr
+# r_github_packages:
+#   - r-lib/covr
 
-after_success:
-  - Rscript -e 'covr::codecov()'
+# after_success:
+#   - Rscript -e 'covr::codecov()'
