@@ -6,9 +6,8 @@
 \usage{
 ra_prospect(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
   ncore = 1, nthin = 1, inits = "random", indPars = "mean",
-  saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10)
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "gain", "loss", "cert", and "gamble". See \bold{Details} below for more information.}
@@ -27,8 +26,6 @@ ra_prospect(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".}
 
-\item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
-
 \item{modelRegressor}{Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.}
@@ -40,6 +37,8 @@ ra_prospect(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 \item{stepsize}{Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
 
 \item{max_treedepth}{Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
+
+\item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
 }
 \value{
 \code{modelData}  A class \code{"hBayesDM"} object with the following components:
