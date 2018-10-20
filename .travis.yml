@@ -3,11 +3,8 @@ language: r
 # Be strict when checking our package
 warnings_are_errors: false
 
-# Sudo is required
-sudo: true
-
-# Use trusty distribution of linux
-dist: trusty
+# Sudo is not used
+sudo: false
 
 # Use cache for packages
 cache:
@@ -20,7 +17,6 @@ matrix:
     - os: linux
       dist: trusty
       r: release
-      compiler: gcc
       addons:
         apt:
           sources:
@@ -29,8 +25,9 @@ matrix:
             - libgit2-dev
             - libcurl4-openssl-dev
             - libxml2-dev
-            - g++-7
-      env: COMPILER=g++-7 CXX=g++-7 CXX14=g++-7
+            - gcc-6
+            - g++-6
+      env: CC=gcc-6 CXX=g++-6 CXX14=g++-6
     - os: osx
       r: release
 
