@@ -11,14 +11,10 @@ cache:
   apt: true
   packages: true
 
-addons:
-  apt:
-    packages:
-      - libomp-dev
-
 # Use both linux and osx operating systems
 matrix:
   include:
+    # Linux + g++-6
     - os: linux
       dist: trusty
       r: release
@@ -32,6 +28,7 @@ matrix:
             - gfortran-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+    # Linux + clang-6.0
     - os: linux
       dist: trusty
       r: release
@@ -42,8 +39,10 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - clang-6.0
+            - libomp-dev
       env:
         - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+    # OS X + clang
     - os: osx
       r: release
       env:
@@ -56,7 +55,7 @@ before_install:
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = $CXX" >> ~/.R/Makevars
   - echo "CXX14 = $CXX" >> ~/.R/Makevars
-  - echo "CXX14FLAGS = -O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-macro-redefined -Wno-unknown-pragmas" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -O3 -mtune=native -march=native -w" >> ~/.R/Makevars
 
 script:
   - travis_wait 30 R CMD build .
