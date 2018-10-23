@@ -7,7 +7,8 @@
 #' @param parameters A list object whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector of 3 elements: the parameter's lower bound, plausible value, and upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2), Inf))}.
 #' @param regressors A list object whose keys are the model-based regressors for this model. Each regressor key must be assigned a single numeric value, indicating the number of dimensions its data will be extracted as. E.g. \code{list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)}. OR if model-based regressors are not available for this model, this argument should just be \code{NULL}.
 #' @param postpreds Name(s) of the trial-level posterior predictive simulations. Default is \code{"y_pred"}; though any other character vector holding appropriate names is possible, for certain models like the Two-Step Task models.
-#' @param preprocess_function The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.
+#' @param stanmodel_arg Can be used by developers, during the creation and testing of new hBayesDM models. Character value OR a stanmodel object. Leave as NULL (default) for completed models.
+#' @param preprocess_func The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.
 #'
 #' @export
 #' @keywords internal
@@ -25,7 +26,8 @@ hBayesDM_model <- function(task_name,
                            parameters,
                            regressors = NULL,
                            postpreds = "y_pred",
-                           preprocess_function) {
+                           stanmodel_arg = NULL,
+                           preprocess_func) {
 
   # The resulting hBayesDM model function to be returned
   function(data           = "choose",
@@ -53,11 +55,11 @@ hBayesDM_model <- function(task_name,
     # For using "example" or "choose" data
     if (data == "example") {
       if (model_type == "") {
-        example_filename <- paste0(task_name, "_", "exampleData.txt")
+        exampleData <- paste0(task_name, "_", "exampleData.txt")
       } else {
-        example_filename <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
+        exampleData <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
       }
-      data <- system.file("extdata", example_filename, package = "hBayesDM")
+      data <- system.file("extdata", exampleData, package = "hBayesDM")
     } else if (data == "choose") {
       data <- file.choose()
     }
@@ -144,7 +146,7 @@ hBayesDM_model <- function(task_name,
     #########################################################
 
     # Preprocess the raw data to pass to Stan
-    data_list <- preprocess_function(raw_data, general_info)
+    data_list <- preprocess_func(raw_data, general_info)
 
     # The parameters of interest for Stan
     pars <- c(paste0("mu_", names(parameters)),
@@ -195,7 +197,10 @@ hBayesDM_model <- function(task_name,
       }
     }
 
-    ############### Print info ###############
+    ############### Print for user ###############
+
+    # Full name of model
+    model <- paste0(task_name, "_", model_name)
 
     # Set number of cores for parallel computing
     if (ncore <= 1) {
@@ -210,8 +215,7 @@ hBayesDM_model <- function(task_name,
     }
     options(mc.cores = ncore)
 
-    # Information for user
-    model <- paste0(task_name, "_", model_name)
+    # Print for user
     cat("\n")
     cat("Model name  =  ", model, "\n", sep = "")
     cat("Data file   =  ", data, "\n", sep = "")
@@ -233,25 +237,30 @@ hBayesDM_model <- function(task_name,
 
     ############### Fit & extract ###############
 
-    # Path to .stan file
-    if (FLAG_CRAN_VERSION) {
-      m <- rstan::stan_model(system.file("stan", paste0(model, ".stan"), package = "hBayesDM"))
-    } else {
-      m <- stanmodels[[model]]
-      cat("\n")
-      cat("************************************\n")
-      cat("**  Loading a pre-compiled model  **\n")
-      cat("************************************\n")
+    # Designate the Stan model
+    if (is.null(stanmodel_arg)) {
+      if (FLAG_GITHUB_VERSION) {
+        stanmodel_arg <- stanmodels[[model]]
+        cat("\n")
+        cat("************************************\n")
+        cat("**  Loading a pre-compiled model  **\n")
+        cat("************************************\n")
+      } else {
+        stanmodel_arg <- system.file("exec", paste0(model, ".stan"), package = "hBayesDM")
+      }
+    }
+    if (is.character(stanmodel_arg)) {
+      stanmodel_arg <- rstan::stan_model(stanmodel_arg)
     }
 
     # Fit the Stan model
     if (vb) {   # if variational Bayesian
-      fit <- rstan::vb(m,
+      fit <- rstan::vb(object = stanmodel_arg,
                        data   = data_list,
                        pars   = pars,
                        init   = init)
     } else {
-      fit <- rstan::sampling(m,
+      fit <- rstan::sampling(object  = stanmodel_arg,
                              data    = data_list,
                              pars    = pars,
                              init    = init,
