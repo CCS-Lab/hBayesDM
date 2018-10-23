@@ -116,25 +116,30 @@
 #' }
 
 ra_prospect <- hBayesDM_model(
-  task_name           = "ra",
-  model_name          = "prospect",
-  data_columns        = c("subjID", "gain", "loss", "cert", "gamble"),
-  parameters          = list("rho"    = c(0, 1, 2),
-                             "lambda" = c(0, 1, 5),
-                             "tau"    = c(0, 1, 5)),
-  preprocess_function = function(raw_data, general_info) {
-    DT      <- as.data.table(raw_data)
+  task_name       = "ra",
+  model_name      = "prospect",
+  data_columns    = c("subjID", "gain", "loss", "cert", "gamble"),
+  parameters      = list("rho"    = c(0, 1, 2),
+                         "lambda" = c(0, 1, 5),
+                         "tau"    = c(0, 1, 5)),
+  preprocess_func = function(raw_data, general_info) {
+
+    # Use data.table
+    DT <- as.data.table(raw_data)
+
+    # Use general informations of raw_data
     subjs   <- general_info$subjs
     n_subj  <- general_info$n_subj
     t_subjs <- general_info$t_subjs
     t_max   <- general_info$t_max
 
-    # Data from multiple subjects
-    gain    <- array( 0, c(n_subj, t_max))
-    loss    <- array( 0, c(n_subj, t_max))
-    cert    <- array( 0, c(n_subj, t_max))
-    gamble  <- array(-1, c(n_subj, t_max))
+    # Initialize (model-specific) data arrays
+    gain   <- array( 0, c(n_subj, t_max))
+    loss   <- array( 0, c(n_subj, t_max))
+    cert   <- array( 0, c(n_subj, t_max))
+    gamble <- array(-1, c(n_subj, t_max))
 
+    # Write from raw_data to the data arrays
     for (i in 1:n_subj) {
       subj <- subjs[i]
       t <- t_subjs[i]
@@ -146,16 +151,18 @@ ra_prospect <- hBayesDM_model(
       gamble[i, 1:t] <- DT_subj$gamble
     }
 
+    # Wrap into a list for Stan
     data_list <- list(
-      N       = n_subj,
-      T       = t_max,
-      Tsubj   = t_subjs,
-      gain    = gain,
-      loss    = loss,
-      cert    = cert,
-      gamble  = gamble
+      N      = n_subj,
+      T      = t_max,
+      Tsubj  = t_subjs,
+      gain   = gain,
+      loss   = loss,
+      cert   = cert,
+      gamble = gamble
     )
 
+    # Returned data_list will directly be passed to Stan
     return(data_list)
   }
 )
