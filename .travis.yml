@@ -56,7 +56,7 @@ before_install:
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = $CXX" >> ~/.R/Makevars
   - echo "CXX14 = $CXX" >> ~/.R/Makevars
-  - echo "CXXFLAGS = -O0 -mtune=native -march=native -w -fPIC" >> ~/.R/Makevars
+  - echo "CXXFLAGS = `R CMD config CXXFLAGS` -O1 -pedantic -g0 -fPIC" >> ~/.R/Makevars
   - echo "CXX14FLAGS = $CXXFLAGS" >> ~/.R/Makevars
 
 script:
