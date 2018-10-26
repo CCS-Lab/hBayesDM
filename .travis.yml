@@ -11,11 +11,10 @@ cache:
   apt: true
   packages: true
 
-os:
-  - osx
-
 # Use both linux and osx operating systems
 matrix:
+  allow_failures:
+    - os: linux
   include:
     # # Linux + g++-6
     # - os: linux
