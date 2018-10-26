@@ -94,7 +94,7 @@
 #' @references
 #' Hsu, M., Bhatt, M., Adolphs, R., Tranel, D., & Camerer, C. F. (2005).
 #' Neural systems responding to degrees of uncertainty in human decision-making.
-#' Science, 310(5754), 1680–1683. https://doi.org/10.1126/science.1115327
+#' Science, 310(5754), 1680-1683. https://doi.org/10.1126/science.1115327
 #'
 #' @seealso
 #' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
