@@ -3,8 +3,8 @@ language: r
 # Be strict when checking our package
 warnings_are_errors: false
 
-# Sudo is required
-sudo: true
+# Sudo is disabled to use the container-based builds and package caching
+sudo: false
 
 # Use cache for packages
 cache:
@@ -49,10 +49,11 @@ matrix:
     #   env:
     #     - MATRIX_EVAL="CC=clang && CXX=clang++"
 
+before_install:
+  - eval "${MATRIX_EVAL}"
 
 before_script:
-  - Rscript -e "install.packages(c('loo', 'inline', 'Rcpp', 'coda', 'BH', 'RcppEigen', 'RInside', 'RUnit', 'ggplot2', 'gridExtra', 'pkgbuild'), repos='http://cran.rstudio.com')"
-  - eval "${MATRIX_EVAL}"
+  - Rscript -e "install.packages(c('loo', 'inline', 'Rcpp', 'coda', 'BH', 'RcppEigen', 'RInside', 'RUnit', 'ggplot2', 'gridExtra', 'pkgbuild'))"
   - mkdir ~/.R; touch ~/.R/Makevars
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = $CXX" >> ~/.R/Makevars
