@@ -47,6 +47,7 @@ matrix:
     # OS X + clang
     - os: osx
       r: release
+      osx_image: xcode10
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
 
@@ -57,7 +58,7 @@ before_install:
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = $CXX" >> ~/.R/Makevars
   - echo "CXX14 = $CXX" >> ~/.R/Makevars
-  - echo "CXX14FLAGS = -O3 -mtune=native -march=native -w" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -O3 -mtune=native -march=native -Wall" >> ~/.R/Makevars
 
 script:
   - travis_wait 30 R CMD build .
