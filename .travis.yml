@@ -10,24 +10,23 @@ sudo: false
 cache:
   apt: true
   packages: true
+  ccache: true
 
 # Use both linux and osx operating systems
 matrix:
   include:
-    # Linux + g++-8
+    # Linux + g++-7
     - os: linux
       dist: trusty
-      r: release
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-8
-            - g++-8
-            - gfortran-8
+            - gcc-7
+            - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
     # # Linux + clang-7.0
     # - os: linux
     #   dist: trusty
@@ -51,20 +50,16 @@ matrix:
 
 before_install:
   - eval "${MATRIX_EVAL}"
-
-before_script:
-  - Rscript -e "install.packages(c('loo', 'inline', 'Rcpp', 'coda', 'BH', 'RcppEigen', 'RInside', 'RUnit', 'ggplot2', 'gridExtra', 'pkgbuild'))"
-  - mkdir ~/.R; touch ~/.R/Makevars
-  - echo "CC = $CC" >> ~/.R/Makevars
-  - echo "CXX = $CXX" >> ~/.R/Makevars
-  - echo "CXX14 = $CXX" >> ~/.R/Makevars
-  - echo "USE_CXX14 = 1" >> ~/.R/Makevars
+  - mkdir -p ~/.R/
   - echo "CFLAGS = -g -O0 -w" >> ~/.R/Makevars
-  - echo "CXXFLAGS = -O0 -w -pedantic -g0 -fPIC" >> ~/.R/Makevars
-  - echo "CXX14FLAGS = $CXXFLAGS" >> ~/.R/Makevars
+  - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -mtune=native -march=native -w -O0" >> ~/.R/Makevars
+
+install:
+  - if [[ $TRAVIS_OS_NAME = "osx" ]]; then brew install ccache; brew link ccache; fi
 
 script:
-  - travis_wait 30 R CMD build .
+  - travis_wait 40 R CMD build .
 
 r_binary_packages:
   - testthat
