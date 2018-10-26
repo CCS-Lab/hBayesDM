@@ -11,6 +11,9 @@ cache:
   apt: true
   packages: true
 
+os:
+  - osx
+
 # Use both linux and osx operating systems
 matrix:
   include:
