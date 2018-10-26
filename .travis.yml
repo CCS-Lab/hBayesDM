@@ -14,7 +14,7 @@ cache:
 # Use both linux and osx operating systems
 matrix:
   include:
-    # Linux + g++-6
+    # Linux + g++-8
     - os: linux
       dist: trusty
       r: release
@@ -23,25 +23,25 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-6
-            - g++-6
-            - gfortran-6
+            - gcc-8
+            - g++-8
+            - gfortran-8
       env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-    # Linux + clang-7.0
-    - os: linux
-      dist: trusty
-      r: release
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-7
-          packages:
-            - clang-7
-            - libomp-7-dev
-      env:
-        - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+    # # Linux + clang-7.0
+    # - os: linux
+    #   dist: trusty
+    #   r: release
+    #   addons:
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #         - llvm-toolchain-trusty-7
+    #       packages:
+    #         - clang-7
+    #         - libomp-7-dev
+    #   env:
+    #     - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
     # # OS X + clang
     # - os: osx
     #   r: release
