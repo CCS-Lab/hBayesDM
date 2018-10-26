@@ -50,13 +50,14 @@ matrix:
     #     - MATRIX_EVAL="CC=clang && CXX=clang++"
 
 
-before_install:
-  - Rscript -e "install.packages(c('loo', 'inline', 'Rcpp', 'coda', 'BH', 'RcppEigen', 'RInside', 'RUnit', 'ggplot2', 'gridExtra', 'knitr', 'rmarkdown', 'pkgbuild'), repos='http://cran.rstudio.com')"
+before_script:
+  - Rscript -e "install.packages(c('loo', 'inline', 'Rcpp', 'coda', 'BH', 'RcppEigen', 'RInside', 'RUnit', 'ggplot2', 'gridExtra', 'pkgbuild'), repos='http://cran.rstudio.com')"
   - eval "${MATRIX_EVAL}"
   - mkdir ~/.R; touch ~/.R/Makevars
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = $CXX" >> ~/.R/Makevars
   - echo "CXX14 = $CXX" >> ~/.R/Makevars
+  - echo "USE_CXX14 = 1" >> ~/.R/Makevars
   - echo "CFLAGS = -g -O0 -w" >> ~/.R/Makevars
   - echo "CXXFLAGS = -O0 -w -pedantic -g0 -fPIC" >> ~/.R/Makevars
   - echo "CXX14FLAGS = $CXXFLAGS" >> ~/.R/Makevars
