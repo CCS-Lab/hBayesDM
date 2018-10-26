@@ -26,6 +26,7 @@ LinkingTo: StanHeaders (>= 2.17.0), rstan (>= 2.17.0), BH (>= 1.65.0.1), Rcpp
 URL: http://rpubs.com/CCSL/hBayesDM
 License: GPL-3
 LazyData: true
+NeedsCompilation: yes
 Author: Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
     Lei Zhang [aut]
