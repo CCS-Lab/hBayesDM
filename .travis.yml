@@ -27,20 +27,20 @@ matrix:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-    # # Linux + clang-7.0
-    # - os: linux
-    #   dist: trusty
-    #   r: release
-    #   addons:
-    #     apt:
-    #       sources:
-    #         - ubuntu-toolchain-r-test
-    #         - llvm-toolchain-trusty-7
-    #       packages:
-    #         - clang-7
-    #         - libomp-7-dev
-    #   env:
-    #     - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
+    # Linux + clang-7.0
+    - os: linux
+      dist: trusty
+      r: release
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-7
+          packages:
+            - clang-7
+            - libomp-7-dev
+      env:
+        - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
     # OS X + clang
     - os: osx
       r: release
