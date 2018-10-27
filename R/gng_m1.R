@@ -269,11 +269,8 @@ gng_m1 <- function(data           = "choose",
   cat("***********************************\n")
 
   # Fit the Stan model
-  if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
-    m = stanmodels$gng_m1_reg
-  } else {
-    m = stanmodels$gng_m1
-  }
+  m = stanmodels$gng_m1
+
   if (vb) {   # if variational Bayesian
     fit = rstan::vb(m,
                     data   = dataList,

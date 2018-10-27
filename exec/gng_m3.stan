@@ -1,3 +1,4 @@
+// _reg: generates model-based regressors
 data {
   int<lower=1> N;
   int<lower=1> T;
@@ -98,8 +99,12 @@ generated quantities {
   real mu_b;
   real mu_pi;
   real<lower=0> mu_rho;
-
   real log_lik[N];
+  real Qgo[N, T];
+  real Qnogo[N, T];
+  real Wgo[N, T];
+  real Wnogo[N, T];
+  real SV[N, T];
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -143,6 +148,13 @@ generated quantities {
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(pGo[cue[i, t]]);
+
+        // Model regressors --> store values before being updated
+        Qgo[i, t]   = qv_g[cue[i, t]];
+        Qnogo[i, t] = qv_ng[cue[i, t]];
+        Wgo[i, t]   = wv_g[cue[i, t]];
+        Wnogo[i, t] = wv_ng[cue[i, t]];
+        SV[i, t]    = sv[cue[i, t]];
 
         // after receiving feedback, update sv[t + 1]
         sv[cue[i, t]] = sv[cue[i, t]] + ep[i] * (rho[i] * outcome[i, t] - sv[cue[i, t]]);

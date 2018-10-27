@@ -1,3 +1,4 @@
+// _reg: generates model-based regressors
 data {
   int<lower=1> N;
   int<lower=1> T;
@@ -45,8 +46,8 @@ model {
   rho_pr ~ normal(0, 1.0);
 
   for (i in 1:N) {
-    vector[4] wv_g;  // action wegith for go
-    vector[4] wv_ng; // action wegith for nogo
+    vector[4] wv_g;  // action weight for go
+    vector[4] wv_ng; // action weight for nogo
     vector[4] qv_g;  // Q value for go
     vector[4] qv_ng; // Q value for nogo
     vector[4] pGo;   // prob of go (press)
@@ -77,8 +78,11 @@ generated quantities {
   real<lower=0, upper=1> mu_xi;
   real<lower=0, upper=1> mu_ep;
   real<lower=0> mu_rho;
-
   real log_lik[N];
+  real Qgo[N, T];
+  real Qnogo[N, T];
+  real Wgo[N, T];
+  real Wnogo[N, T];
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -118,6 +122,12 @@ generated quantities {
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(pGo[cue[i, t]]);
+
+        // Model regressors --> store values before being updated
+        Qgo[i, t]   = qv_g[cue[i, t]];
+        Qnogo[i, t] = qv_ng[cue[i, t]];
+        Wgo[i, t]   = wv_g[cue[i, t]];
+        Wnogo[i, t] = wv_ng[cue[i, t]];
 
         // update action values
         if (pressed[i, t]) { // update go value
