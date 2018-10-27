@@ -23,10 +23,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-7
-            - g++-7
+            - gcc-6
+            - g++-6
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
     # # Linux + clang-7.0
     # - os: linux
     #   dist: trusty
@@ -41,16 +41,17 @@ matrix:
     #         - libomp-7-dev
     #   env:
     #     - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
-    # # OS X + clang
-    # - os: osx
-    #   r: release
-    #   osx_image: xcode10
-    #   env:
-    #     - MATRIX_EVAL="CC=clang && CXX=clang++"
+    # OS X + clang
+    - os: osx
+      r: release
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
 
 before_install:
   - eval "${MATRIX_EVAL}"
   - mkdir -p ~/.R/
+  - echo "CC = $CC" >> ~/.R/Makevars
+  - echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
   - echo "CFLAGS = -g -O0 -w" >> ~/.R/Makevars
   - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
   - echo "CXX14FLAGS = -mtune=native -march=native -w -O0" >> ~/.R/Makevars
