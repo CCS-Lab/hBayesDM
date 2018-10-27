@@ -30,7 +30,6 @@ matrix:
     # Linux + clang-7.0
     - os: linux
       dist: trusty
-      r: release
       addons:
         apt:
           sources:
@@ -43,7 +42,6 @@ matrix:
         - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
     # OS X + clang
     - os: osx
-      r: release
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
 
