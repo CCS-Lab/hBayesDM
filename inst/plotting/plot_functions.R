@@ -424,12 +424,12 @@ plot_pst_gainloss_Q <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
 
 plot_bandit4arm2_kalman_filter <- function(obj, fontSize = 10, ncols = 6, binSize = 30) {
   pars = obj$parVals
-  h1 = plotDist(sample = pars$mu_lambda, fontSize = fontSize, binSize = binSize, xLab = expression(paste(lambda, " (decay parameter)")))
+  h1 = plotDist(sample = pars$mu_lambda, fontSize = fontSize, binSize = binSize, xLab = expression(paste(lambda, " (decay factor)")))
   h2 = plotDist(sample = pars$mu_theta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(theta, " (decay center)")))
-  h3 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (exploration parameter)")))
-  h4 = plotDist(sample = pars$mu_mu0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(mu0, " (initial expected mean payoff)")))
-  h5 = plotDist(sample = pars$mu_sigma0_sq, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigma0, " (initial uncertainty)")))
-  h6 = plotDist(sample = pars$mu_sigmaD_sq, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigmaD, " (the speed of diffusion in the payoffs)")))
+  h3 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (inverse softmax temperature)")))
+  h4 = plotDist(sample = pars$mu_mu0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(mu0, " (anticipated initial mean of all 4 options)")))
+  h5 = plotDist(sample = pars$mu_sigma0_sq, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigma0, " (anticipated initial sd (uncertainty factor) of all 4 options)")))
+  h6 = plotDist(sample = pars$mu_sigmaD_sq, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigmaD, " (sd of diffusion noise)")))
   h_all = multiplot(h1, h2, h3, h4, h5, h6, cols = ncols)
   return(h_all)
 }
