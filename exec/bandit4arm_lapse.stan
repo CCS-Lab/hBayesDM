@@ -20,11 +20,11 @@ parameters {
   vector<lower=0>[5] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] Arew_pr;
-  vector[N] Apun_pr;
-  vector[N] R_pr;
-  vector[N] P_pr;
-  vector[N] xi_pr;
+  vector[N] Arew_p;
+  vector[N] Apun_p;
+  vector[N] R_p;
+  vector[N] P_p;
+  vector[N] xi_p;
 }
 
 transformed parameters {
@@ -36,11 +36,11 @@ transformed parameters {
   vector<lower=0, upper=1>[N] xi;
 
   for (i in 1:N) {
-    Arew[i] = Phi_approx(mu_p[1] + sigma[1] * Arew_pr[i]);
-    Apun[i] = Phi_approx(mu_p[2] + sigma[2] * Apun_pr[i]);
-    R[i]    = Phi_approx(mu_p[3] + sigma[3] * R_pr[i]) * 30;
-    P[i]    = Phi_approx(mu_p[4] + sigma[4] * P_pr[i]) * 30;
-    xi[i]   = Phi_approx(mu_p[5] + sigma[5] * xi_pr[i]);
+    Arew[i] = Phi_approx(mu_p[1] + sigma[1] * Arew_p[i]);
+    Apun[i] = Phi_approx(mu_p[2] + sigma[2] * Apun_p[i]);
+    R[i]    = Phi_approx(mu_p[3] + sigma[3] * R_p[i]) * 30;
+    P[i]    = Phi_approx(mu_p[4] + sigma[4] * P_p[i]) * 30;
+    xi[i]   = Phi_approx(mu_p[5] + sigma[5] * xi_p[i]);
   }
 }
 
@@ -50,11 +50,11 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  Arew_pr  ~ normal(0, 1.0);
-  Apun_pr  ~ normal(0, 1.0);
-  R_pr     ~ normal(0, 1.0);
-  P_pr     ~ normal(0, 1.0);
-  xi_pr    ~ normal(0, 1.0);
+  Arew_p  ~ normal(0, 1.0);
+  Apun_p  ~ normal(0, 1.0);
+  R_p     ~ normal(0, 1.0);
+  P_p     ~ normal(0, 1.0);
+  xi_p    ~ normal(0, 1.0);
 
   for (i in 1:N) {
     // Define values
