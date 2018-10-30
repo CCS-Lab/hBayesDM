@@ -31,7 +31,6 @@ vignettes/*.pdf
 *.knit.md
 
 # Source files
-src/Modules*
 src/hBayesDM.so
 src/hBayesDM.dll
 src/include
