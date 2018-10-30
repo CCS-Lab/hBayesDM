@@ -19,9 +19,9 @@ parameters {
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] r_pr;     // (exponential) discounting rate (Impatience)
-  vector[N] s_pr;     // time-sensitivity
-  vector[N] beta_pr;  // inverse temperature
+  vector[N] r_p;     // (exponential) discounting rate (Impatience)
+  vector[N] s_p;     // time-sensitivity
+  vector[N] beta_p;  // inverse temperature
 }
 
 transformed parameters {
@@ -31,9 +31,9 @@ transformed parameters {
   vector<lower=0, upper=5>[N]  beta;
 
   for (i in 1:N) {
-    r[i]    = Phi_approx(mu_p[1] + sigma[1] * r_pr[i]);
-    s[i]    = Phi_approx(mu_p[2] + sigma[2] * s_pr[i]) * 10;
-    beta[i] = Phi_approx(mu_p[3] + sigma[3] * beta_pr[i]) * 5;
+    r[i]    = Phi_approx(mu_p[1] + sigma[1] * r_p[i]);
+    s[i]    = Phi_approx(mu_p[2] + sigma[2] * s_p[i]) * 10;
+    beta[i] = Phi_approx(mu_p[3] + sigma[3] * beta_p[i]) * 5;
   }
 }
 
@@ -44,9 +44,9 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  r_pr    ~ normal(0, 1);
-  s_pr    ~ normal(0, 1);
-  beta_pr ~ normal(0, 1);
+  r_p    ~ normal(0, 1);
+  s_p    ~ normal(0, 1);
+  beta_p ~ normal(0, 1);
 
   for (i in 1:N) {
     // Define values
