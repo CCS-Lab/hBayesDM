@@ -68,8 +68,7 @@ model {
     mu_ev    = rep_vector(mu0[i] ,4);
     sd_ev_sq = rep_vector(sigma0[i]^2, 4);
 
-    for (t in 1:T) {
-    //for (t in 1:(Tsubj[i])) {
+    for (t in 1:(Tsubj[i])) {
       // compute action probabilities
       choice[i,t] ~ categorical_logit( beta[i] * mu_ev );
 
