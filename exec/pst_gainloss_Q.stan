@@ -17,7 +17,7 @@ transformed data {
 
 parameters {
   // Group-level parameters
-  vector[3] mu;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
 
   // Subject-level parameters for Matt trick
@@ -31,14 +31,14 @@ transformed parameters {
   vector<lower=0,upper=1>[N] alpha_neg;
   vector<lower=0,upper=10>[N] beta;
 
-  alpha_pos = Phi_approx(mu[1] + sigma[1] * alpha_pos_pr);
-  alpha_neg = Phi_approx(mu[2] + sigma[2] * alpha_neg_pr);
-  beta      = Phi_approx(mu[3] + sigma[3] * beta_pr) * 10;
+  alpha_pos = Phi_approx(mu_pr[1] + sigma[1] * alpha_pos_pr);
+  alpha_neg = Phi_approx(mu_pr[2] + sigma[2] * alpha_neg_pr);
+  beta      = Phi_approx(mu_pr[3] + sigma[3] * beta_pr) * 10;
 }
 
 model {
   // Priors for group-level parameters
-  mu    ~ normal(0, 1);
+  mu_pr    ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // Priors for subject-level parameters
@@ -79,9 +79,9 @@ generated quantities {
   // For log-likelihood calculation
   real log_lik[N];
 
-  mu_alpha_pos = Phi_approx(mu[1]);
-  mu_alpha_neg = Phi_approx(mu[2]);
-  mu_beta      = Phi_approx(mu[3]) * 10;
+  mu_alpha_pos = Phi_approx(mu_pr[1]);
+  mu_alpha_neg = Phi_approx(mu_pr[2]);
+  mu_beta      = Phi_approx(mu_pr[3]) * 10;
 
   {
     for (i in 1:N) {
