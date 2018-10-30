@@ -17,11 +17,11 @@ parameters {
   vector<lower=0>[5] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] Arew_pr;
-  vector[N] Apun_pr;
-  vector[N] K_pr;
-  vector[N] betaF_pr;
-  vector[N] betaP_pr;
+  vector[N] Arew_p;
+  vector[N] Apun_p;
+  vector[N] K_p;
+  vector[N] betaF_p;
+  vector[N] betaP_p;
 }
 transformed parameters {
   // Transform subject-level raw parameters
@@ -32,12 +32,12 @@ transformed parameters {
   vector[N]                   betaP;
 
   for (i in 1:N) {
-    Arew[i] = Phi_approx( mu_p[1] + sigma[1] * Arew_pr[i] );
-    Apun[i] = Phi_approx( mu_p[2] + sigma[2] * Apun_pr[i] );
-    K[i]    = Phi_approx(mu_p[3] + sigma[3] + K_pr[i]) * 5;
+    Arew[i] = Phi_approx( mu_p[1] + sigma[1] * Arew_p[i] );
+    Apun[i] = Phi_approx( mu_p[2] + sigma[2] * Apun_p[i] );
+    K[i]    = Phi_approx(mu_p[3] + sigma[3] + K_p[i]) * 5;
   }
-  betaF = mu_p[4] + sigma[4] * betaF_pr;
-  betaP = mu_p[5] + sigma[5] * betaP_pr;
+  betaF = mu_p[4] + sigma[4] * betaF_p;
+  betaP = mu_p[5] + sigma[5] * betaP_p;
 }
 model {
   // Hyperparameters
@@ -46,11 +46,11 @@ model {
   sigma[4:5] ~ cauchy(0, 1.0);
 
   // individual parameters
-  Arew_pr  ~ normal(0, 1.0);
-  Apun_pr  ~ normal(0, 1.0);
-  K_pr     ~ normal(0, 1.0);
-  betaF_pr ~ normal(0, 1.0);
-  betaP_pr ~ normal(0, 1.0);
+  Arew_p  ~ normal(0, 1.0);
+  Apun_p  ~ normal(0, 1.0);
+  K_p     ~ normal(0, 1.0);
+  betaF_p ~ normal(0, 1.0);
+  betaP_p ~ normal(0, 1.0);
 
   for (i in 1:N) {
     // Define values
