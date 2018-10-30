@@ -4,11 +4,11 @@
 \alias{bart_par4}
 \title{Balloon Analogue Risk Task (Ravenzwaaij et al., 2011, Journal of Mathematical Psychology)}
 \usage{
-bart_par4(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "fixed", indPars = "mean",
-  saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10)
+bart_par4(data = "choose", niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "fixed",
+  indPars = "mean", saveDir = NULL, modelRegressor = FALSE,
+  vb = FALSE, inc_postpred = FALSE, adapt_delta = 0.95,
+  stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "pumps", and "explosion". See \bold{Details} below for more information.}

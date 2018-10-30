@@ -4,11 +4,11 @@
 \alias{prl_fictitious_multipleB}
 \title{Probabilistic Reversal Learning Task (Glascher et al, 2008), multiple blocks per subject}
 \usage{
-prl_fictitious_multipleB(data = "choice", niter = 3000, nwarmup = 1000,
-  nchain = 1, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10)
+prl_fictitious_multipleB(data = "choice", niter = 3000,
+  nwarmup = 1000, nchain = 1, ncore = 1, nthin = 1,
+  inits = "random", indPars = "mean", saveDir = NULL,
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "outcome", adn "block". See \bold{Details} below for more information.}
