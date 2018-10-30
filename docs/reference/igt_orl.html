@@ -33,6 +33,7 @@
 <meta property="og:title" content="Iowa Gambling Task — igt_orl" />
 
 <meta property="og:description" content="Hierarchical Bayesian Modeling of the Iowa Gambling Task using the following parameters: &quot;Arew&quot; (reward learning rate), &quot;Apun&quot; (punishment learning rate), &quot;K&quot; (perseverance decay), &quot;betaF&quot; (outcome frequency weight), and &quot;betaP&quot; (perseverance weight).
+Contributor: Nate Haines
 MODEL:
 Outcome-Representation Learning Model (Haines, Vassileva, &amp;amp; Ahn (in press) Cognitive Science))" />
 <meta name="twitter:card" content="summary" />
@@ -63,7 +64,7 @@ Outcome-Representation Learning Model (Haines, Vassileva, &amp;amp; Ahn (in pres
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.3</span>
       </span>
     </div>
 
@@ -102,6 +103,7 @@ Outcome-Representation Learning Model (Haines, Vassileva, &amp;amp; Ahn (in pres
     <div class="ref-description">
     
     <p>Hierarchical Bayesian Modeling of the Iowa Gambling Task using the following parameters: "Arew" (reward learning rate), "Apun" (punishment learning rate), "K" (perseverance decay), "betaF" (outcome frequency weight), and "betaP" (perseverance weight).</p>
+<p>Contributor: <a href='https://ccs-lab.github.io/team/nate-haines/'>Nate Haines</a></p>
 <p><strong>MODEL:</strong>
 Outcome-Representation Learning Model (Haines, Vassileva, &amp; Ahn (in press) Cognitive Science))</p>
     
@@ -109,9 +111,9 @@ Outcome-Representation Learning Model (Haines, Vassileva, &amp; Ahn (in press) C
 
     <pre class="usage"><span class='fu'>igt_orl</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>3000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>payscale</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+  <span class='kw'>payscale</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,7 +188,7 @@ Outcome-Representation Learning Model (Haines, Vassileva, &amp; Ahn (in press) C
 
     <p><code>modelData</code>  A class <code>"hBayesDM"</code> object with the following components:</p><dl class='dl-horizontal'>
  <dt><code>model</code></dt><dd><p>Character string with the name of the model ("igt_orl").</p></dd>
- <dt><code>allIndPars</code></dt><dd><p><code>"data.frame"</code> containing the summarized parameter 
+ <dt><code>allIndPars</code></dt><dd><p><code>"data.frame"</code> containing the summarized parameter
    values (as specified by <code>"indPars"</code>) for each subject.</p></dd>
  <dt><code>parVals</code></dt><dd><p>A <code>"list"</code> where each element contains posterior samples
    over different model parameters.</p></dd>
@@ -198,11 +200,11 @@ Outcome-Representation Learning Model (Haines, Vassileva, &amp; Ahn (in press) C
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This section describes some of the function arguments in greater detail.</p>
-<p><strong>data</strong> should be assigned a character value specifying the full path and name of the file, including the file extension 
-(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis. 
-The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns 
-represent variables. For the Iowa Gambling Task, there should be four columns of data with the labels 
-"subjID", "deck", "gain", and "loss". It is not necessary for the columns to be in this particular order, 
+<p><strong>data</strong> should be assigned a character value specifying the full path and name of the file, including the file extension
+(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
+The file should be a text (.txt) file whose rows represent trial-by-trial observations and columns
+represent variables. For the Iowa Gambling Task, there should be four columns of data with the labels
+"subjID", "deck", "gain", and "loss". It is not necessary for the columns to be in this particular order,
 however it is necessary that they be labelled correctly and contain the information below:</p><dl class='dl-horizontal'>
  <dt><code>"subjID"</code></dt><dd><p>A unique identifier for each subject within data-set to be analyzed.</p></dd>
  <dt><code>"deck"</code></dt><dd><p>A nominal integer representing which deck was chosen within the given trial (e.g. A, B, C, or D == 1, 2, 3, or 4 in the IGT).</p></dd>
@@ -211,28 +213,28 @@ however it is necessary that they be labelled correctly and contain the informat
 </dl><p><strong>*</strong>Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
 names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
 there is no need to remove other miscellaneous data columns.</p>
-<p><strong>nwarmup</strong> is a numerical value that specifies how many MCMC samples should not be stored upon the 
-beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample. 
-Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence 
-on the generated posterior distributions. The <code>nwarmup</code> argument can be set to a high number in order to curb the 
+<p><strong>nwarmup</strong> is a numerical value that specifies how many MCMC samples should not be stored upon the
+beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
+Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
+on the generated posterior distributions. The <code>nwarmup</code> argument can be set to a high number in order to curb the
 effects that initial values have on the resulting posteriors.</p>
 <p><strong>nchain</strong> is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
-used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling 
+used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
 process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
 sampling is completed, the multiple chains may be checked for convergence with the <code>plot(myModel, type = "trace")</code>
 command. The chains should resemble a "furry caterpillar".</p>
-<p><strong>nthin</strong> is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen 
-to generate the posterior distributions. By default, <code>nthin</code> is equal to 1, hence every sample is used to 
+<p><strong>nthin</strong> is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
+to generate the posterior distributions. By default, <code>nthin</code> is equal to 1, hence every sample is used to
 generate the posterior.</p>
-<p><strong>Contol Parameters:</strong> adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control 
+<p><strong>Contol Parameters:</strong> adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control
 over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
-can profoundly change the sampler's behavior. Refer to Hoffman &amp; Gelman (2014, Journal of Machine Learning Research) for 
-more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the  
+can profoundly change the sampler's behavior. Refer to Hoffman &amp; Gelman (2014, Journal of Machine Learning Research) for
+more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
 <a href='http://mc-stan.org/documentation/'>Stan User's Manual</a> for a less technical description of these arguments.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Hoffman, M. D., &amp; Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The 
+    <p>Hoffman, M. D., &amp; Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 Journal of Machine Learning Research, 15(1), 1593-1623.</p>
 <p>Haines, N., Vassileva, J., Ahn, W.-Y. (in press). The Outcome-Representation Learning model: a novel reinforcement learning model of
 the Iowa Gambling Task. Cognitive Science.</p>
@@ -256,7 +258,7 @@ the Iowa Gambling Task. Cognitive Science.</p>
 <span class='co'># Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)</span>
 <span class='fu'>plot</span>(<span class='no'>output</span>)
 
-<span class='co'># Show the WAIC and LOOIC model fit estimates </span>
+<span class='co'># Show the WAIC and LOOIC model fit estimates</span>
 <span class='fu'><a href='printFit.html'>printFit</a></span>(<span class='no'>output</span>)
 <span class='co'># }</span></pre>
   </div>

@@ -10,7 +10,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Hierarchical Bayesian Modeling of Decision-Making Tasks">
-<meta property="og:description" content="Fit an array of decision-making tasks with computational models in
+<meta property="og:description" content="
+    Fit an array of decision-making tasks with computational models in
     a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of
     various computational models with a single line of coding.">
 <meta name="twitter:card" content="summary">
@@ -20,7 +21,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -31,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">hBayesDM</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.3</span>
       </span>
     </div>
 
@@ -57,40 +58,79 @@
 
       
       </header><div class="row">
-  <div class="col-md-9 contents">
-    
-
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="hbayesdm" class="section level1">
+  <div class="contents col-md-9">
+    <div id="hbayesdm" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#hbayesdm" class="anchor"></a>hBayesDM</h1></div>
 
-<p>The <strong>hBayesDM</strong> (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. The hBayesDM package uses <a href="http://mc-stan.org/">Stan</a> for Bayesian inference.</p>
-<div id="installation" class="section level2">
+<p><strong>hBayesDM</strong> (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. hBayesDM uses <a href="http://mc-stan.org/">Stan</a> for Bayesian inference.</p>
+<div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p><strong>(For Windows users)</strong> First download and install Rtools from this link: <a href="http://cran.r-project.org/bin/windows/Rtools/" class="uri">http://cran.r-project.org/bin/windows/Rtools/</a>. For detailed instructions, please go to this link: <a href="https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows" class="uri">https://github.com/stan-dev/rstan/wiki/Installing-RStan-on-Windows</a>.</p>
-<p><strong>You need to install the hBayesDM from CRAN.</strong> The GitHub version precompiles all Stan models, which makes it faster to start MCMC sampling. But it may cause some memory allocation issues on a Windows machine.</p>
-<p><strong>(For Mac/Linux users)</strong> If you are a Mac user, <a href="https://github.com/stan-dev/rstan/wiki/RStan-Mac-OS-X-Prerequisite-Installation-Instructions#step2_3">make sure Xcode is installed</a>. We strongly recommend users install this GitHub version. The GitHub version in the master repository is identical to the CRAN version, except that all models are precompiled in the GitHub version, which saves time for compiling Stan models.</p>
-<p>You can install the latest version from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install 'devtools' if required</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(devtools)) <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)  </a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>)</a></code></pre></div>
-<p>Please go to <strong><a href="http://rpubs.com/CCSL/hBayesDM">hBayesDM Tutorial</a></strong> for more information about the package.</p>
-<p>If you encounter a problem or a bug, please use our mailing list: <a href="https://groups.google.com/forum/#!forum/hbayesdm-users" class="uri">https://groups.google.com/forum/#!forum/hbayesdm-users</a>, or you can directly create an issue on <a href="https://github.com/CCS-Lab/hBayesDM/issues/new">GitHub</a>.</p>
+<a href="#getting-started" class="anchor"></a>Getting Started</h2>
+<div id="prerequisite" class="section level3">
+<h3 class="hasAnchor">
+<a href="#prerequisite" class="anchor"></a>Prerequisite</h3>
+<p>To install hBayesDM, <strong><a href="https://github.com/stan-dev/rstan">RStan</a> should be properly installed before you proceed</strong>. For detailed instructions, please go to this link: <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started" class="uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started</a></p>
+<p>For the moment, RStan requires you to specify that the C++14 standard should be used to compile Stan programs (based on <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#loading-the-package">this link</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Sys.setenv</span>(<span class="dt">USE_CXX14 =</span> <span class="dv">1</span>)
+<span class="kw">library</span>(<span class="st">"rstan"</span>) <span class="co"># observe startup messages</span></code></pre></div>
+</div>
+<div id="installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h3>
+<p>hBayesDM can be installed from CRAN by running the following command in R:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">'hBayesDM'</span>)  <span class="co"># Install hBayesDM from CRAN</span></code></pre></div>
+<p><strong>We strongly recommend users to install hBayesDM from GitHub</strong>. All models in this GitHub version are precompiled, which saves time for compiling Stan models. However, it may cause some memory allocation issues on a Windows machine.</p>
+<p>You can install the latest version from GitHub with:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># `devtools` is required to install hBayesDM from GitHub</span>
+<span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(devtools)) <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>)</code></pre></div>
+</div>
+<div id="quick-links" class="section level3">
+<h3 class="hasAnchor">
+<a href="#quick-links" class="anchor"></a>Quick Links</h3>
+<ul>
+<li>
+<strong>Tutorial</strong>: <a href="http://rpubs.com/CCSL/hBayesDM" class="uri">http://rpubs.com/CCSL/hBayesDM</a>
+</li>
+<li>
+<strong>Mailing list</strong>: <a href="https://groups.google.com/forum/#!forum/hbayesdm-users" class="uri">https://groups.google.com/forum/#!forum/hbayesdm-users</a>
+</li>
+<li>
+<strong>Bug reports</strong>: <a href="https://github.com/CCS-Lab/hBayesDM/issues" class="uri">https://github.com/CCS-Lab/hBayesDM/issues</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="citation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citation" class="anchor"></a>Citation</h2>
+<p>If you used hBayesDM or some of its codes for your research, please cite this paper:</p>
+<blockquote>
+<p>Ahn, W.-Y., Haines, N., &amp; Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. Computational Psychiatry, 1, 24-57. <a href="https://doi.org/10.1162/CPSY_a_00002" class="uri">https://doi.org/10.1162/CPSY_a_00002</a>.</p>
+</blockquote>
+<p>or for BibTeX:</p>
+<div class="sourceCode"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span class="va">@article</span>{<span class="ot">hBayesDM</span>,
+  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},
+  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},
+  <span class="dt">journal</span> = {Computational Psychiatry},
+  <span class="dt">year</span> = {2017},
+  <span class="dt">volume</span> = {1},
+  <span class="dt">pages</span> = {24--57},
+  <span class="dt">publisher</span> = {MIT Press},
+  <span class="dt">url</span> = {https://doi.org/10.1162/CPSY_a_00002},
+}</code></pre></div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=hBayesDM">https://​cloud.r-project.org/​package=hBayesDM</a>
 </li>
-<li>Report a bug at <br><a href="NA">NA</a>
+<li>Report a bug at <br><a href="https://github.com/CCS-Lab/hBayesDM/issues">https://​github.com/​CCS-Lab/​hBayesDM/​issues</a>
 </li>
 </ul>
 </div>
@@ -112,20 +152,20 @@
 <li>Woo-Young Ahn <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Nate Haines <br><small class="roles"> Author </small>  </li>
 <li>Lei Zhang <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 
-      <div class="dev-status">
+  <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active - The project has reached a stable, usable state and is being actively developed."></a></li>
+<li><a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
 <li><a href="https://travis-ci.org/CCS-Lab/hBayesDM"><img src="https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/paulhendricks/hbayesdm"><img src="https://ci.appveyor.com/api/projects/status/hi3vp6ikm396pqcu?svg=true" alt="Build status"></a></li>
-<li><a href="https://codecov.io/gh/CCS-Lab/hBayesDM"><img src="https://codecov.io/gh/CCS-Lab/hBayesDM/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://cran.r-project.org/package=hBayesDM"><img src="https://www.r-pkg.org/badges/version-last-release/hBayesDM" alt="CRAN Latest Release"></a></li>
+<li><a href="https://cran.rstudio.com/web/packages/rstan/index.html"><img src="https://cranlogs.r-pkg.org/badges/grand-total/hBayesDM" alt="Downloads"></a></li>
 </ul>
 </div>
 </div>
-
 </div>
 
 
