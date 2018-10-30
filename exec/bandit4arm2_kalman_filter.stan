@@ -1,7 +1,7 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  //int<lower=1, upper=T> Tsubj[N];
+  int<lower=1, upper=T> Tsubj[N];
   int<lower=1,upper=4> choice[N,T];
   real<lower=1,upper=100> outcome[N,T];
 }
@@ -31,8 +31,8 @@ transformed parameters {
   vector<lower=0,upper=100>[N] theta;
   vector<lower=0,upper=1>[N] beta;
   vector<lower=0,upper=100>[N] mu0;
-  vector<lower=0,upper=200>[N] sigma0;
-  vector<lower=0,upper=200>[N] sigmaD;
+  vector<lower=0,upper=15>[N] sigma0;
+  vector<lower=0,upper=15>[N] sigmaD;
 
   // Matt Trick
   for (i in 1:N) {
@@ -124,8 +124,8 @@ generated quantities {
       mu_ev    = rep_vector(mu0[i] ,4);
       sd_ev_sq = rep_vector(sigma0[i]^2, 4);
 
-      for (t in 1:T) {
-      //for (t in 1:(Tsubj[i])) {
+
+      for (t in 1:(Tsubj[i])) {
         // compute action probabilities
         log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i,t] | beta[i] * mu_ev );
         y_pred[i, t]  = categorical_rng(softmax(beta[i] * mu_ev));
