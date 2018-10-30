@@ -16,8 +16,8 @@ parameters {
   vector<lower=0>[2] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] A_pr;    // learning rate
-  vector[N] tau_pr;  // inverse temperature
+  vector[N] A_p;    // learning rate
+  vector[N] tau_p;  // inverse temperature
 }
 transformed parameters {
   // subject-level parameters
@@ -25,8 +25,8 @@ transformed parameters {
   vector<lower=0, upper=5>[N] tau;
 
   for (i in 1:N) {
-    A[i]   = Phi_approx(mu_p[1]  + sigma[1]  * A_pr[i]);
-    tau[i] = Phi_approx(mu_p[2] + sigma[2] * tau_pr[i]) * 5;
+    A[i]   = Phi_approx(mu_p[1]  + sigma[1]  * A_p[i]);
+    tau[i] = Phi_approx(mu_p[2] + sigma[2] * tau_p[i]) * 5;
   }
 }
 model {
@@ -35,8 +35,8 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  A_pr   ~ normal(0, 1);
-  tau_pr ~ normal(0, 1);
+  A_p   ~ normal(0, 1);
+  tau_p ~ normal(0, 1);
 
   // subject loop and trial loop
   for (i in 1:N) {
