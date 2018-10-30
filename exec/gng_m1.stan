@@ -17,9 +17,9 @@ parameters {
   // declare as vectors for vectorizing
   vector[3] mu_p;
   vector<lower=0>[3] sigma;
-  vector[N] xi_pr;          // noise
-  vector[N] ep_pr;          // learning rate
-  vector[N] rho_pr;         // rho, inv temp
+  vector[N] xi_p;          // noise
+  vector[N] ep_p;          // learning rate
+  vector[N] rho_p;         // rho, inv temp
 }
 
 transformed parameters {
@@ -28,10 +28,10 @@ transformed parameters {
   vector<lower=0>[N] rho;
 
   for (i in 1:N) {
-    xi[i]  = Phi_approx(mu_p[1] + sigma[1] * xi_pr[i]);
-    ep[i]  = Phi_approx(mu_p[2] + sigma[2] * ep_pr[i]);
+    xi[i]  = Phi_approx(mu_p[1] + sigma[1] * xi_p[i]);
+    ep[i]  = Phi_approx(mu_p[2] + sigma[2] * ep_p[i]);
   }
-  rho = exp(mu_p[3] + sigma[3] * rho_pr);
+  rho = exp(mu_p[3] + sigma[3] * rho_p);
 }
 
 model {
@@ -41,9 +41,9 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters w/ Matt trick
-  xi_pr  ~ normal(0, 1.0);
-  ep_pr  ~ normal(0, 1.0);
-  rho_pr ~ normal(0, 1.0);
+  xi_p  ~ normal(0, 1.0);
+  ep_p  ~ normal(0, 1.0);
+  rho_p ~ normal(0, 1.0);
 
   for (i in 1:N) {
     vector[4] wv_g;  // action weight for go

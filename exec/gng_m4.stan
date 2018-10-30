@@ -17,12 +17,12 @@ parameters {
   // declare as vectors for vectorizing
   vector[6] mu_p;
   vector<lower=0>[6] sigma;
-  vector[N] xi_pr;         // noise
-  vector[N] ep_pr;         // learning rate
-  vector[N] b_pr;          // go bias
-  vector[N] pi_pr;         // pavlovian bias
-  vector[N] rhoRew_pr;     // rho reward, inv temp
-  vector[N] rhoPun_pr;     // rho punishment, inv temp
+  vector[N] xi_p;         // noise
+  vector[N] ep_p;         // learning rate
+  vector[N] b_p;          // go bias
+  vector[N] pi_p;         // pavlovian bias
+  vector[N] rhoRew_p;     // rho reward, inv temp
+  vector[N] rhoPun_p;     // rho punishment, inv temp
 }
 
 transformed parameters {
@@ -34,13 +34,13 @@ transformed parameters {
   vector<lower=0>[N] rhoPun;
 
   for (i in 1:N) {
-    xi[i]  = Phi_approx(mu_p[1] + sigma[1] * xi_pr[i]);
-    ep[i]  = Phi_approx(mu_p[2] + sigma[2] * ep_pr[i]);
+    xi[i]  = Phi_approx(mu_p[1] + sigma[1] * xi_p[i]);
+    ep[i]  = Phi_approx(mu_p[2] + sigma[2] * ep_p[i]);
   }
-  b      = mu_p[3] + sigma[3] * b_pr; // vectorization
-  pi     = mu_p[4] + sigma[4] * pi_pr;
-  rhoRew = exp(mu_p[5] + sigma[5] * rhoRew_pr);
-  rhoPun = exp(mu_p[6] + sigma[6] * rhoPun_pr);
+  b      = mu_p[3] + sigma[3] * b_p; // vectorization
+  pi     = mu_p[4] + sigma[4] * pi_p;
+  rhoRew = exp(mu_p[5] + sigma[5] * rhoRew_p);
+  rhoPun = exp(mu_p[6] + sigma[6] * rhoPun_p);
 }
 
 model {
@@ -57,12 +57,12 @@ model {
   sigma[5:6] ~ normal(0, 0.2);
 
   // individual parameters w/ Matt trick
-  xi_pr     ~ normal(0, 1.0);
-  ep_pr     ~ normal(0, 1.0);
-  b_pr      ~ normal(0, 1.0);
-  pi_pr     ~ normal(0, 1.0);
-  rhoRew_pr ~ normal(0, 1.0);
-  rhoPun_pr ~ normal(0, 1.0);
+  xi_p     ~ normal(0, 1.0);
+  ep_p     ~ normal(0, 1.0);
+  b_p      ~ normal(0, 1.0);
+  pi_p     ~ normal(0, 1.0);
+  rhoRew_p ~ normal(0, 1.0);
+  rhoPun_p ~ normal(0, 1.0);
 
   for (i in 1:N) {
     vector[4] wv_g;  // action wegith for go
