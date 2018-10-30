@@ -814,7 +814,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_bandit4arm2_kalman_filter");
-    reader.add_event(151, 149, "end", "model_bandit4arm2_kalman_filter");
+    reader.add_event(150, 148, "end", "model_bandit4arm2_kalman_filter");
     return reader;
 }
 
@@ -1353,7 +1353,7 @@ public:
 
                 stan::math::assign(mu_ev, rep_vector(get_base1(mu0,i,"mu0",1),4));
                 stan::math::assign(sd_ev_sq, rep_vector(pow(get_base1(sigma0,i,"sigma0",1),2),4));
-                for (int t = 1; t <= T; ++t) {
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
 
                     lp_accum__.add(categorical_logit_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), multiply(get_base1(beta,i,"beta",1),mu_ev)));
                     stan::math::assign(k, (get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1) / (get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1) + pow(sigmaO,2))));

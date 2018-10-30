@@ -880,7 +880,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_bandit4arm2_kalman_filter");
-    reader.add_event(151, 149, "end", "model_bandit4arm2_kalman_filter");
+    reader.add_event(150, 148, "end", "model_bandit4arm2_kalman_filter");
     return reader;
 }
 
@@ -1475,27 +1475,27 @@ public:
                 current_statement_begin__ = 69;
                 stan::math::assign(sd_ev_sq, rep_vector(pow(get_base1(sigma0,i,"sigma0",1),2),4));
                 current_statement_begin__ = 71;
-                for (int t = 1; t <= T; ++t) {
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
 
-                    current_statement_begin__ = 74;
+                    current_statement_begin__ = 73;
                     lp_accum__.add(categorical_logit_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), multiply(get_base1(beta,i,"beta",1),mu_ev)));
-                    current_statement_begin__ = 77;
+                    current_statement_begin__ = 76;
                     stan::math::assign(k, (get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1) / (get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1) + pow(sigmaO,2))));
-                    current_statement_begin__ = 80;
+                    current_statement_begin__ = 79;
                     stan::math::assign(pe, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(mu_ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"mu_ev",1)));
-                    current_statement_begin__ = 83;
+                    current_statement_begin__ = 82;
                     stan::model::assign(mu_ev, 
                                 stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
                                 stan::model::deep_copy((get_base1(mu_ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"mu_ev",1) + (k * pe))), 
                                 "assigning variable mu_ev");
-                    current_statement_begin__ = 84;
+                    current_statement_begin__ = 83;
                     stan::model::assign(sd_ev_sq, 
                                 stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
                                 stan::model::deep_copy(((1 - k) * get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1))), 
                                 "assigning variable sd_ev_sq");
-                    current_statement_begin__ = 87;
+                    current_statement_begin__ = 86;
                     stan::math::assign(mu_ev, stan::model::deep_copy(add(multiply(get_base1(lambda,i,"lambda",1),mu_ev),((1 - get_base1(lambda,i,"lambda",1)) * get_base1(theta,i,"theta",1)))));
-                    current_statement_begin__ = 88;
+                    current_statement_begin__ = 87;
                     stan::math::assign(sd_ev_sq, stan::model::deep_copy(add(multiply(pow(get_base1(lambda,i,"lambda",1),2),sd_ev_sq),pow(get_base1(sigmaD,i,"sigmaD",1),2))));
                 }
                 }
@@ -1796,48 +1796,48 @@ public:
             }
             if (!include_gqs__) return;
             // declare and define generated quantities
-            current_statement_begin__ = 94;
+            current_statement_begin__ = 93;
             local_scalar_t__ mu_lambda;
             (void) mu_lambda;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_lambda, DUMMY_VAR__);
             stan::math::fill(mu_lambda,DUMMY_VAR__);
-            current_statement_begin__ = 95;
+            current_statement_begin__ = 94;
             local_scalar_t__ mu_theta;
             (void) mu_theta;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_theta, DUMMY_VAR__);
             stan::math::fill(mu_theta,DUMMY_VAR__);
-            current_statement_begin__ = 96;
+            current_statement_begin__ = 95;
             local_scalar_t__ mu_beta;
             (void) mu_beta;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_beta, DUMMY_VAR__);
             stan::math::fill(mu_beta,DUMMY_VAR__);
-            current_statement_begin__ = 97;
+            current_statement_begin__ = 96;
             local_scalar_t__ mu_mu0;
             (void) mu_mu0;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_mu0, DUMMY_VAR__);
             stan::math::fill(mu_mu0,DUMMY_VAR__);
-            current_statement_begin__ = 98;
+            current_statement_begin__ = 97;
             local_scalar_t__ mu_sigma0;
             (void) mu_sigma0;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_sigma0, DUMMY_VAR__);
             stan::math::fill(mu_sigma0,DUMMY_VAR__);
-            current_statement_begin__ = 99;
+            current_statement_begin__ = 98;
             local_scalar_t__ mu_sigmaD;
             (void) mu_sigmaD;  // dummy to suppress unused var warning
 
             stan::math::initialize(mu_sigmaD, DUMMY_VAR__);
             stan::math::fill(mu_sigmaD,DUMMY_VAR__);
-            current_statement_begin__ = 100;
+            current_statement_begin__ = 99;
             validate_non_negative_index("log_lik", "N", N);
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            current_statement_begin__ = 101;
+            current_statement_begin__ = 100;
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<local_scalar_t__> > y_pred(N, (vector<local_scalar_t__>(T)));
@@ -1845,56 +1845,56 @@ public:
             stan::math::fill(y_pred,DUMMY_VAR__);
 
 
-            current_statement_begin__ = 103;
+            current_statement_begin__ = 102;
             for (int i = 1; i <= N; ++i) {
 
-                current_statement_begin__ = 104;
+                current_statement_begin__ = 103;
                 for (int t = 1; t <= T; ++t) {
 
-                    current_statement_begin__ = 105;
+                    current_statement_begin__ = 104;
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 -(1), 
                                 "assigning variable y_pred");
                 }
             }
-            current_statement_begin__ = 109;
+            current_statement_begin__ = 108;
             stan::math::assign(mu_lambda, Phi_approx(get_base1(mu_p,1,"mu_p",1)));
-            current_statement_begin__ = 110;
+            current_statement_begin__ = 109;
             stan::math::assign(mu_theta, (Phi_approx(get_base1(mu_p,2,"mu_p",1)) * 100));
-            current_statement_begin__ = 111;
+            current_statement_begin__ = 110;
             stan::math::assign(mu_beta, Phi_approx(get_base1(mu_p,3,"mu_p",1)));
-            current_statement_begin__ = 112;
+            current_statement_begin__ = 111;
             stan::math::assign(mu_mu0, (Phi_approx(get_base1(mu_p,4,"mu_p",1)) * 100));
-            current_statement_begin__ = 113;
+            current_statement_begin__ = 112;
             stan::math::assign(mu_sigma0, stan::math::sqrt((Phi_approx(get_base1(mu_p,5,"mu_p",1)) * 200)));
-            current_statement_begin__ = 114;
+            current_statement_begin__ = 113;
             stan::math::assign(mu_sigmaD, stan::math::sqrt((Phi_approx(get_base1(mu_p,6,"mu_p",1)) * 200)));
 
-            current_statement_begin__ = 117;
+            current_statement_begin__ = 116;
             for (int i = 1; i <= N; ++i) {
                 {
-                current_statement_begin__ = 118;
+                current_statement_begin__ = 117;
                 validate_non_negative_index("mu_ev", "4", 4);
                 Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,1>  mu_ev(static_cast<Eigen::VectorXd::Index>(4));
                 (void) mu_ev;  // dummy to suppress unused var warning
 
                 stan::math::initialize(mu_ev, DUMMY_VAR__);
                 stan::math::fill(mu_ev,DUMMY_VAR__);
-                current_statement_begin__ = 119;
+                current_statement_begin__ = 118;
                 validate_non_negative_index("sd_ev_sq", "4", 4);
                 Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,1>  sd_ev_sq(static_cast<Eigen::VectorXd::Index>(4));
                 (void) sd_ev_sq;  // dummy to suppress unused var warning
 
                 stan::math::initialize(sd_ev_sq, DUMMY_VAR__);
                 stan::math::fill(sd_ev_sq,DUMMY_VAR__);
-                current_statement_begin__ = 120;
+                current_statement_begin__ = 119;
                 local_scalar_t__ pe;
                 (void) pe;  // dummy to suppress unused var warning
 
                 stan::math::initialize(pe, DUMMY_VAR__);
                 stan::math::fill(pe,DUMMY_VAR__);
-                current_statement_begin__ = 121;
+                current_statement_begin__ = 120;
                 local_scalar_t__ k;
                 (void) k;  // dummy to suppress unused var warning
 
@@ -1902,71 +1902,71 @@ public:
                 stan::math::fill(k,DUMMY_VAR__);
 
 
-                current_statement_begin__ = 123;
+                current_statement_begin__ = 122;
                 stan::model::assign(log_lik, 
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                             0, 
                             "assigning variable log_lik");
-                current_statement_begin__ = 124;
+                current_statement_begin__ = 123;
                 stan::math::assign(mu_ev, rep_vector(get_base1(mu0,i,"mu0",1),4));
-                current_statement_begin__ = 125;
+                current_statement_begin__ = 124;
                 stan::math::assign(sd_ev_sq, rep_vector(pow(get_base1(sigma0,i,"sigma0",1),2),4));
-                current_statement_begin__ = 128;
+                current_statement_begin__ = 127;
                 for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
 
-                    current_statement_begin__ = 130;
+                    current_statement_begin__ = 129;
                     stan::model::assign(log_lik, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                                 stan::model::deep_copy((get_base1(log_lik,i,"log_lik",1) + categorical_logit_log(get_base1(get_base1(choice,i,"choice",1),t,"choice",2),multiply(get_base1(beta,i,"beta",1),mu_ev)))), 
                                 "assigning variable log_lik");
-                    current_statement_begin__ = 131;
+                    current_statement_begin__ = 130;
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 categorical_rng(softmax(multiply(get_base1(beta,i,"beta",1),mu_ev)), base_rng__), 
                                 "assigning variable y_pred");
-                    current_statement_begin__ = 134;
+                    current_statement_begin__ = 133;
                     stan::math::assign(k, (get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1) / (get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1) + pow(sigmaO,2))));
-                    current_statement_begin__ = 137;
+                    current_statement_begin__ = 136;
                     stan::math::assign(pe, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(mu_ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"mu_ev",1)));
-                    current_statement_begin__ = 140;
+                    current_statement_begin__ = 139;
                     stan::model::assign(mu_ev, 
                                 stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
                                 stan::model::deep_copy((get_base1(mu_ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"mu_ev",1) + (k * pe))), 
                                 "assigning variable mu_ev");
-                    current_statement_begin__ = 141;
+                    current_statement_begin__ = 140;
                     stan::model::assign(sd_ev_sq, 
                                 stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
                                 stan::model::deep_copy(((1 - k) * get_base1(sd_ev_sq,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"sd_ev_sq",1))), 
                                 "assigning variable sd_ev_sq");
-                    current_statement_begin__ = 144;
+                    current_statement_begin__ = 143;
                     stan::math::assign(mu_ev, stan::model::deep_copy(add(multiply(get_base1(lambda,i,"lambda",1),mu_ev),((1 - get_base1(lambda,i,"lambda",1)) * get_base1(theta,i,"theta",1)))));
-                    current_statement_begin__ = 145;
+                    current_statement_begin__ = 144;
                     stan::math::assign(sd_ev_sq, stan::model::deep_copy(add(multiply(pow(get_base1(lambda,i,"lambda",1),2),sd_ev_sq),pow(get_base1(sigmaD,i,"sigmaD",1),2))));
                 }
                 }
             }
 
             // validate generated quantities
-            current_statement_begin__ = 94;
+            current_statement_begin__ = 93;
             check_greater_or_equal(function__,"mu_lambda",mu_lambda,0);
             check_less_or_equal(function__,"mu_lambda",mu_lambda,1);
-            current_statement_begin__ = 95;
+            current_statement_begin__ = 94;
             check_greater_or_equal(function__,"mu_theta",mu_theta,0);
             check_less_or_equal(function__,"mu_theta",mu_theta,100);
-            current_statement_begin__ = 96;
+            current_statement_begin__ = 95;
             check_greater_or_equal(function__,"mu_beta",mu_beta,0);
             check_less_or_equal(function__,"mu_beta",mu_beta,1);
-            current_statement_begin__ = 97;
+            current_statement_begin__ = 96;
             check_greater_or_equal(function__,"mu_mu0",mu_mu0,0);
             check_less_or_equal(function__,"mu_mu0",mu_mu0,100);
-            current_statement_begin__ = 98;
+            current_statement_begin__ = 97;
             check_greater_or_equal(function__,"mu_sigma0",mu_sigma0,0);
             check_less_or_equal(function__,"mu_sigma0",mu_sigma0,15);
-            current_statement_begin__ = 99;
+            current_statement_begin__ = 98;
             check_greater_or_equal(function__,"mu_sigmaD",mu_sigmaD,0);
             check_less_or_equal(function__,"mu_sigmaD",mu_sigmaD,15);
+            current_statement_begin__ = 99;
             current_statement_begin__ = 100;
-            current_statement_begin__ = 101;
 
             // write generated quantities
         vars__.push_back(mu_lambda);
