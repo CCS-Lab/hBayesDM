@@ -4,11 +4,11 @@
 \alias{igt_pvl_decay}
 \title{Iowa Gambling Task}
 \usage{
-igt_pvl_decay(data = "choose", niter = 3000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
-  payscale = 100, saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10)
+igt_pvl_decay(data = "choose", niter = 3000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+  indPars = "mean", payscale = 100, saveDir = NULL,
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "gain", and "loss". See \bold{Details} below for more information.}

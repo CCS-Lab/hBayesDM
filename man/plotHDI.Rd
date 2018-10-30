@@ -4,8 +4,9 @@
 \alias{plotHDI}
 \title{Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console. HDI is indicated by a red line.}
 \usage{
-plotHDI(sample = NULL, credMass = 0.95, Title = NULL, xLab = "Value",
-  yLab = "Density", fontSize = NULL, binSize = 30, ...)
+plotHDI(sample = NULL, credMass = 0.95, Title = NULL,
+  xLab = "Value", yLab = "Density", fontSize = NULL, binSize = 30,
+  ...)
 }
 \arguments{
 \item{sample}{MCMC samples}
