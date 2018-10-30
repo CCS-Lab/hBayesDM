@@ -6,7 +6,7 @@
 #' @param data_columns Names of the necessary columns for the data, e.g. \code{c("subjID", "cue", "keyPressed", "outcome")}. Must be the entirety of necessary data columns that will be used at some point in the code; i.e. must always include \code{"subjID"}, and should include \code{"block"} in the case of 'multipleB' type models.
 #' @param parameters A list object whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector of 3 elements: the parameter's lower bound, plausible value, and upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2), Inf))}.
 #' @param regressors A list object whose keys are the model-based regressors for this model. Each regressor key must be assigned a single numeric value, indicating the number of dimensions its data will be extracted as. E.g. \code{list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)}. OR if model-based regressors are not available for this model, this argument should just be \code{NULL}.
-#' @param postpreds Name(s) of the trial-level posterior predictive simulations. Default is \code{"y_pred"}; though any other character vector holding appropriate names is possible, for certain models like the Two-Step Task models.
+#' @param postpreds Name(s) of the trial-level posterior predictive simulations. Default is \code{"y_pred"}. Any other character vector holding appropriate names is possible (e.g. see the Two-Step Task models). OR if providing trial-level posterior predictive simulations is not yet supported for this model, this argument should just be \code{NULL}.
 #' @param stanmodel_arg Can be used by developers, during the creation and testing of new hBayesDM models. Character value OR a stanmodel object. Leave as NULL (default) for completed models.
 #' @param preprocess_func The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.
 #'
@@ -50,6 +50,11 @@ hBayesDM_model <- function(task_name,
     # Check if regressor available for this model
     if (modelRegressor && is.null(regressors)) {
       stop("** Model-based regressors are not available for this model. **\n")
+    }
+
+    # Check if postpred available for this model
+    if (inc_postpred && is.null(postpreds)) {
+      stop("** Posterior predictions are not yet available for this model. **\n")
     }
 
     # For using "example" or "choose" data
