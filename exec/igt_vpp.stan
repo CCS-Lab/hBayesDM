@@ -18,14 +18,14 @@ parameters {
   vector<lower=0>[8] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] A_pr;
-  vector[N] alpha_pr;
-  vector[N] cons_pr;
-  vector[N] lambda_pr;
-  vector[N] epP_pr;
-  vector[N] epN_pr;
-  vector[N] K_pr;
-  vector[N] w_pr;
+  vector[N] A_p;
+  vector[N] alpha_p;
+  vector[N] cons_p;
+  vector[N] lambda_p;
+  vector[N] epP_p;
+  vector[N] epN_p;
+  vector[N] K_p;
+  vector[N] w_p;
 }
 
 transformed parameters {
@@ -40,15 +40,15 @@ transformed parameters {
   vector<lower=0, upper=1>[N] w;
 
   for (i in 1:N) {
-    A[i]      = Phi_approx(mu_p[1] + sigma[1] * A_pr[i]);
-    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_pr[i]) * 2;
-    cons[i]   = Phi_approx(mu_p[3] + sigma[3] * cons_pr[i]) * 5;
-    lambda[i] = Phi_approx(mu_p[4] + sigma[4] * lambda_pr[i]) * 10;
-    K[i]      = Phi_approx(mu_p[7] + sigma[7] * K_pr[i]);
-    w[i]      = Phi_approx(mu_p[8] + sigma[8] * w_pr[i]);
+    A[i]      = Phi_approx(mu_p[1] + sigma[1] * A_p[i]);
+    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_p[i]) * 2;
+    cons[i]   = Phi_approx(mu_p[3] + sigma[3] * cons_p[i]) * 5;
+    lambda[i] = Phi_approx(mu_p[4] + sigma[4] * lambda_p[i]) * 10;
+    K[i]      = Phi_approx(mu_p[7] + sigma[7] * K_p[i]);
+    w[i]      = Phi_approx(mu_p[8] + sigma[8] * w_p[i]);
   }
-  epP = mu_p[5] + sigma[5] * epP_pr;
-  epN = mu_p[6] + sigma[6] * epN_pr;
+  epP = mu_p[5] + sigma[5] * epP_p;
+  epN = mu_p[6] + sigma[6] * epN_p;
 }
 
 model {
@@ -59,14 +59,14 @@ model {
   sigma[7:8] ~ normal(0, 0.2);
 
   // individual parameters
-  A_pr      ~ normal(0, 1.0);
-  alpha_pr  ~ normal(0, 1.0);
-  cons_pr   ~ normal(0, 1.0);
-  lambda_pr ~ normal(0, 1.0);
-  epP_pr    ~ normal(0, 1.0);
-  epN_pr    ~ normal(0, 1.0);
-  K_pr      ~ normal(0, 1.0);
-  w_pr      ~ normal(0, 1.0);
+  A_p      ~ normal(0, 1.0);
+  alpha_p  ~ normal(0, 1.0);
+  cons_p   ~ normal(0, 1.0);
+  lambda_p ~ normal(0, 1.0);
+  epP_p    ~ normal(0, 1.0);
+  epN_p    ~ normal(0, 1.0);
+  K_p      ~ normal(0, 1.0);
+  w_p      ~ normal(0, 1.0);
 
   for (i in 1:N) {
     // Define values
