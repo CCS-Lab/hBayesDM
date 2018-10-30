@@ -822,6 +822,7 @@ class model_bandit4arm2_kalman_filter : public prob_grad {
 private:
     int N;
     int T;
+    vector<int> Tsubj;
     vector<vector<int> > choice;
     vector<vector<double> > outcome;
     double sigmaO;
@@ -871,6 +872,16 @@ public:
             vals_i__ = context__.vals_i("T");
             pos__ = 0;
             T = vals_i__[pos__++];
+            validate_non_negative_index("Tsubj", "N", N);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Tsubj", "N", N);
+            Tsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Tsubj");
+            pos__ = 0;
+            size_t Tsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
+                Tsubj[i_0__] = vals_i__[pos__++];
+            }
             validate_non_negative_index("choice", "N", N);
             validate_non_negative_index("choice", "T", T);
             context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
@@ -905,6 +916,10 @@ public:
             // validate, data variables
             check_greater_or_equal(function__,"N",N,1);
             check_greater_or_equal(function__,"T",T,1);
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                check_greater_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],1);
+                check_less_or_equal(function__,"Tsubj[k0__]",Tsubj[k0__],T);
+            }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
                     check_greater_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],1);
@@ -1296,9 +1311,9 @@ public:
             check_greater_or_equal(function__,"mu0",mu0,0);
             check_less_or_equal(function__,"mu0",mu0,100);
             check_greater_or_equal(function__,"sigma0",sigma0,0);
-            check_less_or_equal(function__,"sigma0",sigma0,200);
+            check_less_or_equal(function__,"sigma0",sigma0,15);
             check_greater_or_equal(function__,"sigmaD",sigmaD,0);
-            check_less_or_equal(function__,"sigmaD",sigmaD,200);
+            check_less_or_equal(function__,"sigmaD",sigmaD,15);
 
             // model body
 
@@ -1606,9 +1621,9 @@ public:
             check_greater_or_equal(function__,"mu0",mu0,0);
             check_less_or_equal(function__,"mu0",mu0,100);
             check_greater_or_equal(function__,"sigma0",sigma0,0);
-            check_less_or_equal(function__,"sigma0",sigma0,200);
+            check_less_or_equal(function__,"sigma0",sigma0,15);
             check_greater_or_equal(function__,"sigmaD",sigmaD,0);
-            check_less_or_equal(function__,"sigmaD",sigmaD,200);
+            check_less_or_equal(function__,"sigmaD",sigmaD,15);
 
             // write transformed parameters
             if (include_tparams__) {
@@ -1723,7 +1738,7 @@ public:
                             "assigning variable log_lik");
                 stan::math::assign(mu_ev, rep_vector(get_base1(mu0,i,"mu0",1),4));
                 stan::math::assign(sd_ev_sq, rep_vector(pow(get_base1(sigma0,i,"sigma0",1),2),4));
-                for (int t = 1; t <= T; ++t) {
+                for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
 
                     stan::model::assign(log_lik, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
