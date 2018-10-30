@@ -19,8 +19,8 @@ parameters {
   vector<lower=0>[2] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] k_pr;
-  vector[N] beta_pr;
+  vector[N] k_p;
+  vector[N] beta_p;
 }
 
 transformed parameters {
@@ -29,8 +29,8 @@ transformed parameters {
   vector<lower=0, upper=5>[N] beta;
 
   for (i in 1:N) {
-    k[i]    = Phi_approx(mu_p[1] + sigma[1] * k_pr[i]);
-    beta[i] = Phi_approx(mu_p[2] + sigma[2] * beta_pr[i]) * 5;
+    k[i]    = Phi_approx(mu_p[1] + sigma[1] * k_p[i]);
+    beta[i] = Phi_approx(mu_p[2] + sigma[2] * beta_p[i]) * 5;
   }
 }
 
@@ -41,8 +41,8 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  k_pr    ~ normal(0, 1);
-  beta_pr ~ normal(0, 1);
+  k_p    ~ normal(0, 1);
+  beta_p ~ normal(0, 1);
 
   for (i in 1:N) {
     // Define values
