@@ -25,8 +25,8 @@ parameters {
   vector<lower=0>[2] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] eta_pr;   // learning rate
-  vector[N] beta_pr;  // inverse temperature
+  vector[N] eta_p;   // learning rate
+  vector[N] beta_p;  // inverse temperature
 }
 
 transformed parameters {
@@ -35,8 +35,8 @@ transformed parameters {
   vector<lower=0, upper=5>[N] beta;
 
   for (i in 1:N) {
-    eta[i]   = Phi_approx(mu_p[1] + sigma[1] * eta_pr[i]);
-    beta[i]  = Phi_approx(mu_p[2] + sigma[2] * beta_pr[i]) * 5;
+    eta[i]   = Phi_approx(mu_p[1] + sigma[1] * eta_p[i]);
+    beta[i]  = Phi_approx(mu_p[2] + sigma[2] * beta_p[i]) * 5;
   }
 }
 
@@ -46,8 +46,8 @@ model {
   sigma ~ normal(0, 0.2);
 
   // Individual parameters
-  eta_pr    ~ normal(0, 1);
-  beta_pr   ~ normal(0, 1);
+  eta_p    ~ normal(0, 1);
+  beta_p   ~ normal(0, 1);
 
   for (i in 1:N) {
     // Define values
