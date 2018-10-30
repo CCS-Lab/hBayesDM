@@ -194,10 +194,10 @@ hBayesDM_model <- function(task_name,
             primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
           }
         }
-        group_level          <- list(mu_p  = primes,
+        group_level          <- list(mu_pr  = primes,
                                      sigma = rep(1.0, length(primes)))
         indiv_level          <- lapply(primes, function(x) rep(x, n_subj))
-        names(indiv_level)   <- paste0(names(parameters), "_p")
+        names(indiv_level)   <- paste0(names(parameters), "_pr")
         return(c(group_level, indiv_level))
       }
     }
