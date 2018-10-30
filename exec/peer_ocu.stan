@@ -15,11 +15,11 @@ transformed data {
 }
 
 parameters {
-  vector[3] mu_p;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
-  vector[N] rho_p;
-  vector[N] tau_p;
-  vector[N] ocu_p;
+  vector[N] rho_pr;
+  vector[N] tau_pr;
+  vector[N] ocu_pr;
 }
 
 transformed parameters {
@@ -28,23 +28,23 @@ transformed parameters {
   vector[N] ocu;
 
   for (i in 1:N) {
-    rho[i] = Phi_approx(mu_p[1] + sigma[1] * rho_p[i]) * 2;
+    rho[i] = Phi_approx(mu_pr[1] + sigma[1] * rho_pr[i]) * 2;
   }
-  tau = exp(mu_p[2] + sigma[2] * tau_p);
-  ocu = mu_p[3] + sigma[3] * ocu_p;
+  tau = exp(mu_pr[2] + sigma[2] * tau_pr);
+  ocu = mu_pr[3] + sigma[3] * ocu_pr;
 }
 
 model {
   // peer_ocu
   // hyper parameters
-  mu_p  ~ normal(0, 1.0);
+  mu_pr  ~ normal(0, 1.0);
   sigma[1:2] ~ normal(0, 0.2);
   sigma[3]   ~ cauchy(0, 1.0);
 
   // individual parameters w/ Matt trick
-  rho_p ~ normal(0, 1.0);
-  tau_p ~ normal(0, 1.0);
-  ocu_p ~ normal(0, 1.0);
+  rho_pr ~ normal(0, 1.0);
+  tau_pr ~ normal(0, 1.0);
+  ocu_pr ~ normal(0, 1.0);
 
   for (i in 1:N) {
     for (t in 1:Tsubj[i]) {
@@ -81,9 +81,9 @@ generated quantities {
     }
   }
 
-  mu_rho = Phi_approx(mu_p[1]) * 2;
-  mu_tau = exp(mu_p[2]);
-  mu_ocu = mu_p[3];
+  mu_rho = Phi_approx(mu_pr[1]) * 2;
+  mu_tau = exp(mu_pr[2]);
+  mu_ocu = mu_pr[3];
 
   { // local section, this saves time and space
     for (i in 1:N) {

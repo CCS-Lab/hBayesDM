@@ -25,14 +25,14 @@ transformed data{
 
 parameters {
   // Group-level parameters
-  vector[4] mu_p;
+  vector[4] mu_pr;
   vector<lower=0>[4] sigma;
 
   // Normally distributed error for Matt trick
-  vector[N] phi_p;
-  vector[N] eta_p;
-  vector[N] gam_p;
-  vector[N] tau_p;
+  vector[N] phi_pr;
+  vector[N] eta_pr;
+  vector[N] gam_pr;
+  vector[N] tau_pr;
 }
 
 transformed parameters {
@@ -42,21 +42,21 @@ transformed parameters {
   vector<lower=0>[N] gam;
   vector<lower=0>[N] tau;
 
-  phi = Phi_approx(mu_p[1] + sigma[1] * phi_p);
-  eta = exp(mu_p[2] + sigma[2] * eta_p);
-  gam = exp(mu_p[3] + sigma[3] * gam_p);
-  tau = exp(mu_p[4] + sigma[4] * tau_p);
+  phi = Phi_approx(mu_pr[1] + sigma[1] * phi_pr);
+  eta = exp(mu_pr[2] + sigma[2] * eta_pr);
+  gam = exp(mu_pr[3] + sigma[3] * gam_pr);
+  tau = exp(mu_pr[4] + sigma[4] * tau_pr);
 }
 
 model {
   // Prior
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
-  phi_p ~ normal(0, 1);
-  eta_p ~ normal(0, 1);
-  gam_p ~ normal(0, 1);
-  tau_p ~ normal(0, 1);
+  phi_pr ~ normal(0, 1);
+  eta_pr ~ normal(0, 1);
+  gam_pr ~ normal(0, 1);
+  tau_pr ~ normal(0, 1);
 
   // Likelihood
   for (j in 1:N) {
@@ -84,10 +84,10 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real<lower=0> mu_phi = Phi_approx(mu_p[1]);
-  real<lower=0> mu_eta = exp(mu_p[2]);
-  real<lower=0> mu_gam = exp(mu_p[3]);
-  real<lower=0> mu_tau = exp(mu_p[4]);
+  real<lower=0> mu_phi = Phi_approx(mu_pr[1]);
+  real<lower=0> mu_eta = exp(mu_pr[2]);
+  real<lower=0> mu_gam = exp(mu_pr[3]);
+  real<lower=0> mu_tau = exp(mu_pr[4]);
 
   // Log-likelihood for model fit
   real log_lik = 0;

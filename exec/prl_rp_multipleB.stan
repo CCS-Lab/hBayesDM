@@ -25,13 +25,13 @@ transformed data {
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
-  vector[3] mu_p;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] Apun_p;   // learning rate (punishment)
-  vector[N] Arew_p;   // learning rate (reward)
-  vector[N] beta_p;   // inverse temperature
+  vector[N] Apun_pr;   // learning rate (punishment)
+  vector[N] Arew_pr;   // learning rate (reward)
+  vector[N] beta_pr;   // inverse temperature
 }
 
 transformed parameters {
@@ -41,21 +41,21 @@ transformed parameters {
   vector<lower=0, upper=10>[N] beta;
 
   for (i in 1:N) {
-    Apun[i]  = Phi_approx(mu_p[1] + sigma[1] * Apun_p[i]);
-    Arew[i]  = Phi_approx(mu_p[2] + sigma[2] * Arew_p[i]);
-    beta[i]  = Phi_approx(mu_p[3] + sigma[3] * beta_p[i]) * 10;
+    Apun[i]  = Phi_approx(mu_pr[1] + sigma[1] * Apun_pr[i]);
+    Arew[i]  = Phi_approx(mu_pr[2] + sigma[2] * Arew_pr[i]);
+    beta[i]  = Phi_approx(mu_pr[3] + sigma[3] * beta_pr[i]) * 10;
   }
 }
 
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  Apun_p ~ normal(0, 1);
-  Arew_p ~ normal(0, 1);
-  beta_p ~ normal(0, 1);
+  Apun_pr ~ normal(0, 1);
+  Arew_pr ~ normal(0, 1);
+  beta_pr ~ normal(0, 1);
 
   for (i in 1:N) {
     for (bIdx in 1:B[i]) {  // new
@@ -113,9 +113,9 @@ generated quantities {
     }
   }
 
-  mu_Apun = Phi_approx(mu_p[1]);
-  mu_Arew = Phi_approx(mu_p[2]);
-  mu_beta = Phi_approx(mu_p[3]) * 10;
+  mu_Apun = Phi_approx(mu_pr[1]);
+  mu_Arew = Phi_approx(mu_pr[2]);
+  mu_beta = Phi_approx(mu_pr[3]) * 10;
 
   { // local section, this saves time and space
     for (i in 1:N) {

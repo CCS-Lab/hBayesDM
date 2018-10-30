@@ -15,13 +15,13 @@ transformed data {
 
 parameters {
   // declare as vectors for vectorizing
-  vector[5] mu_p;
+  vector[5] mu_pr;
   vector<lower=0>[5] sigma;
-  vector[N] xi_p;        // noise
-  vector[N] ep_p;        // learning rate
-  vector[N] b_p;         // go bias
-  vector[N] pi_p;        // pavlovian bias
-  vector[N] rho_p;       // rho, inv temp
+  vector[N] xi_pr;        // noise
+  vector[N] ep_pr;        // learning rate
+  vector[N] b_pr;         // go bias
+  vector[N] pi_pr;        // pavlovian bias
+  vector[N] rho_pr;       // rho, inv temp
 }
 
 transformed parameters {
@@ -32,32 +32,32 @@ transformed parameters {
   vector<lower=0>[N] rho;
 
   for (i in 1:N) {
-    xi[i] = Phi_approx(mu_p[1] + sigma[1] * xi_p[i]);
-    ep[i] = Phi_approx(mu_p[2] + sigma[2] * ep_p[i]);
+    xi[i] = Phi_approx(mu_pr[1] + sigma[1] * xi_pr[i]);
+    ep[i] = Phi_approx(mu_pr[2] + sigma[2] * ep_pr[i]);
   }
-  b   = mu_p[3] + sigma[3] * b_p; // vectorization
-  pi  = mu_p[4] + sigma[4] * pi_p;
-  rho = exp(mu_p[5] + sigma[5] * rho_p);
+  b   = mu_pr[3] + sigma[3] * b_pr; // vectorization
+  pi  = mu_pr[4] + sigma[4] * pi_pr;
+  rho = exp(mu_pr[5] + sigma[5] * rho_pr);
 }
 
 model {
 // gng_m4: RW(rew/pun) + noise + bias + pi model (M5 in Cavanagh et al 2013 J Neuro)
   // hyper parameters
-  mu_p[1]  ~ normal(0, 1.0);
-  mu_p[2]  ~ normal(0, 1.0);
-  mu_p[3]  ~ normal(0, 10.0);
-  mu_p[4]  ~ normal(0, 10.0);
-  mu_p[5]  ~ normal(0, 1.0);
+  mu_pr[1]  ~ normal(0, 1.0);
+  mu_pr[2]  ~ normal(0, 1.0);
+  mu_pr[3]  ~ normal(0, 10.0);
+  mu_pr[4]  ~ normal(0, 10.0);
+  mu_pr[5]  ~ normal(0, 1.0);
   sigma[1:2] ~ normal(0, 0.2);
   sigma[3:4] ~ cauchy(0, 1.0);
   sigma[5]   ~ normal(0, 0.2);
 
   // individual parameters w/ Matt trick
-  xi_p  ~ normal(0, 1.0);
-  ep_p  ~ normal(0, 1.0);
-  b_p   ~ normal(0, 1.0);
-  pi_p  ~ normal(0, 1.0);
-  rho_p ~ normal(0, 1.0);
+  xi_pr  ~ normal(0, 1.0);
+  ep_pr  ~ normal(0, 1.0);
+  b_pr   ~ normal(0, 1.0);
+  pi_pr  ~ normal(0, 1.0);
+  rho_pr ~ normal(0, 1.0);
 
   for (i in 1:N) {
     vector[4] wv_g;  // action wegith for go
@@ -116,11 +116,11 @@ generated quantities {
     }
   }
 
-  mu_xi  = Phi_approx(mu_p[1]);
-  mu_ep  = Phi_approx(mu_p[2]);
-  mu_b   = mu_p[3];
-  mu_pi  = mu_p[4];
-  mu_rho = exp(mu_p[5]);
+  mu_xi  = Phi_approx(mu_pr[1]);
+  mu_ep  = Phi_approx(mu_pr[2]);
+  mu_b   = mu_pr[3];
+  mu_pi  = mu_pr[4];
+  mu_rho = exp(mu_pr[5]);
 
   { // local section, this saves time and space
     for (i in 1:N) {

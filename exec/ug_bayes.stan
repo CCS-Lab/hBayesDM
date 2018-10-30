@@ -23,13 +23,13 @@ transformed data {
 parameters {
 // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[3] mu_p;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] alpha_p; // alpha: envy
-  vector[N] Beta_p;  // Beta: guilt. Use a capital letter B because of built-in 'beta'
-  vector[N] tau_p;   // tau: inverse temperature
+  vector[N] alpha_pr; // alpha: envy
+  vector[N] Beta_pr;  // Beta: guilt. Use a capital letter B because of built-in 'beta'
+  vector[N] tau_pr;   // tau: inverse temperature
 }
 
 transformed parameters {
@@ -39,21 +39,21 @@ transformed parameters {
   real<lower=0, upper=10> tau[N];
 
   for (i in 1:N) {
-    alpha[i] = Phi_approx(mu_p[1] + sigma[1] * alpha_p[i]) * 20;
-    Beta[i]  = Phi_approx(mu_p[2] + sigma[2]  * Beta_p[i]) * 10;
-    tau[i]   = Phi_approx(mu_p[3] + sigma[3]   * tau_p[i]) * 10;
+    alpha[i] = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr[i]) * 20;
+    Beta[i]  = Phi_approx(mu_pr[2] + sigma[2]  * Beta_pr[i]) * 10;
+    tau[i]   = Phi_approx(mu_pr[3] + sigma[3]   * tau_pr[i]) * 10;
   }
 }
 
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  alpha_p ~ normal(0, 1.0);
-  Beta_p  ~ normal(0, 1.0);
-  tau_p   ~ normal(0, 1.0);
+  alpha_pr ~ normal(0, 1.0);
+  Beta_pr  ~ normal(0, 1.0);
+  tau_pr   ~ normal(0, 1.0);
 
   for (i in 1:N) {
     // Define values
@@ -113,9 +113,9 @@ generated quantities {
     }
   }
 
-  mu_alpha = Phi_approx(mu_p[1]) * 20;
-  mu_Beta  = Phi_approx(mu_p[2]) * 10;
-  mu_tau   = Phi_approx(mu_p[3]) * 10;
+  mu_alpha = Phi_approx(mu_pr[1]) * 20;
+  mu_Beta  = Phi_approx(mu_pr[2]) * 10;
+  mu_tau   = Phi_approx(mu_pr[3]) * 10;
 
   { // local section, this saves time and space
     for (i in 1:N) {

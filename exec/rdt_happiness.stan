@@ -14,14 +14,14 @@ data {
 transformed data {
 }
 parameters {
-  vector[6] mu_p;
+  vector[6] mu_pr;
   vector<lower=0>[6] sigma;
-  vector[N] w0_p;
-  vector[N] w1_p;
-  vector[N] w2_p;
-  vector[N] w3_p;
-  vector[N] gam_p;
-  vector[N] sig_p;
+  vector[N] w0_pr;
+  vector[N] w1_pr;
+  vector[N] w2_pr;
+  vector[N] w3_pr;
+  vector[N] gam_pr;
+  vector[N] sig_pr;
 }
 transformed parameters {
   vector[N] w0;
@@ -31,27 +31,27 @@ transformed parameters {
   vector<lower=0, upper=1>[N] gam;
   vector<lower=0>[N] sig;
 
-  w0 = mu_p[1] + sigma[1] * w0_p;
-  w1 = mu_p[2] + sigma[2] * w1_p;
-  w2 = mu_p[3] + sigma[3] * w2_p;
-  w3 = mu_p[4] + sigma[4] * w3_p;
+  w0 = mu_pr[1] + sigma[1] * w0_pr;
+  w1 = mu_pr[2] + sigma[2] * w1_pr;
+  w2 = mu_pr[3] + sigma[3] * w2_pr;
+  w3 = mu_pr[4] + sigma[4] * w3_pr;
 
   for (i in 1:N) {
-    gam[i]    = Phi_approx(mu_p[5] + sigma[5] * gam_p[i]);
+    gam[i]    = Phi_approx(mu_pr[5] + sigma[5] * gam_pr[i]);
   }
-  sig = exp(mu_p[6] + sigma[6] * sig_p);
+  sig = exp(mu_pr[6] + sigma[6] * sig_pr);
 }
 model {
-  mu_p  ~ normal(0, 1.0);
+  mu_pr  ~ normal(0, 1.0);
   sigma ~ normal(0, 0.2);
 
   // individual parameters w/ Matt trick
-  w0_p    ~ normal(0, 1.0);
-  w1_p    ~ normal(0, 1.0);
-  w2_p    ~ normal(0, 1.0);
-  w3_p    ~ normal(0, 1.0);
-  gam_p   ~ normal(0, 1.0);
-  sig_p   ~ normal(0, 1.0);
+  w0_pr    ~ normal(0, 1.0);
+  w1_pr    ~ normal(0, 1.0);
+  w2_pr    ~ normal(0, 1.0);
+  w3_pr    ~ normal(0, 1.0);
+  gam_pr   ~ normal(0, 1.0);
+  sig_pr   ~ normal(0, 1.0);
 
   for (i in 1:N) {
     real cert_sum;
@@ -101,12 +101,12 @@ generated quantities {
     }
   }
 
-  mu_w0    = mu_p[1];
-  mu_w1    = mu_p[2];
-  mu_w2    = mu_p[3];
-  mu_w3    = mu_p[4];
-  mu_gam   = Phi_approx(mu_p[5]);
-  mu_sig   = exp(mu_p[6]);
+  mu_w0    = mu_pr[1];
+  mu_w1    = mu_pr[2];
+  mu_w2    = mu_pr[3];
+  mu_w3    = mu_pr[4];
+  mu_gam   = Phi_approx(mu_pr[5]);
+  mu_sig   = exp(mu_pr[6]);
 
 
   { // local section, this saves time and space

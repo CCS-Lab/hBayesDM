@@ -21,13 +21,13 @@ transformed data {
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
-  vector[3] mu_p;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] eta_p;   // learning rate
-  vector[N] alpha_p; // indecision point
-  vector[N] beta_p;  // inverse temperature
+  vector[N] eta_pr;   // learning rate
+  vector[N] alpha_pr; // indecision point
+  vector[N] beta_pr;  // inverse temperature
 }
 
 transformed parameters {
@@ -37,23 +37,23 @@ transformed parameters {
   vector<lower=0, upper=5>[N] beta;
 
   for (i in 1:N) {
-    eta[i]   = Phi_approx(mu_p[1] + sigma[1] * eta_p[i]);
-    beta[i]  = Phi_approx(mu_p[3] + sigma[3] * beta_p[i]) * 5;
+    eta[i]   = Phi_approx(mu_pr[1] + sigma[1] * eta_pr[i]);
+    beta[i]  = Phi_approx(mu_pr[3] + sigma[3] * beta_pr[i]) * 5;
   }
-  alpha = mu_p[2] + sigma[2] * alpha_p;
+  alpha = mu_pr[2] + sigma[2] * alpha_pr;
 }
 
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma[1] ~ normal(0, 0.2);
   sigma[2] ~ cauchy(0, 1.0);
   sigma[3] ~ normal(0, 0.2);
 
   // Individual parameters
-  eta_p    ~ normal(0, 1);
-  alpha_p  ~ normal(0, 1);
-  beta_p   ~ normal(0, 1);
+  eta_pr    ~ normal(0, 1);
+  alpha_pr  ~ normal(0, 1);
+  beta_pr   ~ normal(0, 1);
 
   for (i in 1:N) {
     // Define values
@@ -117,9 +117,9 @@ generated quantities {
     }
   }
 
-  mu_eta    = Phi_approx(mu_p[1]);
-  mu_alpha  = mu_p[2];
-  mu_beta   = Phi_approx(mu_p[3]) * 5;
+  mu_eta    = Phi_approx(mu_pr[1]);
+  mu_alpha  = mu_pr[2];
+  mu_beta   = Phi_approx(mu_pr[3]) * 5;
 
   { // local section, this saves time and space
     for (i in 1:N) {

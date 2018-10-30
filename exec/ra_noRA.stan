@@ -12,10 +12,10 @@ transformed data {
 }
 
 parameters {
-  vector[2] mu_p;
+  vector[2] mu_pr;
   vector<lower=0>[2] sigma;
-  vector[N] lambda_p;
-  vector[N] tau_p;
+  vector[N] lambda_pr;
+  vector[N] tau_pr;
 }
 
 transformed parameters {
@@ -23,20 +23,20 @@ transformed parameters {
   vector<lower=0>[N] tau;
 
   for (i in 1:N) {
-    lambda[i] = Phi_approx(mu_p[1] + sigma[1] * lambda_p[i]) * 5;
+    lambda[i] = Phi_approx(mu_pr[1] + sigma[1] * lambda_pr[i]) * 5;
   }
-  tau = exp(mu_p[2] + sigma[2] * tau_p);
+  tau = exp(mu_pr[2] + sigma[2] * tau_pr);
 }
 
 model {
   // ra_prospect: Original model in Soko-Hessner et al 2009 PNAS
   // hyper parameters
-  mu_p  ~ normal(0, 1.0);
+  mu_pr  ~ normal(0, 1.0);
   sigma ~ normal(0, 0.2);
 
   // individual parameters w/ Matt trick
-  lambda_p ~ normal(0, 1.0);
-  tau_p    ~ normal(0, 1.0);
+  lambda_pr ~ normal(0, 1.0);
+  tau_pr    ~ normal(0, 1.0);
 
   for (i in 1:N) {
     for (t in 1:Tsubj[i]) {
@@ -68,8 +68,8 @@ generated quantities {
     }
   }
 
-  mu_lambda = Phi_approx(mu_p[1]) * 5;
-  mu_tau    = exp(mu_p[2]);
+  mu_lambda = Phi_approx(mu_pr[1]) * 5;
+  mu_tau    = exp(mu_pr[2]);
 
   { // local section, this saves time and space
     for (i in 1:N) {

@@ -13,15 +13,15 @@ transformed data {
 parameters {
 // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[5] mu_p;
+  vector[5] mu_pr;
   vector<lower=0>[5] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] Arew_p;
-  vector[N] Apun_p;
-  vector[N] K_p;
-  vector[N] betaF_p;
-  vector[N] betaP_p;
+  vector[N] Arew_pr;
+  vector[N] Apun_pr;
+  vector[N] K_pr;
+  vector[N] betaF_pr;
+  vector[N] betaP_pr;
 }
 transformed parameters {
   // Transform subject-level raw parameters
@@ -32,25 +32,25 @@ transformed parameters {
   vector[N]                   betaP;
 
   for (i in 1:N) {
-    Arew[i] = Phi_approx( mu_p[1] + sigma[1] * Arew_p[i] );
-    Apun[i] = Phi_approx( mu_p[2] + sigma[2] * Apun_p[i] );
-    K[i]    = Phi_approx(mu_p[3] + sigma[3] + K_p[i]) * 5;
+    Arew[i] = Phi_approx( mu_pr[1] + sigma[1] * Arew_pr[i] );
+    Apun[i] = Phi_approx( mu_pr[2] + sigma[2] * Apun_pr[i] );
+    K[i]    = Phi_approx(mu_pr[3] + sigma[3] + K_pr[i]) * 5;
   }
-  betaF = mu_p[4] + sigma[4] * betaF_p;
-  betaP = mu_p[5] + sigma[5] * betaP_p;
+  betaF = mu_pr[4] + sigma[4] * betaF_pr;
+  betaP = mu_pr[5] + sigma[5] * betaP_pr;
 }
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma[1:3] ~ normal(0, 0.2);
   sigma[4:5] ~ cauchy(0, 1.0);
 
   // individual parameters
-  Arew_p  ~ normal(0, 1.0);
-  Apun_p  ~ normal(0, 1.0);
-  K_p     ~ normal(0, 1.0);
-  betaF_p ~ normal(0, 1.0);
-  betaP_p ~ normal(0, 1.0);
+  Arew_pr  ~ normal(0, 1.0);
+  Apun_pr  ~ normal(0, 1.0);
+  K_pr     ~ normal(0, 1.0);
+  betaF_pr ~ normal(0, 1.0);
+  betaP_pr ~ normal(0, 1.0);
 
   for (i in 1:N) {
     // Define values
@@ -132,11 +132,11 @@ generated quantities {
     }
   }
 
-  mu_Arew   = Phi_approx(mu_p[1]);
-  mu_Apun   = Phi_approx(mu_p[2]);
-  mu_K      = Phi_approx(mu_p[3]) * 5;
-  mu_betaF  = mu_p[4];
-  mu_betaP  = mu_p[5];
+  mu_Arew   = Phi_approx(mu_pr[1]);
+  mu_Apun   = Phi_approx(mu_pr[2]);
+  mu_K      = Phi_approx(mu_pr[3]) * 5;
+  mu_betaF  = mu_pr[4];
+  mu_betaP  = mu_pr[5];
 
   { // local section, this saves time and space
     for (i in 1:N) {

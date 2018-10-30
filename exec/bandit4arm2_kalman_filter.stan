@@ -13,16 +13,16 @@ transformed data {
 
 parameters {
   // group-level parameters
-  vector[6] mu_p;
+  vector[6] mu_pr;
   vector<lower=0>[6] sigma;
 
   // subject-level raw parameters, follows norm(0,1), for later Matt Trick
-  vector[N] lambda_p;    // decay factor
-  vector[N] theta_p;     // decay center
-  vector[N] beta_p;      // inverse softmax temperature
-  vector[N] mu0_p;       // anticipated initial mean of all 4 options
-  vector[N] sigma0_p; // anticipated initial sd^2 (uncertainty factor) of all 4 options
-  vector[N] sigmaD_p; // sd^2 of diffusion noise
+  vector[N] lambda_pr;    // decay factor
+  vector[N] theta_pr;     // decay center
+  vector[N] beta_pr;      // inverse softmax temperature
+  vector[N] mu0_pr;       // anticipated initial mean of all 4 options
+  vector[N] sigma0_pr; // anticipated initial sd^2 (uncertainty factor) of all 4 options
+  vector[N] sigmaD_pr; // sd^2 of diffusion noise
 }
 
 transformed parameters {
@@ -36,27 +36,27 @@ transformed parameters {
 
   // Matt Trick
   for (i in 1:N) {
-    lambda[i] = Phi_approx( mu_p[1] + sigma[1] * lambda_p[i] );
-    theta[i]  = Phi_approx( mu_p[2] + sigma[2] * theta_p[i] ) * 100;
-    beta[i]   = Phi_approx( mu_p[3] + sigma[3] * beta_p[i] );
-    mu0[i]    = Phi_approx( mu_p[4] + sigma[4] * mu0_p[i] ) * 100;
-    sigma0[i] = Phi_approx( mu_p[5] + sigma[5] * sigma0_p[i] ) * 15;
-    sigmaD[i] = Phi_approx( mu_p[6] + sigma[6] * sigmaD_p[i] ) * 15;
+    lambda[i] = Phi_approx( mu_pr[1] + sigma[1] * lambda_pr[i] );
+    theta[i]  = Phi_approx( mu_pr[2] + sigma[2] * theta_pr[i] ) * 100;
+    beta[i]   = Phi_approx( mu_pr[3] + sigma[3] * beta_pr[i] );
+    mu0[i]    = Phi_approx( mu_pr[4] + sigma[4] * mu0_pr[i] ) * 100;
+    sigma0[i] = Phi_approx( mu_pr[5] + sigma[5] * sigma0_pr[i] ) * 15;
+    sigmaD[i] = Phi_approx( mu_pr[6] + sigma[6] * sigmaD_pr[i] ) * 15;
   }
 }
 
 model {
   // prior: hyperparameters
-  mu_p ~ normal(0,1);
+  mu_pr ~ normal(0,1);
   sigma ~ cauchy(0,5);
 
   // prior: individual parameters
-  lambda_p  ~ normal(0,1);;
-  theta_p   ~ normal(0,1);;
-  beta_p    ~ normal(0,1);;
-  mu0_p     ~ normal(0,1);;
-  sigma0_p ~ normal(0,1);;
-  sigmaD_p ~ normal(0,1);;
+  lambda_pr  ~ normal(0,1);;
+  theta_pr   ~ normal(0,1);;
+  beta_pr    ~ normal(0,1);;
+  mu0_pr     ~ normal(0,1);;
+  sigma0_pr ~ normal(0,1);;
+  sigmaD_pr ~ normal(0,1);;
 
   // subject loop and trial loop
   for (i in 1:N) {
@@ -105,12 +105,12 @@ generated quantities {
     }
   }
 
-  mu_lambda = Phi_approx(mu_p[1]);
-  mu_theta  = Phi_approx(mu_p[2]) * 100;
-  mu_beta   = Phi_approx(mu_p[3]);
-  mu_mu0    = Phi_approx(mu_p[4]) * 100;
-  mu_sigma0 = sqrt(Phi_approx(mu_p[5]) * 200);
-  mu_sigmaD = sqrt(Phi_approx(mu_p[6]) * 200);
+  mu_lambda = Phi_approx(mu_pr[1]);
+  mu_theta  = Phi_approx(mu_pr[2]) * 100;
+  mu_beta   = Phi_approx(mu_pr[3]);
+  mu_mu0    = Phi_approx(mu_pr[4]) * 100;
+  mu_sigma0 = sqrt(Phi_approx(mu_pr[5]) * 200);
+  mu_sigmaD = sqrt(Phi_approx(mu_pr[6]) * 200);
 
   { // local block
     for (i in 1:N) {

@@ -14,18 +14,18 @@ transformed data {
 parameters {
 // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[8] mu_p;
+  vector[8] mu_pr;
   vector<lower=0>[8] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] A_p;
-  vector[N] alpha_p;
-  vector[N] cons_p;
-  vector[N] lambda_p;
-  vector[N] epP_p;
-  vector[N] epN_p;
-  vector[N] K_p;
-  vector[N] w_p;
+  vector[N] A_pr;
+  vector[N] alpha_pr;
+  vector[N] cons_pr;
+  vector[N] lambda_pr;
+  vector[N] epP_pr;
+  vector[N] epN_pr;
+  vector[N] K_pr;
+  vector[N] w_pr;
 }
 
 transformed parameters {
@@ -40,33 +40,33 @@ transformed parameters {
   vector<lower=0, upper=1>[N] w;
 
   for (i in 1:N) {
-    A[i]      = Phi_approx(mu_p[1] + sigma[1] * A_p[i]);
-    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_p[i]) * 2;
-    cons[i]   = Phi_approx(mu_p[3] + sigma[3] * cons_p[i]) * 5;
-    lambda[i] = Phi_approx(mu_p[4] + sigma[4] * lambda_p[i]) * 10;
-    K[i]      = Phi_approx(mu_p[7] + sigma[7] * K_p[i]);
-    w[i]      = Phi_approx(mu_p[8] + sigma[8] * w_p[i]);
+    A[i]      = Phi_approx(mu_pr[1] + sigma[1] * A_pr[i]);
+    alpha[i]  = Phi_approx(mu_pr[2] + sigma[2] * alpha_pr[i]) * 2;
+    cons[i]   = Phi_approx(mu_pr[3] + sigma[3] * cons_pr[i]) * 5;
+    lambda[i] = Phi_approx(mu_pr[4] + sigma[4] * lambda_pr[i]) * 10;
+    K[i]      = Phi_approx(mu_pr[7] + sigma[7] * K_pr[i]);
+    w[i]      = Phi_approx(mu_pr[8] + sigma[8] * w_pr[i]);
   }
-  epP = mu_p[5] + sigma[5] * epP_p;
-  epN = mu_p[6] + sigma[6] * epN_p;
+  epP = mu_pr[5] + sigma[5] * epP_pr;
+  epN = mu_pr[6] + sigma[6] * epN_pr;
 }
 
 model {
   // Hyperparameters
-  mu_p       ~ normal(0, 1.0);
+  mu_pr       ~ normal(0, 1.0);
   sigma[1:4] ~ normal(0, 0.2);
   sigma[5:6] ~ cauchy(0, 1.0);
   sigma[7:8] ~ normal(0, 0.2);
 
   // individual parameters
-  A_p      ~ normal(0, 1.0);
-  alpha_p  ~ normal(0, 1.0);
-  cons_p   ~ normal(0, 1.0);
-  lambda_p ~ normal(0, 1.0);
-  epP_p    ~ normal(0, 1.0);
-  epN_p    ~ normal(0, 1.0);
-  K_p      ~ normal(0, 1.0);
-  w_p      ~ normal(0, 1.0);
+  A_pr      ~ normal(0, 1.0);
+  alpha_pr  ~ normal(0, 1.0);
+  cons_pr   ~ normal(0, 1.0);
+  lambda_pr ~ normal(0, 1.0);
+  epP_pr    ~ normal(0, 1.0);
+  epN_pr    ~ normal(0, 1.0);
+  K_pr      ~ normal(0, 1.0);
+  w_pr      ~ normal(0, 1.0);
 
   for (i in 1:N) {
     // Define values
@@ -130,14 +130,14 @@ generated quantities {
     }
   }
 
-  mu_A      = Phi_approx(mu_p[1]);
-  mu_alpha  = Phi_approx(mu_p[2]) * 2;
-  mu_cons   = Phi_approx(mu_p[3]) * 5;
-  mu_lambda = Phi_approx(mu_p[4]) * 10;
-  mu_epP    = mu_p[5];
-  mu_epN    = mu_p[6];
-  mu_K      = Phi_approx(mu_p[7]);
-  mu_w      = Phi_approx(mu_p[8]);
+  mu_A      = Phi_approx(mu_pr[1]);
+  mu_alpha  = Phi_approx(mu_pr[2]) * 2;
+  mu_cons   = Phi_approx(mu_pr[3]) * 5;
+  mu_lambda = Phi_approx(mu_pr[4]) * 10;
+  mu_epP    = mu_pr[5];
+  mu_epN    = mu_pr[6];
+  mu_K      = Phi_approx(mu_pr[7]);
+  mu_w      = Phi_approx(mu_pr[8]);
 
   { // local section, this saves time and space
     for (i in 1:N) {

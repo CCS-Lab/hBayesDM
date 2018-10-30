@@ -22,13 +22,13 @@ transformed data {
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
-  vector[3] mu_p;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] phi_p;     // 1-learning rate
-  vector[N] rho_p;     // experience decay factor
-  vector[N] beta_p;    // inverse temperature
+  vector[N] phi_pr;     // 1-learning rate
+  vector[N] rho_pr;     // experience decay factor
+  vector[N] beta_pr;    // inverse temperature
 }
 
 transformed parameters {
@@ -38,21 +38,21 @@ transformed parameters {
   vector<lower=0, upper=10>[N] beta;
 
   for (i in 1:N) {
-    phi[i]  = Phi_approx(mu_p[1] + sigma[1] * phi_p[i]);
-    rho[i]  = Phi_approx(mu_p[2] + sigma[2] * rho_p[i]);
-    beta[i] = Phi_approx(mu_p[3] + sigma[3] * beta_p[i]) * 10;
+    phi[i]  = Phi_approx(mu_pr[1] + sigma[1] * phi_pr[i]);
+    rho[i]  = Phi_approx(mu_pr[2] + sigma[2] * rho_pr[i]);
+    beta[i] = Phi_approx(mu_pr[3] + sigma[3] * beta_pr[i]) * 10;
   }
 }
 
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // Individual parameters
-  phi_p  ~ normal(0, 1);
-  rho_p  ~ normal(0, 1);
-  beta_p ~ normal(0, 1);
+  phi_pr  ~ normal(0, 1);
+  rho_pr  ~ normal(0, 1);
+  beta_pr ~ normal(0, 1);
 
   for (i in 1:N) {
     // Define values
@@ -114,9 +114,9 @@ generated quantities {
     }
   }
 
-  mu_phi  = Phi_approx(mu_p[1]);
-  mu_rho  = Phi_approx(mu_p[2]);
-  mu_beta = Phi_approx(mu_p[3]) * 10;
+  mu_phi  = Phi_approx(mu_pr[1]);
+  mu_rho  = Phi_approx(mu_pr[2]);
+  mu_beta = Phi_approx(mu_pr[3]) * 10;
 
   { // local section, this saves time and space
     for (i in 1:N) {
