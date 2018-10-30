@@ -6,9 +6,9 @@
 \usage{
 dd_hyperbolic_single(data = "choose", niter = 3000, nwarmup = 1000,
   nchain = 4, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10)
+  indPars = "mean", saveDir = NULL, modelRegressor = FALSE,
+  vb = FALSE, inc_postpred = FALSE, adapt_delta = 0.95,
+  stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", and "choice". See \bold{Details} below for more information.}

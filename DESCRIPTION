@@ -1,92 +1,48 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.6.2
-Date: 2018-10-09
+Version: 0.6.3
+Date: 2018-10-30
+Author:
+    Woo-Young Ahn [aut, cre],
+    Nate Haines [aut],
+    Lei Zhang [aut],
+    Harhim Park [ctb],
+    Jaeyeong Yang [ctb],
+    Dayeong Min [ctb],
+    Jethro Lee [ctb]
 Authors@R: c(
-	person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
-	person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
-	person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")) )
+    person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
+    person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
+    person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")),
+    person("Harhim", "Park", email = "hrpark12@gmail.com", role = c("ctb")),
+    person("Jaeyeong", "Yang", email = "jaeyeong.yang1125@gmail.com", role = c("ctb")),
+    person("Dayeong", "Min", email = "mindy2801@snu.ac.kr", role = c("ctb")),
+    person("Jethro", "Lee", email = "dlemfh96@snu.ac.kr", role = c("ctb")))
 Maintainer: Woo-Young Ahn <wooyoung.ahn@gmail.com>
-Description: Fit an array of decision-making tasks with computational models in
+Description:
+    Fit an array of decision-making tasks with computational models in
     a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of
     various computational models with a single line of coding.
 Depends:
     R (>= 3.4.0),
-    Rcpp (>= 0.12.14),
+    Rcpp (>= 0.12.0),
     methods
 Imports:
-    rstan (>= 2.17.0),
+    rstan (>= 2.18.1),
     loo (>= 2.0),
     grid,
     parallel,
-    ggplot2,
-    data.table (>= 1.11.8)
-LinkingTo: StanHeaders (>= 2.17.0), rstan (>= 2.17.0), BH (>= 1.65.0.1), Rcpp
-    (>= 0.12.14), RcppEigen (>= 0.3.3.3.1)
+    ggplot2
+LinkingTo:
+    StanHeaders (>= 2.18.0),
+    rstan (>= 2.18.1),
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0)
 URL: http://rpubs.com/CCSL/hBayesDM
+BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3
 LazyData: true
 NeedsCompilation: yes
-Author: Woo-Young Ahn [aut, cre],
-    Nate Haines [aut],
-    Lei Zhang [aut]
-RoxygenNote: 6.0.1
-Collate: 
-    'HDIofMCMC.R'
-    'bandit2arm_delta.R'
-    'bandit4arm_4par.R'
-    'bandit4arm_lapse.R'
-    'bart_par4.R'
-    'choiceRT_ddm.R'
-    'choiceRT_ddm_single.R'
-    'choiceRT_lba.R'
-    'choiceRT_lba_single.R'
-    'cra_exp.R'
-    'cra_linear.R'
-    'dd_cs.R'
-    'dd_cs_single.R'
-    'dd_exp.R'
-    'dd_hyperbolic.R'
-    'dd_hyperbolic_single.R'
-    'estimate_mode.R'
-    'extract_ic.R'
-    'gng_m1.R'
-    'gng_m2.R'
-    'gng_m3.R'
-    'gng_m4.R'
-    'hBayesDM.R'
-    'hBayesDM_model.R'
-    'igt_orl.R'
-    'igt_pvl_decay.R'
-    'igt_pvl_delta.R'
-    'igt_vpp.R'
-    'multiplot.R'
-    'peer_ocu.R'
-    'plot.hBayesDM.R'
-    'plotDist.R'
-    'plotHDI.R'
-    'plotInd.R'
-    'printFit.R'
-    'prl_ewa.R'
-    'prl_fictitious.R'
-    'prl_fictitious_multipleB.R'
-    'prl_fictitious_rp.R'
-    'prl_fictitious_rp_woa.R'
-    'prl_fictitious_woa.R'
-    'prl_rp.R'
-    'prl_rp_multipleB.R'
-    'pst_gainloss_Q.R'
-    'ra_noLA.R'
-    'ra_noRA.R'
-    'ra_prospect.R'
-    'rdt_happiness.R'
-    'rhat.R'
-    'settings.R'
-    'stanmodels.R'
-    'ts_par4.R'
-    'ts_par6.R'
-    'ts_par7.R'
-    'ug_bayes.R'
-    'ug_delta.R'
-    'wcs_sql.R'
-    'zzz.R'
+Encoding: UTF-8
+RoxygenNote: 6.1.0
