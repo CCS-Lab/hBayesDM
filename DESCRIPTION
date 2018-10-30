@@ -5,11 +5,19 @@ Date: 2018-10-30
 Author:
     Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
-    Lei Zhang [aut]
+    Lei Zhang [aut],
+    Harhim Park [ctb],
+    Jaeyeong Yang [ctb],
+    Dayeong Min [ctb],
+    Jethro Lee [ctb]
 Authors@R: c(
 	person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
 	person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
-	person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")) )
+	person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")),
+  person("Harhim", "Park", email = "hrpark12@gmail.com", role = c("ctb")),
+  person("Jaeyeong", "Yang", email = "jaeyeong.yang1125@gmail.com", role = c("ctb")),
+  person("Dayeong", "Min", email = "mindy2801@snu.ac.kr", role = c("ctb")),
+  person("Jethro", "Lee", email = "dlemfh96@snu.ac.kr", role = c("ctb")))
 Maintainer: Woo-Young Ahn <wooyoung.ahn@gmail.com>
 Description:
     Fit an array of decision-making tasks with computational models in
