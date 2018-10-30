@@ -16,10 +16,10 @@ parameters {
   vector<lower=0>[4] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] A_pr;
-  vector[N] alpha_pr;
-  vector[N] cons_pr;
-  vector[N] lambda_pr;
+  vector[N] A_p;
+  vector[N] alpha_p;
+  vector[N] cons_p;
+  vector[N] lambda_p;
 }
 transformed parameters {
   // Transform subject-level raw parameters
@@ -29,10 +29,10 @@ transformed parameters {
   vector<lower=0, upper=10>[N] lambda;
 
   for (i in 1:N) {
-    A[i]      = Phi_approx(mu_p[1] + sigma[1] * A_pr[i]);
-    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_pr[i]) * 2;
-    cons[i]   = Phi_approx(mu_p[3] + sigma[3] * cons_pr[i]) * 5;
-    lambda[i] = Phi_approx(mu_p[4] + sigma[4] * lambda_pr[i]) * 10;
+    A[i]      = Phi_approx(mu_p[1] + sigma[1] * A_p[i]);
+    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_p[i]) * 2;
+    cons[i]   = Phi_approx(mu_p[3] + sigma[3] * cons_p[i]) * 5;
+    lambda[i] = Phi_approx(mu_p[4] + sigma[4] * lambda_p[i]) * 10;
   }
 }
 model {
@@ -41,10 +41,10 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  A_pr      ~ normal(0, 1);
-  alpha_pr  ~ normal(0, 1);
-  cons_pr   ~ normal(0, 1);
-  lambda_pr ~ normal(0, 1);
+  A_p      ~ normal(0, 1);
+  alpha_p  ~ normal(0, 1);
+  cons_p   ~ normal(0, 1);
+  lambda_p ~ normal(0, 1);
 
   for (i in 1:N) {
     // Define values
