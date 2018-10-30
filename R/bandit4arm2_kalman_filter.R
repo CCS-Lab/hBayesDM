@@ -1,9 +1,9 @@
 #' 4-armed bandit task
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: "lambda" (decay parameter), "theta" (decay center), "beta" (exploration parameter), "mu0" (initial expected mean payoff), "sigma0" (initial uncertainty), and "sigmaD" (the speed of diffusion in the payoffs).
+#' Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), and "sigmaD" (sd of diffusion noise).
 #'
-#' Contributor: \href{https://zohyos7.github.io}{Yoonseo Zoh}
+#' Contributor: \href{https://zohyos7.github.io}{Yoonseo Zoh}, \href{https://lei-zhang.net/}{Lei Zhang}
 #'
 #' \strong{MODEL:}
 #' Reinforcement Learning with Kalman Filter (Daw et al., 2006, Nature)
