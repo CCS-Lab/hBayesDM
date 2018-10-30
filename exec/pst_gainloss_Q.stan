@@ -21,9 +21,9 @@ parameters {
   vector<lower=0>[3] sigma;
 
   // Subject-level parameters for Matt trick
-  vector[N] alpha_pos_pr;
-  vector[N] alpha_neg_pr;
-  vector[N] beta_pr;
+  vector[N] alpha_pos_p;
+  vector[N] alpha_neg_p;
+  vector[N] beta_p;
 }
 
 transformed parameters {
@@ -31,9 +31,9 @@ transformed parameters {
   vector<lower=0,upper=1>[N] alpha_neg;
   vector<lower=0,upper=10>[N] beta;
 
-  alpha_pos = Phi_approx(mu[1] + sigma[1] * alpha_pos_pr);
-  alpha_neg = Phi_approx(mu[2] + sigma[2] * alpha_neg_pr);
-  beta      = Phi_approx(mu[3] + sigma[3] * beta_pr) * 10;
+  alpha_pos = Phi_approx(mu[1] + sigma[1] * alpha_pos_p);
+  alpha_neg = Phi_approx(mu[2] + sigma[2] * alpha_neg_p);
+  beta      = Phi_approx(mu[3] + sigma[3] * beta_p) * 10;
 }
 
 model {
@@ -42,9 +42,9 @@ model {
   sigma ~ normal(0, 0.2);
 
   // Priors for subject-level parameters
-  alpha_pos_pr ~ normal(0, 1);
-  alpha_neg_pr ~ normal(0, 1);
-  beta_pr      ~ normal(0, 1);
+  alpha_pos_p ~ normal(0, 1);
+  alpha_neg_p ~ normal(0, 1);
+  beta_p      ~ normal(0, 1);
 
   for (i in 1:N) {
     int co;         // Chosen option
