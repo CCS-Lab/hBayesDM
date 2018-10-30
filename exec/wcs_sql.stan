@@ -19,13 +19,13 @@ transformed data {
 
 parameters {
   // hyper parameters
-  vector[3] mu_pr;
+  vector[3] mu_p;
   vector<lower=0>[3] sigma;
 
   // subject-level raw parameters (for Matt trick)
-  vector[N] rs_pr; // sensitivity to rewarding feedback (reward learning rate)
-  vector[N] ps_pr; // sensitivity to punishing feedback (punishment learning rate)
-  vector[N] dc_pr; // decision consistency (inverse temperature)
+  vector[N] rs_p; // sensitivity to rewarding feedback (reward learning rate)
+  vector[N] ps_p; // sensitivity to punishing feedback (punishment learning rate)
+  vector[N] dc_p; // decision consistency (inverse temperature)
 }
 
 transformed parameters {
@@ -35,21 +35,21 @@ transformed parameters {
   vector<lower=0>[N] dc;
 
   for (i in 1:N) {
-    rs[i] = Phi_approx( mu_pr[1] + sigma[1] * rs_pr[i] );
-    ps[i] = Phi_approx( mu_pr[2] + sigma[2] * ps_pr[i] );
-    dc[i] = Phi_approx( mu_pr[3] + sigma[3] * dc_pr[i] ) * 5;
+    rs[i] = Phi_approx( mu_p[1] + sigma[1] * rs_p[i] );
+    ps[i] = Phi_approx( mu_p[2] + sigma[2] * ps_p[i] );
+    dc[i] = Phi_approx( mu_p[3] + sigma[3] * dc_p[i] ) * 5;
   }
 }
 
 model {
   // hyperparameters
-  mu_pr ~ normal(0, 1);
+  mu_p ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  rs_pr ~ normal(0, 1);
-  ps_pr ~ normal(0, 1);
-  dc_pr ~ normal(0, 1);
+  rs_p ~ normal(0, 1);
+  ps_p ~ normal(0, 1);
+  dc_p ~ normal(0, 1);
 
   for (i in 1:N) {
     // define values
@@ -115,9 +115,9 @@ generated quantities {
     }
   }
 
-  mu_rs = Phi_approx(mu_pr[1]);
-  mu_ps = Phi_approx(mu_pr[2]);
-  mu_dc = Phi_approx(mu_pr[3]) * 5;
+  mu_rs = Phi_approx(mu_p[1]);
+  mu_ps = Phi_approx(mu_p[2]);
+  mu_dc = Phi_approx(mu_p[3]) * 5;
 
   { // local section, this saves time and space
     for (i in 1:N) {
