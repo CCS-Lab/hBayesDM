@@ -32,9 +32,9 @@ parameters {
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] alpha_pr;   // risk attitude parameter
-  vector[N] beta_pr;    // ambiguity attitude parameter
-  vector[N] gamma_pr;   // inverse temperature parameter
+  vector[N] alpha_p;   // risk attitude parameter
+  vector[N] beta_p;    // ambiguity attitude parameter
+  vector[N] gamma_p;   // inverse temperature parameter
 }
 
 transformed parameters {
@@ -43,9 +43,9 @@ transformed parameters {
   vector[N]                  beta;
   vector<lower=0>[N]         gamma;
 
-  alpha = Phi_approx(mu_p[1] + sigma[1] * alpha_pr) * 2;
-  beta  = mu_p[2] + sigma[2] * beta_pr;
-  gamma = exp(mu_p[3] + sigma[3] * gamma_pr);
+  alpha = Phi_approx(mu_p[1] + sigma[1] * alpha_p) * 2;
+  beta  = mu_p[2] + sigma[2] * beta_p;
+  gamma = exp(mu_p[3] + sigma[3] * gamma_p);
 }
 
 model {
@@ -54,9 +54,9 @@ model {
   sigma ~ normal(0, 5);
 
   // individual parameters w/ Matt trick
-  alpha_pr ~ normal(0, 1);
-  beta_pr  ~ normal(0, 1);
-  gamma_pr ~ normal(0, 1);
+  alpha_p ~ normal(0, 1);
+  beta_p  ~ normal(0, 1);
+  gamma_p ~ normal(0, 1);
 
   for (i in 1:N) {
     for (t in 1:Tsubj[i]) {
