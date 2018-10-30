@@ -39,7 +39,7 @@ LinkingTo:
     BH (>= 1.66.0),
     Rcpp (>= 0.12.0),
     RcppEigen (>= 0.3.3.3.0)
-URL: http://rpubs.com/CCSL/hBayesDM
+URL: https://rpubs.com/CCSL/hBayesDM
 BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3
 LazyData: true
