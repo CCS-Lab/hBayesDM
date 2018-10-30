@@ -28,10 +28,10 @@ parameters {
   vector<lower=0>[4] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] alpha_pr;
-  vector[N] beta_pr;
-  vector[N] delta_pr;
-  vector[N] tau_pr;
+  vector[N] alpha_p;
+  vector[N] beta_p;
+  vector[N] delta_p;
+  vector[N] tau_p;
 }
 
 transformed parameters {
@@ -42,11 +42,11 @@ transformed parameters {
   vector<lower=RTbound, upper=max(minRT)>[N] tau; // nondecision time
 
   for (i in 1:N) {
-    beta[i] = Phi_approx(mu_p[2] + sigma[2] * beta_pr[i]);
-    tau[i]  = Phi_approx(mu_p[4] + sigma[4] * tau_pr[i]) * (minRT[i] - RTbound) + RTbound;
+    beta[i] = Phi_approx(mu_p[2] + sigma[2] * beta_p[i]);
+    tau[i]  = Phi_approx(mu_p[4] + sigma[4] * tau_p[i]) * (minRT[i] - RTbound) + RTbound;
   }
-  alpha = exp(mu_p[1] + sigma[1] * alpha_pr);
-  delta = exp(mu_p[3] + sigma[3] * delta_pr);
+  alpha = exp(mu_p[1] + sigma[1] * alpha_p);
+  delta = exp(mu_p[3] + sigma[3] * delta_p);
 }
 
 model {
@@ -55,10 +55,10 @@ model {
   sigma ~ normal(0, 0.2);
 
   // Individual parameters for non-centered parameterization
-  alpha_pr ~ normal(0, 1);
-  beta_pr  ~ normal(0, 1);
-  delta_pr ~ normal(0, 1);
-  tau_pr   ~ normal(0, 1);
+  alpha_p ~ normal(0, 1);
+  beta_p  ~ normal(0, 1);
+  delta_p ~ normal(0, 1);
+  tau_p   ~ normal(0, 1);
 
   // Begin subject loop
   for (i in 1:N) {
