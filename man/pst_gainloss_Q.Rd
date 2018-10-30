@@ -6,9 +6,9 @@
 \usage{
 pst_gainloss_Q(data = "choose", niter = 2000, nwarmup = 1000,
   nchain = 1, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10)
+  indPars = "mean", saveDir = NULL, modelRegressor = FALSE,
+  vb = FALSE, inc_postpred = FALSE, adapt_delta = 0.95,
+  stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled.

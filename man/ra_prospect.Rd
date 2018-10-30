@@ -4,10 +4,11 @@
 \alias{ra_prospect}
 \title{Risk Aversion Task}
 \usage{
-ra_prospect(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
-  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
-  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10)
+ra_prospect(data = "choose", niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+  indPars = "mean", saveDir = NULL, modelRegressor = FALSE,
+  vb = FALSE, inc_postpred = FALSE, adapt_delta = 0.95,
+  stepsize = 1, max_treedepth = 10)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "gain", "loss", "cert", and "gamble". See \bold{Details} below for more information.}

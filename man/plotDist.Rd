@@ -4,8 +4,9 @@
 \alias{plotDist}
 \title{Plots the histogram of MCMC samples.}
 \usage{
-plotDist(sample = NULL, Title = NULL, xLab = "Value", yLab = "Density",
-  xLim = NULL, fontSize = NULL, binSize = NULL, ...)
+plotDist(sample = NULL, Title = NULL, xLab = "Value",
+  yLab = "Density", xLim = NULL, fontSize = NULL, binSize = NULL,
+  ...)
 }
 \arguments{
 \item{sample}{MCMC samples}
