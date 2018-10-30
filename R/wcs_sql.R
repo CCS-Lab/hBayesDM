@@ -1,7 +1,7 @@
 #' Wisconsin Card Sorting Task
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the Wisconsin Card Sorting (WCS) Task using the following parameters: "r" (reward sensitivity), "p" (punishment sensitivity), and "d" (decision consistency or inverse temperature).
+#' Hierarchical Bayesian Modeling of the Wisconsin Card Sorting (WCS) Task using the following parameters: "rs" (reward sensitivity), "ps" (punishment sensitivity), and "dc" (decision consistency or inverse temperature).
 #'
 #' Contributor: \href{https://ccs-lab.github.io/team/dayeong-min/}{Dayeong Min}
 #'
@@ -160,9 +160,9 @@ wcs_sql <- function(data           = "choice",
 
   # Specify the number of parameters and parameters of interest
   numPars <- 3
-  POI     <- c("mu_r", "mu_p", "mu_d",
+  POI     <- c("mu_rs", "mu_ps", "mu_dc",
                "sigma",
-               "r", "p", "d",
+               "rs", "ps", "dc",
                "log_lik")
 
   if (inc_postpred){
@@ -271,9 +271,9 @@ wcs_sql <- function(data           = "choice",
         list(
           mu_p    = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 10)),
           sigma   = c(1.0, 1.0, 1.0),
-          r_pr = rep(qnorm(inits_fixed[1]), numSubjs),
-          p_pr = rep(qnorm(inits_fixed[2]), numSubjs),
-          d_pr = rep(qnorm(inits_fixed[3] / 10), numSubjs)
+          rs_pr = rep(qnorm(inits_fixed[1]), numSubjs),
+          ps_pr = rep(qnorm(inits_fixed[2]), numSubjs),
+          dc_pr = rep(qnorm(inits_fixed[3] / 10), numSubjs)
         )
       }
     }
@@ -321,9 +321,9 @@ wcs_sql <- function(data           = "choice",
     if (inc_postpred)
       parVals$y_pred[parVals$y_pred == -1] <- NA
 
-    r <- parVals$r
-    p <- parVals$p
-    d <- parVals$d
+    rs <- parVals$rs
+    ps <- parVals$ps
+    dc <- parVals$dc
 
     # Individual parameters (e.g., individual posterior means)
     measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
@@ -331,15 +331,15 @@ wcs_sql <- function(data           = "choice",
     allIndPars <- as.data.frame(allIndPars)
 
     for (i in 1:numSubjs) {
-      allIndPars[i,] <- c(measureIndPars(r[, i]),
-                          measureIndPars(p[, i]),
-                          measureIndPars(d[, i]))
+      allIndPars[i,] <- c(measureIndPars(rs[, i]),
+                          measureIndPars(ps[, i]),
+                          measureIndPars(dc[, i]))
     }
 
     allIndPars           <- cbind(allIndPars, subjList)
-    colnames(allIndPars) <- c("r",
-                              "p",
-                              "d",
+    colnames(allIndPars) <- c("rs",
+                              "ps",
+                              "dc",
                               "subjID")
 
     # Wrap up data into a list
