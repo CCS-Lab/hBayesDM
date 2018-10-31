@@ -2,7 +2,7 @@
 % Please edit documentation in R/bandit4arm2_kalman_filter.R
 \name{bandit4arm2_kalman_filter}
 \alias{bandit4arm2_kalman_filter}
-\title{4-armed bandit task}
+\title{4-armed bandit task(2)}
 \usage{
 bandit4arm2_kalman_filter(data = "choose", niter = 4000,
   nwarmup = 1000, nchain = 4, ncore = 1, nthin = 1,
@@ -54,10 +54,12 @@ bandit4arm2_kalman_filter(data = "choose", niter = 4000,
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: "lambda" (decay parameter), "theta" (decay center), "beta" (exploration parameter), "mu0" (initial expected mean payoff), "sigma0" (initial uncertainty), and "sigmaD" (the speed of diffusion in the payoffs).
+Hierarchical Bayesian Modeling of the 4-armed bandit task(2) with the following parameters: "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), and "sigmaD" (sd of diffusion noise).
+
+Contributor: \href{https://zohyos7.github.io}{Yoonseo Zoh}, \href{https://lei-zhang.net/}{Lei Zhang}
 
 \strong{MODEL:}
-Reinforcement Learning with Kalman Filter (Daw et al., 2006, Nature)
+Reinforcement Learning with softmax rule Kalman Filter (Daw et al., 2006, Nature)
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -70,7 +72,7 @@ represent variables. For the 4-armed bandit task(2), there should be three colum
 particular order, however it is necessary that they be labelled correctly and contain the information below:
 \describe{
  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
- \item{\code{"choice"}}{Should contain a integer value representing the chosen choice option within the given trial (e.g., 1 or 2 in 2-arm bandit task).}
+ \item{\code{"choice"}}{Should contain a integer value representing the chosen choice option within the given trial (e.g., 1, 2, 3 or 4 in 4-arm bandit task(2)).}
  \item{\code{"outcome"}}{Should contain outcomes within each given trial (e.g., 1 = reward, -1 = loss).}
 }
 \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
@@ -98,6 +100,26 @@ over Stan's MCMC sampler. The Stan creators recommend that only advanced users c
 can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for
 more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
 \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
+}
+\examples{
+\dontrun{
+# Run the model and store results in "output"
+output <- bandit4arm2_kalman_filter(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+
+# Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
+plot(output, type = 'trace')
+
+# Check Rhat values (all Rhat values should be less than or equal to 1.1)
+rhat(output)
+
+# Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)
+plot(output)
+
+# Show the WAIC and LOOIC model fit estimates
+printFit(output)
+
+
+}
 }
 \references{
 Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates for exploratory decisions
