@@ -115,7 +115,7 @@ bandit4arm2_kalman_filter <- hBayesDM_model(
   task_name             = "bandit4arm2",
   model_name            = "kalman_filter",
   model_type            = "",
-  data_columns          = c("subjID", "trial", "choice", "outcome"),
+  data_columns          = c("subjID", "choice", "outcome"),
   parameters            = list("lambda" = c(0, 0.9, 1),
                                "theta" = c(0, 50, 100),
                                "beta" = c(0,0.1,1),
