@@ -1,12 +1,12 @@
-#' 4-armed bandit task
+#' 4-armed bandit task(2)
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the 4-armed bandit task with the following parameters: "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), and "sigmaD" (sd of diffusion noise).
+#' Hierarchical Bayesian Modeling of the 4-armed bandit task(2) with the following parameters: "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), and "sigmaD" (sd of diffusion noise).
 #'
 #' Contributor: \href{https://zohyos7.github.io}{Yoonseo Zoh}, \href{https://lei-zhang.net/}{Lei Zhang}
 #'
 #' \strong{MODEL:}
-#' Reinforcement Learning with Kalman Filter (Daw et al., 2006, Nature)
+#' Reinforcement Learning with softmax rule Kalman Filter (Daw et al., 2006, Nature)
 #'
 #' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "outcome". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.
@@ -51,7 +51,7 @@
 #' particular order, however it is necessary that they be labelled correctly and contain the information below:
 #' \describe{
 #'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"choice"}}{Should contain a integer value representing the chosen choice option within the given trial (e.g., 1 or 2 in 2-arm bandit task).}
+#'  \item{\code{"choice"}}{Should contain a integer value representing the chosen choice option within the given trial (e.g., 1, 2, 3 or 4 in 4-arm bandit task(2)).}
 #'  \item{\code{"outcome"}}{Should contain outcomes within each given trial (e.g., 1 = reward, -1 = loss).}
 #' }
 #' \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
@@ -105,10 +105,6 @@
 #' printFit(output)
 #'
 #'
-#' # Paths to data published in Sokol-Hessner et al. (2009)
-#' path_to_attend_data = system.file("extdata/bandit4arm2_exampleData.txt", package = "hBayesDM")
-#'
-#' path_to_regulate_data = system.file("extdata/bandit4arm2_exampleData.txt, package = "hBayesDM")
 #' }
 
 bandit4arm2_kalman_filter <- hBayesDM_model(
