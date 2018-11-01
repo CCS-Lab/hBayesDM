@@ -24,7 +24,7 @@
 #'
 #' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
 #' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"ra2_prob_weight"}).}
+#'  \item{\code{model}}{Character string with the name of the model (\code{"dbdm_prob_weight"}).}
 #'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
 #'    values (as specified by \code{"indPars"}) for each subject.}
 #'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
@@ -84,6 +84,12 @@
 #' \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
 #'
 #' @references
+#' Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., ... & Lebiere, C. (2010). A choice prediction competition: Choices from experience and from description.
+#' Journal of Behavioral Decision Making, 23(1), 15-47.
+#'
+#' Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions from experience and the effect of rare events in risky choice.
+#' Psychological science, 15(8), 534-539.
+#'
 #' Jessup, R. K., Bishara, A. J., & Busemeyer, J. R. (2008). Feedback produces divergence from prospect theory in descriptive choice.
 #' Psychological Science, 19(10), 1015-1022.
 #'
