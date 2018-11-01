@@ -434,3 +434,12 @@ plot_bandit4arm2_kalman_filter <- function(obj, fontSize = 10, ncols = 6, binSiz
   return(h_all)
 }
 
+plot_dbdm_prob_weight <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(tau, " (probability weight function)")))
+  h2 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(rho, " (subject utility fucntion)")))
+  h3 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(lambda, " (loss aversion parameter)")))
+  h4 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (inverse softmax temperature)")))
+  h_all = multiplot(h1, h2, h3, h4, cols = ncols)
+  return(h_all)
+}
