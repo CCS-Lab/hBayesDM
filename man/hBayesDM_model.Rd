@@ -5,7 +5,8 @@
 \title{Model Base}
 \usage{
 hBayesDM_model(task_name, model_name, model_type = "", data_columns,
-  parameters, regressors = NULL, postpreds = "y_pred", preprocess_function)
+  parameters, regressors = NULL, postpreds = "y_pred",
+  stanmodel_arg = NULL, preprocess_func)
 }
 \arguments{
 \item{task_name}{Name of the task, e.g. \code{"gng"}.}
@@ -22,7 +23,9 @@ hBayesDM_model(task_name, model_name, model_type = "", data_columns,
 
 \item{postpreds}{Name(s) of the trial-level posterior predictive simulations. Default is \code{"y_pred"}; though any other character vector holding appropriate names is possible, for certain models like the Two-Step Task models.}
 
-\item{preprocess_function}{The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.}
+\item{stanmodel_arg}{Can be used by developers, during the creation and testing of new hBayesDM models. Character value OR a stanmodel object. Leave as NULL (default) for completed models.}
+
+\item{preprocess_func}{The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.}
 }
 \description{
 Model Base
