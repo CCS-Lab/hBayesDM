@@ -60,6 +60,7 @@ Collate:
     'choiceRT_lba_single.R'
     'cra_exp.R'
     'cra_linear.R'
+    'dbdm_prob_weight.R'
     'dd_cs.R'
     'dd_cs_single.R'
     'dd_exp.R'
