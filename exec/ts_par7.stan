@@ -210,5 +210,6 @@ generated quantities {
       v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + lambda[i] * a1[i] * (reward[i,t] - v_mf[2+level2_choice[i,t]]);
       } // end of t loop
     } // end of i loop
-   }
- }
+  }
+}
+

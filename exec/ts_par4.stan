@@ -197,5 +197,6 @@ generated quantities {
 
       } // end of t loop
     } // end of i loop
-   }
- }
+  }
+}
+
