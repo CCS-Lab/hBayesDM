@@ -1,23 +1,49 @@
-#' Model Base
+#' hBayesDM Model Base Function
 #'
-#' @param task_name Name of the task, e.g. \code{"gng"}.
-#' @param model_name Name of the model, e.g. \code{"m1"}.
-#' @param model_type One of the following three: \code{""} OR \code{"single"} OR \code{"multipleB"}.
-#' @param data_columns Names of the necessary columns for the data, e.g. \code{c("subjID", "cue", "keyPressed", "outcome")}. Must be the entirety of necessary data columns that will be used at some point in the code; i.e. must always include \code{"subjID"}, and should include \code{"block"} in the case of 'multipleB' type models.
-#' @param parameters A list object whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector of 3 elements: the parameter's lower bound, plausible value, and upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2), Inf))}.
-#' @param regressors A list object whose keys are the model-based regressors for this model. Each regressor key must be assigned a single numeric value, indicating the number of dimensions its data will be extracted as. E.g. \code{list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)}. OR if model-based regressors are not available for this model, this argument should just be \code{NULL}.
-#' @param postpreds Name(s) of the trial-level posterior predictive simulations. Default is \code{"y_pred"}. Any other character vector holding appropriate names is possible (e.g. see the Two-Step Task models). OR if providing trial-level posterior predictive simulations is not yet supported for this model, this argument should just be \code{NULL}.
-#' @param stanmodel_arg Can be used by developers, during the creation and testing of new hBayesDM models. Character value OR a stanmodel object. Leave as NULL (default) for completed models.
-#' @param preprocess_func The model-specific function to preprocess the raw data to pass to Stan. Takes two arguments: a data.frame object \code{raw_data} and a list object \code{general_info}. Returns a list object \code{data_list} which will then directly be passed to Stan.
+#' @description
+#' The base function from which all hBayesDM model functions are created.
+#'
+#' Contributor: \href{https://ccs-lab.github.io/team/jethro-lee/}{Jethro Lee}
 #'
 #' @export
 #' @keywords internal
 #'
+#' @include stanmodels.R
 #' @importFrom utils read.table head
 #' @importFrom stats complete.cases qnorm median
 #' @importFrom data.table as.data.table
 #' @importFrom parallel detectCores
 #' @importFrom rstan stan_model vb sampling extract
+#'
+#' @param task_name Character value for name of task. E.g. \code{"gng"}.
+#' @param model_name Character value for name of model. E.g. \code{"m1"}.
+#' @param model_type Character value for modeling type: \code{""} OR \code{"single"} OR \code{"multipleB"}.
+#' @param data_columns Character vector of necessary column names for the data. E.g. \code{c("subjID", "cue", "keyPressed", "outcome")}.
+#' @param parameters List of parameters, with information about their lower bound, plausible value, upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2), Inf))}.
+#' @param regressors List of regressors, with information about their extracted dimensions. E.g. \code{list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)}. OR if model-based regressors are not available for this model, \code{NULL}.
+#' @param postpreds Character vector of name(s) for the trial-level posterior predictive simulations. Default is \code{"y_pred"}. OR if posterior predictions are not yet available for this model, \code{NULL}.
+#' @param stanmodel_arg Leave as \code{NULL} (default) for completed models. Else should either be a character value (specifying the name of a Stan file) OR a \code{stanmodel} object (returned as a result of running \code{\link[rstan]{stan_model}}).
+#' @param preprocess_func Function to preprocess the raw data before it gets passed to Stan.
+#'
+#' @details
+#' \strong{task_name}: Typically same task models share the same data column requirements.
+#'
+#' \strong{model_name}: Typically different models are distinguished by their different list of parameters.
+#'
+#' \strong{model_type} is one of the following three:
+#' \describe{
+#'  \item{\code{""}}{Modeling of multiple subjects. (Default hierarchical Bayesian analysis.)}
+#'  \item{\code{"single"}}{Modeling of a single subject.}
+#'  \item{\code{"multipleB"}}{Modeling of multiple subjects, where multiple blocks exist within each subject.}
+#' }
+#'
+#' \strong{data_columns} must be the entirety of necessary data columns used at some point in the R or Stan code. I.e. \code{"subjID"} must always be included. In the case of 'multipleB' type models, \code{"block"} should also be included as well.
+#'
+#' \strong{parameters} is a list object, whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector holding 3 elements: the parameter's lower bound, plausible value, and upper bound.
+#'
+#' \strong{regressors} is a list object, whose keys are the model-based regressors of this model. Each regressor key must be assigned a numeric value indicating the number of dimensions its data will be extracted as. If model-based regressors are not available for this model, this argument should just be \code{NULL}.
+#'
+#' \strong{postpreds} defaults to \code{"y_pred"}, but any other character vector holding appropriate names is possible (c.f. Two-Step Task models). If posterior predictions are not yet available for this model, this argument should just be \code{NULL}.
 
 hBayesDM_model <- function(task_name,
                            model_name,
