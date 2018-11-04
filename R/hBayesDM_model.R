@@ -10,8 +10,8 @@
 #'
 #' @include stanmodels.R
 #' @importFrom utils read.table head
-#' @importFrom stats complete.cases qnorm median
-#' @importFrom data.table fread na.omit as.data.frame
+#' @importFrom stats na.omit complete.cases qnorm median
+#' @importFrom data.table fread
 #' @importFrom parallel detectCores
 #' @importFrom rstan stan_model vb sampling extract
 #'
