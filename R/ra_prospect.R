@@ -36,7 +36,6 @@
 #' @export
 #'
 #' @include hBayesDM_model.R
-#' @importFrom data.table as.data.table
 #'
 #' @details
 #' This section describes some of the function arguments in greater detail.
@@ -124,10 +123,7 @@ ra_prospect <- hBayesDM_model(
                          "tau"    = c(0, 1, 5)),
   preprocess_func = function(raw_data, general_info) {
 
-    # Use data.table
-    DT <- as.data.table(raw_data)
-
-    # Use general informations of raw_data
+    # Use general_info of raw_data
     subjs   <- general_info$subjs
     n_subj  <- general_info$n_subj
     t_subjs <- general_info$t_subjs
@@ -143,7 +139,7 @@ ra_prospect <- hBayesDM_model(
     for (i in 1:n_subj) {
       subj <- subjs[i]
       t <- t_subjs[i]
-      DT_subj <- DT[subjid == subj]
+      DT_subj <- raw_data[subjid == subj]
 
       gain[i, 1:t]   <- DT_subj$gain
       loss[i, 1:t]   <- abs(DT_subj$loss)  # absolute loss amount
@@ -166,5 +162,4 @@ ra_prospect <- hBayesDM_model(
     return(data_list)
   }
 )
-
 
