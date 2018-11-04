@@ -113,7 +113,7 @@
 #'
 #' # Show the WAIC and LOOIC model fit estimates
 #' printFit(output)
-#'
+#' }
 
 dbdm_prob_weight <- hBayesDM_model(
   task_name             = "dbdm",
