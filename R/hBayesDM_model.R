@@ -9,8 +9,8 @@
 #' @keywords internal
 #'
 #' @include stanmodels.R
-#' @importFrom utils read.table head
-#' @importFrom stats na.omit complete.cases qnorm median
+#' @importFrom utils head
+#' @importFrom stats complete.cases qnorm median
 #' @importFrom data.table fread
 #' @importFrom parallel detectCores
 #' @importFrom rstan stan_model vb sampling extract
@@ -95,39 +95,40 @@ hBayesDM_model <- function(task_name,
       data <- file.choose()
     }
 
-    # Load the data
-    # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files with missing values.
-    if (file.exists(data)) {
-      raw_data <- fread(file = data, header = TRUE, sep = "\t", data.table = TRUE,
-                        fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
-    } else {
+    # Check if data file exists
+    if (!file.exists(data)) {
       stop("** Data file does not exist. Please check again. **\n",
            "  e.g. data = \"MySubFolder/myData.txt\"\n")
     }
 
+    # Load the data
+    raw_data <- data.table::fread(file = data, header = TRUE, sep = "\t", data.table = TRUE,
+                                  fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
+    # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files with missing values.
+
+    # Save initial colnames of raw_data for later
+    colnames_raw_data <- colnames(raw_data)
+
     # Check if necessary data columns all exist (while ignoring case and underscores)
-    data_columns       <- tolower(gsub("_", "", data_columns, fixed = TRUE))
+    insensitive_data_columns <- tolower(gsub("_", "", data_columns, fixed = TRUE))
     colnames(raw_data) <- tolower(gsub("_", "", colnames(raw_data), fixed = TRUE))
-    if (!all(data_columns %in% colnames(raw_data))) {
+    if (!all(insensitive_data_columns %in% colnames(raw_data))) {
       stop("** Data file is missing one or more necessary data columns. Please check again. **\n",
            "  Necessary data columns are: \"", paste0(data_columns, collapse = "\", \""), "\".\n")
     }
-    # NOTE: One difference in code caused by allowing case & underscore insensitive
-    # column names in user data is that `raw_data` column names must here on forth
-    # always be referenced by their lowercase non-underscored version, e.g. "subjid".
 
     # Remove only the rows containing NAs in necessary columns
-    complete_rows         <- complete.cases(raw_data[, data_columns])
-    incomplete_rows_count <- sum(!complete_rows)
-    if (incomplete_rows_count > 0) {
+    complete_rows       <- complete.cases(raw_data[, insensitive_data_columns])
+    sum_incomplete_rows <- sum(!complete_rows)
+    if (sum_incomplete_rows > 0) {
       raw_data <- raw_data[complete_rows, ]
       cat("\n")
       cat("The following lines of the data file have NAs in necessary columns:\n")
       cat(paste0(head(which(!complete_rows), 100) + 1, collapse = ", "))
-      if (incomplete_rows_count > 100) {
+      if (sum_incomplete_rows > 100) {
         cat(", ...")
       }
-      cat(" (total", incomplete_rows_count, "lines)\n")
+      cat(" (total", sum_incomplete_rows, "lines)\n")
       cat("These rows are removed prior to modeling the data.\n")
     }
 
@@ -308,6 +309,8 @@ hBayesDM_model <- function(task_name,
 
     # Extract from the Stan fit object
     parVals <- rstan::extract(fit, permuted = TRUE)
+
+    # Trial-level posterior predictive simulations
     if (inc_postpred) {
       for (pp in postpreds) {
         parVals[[pp]][parVals[[pp]] == -1] <- NA
@@ -327,16 +330,19 @@ hBayesDM_model <- function(task_name,
 
     # Model regressors (for model-based neuroimaging, etc.)
     if (modelRegressor) {
-      cat("\n")
-      cat("**************************************\n")
-      cat("**  Extract model-based regressors  **\n")
-      cat("**************************************\n")
-
       model_regressor <- list()
       for (r in names(regressors)) {
         model_regressor[[r]] <- apply(parVals[[r]], c(1:regressors[[r]]) + 1, measure_indPars)
       }
+      cat("\n")
+      cat("**************************************\n")
+      cat("**  Extract model-based regressors  **\n")
+      cat("**************************************\n")
     }
+
+    # Give back initial colnames and revert to data.frame
+    colnames(raw_data) <- colnames_raw_data
+    raw_data <- as.data.frame(raw_data)
 
     # Wrap up data into a list
     modelData                   <- list()
@@ -344,11 +350,12 @@ hBayesDM_model <- function(task_name,
     modelData$allIndPars        <- allIndPars
     modelData$parVals           <- parVals
     modelData$fit               <- fit
-    modelData$rawdata           <- as.data.frame(raw_data)
+    modelData$rawdata           <- raw_data
     if (modelRegressor) {
       modelData$modelRegressor  <- model_regressor
     }
 
+    # Object class information
     class(modelData) <- "hBayesDM"
 
     # Inform user of completion
