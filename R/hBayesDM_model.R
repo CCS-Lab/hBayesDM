@@ -11,7 +11,7 @@
 #' @include stanmodels.R
 #' @importFrom utils read.table head
 #' @importFrom stats complete.cases qnorm median
-#' @importFrom data.table as.data.table
+#' @importFrom data.table fread na.omit as.data.frame
 #' @importFrom parallel detectCores
 #' @importFrom rstan stan_model vb sampling extract
 #'
@@ -96,8 +96,10 @@ hBayesDM_model <- function(task_name,
     }
 
     # Load the data
+    # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files with missing values.
     if (file.exists(data)) {
-      raw_data <- read.table(data, header = TRUE, sep = "\t")
+      raw_data <- fread(file = data, header = TRUE, sep = "\t", data.table = TRUE,
+                        fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
     } else {
       stop("** Data file does not exist. Please check again. **\n",
            "  e.g. data = \"MySubFolder/myData.txt\"\n")
@@ -143,7 +145,7 @@ hBayesDM_model <- function(task_name,
     t_max    <- NULL   # Maximum number of trials across all blocks & subjects (0D)
 
     if (model_type != "multipleB") {
-      DT_trials <- as.data.table(raw_data)[, .N, by = "subjid"]
+      DT_trials <- raw_data[, .N, by = "subjid"]
       subjs     <- DT_trials$subjid
       n_subj    <- length(subjs)
       t_subjs   <- DT_trials$N
@@ -152,7 +154,7 @@ hBayesDM_model <- function(task_name,
         stop("** More than 1 unique subjects exist in data file, while using 'single' type model. **\n")
       }
     } else {
-      DT_trials <- as.data.table(raw_data)[, .N, by = c("subjid", "block")]
+      DT_trials <- raw_data[, .N, by = c("subjid", "block")]
       DT_blocks <- DT_trials[, .N, by = "subjid"]
       subjs     <- DT_blocks$subjid
       n_subj    <- length(subjs)
@@ -342,7 +344,7 @@ hBayesDM_model <- function(task_name,
     modelData$allIndPars        <- allIndPars
     modelData$parVals           <- parVals
     modelData$fit               <- fit
-    modelData$rawdata           <- raw_data
+    modelData$rawdata           <- as.data.frame(raw_data)
     if (modelRegressor) {
       modelData$modelRegressor  <- model_regressor
     }
