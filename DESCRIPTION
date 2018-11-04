@@ -49,6 +49,7 @@ RoxygenNote: 6.1.0
 Collate: 
     'HDIofMCMC.R'
     'bandit2arm_delta.R'
+    'stanmodels.R'
     'hBayesDM_model.R'
     'bandit4arm2_kalman_filter.R'
     'bandit4arm_4par.R'
@@ -99,7 +100,6 @@ Collate:
     'rdt_happiness.R'
     'rhat.R'
     'settings.R'
-    'stanmodels.R'
     'ts_par4.R'
     'ts_par6.R'
     'ts_par7.R'
