@@ -118,7 +118,7 @@ hBayesDM_model <- function(task_name,
     }
 
     # Remove only the rows containing NAs in necessary columns
-    complete_rows       <- complete.cases(raw_data[, insensitive_data_columns])
+    complete_rows       <- complete.cases(raw_data[, ..insensitive_data_columns])
     sum_incomplete_rows <- sum(!complete_rows)
     if (sum_incomplete_rows > 0) {
       raw_data <- raw_data[complete_rows, ]
@@ -340,7 +340,7 @@ hBayesDM_model <- function(task_name,
       cat("**************************************\n")
     }
 
-    # Give back initial colnames and revert to data.frame
+    # Give back initial colnames and revert data.table to data.frame
     colnames(raw_data) <- colnames_raw_data
     raw_data <- as.data.frame(raw_data)
 
@@ -355,7 +355,7 @@ hBayesDM_model <- function(task_name,
       modelData$modelRegressor  <- model_regressor
     }
 
-    # Object class information
+    # Object class definition
     class(modelData) <- "hBayesDM"
 
     # Inform user of completion
