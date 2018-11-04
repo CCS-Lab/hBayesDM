@@ -145,7 +145,7 @@ hBayesDM_model <- function(task_name,
     t_subjs  <- NULL   # Number of trials (per block) per subject (2D or 1D)
     t_max    <- NULL   # Maximum number of trials across all blocks & subjects (0D)
 
-    if (model_type != "multipleB") {
+    if ((model_type == "") || (model_type == "single")) {
       DT_trials <- raw_data[, .N, by = "subjid"]
       subjs     <- DT_trials$subjid
       n_subj    <- length(subjs)
@@ -154,7 +154,7 @@ hBayesDM_model <- function(task_name,
       if ((model_type == "single") && (n_subj != 1)) {
         stop("** More than 1 unique subjects exist in data file, while using 'single' type model. **\n")
       }
-    } else {
+    } else {  # (model_type == "multipleB")
       DT_trials <- raw_data[, .N, by = c("subjid", "block")]
       DT_blocks <- DT_trials[, .N, by = "subjid"]
       subjs     <- DT_blocks$subjid
@@ -199,7 +199,7 @@ hBayesDM_model <- function(task_name,
       init <- "random"
     } else {
       if (inits[1] == "fixed") {
-        inits <- unlist(lapply(parameters, "[", 2))   # plausible values of each parameter
+        inits <- unlist(lapply(parameters, "[", 2))  # plausible values of each parameter
       }
       if (length(inits) != length(parameters)) {
         stop("** Length of 'inits' must be ", length(parameters),
@@ -208,19 +208,19 @@ hBayesDM_model <- function(task_name,
       init <- function() {
         primes <- vector()
         for (i in 1:length(parameters)) {
-          lb <- parameters[[i]][1]                    # lower bound
-          ub <- parameters[[i]][3]                    # upper bound
+          lb <- parameters[[i]][1]                   # lower bound
+          ub <- parameters[[i]][3]                   # upper bound
           if (is.finite(lb) && (lb != 0)) {
             warning("Message to Dev: This is the first occurrence of a finite non-zero",
                     " lower bound for a parameter. Please make sure to re-adjust the",
                     " Stan file(s) accordingly, then move on to delete this warning.\n")
           }
           if (is.infinite(lb)) {
-            primes[i] <- inits[i]                             # (-Inf, Inf)
+            primes[i] <- inits[i]                              # (-Inf, Inf)
           } else if (is.infinite(ub)) {
-            primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
+            primes[i] <- log(inits[i] - lb)                    # (  lb, Inf)
           } else {
-            primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
+            primes[i] <- qnorm((inits[i] - lb) / (ub - lb))    # (  lb,  ub)
           }
         }
         group_level             <- list(mu_pr = primes,
@@ -288,7 +288,7 @@ hBayesDM_model <- function(task_name,
     }
 
     # Fit the Stan model
-    if (vb) {   # if variational Bayesian
+    if (vb) {  # if variational Bayesian
       fit <- rstan::vb(object = stanmodel_arg,
                        data   = data_list,
                        pars   = pars,
@@ -367,5 +367,4 @@ hBayesDM_model <- function(task_name,
     return(modelData)
   }
 }
-
 
