@@ -45,9 +45,9 @@
 #'
 #' \strong{postpreds} defaults to \code{"y_pred"}, but any other character vector holding appropriate names is possible (c.f. Two-Step Task models). If posterior predictions are not yet available for this model, this argument should just be \code{NULL}.
 #'
-#' \strong{stanmodel_arg} can be used by developers, during the developmental stage of creating a new model function. If this argument is passed a character value, the Stan file with the corresponding name will be used for model fitting. If this argument is passed a \code{stanmodel} object, that \code{stanmodel} object will be used for model fitting. When the model is complete, this argument should just be left as \code{NULL}.
+#' \strong{stanmodel_arg} can be used by developers, during the developmental stage of creating a new model function. If this argument is passed a character value, the Stan file with the corresponding name will be used for model fitting. If this argument is passed a \code{stanmodel} object, that \code{stanmodel} object will be used for model fitting. When creation of the model function is complete, this argument should just be left as \code{NULL}.
 #'
-#' \strong{preprocess_func} is the part of the code that is specific to the model, and is thus written in the model R file.
+#' \strong{preprocess_func} is the part of the code that is specific to the model, and is thus written in the model R file.\cr
 #' Two objects are provided as the arguments for this function:
 #' \describe{
 #'  \item{\code{raw_data}}{Holds the raw user data that was read into a data.table through \code{\link[data.table]{fread}}.}
@@ -57,8 +57,8 @@
 #' \describe{
 #'  \item{\code{data_list}}{Holds the fully preprocessed user data, with appropriately named keys as required by the model Stan file.}
 #' }
-#' NOTE: Syntax for data.table slightly differs from that of data.frame. To use \code{raw_data} as a data.frame, simply run \code{raw_data <- as.data.frame(raw_data)}.
-#' NOTE: Because of allowing case & underscore insensitive column names in user data, \code{raw_data} columns must now be referenced by their lowercase non-underscored versions, e.g. \code{"subjid"}, within the code of the preprocess function.
+#' NOTE: Syntax for data.table slightly differs from that of data.frame. If you want to use \code{raw_data} as a data.frame, simply run \code{raw_data <- as.data.frame(raw_data)}.\cr
+#' NOTE: Because of allowing case & underscore insensitive column names in user data, \code{raw_data} columns must now be referenced by their lowercase non-underscored versions, e.g. \code{"subjid"}, within the code of the preprocess function.\cr
 #'
 #' @return A specific hBayesDM model function.
 

@@ -25,7 +25,10 @@ hBayesDM_model(task_name, model_name, model_type = "", data_columns,
 
 \item{stanmodel_arg}{Leave as \code{NULL} (default) for completed models. Else should either be a character value (specifying the name of a Stan file) OR a \code{stanmodel} object (returned as a result of running \code{\link[rstan]{stan_model}}).}
 
-\item{preprocess_func}{Function to preprocess the raw data before it gets passed to Stan.}
+\item{preprocess_func}{Function to preprocess the raw data before it gets passed to Stan. Takes two arguments: a data.table object \code{raw_data} and a list object \code{general_info}. Should return a list object \code{data_list}, which will then directly be passed to Stan.}
+}
+\value{
+A specific hBayesDM model function.
 }
 \description{
 The base function from which all hBayesDM model functions are created.
@@ -51,5 +54,20 @@ Contributor: \href{https://ccs-lab.github.io/team/jethro-lee/}{Jethro Lee}
 \strong{regressors} is a list object, whose keys are the model-based regressors of this model. Each regressor key must be assigned a numeric value indicating the number of dimensions its data will be extracted as. If model-based regressors are not available for this model, this argument should just be \code{NULL}.
 
 \strong{postpreds} defaults to \code{"y_pred"}, but any other character vector holding appropriate names is possible (c.f. Two-Step Task models). If posterior predictions are not yet available for this model, this argument should just be \code{NULL}.
+
+\strong{stanmodel_arg} can be used by developers, during the developmental stage of creating a new model function. If this argument is passed a character value, the Stan file with the corresponding name will be used for model fitting. If this argument is passed a \code{stanmodel} object, that \code{stanmodel} object will be used for model fitting. When creation of the model function is complete, this argument should just be left as \code{NULL}.
+
+\strong{preprocess_func} is the part of the code that is specific to the model, and is thus written in the model R file.\cr
+Two objects are provided as the arguments for this function:
+\describe{
+ \item{\code{raw_data}}{Holds the raw user data that was read into a data.table through \code{\link[data.table]{fread}}.}
+ \item{\code{general_info}}{Holds the general informations about the raw data, i.e. \code{subjs}, \code{n_subj}, \code{t_subjs}, \code{t_max}, \code{b_subjs}, \code{b_max}.}
+}
+A list object should be returned as the result of this function:
+\describe{
+ \item{\code{data_list}}{Holds the fully preprocessed user data, with appropriately named keys as required by the model Stan file.}
+}
+NOTE: Syntax for data.table slightly differs from that of data.frame. If you want to use \code{raw_data} as a data.frame, simply run \code{raw_data <- as.data.frame(raw_data)}.\cr
+NOTE: Because of allowing case & underscore insensitive column names in user data, \code{raw_data} columns must now be referenced by their lowercase non-underscored versions, e.g. \code{"subjid"}, within the code of the preprocess function.\cr
 }
 \keyword{internal}
