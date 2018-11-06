@@ -17,48 +17,82 @@
 #'
 #' @param task_name Character value for name of task. E.g. \code{"gng"}.
 #' @param model_name Character value for name of model. E.g. \code{"m1"}.
-#' @param model_type Character value for modeling type: \code{""} OR \code{"single"} OR \code{"multipleB"}.
-#' @param data_columns Character vector of necessary column names for the data. E.g. \code{c("subjID", "cue", "keyPressed", "outcome")}.
-#' @param parameters List of parameters, with information about their lower bound, plausible value, upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2), Inf))}.
-#' @param regressors List of regressors, with information about their extracted dimensions. E.g. \code{list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)}. OR if model-based regressors are not available for this model, \code{NULL}.
-#' @param postpreds Character vector of name(s) for the trial-level posterior predictive simulations. Default is \code{"y_pred"}. OR if posterior predictions are not yet available for this model, \code{NULL}.
-#' @param stanmodel_arg Leave as \code{NULL} (default) for completed models. Else should either be a character value (specifying the name of a Stan file) OR a \code{stanmodel} object (returned as a result of running \code{\link[rstan]{stan_model}}).
-#' @param preprocess_func Function to preprocess the raw data before it gets passed to Stan. Takes two arguments: a data.table object \code{raw_data} and a list object \code{general_info}. Should return a list object \code{data_list}, which will then directly be passed to Stan.
+#' @param model_type Character value for modeling type: \code{""} OR \code{"single"} OR
+#'   \code{"multipleB"}.
+#' @param data_columns Character vector of necessary column names for the data. E.g.
+#'   \code{c("subjID", "cue", "keyPressed", "outcome")}.
+#' @param parameters List of parameters, with information about their lower bound, plausible value,
+#'   upper bound. E.g. \code{list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2),
+#'   Inf))}.
+#' @param regressors List of regressors, with information about their extracted dimensions. E.g.
+#'   \code{list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)}. OR if model-based regressors are
+#'   not available for this model, \code{NULL}.
+#' @param postpreds Character vector of name(s) for the trial-level posterior predictive
+#'   simulations. Default is \code{"y_pred"}. OR if posterior predictions are not yet available for
+#'   this model, \code{NULL}.
+#' @param stanmodel_arg Leave as \code{NULL} (default) for completed models. Else should either be a
+#'   character value (specifying the name of a Stan file) OR a \code{stanmodel} object (returned as
+#'   a result of running \code{\link[rstan]{stan_model}}).
+#' @param preprocess_func Function to preprocess the raw data before it gets passed to Stan. Takes
+#'   two arguments: a data.table object \code{raw_data} and a list object \code{general_info}.
+#'   Should return a list object \code{data_list}, which will then directly be passed to Stan.
 #'
 #' @details
 #' \strong{task_name}: Typically same task models share the same data column requirements.
 #'
-#' \strong{model_name}: Typically different models are distinguished by their different list of parameters.
+#' \strong{model_name}: Typically different models are distinguished by their different list of
+#'   parameters.
 #'
 #' \strong{model_type} is one of the following three:
-#'   \describe{
-#'     \item{\code{""}}{Modeling of multiple subjects. (Default hierarchical Bayesian analysis.)}
-#'     \item{\code{"single"}}{Modeling of a single subject.}
-#'     \item{\code{"multipleB"}}{Modeling of multiple subjects, where multiple blocks exist within each subject.}
-#'   }
+#' \describe{
+#'   \item{\code{""}}{Modeling of multiple subjects. (Default hierarchical Bayesian analysis.)}
+#'   \item{\code{"single"}}{Modeling of a single subject.}
+#'   \item{\code{"multipleB"}}{Modeling of multiple subjects, where multiple blocks exist within
+#'     each subject.}
+#' }
 #'
-#' \strong{data_columns} must be the entirety of necessary data columns used at some point in the R or Stan code. I.e. \code{"subjID"} must always be included. In the case of 'multipleB' type models, \code{"block"} should also be included as well.
+#' \strong{data_columns} must be the entirety of necessary data columns used at some point in the R
+#'   or Stan code. I.e. \code{"subjID"} must always be included. In the case of 'multipleB' type
+#'   models, \code{"block"} should also be included as well.
 #'
-#' \strong{parameters} is a list object, whose keys are the parameters of this model. Each parameter key must be assigned a numeric vector holding 3 elements: the parameter's lower bound, plausible value, and upper bound.
+#' \strong{parameters} is a list object, whose keys are the parameters of this model. Each parameter
+#'   key must be assigned a numeric vector holding 3 elements: the parameter's lower bound,
+#'   plausible value, and upper bound.
 #'
-#' \strong{regressors} is a list object, whose keys are the model-based regressors of this model. Each regressor key must be assigned a numeric value indicating the number of dimensions its data will be extracted as. If model-based regressors are not available for this model, this argument should just be \code{NULL}.
+#' \strong{regressors} is a list object, whose keys are the model-based regressors of this model.
+#'   Each regressor key must be assigned a numeric value indicating the number of dimensions its
+#'   data will be extracted as. If model-based regressors are not available for this model, this
+#'   argument should just be \code{NULL}.
 #'
-#' \strong{postpreds} defaults to \code{"y_pred"}, but any other character vector holding appropriate names is possible (c.f. Two-Step Task models). If posterior predictions are not yet available for this model, this argument should just be \code{NULL}.
+#' \strong{postpreds} defaults to \code{"y_pred"}, but any other character vector holding
+#'   appropriate names is possible (c.f. Two-Step Task models). If posterior predictions are not yet
+#'   available for this model, this argument should just be \code{NULL}.
 #'
-#' \strong{stanmodel_arg} can be used by developers, during the developmental stage of creating a new model function. If this argument is passed a character value, the Stan file with the corresponding name will be used for model fitting. If this argument is passed a \code{stanmodel} object, that \code{stanmodel} object will be used for model fitting. When creation of the model function is complete, this argument should just be left as \code{NULL}.
+#' \strong{stanmodel_arg} can be used by developers, during the developmental stage of creating a
+#'   new model function. If this argument is passed a character value, the Stan file with the
+#'   corresponding name will be used for model fitting. If this argument is passed a
+#'   \code{stanmodel} object, that \code{stanmodel} object will be used for model fitting. When
+#'   creation of the model function is complete, this argument should just be left as \code{NULL}.
 #'
-#' \strong{preprocess_func} is the part of the code that is specific to the model, and is thus written in the model R file.\cr
-#'   Two objects are provided as the arguments for this function:
-#'   \describe{
-#'     \item{\code{raw_data}}{Holds the raw user data that was read into a data.table through \code{\link[data.table]{fread}}.}
-#'     \item{\code{general_info}}{Holds the general informations about the raw data, i.e. \code{subjs}, \code{n_subj}, \code{t_subjs}, \code{t_max}, \code{b_subjs}, \code{b_max}.}
-#'   }
-#'   A list object should be returned as the result of this function:
-#'   \describe{
-#'     \item{\code{data_list}}{Holds the fully preprocessed user data, with appropriately named keys as required by the model Stan file.}
-#'   }
-#'   NOTE: Syntax for data.table slightly differs from that of data.frame. If you want to use \code{raw_data} as a data.frame, simply run \code{raw_data <- as.data.frame(raw_data)}.\cr
-#'   NOTE: Because of allowing case & underscore insensitive column names in user data, \code{raw_data} columns must now be referenced by their lowercase non-underscored versions, e.g. \code{"subjid"}, within the code of the preprocess function.\cr
+#' \strong{preprocess_func} is the part of the code that is specific to the model, and is thus
+#'   written in the model R file.\cr
+#' Two objects are provided as the arguments for this function:
+#' \describe{
+#'   \item{\code{raw_data}}{Holds the raw user data that was read into a data.table through
+#'     \code{\link[data.table]{fread}}.}
+#'   \item{\code{general_info}}{Holds the general informations about the raw data, i.e.
+#'     \code{subjs}, \code{n_subj}, \code{t_subjs}, \code{t_max}, \code{b_subjs}, \code{b_max}.}
+#' }
+#' A list object should be returned as the result of this function:
+#' \describe{
+#'   \item{\code{data_list}}{Holds the fully preprocessed user data, with appropriately named keys
+#'     as required by the model Stan file.}
+#' }
+#' NOTE: Syntax for data.table slightly differs from that of data.frame. If you want to use
+#'   \code{raw_data} as a data.frame, simply run \code{raw_data <- as.data.frame(raw_data)}.\cr
+#' NOTE: Because of allowing case & underscore insensitive column names in user data,
+#'   \code{raw_data} columns must now be referenced by their lowercase non-underscored versions,
+#'   e.g. \code{"subjid"}, within the code of the preprocess function.\cr
 #'
 #' @return A specific hBayesDM model function.
 
@@ -121,7 +155,8 @@ hBayesDM_model <- function(task_name,
     # Load the data
     raw_data <- data.table::fread(file = data, header = TRUE, sep = "\t", data.table = TRUE,
                                   fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
-    # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files with missing values.
+    # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files
+    # that have missing values.
 
     # Save initial colnames of raw_data for later
     colnames_raw_data <- colnames(raw_data)
@@ -169,7 +204,8 @@ hBayesDM_model <- function(task_name,
       t_subjs   <- DT_trials$N
       t_max     <- max(t_subjs)
       if ((model_type == "single") && (n_subj != 1)) {
-        stop("** More than 1 unique subjects exist in data file, while using 'single' type model. **\n")
+        stop("** More than 1 unique subjects exist in data file,",
+             " while using 'single' type model. **\n")
       }
     } else {  # (model_type == "multipleB")
       DT_trials <- raw_data[, .N, by = c("subjid", "block")]
