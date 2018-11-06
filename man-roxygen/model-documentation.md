@@ -3,6 +3,7 @@
 Template Variable | Required? | Format
 -|-|-
 `MODEL_FUNCTION` | Y |
+`CONTRIBUTOR` | *optional* | \href{ &nbsp; }{ &nbsp; }, ...
 `TASK_NAME` | Y |
 `TASK_CITE` | *optional* | ( &nbsp; )
 `MODEL_NAME` | Y |
