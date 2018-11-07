@@ -46,4 +46,10 @@ Template Variable | Required? | Format
 #' @references
 #' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva, J. (2014). Decision-making in stimulant and opiate addicts in protracted abstinence: evidence from computational modeling with pure users. Frontiers in Psychology, 5, 1376. http://doi.org/10.3389/fpsyg.2014.00849
 ```
-#### And done!
+#### Just like that, documentation is complete!
+
+## How to work with the template (`model-documentation.R`)
+- R expressions between `<%` and `%>` are **executed** in-place.
+- The value of the R expression between `<%=` and `%>` is **printed**.
+- All text outside of that is printed *as-is*.
+#### See more: roxygen2 uses [brew](https://www.rdocumentation.org/packages/brew/versions/1.0-6/topics/brew) to preprocess the template.
