@@ -23,21 +23,21 @@ parameters {
   vector<lower=0>[3] sigma;
 
   // subject-level raw parameters (for Matt trick)
-  vector[N] rs_pr; // sensitivity to rewarding feedback (reward learning rate)
-  vector[N] ps_pr; // sensitivity to punishing feedback (punishment learning rate)
-  vector[N] dc_pr; // decision consistency (inverse temperature)
+  vector[N] r_pr; // sensitivity to rewarding feedback (reward learning rate)
+  vector[N] p_pr; // sensitivity to punishing feedback (punishment learning rate)
+  vector[N] d_pr; // decision consistency (inverse temperature)
 }
 
 transformed parameters {
   // transform subject-level raw parameters
-  vector<lower=0,upper=1>[N] rs;
-  vector<lower=0,upper=1>[N] ps;
-  vector<lower=0>[N] dc;
+  vector<lower=0,upper=1>[N] r;
+  vector<lower=0,upper=1>[N] p;
+  vector<lower=0>[N] d;
 
   for (i in 1:N) {
-    rs[i] = Phi_approx( mu_pr[1] + sigma[1] * rs_pr[i] );
-    ps[i] = Phi_approx( mu_pr[2] + sigma[2] * ps_pr[i] );
-    dc[i] = Phi_approx( mu_pr[3] + sigma[3] * dc_pr[i] ) * 5;
+    r[i] = Phi_approx( mu_pr[1] + sigma[1] * r_pr[i] );
+    p[i] = Phi_approx( mu_pr[2] + sigma[2] * p_pr[i] );
+    d[i] = Phi_approx( mu_pr[3] + sigma[3] * d_pr[i] ) * 5;
   }
 }
 
@@ -47,9 +47,9 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  rs_pr ~ normal(0, 1);
-  ps_pr ~ normal(0, 1);
-  dc_pr ~ normal(0, 1);
+  r_pr ~ normal(0, 1);
+  p_pr ~ normal(0, 1);
+  d_pr ~ normal(0, 1);
 
   for (i in 1:N) {
     // define values
@@ -71,19 +71,19 @@ model {
       if (outcome[i,t] == 1) {
         att_signal = subj_att .* choice_match_att[i,t];
         att_signal = att_signal/sum(att_signal);
-        tmpatt = (1.0 - rs[i])*subj_att + rs[i]*att_signal;
+        tmpatt = (1.0 - r[i])*subj_att + r[i]*att_signal;
       } else {
         att_signal = subj_att .* (unit - choice_match_att[i,t]);
         att_signal = att_signal/sum(att_signal);
-        tmpatt = (1.0 - ps[i])*subj_att + ps[i]*att_signal;
+        tmpatt = (1.0 - p[i])*subj_att + p[i]*att_signal;
       }
 
       // scaling to avoid log(0)
       subj_att = (tmpatt/sum(tmpatt))*.9998+.0001;
 
-      tmpatt[1, 1] = pow(subj_att[1, 1],dc[i]);
-      tmpatt[1, 2] = pow(subj_att[1, 2],dc[i]);
-      tmpatt[1, 3] = pow(subj_att[1, 3],dc[i]);
+      tmpatt[1, 1] = pow(subj_att[1, 1],d[i]);
+      tmpatt[1, 2] = pow(subj_att[1, 2],d[i]);
+      tmpatt[1, 3] = pow(subj_att[1, 3],d[i]);
 
       // repeat until the final trial
       if (t < Tsubj[i]) {
@@ -96,9 +96,9 @@ model {
 }
 generated quantities {
   // for group level parameters
-  real<lower=0, upper=1> mu_rs;
-  real<lower=0, upper=5> mu_ps;
-  real<lower=0, upper=5> mu_dc;
+  real<lower=0, upper=1> mu_r;
+  real<lower=0, upper=5> mu_p;
+  real<lower=0, upper=5> mu_d;
 
   // for log-likelihood calculation
   real log_lik[N];
@@ -115,9 +115,9 @@ generated quantities {
     }
   }
 
-  mu_rs = Phi_approx(mu_pr[1]);
-  mu_ps = Phi_approx(mu_pr[2]);
-  mu_dc = Phi_approx(mu_pr[3]) * 5;
+  mu_r = Phi_approx(mu_pr[1]);
+  mu_p = Phi_approx(mu_pr[2]);
+  mu_d = Phi_approx(mu_pr[3]) * 5;
 
   { // local section, this saves time and space
     for (i in 1:N) {
@@ -142,18 +142,18 @@ generated quantities {
         if(outcome[i,t] == 1) {
           att_signal = subj_att .* choice_match_att[i,t];
           att_signal = att_signal/sum(att_signal);
-          tmpatt = (1.0 - rs[i])*subj_att + rs[i]*att_signal;
+          tmpatt = (1.0 - r[i])*subj_att + r[i]*att_signal;
         } else {
           att_signal = subj_att .* (unit - choice_match_att[i,t]);
           att_signal = att_signal/sum(att_signal);
-          tmpatt = (1.0 - ps[i])*subj_att + ps[i]*att_signal;
+          tmpatt = (1.0 - p[i])*subj_att + p[i]*att_signal;
         }
 
         subj_att = (tmpatt/sum(tmpatt))*.9998+.0001;
 
-        tmpatt[1, 1] = pow(subj_att[1, 1],dc[i]);
-        tmpatt[1, 2] = pow(subj_att[1, 2],dc[i]);
-        tmpatt[1, 3] = pow(subj_att[1, 3],dc[i]);
+        tmpatt[1, 1] = pow(subj_att[1, 1],d[i]);
+        tmpatt[1, 2] = pow(subj_att[1, 2],d[i]);
+        tmpatt[1, 3] = pow(subj_att[1, 3],d[i]);
 
         if(t < Tsubj[i]) {
           tmpp = to_vector(tmpatt*deck_match_rule[t+1,,])*.9998+.0001;

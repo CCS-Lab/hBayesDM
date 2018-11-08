@@ -85,7 +85,7 @@ For the Risk Aversion Task, there should be 5 columns of data with the
   \item{"gain"}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
   \item{"loss"}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
   \item{"cert"}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
-  \item{"gamble"}{If gamble was taken, gamble == 1, else gamble == 0.}
+  \item{"gamble"}{If gamble was taken, gamble == 1; else gamble == 0.}
   
   
   
@@ -107,7 +107,7 @@ For the Risk Aversion Task, there should be 5 columns of data with the
   sequences) should be used to draw samples from the posterior distribution. Since the posteriors
   are generated from a sampling process, it is good practice to run multiple chains to ensure
   that a reasonably representative posterior is attained. When the sampling is complete, it is
-  possible to check the multiple chains for convergence by running the following piece of code:
+  possible to check the multiple chains for convergence by running the following line of code:
   \code{plot(output, type = "trace")}. The trace-plot should resemble a "furry caterpillar".
 
 \strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC sampler,

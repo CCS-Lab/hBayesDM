@@ -54,7 +54,7 @@ wcs_sql(data = "choice", niter = 3000, nwarmup = 1000, nchain = 1,
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Wisconsin Card Sorting (WCS) Task using the following parameters: "rs" (reward sensitivity), "ps" (punishment sensitivity), and "dc" (decision consistency or inverse temperature).
+Hierarchical Bayesian Modeling of the Wisconsin Card Sorting (WCS) Task using the following parameters: "r" (reward sensitivity), "p" (punishment sensitivity), and "d" (decision consistency or inverse temperature).
 
 Contributor: \href{https://ccs-lab.github.io/team/dayeong-min/}{Dayeong Min}
 

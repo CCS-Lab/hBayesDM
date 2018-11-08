@@ -1,4 +1,3 @@
-// _reg: generates model-based regressors
 data {
   int<lower=1> N;
   int<lower=1> T;
@@ -100,8 +99,8 @@ generated quantities {
 
   { // local section, this saves time and space
     for (i in 1:N) {
-      vector[4] wv_g;  // action wegith for go
-      vector[4] wv_ng; // action wegith for nogo
+      vector[4] wv_g;  // action weight for go
+      vector[4] wv_ng; // action weight for nogo
       vector[4] qv_g;  // Q value for go
       vector[4] qv_ng; // Q value for nogo
       vector[4] pGo;   // prob of go (press)

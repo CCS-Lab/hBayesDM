@@ -80,7 +80,7 @@
 #'   sequences) should be used to draw samples from the posterior distribution. Since the posteriors
 #'   are generated from a sampling process, it is good practice to run multiple chains to ensure
 #'   that a reasonably representative posterior is attained. When the sampling is complete, it is
-#'   possible to check the multiple chains for convergence by running the following piece of code:
+#'   possible to check the multiple chains for convergence by running the following line of code:
 #'   \code{plot(output, type = "trace")}. The trace-plot should resemble a "furry caterpillar".
 #'
 #' \strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC sampler,

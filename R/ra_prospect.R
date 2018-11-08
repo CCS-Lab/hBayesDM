@@ -10,7 +10,7 @@
 #' @templateVar DETAILS_DATA_2 \item{"gain"}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
 #' @templateVar DETAILS_DATA_3 \item{"loss"}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
 #' @templateVar DETAILS_DATA_4 \item{"cert"}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
-#' @templateVar DETAILS_DATA_5 \item{"gamble"}{If gamble was taken, gamble == 1, else gamble == 0.}
+#' @templateVar DETAILS_DATA_5 \item{"gamble"}{If gamble was taken, gamble == 1; else gamble == 0.}
 #'
 #' @template model-documentation
 #'
@@ -36,6 +36,8 @@ ra_prospect <- hBayesDM_model(
                          "lambda" = c(0, 1, 5),
                          "tau"    = c(0, 1, 5)),
   preprocess_func = function(raw_data, general_info) {
+
+    # Currently class(raw_data) == "data.table"
 
     # Use general_info of raw_data
     subjs   <- general_info$subjs
