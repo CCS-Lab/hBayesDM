@@ -24,8 +24,8 @@ transformed parameters {
   for (i in 1:N) {
     rho[i]    = Phi_approx(mu_pr[1] + sigma[1] * rho_pr[i]) * 2;
     lambda[i] = Phi_approx(mu_pr[2] + sigma[2] * lambda_pr[i]) * 5;
+    tau[i]    = Phi_approx(mu_pr[3] + sigma[3] * tau_pr[i]) * 5;
   }
-  tau = exp(mu_pr[3] + sigma[3] * tau_pr);
 }
 model {
   // ra_prospect: Original model in Soko-Hessner et al 2009 PNAS
@@ -71,7 +71,7 @@ generated quantities {
 
   mu_rho    = Phi_approx(mu_pr[1]) * 2;
   mu_lambda = Phi_approx(mu_pr[2]) * 5;
-  mu_tau    = exp(mu_pr[3]);
+  mu_tau    = Phi_approx(mu_pr[3]) * 5;
 
   { // local section, this saves time and space
     for (i in 1:N) {
