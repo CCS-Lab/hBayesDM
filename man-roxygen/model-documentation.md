@@ -13,6 +13,7 @@ Template Variable | Required? | Format
 `PARAMETERS` | Y | " &nbsp; " ( &nbsp; ), ...
 `REGRESSORS` | *optional* | " &nbsp; ", ...
 `IS_NULL_POSTPREDS` | *optional* | `TRUE`
+`ADDITIONAL_ARG` | *optional* | *\<see example below\>*
 `LENGTH_DATA_COLUMNS` | Y | #
 `DETAILS_DATA_1` | Y | `\item{"subjID"}{A unique identifier for each subject in the data-set.}`
 `DETAILS_DATA_2` | *optional* | \item{" &nbsp; "}{ &nbsp; }
@@ -33,6 +34,7 @@ Template Variable | Required? | Format
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
 #' @templateVar PARAMETERS "A" (decay rate), "alpha" (outcome sensitivity), "cons" (response consistency), "lambda" (loss aversion)
+#' @templateVar ADDITIONAL_ARG payscale Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100.
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"choice"}{A nominal integer indicating which deck was chosen on that trial (where A==1, B==2, C==3, and D==4).}
@@ -46,7 +48,6 @@ Template Variable | Required? | Format
 #' @references
 #' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva, J. (2014). Decision-making in stimulant and opiate addicts in protracted abstinence: evidence from computational modeling with pure users. Frontiers in Psychology, 5, 1376. http://doi.org/10.3389/fpsyg.2014.00849
 ```
-#### Just like that, documentation is complete!
 
 ## How to work with the template (`model-documentation.R`)
 - R expressions between `<%` and `%>` are **executed** in-place.
