@@ -311,23 +311,35 @@ hBayesDM_model <- function(task_name,
 
     # Print for user
     cat("\n")
-    cat("Model name  =  ", model, "\n", sep = "")
-    cat("Data file   =  ", data, "\n", sep = "")
+    cat("Model name  =", model, "\n")
+    cat("Data file   =", data, "\n")
     cat("\n")
     cat("Details:\n")
     if (vb) {
       cat(" Using variational inference\n")
     } else {
-      cat(" # of chains                    =  ", nchain, "\n", sep = "")
-      cat(" # of cores used                =  ", ncore, "\n", sep = "")
-      cat(" # of MCMC samples (per chain)  =  ", niter, "\n", sep = "")
-      cat(" # of burn-in samples           =  ", nwarmup, "\n", sep = "")
+      cat(" # of chains                    =", nchain, "\n")
+      cat(" # of cores used                =", ncore, "\n")
+      cat(" # of MCMC samples (per chain)  =", niter, "\n")
+      cat(" # of burn-in samples           =", nwarmup, "\n")
     }
-    cat(" # of subjects                  =  ", n_subj, "\n", sep = "")
+    cat(" # of subjects                  =", n_subj, "\n")
     if (model_type == "multipleB") {
-      cat(" # of (max) blocks per subject  =  ", b_max, "\n", sep = "")
+      cat(" # of (max) blocks per subject  =", b_max, "\n")
     }
-    cat(" # of (max) trials per subject  =  ", t_max, "\n", sep = "")
+    cat(" # of (max) trials per subject  =", t_max, "\n")
+    if ((task_name == "choiceRT") && (model_name == "ddm")) {
+      RTbound <- list(...)$RTbound
+      cat(" `RTbound` is set to            =", ifelse(is.null(RTbound), 0.1, RTbound), "\n")
+    }
+    if (task_name == "igt") {
+      payscale <- list(...)$payscale
+      cat(" `payscale` is set to           =", ifelse(is.null(payscale), 100, payscale), "\n")
+    }
+    if (task_name == "ts") {
+      trans_prob <- list(...)$trans_prob
+      cat(" `trans_prob` is set to         =", ifelse(is.null(trans_prob), 0.7, trans_prob), "\n")
+    }
 
     ############### Fit & extract ###############
 

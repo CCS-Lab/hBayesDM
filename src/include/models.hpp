@@ -23016,8 +23016,8 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<double> > outcome;
     vector<vector<int> > choice;
+    vector<vector<double> > outcome;
     vector_d initV;
 public:
     model_igt_pvl_decay(stan::io::var_context& context__,
@@ -23075,21 +23075,6 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("outcome");
-            pos__ = 0;
-            size_t outcome_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
-                size_t outcome_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
-                    outcome[i_0__][i_1__] = vals_r__[pos__++];
-                }
-            }
             validate_non_negative_index("choice", "N", N);
             validate_non_negative_index("choice", "T", T);
             context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
@@ -23103,6 +23088,21 @@ public:
                 size_t choice_limit_0__ = N;
                 for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
                     choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
+            pos__ = 0;
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
 
@@ -39035,10 +39035,10 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<int> > gamble;
-    vector<vector<double> > cert;
     vector<vector<double> > gain;
     vector<vector<double> > loss;
+    vector<vector<double> > cert;
+    vector<vector<int> > gamble;
 public:
     model_ra_prospect(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
@@ -39095,36 +39095,6 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("gamble", "N", N);
-            validate_non_negative_index("gamble", "T", T);
-            context__.validate_dims("data initialization", "gamble", "int", context__.to_vec(N,T));
-            validate_non_negative_index("gamble", "N", N);
-            validate_non_negative_index("gamble", "T", T);
-            gamble = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
-            vals_i__ = context__.vals_i("gamble");
-            pos__ = 0;
-            size_t gamble_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < gamble_limit_1__; ++i_1__) {
-                size_t gamble_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < gamble_limit_0__; ++i_0__) {
-                    gamble[i_0__][i_1__] = vals_i__[pos__++];
-                }
-            }
-            validate_non_negative_index("cert", "N", N);
-            validate_non_negative_index("cert", "T", T);
-            context__.validate_dims("data initialization", "cert", "double", context__.to_vec(N,T));
-            validate_non_negative_index("cert", "N", N);
-            validate_non_negative_index("cert", "T", T);
-            cert = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("cert");
-            pos__ = 0;
-            size_t cert_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < cert_limit_1__; ++i_1__) {
-                size_t cert_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < cert_limit_0__; ++i_0__) {
-                    cert[i_0__][i_1__] = vals_r__[pos__++];
-                }
-            }
             validate_non_negative_index("gain", "N", N);
             validate_non_negative_index("gain", "T", T);
             context__.validate_dims("data initialization", "gain", "double", context__.to_vec(N,T));
@@ -39155,6 +39125,36 @@ public:
                     loss[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
+            validate_non_negative_index("cert", "N", N);
+            validate_non_negative_index("cert", "T", T);
+            context__.validate_dims("data initialization", "cert", "double", context__.to_vec(N,T));
+            validate_non_negative_index("cert", "N", N);
+            validate_non_negative_index("cert", "T", T);
+            cert = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("cert");
+            pos__ = 0;
+            size_t cert_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < cert_limit_1__; ++i_1__) {
+                size_t cert_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < cert_limit_0__; ++i_0__) {
+                    cert[i_0__][i_1__] = vals_r__[pos__++];
+                }
+            }
+            validate_non_negative_index("gamble", "N", N);
+            validate_non_negative_index("gamble", "T", T);
+            context__.validate_dims("data initialization", "gamble", "int", context__.to_vec(N,T));
+            validate_non_negative_index("gamble", "N", N);
+            validate_non_negative_index("gamble", "T", T);
+            gamble = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("gamble");
+            pos__ = 0;
+            size_t gamble_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < gamble_limit_1__; ++i_1__) {
+                size_t gamble_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < gamble_limit_0__; ++i_0__) {
+                    gamble[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
 
             // validate, data variables
             check_greater_or_equal(function__,"N",N,1);
@@ -39165,18 +39165,18 @@ public:
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"gamble[k0__][k1__]",gamble[k0__][k1__],-(1));
-                    check_less_or_equal(function__,"gamble[k0__][k1__]",gamble[k0__][k1__],1);
-                }
-            }
-            for (int k0__ = 0; k0__ < N; ++k0__) {
-                for (int k1__ = 0; k1__ < T; ++k1__) {
                     check_greater_or_equal(function__,"gain[k0__][k1__]",gain[k0__][k1__],0);
                 }
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
                     check_greater_or_equal(function__,"loss[k0__][k1__]",loss[k0__][k1__],0);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"gamble[k0__][k1__]",gamble[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"gamble[k0__][k1__]",gamble[k0__][k1__],1);
                 }
             }
             // initialize data variables
@@ -39392,8 +39392,11 @@ public:
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                             (Phi_approx((get_base1(mu_pr,2,"mu_pr",1) + (get_base1(sigma,2,"sigma",1) * get_base1(lambda_pr,i,"lambda_pr",1)))) * 5), 
                             "assigning variable lambda");
+                stan::model::assign(tau, 
+                            stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
+                            (Phi_approx((get_base1(mu_pr,3,"mu_pr",1) + (get_base1(sigma,3,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * 5), 
+                            "assigning variable tau");
             }
-            stan::math::assign(tau, stan::math::exp(add(get_base1(mu_pr,3,"mu_pr",1),multiply(get_base1(sigma,3,"sigma",1),tau_pr))));
 
             // validate transformed parameters
             for (int i0__ = 0; i0__ < N; ++i0__) {
@@ -39425,6 +39428,7 @@ public:
             check_greater_or_equal(function__,"lambda",lambda,0);
             check_less_or_equal(function__,"lambda",lambda,5);
             check_greater_or_equal(function__,"tau",tau,0);
+            check_less_or_equal(function__,"tau",tau,5);
 
             // model body
 
@@ -39620,8 +39624,11 @@ public:
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                             (Phi_approx((get_base1(mu_pr,2,"mu_pr",1) + (get_base1(sigma,2,"sigma",1) * get_base1(lambda_pr,i,"lambda_pr",1)))) * 5), 
                             "assigning variable lambda");
+                stan::model::assign(tau, 
+                            stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
+                            (Phi_approx((get_base1(mu_pr,3,"mu_pr",1) + (get_base1(sigma,3,"sigma",1) * get_base1(tau_pr,i,"tau_pr",1)))) * 5), 
+                            "assigning variable tau");
             }
-            stan::math::assign(tau, stan::math::exp(add(get_base1(mu_pr,3,"mu_pr",1),multiply(get_base1(sigma,3,"sigma",1),tau_pr))));
 
             // validate transformed parameters
             check_greater_or_equal(function__,"rho",rho,0);
@@ -39629,6 +39636,7 @@ public:
             check_greater_or_equal(function__,"lambda",lambda,0);
             check_less_or_equal(function__,"lambda",lambda,5);
             check_greater_or_equal(function__,"tau",tau,0);
+            check_less_or_equal(function__,"tau",tau,5);
 
             // write transformed parameters
             if (include_tparams__) {
@@ -39682,7 +39690,7 @@ public:
             }
             stan::math::assign(mu_rho, (Phi_approx(get_base1(mu_pr,1,"mu_pr",1)) * 2));
             stan::math::assign(mu_lambda, (Phi_approx(get_base1(mu_pr,2,"mu_pr",1)) * 5));
-            stan::math::assign(mu_tau, stan::math::exp(get_base1(mu_pr,3,"mu_pr",1)));
+            stan::math::assign(mu_tau, (Phi_approx(get_base1(mu_pr,3,"mu_pr",1)) * 5));
 
             for (int i = 1; i <= N; ++i) {
 
@@ -39730,6 +39738,7 @@ public:
             check_greater_or_equal(function__,"mu_lambda",mu_lambda,0);
             check_less_or_equal(function__,"mu_lambda",mu_lambda,5);
             check_greater_or_equal(function__,"mu_tau",mu_tau,0);
+            check_less_or_equal(function__,"mu_tau",mu_tau,5);
 
             // write generated quantities
         vars__.push_back(mu_rho);
