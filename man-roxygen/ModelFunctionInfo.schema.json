@@ -1,0 +1,44 @@
+{
+  "title": "Model Function Info",
+  "type": "object",
+  "required": ["model_function", "data_columns_R", "data_columns_Stan", "parameters", "parameters_bounds"],
+  "properties": {
+    "model_function": {
+      "type": "string"
+    },
+    "data_columns_R": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data_columns_Stan": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "parameters_bounds": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "minLength": 3,
+          "maxLength": 3
+        }
+      }
+    },
+    "regressors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
