@@ -34,7 +34,8 @@
 #'   character value (specifying the name of a Stan file) OR a \code{stanmodel} object (returned as
 #'   a result of running \code{\link[rstan]{stan_model}}).
 #' @param preprocess_func Function to preprocess the raw data before it gets passed to Stan. Takes
-#'   two arguments: a data.table object \code{raw_data} and a list object \code{general_info}.
+#'   (at least) two arguments: a data.table object \code{raw_data} and a list object
+#'   \code{general_info}. Possible to include additional argument(s) to use during preprocessing.
 #'   Should return a list object \code{data_list}, which will then directly be passed to Stan.
 #'
 #' @details
@@ -75,21 +76,26 @@
 #'   creation of the model function is complete, this argument should just be left as \code{NULL}.
 #'
 #' \strong{preprocess_func} is the part of the code that is specific to the model, and is thus
-#'   written in the model R file.\cr
-#' Two objects are provided as the arguments for this function:
+#'   written in the specific model R file.\cr
+#' Arguments for this function are:
 #' \describe{
-#'   \item{\code{raw_data}}{Holds the raw user data that was read into a data.table through
+#'   \item{\code{raw_data}}{A data.table that holds the raw user data, which was read by using
 #'     \code{\link[data.table]{fread}}.}
-#'   \item{\code{general_info}}{Holds the general informations about the raw data, i.e.
+#'   \item{\code{general_info}}{A list that holds the general informations about the raw data, i.e.
 #'     \code{subjs}, \code{n_subj}, \code{t_subjs}, \code{t_max}, \code{b_subjs}, \code{b_max}.}
+#'   \item{\code{...}}{Optional additional argument(s) that specific model functions may want to
+#'     include. Examples of such additional arguments currently being used in hBayesDM models are:
+#'     \code{RTbound} (choiceRT_ddm models), \code{payscale} (igt models), and \code{trans_prob} (ts
+#'     models).}
 #' }
-#' A list object should be returned as the result of this function:
+#' Return value for this function should be:
 #' \describe{
-#'   \item{\code{data_list}}{Holds the fully preprocessed user data, with appropriately named keys
-#'     as required by the model Stan file.}
+#'   \item{\code{data_list}}{A list with appropriately named keys (as required by the model Stan
+#'     file), holding the fully preprocessed user data.}
 #' }
 #' NOTE: Syntax for data.table slightly differs from that of data.frame. If you want to use
-#'   \code{raw_data} as a data.frame, simply run \code{raw_data <- as.data.frame(raw_data)}.\cr
+#'   \code{raw_data} as a data.frame when writing the \code{preprocess_func}, simply begin with the
+#'   line: \code{raw_data <- as.data.frame(raw_data)}.\cr
 #' NOTE: Because of allowing case & underscore insensitive column names in user data,
 #'   \code{raw_data} columns must now be referenced by their lowercase non-underscored versions,
 #'   e.g. \code{"subjid"}, within the code of the preprocess function.\cr
@@ -120,7 +126,8 @@ hBayesDM_model <- function(task_name,
            inc_postpred   = FALSE,
            adapt_delta    = 0.95,
            stepsize       = 1,
-           max_treedepth  = 10) {
+           max_treedepth  = 10,
+           ...) {
 
     ############### Stop checks ###############
 
@@ -233,7 +240,7 @@ hBayesDM_model <- function(task_name,
     #########################################################
 
     # Preprocess the raw data to pass to Stan
-    data_list <- preprocess_func(raw_data, general_info)
+    data_list <- preprocess_func(raw_data, general_info, ...)
 
     # The parameters of interest for Stan
     pars <- c(paste0("mu_", names(parameters)),
