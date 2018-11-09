@@ -2,10 +2,10 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
-  int<lower=-1, upper=1> gamble[N, T];
-  real cert[N, T];
   real<lower=0> gain[N, T];
   real<lower=0> loss[N, T];  // absolute loss amount
+  real cert[N, T];
+  int<lower=-1, upper=1> gamble[N, T];
 }
 transformed data {
 }
@@ -19,7 +19,7 @@ parameters {
 transformed parameters {
   vector<lower=0, upper=2>[N] rho;
   vector<lower=0, upper=5>[N] lambda;
-  vector<lower=0>[N] tau;
+  vector<lower=0, upper=5>[N] tau;
 
   for (i in 1:N) {
     rho[i]    = Phi_approx(mu_pr[1] + sigma[1] * rho_pr[i]) * 2;
@@ -55,7 +55,7 @@ model {
 generated quantities {
   real<lower=0, upper=2> mu_rho;
   real<lower=0, upper=5> mu_lambda;
-  real<lower=0>         mu_tau;
+  real<lower=0, upper=5> mu_tau;
 
   real log_lik[N];
 
