@@ -8,7 +8,7 @@ ra_prospect(data = "choose", niter = 4000, nwarmup = 1000,
   nchain = 4, ncore = 1, nthin = 1, inits = "random",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10)
+  max_treedepth = 10, ...)
 }
 \arguments{
 \item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
@@ -56,12 +56,14 @@ A class "hBayesDM" object \code{modelData} with the following components:
   \item{\code{model}}{Character value that is the name of the model ("ra_prospect").}
   \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object where each element contains posterior samples over different
-    model parameters.}
+  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
   \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
   \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
+  
+  
+  
 }
 }
 \description{
@@ -125,6 +127,7 @@ For the Risk Aversion Task, there should be 5 columns of data with the
   description of these arguments.
 }
 \examples{
+\dontrun{
 # Run the model and store results in "output"
 output <- ra_prospect("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
@@ -139,10 +142,12 @@ plot(output)
 
 # Show the WAIC and LOOIC model fit estimates
 printFit(output)
-
+}
+\dontrun{
 # Paths to data published in Sokol-Hessner et al. (2009)
 path_to_attend_data <- system.file("extdata", "ra_data_attend.txt", package = "hBayesDM")
 path_to_regulate_data <- system.file("extdata", "ra_data_reappraisal.txt", package = "hBayesDM")
+}
 }
 \references{
 Sokol-Hessner, P., Hsu, M., Curley, N. G., Delgado, M. R., Camerer, C. F., Phelps, E. A., &

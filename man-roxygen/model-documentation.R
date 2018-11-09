@@ -9,8 +9,6 @@
 #' @description
 #' \strong{MODEL:} <%= MODEL_NAME %> <%= get0("MODEL_CITE") %>
 #'
-#' @include hBayesDM_model.R
-#'
 #' @param data A .txt file containing the data to be modeled. Data columns should be labeled as:
 #'   <%= DATA_COLUMNS %>. See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up. Defaults to 4000.
@@ -102,12 +100,14 @@
 #'   \item{\code{model}}{Character value that is the name of the model ("<%= MODEL_FUNCTION %>").}
 #'   \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
 #'     \code{indPars}) for each subject.}
-#'   \item{\code{parVals}}{List object where each element contains posterior samples over different
-#'     model parameters.}
+#'   \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
 #'   \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
 #'     model.}
 #'   \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
 #'     the user.}
+#'   <% RETURN_REGRESSORS <- "\\item{\\code{modelRegressor}}{List object containing the " %>
+#'   <% RETURN_REGRESSORS <- paste0(RETURN_REGRESSORS, "extracted model-based regressors.}") %>
+#'   <%= ifelse(exists("REGRESSORS"), RETURN_REGRESSORS, "") %>
 #' }
 #'
 #' @seealso
@@ -115,6 +115,7 @@
 #'   \url{https://rpubs.com/CCSL/hBayesDM}
 #'
 #' @examples
+#' \dontrun{
 #' # Run the model and store results in "output"
 #' output <- <%= MODEL_FUNCTION %>("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 #'
@@ -129,3 +130,4 @@
 #'
 #' # Show the WAIC and LOOIC model fit estimates
 #' printFit(output)
+#' }
