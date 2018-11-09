@@ -1,0 +1,7 @@
+{
+  "model_function": "igt_pvl_decay",
+  "data_columns_R": ["subjID", "choice", "gain", "loss"],
+  "data_columns_Stan": ["N", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["A", "alpha", "cons", "lambda"],
+  "parameters_bounds": [[0, 0.5, 1], [0, 0.5, 2], [0, 1, 5], [0, 1, 10]]
+}
