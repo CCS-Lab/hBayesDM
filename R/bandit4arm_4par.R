@@ -357,3 +357,4 @@ bandit4arm_4par <- function(data           = "choose",
 
   return(modelData)
 }
+

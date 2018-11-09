@@ -370,3 +370,4 @@ prl_fictitious_rp_woa <- function(data           = "choice",
 
   return(modelData)
 }
+

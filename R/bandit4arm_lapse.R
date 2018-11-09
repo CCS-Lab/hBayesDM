@@ -362,3 +362,4 @@ bandit4arm_lapse <- function(data           = "choose",
 
   return(modelData)
 }
+

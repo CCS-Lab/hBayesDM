@@ -312,3 +312,4 @@ dd_hyperbolic_single <- function(data           = "choose",
 
   return(modelData)
 }
+

@@ -244,135 +244,136 @@ wcs_sql <- function(data           = "choice",
   }
 
 
-    dataList <- list(
-      N       = numSubjs,
-      T       = maxTrials,
-      Tsubj   = Tsubj,
-      choice  = choice,
-      outcome = outcome,
-      choice_match_att = choice_match_att,
-      numPars = numPars
-    )
+  dataList <- list(
+    N       = numSubjs,
+    T       = maxTrials,
+    Tsubj   = Tsubj,
+    choice  = choice,
+    outcome = outcome,
+    choice_match_att = choice_match_att,
+    numPars = numPars
+  )
 
-    # inits
-    if (inits[1] == "random") {
-      genInitList <- "random"
+  # inits
+  if (inits[1] == "random") {
+    genInitList <- "random"
+  } else {
+    if (inits[1] == "fixed") {
+      inits_fixed <- c(0.1, 0.1, 1.0)
     } else {
-      if (inits[1] == "fixed") {
-        inits_fixed <- c(0.1, 0.1, 1.0)
-      } else {
-        if (length(inits) == numPars)
-          inits_fixed <- inits
-        else
-          stop("Check your inital values!")
-      }
-
-      genInitList <- function() {
-        list(
-          mu_p    = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 10)),
-          sigma   = c(1.0, 1.0, 1.0),
-          r_pr = rep(qnorm(inits_fixed[1]), numSubjs),
-          p_pr = rep(qnorm(inits_fixed[2]), numSubjs),
-          d_pr = rep(qnorm(inits_fixed[3] / 10), numSubjs)
-        )
-      }
+      if (length(inits) == numPars)
+        inits_fixed <- inits
+      else
+        stop("Check your inital values!")
     }
 
-    if (ncore > 1) {
-      numCores <- parallel::detectCores()
-
-      if (numCores < ncore) {
-        options(mc.cores = numCores)
-        warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
-      } else {
-        options(mc.cores = ncore)
-      }
-    } else {
-      options(mc.cores = 1)
+    genInitList <- function() {
+      list(
+        mu_p    = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]), qnorm(inits_fixed[3] / 10)),
+        sigma   = c(1.0, 1.0, 1.0),
+        r_pr = rep(qnorm(inits_fixed[1]), numSubjs),
+        p_pr = rep(qnorm(inits_fixed[2]), numSubjs),
+        d_pr = rep(qnorm(inits_fixed[3] / 10), numSubjs)
+      )
     }
-
-    cat("***********************************\n")
-    cat("**  Loading a precompiled model  **\n")
-    cat("***********************************\n")
-
-    # Fit the Stan model
-    m = stanmodels$wcs_sql
-    if (vb) {   # if variational Bayesian
-      fit <- rstan::vb(m,
-                       data   = dataList,
-                       pars   = POI,
-                       init   = genInitList)
-    } else {
-      fit <- rstan::sampling(m,
-                             data    = dataList,
-                             pars    = POI,
-                             warmup  = nwarmup,
-                             init    = genInitList,
-                             iter    = niter,
-                             chains  = nchain,
-                             thin    = nthin,
-                             control = list(adapt_delta   = adapt_delta,
-                                            max_treedepth = max_treedepth,
-                                            stepsize      = stepsize))
-    }
-
-    ## Extract parameters
-    parVals <- rstan::extract(fit, permuted = T)
-    if (inc_postpred)
-      parVals$y_pred[parVals$y_pred == -1] <- NA
-
-    r <- parVals$r
-    p <- parVals$p
-    d <- parVals$d
-
-    # Individual parameters (e.g., individual posterior means)
-    measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
-    allIndPars <- array(NA, c(numSubjs, numPars))
-    allIndPars <- as.data.frame(allIndPars)
-
-    for (i in 1:numSubjs) {
-      allIndPars[i,] <- c(measureIndPars(r[, i]),
-                          measureIndPars(p[, i]),
-                          measureIndPars(d[, i]))
-    }
-
-    allIndPars           <- cbind(allIndPars, subjList)
-    colnames(allIndPars) <- c("r",
-                              "p",
-                              "d",
-                              "subjID")
-
-    # Wrap up data into a list
-    modelData                 <- list()
-    modelData$model           <- modelName
-    modelData$allIndPars      <- allIndPars
-    modelData$parVals         <- parVals
-    modelData$fit             <- fit
-    modelData$rawdata         <- rawdata
-    modelData$modelRegressor  <- NA
-
-    class(modelData) <- "hBayesDM"
-
-    # Total time of computations
-    endTime  <- Sys.time()
-    timeTook <- endTime - startTime
-
-    # If saveDir is specified, save modelData as a file. If not, don't save
-    # Save each file with its model name and time stamp (date & time (hr & min))
-    if (!is.null(saveDir)) {
-      currTime  <- Sys.time()
-      currDate  <- Sys.Date()
-      currHr    <- substr(currTime, 12, 13)
-      currMin   <- substr(currTime, 15, 16)
-      timeStamp <- paste0(currDate, "_", currHr, "_", currMin)
-      dataFileName = sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(data))
-      save(modelData, file = file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData")))
-    }
-
-    # Inform user of completion
-    cat("\n************************************\n")
-    cat("**** Model fitting is complete! ****\n")
-    cat("************************************\n")
-
-    return(modelData)
   }
+
+  if (ncore > 1) {
+    numCores <- parallel::detectCores()
+
+    if (numCores < ncore) {
+      options(mc.cores = numCores)
+      warning('Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.')
+    } else {
+      options(mc.cores = ncore)
+    }
+  } else {
+    options(mc.cores = 1)
+  }
+
+  cat("***********************************\n")
+  cat("**  Loading a precompiled model  **\n")
+  cat("***********************************\n")
+
+  # Fit the Stan model
+  m = stanmodels$wcs_sql
+  if (vb) {   # if variational Bayesian
+    fit <- rstan::vb(m,
+                     data   = dataList,
+                     pars   = POI,
+                     init   = genInitList)
+  } else {
+    fit <- rstan::sampling(m,
+                           data    = dataList,
+                           pars    = POI,
+                           warmup  = nwarmup,
+                           init    = genInitList,
+                           iter    = niter,
+                           chains  = nchain,
+                           thin    = nthin,
+                           control = list(adapt_delta   = adapt_delta,
+                                          max_treedepth = max_treedepth,
+                                          stepsize      = stepsize))
+  }
+
+  ## Extract parameters
+  parVals <- rstan::extract(fit, permuted = T)
+  if (inc_postpred)
+    parVals$y_pred[parVals$y_pred == -1] <- NA
+
+  r <- parVals$r
+  p <- parVals$p
+  d <- parVals$d
+
+  # Individual parameters (e.g., individual posterior means)
+  measureIndPars <- switch(indPars, mean=mean, median=median, mode=estimate_mode)
+  allIndPars <- array(NA, c(numSubjs, numPars))
+  allIndPars <- as.data.frame(allIndPars)
+
+  for (i in 1:numSubjs) {
+    allIndPars[i,] <- c(measureIndPars(r[, i]),
+                        measureIndPars(p[, i]),
+                        measureIndPars(d[, i]))
+  }
+
+  allIndPars           <- cbind(allIndPars, subjList)
+  colnames(allIndPars) <- c("r",
+                            "p",
+                            "d",
+                            "subjID")
+
+  # Wrap up data into a list
+  modelData                 <- list()
+  modelData$model           <- modelName
+  modelData$allIndPars      <- allIndPars
+  modelData$parVals         <- parVals
+  modelData$fit             <- fit
+  modelData$rawdata         <- rawdata
+  modelData$modelRegressor  <- NA
+
+  class(modelData) <- "hBayesDM"
+
+  # Total time of computations
+  endTime  <- Sys.time()
+  timeTook <- endTime - startTime
+
+  # If saveDir is specified, save modelData as a file. If not, don't save
+  # Save each file with its model name and time stamp (date & time (hr & min))
+  if (!is.null(saveDir)) {
+    currTime  <- Sys.time()
+    currDate  <- Sys.Date()
+    currHr    <- substr(currTime, 12, 13)
+    currMin   <- substr(currTime, 15, 16)
+    timeStamp <- paste0(currDate, "_", currHr, "_", currMin)
+    dataFileName = sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(data))
+    save(modelData, file = file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData")))
+  }
+
+  # Inform user of completion
+  cat("\n************************************\n")
+  cat("**** Model fitting is complete! ****\n")
+  cat("************************************\n")
+
+  return(modelData)
+}
+

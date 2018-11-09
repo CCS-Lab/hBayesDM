@@ -349,3 +349,4 @@ ra_noRA <- function(data           = "choose",
 
   return(modelData)
 }
+

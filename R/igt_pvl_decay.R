@@ -83,9 +83,10 @@
 #' @export
 #'
 #' @references
-#' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva, J. (2014). Decision-making
-#' in stimulant and opiate addicts in protracted abstinence: evidence from computational modeling with pure users. Frontiers in
-#' Psychology, 5, 1376. http://doi.org/10.3389/fpsyg.2014.00849
+#' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva,
+#' J. (2014). Decision-making in stimulant and opiate addicts in protracted abstinence: evidence
+#' from computational modeling with pure users. Frontiers in Psychology, 5, 1376.
+#' http://doi.org/10.3389/fpsyg.2014.00849
 #'
 #' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
 #' Journal of Machine Learning Research, 15(1), 1593-1623.
@@ -359,3 +360,4 @@ igt_pvl_decay <- function(data           = "choose",
 
   on.exit(return(modelData))
 }
+

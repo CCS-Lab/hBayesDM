@@ -363,3 +363,4 @@ choiceRT_ddm <- function(data           = "choose",
 
   return(modelData)
 }
+

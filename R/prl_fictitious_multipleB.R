@@ -370,4 +370,3 @@ prl_fictitious_multipleB <- function(data           = "choice",
   return(modelData)
 }
 
-

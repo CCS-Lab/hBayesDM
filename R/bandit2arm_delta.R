@@ -343,3 +343,4 @@ bandit2arm_delta <- function(data           = "choose",
 
   return(modelData)
 }
+

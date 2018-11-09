@@ -374,3 +374,4 @@ cra_linear <- function(data           = "choose",
 
   return(modelData)
 }
+

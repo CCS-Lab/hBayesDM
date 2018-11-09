@@ -338,3 +338,4 @@ choiceRT_ddm_single <- function(data           = "choose",
 
   return(modelData)
 }
+

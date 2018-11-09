@@ -390,3 +390,4 @@ choiceRT_lba <- function(data           = "choose",
 
   return(modelData)
 }
+

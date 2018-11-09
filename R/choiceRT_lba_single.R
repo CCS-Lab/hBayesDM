@@ -365,3 +365,4 @@ choiceRT_lba_single <- function(data           = "choose",
 
   return(modelData)
 }
+

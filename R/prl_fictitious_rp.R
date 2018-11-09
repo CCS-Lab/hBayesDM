@@ -374,3 +374,4 @@ prl_fictitious_rp <- function(data           = "choice",
 
   return(modelData)
 }
+

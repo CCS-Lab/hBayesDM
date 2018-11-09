@@ -149,3 +149,4 @@ bandit4arm2_kalman_filter <- hBayesDM_model(
     return(data_list)
   }
 )
+

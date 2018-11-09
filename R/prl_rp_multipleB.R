@@ -381,3 +381,4 @@ prl_rp_multipleB <- function(data           = "choice",
 
   return(modelData)
 }
+
