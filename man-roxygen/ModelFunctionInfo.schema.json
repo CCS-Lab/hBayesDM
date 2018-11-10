@@ -1,18 +1,18 @@
 {
   "title": "Model Function Info",
   "type": "object",
-  "required": ["model_function", "data_columns_R", "data_columns_Stan", "parameters", "parameters_bounds"],
+  "required": ["model_function", "data_columns", "data_list", "parameters", "parameters_bounds"],
   "properties": {
     "model_function": {
       "type": "string"
     },
-    "data_columns_R": {
+    "data_columns": {
       "type": "array",
       "items": {
         "type": "string"
       }
     },
-    "data_columns_Stan": {
+    "data_list": {
       "type": "array",
       "items": {
         "type": "string"
