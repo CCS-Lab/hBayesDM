@@ -243,15 +243,22 @@ hBayesDM_model <- function(task_name,
     data_list <- preprocess_func(raw_data, general_info, ...)
 
     # The parameters of interest for Stan
-    pars <- c(paste0("mu_", names(parameters)),
-              "sigma",
+    pars <- character()
+    if (model_type != "single") {
+      pars <- c(pars,
+                paste0("mu_", names(parameters)),
+                "sigma")
+    }
+    pars <- c(pars,
               names(parameters),
               "log_lik")
     if (modelRegressor) {
-      pars <- c(pars, names(regressors))
+      pars <- c(pars,
+                names(regressors))
     }
     if (inc_postpred) {
-      pars <- c(pars, postpreds)
+      pars <- c(pars,
+                postpreds)
     }
 
     # Initial values for the parameters
@@ -260,34 +267,41 @@ hBayesDM_model <- function(task_name,
     } else {
       if (inits[1] == "fixed") {
         inits <- unlist(lapply(parameters, "[", 2))  # plausible values of each parameter
-      }
-      if (length(inits) != length(parameters)) {
+      } else if (length(inits) != length(parameters)) {
         stop("** Length of 'inits' must be ", length(parameters),
              " (= the number of parameters of this model). Please check again. **\n")
       }
-      init <- function() {
-        primes <- vector()
-        for (i in 1:length(parameters)) {
-          lb <- parameters[[i]][1]                   # lower bound
-          ub <- parameters[[i]][3]                   # upper bound
-          if (is.finite(lb) && (lb != 0)) {
-            warning("Message to Dev: This is the first occurrence of a finite non-zero",
-                    " lower bound for a parameter. Please make sure to re-adjust the",
-                    " Stan file(s) accordingly, then move on to delete this warning.\n")
-          }
-          if (is.infinite(lb)) {
-            primes[i] <- inits[i]                              # (-Inf, Inf)
-          } else if (is.infinite(ub)) {
-            primes[i] <- log(inits[i] - lb)                    # (  lb, Inf)
-          } else {
-            primes[i] <- qnorm((inits[i] - lb) / (ub - lb))    # (  lb,  ub)
-          }
+      if (model_type == "single") {
+        init <- function() {
+          individual_level        <- as.list(inits)
+          names(individual_level) <- names(parameters)
+          return(individual_level)
         }
-        group_level             <- list(mu_pr = primes,
-                                        sigma = rep(1.0, length(primes)))
-        individual_level        <- lapply(primes, function(x) rep(x, n_subj))
-        names(individual_level) <- paste0(names(parameters), "_pr")
-        return(c(group_level, individual_level))
+      } else {
+        init <- function() {
+          primes <- vector()
+          for (i in 1:length(parameters)) {
+            lb <- parameters[[i]][1]                   # lower bound
+            ub <- parameters[[i]][3]                   # upper bound
+            if (is.finite(lb) && (lb != 0)) {
+              warning("Message to Dev: This is the first occurrence of a finite non-zero",
+                      " lower bound for a parameter. Please make sure to re-adjust the",
+                      " Stan file(s) accordingly, then move on to delete this warning.\n")
+            }
+            if (is.infinite(lb)) {
+              primes[i] <- inits[i]                              # (-Inf, Inf)
+            } else if (is.infinite(ub)) {
+              primes[i] <- log(inits[i] - lb)                    # (  lb, Inf)
+            } else {
+              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))    # (  lb,  ub)
+            }
+          }
+          group_level             <- list(mu_pr = primes,
+                                          sigma = rep(1.0, length(primes)))
+          individual_level        <- lapply(primes, function(x) rep(x, n_subj))
+          names(individual_level) <- paste0(names(parameters), "_pr")
+          return(c(group_level, individual_level))
+        }
       }
     }
 
