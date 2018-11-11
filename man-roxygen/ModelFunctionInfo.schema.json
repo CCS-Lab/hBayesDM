@@ -28,10 +28,8 @@
       "type": "array",
       "items": {
         "type": "array",
-        "items": {
-          "minLength": 3,
-          "maxLength": 3
-        }
+        "minItems": 3,
+        "maxItems": 3
       }
     },
     "regressors": {
