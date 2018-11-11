@@ -245,20 +245,22 @@ hBayesDM_model <- function(task_name,
     # The parameters of interest for Stan
     pars <- character()
     if (model_type != "single") {
-      pars <- c(pars,
-                paste0("mu_", names(parameters)),
-                "sigma")
+      pars <- c(pars, paste0("mu_", names(parameters)), "sigma")
     }
-    pars <- c(pars,
-              names(parameters),
-              "log_lik")
+    if (TRUE) {
+      pars <- c(pars, names(parameters))
+    }
+    if ((task_name == "dd") && (model_type == "single")) {
+      pars <- c(pars, paste0("log", toupper(names(parameters)[1])))
+    }
+    if (TRUE) {
+      pars <- c(pars, "log_lik")
+    }
     if (modelRegressor) {
-      pars <- c(pars,
-                names(regressors))
+      pars <- c(pars, names(regressors))
     }
     if (inc_postpred) {
-      pars <- c(pars,
-                postpreds)
+      pars <- c(pars, postpreds)
     }
 
     # Initial values for the parameters
