@@ -3,5 +3,5 @@
   "data_columns": ["subjID", "choice", "RT"],
   "data_list": ["Nu", "Nl", "RTu", "RTl", "minRT", "RTbound"],
   "parameters": ["alpha", "beta", "delta", "tau"],
-  "init": [[0, 0.5, "Inf"], [0, 0.5, 1], [0, 0.5, "Inf"], ["RTbound", 0.15, "minRT"]]
+  "init": [["None", 0.5, "None"], ["None", 0.5, "None"], ["None", 0.5, "None"], ["None", 0.15, "None"]]
 }
