@@ -3,7 +3,7 @@
 #' @templateVar TASK_NAME 4-armed bandit task(2)
 #' @templateVar MODEL_NAME Kalman filter
 #' @templateVar MODEL_CITE (Daw et al., 2006, Nature)
-#' @templateVar MODE_TYPE Hierarchical
+#' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
 #' @templateVar PARAMETERS "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), and "sigmaD" (sd of diffusion noise)
 #' @templateVar LENGTH_DATA_COLUMNS 3
