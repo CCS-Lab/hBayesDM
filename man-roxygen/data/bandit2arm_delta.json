@@ -3,5 +3,5 @@
   "data_columns": ["subjID", "choice", "outcome"],
   "data_list": ["N", "T", "Tsubj", "choice", "outcome"],
   "parameters": ["A", "tau"],
-  "parameters_bounds": [[0, 0.5, 1], [0, 1, 5]]
+  "init": [[0, 0.5, 1], [0, 1, 5]]
 }

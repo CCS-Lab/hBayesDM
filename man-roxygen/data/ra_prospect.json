@@ -3,5 +3,5 @@
   "data_columns": ["subjID", "gain", "loss", "cert", "gamble"],
   "data_list": ["N", "T", "Tsubj", "gain", "loss", "cert", "gamble"],
   "parameters": ["rho", "lambda", "tau"],
-  "parameters_bounds": [[0, 1, 2], [0, 1, 5], [0, 1, 5]]
+  "init": [[0, 1, 2], [0, 1, 5], [0, 1, 5]]
 }

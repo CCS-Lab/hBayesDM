@@ -3,5 +3,5 @@
   "data_columns": ["subjID", "pumps", "explosion"],
   "data_list": ["N", "T", "Tsubj", "P", "pumps", "explosion"],
   "parameters": ["phi", "eta", "gam", "tau"],
-  "parameters_bounds": [[0, 0.5, 1], [0, 1, "Inf"], [0, 1, "Inf"], [0, 1, "Inf"]]
+  "init": [[0, 0.5, 1], [0, 1, "Inf"], [0, 1, "Inf"], [0, 1, "Inf"]]
 }
