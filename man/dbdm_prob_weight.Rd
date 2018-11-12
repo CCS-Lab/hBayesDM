@@ -2,7 +2,7 @@
 % Please edit documentation in R/dbdm_prob_weight.R
 \name{dbdm_prob_weight}
 \alias{dbdm_prob_weight}
-\title{Description based decison making task}
+\title{Description Based Decison Making Task}
 \usage{
 dbdm_prob_weight(data = "choose", niter = 4000, nwarmup = 1000,
   nchain = 4, ncore = 1, nthin = 1, inits = "random",
@@ -67,10 +67,10 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Description based decison making task with the following parameters:
-  "tau" (probability weight function), "rho" (subject utility fucntion), "lambda" (loss aversion parameter), and "beta" (inverse softmax temperature).
+Hierarchical Bayesian Modeling of the Description Based Decison Making Task with the following parameters:
+  "tau" (probability weight function), "rho" (subject utility function), "lambda" (loss aversion parameter), "beta" (inverse softmax temperature).
 
-\strong{MODEL:} Probability weight function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
+\strong{MODEL:} Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -79,18 +79,18 @@ This section describes some of the function arguments in greater detail.
   extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
   subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
   file, whose rows represent trial-by-trial observations and columns represent variables.\cr
-For the Description based decison making task, there should be 8 columns of data with the
+For the Description Based Decison Making Task, there should be 8 columns of data with the
   labels "subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject within data-set to be analyzed.}
+  \item{"subjID"}{A unique identifier for each subject in the data-set.}
   \item{"opt1hprob"}{Possiblity of getting higher value of outcome(opt1hval) when choosing option 1.}
   \item{"opt2hprob"}{Possiblity of getting higher value of outcome(opt2hval) when choosing option 2.}
-  \item{"opt1hval"}{Possible (with opt1hprob probability) outcome of option 1}
-  \item{"opt1lval"}{Possible (with (1-opt1hprob) probability) outcome of option 1}
-  \item{"opt2hval"}{Possible (with opt2hprob probability) outcome of option 2}
-  \item{"opt2lval"}{Possible (with (1-opt2hprob) probability) outcome of option 2}
-  \item{"choice"}{If option1 was taken, choice == 1, else choice == 2}
+  \item{"opt1hval"}{Possible (with opt1hprob probability) outcome of option 1.}
+  \item{"opt1lval"}{Possible (with (1 - opt1hprob) probability) outcome of option 1.}
+  \item{"opt2hval"}{Possible (with opt2hprob probability) outcome of option 2.}
+  \item{"opt2lval"}{Possible (with (1 - opt2hprob) probability) outcome of option 2.}
+  \item{"choice"}{If option 1 was chosen, choice == 1; else choice == 2.}
   
 }
 \strong{*}Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
@@ -145,14 +145,15 @@ printFit(output)
 }
 }
 \references{
-#' Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., ... & Lebiere, C. (2010). A choice prediction competition: Choices from experience and from description.
-Journal of Behavioral Decision Making, 23(1), 15-47.
+Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., ... & Lebiere, C. (2010). A
+  choice prediction competition: Choices from experience and from description. Journal of
+  Behavioral Decision Making, 23(1), 15-47.
 
-Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions from experience and the effect of rare events in risky choice.
-Psychological science, 15(8), 534-539.
+Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions from experience and the
+  effect of rare events in risky choice. Psychological science, 15(8), 534-539.
 
-Jessup, R. K., Bishara, A. J., & Busemeyer, J. R. (2008). Feedback produces divergence from prospect theory in descriptive choice.
-Psychological Science, 19(10), 1015-1022.
+Jessup, R. K., Bishara, A. J., & Busemeyer, J. R. (2008). Feedback produces divergence from
+  prospect theory in descriptive choice. Psychological Science, 19(10), 1015-1022.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

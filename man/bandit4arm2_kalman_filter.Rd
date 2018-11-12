@@ -2,7 +2,7 @@
 % Please edit documentation in R/bandit4arm2_kalman_filter.R
 \name{bandit4arm2_kalman_filter}
 \alias{bandit4arm2_kalman_filter}
-\title{4-armed bandit task(2)}
+\title{4-Armed Bandit Task (2)}
 \usage{
 bandit4arm2_kalman_filter(data = "choose", niter = 4000,
   nwarmup = 1000, nchain = 4, ncore = 1, nthin = 1,
@@ -67,12 +67,12 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the 4-armed bandit task(2) with the following parameters:
-  "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), and "sigmaD" (sd of diffusion noise).
+Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (2) with the following parameters:
+  "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), "sigmaD" (sd of diffusion noise).
 
 Contributor: \href{https://zohyos7.github.io}{Yoonseo Zoh}, \href{https://lei-zhang.net/}{Lei Zhang}
 
-\strong{MODEL:} Kalman filter (Daw et al., 2006, Nature)
+\strong{MODEL:} Kalman Filter (Daw et al., 2006, Nature)
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -81,13 +81,13 @@ This section describes some of the function arguments in greater detail.
   extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
   subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
   file, whose rows represent trial-by-trial observations and columns represent variables.\cr
-For the 4-armed bandit task(2), there should be 3 columns of data with the
+For the 4-Armed Bandit Task (2), there should be 3 columns of data with the
   labels "subjID", "choice", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject within data-set to be analyzed.}
-  \item{"choice"}{Should contain a integer value representing the chosen choice option within the given trial (e.g., 1, 2, 3 or 4 in 4-arm bandit task(2)).}
-  \item{"outcome"}{Should contain outcomes within each given trial (e.g., 1 = reward, -1 = loss).}
+  \item{"subjID"}{A unique identifier for each subject in the data-set.}
+  \item{"choice"}{Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.}
+  \item{"outcome"}{Integer value representing the outcome of the given trial (where reward == 1, and loss == -1).}
   
   
   
@@ -147,8 +147,8 @@ printFit(output)
 }
 }
 \references{
-Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates for exploratory decisions
-in humans. Nature, 441(7095), 876-879.
+Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates
+  for exploratory decisions in humans. Nature, 441(7095), 876-879.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:
