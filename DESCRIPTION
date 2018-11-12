@@ -48,9 +48,9 @@ Encoding: UTF-8
 RoxygenNote: 6.1.0
 Collate: 
     'HDIofMCMC.R'
-    'bandit2arm_delta.R'
     'stanmodels.R'
     'hBayesDM_model.R'
+    'bandit2arm_delta.R'
     'bandit4arm2_kalman_filter.R'
     'bandit4arm_4par.R'
     'bandit4arm_lapse.R'
