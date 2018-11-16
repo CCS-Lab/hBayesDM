@@ -13,7 +13,7 @@
 #' @templateVar DETAILS_DATA_5 \item{"opt1lval"}{Possible (with (1 - opt1hprob) probability) outcome of option 1.}
 #' @templateVar DETAILS_DATA_6 \item{"opt2hval"}{Possible (with opt2hprob probability) outcome of option 2.}
 #' @templateVar DETAILS_DATA_7 \item{"opt2lval"}{Possible (with (1 - opt2hprob) probability) outcome of option 2.}
-#' @templateVar DETAILS_DATA_8 \item{"choice"}{If option 1 was chosen, choice == 1; else choice == 2.}
+#' @templateVar DETAILS_DATA_8 \item{"choice"}{If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.}
 #'
 #' @template model-documentation
 #'
