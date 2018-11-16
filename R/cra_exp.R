@@ -56,8 +56,8 @@ cra_exp <- hBayesDM_model(
       choice[i, 1:t]     <- DT_subj$choice
       prob[i, 1:t]       <- DT_subj$prob
       ambig[i, 1:t]      <- DT_subj$ambig
-      reward_var[i, 1:t] <- DT_subj$reward_var
-      reward_fix[i, 1:t] <- DT_subj$reward_fix
+      reward_var[i, 1:t] <- DT_subj$rewardvar
+      reward_fix[i, 1:t] <- DT_subj$rewardfix
     }
 
     # Wrap into a list for Stan
