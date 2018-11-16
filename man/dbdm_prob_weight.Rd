@@ -90,7 +90,7 @@ For the Description Based Decison Making Task, there should be 8 columns of data
   \item{"opt1lval"}{Possible (with (1 - opt1hprob) probability) outcome of option 1.}
   \item{"opt2hval"}{Possible (with opt2hprob probability) outcome of option 2.}
   \item{"opt2lval"}{Possible (with (1 - opt2hprob) probability) outcome of option 2.}
-  \item{"choice"}{If option 1 was chosen, choice == 1; else choice == 2.}
+  \item{"choice"}{If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.}
   
 }
 \strong{*}Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
