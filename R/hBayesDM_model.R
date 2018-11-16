@@ -251,7 +251,8 @@ hBayesDM_model <- function(task_name,
       pars <- c(pars, names(parameters))
     }
     if ((task_name == "dd") && (model_type == "single")) {
-      pars <- c(pars, paste0("log", toupper(names(parameters)[1])))
+      log_parameter1 <- paste0("log", toupper(names(parameters)[1]))
+      pars <- c(pars, log_parameter1)
     }
     if (TRUE) {
       pars <- c(pars, "log_lik")
@@ -408,13 +409,19 @@ hBayesDM_model <- function(task_name,
     # Define measurement of individual parameters
     measure_indPars <- switch(indPars, mean = mean, median = median, mode = estimate_mode)
 
+    # Define which individual parameters to measure
+    which_indPars <- names(parameters)
+    if ((task_name == "dd") && (model_type == "single")) {
+      which_indPars <- c(which_indPars, log_parameter1)
+    }
+
     # Measure all individual parameters (per subject)
-    allIndPars <- as.data.frame(array(NA, c(n_subj, length(parameters))))
+    allIndPars <- as.data.frame(array(NA, c(n_subj, length(which_indPars))))
     for (i in 1:n_subj) {
-      allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), names(parameters))
+      allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), which_indPars)
     }
     allIndPars <- cbind(subjs, allIndPars)
-    colnames(allIndPars) <- c("subjID", names(parameters))
+    colnames(allIndPars) <- c("subjID", which_indPars)
 
     # Model regressors (for model-based neuroimaging, etc.)
     if (modelRegressor) {
