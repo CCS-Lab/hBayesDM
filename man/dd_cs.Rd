@@ -67,7 +67,7 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 \description{
 Hierarchical Bayesian Modeling of the Delay Discounting Task with the following parameters:
-  "r" (exponential discounting rate; impatience), "s" (time-sensitivity), "beta" (inverse temperature).
+  "r" (exponential discounting rate), "s" (impatience), "beta" (inverse temperature).
 
 \strong{MODEL:} Constant-Sensitivity (CS) Model (Ebert & Prelec, 2007, Management Science)
 }

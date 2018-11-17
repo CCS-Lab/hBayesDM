@@ -4,7 +4,7 @@
 #' @templateVar MODEL_CITE (Ebert & Prelec, 2007, Management Science)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"
-#' @templateVar PARAMETERS "r" (exponential discounting rate; impatience), "s" (time-sensitivity), "beta" (inverse temperature)
+#' @templateVar PARAMETERS "r" (exponential discounting rate), "s" (impatience), "beta" (inverse temperature)
 #' @templateVar LENGTH_DATA_COLUMNS 6
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"delay_later"}{An integer representing the delayed days for the later option (e.g. 1, 6, 28).}
