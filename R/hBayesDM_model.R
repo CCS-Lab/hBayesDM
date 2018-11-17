@@ -312,6 +312,9 @@ hBayesDM_model <- function(task_name,
 
     # Full name of model
     model <- paste0(task_name, "_", model_name)
+    if (model_type != "") {
+      model <- paste0(model, "_", model_type)
+    }
 
     # Set number of cores for parallel computing
     if (ncore <= 1) {
@@ -344,7 +347,11 @@ hBayesDM_model <- function(task_name,
     if (model_type == "multipleB") {
       cat(" # of (max) blocks per subject  =", b_max, "\n")
     }
-    cat(" # of (max) trials per subject  =", t_max, "\n")
+    if (model_type == "single") {
+      cat(" # of trials for this subject   =", t_max, "\n")
+    } else {
+      cat(" # of (max) trials per subject  =", t_max, "\n")
+    }
     if ((task_name == "choiceRT") && (model_name == "ddm")) {
       RTbound <- list(...)$RTbound
       cat(" `RTbound` is set to            =", ifelse(is.null(RTbound), 0.1, RTbound), "\n")
@@ -417,8 +424,12 @@ hBayesDM_model <- function(task_name,
 
     # Measure all individual parameters (per subject)
     allIndPars <- as.data.frame(array(NA, c(n_subj, length(which_indPars))))
-    for (i in 1:n_subj) {
-      allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), which_indPars)
+    if (model_type == "single") {
+      allIndPars[n_subj, ] <- mapply(function(x) measure_indPars(parVals[[x]]), which_indPars)
+    } else {
+      for (i in 1:n_subj) {
+        allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), which_indPars)
+      }
     }
     allIndPars <- cbind(subjs, allIndPars)
     colnames(allIndPars) <- c("subjID", which_indPars)
