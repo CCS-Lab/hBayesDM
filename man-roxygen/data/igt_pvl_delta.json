@@ -1,0 +1,7 @@
+{
+  "model_function": "igt_pvl_delta",
+  "data_columns": ["subjID", "choice", "gain", "loss"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["A", "alpha", "cons", "lambda"],
+  "gen_init": [[0, 0.5, 1], [0, 0.5, 2], [0, 1, 5], [0, 1, 10]]
+}
