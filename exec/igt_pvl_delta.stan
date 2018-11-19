@@ -2,8 +2,8 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
-  real outcome[N, T];
   int choice[N, T];
+  real outcome[N, T];
 }
 transformed data {
   vector[4] initV;
