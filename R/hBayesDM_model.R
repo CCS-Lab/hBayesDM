@@ -359,21 +359,20 @@ hBayesDM_model <- function(task_name,
       cat(" `trans_prob` is set to         =", ifelse(is.null(trans_prob), 0.7, trans_prob), "\n")
     }
 
+    # When extracting model-based regressors
+    if (modelRegressor) {
+      cat("\n")
+      cat("**************************************\n")
+      cat("**  Extract model-based regressors  **\n")
+      cat("**************************************\n")
+    }
+
     ############### Fit & extract ###############
 
     # Designate the Stan model
     if (is.null(stanmodel_arg)) {
-      if (FLAG_GITHUB_VERSION) {
-        stanmodel_arg <- stanmodels[[model]]
-        cat("\n")
-        cat("************************************\n")
-        cat("**  Loading a pre-compiled model  **\n")
-        cat("************************************\n")
-      } else {
-        stanmodel_arg <- system.file("exec", paste0(model, ".stan"), package = "hBayesDM")
-      }
-    }
-    if (is.character(stanmodel_arg)) {
+      stanmodel_arg <- stanmodels[[model]]
+    } else if (is.character(stanmodel_arg)) {
       stanmodel_arg <- rstan::stan_model(stanmodel_arg)
     }
 
@@ -434,10 +433,6 @@ hBayesDM_model <- function(task_name,
       for (r in names(regressors)) {
         model_regressor[[r]] <- apply(parVals[[r]], c(1:regressors[[r]]) + 1, measure_indPars)
       }
-      cat("\n")
-      cat("**************************************\n")
-      cat("**  Extract model-based regressors  **\n")
-      cat("**************************************\n")
     }
 
     # Give back initial colnames and revert data.table to data.frame
