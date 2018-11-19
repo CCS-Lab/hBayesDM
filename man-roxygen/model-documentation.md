@@ -35,22 +35,26 @@ Template Variable | Required? | Format
 #' @templateVar PARAMETERS "A" (decay rate), "alpha" (outcome sensitivity), "cons" (response consistency), "lambda" (loss aversion)
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_2 \item{"choice"}{A nominal integer indicating which deck was chosen on that trial (where A==1, B==2, C==3, and D==4).}
-#' @templateVar DETAILS_DATA_3 \item{"gain"}{A floating point number representing the amount of currency won on the given trial (e.g. 50, 100).}
-#' @templateVar DETAILS_DATA_4 \item{"loss"}{A floating point number representing the amount of currency lost on the given trial (e.g. 0, -50).}
+#' @templateVar DETAILS_DATA_2 \item{"choice"}{Integer indicating which deck was chosen on that trial (where A==1, B==2, C==3, and D==4).}
+#' @templateVar DETAILS_DATA_3 \item{"gain"}{Floating point value representing the amount of currency won on that trial (e.g. 50, 100).}
+#' @templateVar DETAILS_DATA_4 \item{"loss"}{Floating point value representing the amount of currency lost on that trial (e.g. 0, -50).}
 #'
 #' @template model-documentation
 #'
 #' @export
 #' @include hBayesDM_model.R
 #'
-#' @param payscale \strong{(Model-specific argument.)} Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100.
+#' @param payscale \strong{(Model-specific argument.)} Raw payoffs within data are divided by this
+#'   number. Used for scaling data. Defaults to 100.
 #'
 #' @references
-#' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva, J. (2014). Decision-making in stimulant and opiate addicts in protracted abstinence: evidence from computational modeling with pure users. Frontiers in Psychology, 5, 1376. http://doi.org/10.3389/fpsyg.2014.00849
+#' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva,
+#'   J. (2014). Decision-making in stimulant and opiate addicts in protracted abstinence: evidence
+#'   from computational modeling with pure users. Frontiers in Psychology, 5, 1376.
+#'   http://doi.org/10.3389/fpsyg.2014.00849
 ```
 
-## How to work with the template (`model-documentation.R`)
+## How to work with the template: `model-documentation.R`
 - R expressions between `<%` and `%>` are **executed** in-place.
 - The value of the R expression between `<%=` and `%>` is **printed**.
 - All text outside of that is printed *as-is*.
