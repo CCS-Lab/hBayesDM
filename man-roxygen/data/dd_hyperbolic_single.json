@@ -3,5 +3,5 @@
   "data_columns": ["subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"],
   "data_list": ["Tsubj", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"],
   "parameters": ["k", "beta"],
-  "init": [["None", 0.1, "None"], ["None", 1, "None"]]
+  "gen_init": [["None", 0.1, "None"], ["None", 1, "None"]]
 }

@@ -236,7 +236,7 @@ hBayesDM_model <- function(task_name,
     #########################################################
     ##   Prepare: data_list                             #####
     ##            pars                                  #####
-    ##            init            for passing to Stan   #####
+    ##            gen_init        for passing to Stan   #####
     #########################################################
 
     # Preprocess the raw data to pass to Stan
@@ -247,16 +247,12 @@ hBayesDM_model <- function(task_name,
     if (model_type != "single") {
       pars <- c(pars, paste0("mu_", names(parameters)), "sigma")
     }
-    if (TRUE) {
-      pars <- c(pars, names(parameters))
-    }
+    pars <- c(pars, names(parameters))
     if ((task_name == "dd") && (model_type == "single")) {
       log_parameter1 <- paste0("log", toupper(names(parameters)[1]))
       pars <- c(pars, log_parameter1)
     }
-    if (TRUE) {
-      pars <- c(pars, "log_lik")
-    }
+    pars <- c(pars, "log_lik")
     if (modelRegressor) {
       pars <- c(pars, names(regressors))
     }
@@ -266,37 +262,32 @@ hBayesDM_model <- function(task_name,
 
     # Initial values for the parameters
     if (inits[1] == "random") {
-      init <- "random"
+      gen_init <- "random"
     } else {
       if (inits[1] == "fixed") {
-        inits <- unlist(lapply(parameters, "[", 2))  # plausible values of each parameter
+        inits <- unlist(lapply(parameters, "[", 2))   # plausible values of each parameter
       } else if (length(inits) != length(parameters)) {
         stop("** Length of 'inits' must be ", length(parameters),
              " (= the number of parameters of this model). Please check again. **\n")
       }
       if (model_type == "single") {
-        init <- function() {
+        gen_init <- function() {
           individual_level        <- as.list(inits)
           names(individual_level) <- names(parameters)
           return(individual_level)
         }
       } else {
-        init <- function() {
-          primes <- vector()
+        gen_init <- function() {
+          primes <- numeric(length(parameters))
           for (i in 1:length(parameters)) {
-            lb <- parameters[[i]][1]                   # lower bound
-            ub <- parameters[[i]][3]                   # upper bound
-            if (is.finite(lb) && (lb != 0)) {
-              warning("Message to Dev: This is the first occurrence of a finite non-zero",
-                      " lower bound for a parameter. Please make sure to re-adjust the",
-                      " Stan file(s) accordingly, then move on to delete this warning.\n")
-            }
+            lb <- parameters[[i]][1]   # lower bound
+            ub <- parameters[[i]][3]   # upper bound
             if (is.infinite(lb)) {
-              primes[i] <- inits[i]                              # (-Inf, Inf)
+              primes[i] <- inits[i]                             # (-Inf, Inf)
             } else if (is.infinite(ub)) {
-              primes[i] <- log(inits[i] - lb)                    # (  lb, Inf)
+              primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
             } else {
-              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))    # (  lb,  ub)
+              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
             }
           }
           group_level             <- list(mu_pr = primes,
@@ -311,9 +302,10 @@ hBayesDM_model <- function(task_name,
     ############### Print for user ###############
 
     # Full name of model
-    model <- paste0(task_name, "_", model_name)
-    if (model_type != "") {
-      model <- paste0(model, "_", model_type)
+    if (model_type == "") {
+      model <- paste0(task_name, "_", model_name)
+    } else {
+      model <- paste0(task_name, "_", model_name, "_", model_type)
     }
 
     # Set number of cores for parallel computing
@@ -348,10 +340,12 @@ hBayesDM_model <- function(task_name,
       cat(" # of (max) blocks per subject  =", b_max, "\n")
     }
     if (model_type == "single") {
-      cat(" # of trials for this subject   =", t_max, "\n")
+      cat(" # of trials (for this subject) =", t_max, "\n")
     } else {
       cat(" # of (max) trials per subject  =", t_max, "\n")
     }
+
+    # Models with additional arguments
     if ((task_name == "choiceRT") && (model_name == "ddm")) {
       RTbound <- list(...)$RTbound
       cat(" `RTbound` is set to            =", ifelse(is.null(RTbound), 0.1, RTbound), "\n")
@@ -388,12 +382,12 @@ hBayesDM_model <- function(task_name,
       fit <- rstan::vb(object = stanmodel_arg,
                        data   = data_list,
                        pars   = pars,
-                       init   = init)
+                       init   = gen_init)
     } else {
       fit <- rstan::sampling(object  = stanmodel_arg,
                              data    = data_list,
                              pars    = pars,
-                             init    = init,
+                             init    = gen_init,
                              chains  = nchain,
                              iter    = niter,
                              warmup  = nwarmup,

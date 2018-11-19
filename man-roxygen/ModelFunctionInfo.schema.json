@@ -1,7 +1,7 @@
 {
   "title": "Model Function Info",
   "type": "object",
-  "required": ["model_function", "data_columns", "data_list", "parameters", "init"],
+  "required": ["model_function", "data_columns", "data_list", "parameters", "gen_init"],
   "properties": {
     "model_function": {
       "type": "string"
@@ -24,7 +24,7 @@
         "type": "string"
       }
     },
-    "init": {
+    "gen_init": {
       "type": "array",
       "items": {
         "type": "array",
