@@ -23,7 +23,7 @@
 #' @param indPars Character value specifying how to summarize individual parameters. Current options
 #'   are: "mean", "median", or "mode".
 #' @param modelRegressor
-#'   <% EXISTS_REGRESSORS <- paste0("Regressors for this model are: ", get0("REGRESSORS"), ".") %>
+#'   <% EXISTS_REGRESSORS <- paste0("For this model they are: ", get0("REGRESSORS"), ".") %>
 #'   <% NOT_EXISTS_REGRESSORS <- "Currently not available for this model." %>
 #'   Export model-based regressors? TRUE or FALSE.
 #'   <%= ifelse(exists("REGRESSORS"), EXISTS_REGRESSORS, NOT_EXISTS_REGRESSORS) %>

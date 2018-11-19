@@ -32,7 +32,7 @@ high.}
 are: "mean", "median", or "mode".}
 
 \item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Regressors for this model are: "Qgo", "Qnogo", "Wgo", "Wnogo".}
+For this model they are: "Qgo", "Qnogo", "Wgo", "Wnogo".}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
 to FALSE.}
