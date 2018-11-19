@@ -16450,9 +16450,9 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<double> > outcome;
-    vector<vector<int> > pressed;
     vector<vector<int> > cue;
+    vector<vector<int> > pressed;
+    vector<vector<double> > outcome;
     vector_d initV;
 public:
     model_gng_m1(stan::io::var_context& context__,
@@ -16510,19 +16510,19 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("outcome");
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("cue");
             pos__ = 0;
-            size_t outcome_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
-                size_t outcome_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
-                    outcome[i_0__][i_1__] = vals_r__[pos__++];
+            size_t cue_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
+                size_t cue_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
+                    cue[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
             validate_non_negative_index("pressed", "N", N);
@@ -16540,19 +16540,19 @@ public:
                     pressed[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
-            vals_i__ = context__.vals_i("cue");
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
             pos__ = 0;
-            size_t cue_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
-                size_t cue_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
-                    cue[i_0__][i_1__] = vals_i__[pos__++];
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
 
@@ -16565,14 +16565,14 @@ public:
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
-                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
+                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
+                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
                 }
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
-                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
+                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
                 }
             }
             // initialize data variables
@@ -17583,9 +17583,9 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<double> > outcome;
-    vector<vector<int> > pressed;
     vector<vector<int> > cue;
+    vector<vector<int> > pressed;
+    vector<vector<double> > outcome;
     vector_d initV;
 public:
     model_gng_m2(stan::io::var_context& context__,
@@ -17643,19 +17643,19 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("outcome");
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("cue");
             pos__ = 0;
-            size_t outcome_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
-                size_t outcome_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
-                    outcome[i_0__][i_1__] = vals_r__[pos__++];
+            size_t cue_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
+                size_t cue_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
+                    cue[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
             validate_non_negative_index("pressed", "N", N);
@@ -17673,19 +17673,19 @@ public:
                     pressed[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
-            vals_i__ = context__.vals_i("cue");
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
             pos__ = 0;
-            size_t cue_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
-                size_t cue_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
-                    cue[i_0__][i_1__] = vals_i__[pos__++];
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
 
@@ -17698,14 +17698,14 @@ public:
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
-                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
+                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
+                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
                 }
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
-                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
+                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
                 }
             }
             // initialize data variables
@@ -18818,9 +18818,9 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<double> > outcome;
-    vector<vector<int> > pressed;
     vector<vector<int> > cue;
+    vector<vector<int> > pressed;
+    vector<vector<double> > outcome;
     vector_d initV;
 public:
     model_gng_m3(stan::io::var_context& context__,
@@ -18878,19 +18878,19 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("outcome");
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("cue");
             pos__ = 0;
-            size_t outcome_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
-                size_t outcome_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
-                    outcome[i_0__][i_1__] = vals_r__[pos__++];
+            size_t cue_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
+                size_t cue_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
+                    cue[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
             validate_non_negative_index("pressed", "N", N);
@@ -18908,19 +18908,19 @@ public:
                     pressed[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
-            vals_i__ = context__.vals_i("cue");
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
             pos__ = 0;
-            size_t cue_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
-                size_t cue_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
-                    cue[i_0__][i_1__] = vals_i__[pos__++];
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
 
@@ -18933,14 +18933,14 @@ public:
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
-                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
+                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
+                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
                 }
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
-                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
+                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
                 }
             }
             // initialize data variables
@@ -20206,9 +20206,9 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<double> > outcome;
-    vector<vector<int> > pressed;
     vector<vector<int> > cue;
+    vector<vector<int> > pressed;
+    vector<vector<double> > outcome;
     vector_d initV;
 public:
     model_gng_m4(stan::io::var_context& context__,
@@ -20266,19 +20266,19 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("outcome");
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
+            validate_non_negative_index("cue", "N", N);
+            validate_non_negative_index("cue", "T", T);
+            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("cue");
             pos__ = 0;
-            size_t outcome_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
-                size_t outcome_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
-                    outcome[i_0__][i_1__] = vals_r__[pos__++];
+            size_t cue_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
+                size_t cue_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
+                    cue[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
             validate_non_negative_index("pressed", "N", N);
@@ -20296,19 +20296,19 @@ public:
                     pressed[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            context__.validate_dims("data initialization", "cue", "int", context__.to_vec(N,T));
-            validate_non_negative_index("cue", "N", N);
-            validate_non_negative_index("cue", "T", T);
-            cue = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
-            vals_i__ = context__.vals_i("cue");
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
             pos__ = 0;
-            size_t cue_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < cue_limit_1__; ++i_1__) {
-                size_t cue_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < cue_limit_0__; ++i_0__) {
-                    cue[i_0__][i_1__] = vals_i__[pos__++];
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
 
@@ -20321,14 +20321,14 @@ public:
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
-                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
+                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
+                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
                 }
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],1);
-                    check_less_or_equal(function__,"cue[k0__][k1__]",cue[k0__][k1__],4);
+                    check_greater_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"pressed[k0__][k1__]",pressed[k0__][k1__],1);
                 }
             }
             // initialize data variables
@@ -21749,9 +21749,9 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
+    vector<vector<int> > choice;
     vector<vector<double> > outcome;
     vector<vector<double> > sign_out;
-    vector<vector<int> > choice;
     vector_d initV;
 public:
     model_igt_orl(stan::io::var_context& context__,
@@ -21809,6 +21809,21 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("choice");
+            pos__ = 0;
+            size_t choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
+                size_t choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
+                    choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
             validate_non_negative_index("outcome", "N", N);
             validate_non_negative_index("outcome", "T", T);
             context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
@@ -21837,21 +21852,6 @@ public:
                 size_t sign_out_limit_0__ = N;
                 for (size_t i_0__ = 0; i_0__ < sign_out_limit_0__; ++i_0__) {
                     sign_out[i_0__][i_1__] = vals_r__[pos__++];
-                }
-            }
-            validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "T", T);
-            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
-            validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "T", T);
-            choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
-            vals_i__ = context__.vals_i("choice");
-            pos__ = 0;
-            size_t choice_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
-                size_t choice_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
-                    choice[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
 
@@ -24041,8 +24041,8 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<double> > outcome;
     vector<vector<int> > choice;
+    vector<vector<double> > outcome;
     vector_d initV;
 public:
     model_igt_pvl_delta(stan::io::var_context& context__,
@@ -24100,21 +24100,6 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("outcome");
-            pos__ = 0;
-            size_t outcome_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
-                size_t outcome_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
-                    outcome[i_0__][i_1__] = vals_r__[pos__++];
-                }
-            }
             validate_non_negative_index("choice", "N", N);
             validate_non_negative_index("choice", "T", T);
             context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
@@ -24128,6 +24113,21 @@ public:
                 size_t choice_limit_0__ = N;
                 for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
                     choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
+            pos__ = 0;
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
 
@@ -25064,8 +25064,8 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<double> > outcome;
     vector<vector<int> > choice;
+    vector<vector<double> > outcome;
     vector_d initV;
 public:
     model_igt_vpp(stan::io::var_context& context__,
@@ -25123,21 +25123,6 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
-            validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("outcome");
-            pos__ = 0;
-            size_t outcome_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
-                size_t outcome_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
-                    outcome[i_0__][i_1__] = vals_r__[pos__++];
-                }
-            }
             validate_non_negative_index("choice", "N", N);
             validate_non_negative_index("choice", "T", T);
             context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
@@ -25151,6 +25136,21 @@ public:
                 size_t choice_limit_0__ = N;
                 for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
                     choice[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,T));
+            validate_non_negative_index("outcome", "N", N);
+            validate_non_negative_index("outcome", "T", T);
+            outcome = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("outcome");
+            pos__ = 0;
+            size_t outcome_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
+                size_t outcome_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
+                    outcome[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
 
