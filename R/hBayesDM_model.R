@@ -367,6 +367,11 @@ hBayesDM_model <- function(task_name,
       cat("**************************************\n")
     }
 
+    # An empty newline before Stan begins
+    if (nchain > 1) {
+      cat("\n")
+    }
+
     ############### Fit & extract ###############
 
     # Designate the Stan model

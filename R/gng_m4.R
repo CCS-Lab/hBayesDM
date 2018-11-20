@@ -4,7 +4,7 @@
 #' @templateVar MODEL_CITE (Cavanagh et al., 2013, J Neuro)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "cue", "keyPressed", "outcome"
-#' @templateVar PARAMETERS "xi" (noise), "ep" (learning rate), "b" (action bias), "pi" (Pavlovian bias), "rhoRew" (reward sensitivity), and "rhoPun" (punishment sensitivity)
+#' @templateVar PARAMETERS "xi" (noise), "ep" (learning rate), "b" (action bias), "pi" (Pavlovian bias), "rhoRew" (reward sensitivity), "rhoPun" (punishment sensitivity)
 #' @templateVar REGRESSORS "Qgo", "Qnogo", "Wgo", "Wnogo", "SV"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}

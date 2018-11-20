@@ -67,7 +67,7 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 \description{
 Hierarchical Bayesian Modeling of the Orthogonalized Go/Nogo Task with the following parameters:
-  "xi" (noise), "ep" (learning rate), "b" (action bias), "pi" (Pavlovian bias), "rhoRew" (reward sensitivity), and "rhoPun" (punishment sensitivity).
+  "xi" (noise), "ep" (learning rate), "b" (action bias), "pi" (Pavlovian bias), "rhoRew" (reward sensitivity), "rhoPun" (punishment sensitivity).
 
 \strong{MODEL:} RW (rew/pun) + noise + bias + pi (Cavanagh et al., 2013, J Neuro)
 }
