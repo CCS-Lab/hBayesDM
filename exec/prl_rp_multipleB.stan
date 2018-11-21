@@ -5,13 +5,14 @@
  */
 
 data {
-  int<lower=1> N;                             // Number of subjects
-  int<lower=0> T;                             // Maximum number of trials across subjects
+  int<lower=1> N;                          // Number of subjects
 
   int<lower=1> B;                          // Maximum number of blocks across subjects
-  int<lower=1> Bsubj[N];                          // Number of blocks for each subject
+  int<lower=1> Bsubj[N];                   // Number of blocks for each subject
 
+  int<lower=0> T;                          // Maximum number of trials across subjects
   int<lower=0, upper=T> Tsubj[N, B];       // Number of trials/blocks for each subject
+
   int<lower=-1, upper=2> choice[N, B, T];  // The choices subjects made
   real outcome[N, B, T];                   // The outcome
 }

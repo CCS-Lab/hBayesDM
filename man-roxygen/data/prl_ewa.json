@@ -1,0 +1,8 @@
+{
+  "model_function": "prl_ewa",
+  "data_columns": ["subjID", "choice", "outcome"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["phi", "rho", "beta"],
+  "gen_init": [[0, 0.5, 1], [0, 0.1, 1], [0, 1, 10]],
+  "regressors": ["ev_c", "ev_nc", "ew_c", "ew_nc"]
+}
