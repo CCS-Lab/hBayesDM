@@ -55,8 +55,6 @@ igt_orl <- hBayesDM_model(
 
       Ydata[i, 1:t]    <- DT_subj$choice
       RLmatrix[i, 1:t] <- DT_subj$gain - abs(DT_subj$loss)
-
-      SRLmatrix <- apply(RLmatrix, c(1, 2), function(x) ifelse(x > 0, 1L, ifelse(x == 0, 0L, -1L)))
     }
 
     # Wrap into a list for Stan
@@ -66,7 +64,7 @@ igt_orl <- hBayesDM_model(
       Tsubj    = t_subjs,
       choice   = Ydata,
       outcome  = RLmatrix / payscale,
-      sign_out = SRLmatrix
+      sign_out = sign(RLmatrix)
     )
 
     # Returned data_list will directly be passed to Stan
