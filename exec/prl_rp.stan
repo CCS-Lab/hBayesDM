@@ -57,7 +57,7 @@ model {
   for (i in 1:N) {
     // Define Values
     vector[2] ev;   // Expected value
-    real pe;        // prediction error
+    real PE;        // prediction error
 
     // Initialize values
     ev = initV;     // initial ev values
@@ -67,13 +67,13 @@ model {
       choice[i, t] ~ categorical_logit(ev * beta[i]);
 
       // Prediction Error
-      pe = outcome[i, t] - ev[choice[i, t]];
+      PE = outcome[i, t] - ev[choice[i, t]];
 
       // Update expected value of chosen stimulus
       if (outcome[i, t] > 0)
-        ev[choice[i, t]] += Arew[i] * pe;
+        ev[choice[i, t]] += Arew[i] * PE;
       else
-        ev[choice[i, t]] += Apun[i] * pe;
+        ev[choice[i, t]] += Apun[i] * PE;
     }
   }
 }
@@ -114,7 +114,7 @@ generated quantities {
     for (i in 1:N) {
       // Define values
       vector[2] ev; // Expected value
-      real pe;      // Prediction error
+      real PE;      // Prediction error
 
       // Initialize values
       ev = initV; // initial ev values
@@ -128,18 +128,18 @@ generated quantities {
         y_pred[i, t] = categorical_rng(softmax(ev * beta[i]));
 
         // Prediction Error
-        pe = outcome[i, t] - ev[choice[i, t]];
+        PE = outcome[i, t] - ev[choice[i, t]];
 
         // Store values for model regressors
         mr_ev_c[i, t]   = ev[choice[i, t]];
         mr_ev_nc[i, t]  = ev[3 - choice[i, t]];
-        mr_pe[i, t]     = pe;
+        mr_pe[i, t]     = PE;
 
         // Update expected value of chosen stimulus
         if (outcome[i, t] > 0)
-          ev[choice[i, t]] += Arew[i] * pe;
+          ev[choice[i, t]] += Arew[i] * PE;
         else
-          ev[choice[i, t]] += Apun[i] * pe;
+          ev[choice[i, t]] += Apun[i] * PE;
       }
     }
   }
