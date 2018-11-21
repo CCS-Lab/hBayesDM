@@ -2,13 +2,13 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
-  int<lower=-1, upper=1> choice[N, T];
   int<lower=0, upper=3> condition[N, T]; // 0: solo, 1: ss, 2: mix, 3: rr
+  real<lower=0, upper=1> p_gamble[N, T];
   real safe_Hpayoff[N, T];
   real safe_Lpayoff[N, T];
   real risky_Hpayoff[N, T];
   real risky_Lpayoff[N, T];
-  real<lower=0, upper=1> p_gamble[N, T];
+  int<lower=-1, upper=1> choice[N, T];
 }
 
 transformed data {
