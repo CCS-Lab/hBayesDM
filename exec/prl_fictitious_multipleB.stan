@@ -98,12 +98,12 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real mr_ev_c[N, maxB, T];           // Expected value of the chosen option
-  real mr_ev_nc[N, maxB, T];          // Expected value of the non-chosen option
+  real ev_c[N, maxB, T];           // Expected value of the chosen option
+  real ev_nc[N, maxB, T];          // Expected value of the non-chosen option
 
-  real mr_pe_c[N, maxB, T];           //Prediction error of the chosen option
-  real mr_pe_nc[N, maxB, T];          //Prediction error of the non-chosen option
-  real mr_dv[N, maxB, T];             //Decision value = PE_chosen - PE_non-chosen
+  real pe_c[N, maxB, T];           //Prediction error of the chosen option
+  real pe_nc[N, maxB, T];          //Prediction error of the non-chosen option
+  real dv[N, maxB, T];             //Decision value = PE_chosen - PE_non-chosen
 
   // For posterior predictive check
   real y_pred[N, maxB, T];
@@ -112,12 +112,12 @@ generated quantities {
   for (i in 1:N) {
     for (b in 1:maxB) {
       for (t in 1:T) {
-        mr_ev_c[i, b, t] = 0;
-        mr_ev_nc[i, b, t] = 0;
+        ev_c[i, b, t] = 0;
+        ev_nc[i, b, t] = 0;
 
-        mr_pe_c[i, b, t] = 0;
-        mr_pe_nc[i, b, t] = 0;
-        mr_dv[i, b, t] = 0;
+        pe_c[i, b, t] = 0;
+        pe_nc[i, b, t] = 0;
+        dv[i, b, t] = 0;
 
         y_pred[i, b, t] = -1;
       }
@@ -159,12 +159,12 @@ generated quantities {
           PEnc = -outcome[i, bIdx, t] - ev[3-choice[i, bIdx, t]];  //new
 
           // Store values for model regressors
-          mr_ev_c[i, bIdx, t]   = ev[choice[i, bIdx, t]];
-          mr_ev_nc[i, bIdx, t]  = ev[3 - choice[i, bIdx, t]];
+          ev_c[i, bIdx, t]   = ev[choice[i, bIdx, t]];
+          ev_nc[i, bIdx, t]  = ev[3 - choice[i, bIdx, t]];
 
-          mr_pe_c[i, bIdx, t]   = PE;
-          mr_pe_nc[i, bIdx, t]  = PEnc;
-          mr_dv[i, bIdx, t]     = PE - PEnc;
+          pe_c[i, bIdx, t]   = PE;
+          pe_nc[i, bIdx, t]  = PEnc;
+          dv[i, bIdx, t]     = PE - PEnc;
 
           // value updating (learning)
           ev[choice[i, bIdx, t]]   = ev[choice[i, bIdx, t]]   + eta[i] * PE;   //new

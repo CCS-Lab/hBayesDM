@@ -96,13 +96,13 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real mr_ev_c[N, T];   // Expected value of the chosen option
-  real mr_ev_nc[N, T];  // Expected value of the non-chosen option
+  real ev_c[N, T];   // Expected value of the chosen option
+  real ev_nc[N, T];  // Expected value of the non-chosen option
 
-  real mr_pe_c[N, T];   // Prediction error of the chosen option
-  real mr_pe_nc[N, T];  // Prediction error of the non-chosen option
+  real pe_c[N, T];   // Prediction error of the chosen option
+  real pe_nc[N, T];  // Prediction error of the non-chosen option
 
-  real mr_dv[N, T];     // Decision value = PE_chosen - PE_non-chosen
+  real dv[N, T];     // Decision value = PE_chosen - PE_non-chosen
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -110,11 +110,11 @@ generated quantities {
   // Initialize all the variables to avoid NULL values
   for (i in 1:N) {
     for (t in 1:T) {
-      mr_ev_c[i, t]   = 0;
-      mr_ev_nc[i, t]  = 0;
-      mr_pe_c[i, t]   = 0;
-      mr_pe_nc[i, t]  = 0;
-      mr_dv[i, t]     = 0;
+      ev_c[i, t]   = 0;
+      ev_nc[i, t]  = 0;
+      pe_c[i, t]   = 0;
+      pe_nc[i, t]  = 0;
+      dv[i, t]     = 0;
 
       y_pred[i, t]    = -1;
     }
@@ -153,11 +153,11 @@ generated quantities {
         PEnc = -outcome[i, t] - ev[3 - choice[i, t]];
 
         // Store values for model regressors
-        mr_ev_c[i, t]   = ev[choice[i, t]];
-        mr_ev_nc[i, t]  = ev[3 - choice[i, t]];
-        mr_pe_c[i, t]   = PE;
-        mr_pe_nc[i, t]  = PEnc;
-        mr_dv[i, t]     = PE - PEnc;
+        ev_c[i, t]   = ev[choice[i, t]];
+        ev_nc[i, t]  = ev[3 - choice[i, t]];
+        pe_c[i, t]   = PE;
+        pe_nc[i, t]  = PEnc;
+        dv[i, t]     = PE - PEnc;
 
         // Value updating (learning)
         if (PE >= 0) {

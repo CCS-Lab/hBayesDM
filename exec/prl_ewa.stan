@@ -92,12 +92,12 @@ generated quantities {
 
   // For model regressors
   //real mr_ev[N, T, 2];   // Expected value
-  real mr_ev_c[N, T];    // Expected value of the chosen option
-  real mr_ev_nc[N, T];   // Expected value of the non-chosen option
+  real ev_c[N, T];    // Expected value of the chosen option
+  real ev_nc[N, T];   // Expected value of the non-chosen option
 
   //real mr_ew[N, T, 2];   // Experience weight
-  real mr_ew_c[N, T];    // Experience weight of the chosen option
-  real mr_ew_nc[N, T];   // Experience weight of the non-chosen option
+  real ew_c[N, T];    // Experience weight of the chosen option
+  real ew_nc[N, T];   // Experience weight of the non-chosen option
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -105,10 +105,10 @@ generated quantities {
   // Set all posterior predictions, model regressors to 0 (avoids NULL values)
   for (i in 1:N) {
     for (t in 1:T) {
-      mr_ev_c[i, t] = 0;
-      mr_ev_nc[i, t] = 0;
-      mr_ew_c[i, t] = 0;
-      mr_ew_nc[i, t] = 0;
+      ev_c[i, t] = 0;
+      ev_nc[i, t] = 0;
+      ew_c[i, t] = 0;
+      ew_nc[i, t] = 0;
 
       y_pred[i, t] = -1;
     }
@@ -141,12 +141,12 @@ generated quantities {
 
         // Store values for model regressors
         //mr_ev[i, t]    = ev;
-        mr_ev_c[i, t]  = ev[choice[i, t]];
-        mr_ev_nc[i, t] = ev[3 - choice[i, t]];
+        ev_c[i, t]  = ev[choice[i, t]];
+        ev_nc[i, t] = ev[3 - choice[i, t]];
 
         //mr_ew[i, t]    = ew;
-        mr_ew_c[i, t]  = ew[choice[i, t]];
-        mr_ew_nc[i, t] = ew[3 - choice[i, t]];
+        ew_c[i, t]  = ew[choice[i, t]];
+        ew_nc[i, t] = ew[3 - choice[i, t]];
 
         // Store previous experience weight value
         ewt1 = ew[choice[i, t]];

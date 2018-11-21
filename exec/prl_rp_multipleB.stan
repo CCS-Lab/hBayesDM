@@ -93,9 +93,9 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real mr_ev_c[N, maxB, T];   // Expected value of the chosen option
-  real mr_ev_nc[N, maxB, T];  // Expected value of the non-chosen option
-  real mr_pe[N, maxB, T];     // Prediction error
+  real ev_c[N, maxB, T];   // Expected value of the chosen option
+  real ev_nc[N, maxB, T];  // Expected value of the non-chosen option
+  real pe[N, maxB, T];     // Prediction error
 
   // For posterior predictive check
   real y_pred[N, maxB, T];
@@ -104,9 +104,9 @@ generated quantities {
   for (i in 1:N) {
     for (b in 1:maxB) {
       for (t in 1:T) {
-        mr_ev_c[i, b, t]  = 0;
-        mr_ev_nc[i, b, t] = 0;
-        mr_pe[i, b, t]    = 0;
+        ev_c[i, b, t]  = 0;
+        ev_nc[i, b, t] = 0;
+        pe[i, b, t]    = 0;
 
         y_pred[i, b, t]   = -1;
       }
@@ -141,9 +141,9 @@ generated quantities {
           PE = outcome[i, bIdx, t] - ev[choice[i, bIdx, t]];
 
           // Store values for model regressors
-          mr_ev_c[i, bIdx, t]   = ev[choice[i, bIdx, t]];
-          mr_ev_nc[i, bIdx, t]  = ev[3 - choice[i, bIdx, t]];
-          mr_pe[i, bIdx, t]     = PE;
+          ev_c[i, bIdx, t]   = ev[choice[i, bIdx, t]];
+          ev_nc[i, bIdx, t]  = ev[3 - choice[i, bIdx, t]];
+          pe[i, bIdx, t]     = PE;
 
           // Update expected value of chosen stimulus
           if (outcome[i, bIdx, t] > 0)
