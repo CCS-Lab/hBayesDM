@@ -69,7 +69,7 @@ A class "hBayesDM" object \code{modelData} with the following components:
 Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning Task with the following parameters:
   "phi" (1 - learning rate), "rho" (experience decay factor), "beta" (inverse temperature).
 
-Contributor: (for model-based regressors): \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
+Contributor: (for model-based regressors) \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 
 \strong{MODEL:} Experience-Weighted Attraction Model (Ouden et al., 2013, Neuron)
 }
