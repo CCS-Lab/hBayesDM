@@ -26573,13 +26573,13 @@ private:
     int N;
     int T;
     vector<int> Tsubj;
-    vector<vector<int> > choice;
     vector<vector<int> > condition;
+    vector<vector<double> > p_gamble;
     vector<vector<double> > safe_Hpayoff;
     vector<vector<double> > safe_Lpayoff;
     vector<vector<double> > risky_Hpayoff;
     vector<vector<double> > risky_Lpayoff;
-    vector<vector<double> > p_gamble;
+    vector<vector<int> > choice;
 public:
     model_peer_ocu(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
@@ -26636,21 +26636,6 @@ public:
             for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
                 Tsubj[i_0__] = vals_i__[pos__++];
             }
-            validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "T", T);
-            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
-            validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "T", T);
-            choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
-            vals_i__ = context__.vals_i("choice");
-            pos__ = 0;
-            size_t choice_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
-                size_t choice_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
-                    choice[i_0__][i_1__] = vals_i__[pos__++];
-                }
-            }
             validate_non_negative_index("condition", "N", N);
             validate_non_negative_index("condition", "T", T);
             context__.validate_dims("data initialization", "condition", "int", context__.to_vec(N,T));
@@ -26664,6 +26649,21 @@ public:
                 size_t condition_limit_0__ = N;
                 for (size_t i_0__ = 0; i_0__ < condition_limit_0__; ++i_0__) {
                     condition[i_0__][i_1__] = vals_i__[pos__++];
+                }
+            }
+            validate_non_negative_index("p_gamble", "N", N);
+            validate_non_negative_index("p_gamble", "T", T);
+            context__.validate_dims("data initialization", "p_gamble", "double", context__.to_vec(N,T));
+            validate_non_negative_index("p_gamble", "N", N);
+            validate_non_negative_index("p_gamble", "T", T);
+            p_gamble = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
+            vals_r__ = context__.vals_r("p_gamble");
+            pos__ = 0;
+            size_t p_gamble_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < p_gamble_limit_1__; ++i_1__) {
+                size_t p_gamble_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < p_gamble_limit_0__; ++i_0__) {
+                    p_gamble[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
             validate_non_negative_index("safe_Hpayoff", "N", N);
@@ -26726,19 +26726,19 @@ public:
                     risky_Lpayoff[i_0__][i_1__] = vals_r__[pos__++];
                 }
             }
-            validate_non_negative_index("p_gamble", "N", N);
-            validate_non_negative_index("p_gamble", "T", T);
-            context__.validate_dims("data initialization", "p_gamble", "double", context__.to_vec(N,T));
-            validate_non_negative_index("p_gamble", "N", N);
-            validate_non_negative_index("p_gamble", "T", T);
-            p_gamble = std::vector<std::vector<double> >(N,std::vector<double>(T,double(0)));
-            vals_r__ = context__.vals_r("p_gamble");
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,T));
+            validate_non_negative_index("choice", "N", N);
+            validate_non_negative_index("choice", "T", T);
+            choice = std::vector<std::vector<int> >(N,std::vector<int>(T,int(0)));
+            vals_i__ = context__.vals_i("choice");
             pos__ = 0;
-            size_t p_gamble_limit_1__ = T;
-            for (size_t i_1__ = 0; i_1__ < p_gamble_limit_1__; ++i_1__) {
-                size_t p_gamble_limit_0__ = N;
-                for (size_t i_0__ = 0; i_0__ < p_gamble_limit_0__; ++i_0__) {
-                    p_gamble[i_0__][i_1__] = vals_r__[pos__++];
+            size_t choice_limit_1__ = T;
+            for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
+                size_t choice_limit_0__ = N;
+                for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
+                    choice[i_0__][i_1__] = vals_i__[pos__++];
                 }
             }
 
@@ -26751,12 +26751,6 @@ public:
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
                 for (int k1__ = 0; k1__ < T; ++k1__) {
-                    check_greater_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],-(1));
-                    check_less_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],1);
-                }
-            }
-            for (int k0__ = 0; k0__ < N; ++k0__) {
-                for (int k1__ = 0; k1__ < T; ++k1__) {
                     check_greater_or_equal(function__,"condition[k0__][k1__]",condition[k0__][k1__],0);
                     check_less_or_equal(function__,"condition[k0__][k1__]",condition[k0__][k1__],3);
                 }
@@ -26765,6 +26759,12 @@ public:
                 for (int k1__ = 0; k1__ < T; ++k1__) {
                     check_greater_or_equal(function__,"p_gamble[k0__][k1__]",p_gamble[k0__][k1__],0);
                     check_less_or_equal(function__,"p_gamble[k0__][k1__]",p_gamble[k0__][k1__],1);
+                }
+            }
+            for (int k0__ = 0; k0__ < N; ++k0__) {
+                for (int k1__ = 0; k1__ < T; ++k1__) {
+                    check_greater_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],-(1));
+                    check_less_or_equal(function__,"choice[k0__][k1__]",choice[k0__][k1__],1);
                 }
             }
             // initialize data variables
@@ -27983,10 +27983,10 @@ public:
         names__.push_back("mu_rho");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_ew_c");
-        names__.push_back("mr_ew_nc");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("ew_c");
+        names__.push_back("ew_nc");
         names__.push_back("y_pred");
     }
 
@@ -28171,26 +28171,26 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_ew_c", "N", N);
-            validate_non_negative_index("mr_ew_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_ew_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ew_c, DUMMY_VAR__);
-            stan::math::fill(mr_ew_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ew_nc", "N", N);
-            validate_non_negative_index("mr_ew_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_ew_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ew_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ew_nc,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<local_scalar_t__> > ev_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<local_scalar_t__> > ev_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("ew_c", "N", N);
+            validate_non_negative_index("ew_c", "T", T);
+            vector<vector<local_scalar_t__> > ew_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ew_c, DUMMY_VAR__);
+            stan::math::fill(ew_c,DUMMY_VAR__);
+            validate_non_negative_index("ew_nc", "N", N);
+            validate_non_negative_index("ew_nc", "T", T);
+            vector<vector<local_scalar_t__> > ew_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ew_nc, DUMMY_VAR__);
+            stan::math::fill(ew_nc,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<local_scalar_t__> > y_pred(N, (vector<local_scalar_t__>(T)));
@@ -28202,22 +28202,22 @@ public:
 
                 for (int t = 1; t <= T; ++t) {
 
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_ew_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(ew_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ew_c");
-                    stan::model::assign(mr_ew_nc, 
+                                "assigning variable ew_c");
+                    stan::model::assign(ew_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ew_nc");
+                                "assigning variable ew_nc");
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 -(1), 
@@ -28265,22 +28265,22 @@ public:
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 categorical_rng(softmax(multiply(ev,get_base1(beta,i,"beta",1))), base_rng__), 
                                 "assigning variable y_pred");
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_ew_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(ew_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ew,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ew",1), 
-                                "assigning variable mr_ew_c");
-                    stan::model::assign(mr_ew_nc, 
+                                "assigning variable ew_c");
+                    stan::model::assign(ew_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ew,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ew",1), 
-                                "assigning variable mr_ew_nc");
+                                "assigning variable ew_nc");
                     stan::math::assign(ewt1, get_base1(ew,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ew",1));
                     stan::model::assign(ew, 
                                 stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
@@ -28311,22 +28311,22 @@ public:
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                vars__.push_back(ev_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                vars__.push_back(ev_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ew_c[k_0__][k_1__]);
+                vars__.push_back(ew_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ew_nc[k_0__][k_1__]);
+                vars__.push_back(ew_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
@@ -28434,28 +28434,28 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ew_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ew_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ew_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ew_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -28538,28 +28538,28 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ew_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ew_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ew_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ew_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -29059,11 +29059,11 @@ public:
         names__.push_back("mu_alpha");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_pe_c");
-        names__.push_back("mr_pe_nc");
-        names__.push_back("mr_dv");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("pe_c");
+        names__.push_back("pe_nc");
+        names__.push_back("dv");
         names__.push_back("y_pred");
     }
 
@@ -29247,31 +29247,31 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_c", "N", N);
-            validate_non_negative_index("mr_pe_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_c, DUMMY_VAR__);
-            stan::math::fill(mr_pe_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_nc", "N", N);
-            validate_non_negative_index("mr_pe_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_nc, DUMMY_VAR__);
-            stan::math::fill(mr_pe_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_dv", "N", N);
-            validate_non_negative_index("mr_dv", "T", T);
-            vector<vector<local_scalar_t__> > mr_dv(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_dv, DUMMY_VAR__);
-            stan::math::fill(mr_dv,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<local_scalar_t__> > ev_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<local_scalar_t__> > ev_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("pe_c", "N", N);
+            validate_non_negative_index("pe_c", "T", T);
+            vector<vector<local_scalar_t__> > pe_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_c, DUMMY_VAR__);
+            stan::math::fill(pe_c,DUMMY_VAR__);
+            validate_non_negative_index("pe_nc", "N", N);
+            validate_non_negative_index("pe_nc", "T", T);
+            vector<vector<local_scalar_t__> > pe_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_nc, DUMMY_VAR__);
+            stan::math::fill(pe_nc,DUMMY_VAR__);
+            validate_non_negative_index("dv", "N", N);
+            validate_non_negative_index("dv", "T", T);
+            vector<vector<local_scalar_t__> > dv(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(dv, DUMMY_VAR__);
+            stan::math::fill(dv,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<local_scalar_t__> > y_pred(N, (vector<local_scalar_t__>(T)));
@@ -29283,26 +29283,26 @@ public:
 
                 for (int t = 1; t <= T; ++t) {
 
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_dv");
+                                "assigning variable dv");
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 -(1), 
@@ -29364,26 +29364,26 @@ public:
                                 "assigning variable y_pred");
                     stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
                     stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 PE, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 PEnc, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 (PE - PEnc), 
-                                "assigning variable mr_dv");
+                                "assigning variable dv");
                     stan::model::assign(ev, 
                                 stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
                                 (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta,i,"eta",1) * PE)), 
@@ -29411,27 +29411,27 @@ public:
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                vars__.push_back(ev_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                vars__.push_back(ev_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_c[k_0__][k_1__]);
+                vars__.push_back(pe_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_nc[k_0__][k_1__]);
+                vars__.push_back(pe_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_dv[k_0__][k_1__]);
+                vars__.push_back(dv[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
@@ -29539,35 +29539,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -29650,35 +29650,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -29718,16 +29718,16 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_prl_fictitious_multipleB");
-    reader.add_event(178, 176, "end", "model_prl_fictitious_multipleB");
+    reader.add_event(180, 178, "end", "model_prl_fictitious_multipleB");
     return reader;
 }
 
 class model_prl_fictitious_multipleB : public prob_grad {
 private:
     int N;
+    int B;
+    vector<int> Bsubj;
     int T;
-    int maxB;
-    vector<int> B;
     vector<vector<int> > Tsubj;
     vector<vector<vector<int> > > choice;
     vector<vector<vector<double> > > outcome;
@@ -29773,35 +29773,35 @@ public:
             vals_i__ = context__.vals_i("N");
             pos__ = 0;
             N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "B", "int", context__.to_vec());
+            B = int(0);
+            vals_i__ = context__.vals_i("B");
+            pos__ = 0;
+            B = vals_i__[pos__++];
+            validate_non_negative_index("Bsubj", "N", N);
+            context__.validate_dims("data initialization", "Bsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Bsubj", "N", N);
+            Bsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Bsubj");
+            pos__ = 0;
+            size_t Bsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Bsubj_limit_0__; ++i_0__) {
+                Bsubj[i_0__] = vals_i__[pos__++];
+            }
             context__.validate_dims("data initialization", "T", "int", context__.to_vec());
             T = int(0);
             vals_i__ = context__.vals_i("T");
             pos__ = 0;
             T = vals_i__[pos__++];
-            context__.validate_dims("data initialization", "maxB", "int", context__.to_vec());
-            maxB = int(0);
-            vals_i__ = context__.vals_i("maxB");
-            pos__ = 0;
-            maxB = vals_i__[pos__++];
-            validate_non_negative_index("B", "N", N);
-            context__.validate_dims("data initialization", "B", "int", context__.to_vec(N));
-            validate_non_negative_index("B", "N", N);
-            B = std::vector<int>(N,int(0));
-            vals_i__ = context__.vals_i("B");
-            pos__ = 0;
-            size_t B_limit_0__ = N;
-            for (size_t i_0__ = 0; i_0__ < B_limit_0__; ++i_0__) {
-                B[i_0__] = vals_i__[pos__++];
-            }
             validate_non_negative_index("Tsubj", "N", N);
-            validate_non_negative_index("Tsubj", "maxB", maxB);
-            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N,maxB));
+            validate_non_negative_index("Tsubj", "B", B);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N,B));
             validate_non_negative_index("Tsubj", "N", N);
-            validate_non_negative_index("Tsubj", "maxB", maxB);
-            Tsubj = std::vector<std::vector<int> >(N,std::vector<int>(maxB,int(0)));
+            validate_non_negative_index("Tsubj", "B", B);
+            Tsubj = std::vector<std::vector<int> >(N,std::vector<int>(B,int(0)));
             vals_i__ = context__.vals_i("Tsubj");
             pos__ = 0;
-            size_t Tsubj_limit_1__ = maxB;
+            size_t Tsubj_limit_1__ = B;
             for (size_t i_1__ = 0; i_1__ < Tsubj_limit_1__; ++i_1__) {
                 size_t Tsubj_limit_0__ = N;
                 for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
@@ -29809,18 +29809,18 @@ public:
                 }
             }
             validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "maxB", maxB);
+            validate_non_negative_index("choice", "B", B);
             validate_non_negative_index("choice", "T", T);
-            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,maxB,T));
+            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,B,T));
             validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "maxB", maxB);
+            validate_non_negative_index("choice", "B", B);
             validate_non_negative_index("choice", "T", T);
-            choice = std::vector<std::vector<std::vector<int> > >(N,std::vector<std::vector<int> >(maxB,std::vector<int>(T,int(0))));
+            choice = std::vector<std::vector<std::vector<int> > >(N,std::vector<std::vector<int> >(B,std::vector<int>(T,int(0))));
             vals_i__ = context__.vals_i("choice");
             pos__ = 0;
             size_t choice_limit_2__ = T;
             for (size_t i_2__ = 0; i_2__ < choice_limit_2__; ++i_2__) {
-                size_t choice_limit_1__ = maxB;
+                size_t choice_limit_1__ = B;
                 for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
                     size_t choice_limit_0__ = N;
                     for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
@@ -29829,18 +29829,18 @@ public:
                 }
             }
             validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "maxB", maxB);
+            validate_non_negative_index("outcome", "B", B);
             validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,maxB,T));
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,B,T));
             validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "maxB", maxB);
+            validate_non_negative_index("outcome", "B", B);
             validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<std::vector<double> > >(N,std::vector<std::vector<double> >(maxB,std::vector<double>(T,double(0))));
+            outcome = std::vector<std::vector<std::vector<double> > >(N,std::vector<std::vector<double> >(B,std::vector<double>(T,double(0))));
             vals_r__ = context__.vals_r("outcome");
             pos__ = 0;
             size_t outcome_limit_2__ = T;
             for (size_t i_2__ = 0; i_2__ < outcome_limit_2__; ++i_2__) {
-                size_t outcome_limit_1__ = maxB;
+                size_t outcome_limit_1__ = B;
                 for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
                     size_t outcome_limit_0__ = N;
                     for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
@@ -29851,19 +29851,19 @@ public:
 
             // validate, data variables
             check_greater_or_equal(function__,"N",N,1);
-            check_greater_or_equal(function__,"T",T,0);
-            check_greater_or_equal(function__,"maxB",maxB,1);
+            check_greater_or_equal(function__,"B",B,1);
             for (int k0__ = 0; k0__ < N; ++k0__) {
-                check_greater_or_equal(function__,"B[k0__]",B[k0__],1);
+                check_greater_or_equal(function__,"Bsubj[k0__]",Bsubj[k0__],1);
             }
+            check_greater_or_equal(function__,"T",T,0);
             for (int k0__ = 0; k0__ < N; ++k0__) {
-                for (int k1__ = 0; k1__ < maxB; ++k1__) {
+                for (int k1__ = 0; k1__ < B; ++k1__) {
                     check_greater_or_equal(function__,"Tsubj[k0__][k1__]",Tsubj[k0__][k1__],0);
                     check_less_or_equal(function__,"Tsubj[k0__][k1__]",Tsubj[k0__][k1__],T);
                 }
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
-                for (int k1__ = 0; k1__ < maxB; ++k1__) {
+                for (int k1__ = 0; k1__ < B; ++k1__) {
                     for (int k2__ = 0; k2__ < T; ++k2__) {
                         check_greater_or_equal(function__,"choice[k0__][k1__][k2__]",choice[k0__][k1__][k2__],-(1));
                         check_less_or_equal(function__,"choice[k0__][k1__][k2__]",choice[k0__][k1__][k2__],2);
@@ -30131,7 +30131,7 @@ public:
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
             for (int i = 1; i <= N; ++i) {
 
-                for (int bIdx = 1; bIdx <= get_base1(B,i,"B",1); ++bIdx) {
+                for (int bIdx = 1; bIdx <= get_base1(Bsubj,i,"Bsubj",1); ++bIdx) {
                     {
                     validate_non_negative_index("ev", "2", 2);
                     Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,1>  ev(static_cast<Eigen::VectorXd::Index>(2));
@@ -30221,11 +30221,11 @@ public:
         names__.push_back("mu_alpha");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_pe_c");
-        names__.push_back("mr_pe_nc");
-        names__.push_back("mr_dv");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("pe_c");
+        names__.push_back("pe_nc");
+        names__.push_back("dv");
         names__.push_back("y_pred");
     }
 
@@ -30268,32 +30268,32 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
     }
@@ -30415,70 +30415,70 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "maxB", maxB);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_ev_c(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "maxB", maxB);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_ev_nc(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_c", "N", N);
-            validate_non_negative_index("mr_pe_c", "maxB", maxB);
-            validate_non_negative_index("mr_pe_c", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_pe_c(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_pe_c, DUMMY_VAR__);
-            stan::math::fill(mr_pe_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_nc", "N", N);
-            validate_non_negative_index("mr_pe_nc", "maxB", maxB);
-            validate_non_negative_index("mr_pe_nc", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_pe_nc(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_pe_nc, DUMMY_VAR__);
-            stan::math::fill(mr_pe_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_dv", "N", N);
-            validate_non_negative_index("mr_dv", "maxB", maxB);
-            validate_non_negative_index("mr_dv", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_dv(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_dv, DUMMY_VAR__);
-            stan::math::fill(mr_dv,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "B", B);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<vector<local_scalar_t__> > > ev_c(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "B", B);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<vector<local_scalar_t__> > > ev_nc(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("pe_c", "N", N);
+            validate_non_negative_index("pe_c", "B", B);
+            validate_non_negative_index("pe_c", "T", T);
+            vector<vector<vector<local_scalar_t__> > > pe_c(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(pe_c, DUMMY_VAR__);
+            stan::math::fill(pe_c,DUMMY_VAR__);
+            validate_non_negative_index("pe_nc", "N", N);
+            validate_non_negative_index("pe_nc", "B", B);
+            validate_non_negative_index("pe_nc", "T", T);
+            vector<vector<vector<local_scalar_t__> > > pe_nc(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(pe_nc, DUMMY_VAR__);
+            stan::math::fill(pe_nc,DUMMY_VAR__);
+            validate_non_negative_index("dv", "N", N);
+            validate_non_negative_index("dv", "B", B);
+            validate_non_negative_index("dv", "T", T);
+            vector<vector<vector<local_scalar_t__> > > dv(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(dv, DUMMY_VAR__);
+            stan::math::fill(dv,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
-            validate_non_negative_index("y_pred", "maxB", maxB);
+            validate_non_negative_index("y_pred", "B", B);
             validate_non_negative_index("y_pred", "T", T);
-            vector<vector<vector<local_scalar_t__> > > y_pred(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
+            vector<vector<vector<local_scalar_t__> > > y_pred(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
             stan::math::initialize(y_pred, DUMMY_VAR__);
             stan::math::fill(y_pred,DUMMY_VAR__);
 
 
             for (int i = 1; i <= N; ++i) {
 
-                for (int b = 1; b <= maxB; ++b) {
+                for (int b = 1; b <= B; ++b) {
 
                     for (int t = 1; t <= T; ++t) {
 
-                        stan::model::assign(mr_ev_c, 
+                        stan::model::assign(ev_c, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_ev_c");
-                        stan::model::assign(mr_ev_nc, 
+                                    "assigning variable ev_c");
+                        stan::model::assign(ev_nc, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_ev_nc");
-                        stan::model::assign(mr_pe_c, 
+                                    "assigning variable ev_nc");
+                        stan::model::assign(pe_c, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_pe_c");
-                        stan::model::assign(mr_pe_nc, 
+                                    "assigning variable pe_c");
+                        stan::model::assign(pe_nc, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_pe_nc");
-                        stan::model::assign(mr_dv, 
+                                    "assigning variable pe_nc");
+                        stan::model::assign(dv, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_dv");
+                                    "assigning variable dv");
                         stan::model::assign(y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     -(1), 
@@ -30496,7 +30496,7 @@ public:
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                             0, 
                             "assigning variable log_lik");
-                for (int bIdx = 1; bIdx <= get_base1(B,i,"B",1); ++bIdx) {
+                for (int bIdx = 1; bIdx <= get_base1(Bsubj,i,"Bsubj",1); ++bIdx) {
                     {
                     validate_non_negative_index("ev", "2", 2);
                     Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,1>  ev(static_cast<Eigen::VectorXd::Index>(2));
@@ -30543,26 +30543,26 @@ public:
                                     "assigning variable y_pred");
                         stan::math::assign(PE, (get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3) - get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1)));
                         stan::math::assign(PEnc, (-(get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3)) - get_base1(ev,(3 - get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)),"ev",1)));
-                        stan::model::assign(mr_ev_c, 
+                        stan::model::assign(ev_c, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1), 
-                                    "assigning variable mr_ev_c");
-                        stan::model::assign(mr_ev_nc, 
+                                    "assigning variable ev_c");
+                        stan::model::assign(ev_nc, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     get_base1(ev,(3 - get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)),"ev",1), 
-                                    "assigning variable mr_ev_nc");
-                        stan::model::assign(mr_pe_c, 
+                                    "assigning variable ev_nc");
+                        stan::model::assign(pe_c, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     PE, 
-                                    "assigning variable mr_pe_c");
-                        stan::model::assign(mr_pe_nc, 
+                                    "assigning variable pe_c");
+                        stan::model::assign(pe_nc, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     PEnc, 
-                                    "assigning variable mr_pe_nc");
-                        stan::model::assign(mr_dv, 
+                                    "assigning variable pe_nc");
+                        stan::model::assign(dv, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     (PE - PEnc), 
-                                    "assigning variable mr_dv");
+                                    "assigning variable dv");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), 
                                     stan::model::deep_copy((get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1) + (get_base1(eta,i,"eta",1) * PE))), 
@@ -30590,42 +30590,42 @@ public:
             vars__.push_back(log_lik[k_0__]);
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_ev_c[k_0__][k_1__][k_2__]);
+                    vars__.push_back(ev_c[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_ev_nc[k_0__][k_1__][k_2__]);
+                    vars__.push_back(ev_nc[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_pe_c[k_0__][k_1__][k_2__]);
+                    vars__.push_back(pe_c[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_pe_nc[k_0__][k_1__][k_2__]);
+                    vars__.push_back(pe_nc[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_dv[k_0__][k_1__][k_2__]);
+                    vars__.push_back(dv[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
                     vars__.push_back(y_pred[k_0__][k_1__][k_2__]);
                     }
@@ -30729,52 +30729,52 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
                     param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
@@ -30852,52 +30852,52 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
                     param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
@@ -31363,16 +31363,16 @@ public:
 
                 stan::math::initialize(prob, DUMMY_VAR__);
                 stan::math::fill(prob,DUMMY_VAR__);
-                local_scalar_t__ pe_c;
-                (void) pe_c;  // dummy to suppress unused var warning
+                local_scalar_t__ PE;
+                (void) PE;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_c, DUMMY_VAR__);
-                stan::math::fill(pe_c,DUMMY_VAR__);
-                local_scalar_t__ pe_nc;
-                (void) pe_nc;  // dummy to suppress unused var warning
+                stan::math::initialize(PE, DUMMY_VAR__);
+                stan::math::fill(PE,DUMMY_VAR__);
+                local_scalar_t__ PEnc;
+                (void) PEnc;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_nc, DUMMY_VAR__);
-                stan::math::fill(pe_nc,DUMMY_VAR__);
+                stan::math::initialize(PEnc, DUMMY_VAR__);
+                stan::math::fill(PEnc,DUMMY_VAR__);
 
 
                 stan::math::assign(ev, initV);
@@ -31387,27 +31387,27 @@ public:
                                 stan::model::deep_copy((1 - get_base1(prob,1,"prob",1))), 
                                 "assigning variable prob");
                     lp_accum__.add(categorical_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), prob));
-                    stan::math::assign(pe_c, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
-                    stan::math::assign(pe_nc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
-                    if (as_bool(logical_gte(pe_c,0))) {
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    if (as_bool(logical_gte(PE,0))) {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PEnc)), 
                                     "assigning variable ev");
                     } else {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PEnc)), 
                                     "assigning variable ev");
                     }
                 }
@@ -31454,11 +31454,11 @@ public:
         names__.push_back("mu_alpha");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_pe_c");
-        names__.push_back("mr_pe_nc");
-        names__.push_back("mr_dv");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("pe_c");
+        names__.push_back("pe_nc");
+        names__.push_back("dv");
         names__.push_back("y_pred");
     }
 
@@ -31674,31 +31674,31 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_c", "N", N);
-            validate_non_negative_index("mr_pe_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_c, DUMMY_VAR__);
-            stan::math::fill(mr_pe_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_nc", "N", N);
-            validate_non_negative_index("mr_pe_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_nc, DUMMY_VAR__);
-            stan::math::fill(mr_pe_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_dv", "N", N);
-            validate_non_negative_index("mr_dv", "T", T);
-            vector<vector<local_scalar_t__> > mr_dv(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_dv, DUMMY_VAR__);
-            stan::math::fill(mr_dv,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<local_scalar_t__> > ev_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<local_scalar_t__> > ev_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("pe_c", "N", N);
+            validate_non_negative_index("pe_c", "T", T);
+            vector<vector<local_scalar_t__> > pe_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_c, DUMMY_VAR__);
+            stan::math::fill(pe_c,DUMMY_VAR__);
+            validate_non_negative_index("pe_nc", "N", N);
+            validate_non_negative_index("pe_nc", "T", T);
+            vector<vector<local_scalar_t__> > pe_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_nc, DUMMY_VAR__);
+            stan::math::fill(pe_nc,DUMMY_VAR__);
+            validate_non_negative_index("dv", "N", N);
+            validate_non_negative_index("dv", "T", T);
+            vector<vector<local_scalar_t__> > dv(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(dv, DUMMY_VAR__);
+            stan::math::fill(dv,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<local_scalar_t__> > y_pred(N, (vector<local_scalar_t__>(T)));
@@ -31710,26 +31710,26 @@ public:
 
                 for (int t = 1; t <= T; ++t) {
 
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_dv");
+                                "assigning variable dv");
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 -(1), 
@@ -31755,16 +31755,16 @@ public:
 
                 stan::math::initialize(prob, DUMMY_VAR__);
                 stan::math::fill(prob,DUMMY_VAR__);
-                local_scalar_t__ pe_c;
-                (void) pe_c;  // dummy to suppress unused var warning
+                local_scalar_t__ PE;
+                (void) PE;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_c, DUMMY_VAR__);
-                stan::math::fill(pe_c,DUMMY_VAR__);
-                local_scalar_t__ pe_nc;
-                (void) pe_nc;  // dummy to suppress unused var warning
+                stan::math::initialize(PE, DUMMY_VAR__);
+                stan::math::fill(PE,DUMMY_VAR__);
+                local_scalar_t__ PEnc;
+                (void) PEnc;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_nc, DUMMY_VAR__);
-                stan::math::fill(pe_nc,DUMMY_VAR__);
+                stan::math::initialize(PEnc, DUMMY_VAR__);
+                stan::math::fill(PEnc,DUMMY_VAR__);
 
 
                 stan::math::assign(ev, initV);
@@ -31790,47 +31790,47 @@ public:
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 categorical_rng(prob, base_rng__), 
                                 "assigning variable y_pred");
-                    stan::math::assign(pe_c, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
-                    stan::math::assign(pe_nc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
-                    stan::model::assign(mr_ev_c, 
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
-                                pe_c, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                PE, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
-                                pe_nc, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                PEnc, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
-                                (pe_c - pe_nc), 
-                                "assigning variable mr_dv");
-                    if (as_bool(logical_gte(pe_c,0))) {
+                                (PE - PEnc), 
+                                "assigning variable dv");
+                    if (as_bool(logical_gte(PE,0))) {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PEnc)), 
                                     "assigning variable ev");
                     } else {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PEnc)), 
                                     "assigning variable ev");
                     }
                 }
@@ -31855,27 +31855,27 @@ public:
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                vars__.push_back(ev_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                vars__.push_back(ev_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_c[k_0__][k_1__]);
+                vars__.push_back(pe_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_nc[k_0__][k_1__]);
+                vars__.push_back(pe_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_dv[k_0__][k_1__]);
+                vars__.push_back(dv[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
@@ -31996,35 +31996,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -32120,35 +32120,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -32576,16 +32576,16 @@ public:
 
                 stan::math::initialize(prob, DUMMY_VAR__);
                 stan::math::fill(prob,DUMMY_VAR__);
-                local_scalar_t__ pe_c;
-                (void) pe_c;  // dummy to suppress unused var warning
+                local_scalar_t__ PE;
+                (void) PE;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_c, DUMMY_VAR__);
-                stan::math::fill(pe_c,DUMMY_VAR__);
-                local_scalar_t__ pe_nc;
-                (void) pe_nc;  // dummy to suppress unused var warning
+                stan::math::initialize(PE, DUMMY_VAR__);
+                stan::math::fill(PE,DUMMY_VAR__);
+                local_scalar_t__ PEnc;
+                (void) PEnc;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_nc, DUMMY_VAR__);
-                stan::math::fill(pe_nc,DUMMY_VAR__);
+                stan::math::initialize(PEnc, DUMMY_VAR__);
+                stan::math::fill(PEnc,DUMMY_VAR__);
 
 
                 stan::math::assign(ev, initV);
@@ -32600,27 +32600,27 @@ public:
                                 stan::model::deep_copy((1 - get_base1(prob,1,"prob",1))), 
                                 "assigning variable prob");
                     lp_accum__.add(categorical_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), prob));
-                    stan::math::assign(pe_c, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
-                    stan::math::assign(pe_nc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
-                    if (as_bool(logical_gte(pe_c,0))) {
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    if (as_bool(logical_gte(PE,0))) {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PEnc)), 
                                     "assigning variable ev");
                     } else {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PEnc)), 
                                     "assigning variable ev");
                     }
                 }
@@ -32664,11 +32664,11 @@ public:
         names__.push_back("mu_eta_neg");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_pe_c");
-        names__.push_back("mr_pe_nc");
-        names__.push_back("mr_dv");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("pe_c");
+        names__.push_back("pe_nc");
+        names__.push_back("dv");
         names__.push_back("y_pred");
     }
 
@@ -32857,31 +32857,31 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_c", "N", N);
-            validate_non_negative_index("mr_pe_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_c, DUMMY_VAR__);
-            stan::math::fill(mr_pe_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_nc", "N", N);
-            validate_non_negative_index("mr_pe_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_nc, DUMMY_VAR__);
-            stan::math::fill(mr_pe_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_dv", "N", N);
-            validate_non_negative_index("mr_dv", "T", T);
-            vector<vector<local_scalar_t__> > mr_dv(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_dv, DUMMY_VAR__);
-            stan::math::fill(mr_dv,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<local_scalar_t__> > ev_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<local_scalar_t__> > ev_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("pe_c", "N", N);
+            validate_non_negative_index("pe_c", "T", T);
+            vector<vector<local_scalar_t__> > pe_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_c, DUMMY_VAR__);
+            stan::math::fill(pe_c,DUMMY_VAR__);
+            validate_non_negative_index("pe_nc", "N", N);
+            validate_non_negative_index("pe_nc", "T", T);
+            vector<vector<local_scalar_t__> > pe_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_nc, DUMMY_VAR__);
+            stan::math::fill(pe_nc,DUMMY_VAR__);
+            validate_non_negative_index("dv", "N", N);
+            validate_non_negative_index("dv", "T", T);
+            vector<vector<local_scalar_t__> > dv(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(dv, DUMMY_VAR__);
+            stan::math::fill(dv,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<local_scalar_t__> > y_pred(N, (vector<local_scalar_t__>(T)));
@@ -32893,26 +32893,26 @@ public:
 
                 for (int t = 1; t <= T; ++t) {
 
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_dv");
+                                "assigning variable dv");
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 -(1), 
@@ -32937,16 +32937,16 @@ public:
 
                 stan::math::initialize(prob, DUMMY_VAR__);
                 stan::math::fill(prob,DUMMY_VAR__);
-                local_scalar_t__ pe_c;
-                (void) pe_c;  // dummy to suppress unused var warning
+                local_scalar_t__ PE;
+                (void) PE;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_c, DUMMY_VAR__);
-                stan::math::fill(pe_c,DUMMY_VAR__);
-                local_scalar_t__ pe_nc;
-                (void) pe_nc;  // dummy to suppress unused var warning
+                stan::math::initialize(PE, DUMMY_VAR__);
+                stan::math::fill(PE,DUMMY_VAR__);
+                local_scalar_t__ PEnc;
+                (void) PEnc;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe_nc, DUMMY_VAR__);
-                stan::math::fill(pe_nc,DUMMY_VAR__);
+                stan::math::initialize(PEnc, DUMMY_VAR__);
+                stan::math::fill(PEnc,DUMMY_VAR__);
 
 
                 stan::math::assign(ev, initV);
@@ -32972,47 +32972,47 @@ public:
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 categorical_rng(prob, base_rng__), 
                                 "assigning variable y_pred");
-                    stan::math::assign(pe_c, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
-                    stan::math::assign(pe_nc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
-                    stan::model::assign(mr_ev_c, 
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
-                                pe_c, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                PE, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
-                                pe_nc, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                PEnc, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
-                                (pe_c - pe_nc), 
-                                "assigning variable mr_dv");
-                    if (as_bool(logical_gte(pe_c,0))) {
+                                (PE - PEnc), 
+                                "assigning variable dv");
+                    if (as_bool(logical_gte(PE,0))) {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_pos,i,"eta_pos",1) * PEnc)), 
                                     "assigning variable ev");
                     } else {
 
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_c)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PE)), 
                                     "assigning variable ev");
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * pe_nc)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni((3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2))), stan::model::nil_index_list()), "ev") + (get_base1(eta_neg,i,"eta_neg",1) * PEnc)), 
                                     "assigning variable ev");
                     }
                 }
@@ -33036,27 +33036,27 @@ public:
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                vars__.push_back(ev_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                vars__.push_back(ev_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_c[k_0__][k_1__]);
+                vars__.push_back(pe_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_nc[k_0__][k_1__]);
+                vars__.push_back(pe_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_dv[k_0__][k_1__]);
+                vars__.push_back(dv[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
@@ -33164,35 +33164,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -33275,35 +33275,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -33759,11 +33759,11 @@ public:
         names__.push_back("mu_eta");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_pe_c");
-        names__.push_back("mr_pe_nc");
-        names__.push_back("mr_dv");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("pe_c");
+        names__.push_back("pe_nc");
+        names__.push_back("dv");
         names__.push_back("y_pred");
     }
 
@@ -33920,31 +33920,31 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_c", "N", N);
-            validate_non_negative_index("mr_pe_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_c, DUMMY_VAR__);
-            stan::math::fill(mr_pe_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe_nc", "N", N);
-            validate_non_negative_index("mr_pe_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe_nc, DUMMY_VAR__);
-            stan::math::fill(mr_pe_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_dv", "N", N);
-            validate_non_negative_index("mr_dv", "T", T);
-            vector<vector<local_scalar_t__> > mr_dv(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_dv, DUMMY_VAR__);
-            stan::math::fill(mr_dv,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<local_scalar_t__> > ev_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<local_scalar_t__> > ev_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("pe_c", "N", N);
+            validate_non_negative_index("pe_c", "T", T);
+            vector<vector<local_scalar_t__> > pe_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_c, DUMMY_VAR__);
+            stan::math::fill(pe_c,DUMMY_VAR__);
+            validate_non_negative_index("pe_nc", "N", N);
+            validate_non_negative_index("pe_nc", "T", T);
+            vector<vector<local_scalar_t__> > pe_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe_nc, DUMMY_VAR__);
+            stan::math::fill(pe_nc,DUMMY_VAR__);
+            validate_non_negative_index("dv", "N", N);
+            validate_non_negative_index("dv", "T", T);
+            vector<vector<local_scalar_t__> > dv(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(dv, DUMMY_VAR__);
+            stan::math::fill(dv,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<local_scalar_t__> > y_pred(N, (vector<local_scalar_t__>(T)));
@@ -33956,26 +33956,26 @@ public:
 
                 for (int t = 1; t <= T; ++t) {
 
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_dv");
+                                "assigning variable dv");
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 -(1), 
@@ -34036,26 +34036,26 @@ public:
                                 "assigning variable y_pred");
                     stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
                     stan::math::assign(PEnc, (-(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2)) - get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1)));
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe_c, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 PE, 
-                                "assigning variable mr_pe_c");
-                    stan::model::assign(mr_pe_nc, 
+                                "assigning variable pe_c");
+                    stan::model::assign(pe_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 PEnc, 
-                                "assigning variable mr_pe_nc");
-                    stan::model::assign(mr_dv, 
+                                "assigning variable pe_nc");
+                    stan::model::assign(dv, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 (PE - PEnc), 
-                                "assigning variable mr_dv");
+                                "assigning variable dv");
                     stan::model::assign(ev, 
                                 stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
                                 (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(eta,i,"eta",1) * PE)), 
@@ -34082,27 +34082,27 @@ public:
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                vars__.push_back(ev_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                vars__.push_back(ev_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_c[k_0__][k_1__]);
+                vars__.push_back(pe_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe_nc[k_0__][k_1__]);
+                vars__.push_back(pe_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_dv[k_0__][k_1__]);
+                vars__.push_back(dv[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
@@ -34197,35 +34197,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -34295,35 +34295,35 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_dv" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "dv" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -34745,27 +34745,27 @@ public:
 
                 stan::math::initialize(ev, DUMMY_VAR__);
                 stan::math::fill(ev,DUMMY_VAR__);
-                local_scalar_t__ pe;
-                (void) pe;  // dummy to suppress unused var warning
+                local_scalar_t__ PE;
+                (void) PE;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe, DUMMY_VAR__);
-                stan::math::fill(pe,DUMMY_VAR__);
+                stan::math::initialize(PE, DUMMY_VAR__);
+                stan::math::fill(PE,DUMMY_VAR__);
 
 
                 stan::math::assign(ev, initV);
                 for (int t = 1; t <= get_base1(Tsubj,i,"Tsubj",1); ++t) {
 
                     lp_accum__.add(categorical_logit_log<propto__>(get_base1(get_base1(choice,i,"choice",1),t,"choice",2), multiply(ev,get_base1(beta,i,"beta",1))));
-                    stan::math::assign(pe, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
                     if (as_bool(logical_gt(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2),0))) {
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * pe)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * PE)), 
                                     "assigning variable ev");
                     } else {
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * pe)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * PE)), 
                                     "assigning variable ev");
                     }
                 }
@@ -34809,9 +34809,9 @@ public:
         names__.push_back("mu_Arew");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_pe");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("pe");
         names__.push_back("y_pred");
     }
 
@@ -34992,21 +34992,21 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_c(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<local_scalar_t__> > mr_ev_nc(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe", "N", N);
-            validate_non_negative_index("mr_pe", "T", T);
-            vector<vector<local_scalar_t__> > mr_pe(N, (vector<local_scalar_t__>(T)));
-            stan::math::initialize(mr_pe, DUMMY_VAR__);
-            stan::math::fill(mr_pe,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<local_scalar_t__> > ev_c(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<local_scalar_t__> > ev_nc(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("pe", "N", N);
+            validate_non_negative_index("pe", "T", T);
+            vector<vector<local_scalar_t__> > pe(N, (vector<local_scalar_t__>(T)));
+            stan::math::initialize(pe, DUMMY_VAR__);
+            stan::math::fill(pe,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
             validate_non_negative_index("y_pred", "T", T);
             vector<vector<local_scalar_t__> > y_pred(N, (vector<local_scalar_t__>(T)));
@@ -35018,18 +35018,18 @@ public:
 
                 for (int t = 1; t <= T; ++t) {
 
-                    stan::model::assign(mr_ev_c, 
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 0, 
-                                "assigning variable mr_pe");
+                                "assigning variable pe");
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 -(1), 
@@ -35048,11 +35048,11 @@ public:
 
                 stan::math::initialize(ev, DUMMY_VAR__);
                 stan::math::fill(ev,DUMMY_VAR__);
-                local_scalar_t__ pe;
-                (void) pe;  // dummy to suppress unused var warning
+                local_scalar_t__ PE;
+                (void) PE;  // dummy to suppress unused var warning
 
-                stan::math::initialize(pe, DUMMY_VAR__);
-                stan::math::fill(pe,DUMMY_VAR__);
+                stan::math::initialize(PE, DUMMY_VAR__);
+                stan::math::fill(PE,DUMMY_VAR__);
 
 
                 stan::math::assign(ev, initV);
@@ -35070,28 +35070,28 @@ public:
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 categorical_rng(softmax(multiply(ev,get_base1(beta,i,"beta",1))), base_rng__), 
                                 "assigning variable y_pred");
-                    stan::math::assign(pe, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
-                    stan::model::assign(mr_ev_c, 
+                    stan::math::assign(PE, (get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2) - get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1)));
+                    stan::model::assign(ev_c, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,get_base1(get_base1(choice,i,"choice",1),t,"choice",2),"ev",1), 
-                                "assigning variable mr_ev_c");
-                    stan::model::assign(mr_ev_nc, 
+                                "assigning variable ev_c");
+                    stan::model::assign(ev_nc, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
                                 get_base1(ev,(3 - get_base1(get_base1(choice,i,"choice",1),t,"choice",2)),"ev",1), 
-                                "assigning variable mr_ev_nc");
-                    stan::model::assign(mr_pe, 
+                                "assigning variable ev_nc");
+                    stan::model::assign(pe, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list())), 
-                                pe, 
-                                "assigning variable mr_pe");
+                                PE, 
+                                "assigning variable pe");
                     if (as_bool(logical_gt(get_base1(get_base1(outcome,i,"outcome",1),t,"outcome",2),0))) {
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * pe)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * PE)), 
                                     "assigning variable ev");
                     } else {
                         stan::model::assign(ev, 
                                     stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), 
-                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * pe)), 
+                                    (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(choice,i,"choice",1),t,"choice",2)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * PE)), 
                                     "assigning variable ev");
                     }
                 }
@@ -35115,17 +35115,17 @@ public:
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_c[k_0__][k_1__]);
+                vars__.push_back(ev_c[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_ev_nc[k_0__][k_1__]);
+                vars__.push_back(ev_nc[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                vars__.push_back(mr_pe[k_0__][k_1__]);
+                vars__.push_back(pe[k_0__][k_1__]);
                 }
             }
             for (int k_1__ = 0; k_1__ < T; ++k_1__) {
@@ -35233,21 +35233,21 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -35330,21 +35330,21 @@ public:
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
         for (int k_1__ = 1; k_1__ <= T; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                 param_name_stream__.str(std::string());
-                param_name_stream__ << "mr_pe" << '.' << k_0__ << '.' << k_1__;
+                param_name_stream__ << "pe" << '.' << k_0__ << '.' << k_1__;
                 param_names__.push_back(param_name_stream__.str());
             }
         }
@@ -35384,16 +35384,16 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_prl_rp_multipleB");
-    reader.add_event(159, 157, "end", "model_prl_rp_multipleB");
+    reader.add_event(160, 158, "end", "model_prl_rp_multipleB");
     return reader;
 }
 
 class model_prl_rp_multipleB : public prob_grad {
 private:
     int N;
+    int B;
+    vector<int> Bsubj;
     int T;
-    int maxB;
-    vector<int> B;
     vector<vector<int> > Tsubj;
     vector<vector<vector<int> > > choice;
     vector<vector<vector<double> > > outcome;
@@ -35439,35 +35439,35 @@ public:
             vals_i__ = context__.vals_i("N");
             pos__ = 0;
             N = vals_i__[pos__++];
+            context__.validate_dims("data initialization", "B", "int", context__.to_vec());
+            B = int(0);
+            vals_i__ = context__.vals_i("B");
+            pos__ = 0;
+            B = vals_i__[pos__++];
+            validate_non_negative_index("Bsubj", "N", N);
+            context__.validate_dims("data initialization", "Bsubj", "int", context__.to_vec(N));
+            validate_non_negative_index("Bsubj", "N", N);
+            Bsubj = std::vector<int>(N,int(0));
+            vals_i__ = context__.vals_i("Bsubj");
+            pos__ = 0;
+            size_t Bsubj_limit_0__ = N;
+            for (size_t i_0__ = 0; i_0__ < Bsubj_limit_0__; ++i_0__) {
+                Bsubj[i_0__] = vals_i__[pos__++];
+            }
             context__.validate_dims("data initialization", "T", "int", context__.to_vec());
             T = int(0);
             vals_i__ = context__.vals_i("T");
             pos__ = 0;
             T = vals_i__[pos__++];
-            context__.validate_dims("data initialization", "maxB", "int", context__.to_vec());
-            maxB = int(0);
-            vals_i__ = context__.vals_i("maxB");
-            pos__ = 0;
-            maxB = vals_i__[pos__++];
-            validate_non_negative_index("B", "N", N);
-            context__.validate_dims("data initialization", "B", "int", context__.to_vec(N));
-            validate_non_negative_index("B", "N", N);
-            B = std::vector<int>(N,int(0));
-            vals_i__ = context__.vals_i("B");
-            pos__ = 0;
-            size_t B_limit_0__ = N;
-            for (size_t i_0__ = 0; i_0__ < B_limit_0__; ++i_0__) {
-                B[i_0__] = vals_i__[pos__++];
-            }
             validate_non_negative_index("Tsubj", "N", N);
-            validate_non_negative_index("Tsubj", "maxB", maxB);
-            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N,maxB));
+            validate_non_negative_index("Tsubj", "B", B);
+            context__.validate_dims("data initialization", "Tsubj", "int", context__.to_vec(N,B));
             validate_non_negative_index("Tsubj", "N", N);
-            validate_non_negative_index("Tsubj", "maxB", maxB);
-            Tsubj = std::vector<std::vector<int> >(N,std::vector<int>(maxB,int(0)));
+            validate_non_negative_index("Tsubj", "B", B);
+            Tsubj = std::vector<std::vector<int> >(N,std::vector<int>(B,int(0)));
             vals_i__ = context__.vals_i("Tsubj");
             pos__ = 0;
-            size_t Tsubj_limit_1__ = maxB;
+            size_t Tsubj_limit_1__ = B;
             for (size_t i_1__ = 0; i_1__ < Tsubj_limit_1__; ++i_1__) {
                 size_t Tsubj_limit_0__ = N;
                 for (size_t i_0__ = 0; i_0__ < Tsubj_limit_0__; ++i_0__) {
@@ -35475,18 +35475,18 @@ public:
                 }
             }
             validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "maxB", maxB);
+            validate_non_negative_index("choice", "B", B);
             validate_non_negative_index("choice", "T", T);
-            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,maxB,T));
+            context__.validate_dims("data initialization", "choice", "int", context__.to_vec(N,B,T));
             validate_non_negative_index("choice", "N", N);
-            validate_non_negative_index("choice", "maxB", maxB);
+            validate_non_negative_index("choice", "B", B);
             validate_non_negative_index("choice", "T", T);
-            choice = std::vector<std::vector<std::vector<int> > >(N,std::vector<std::vector<int> >(maxB,std::vector<int>(T,int(0))));
+            choice = std::vector<std::vector<std::vector<int> > >(N,std::vector<std::vector<int> >(B,std::vector<int>(T,int(0))));
             vals_i__ = context__.vals_i("choice");
             pos__ = 0;
             size_t choice_limit_2__ = T;
             for (size_t i_2__ = 0; i_2__ < choice_limit_2__; ++i_2__) {
-                size_t choice_limit_1__ = maxB;
+                size_t choice_limit_1__ = B;
                 for (size_t i_1__ = 0; i_1__ < choice_limit_1__; ++i_1__) {
                     size_t choice_limit_0__ = N;
                     for (size_t i_0__ = 0; i_0__ < choice_limit_0__; ++i_0__) {
@@ -35495,18 +35495,18 @@ public:
                 }
             }
             validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "maxB", maxB);
+            validate_non_negative_index("outcome", "B", B);
             validate_non_negative_index("outcome", "T", T);
-            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,maxB,T));
+            context__.validate_dims("data initialization", "outcome", "double", context__.to_vec(N,B,T));
             validate_non_negative_index("outcome", "N", N);
-            validate_non_negative_index("outcome", "maxB", maxB);
+            validate_non_negative_index("outcome", "B", B);
             validate_non_negative_index("outcome", "T", T);
-            outcome = std::vector<std::vector<std::vector<double> > >(N,std::vector<std::vector<double> >(maxB,std::vector<double>(T,double(0))));
+            outcome = std::vector<std::vector<std::vector<double> > >(N,std::vector<std::vector<double> >(B,std::vector<double>(T,double(0))));
             vals_r__ = context__.vals_r("outcome");
             pos__ = 0;
             size_t outcome_limit_2__ = T;
             for (size_t i_2__ = 0; i_2__ < outcome_limit_2__; ++i_2__) {
-                size_t outcome_limit_1__ = maxB;
+                size_t outcome_limit_1__ = B;
                 for (size_t i_1__ = 0; i_1__ < outcome_limit_1__; ++i_1__) {
                     size_t outcome_limit_0__ = N;
                     for (size_t i_0__ = 0; i_0__ < outcome_limit_0__; ++i_0__) {
@@ -35517,19 +35517,19 @@ public:
 
             // validate, data variables
             check_greater_or_equal(function__,"N",N,1);
-            check_greater_or_equal(function__,"T",T,0);
-            check_greater_or_equal(function__,"maxB",maxB,1);
+            check_greater_or_equal(function__,"B",B,1);
             for (int k0__ = 0; k0__ < N; ++k0__) {
-                check_greater_or_equal(function__,"B[k0__]",B[k0__],1);
+                check_greater_or_equal(function__,"Bsubj[k0__]",Bsubj[k0__],1);
             }
+            check_greater_or_equal(function__,"T",T,0);
             for (int k0__ = 0; k0__ < N; ++k0__) {
-                for (int k1__ = 0; k1__ < maxB; ++k1__) {
+                for (int k1__ = 0; k1__ < B; ++k1__) {
                     check_greater_or_equal(function__,"Tsubj[k0__][k1__]",Tsubj[k0__][k1__],0);
                     check_less_or_equal(function__,"Tsubj[k0__][k1__]",Tsubj[k0__][k1__],T);
                 }
             }
             for (int k0__ = 0; k0__ < N; ++k0__) {
-                for (int k1__ = 0; k1__ < maxB; ++k1__) {
+                for (int k1__ = 0; k1__ < B; ++k1__) {
                     for (int k2__ = 0; k2__ < T; ++k2__) {
                         check_greater_or_equal(function__,"choice[k0__][k1__][k2__]",choice[k0__][k1__][k2__],-(1));
                         check_less_or_equal(function__,"choice[k0__][k1__][k2__]",choice[k0__][k1__][k2__],2);
@@ -35800,7 +35800,7 @@ public:
             lp_accum__.add(normal_log<propto__>(beta_pr, 0, 1));
             for (int i = 1; i <= N; ++i) {
 
-                for (int bIdx = 1; bIdx <= get_base1(B,i,"B",1); ++bIdx) {
+                for (int bIdx = 1; bIdx <= get_base1(Bsubj,i,"Bsubj",1); ++bIdx) {
                     {
                     validate_non_negative_index("ev", "2", 2);
                     Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,1>  ev(static_cast<Eigen::VectorXd::Index>(2));
@@ -35808,27 +35808,27 @@ public:
 
                     stan::math::initialize(ev, DUMMY_VAR__);
                     stan::math::fill(ev,DUMMY_VAR__);
-                    local_scalar_t__ pe;
-                    (void) pe;  // dummy to suppress unused var warning
+                    local_scalar_t__ PE;
+                    (void) PE;  // dummy to suppress unused var warning
 
-                    stan::math::initialize(pe, DUMMY_VAR__);
-                    stan::math::fill(pe,DUMMY_VAR__);
+                    stan::math::initialize(PE, DUMMY_VAR__);
+                    stan::math::fill(PE,DUMMY_VAR__);
 
 
                     stan::math::assign(ev, initV);
                     for (int t = 1; t <= get_base1(get_base1(Tsubj,i,"Tsubj",1),bIdx,"Tsubj",2); ++t) {
 
                         lp_accum__.add(categorical_logit_log<propto__>(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3), multiply(ev,get_base1(beta,i,"beta",1))));
-                        stan::math::assign(pe, (get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3) - get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1)));
+                        stan::math::assign(PE, (get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3) - get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1)));
                         if (as_bool(logical_gt(get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3),0))) {
                             stan::model::assign(ev, 
                                         stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), 
-                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * pe)), 
+                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * PE)), 
                                         "assigning variable ev");
                         } else {
                             stan::model::assign(ev, 
                                         stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), 
-                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * pe)), 
+                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * PE)), 
                                         "assigning variable ev");
                         }
                     }
@@ -35873,9 +35873,9 @@ public:
         names__.push_back("mu_Arew");
         names__.push_back("mu_beta");
         names__.push_back("log_lik");
-        names__.push_back("mr_ev_c");
-        names__.push_back("mr_ev_nc");
-        names__.push_back("mr_pe");
+        names__.push_back("ev_c");
+        names__.push_back("ev_nc");
+        names__.push_back("pe");
         names__.push_back("y_pred");
     }
 
@@ -35918,22 +35918,22 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N);
-        dims__.push_back(maxB);
+        dims__.push_back(B);
         dims__.push_back(T);
         dimss__.push_back(dims__);
     }
@@ -36060,50 +36060,50 @@ public:
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_c", "N", N);
-            validate_non_negative_index("mr_ev_c", "maxB", maxB);
-            validate_non_negative_index("mr_ev_c", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_ev_c(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_ev_c, DUMMY_VAR__);
-            stan::math::fill(mr_ev_c,DUMMY_VAR__);
-            validate_non_negative_index("mr_ev_nc", "N", N);
-            validate_non_negative_index("mr_ev_nc", "maxB", maxB);
-            validate_non_negative_index("mr_ev_nc", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_ev_nc(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_ev_nc, DUMMY_VAR__);
-            stan::math::fill(mr_ev_nc,DUMMY_VAR__);
-            validate_non_negative_index("mr_pe", "N", N);
-            validate_non_negative_index("mr_pe", "maxB", maxB);
-            validate_non_negative_index("mr_pe", "T", T);
-            vector<vector<vector<local_scalar_t__> > > mr_pe(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
-            stan::math::initialize(mr_pe, DUMMY_VAR__);
-            stan::math::fill(mr_pe,DUMMY_VAR__);
+            validate_non_negative_index("ev_c", "N", N);
+            validate_non_negative_index("ev_c", "B", B);
+            validate_non_negative_index("ev_c", "T", T);
+            vector<vector<vector<local_scalar_t__> > > ev_c(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(ev_c, DUMMY_VAR__);
+            stan::math::fill(ev_c,DUMMY_VAR__);
+            validate_non_negative_index("ev_nc", "N", N);
+            validate_non_negative_index("ev_nc", "B", B);
+            validate_non_negative_index("ev_nc", "T", T);
+            vector<vector<vector<local_scalar_t__> > > ev_nc(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(ev_nc, DUMMY_VAR__);
+            stan::math::fill(ev_nc,DUMMY_VAR__);
+            validate_non_negative_index("pe", "N", N);
+            validate_non_negative_index("pe", "B", B);
+            validate_non_negative_index("pe", "T", T);
+            vector<vector<vector<local_scalar_t__> > > pe(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
+            stan::math::initialize(pe, DUMMY_VAR__);
+            stan::math::fill(pe,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "N", N);
-            validate_non_negative_index("y_pred", "maxB", maxB);
+            validate_non_negative_index("y_pred", "B", B);
             validate_non_negative_index("y_pred", "T", T);
-            vector<vector<vector<local_scalar_t__> > > y_pred(N, (vector<vector<local_scalar_t__> >(maxB, (vector<local_scalar_t__>(T)))));
+            vector<vector<vector<local_scalar_t__> > > y_pred(N, (vector<vector<local_scalar_t__> >(B, (vector<local_scalar_t__>(T)))));
             stan::math::initialize(y_pred, DUMMY_VAR__);
             stan::math::fill(y_pred,DUMMY_VAR__);
 
 
             for (int i = 1; i <= N; ++i) {
 
-                for (int b = 1; b <= maxB; ++b) {
+                for (int b = 1; b <= B; ++b) {
 
                     for (int t = 1; t <= T; ++t) {
 
-                        stan::model::assign(mr_ev_c, 
+                        stan::model::assign(ev_c, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_ev_c");
-                        stan::model::assign(mr_ev_nc, 
+                                    "assigning variable ev_c");
+                        stan::model::assign(ev_nc, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_ev_nc");
-                        stan::model::assign(mr_pe, 
+                                    "assigning variable ev_nc");
+                        stan::model::assign(pe, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     0, 
-                                    "assigning variable mr_pe");
+                                    "assigning variable pe");
                         stan::model::assign(y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(b), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     -(1), 
@@ -36121,7 +36121,7 @@ public:
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                             0, 
                             "assigning variable log_lik");
-                for (int bIdx = 1; bIdx <= get_base1(B,i,"B",1); ++bIdx) {
+                for (int bIdx = 1; bIdx <= get_base1(Bsubj,i,"Bsubj",1); ++bIdx) {
                     {
                     validate_non_negative_index("ev", "2", 2);
                     Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,1>  ev(static_cast<Eigen::VectorXd::Index>(2));
@@ -36129,11 +36129,11 @@ public:
 
                     stan::math::initialize(ev, DUMMY_VAR__);
                     stan::math::fill(ev,DUMMY_VAR__);
-                    local_scalar_t__ pe;
-                    (void) pe;  // dummy to suppress unused var warning
+                    local_scalar_t__ PE;
+                    (void) PE;  // dummy to suppress unused var warning
 
-                    stan::math::initialize(pe, DUMMY_VAR__);
-                    stan::math::fill(pe,DUMMY_VAR__);
+                    stan::math::initialize(PE, DUMMY_VAR__);
+                    stan::math::fill(PE,DUMMY_VAR__);
 
 
                     stan::math::assign(ev, initV);
@@ -36147,28 +36147,28 @@ public:
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     categorical_rng(softmax(multiply(ev,get_base1(beta,i,"beta",1))), base_rng__), 
                                     "assigning variable y_pred");
-                        stan::math::assign(pe, (get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3) - get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1)));
-                        stan::model::assign(mr_ev_c, 
+                        stan::math::assign(PE, (get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3) - get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1)));
+                        stan::model::assign(ev_c, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     get_base1(ev,get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3),"ev",1), 
-                                    "assigning variable mr_ev_c");
-                        stan::model::assign(mr_ev_nc, 
+                                    "assigning variable ev_c");
+                        stan::model::assign(ev_nc, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
                                     get_base1(ev,(3 - get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)),"ev",1), 
-                                    "assigning variable mr_ev_nc");
-                        stan::model::assign(mr_pe, 
+                                    "assigning variable ev_nc");
+                        stan::model::assign(pe, 
                                     stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(bIdx), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
-                                    pe, 
-                                    "assigning variable mr_pe");
+                                    PE, 
+                                    "assigning variable pe");
                         if (as_bool(logical_gt(get_base1(get_base1(get_base1(outcome,i,"outcome",1),bIdx,"outcome",2),t,"outcome",3),0))) {
                             stan::model::assign(ev, 
                                         stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), 
-                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * pe)), 
+                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Arew,i,"Arew",1) * PE)), 
                                         "assigning variable ev");
                         } else {
                             stan::model::assign(ev, 
                                         stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), 
-                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * pe)), 
+                                        (stan::model::rvalue(ev, stan::model::cons_list(stan::model::index_uni(get_base1(get_base1(get_base1(choice,i,"choice",1),bIdx,"choice",2),t,"choice",3)), stan::model::nil_index_list()), "ev") + (get_base1(Apun,i,"Apun",1) * PE)), 
                                         "assigning variable ev");
                         }
                     }
@@ -36192,28 +36192,28 @@ public:
             vars__.push_back(log_lik[k_0__]);
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_ev_c[k_0__][k_1__][k_2__]);
+                    vars__.push_back(ev_c[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_ev_nc[k_0__][k_1__][k_2__]);
+                    vars__.push_back(ev_nc[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
-                    vars__.push_back(mr_pe[k_0__][k_1__][k_2__]);
+                    vars__.push_back(pe[k_0__][k_1__][k_2__]);
                     }
                 }
             }
             for (int k_2__ = 0; k_2__ < T; ++k_2__) {
-                for (int k_1__ = 0; k_1__ < maxB; ++k_1__) {
+                for (int k_1__ = 0; k_1__ < B; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N; ++k_0__) {
                     vars__.push_back(y_pred[k_0__][k_1__][k_2__]);
                     }
@@ -36317,34 +36317,34 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_pe" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "pe" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
                     param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
@@ -36422,34 +36422,34 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_c" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "ev_nc" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "mr_pe" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
+                    param_name_stream__ << "pe" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
         }
         for (int k_2__ = 1; k_2__ <= T; ++k_2__) {
-            for (int k_1__ = 1; k_1__ <= maxB; ++k_1__) {
+            for (int k_1__ = 1; k_1__ <= B; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
                     param_name_stream__.str(std::string());
                     param_name_stream__ << "y_pred" << '.' << k_0__ << '.' << k_1__ << '.' << k_2__;
