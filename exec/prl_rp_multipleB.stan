@@ -8,12 +8,12 @@ data {
   int<lower=1> N;                             // Number of subjects
   int<lower=0> T;                             // Maximum number of trials across subjects
 
-  int<lower=1> maxB;                          // Maximum number of blocks across subjects
-  int<lower=1> B[N];                          // Number of blocks for each subject
+  int<lower=1> B;                          // Maximum number of blocks across subjects
+  int<lower=1> Bsubj[N];                          // Number of blocks for each subject
 
-  int<lower=0, upper=T> Tsubj[N, maxB];       // Number of trials/blocks for each subject
-  int<lower=-1, upper=2> choice[N, maxB, T];  // The choices subjects made
-  real outcome[N, maxB, T];                   // The outcome
+  int<lower=0, upper=T> Tsubj[N, B];       // Number of trials/blocks for each subject
+  int<lower=-1, upper=2> choice[N, B, T];  // The choices subjects made
+  real outcome[N, B, T];                   // The outcome
 }
 
 transformed data {
@@ -58,7 +58,7 @@ model {
   beta_pr ~ normal(0, 1);
 
   for (i in 1:N) {
-    for (bIdx in 1:B[i]) {  // new
+    for (bIdx in 1:Bsubj[i]) {  // new
       // Define Values
       vector[2] ev;   // Expected value
       real PE;        // Prediction error
@@ -93,16 +93,16 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real ev_c[N, maxB, T];   // Expected value of the chosen option
-  real ev_nc[N, maxB, T];  // Expected value of the non-chosen option
-  real pe[N, maxB, T];     // Prediction error
+  real ev_c[N, B, T];   // Expected value of the chosen option
+  real ev_nc[N, B, T];  // Expected value of the non-chosen option
+  real pe[N, B, T];     // Prediction error
 
   // For posterior predictive check
-  real y_pred[N, maxB, T];
+  real y_pred[N, B, T];
 
   // Initialize all the variables to avoid NULL values
   for (i in 1:N) {
-    for (b in 1:maxB) {
+    for (b in 1:B) {
       for (t in 1:T) {
         ev_c[i, b, t]  = 0;
         ev_nc[i, b, t] = 0;
@@ -122,7 +122,7 @@ generated quantities {
 
       log_lik[i] = 0;
 
-      for (bIdx in 1:B[i]) {  // new
+      for (bIdx in 1:Bsubj[i]) {  // new
         // Define values
         vector[2] ev; // Expected value
         real PE; // prediction error

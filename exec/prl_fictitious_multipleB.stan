@@ -7,12 +7,12 @@
 data {
   int<lower=1> N;                             // Number of subjects
   int<lower=0> T;                             // Max number of trials across subjects
-  int<lower=1> maxB;                          // Max number of blocks across subjects
-  int<lower=1> B[N];                          // Number of blocks for each subject
-  int<lower=0, upper=T> Tsubj[N, maxB];       // Number of trials/block for each subject
+  int<lower=1> B;                          // Max number of blocks across subjects
+  int<lower=1> Bsubj[N];                          // Number of blocks for each subject
+  int<lower=0, upper=T> Tsubj[N, B];       // Number of trials/block for each subject
 
-  int<lower=-1, upper=2> choice[N, maxB, T];  // Choice for each subject-block-trial
-  real outcome[N, maxB, T];                   // Outcome (reward/loss) for each subject-block-trial
+  int<lower=-1, upper=2> choice[N, B, T];  // Choice for each subject-block-trial
+  real outcome[N, B, T];                   // Outcome (reward/loss) for each subject-block-trial
 }
 
 transformed data {
@@ -58,7 +58,7 @@ model {
   beta_pr   ~ normal(0, 1);
 
   for (i in 1:N) {
-    for (bIdx in 1:B[i]) {  // new
+    for (bIdx in 1:Bsubj[i]) {  // new
       // Define values
       vector[2] ev;    // expected value
       vector[2] prob;  // probability
@@ -98,19 +98,19 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real ev_c[N, maxB, T];           // Expected value of the chosen option
-  real ev_nc[N, maxB, T];          // Expected value of the non-chosen option
+  real ev_c[N, B, T];           // Expected value of the chosen option
+  real ev_nc[N, B, T];          // Expected value of the non-chosen option
 
-  real pe_c[N, maxB, T];           //Prediction error of the chosen option
-  real pe_nc[N, maxB, T];          //Prediction error of the non-chosen option
-  real dv[N, maxB, T];             //Decision value = PE_chosen - PE_non-chosen
+  real pe_c[N, B, T];           //Prediction error of the chosen option
+  real pe_nc[N, B, T];          //Prediction error of the non-chosen option
+  real dv[N, B, T];             //Decision value = PE_chosen - PE_non-chosen
 
   // For posterior predictive check
-  real y_pred[N, maxB, T];
+  real y_pred[N, B, T];
 
   // Set all posterior predictions, model regressors to 0 (avoids NULL values)
   for (i in 1:N) {
-    for (b in 1:maxB) {
+    for (b in 1:B) {
       for (t in 1:T) {
         ev_c[i, b, t] = 0;
         ev_nc[i, b, t] = 0;
@@ -133,7 +133,7 @@ generated quantities {
 
       log_lik[i] = 0;
 
-      for (bIdx in 1:B[i]) {
+      for (bIdx in 1:Bsubj[i]) {
         // Define values
         vector[2] ev;     // expected value
         vector[2] prob;   // probability
