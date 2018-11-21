@@ -84,14 +84,14 @@ For the Peer Influence Task, there should be 8 columns of data with the
   labels "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
+  \item{"subjID"}{A unique identifier for each subject in the data-set.}
+  \item{"condition"}{0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky).}
+  \item{"p_gamble"}{Probability of receiving a high payoff (same for both options).}
+  \item{"safe_Hpayoff"}{High payoff of the safe option.}
+  \item{"safe_Lpayoff"}{Low payoff of the safe option.}
+  \item{"risky_Hpayoff"}{High payoff of the risky option.}
+  \item{"risky_Lpayoff"}{Low payoff of the risky option.}
   \item{"choice"}{Which option was chosen? 0: safe, 1: risky.}
-  
-  
-  
-  
-  
-  
-  
   
 }
 \strong{*}Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",

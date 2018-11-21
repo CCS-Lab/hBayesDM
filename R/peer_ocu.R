@@ -8,13 +8,13 @@
 #' @templateVar PARAMETERS "rho" (risk preference), "tau" (inverse temperature), "ocu" (other-conferred utility)
 #' @templateVar LENGTH_DATA_COLUMNS 8
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_1 \item{"condition"}{0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky).}
-#' @templateVar DETAILS_DATA_1 \item{"p_gamble"}{Probability of receiving a high payoff (same for both options).}
-#' @templateVar DETAILS_DATA_1 \item{"safe_Hpayoff"}{High payoff of the safe option.}
-#' @templateVar DETAILS_DATA_1 \item{"safe_Lpayoff"}{Low payoff of the safe option.}
-#' @templateVar DETAILS_DATA_1 \item{"risky_Hpayoff"}{High payoff of the risky option.}
-#' @templateVar DETAILS_DATA_1 \item{"risky_Lpayoff"}{Low payoff of the risky option.}
-#' @templateVar DETAILS_DATA_1 \item{"choice"}{Which option was chosen? 0: safe, 1: risky.}
+#' @templateVar DETAILS_DATA_2 \item{"condition"}{0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky).}
+#' @templateVar DETAILS_DATA_3 \item{"p_gamble"}{Probability of receiving a high payoff (same for both options).}
+#' @templateVar DETAILS_DATA_4 \item{"safe_Hpayoff"}{High payoff of the safe option.}
+#' @templateVar DETAILS_DATA_5 \item{"safe_Lpayoff"}{Low payoff of the safe option.}
+#' @templateVar DETAILS_DATA_6 \item{"risky_Hpayoff"}{High payoff of the risky option.}
+#' @templateVar DETAILS_DATA_7 \item{"risky_Lpayoff"}{Low payoff of the risky option.}
+#' @templateVar DETAILS_DATA_8 \item{"choice"}{Which option was chosen? 0: safe, 1: risky.}
 #'
 #' @template model-documentation
 #'
