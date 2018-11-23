@@ -2,7 +2,7 @@
 #' @templateVar CONTRIBUTOR (for model-based regressors) \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 #' @templateVar TASK_NAME Probabilistic Reversal Learning Task
 #' @templateVar MODEL_NAME Fictitious Update Model
-#' @templateVar MODEL_CITE (Glascher et al., 2008, Cerebral Cortex)
+#' @templateVar MODEL_CITE (Glascher et al., 2009, Cerebral Cortex)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
 #' @templateVar PARAMETERS "eta" (learning rate), "alpha" (indecision point), "beta" (inverse temperature)

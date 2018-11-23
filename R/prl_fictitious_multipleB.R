@@ -1,4 +1,4 @@
-#' Probabilistic Reversal Learning Task (Glascher et al, 2008), multiple blocks per subject
+#' Probabilistic Reversal Learning Task (Glascher et al, 2009), multiple blocks per subject
 #'
 #' @description
 #' Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task using the following parameters: "eta" (learning rate), "alpha" (indecision point), "beta" (inverse temperature).
@@ -6,7 +6,7 @@
 #' Contributor (for model-based regressors): \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 #'
 #' \strong{MODEL:}
-#' Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
+#' Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex)
 #'
 #' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "choice", "outcome", adn "block". See \bold{Details} below for more information.
 #' @param niter Number of iterations, including warm-up.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/prl_fictitious_multipleB.R
 \name{prl_fictitious_multipleB}
 \alias{prl_fictitious_multipleB}
-\title{Probabilistic Reversal Learning Task (Glascher et al, 2008), multiple blocks per subject}
+\title{Probabilistic Reversal Learning Task (Glascher et al, 2009), multiple blocks per subject}
 \usage{
 prl_fictitious_multipleB(data = "choice", niter = 3000,
   nwarmup = 1000, nchain = 1, ncore = 1, nthin = 1,
@@ -59,7 +59,7 @@ Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning (PRL) Task
 Contributor (for model-based regressors): \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 
 \strong{MODEL:}
-Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
+Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex)
 }
 \details{
 This section describes some of the function arguments in greater detail.

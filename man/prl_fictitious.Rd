@@ -72,7 +72,7 @@ Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning Task with 
 
 Contributor: (for model-based regressors) \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 
-\strong{MODEL:} Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex)
+\strong{MODEL:} Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex)
 }
 \details{
 This section describes some of the function arguments in greater detail.

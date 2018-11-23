@@ -72,7 +72,7 @@ Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning Task with 
 
 Contributor: (for model-based regressors) \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 
-\strong{MODEL:} Fictitious Update Model (Glascher et al., 2008, Cerebral Cortex) + separate learning rates for positive and negative prediction error (PE)
+\strong{MODEL:} Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex), with separate learning rates for positive and negative prediction error (PE)
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -150,6 +150,10 @@ printFit(output)
 Glascher, J., Hampton, A. N., & O'Doherty, J. P. (2009). Determining a Role for Ventromedial
   Prefrontal Cortex in Encoding Action-Based Value Signals During Reward-Related Decision Making.
   Cerebral Cortex, 19(2), 483-495. http://doi.org/10.1093/cercor/bhn098
+
+Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al.
+  (2013). Dissociable Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4),
+  1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:
