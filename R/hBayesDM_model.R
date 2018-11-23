@@ -339,10 +339,13 @@ hBayesDM_model <- function(task_name,
     if (model_type == "multipleB") {
       cat(" # of (max) blocks per subject  =", b_max, "\n")
     }
-    if (model_type == "single") {
-      cat(" # of trials (for this subject) =", t_max, "\n")
-    } else {
+    if (model_type == "") {
       cat(" # of (max) trials per subject  =", t_max, "\n")
+    } else if (model_type == "multipleB") {
+      cat(" # of (max) trials...\n")
+      cat("      ...per block per subject  =", t_max, "\n")
+    } else {
+      cat(" # of trials (for this subject) =", t_max, "\n")
     }
 
     # Models with additional arguments
