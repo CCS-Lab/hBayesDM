@@ -1,7 +1,7 @@
 #' Norm-Training Ultimatum Game
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the Norm-Training Ultimatum Game using the following parameters: "alpha" (envy), "Beta" (guilt), "tau" (inverse temperature).
+#' Hierarchical Bayesian Modeling of the Norm-Training Ultimatum Game using the following parameters: "alpha" (envy), "beta" (guilt), "tau" (inverse temperature).
 #'
 #' \strong{MODEL:}
 #' Ideal Observer Model (Xiang et al., 2013, J Neuro)
@@ -159,9 +159,9 @@ ug_bayes <- function(data           = "choose",
 
   # Specify the number of parameters and parameters of interest
   numPars <- 3
-  POI     <- c("mu_alpha", "mu_Beta", "mu_tau",
+  POI     <- c("mu_alpha", "mu_beta", "mu_tau",
                "sigma",
-               "alpha", "Beta", "tau",
+               "alpha", "beta", "tau",
                "log_lik")
 
   if (inc_postpred) {
@@ -235,7 +235,7 @@ ug_bayes <- function(data           = "choose",
         mu_p     = c(qnorm(inits_fixed[1] / 20), qnorm(inits_fixed[2] / 10), qnorm(inits_fixed[3] / 10)),
         sigma    = c(1.0, 1.0, 1.0),
         alpha_pr = rep(qnorm(inits_fixed[1]/20), numSubjs),
-        Beta_pr  = rep(qnorm(inits_fixed[2]/10), numSubjs),
+        beta_pr  = rep(qnorm(inits_fixed[2]/10), numSubjs),
         tau_pr   = rep(qnorm(inits_fixed[3]/10), numSubjs)
 )
     }
@@ -288,7 +288,7 @@ ug_bayes <- function(data           = "choose",
   }
 
   alpha <- parVals$alpha
-  Beta  <- parVals$Beta
+  beta  <- parVals$beta
   tau   <- parVals$tau
 
   # Individual parameters (e.g., individual posterior means)
@@ -298,22 +298,22 @@ ug_bayes <- function(data           = "choose",
   for (i in 1:numSubjs) {
     if (indPars == "mean") {
       allIndPars[i,] <- c(mean(alpha[, i]),
-                            mean(Beta[, i]),
+                            mean(beta[, i]),
                             mean(tau[, i]))
     } else if (indPars == "median") {
       allIndPars[i,] <- c(median(alpha[, i]),
-                            median(Beta[, i]),
+                            median(beta[, i]),
                             median(tau[, i]))
     } else if (indPars == "mode") {
       allIndPars[i,] <- c(estimate_mode(alpha[, i]),
-                            estimate_mode(Beta[, i]),
+                            estimate_mode(beta[, i]),
                             estimate_mode(tau[, i]))
     }
   }
 
   allIndPars           <- cbind(allIndPars, subjList)
   colnames(allIndPars) <- c("alpha",
-                            "Beta",
+                            "beta",
                             "tau",
                             "subjID")
 

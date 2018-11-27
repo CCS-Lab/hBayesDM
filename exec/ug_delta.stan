@@ -16,21 +16,21 @@ parameters {
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
-  vector[N] ep_pr;     // ep: Norm adaptation rate
   vector[N] alpha_pr;  // alpha: Envy (sensitivity to norm prediction error)
   vector[N] tau_pr;    // tau: Inverse temperature
+  vector[N] ep_pr;     // ep: Norm adaptation rate
 }
 
 transformed parameters {
   // Transform subject-level raw parameters
-  real<lower=0, upper=1> ep[N];
   real<lower=0, upper=20> alpha[N];
   real<lower=0, upper=10> tau[N];
+  real<lower=0, upper=1> ep[N];
 
   for (i in 1:N) {
-    ep[i]    = Phi_approx(mu_pr[1] + sigma[1] * ep_pr[i]);
+    alpha[i] = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr[i]) * 20;
     tau[i]   = Phi_approx(mu_pr[2] + sigma[2] * tau_pr[i]) * 10;
-    alpha[i] = Phi_approx(mu_pr[3] + sigma[3] * alpha_pr[i]) * 20;
+    ep[i]    = Phi_approx(mu_pr[3] + sigma[3] * ep_pr[i]);
   }
 }
 
@@ -40,9 +40,9 @@ model {
   sigma ~ normal(0, 0.2);
 
   // individual parameters
-  ep_pr    ~ normal(0, 1.0);
   alpha_pr ~ normal(0, 1.0);
   tau_pr   ~ normal(0, 1.0);
+  ep_pr    ~ normal(0, 1.0);
 
   for (i in 1:N) {
     // Define values
@@ -72,9 +72,9 @@ model {
 
 generated quantities {
   // For group level parameters
-  real<lower=0, upper=1> mu_ep;
-  real<lower=0, upper=10> mu_tau;
   real<lower=0, upper=20> mu_alpha;
+  real<lower=0, upper=10> mu_tau;
+  real<lower=0, upper=1> mu_ep;
 
   // For log likelihood calculation
   real log_lik[N];
@@ -89,9 +89,9 @@ generated quantities {
     }
   }
 
-  mu_ep    = Phi_approx(mu_pr[1]);
+  mu_alpha = Phi_approx(mu_pr[1]) * 20;
   mu_tau   = Phi_approx(mu_pr[2]) * 10;
-  mu_alpha = Phi_approx(mu_pr[3]) * 20;
+  mu_ep    = Phi_approx(mu_pr[3]);
 
   { // local section, this saves time and space
     for (i in 1:N) {

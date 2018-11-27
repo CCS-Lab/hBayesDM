@@ -1,7 +1,7 @@
 #' Norm-Training Ultimatum Game
 #'
 #' @description
-#' Hierarchical Bayesian Modeling of the Norm-Training Ultimatum Game using the following parameters: "alpha" (envy), "ep" (norm adaptation rate), "tau" (inverse temperature).
+#' Hierarchical Bayesian Modeling of the Norm-Training Ultimatum Game using the following parameters: "alpha" (envy), "tau" (inverse temperature), "ep" (norm adaptation rate).
 #'
 #' \strong{MODEL:}
 #' Rescorla-Wagner (delta) Model (Gu et al., 2015, J Neuro)
@@ -160,9 +160,9 @@ ug_delta <- function(data           = "choose",
 
   # Specify the number of parameters and parameters of interest
   numPars <- 3
-  POI     <- c("mu_ep", "mu_tau", "mu_alpha",
+  POI     <- c("mu_alpha", "mu_tau", "mu_ep",
                "sigma",
-               "ep", "tau", "alpha",
+               "alpha", "tau", "ep",
                "log_lik")
 
   if (inc_postpred) {
@@ -233,11 +233,11 @@ ug_delta <- function(data           = "choose",
     }
     genInitList <- function() {
       list(
-        mu_p     = c(qnorm(inits_fixed[1]), qnorm(inits_fixed[2]/10), qnorm(inits_fixed[3]/20)),
+        mu_p     = c(qnorm(inits_fixed[1]/20), qnorm(inits_fixed[2]/10), qnorm(inits_fixed[3])),
         sigma    = c(1.0, 1.0, 1.0),
-        ep_pr    = rep(qnorm(inits_fixed[1]), numSubjs),
+        alpha_pr = rep(qnorm(inits_fixed[1]/20), numSubjs),
         tau_pr   = rep(qnorm(inits_fixed[2]/10), numSubjs),
-        alpha_pr = rep(qnorm(inits_fixed[3]/20), numSubjs)
+        ep_pr    = rep(qnorm(inits_fixed[3]), numSubjs)
 )
     }
   } else {
