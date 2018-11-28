@@ -68,7 +68,7 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 \description{
 Hierarchical Bayesian Modeling of the Risk Aversion Task with the following parameters:
-  "rho" (risk aversion), "lambda" (loss aversion), "tau" (inverse temp).
+  "rho" (risk aversion), "lambda" (loss aversion), "tau" (inverse temperature).
 
 \strong{MODEL:} Prospect Theory (Sokol-Hessner et al., 2009, PNAS)
 }
@@ -143,6 +143,7 @@ plot(output)
 # Show the WAIC and LOOIC model fit estimates
 printFit(output)
 }
+
 \dontrun{
 # Paths to data published in Sokol-Hessner et al. (2009)
 path_to_attend_data <- system.file("extdata", "ra_data_attend.txt", package = "hBayesDM")

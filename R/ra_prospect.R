@@ -4,7 +4,7 @@
 #' @templateVar MODEL_CITE (Sokol-Hessner et al., 2009, PNAS)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "gain", "loss", "cert", "gamble"
-#' @templateVar PARAMETERS "rho" (risk aversion), "lambda" (loss aversion), "tau" (inverse temp)
+#' @templateVar PARAMETERS "rho" (risk aversion), "lambda" (loss aversion), "tau" (inverse temperature)
 #' @templateVar LENGTH_DATA_COLUMNS 5
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"gain"}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
@@ -24,6 +24,7 @@
 #'   5035-5040. http://www.pnas.org/content/106/13/5035
 #'
 #' @examples
+#'
 #' \dontrun{
 #' # Paths to data published in Sokol-Hessner et al. (2009)
 #' path_to_attend_data <- system.file("extdata", "ra_data_attend.txt", package = "hBayesDM")
