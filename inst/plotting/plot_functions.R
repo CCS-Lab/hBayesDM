@@ -220,7 +220,7 @@ plot_dd_cs_single <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
 plot_ug_bayes <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
   pars = obj$parVals
   h1 = plotDist(sample = pars$mu_alpha, fontSize = fontSize, binSize = binSize, xLab = expression(paste(alpha, " (Envy)")))
-  h2 = plotDist(sample = pars$mu_Beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Guilt)")))
+  h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Guilt)")))
   h3 = plotDist(sample = pars$mu_tau, fontSize = fontSize, binSize = binSize, xLab = expression(paste(tau, " (Inverse Temp.)")))
   h_all = multiplot(h1, h2, h3, cols = ncols)
   return(h_all)
