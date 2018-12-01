@@ -32,7 +32,7 @@ transformed parameters {
   // transform subject-level raw parameters
   vector<lower=0,upper=1>[N] r;
   vector<lower=0,upper=1>[N] p;
-  vector<lower=0>[N] d;
+  vector<lower=0,upper=5>[N] d;
 
   for (i in 1:N) {
     r[i] = Phi_approx( mu_pr[1] + sigma[1] * r_pr[i] );
@@ -97,7 +97,7 @@ model {
 generated quantities {
   // for group level parameters
   real<lower=0, upper=1> mu_r;
-  real<lower=0, upper=5> mu_p;
+  real<lower=0, upper=1> mu_p;
   real<lower=0, upper=5> mu_d;
 
   // for log-likelihood calculation
