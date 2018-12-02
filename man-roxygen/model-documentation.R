@@ -30,8 +30,8 @@
 #' @param vb Use variational inference to approximately draw from a posterior distribution. Defaults
 #'   to FALSE.
 #' @param inc_postpred
-#'   <% EXISTS_IS_NULL_POSTPREDS_AND_TRUE <- exists("IS_NULL_POSTPREDS") && IS_NULL_POSTPREDS %>
-#'   <%= ifelse(EXISTS_IS_NULL_POSTPREDS_AND_TRUE, "\\strong{(Currently not available.)}", "") %>
+#'   <% POSTPREDS_NULL <- exists("IS_NULL_POSTPREDS") && (IS_NULL_POSTPREDS == "TRUE") %>
+#'   <%= ifelse(POSTPREDS_NULL, "\\strong{(Currently not available.)}", "") %>
 #'   Include trial-level posterior predictive simulations in model output (may greatly increase file
 #'   size). Defaults to FALSE.
 #' @param adapt_delta Floating point value representing the target acceptance probability of a new
