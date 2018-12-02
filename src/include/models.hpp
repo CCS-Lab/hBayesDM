@@ -8868,10 +8868,10 @@ struct lba_rng_functor__ {
 
 class model_choiceRT_lba_single : public prob_grad {
 private:
-    int Max_tr;
-    int N_choices;
+    int N_choice;
     int N_cond;
-    vector<int> N_tr_cond;
+    vector<int> tr_cond;
+    int max_tr;
     vector<matrix_d> RT;
 public:
     model_choiceRT_lba_single(stan::io::var_context& context__,
@@ -8909,43 +8909,43 @@ public:
 
         // initialize member variables
         try {
-            context__.validate_dims("data initialization", "Max_tr", "int", context__.to_vec());
-            Max_tr = int(0);
-            vals_i__ = context__.vals_i("Max_tr");
+            context__.validate_dims("data initialization", "N_choice", "int", context__.to_vec());
+            N_choice = int(0);
+            vals_i__ = context__.vals_i("N_choice");
             pos__ = 0;
-            Max_tr = vals_i__[pos__++];
-            context__.validate_dims("data initialization", "N_choices", "int", context__.to_vec());
-            N_choices = int(0);
-            vals_i__ = context__.vals_i("N_choices");
-            pos__ = 0;
-            N_choices = vals_i__[pos__++];
+            N_choice = vals_i__[pos__++];
             context__.validate_dims("data initialization", "N_cond", "int", context__.to_vec());
             N_cond = int(0);
             vals_i__ = context__.vals_i("N_cond");
             pos__ = 0;
             N_cond = vals_i__[pos__++];
-            validate_non_negative_index("N_tr_cond", "N_cond", N_cond);
-            context__.validate_dims("data initialization", "N_tr_cond", "int", context__.to_vec(N_cond));
-            validate_non_negative_index("N_tr_cond", "N_cond", N_cond);
-            N_tr_cond = std::vector<int>(N_cond,int(0));
-            vals_i__ = context__.vals_i("N_tr_cond");
+            validate_non_negative_index("tr_cond", "N_cond", N_cond);
+            context__.validate_dims("data initialization", "tr_cond", "int", context__.to_vec(N_cond));
+            validate_non_negative_index("tr_cond", "N_cond", N_cond);
+            tr_cond = std::vector<int>(N_cond,int(0));
+            vals_i__ = context__.vals_i("tr_cond");
             pos__ = 0;
-            size_t N_tr_cond_limit_0__ = N_cond;
-            for (size_t i_0__ = 0; i_0__ < N_tr_cond_limit_0__; ++i_0__) {
-                N_tr_cond[i_0__] = vals_i__[pos__++];
+            size_t tr_cond_limit_0__ = N_cond;
+            for (size_t i_0__ = 0; i_0__ < tr_cond_limit_0__; ++i_0__) {
+                tr_cond[i_0__] = vals_i__[pos__++];
             }
+            context__.validate_dims("data initialization", "max_tr", "int", context__.to_vec());
+            max_tr = int(0);
+            vals_i__ = context__.vals_i("max_tr");
+            pos__ = 0;
+            max_tr = vals_i__[pos__++];
             validate_non_negative_index("RT", "N_cond", N_cond);
             validate_non_negative_index("RT", "2", 2);
-            validate_non_negative_index("RT", "Max_tr", Max_tr);
-            context__.validate_dims("data initialization", "RT", "matrix_d", context__.to_vec(N_cond,2,Max_tr));
+            validate_non_negative_index("RT", "max_tr", max_tr);
+            context__.validate_dims("data initialization", "RT", "matrix_d", context__.to_vec(N_cond,2,max_tr));
             validate_non_negative_index("RT", "N_cond", N_cond);
             validate_non_negative_index("RT", "2", 2);
-            validate_non_negative_index("RT", "Max_tr", Max_tr);
-            RT = std::vector<matrix_d>(N_cond,matrix_d(static_cast<Eigen::VectorXd::Index>(2),static_cast<Eigen::VectorXd::Index>(Max_tr)));
+            validate_non_negative_index("RT", "max_tr", max_tr);
+            RT = std::vector<matrix_d>(N_cond,matrix_d(static_cast<Eigen::VectorXd::Index>(2),static_cast<Eigen::VectorXd::Index>(max_tr)));
             vals_r__ = context__.vals_r("RT");
             pos__ = 0;
             size_t RT_m_mat_lim__ = 2;
-            size_t RT_n_mat_lim__ = Max_tr;
+            size_t RT_n_mat_lim__ = max_tr;
             for (size_t n_mat__ = 0; n_mat__ < RT_n_mat_lim__; ++n_mat__) {
                 for (size_t m_mat__ = 0; m_mat__ < RT_m_mat_lim__; ++m_mat__) {
                     size_t RT_limit_0__ = N_cond;
@@ -8967,9 +8967,9 @@ public:
             ++num_params_r__;
             ++num_params_r__;
             ++num_params_r__;
-            validate_non_negative_index("v", "N_choices", N_choices);
+            validate_non_negative_index("v", "N_choice", N_choice);
             validate_non_negative_index("v", "N_cond", N_cond);
-            num_params_r__ += N_choices * N_cond;
+            num_params_r__ += N_choice * N_cond;
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -9034,10 +9034,10 @@ public:
         vals_r__ = context__.vals_r("v");
         pos__ = 0U;
         validate_non_negative_index("v", "N_cond", N_cond);
-        validate_non_negative_index("v", "N_choices", N_choices);
-        context__.validate_dims("initialization", "v", "vector_d", context__.to_vec(N_cond,N_choices));
-        std::vector<vector_d> v(N_cond,vector_d(static_cast<Eigen::VectorXd::Index>(N_choices)));
-        for (int j1__ = 0U; j1__ < N_choices; ++j1__)
+        validate_non_negative_index("v", "N_choice", N_choice);
+        context__.validate_dims("initialization", "v", "vector_d", context__.to_vec(N_cond,N_choice));
+        std::vector<vector_d> v(N_cond,vector_d(static_cast<Eigen::VectorXd::Index>(N_choice)));
+        for (int j1__ = 0U; j1__ < N_choice; ++j1__)
             for (int i0__ = 0U; i0__ < N_cond; ++i0__)
                 v[i0__](j1__) = vals_r__[pos__++];
         for (int i0__ = 0U; i0__ < N_cond; ++i0__)
@@ -9106,9 +9106,9 @@ public:
             v.reserve(dim_v_0__);
             for (size_t k_0__ = 0; k_0__ < dim_v_0__; ++k_0__) {
                 if (jacobian__)
-                    v.push_back(in__.vector_lb_constrain(0,N_choices,lp__));
+                    v.push_back(in__.vector_lb_constrain(0,N_choice,lp__));
                 else
-                    v.push_back(in__.vector_lb_constrain(0,N_choices));
+                    v.push_back(in__.vector_lb_constrain(0,N_choice));
             }
 
 
@@ -9151,8 +9151,8 @@ public:
             else lp_accum__.add(-normal_ccdf_log(0, 0.5, 0.5));
             for (int j = 1; j <= N_cond; ++j) {
 
-                stan::math::assign(n_trials, get_base1(N_tr_cond,j,"N_tr_cond",1));
-                for (int n = 1; n <= N_choices; ++n) {
+                stan::math::assign(n_trials, get_base1(tr_cond,j,"tr_cond",1));
+                for (int n = 1; n <= N_choice; ++n) {
 
                     lp_accum__.add(normal_log<propto__>(get_base1(get_base1(v,j,"v",1),n,"v",2), 2, 1));
                     if (get_base1(get_base1(v,j,"v",1),n,"v",2) < 0) lp_accum__.add(-std::numeric_limits<double>::infinity());
@@ -9209,7 +9209,7 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(N_cond);
-        dims__.push_back(N_choices);
+        dims__.push_back(N_choice);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dimss__.push_back(dims__);
@@ -9220,7 +9220,7 @@ public:
         dims__.resize(0);
         dims__.push_back(N_cond);
         dims__.push_back(2);
-        dims__.push_back(Max_tr);
+        dims__.push_back(max_tr);
         dimss__.push_back(dims__);
     }
 
@@ -9245,12 +9245,12 @@ public:
         vector<vector_d> v;
         size_t dim_v_0__ = N_cond;
         for (size_t k_0__ = 0; k_0__ < dim_v_0__; ++k_0__) {
-            v.push_back(in__.vector_lb_constrain(0,N_choices));
+            v.push_back(in__.vector_lb_constrain(0,N_choice));
         }
         vars__.push_back(d);
         vars__.push_back(A);
         vars__.push_back(tau);
-            for (int k_1__ = 0; k_1__ < N_choices; ++k_1__) {
+            for (int k_1__ = 0; k_1__ < N_choice; ++k_1__) {
                 for (int k_0__ = 0; k_0__ < N_cond; ++k_0__) {
                 vars__.push_back(v[k_0__][k_1__]);
                 }
@@ -9292,16 +9292,16 @@ public:
             stan::math::initialize(log_lik, DUMMY_VAR__);
             stan::math::fill(log_lik,DUMMY_VAR__);
             validate_non_negative_index("y_pred", "2", 2);
-            validate_non_negative_index("y_pred", "Max_tr", Max_tr);
+            validate_non_negative_index("y_pred", "max_tr", max_tr);
             validate_non_negative_index("y_pred", "N_cond", N_cond);
-            vector<Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,Eigen::Dynamic> > y_pred(N_cond, (Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,Eigen::Dynamic> (static_cast<Eigen::VectorXd::Index>(2),static_cast<Eigen::VectorXd::Index>(Max_tr))));
+            vector<Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,Eigen::Dynamic> > y_pred(N_cond, (Eigen::Matrix<local_scalar_t__,Eigen::Dynamic,Eigen::Dynamic> (static_cast<Eigen::VectorXd::Index>(2),static_cast<Eigen::VectorXd::Index>(max_tr))));
             stan::math::initialize(y_pred, DUMMY_VAR__);
             stan::math::fill(y_pred,DUMMY_VAR__);
 
 
             for (int j = 1; j <= N_cond; ++j) {
 
-                for (int t = 1; t <= Max_tr; ++t) {
+                for (int t = 1; t <= max_tr; ++t) {
 
                     stan::model::assign(y_pred, 
                                 stan::model::cons_list(stan::model::index_uni(j), stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()))), 
@@ -9313,7 +9313,7 @@ public:
 
             for (int j = 1; j <= N_cond; ++j) {
 
-                stan::math::assign(n_trials, get_base1(N_tr_cond,j,"N_tr_cond",1));
+                stan::math::assign(n_trials, get_base1(tr_cond,j,"tr_cond",1));
                 stan::math::assign(log_lik, stan::model::deep_copy((log_lik + lba_lpdf(stan::model::rvalue(RT, stan::model::cons_list(stan::model::index_uni(j), stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_min_max(1, n_trials), stan::model::nil_index_list()))), "RT"),d,A,stan::model::rvalue(v, stan::model::cons_list(stan::model::index_uni(j), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "v"),s,tau, pstream__))));
                 for (int t = 1; t <= n_trials; ++t) {
 
@@ -9329,7 +9329,7 @@ public:
             // write generated quantities
         vars__.push_back(n_trials);
         vars__.push_back(log_lik);
-            for (int k_2__ = 0; k_2__ < Max_tr; ++k_2__) {
+            for (int k_2__ = 0; k_2__ < max_tr; ++k_2__) {
                 for (int k_1__ = 0; k_1__ < 2; ++k_1__) {
                     for (int k_0__ = 0; k_0__ < N_cond; ++k_0__) {
                     vars__.push_back(y_pred[k_0__](k_1__, k_2__));
@@ -9380,7 +9380,7 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "tau";
         param_names__.push_back(param_name_stream__.str());
-        for (int k_1__ = 1; k_1__ <= N_choices; ++k_1__) {
+        for (int k_1__ = 1; k_1__ <= N_choice; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N_cond; ++k_0__) {
                 param_name_stream__.str(std::string());
                 param_name_stream__ << "v" << '.' << k_0__ << '.' << k_1__;
@@ -9404,7 +9404,7 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "log_lik";
         param_names__.push_back(param_name_stream__.str());
-        for (int k_2__ = 1; k_2__ <= Max_tr; ++k_2__) {
+        for (int k_2__ = 1; k_2__ <= max_tr; ++k_2__) {
             for (int k_1__ = 1; k_1__ <= 2; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N_cond; ++k_0__) {
                     param_name_stream__.str(std::string());
@@ -9429,7 +9429,7 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "tau";
         param_names__.push_back(param_name_stream__.str());
-        for (int k_1__ = 1; k_1__ <= N_choices; ++k_1__) {
+        for (int k_1__ = 1; k_1__ <= N_choice; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= N_cond; ++k_0__) {
                 param_name_stream__.str(std::string());
                 param_name_stream__ << "v" << '.' << k_0__ << '.' << k_1__;
@@ -9453,7 +9453,7 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "log_lik";
         param_names__.push_back(param_name_stream__.str());
-        for (int k_2__ = 1; k_2__ <= Max_tr; ++k_2__) {
+        for (int k_2__ = 1; k_2__ <= max_tr; ++k_2__) {
             for (int k_1__ = 1; k_1__ <= 2; ++k_1__) {
                 for (int k_0__ = 1; k_0__ <= N_cond; ++k_0__) {
                     param_name_stream__.str(std::string());
@@ -47788,6 +47788,7 @@ public:
             check_greater_or_equal(function__,"p",p,0);
             check_less_or_equal(function__,"p",p,1);
             check_greater_or_equal(function__,"d",d,0);
+            check_less_or_equal(function__,"d",d,5);
 
             // model body
 
@@ -48042,6 +48043,7 @@ public:
             check_greater_or_equal(function__,"p",p,0);
             check_less_or_equal(function__,"p",p,1);
             check_greater_or_equal(function__,"d",d,0);
+            check_less_or_equal(function__,"d",d,5);
 
             // write transformed parameters
             if (include_tparams__) {
@@ -48190,7 +48192,7 @@ public:
             check_greater_or_equal(function__,"mu_r",mu_r,0);
             check_less_or_equal(function__,"mu_r",mu_r,1);
             check_greater_or_equal(function__,"mu_p",mu_p,0);
-            check_less_or_equal(function__,"mu_p",mu_p,5);
+            check_less_or_equal(function__,"mu_p",mu_p,1);
             check_greater_or_equal(function__,"mu_d",mu_d,0);
             check_less_or_equal(function__,"mu_d",mu_d,5);
 
