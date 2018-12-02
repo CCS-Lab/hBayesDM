@@ -20,7 +20,7 @@
 #' @description
 #' Code for this model is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potential others @ Stan mailing
 #'
-#' Parameters of the DDM (parameter names in Ratcliff), from https://github.com/gbiele/stan_wiener_test/blob/master/stan_wiener_test.R
+#' Parameters of the DDM (parameter names in Ratcliff), from \url{https://github.com/gbiele/stan_wiener_test/blob/master/stan_wiener_test.R}
 #' \cr - alpha (a): Boundary separation or Speed-accuracy trade-off (high alpha means high accuracy). 0 < alpha
 #' \cr - beta (b): Initial bias, for either response (beta > 0.5 means bias towards "upper" response 'A'). 0 < beta < 1
 #' \cr - delta (v): Drift rate; Quality of the stimulus (delta close to 0 means ambiguous stimulus or weak ability). 0 < delta
