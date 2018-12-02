@@ -5,14 +5,16 @@
  */
 
 data {
-  int<lower=1> N;                             // Number of subjects
-  int<lower=0> T;                             // Max number of trials across subjects
-  int<lower=1> maxB;                          // Max number of blocks across subjects
-  int<lower=1> B[N];                          // Number of blocks for each subject
-  int<lower=0, upper=T> Tsubj[N, maxB];       // Number of trials/block for each subject
+  int<lower=1> N;                          // Number of subjects
 
-  int<lower=-1, upper=2> choice[N, maxB, T];  // Choice for each subject-block-trial
-  real outcome[N, maxB, T];                   // Outcome (reward/loss) for each subject-block-trial
+  int<lower=1> B;                          // Max number of blocks across subjects
+  int<lower=1> Bsubj[N];                   // Number of blocks for each subject
+
+  int<lower=0> T;                          // Max number of trials across subjects
+  int<lower=0, upper=T> Tsubj[N, B];       // Number of trials/block for each subject
+
+  int<lower=-1, upper=2> choice[N, B, T];  // Choice for each subject-block-trial
+  real outcome[N, B, T];                   // Outcome (reward/loss) for each subject-block-trial
 }
 
 transformed data {
@@ -24,7 +26,7 @@ transformed data {
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
-  vector[3] mu_p;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -40,14 +42,14 @@ transformed parameters {
   vector<lower=0, upper=10>[N] beta;
 
   for (i in 1:N) {
-    eta[i]    = Phi_approx(mu_p[1] + sigma[1] * eta_pr[i]);
-    beta[i]   = Phi_approx(mu_p[3] + sigma[3] * beta_pr[i]) * 10;
+    eta[i]    = Phi_approx(mu_pr[1] + sigma[1] * eta_pr[i]);
+    beta[i]   = Phi_approx(mu_pr[3] + sigma[3] * beta_pr[i]) * 10;
   }
-  alpha = mu_p[2] + sigma[2] * alpha_pr;
+  alpha = mu_pr[2] + sigma[2] * alpha_pr;
 }
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma[1] ~ normal(0, 0.2);
   sigma[2] ~ cauchy(0, 1.0);
   sigma[3] ~ normal(0, 0.2);
@@ -58,7 +60,7 @@ model {
   beta_pr   ~ normal(0, 1);
 
   for (i in 1:N) {
-    for (bIdx in 1:B[i]) {  // new
+    for (bIdx in 1:Bsubj[i]) {  // new
       // Define values
       vector[2] ev;    // expected value
       vector[2] prob;  // probability
@@ -98,42 +100,42 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real mr_ev_c[N, maxB, T];           // Expected value of the chosen option
-  real mr_ev_nc[N, maxB, T];          // Expected value of the non-chosen option
+  real ev_c[N, B, T];           // Expected value of the chosen option
+  real ev_nc[N, B, T];          // Expected value of the non-chosen option
 
-  real mr_pe_c[N, maxB, T];           //Prediction error of the chosen option
-  real mr_pe_nc[N, maxB, T];          //Prediction error of the non-chosen option
-  real mr_dv[N, maxB, T];             //Decision value = PE_chosen - PE_non-chosen
+  real pe_c[N, B, T];           //Prediction error of the chosen option
+  real pe_nc[N, B, T];          //Prediction error of the non-chosen option
+  real dv[N, B, T];             //Decision value = PE_chosen - PE_non-chosen
 
   // For posterior predictive check
-  real y_pred[N, maxB, T];
+  real y_pred[N, B, T];
 
   // Set all posterior predictions, model regressors to 0 (avoids NULL values)
   for (i in 1:N) {
-    for (b in 1:maxB) {
+    for (b in 1:B) {
       for (t in 1:T) {
-        mr_ev_c[i, b, t] = 0;
-        mr_ev_nc[i, b, t] = 0;
+        ev_c[i, b, t] = 0;
+        ev_nc[i, b, t] = 0;
 
-        mr_pe_c[i, b, t] = 0;
-        mr_pe_nc[i, b, t] = 0;
-        mr_dv[i, b, t] = 0;
+        pe_c[i, b, t] = 0;
+        pe_nc[i, b, t] = 0;
+        dv[i, b, t] = 0;
 
         y_pred[i, b, t] = -1;
       }
     }
   }
 
-  mu_eta    = Phi_approx(mu_p[1]);
-  mu_alpha  = mu_p[2];
-  mu_beta   = Phi_approx(mu_p[3]) * 10;
+  mu_eta    = Phi_approx(mu_pr[1]);
+  mu_alpha  = mu_pr[2];
+  mu_beta   = Phi_approx(mu_pr[3]) * 10;
 
   { // local section, this saves time and space
     for (i in 1:N) {
 
       log_lik[i] = 0;
 
-      for (bIdx in 1:B[i]) {
+      for (bIdx in 1:Bsubj[i]) {
         // Define values
         vector[2] ev;     // expected value
         vector[2] prob;   // probability
@@ -159,12 +161,12 @@ generated quantities {
           PEnc = -outcome[i, bIdx, t] - ev[3-choice[i, bIdx, t]];  //new
 
           // Store values for model regressors
-          mr_ev_c[i, bIdx, t]   = ev[choice[i, bIdx, t]];
-          mr_ev_nc[i, bIdx, t]  = ev[3 - choice[i, bIdx, t]];
+          ev_c[i, bIdx, t]   = ev[choice[i, bIdx, t]];
+          ev_nc[i, bIdx, t]  = ev[3 - choice[i, bIdx, t]];
 
-          mr_pe_c[i, bIdx, t]   = PE;
-          mr_pe_nc[i, bIdx, t]  = PEnc;
-          mr_dv[i, bIdx, t]     = PE - PEnc;
+          pe_c[i, bIdx, t]   = PE;
+          pe_nc[i, bIdx, t]  = PEnc;
+          dv[i, bIdx, t]     = PE - PEnc;
 
           // value updating (learning)
           ev[choice[i, bIdx, t]]   = ev[choice[i, bIdx, t]]   + eta[i] * PE;   //new

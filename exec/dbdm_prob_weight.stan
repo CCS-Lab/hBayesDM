@@ -14,14 +14,14 @@ transformed data {
 }
 parameters{
   //group-level parameters
-  vector[4] mu_p;
+  vector[4] mu_pr;
   vector<lower=0>[4] sigma;
 
   //subject-level raw parameters, follows norm(0,1), for later Matt Trick
-  vector[N] tau_p; //probability weight parameter
-  vector[N] rho_p; //subject utility parameter
-  vector[N] lambda_p; //loss aversion parameter
-  vector[N] beta_p; //inverse softmax temperature
+  vector[N] tau_pr; //probability weight parameter
+  vector[N] rho_pr; //subject utility parameter
+  vector[N] lambda_pr; //loss aversion parameter
+  vector[N] beta_pr; //inverse softmax temperature
 }
 
 transformed parameters {
@@ -33,23 +33,23 @@ transformed parameters {
 
   //Matt Trick
   for (i in 1:N) {
-    tau[i] = Phi_approx( mu_p[1] + sigma[1] * tau_p[i] );
-    rho[i]  = Phi_approx( mu_p[2] + sigma[2] * rho_p[i] )*2;
-    lambda[i]   = Phi_approx( mu_p[3] + sigma[3] * lambda_p[i] )*5;
-    beta[i]    = Phi_approx( mu_p[4] + sigma[4] * beta_p[i] );
+    tau[i] = Phi_approx( mu_pr[1] + sigma[1] * tau_pr[i] );
+    rho[i]  = Phi_approx( mu_pr[2] + sigma[2] * rho_pr[i] )*2;
+    lambda[i]   = Phi_approx( mu_pr[3] + sigma[3] * lambda_pr[i] )*5;
+    beta[i]    = Phi_approx( mu_pr[4] + sigma[4] * beta_pr[i] );
   }
 }
 
 model {
   //prior : hyperparameters
-  mu_p ~ normal(0,1);
+  mu_pr ~ normal(0,1);
   sigma ~ cauchy(0,5);
 
   //prior : individual parameters
-  tau_p ~ normal(0,1);
-  rho_p ~ normal(0,1);
-  lambda_p ~ normal(0,1);
-  beta_p ~ normal(0,1);
+  tau_pr ~ normal(0,1);
+  rho_pr ~ normal(0,1);
+  lambda_pr ~ normal(0,1);
+  beta_pr ~ normal(0,1);
 
   //subject loop and trial loop
   for (i in 1:N) {
@@ -103,10 +103,10 @@ generated quantities {
     }
   }
 
-  mu_tau  = Phi_approx(mu_p[1]);
-  mu_rho  = Phi_approx(mu_p[2])*2;
-  mu_lambda  = Phi_approx(mu_p[3])*5;
-  mu_beta = Phi_approx(mu_p[4]);
+  mu_tau  = Phi_approx(mu_pr[1]);
+  mu_rho  = Phi_approx(mu_pr[2])*2;
+  mu_lambda  = Phi_approx(mu_pr[3])*5;
+  mu_beta = Phi_approx(mu_pr[4]);
 
   { // local section, this saves time and space
     for (i in 1:N) {
@@ -149,3 +149,4 @@ generated quantities {
     }
   }
 }
+

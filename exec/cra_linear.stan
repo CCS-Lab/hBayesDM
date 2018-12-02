@@ -28,7 +28,7 @@ data {
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
-  vector[3] mu_p;
+  vector[3] mu_pr;
   vector<lower=0>[3] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -43,14 +43,14 @@ transformed parameters {
   vector[N] beta;
   vector<lower=0>[N]         gamma;
 
-  alpha = Phi_approx(mu_p[1] + sigma[1] * alpha_pr) * 2;
-  beta  = mu_p[2] + sigma[2] * beta_pr;
-  gamma = exp(mu_p[3] + sigma[3] * gamma_pr);
+  alpha = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr) * 2;
+  beta  = mu_pr[2] + sigma[2] * beta_pr;
+  gamma = exp(mu_pr[3] + sigma[3] * gamma_pr);
 }
 
 model {
   // hyper parameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 5);
 
   // individual parameters w/ Matt trick
@@ -92,9 +92,9 @@ generated quantities {
     }
   }
 
-  mu_alpha  = Phi_approx(mu_p[1]) * 2;
-  mu_beta   = mu_p[2];
-  mu_gamma  = exp(mu_p[3]);
+  mu_alpha  = Phi_approx(mu_pr[1]) * 2;
+  mu_beta   = mu_pr[2];
+  mu_gamma  = exp(mu_pr[3]);
 
   { // local section, this saves time and space
     for (i in 1:N) {
@@ -116,3 +116,4 @@ generated quantities {
     }
   }
 }
+

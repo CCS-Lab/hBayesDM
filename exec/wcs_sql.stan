@@ -11,7 +11,7 @@ data {
 
 transformed data {
   matrix[1, 3] initAtt; // each subject start with an even attention to each dimension
-  matrix[1, 3] unit;    // used to flip attention after punishing feedback insde the model
+  matrix[1, 3] unit;    // used to flip attention after punishing feedback inside the model
 
   initAtt = rep_matrix(1.0/3.0, 1, 3);
   unit = rep_matrix(1.0, 1, 3);
@@ -32,7 +32,7 @@ transformed parameters {
   // transform subject-level raw parameters
   vector<lower=0,upper=1>[N] r;
   vector<lower=0,upper=1>[N] p;
-  vector<lower=0>[N] d;
+  vector<lower=0,upper=5>[N] d;
 
   for (i in 1:N) {
     r[i] = Phi_approx( mu_pr[1] + sigma[1] * r_pr[i] );
@@ -78,7 +78,7 @@ model {
         tmpatt = (1.0 - p[i])*subj_att + p[i]*att_signal;
       }
 
-      // scaling to avoide log(0)
+      // scaling to avoid log(0)
       subj_att = (tmpatt/sum(tmpatt))*.9998+.0001;
 
       tmpatt[1, 1] = pow(subj_att[1, 1],d[i]);
@@ -97,7 +97,7 @@ model {
 generated quantities {
   // for group level parameters
   real<lower=0, upper=1> mu_r;
-  real<lower=0, upper=5> mu_p;
+  real<lower=0, upper=1> mu_p;
   real<lower=0, upper=5> mu_d;
 
   // for log-likelihood calculation
@@ -164,3 +164,4 @@ generated quantities {
     } // end of subject loop
   } // end of local section
 }
+

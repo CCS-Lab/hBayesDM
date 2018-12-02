@@ -2,8 +2,8 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
-  real outcome[N, T];
   int choice[N, T];
+  real outcome[N, T];
 }
 
 transformed data {
@@ -14,7 +14,7 @@ transformed data {
 parameters {
 // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[8] mu_p;
+  vector[8] mu_pr;
   vector<lower=0>[8] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -40,20 +40,20 @@ transformed parameters {
   vector<lower=0, upper=1>[N] w;
 
   for (i in 1:N) {
-    A[i]      = Phi_approx(mu_p[1] + sigma[1] * A_pr[i]);
-    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_pr[i]) * 2;
-    cons[i]   = Phi_approx(mu_p[3] + sigma[3] * cons_pr[i]) * 5;
-    lambda[i] = Phi_approx(mu_p[4] + sigma[4] * lambda_pr[i]) * 10;
-    K[i]      = Phi_approx(mu_p[7] + sigma[7] * K_pr[i]);
-    w[i]      = Phi_approx(mu_p[8] + sigma[8] * w_pr[i]);
+    A[i]      = Phi_approx(mu_pr[1] + sigma[1] * A_pr[i]);
+    alpha[i]  = Phi_approx(mu_pr[2] + sigma[2] * alpha_pr[i]) * 2;
+    cons[i]   = Phi_approx(mu_pr[3] + sigma[3] * cons_pr[i]) * 5;
+    lambda[i] = Phi_approx(mu_pr[4] + sigma[4] * lambda_pr[i]) * 10;
+    K[i]      = Phi_approx(mu_pr[7] + sigma[7] * K_pr[i]);
+    w[i]      = Phi_approx(mu_pr[8] + sigma[8] * w_pr[i]);
   }
-  epP = mu_p[5] + sigma[5] * epP_pr;
-  epN = mu_p[6] + sigma[6] * epN_pr;
+  epP = mu_pr[5] + sigma[5] * epP_pr;
+  epN = mu_pr[6] + sigma[6] * epN_pr;
 }
 
 model {
   // Hyperparameters
-  mu_p       ~ normal(0, 1.0);
+  mu_pr       ~ normal(0, 1.0);
   sigma[1:4] ~ normal(0, 0.2);
   sigma[5:6] ~ cauchy(0, 1.0);
   sigma[7:8] ~ normal(0, 0.2);
@@ -130,14 +130,14 @@ generated quantities {
     }
   }
 
-  mu_A      = Phi_approx(mu_p[1]);
-  mu_alpha  = Phi_approx(mu_p[2]) * 2;
-  mu_cons   = Phi_approx(mu_p[3]) * 5;
-  mu_lambda = Phi_approx(mu_p[4]) * 10;
-  mu_epP    = mu_p[5];
-  mu_epN    = mu_p[6];
-  mu_K      = Phi_approx(mu_p[7]);
-  mu_w      = Phi_approx(mu_p[8]);
+  mu_A      = Phi_approx(mu_pr[1]);
+  mu_alpha  = Phi_approx(mu_pr[2]) * 2;
+  mu_cons   = Phi_approx(mu_pr[3]) * 5;
+  mu_lambda = Phi_approx(mu_pr[4]) * 10;
+  mu_epP    = mu_pr[5];
+  mu_epN    = mu_pr[6];
+  mu_K      = Phi_approx(mu_pr[7]);
+  mu_w      = Phi_approx(mu_pr[8]);
 
   { // local section, this saves time and space
     for (i in 1:N) {

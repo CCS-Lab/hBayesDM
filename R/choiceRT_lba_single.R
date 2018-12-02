@@ -199,30 +199,30 @@ choiceRT_lba_single <- function(data           = "choose",
   cat(" # of (max) trials of this subject = ", Tsubj, "\n\n")
 
   # Number of different choices
-  num_choices <- length(unique(rawdata$choice))
+  N_choice <- length(unique(rawdata$choice))
 
   # Number of different conditions (e.g. speed/accuracy)
-  num_cond <- length(unique(rawdata$condition))
+  N_cond <- length(unique(rawdata$condition))
 
   # To store number of trials/condition for given subject
-  n_tr_cond <- array(NA, dim = c(num_cond))
+  tr_cond <- array(NA, dim = c(N_cond))
   # Loop through conditions
-  for (j in 1:num_cond) {
-    n_tr_cond[j] <- sum(rawdata$condition == j)
+  for (j in 1:N_cond) {
+    tr_cond[j] <- sum(rawdata$condition == j)
   }
   # Max trials across conditions
-  max_tr <- max(n_tr_cond)
+  max_tr <- max(tr_cond)
 
   # Array for storing RT + choice data
-  RT <- array(-1, dim = c(num_cond, 2, max_tr))
+  RT <- array(-1, dim = c(N_cond, 2, max_tr))
 
   # Reaction time + choice matrix
-  for (cond in 1:num_cond) {
-    for (choice in 1:num_choices) {
+  for (cond in 1:N_cond) {
+    for (choice in 1:N_choice) {
       # Subset current data
       tmp <- subset(rawdata, rawdata$condition == cond & rawdata$choice == choice)
       # trials for current subject/condition pair
-      tmp_trials <- n_tr_cond[cond]
+      tmp_trials <- tr_cond[cond]
       # Store reaction time + choice
       RT[cond, 1, 1:tmp_trials] <- tmp$RT
       RT[cond, 2, 1:tmp_trials] <- tmp$choice
@@ -230,11 +230,11 @@ choiceRT_lba_single <- function(data           = "choose",
   }
 
   dataList <- list(
-    N_tr_cond = n_tr_cond,
-    N_choices = num_choices,
-    N_cond    = num_cond,
-    RT        = RT,
-    Max_tr    = max_tr
+    N_choice = N_choice,
+    N_cond   = N_cond,
+    tr_cond  = tr_cond,
+    max_tr   = max_tr,
+    RT       = RT
 )
 
   # inits
@@ -330,8 +330,8 @@ choiceRT_lba_single <- function(data           = "choose",
   allIndPars$subjID    <- subjID
   colnames(allIndPars) <- c("d",
                             "A",
-                            apply(expand.grid(paste0("v_cd", 1:num_cond),
-                                              paste0("_ch", 1:num_choices)),
+                            apply(expand.grid(paste0("v_cd", 1:N_cond),
+                                              paste0("_ch", 1:N_choice)),
                                   1, paste, collapse = ""),
                             "tau",
                             "subjID")
@@ -365,3 +365,4 @@ choiceRT_lba_single <- function(data           = "choose",
 
   return(modelData)
 }
+

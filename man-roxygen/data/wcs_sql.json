@@ -1,0 +1,7 @@
+{
+  "model_function": "wcs_sql",
+  "data_columns": ["subjID", "choice", "outcome"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome", "choice_match_att", "deck_match_rule"],
+  "parameters": ["r", "p", "d"],
+  "gen_init": [[0, 0.1, 1], [0, 0.1, 1], [0, 1, 5]]
+}

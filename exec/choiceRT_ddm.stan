@@ -24,7 +24,7 @@ parameters {
 
   // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[4] mu_p;
+  vector[4] mu_pr;
   vector<lower=0>[4] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -42,16 +42,16 @@ transformed parameters {
   vector<lower=RTbound, upper=max(minRT)>[N] tau; // nondecision time
 
   for (i in 1:N) {
-    beta[i] = Phi_approx(mu_p[2] + sigma[2] * beta_pr[i]);
-    tau[i]  = Phi_approx(mu_p[4] + sigma[4] * tau_pr[i]) * (minRT[i] - RTbound) + RTbound;
+    beta[i] = Phi_approx(mu_pr[2] + sigma[2] * beta_pr[i]);
+    tau[i]  = Phi_approx(mu_pr[4] + sigma[4] * tau_pr[i]) * (minRT[i] - RTbound) + RTbound;
   }
-  alpha = exp(mu_p[1] + sigma[1] * alpha_pr);
-  delta = exp(mu_p[3] + sigma[3] * delta_pr);
+  alpha = exp(mu_pr[1] + sigma[1] * alpha_pr);
+  delta = exp(mu_pr[3] + sigma[3] * delta_pr);
 }
 
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // Individual parameters for non-centered parameterization
@@ -80,10 +80,10 @@ generated quantities {
   real log_lik[N];
 
   // Assign group level parameter values
-  mu_alpha = exp(mu_p[1]);
-  mu_beta  = Phi_approx(mu_p[2]);
-  mu_delta = exp(mu_p[3]);
-  mu_tau   = Phi_approx(mu_p[4]) * (mean(minRT)-RTbound) + RTbound;
+  mu_alpha = exp(mu_pr[1]);
+  mu_beta  = Phi_approx(mu_pr[2]);
+  mu_delta = exp(mu_pr[3]);
+  mu_tau   = Phi_approx(mu_pr[4]) * (mean(minRT)-RTbound) + RTbound;
 
   { // local section, this saves time and space
     // Begin subject loop

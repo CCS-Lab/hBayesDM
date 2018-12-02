@@ -12,7 +12,7 @@ transformed data {
 parameters {
 // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[2] mu_p;
+  vector[2] mu_pr;
   vector<lower=0>[2] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -25,13 +25,13 @@ transformed parameters {
   vector<lower=0, upper=5>[N] tau;
 
   for (i in 1:N) {
-    A[i]   = Phi_approx(mu_p[1]  + sigma[1]  * A_pr[i]);
-    tau[i] = Phi_approx(mu_p[2] + sigma[2] * tau_pr[i]) * 5;
+    A[i]   = Phi_approx(mu_pr[1]  + sigma[1]  * A_pr[i]);
+    tau[i] = Phi_approx(mu_pr[2] + sigma[2] * tau_pr[i]) * 5;
   }
 }
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // individual parameters
@@ -75,8 +75,8 @@ generated quantities {
     }
   }
 
-  mu_A   = Phi_approx(mu_p[1]);
-  mu_tau = Phi_approx(mu_p[2]) * 5;
+  mu_A   = Phi_approx(mu_pr[1]);
+  mu_tau = Phi_approx(mu_pr[2]) * 5;
 
   { // local section, this saves time and space
     for (i in 1:N) {

@@ -1,0 +1,7 @@
+{
+  "model_function": "igt_vpp",
+  "data_columns": ["subjID", "choice", "gain", "loss"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["A", "alpha", "cons", "lambda", "epP", "epN", "K", "w"],
+  "gen_init": [[0, 0.5, 1], [0, 0.5, 2], [0, 1, 5], [0, 1, 10], ["-inf", 0, "inf"], ["-inf", 0, "inf"], [0, 0.5, 1], [0, 0.5, 1]]
+}

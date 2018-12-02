@@ -12,7 +12,7 @@ transformed data {
 parameters {
   // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[4] mu_p;
+  vector[4] mu_pr;
   vector<lower=0>[4] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -29,15 +29,15 @@ transformed parameters {
   vector<lower=0,upper=1>[N] w;
 
   for (i in 1:N) {
-      a[i]     = Phi_approx( mu_p[1] + sigma[1] * a_pr[i] );
-      beta[i]  = exp( mu_p[2] + sigma[2] * beta_pr[i] );
-      pi[i]    = Phi_approx( mu_p[3] + sigma[3] * pi_pr[i] ) * 5;
-      w[i]     = Phi_approx( mu_p[4] + sigma[4] * w_pr[i] );
+      a[i]     = Phi_approx( mu_pr[1] + sigma[1] * a_pr[i] );
+      beta[i]  = exp( mu_pr[2] + sigma[2] * beta_pr[i] );
+      pi[i]    = Phi_approx( mu_pr[3] + sigma[3] * pi_pr[i] ) * 5;
+      w[i]     = Phi_approx( mu_pr[4] + sigma[4] * w_pr[i] );
   }
 }
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // individual parameters
@@ -126,10 +126,10 @@ generated quantities {
   }
 
   // Generate group level parameter values
-  mu_a     = Phi_approx( mu_p[1] );
-  mu_beta  = exp( mu_p[2] );
-  mu_pi     = Phi_approx( mu_p[3] ) * 5;
-  mu_w      = Phi_approx( mu_p[4] );
+  mu_a     = Phi_approx( mu_pr[1] );
+  mu_beta  = exp( mu_pr[2] );
+  mu_pi     = Phi_approx( mu_pr[3] ) * 5;
+  mu_w      = Phi_approx( mu_pr[4] );
 
   { // local section, this saves time and space
   for (i in 1:N) {
@@ -197,5 +197,6 @@ generated quantities {
 
       } // end of t loop
     } // end of i loop
-   }
- }
+  }
+}
+

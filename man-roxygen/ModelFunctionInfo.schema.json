@@ -1,0 +1,42 @@
+{
+  "title": "Model Function Info",
+  "type": "object",
+  "required": ["model_function", "data_columns", "data_list", "parameters", "gen_init"],
+  "properties": {
+    "model_function": {
+      "type": "string"
+    },
+    "data_columns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gen_init": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 3,
+        "maxItems": 3
+      }
+    },
+    "regressors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

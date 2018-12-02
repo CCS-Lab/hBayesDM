@@ -1,0 +1,7 @@
+{
+  "model_function": "dbdm_prob_weight",
+  "data_columns": ["subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice"],
+  "data_list": ["N", "T", "Tsubj", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice"],
+  "parameters": ["tau", "rho", "lambda", "beta"],
+  "gen_init": [[0, 0.8, 1], [0, 0.7, 2], [0, 2.5, 5], [0, 0.2, 1]]
+}

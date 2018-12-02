@@ -2,8 +2,8 @@ data {
   int<lower=1> N;
   int<lower=1> T;
   int<lower=1, upper=T> Tsubj[N];
-  real outcome[N, T];
   int choice[N, T];
+  real outcome[N, T];
 }
 transformed data {
   vector[4] initV;
@@ -12,7 +12,7 @@ transformed data {
 parameters {
 // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
-  vector[4] mu_p;
+  vector[4] mu_pr;
   vector<lower=0>[4] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -29,15 +29,15 @@ transformed parameters {
   vector<lower=0, upper=10>[N] lambda;
 
   for (i in 1:N) {
-    A[i]      = Phi_approx(mu_p[1] + sigma[1] * A_pr[i]);
-    alpha[i]  = Phi_approx(mu_p[2] + sigma[2] * alpha_pr[i]) * 2;
-    cons[i]   = Phi_approx(mu_p[3] + sigma[3] * cons_pr[i]) * 5;
-    lambda[i] = Phi_approx(mu_p[4] + sigma[4] * lambda_pr[i]) * 10;
+    A[i]      = Phi_approx(mu_pr[1] + sigma[1] * A_pr[i]);
+    alpha[i]  = Phi_approx(mu_pr[2] + sigma[2] * alpha_pr[i]) * 2;
+    cons[i]   = Phi_approx(mu_pr[3] + sigma[3] * cons_pr[i]) * 5;
+    lambda[i] = Phi_approx(mu_pr[4] + sigma[4] * lambda_pr[i]) * 10;
   }
 }
 model {
 // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // individual parameters
@@ -91,10 +91,10 @@ generated quantities {
     }
   }
 
-  mu_A      = Phi_approx(mu_p[1]);
-  mu_alpha  = Phi_approx(mu_p[2]) * 2;
-  mu_cons   = Phi_approx(mu_p[3]) * 5;
-  mu_lambda = Phi_approx(mu_p[4]) * 10;
+  mu_A      = Phi_approx(mu_pr[1]);
+  mu_alpha  = Phi_approx(mu_pr[2]) * 2;
+  mu_cons   = Phi_approx(mu_pr[3]) * 5;
+  mu_lambda = Phi_approx(mu_pr[4]) * 10;
 
   { // local section, this saves time and space
     for (i in 1:N) {

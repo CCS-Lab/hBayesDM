@@ -21,7 +21,7 @@ transformed data {
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
-  vector[4] mu_p;
+  vector[4] mu_pr;
   vector<lower=0>[4] sigma;
 
   // Subject-level raw parameters (for Matt trick)
@@ -39,16 +39,16 @@ transformed parameters {
   vector<lower=0, upper=5>[N] beta;
 
   for (i in 1:N) {
-    eta_pos[i]  = Phi_approx(mu_p[1] + sigma[1] * eta_pos_pr[i]);
-    eta_neg[i]  = Phi_approx(mu_p[2] + sigma[2] * eta_neg_pr[i]);
-    beta[i]     = Phi_approx(mu_p[4] + sigma[4] * beta_pr[i]) * 5;
+    eta_pos[i]  = Phi_approx(mu_pr[1] + sigma[1] * eta_pos_pr[i]);
+    eta_neg[i]  = Phi_approx(mu_pr[2] + sigma[2] * eta_neg_pr[i]);
+    beta[i]     = Phi_approx(mu_pr[4] + sigma[4] * beta_pr[i]) * 5;
   }
-  alpha = mu_p[3] + sigma[3] * alpha_pr;
+  alpha = mu_pr[3] + sigma[3] * alpha_pr;
 }
 
 model {
   // Hyperparameters
-  mu_p  ~ normal(0, 1);
+  mu_pr  ~ normal(0, 1);
   sigma[1:2] ~ normal(0, 0.2);
   sigma[3]   ~ cauchy(0, 1.0);
   sigma[4]   ~ normal(0, 0.2);
@@ -64,8 +64,8 @@ model {
     vector[2] ev;     // expected value
     vector[2] prob;   // probability
 
-    real pe_c;    // prediction error
-    real pe_nc;   // fictitious prediction error (PE-non-chosen)
+    real PE;    // prediction error
+    real PEnc;   // fictitious prediction error (PE-non-chosen)
 
     // Initialize values
     ev = initV;   // initial ev values
@@ -77,16 +77,16 @@ model {
       choice[i, t] ~ categorical(prob);
 
       // prediction error
-      pe_c  =  outcome[i, t] - ev[choice[i, t]];
-      pe_nc = -outcome[i, t] - ev[3 - choice[i, t]];
+      PE  =  outcome[i, t] - ev[choice[i, t]];
+      PEnc = -outcome[i, t] - ev[3 - choice[i, t]];
 
       // value updating (learning)
-      if (pe_c >= 0) {
-        ev[choice[i, t]]      += eta_pos[i] * pe_c;
-        ev[3 - choice[i, t]]  += eta_pos[i] * pe_nc;
+      if (PE >= 0) {
+        ev[choice[i, t]]      += eta_pos[i] * PE;
+        ev[3 - choice[i, t]]  += eta_pos[i] * PEnc;
       } else {
-        ev[choice[i, t]]      += eta_neg[i] * pe_c;
-        ev[3 - choice[i, t]]  += eta_neg[i] * pe_nc;
+        ev[choice[i, t]]      += eta_neg[i] * PE;
+        ev[3 - choice[i, t]]  += eta_neg[i] * PEnc;
       }
     }
   }
@@ -103,13 +103,13 @@ generated quantities {
   real log_lik[N];
 
   // For model regressors
-  real mr_ev_c[N, T];   // Expected value of the chosen option
-  real mr_ev_nc[N, T];  // Expected value of the non-chosen option
+  real ev_c[N, T];   // Expected value of the chosen option
+  real ev_nc[N, T];  // Expected value of the non-chosen option
 
-  real mr_pe_c[N, T];   // Prediction error of the chosen option
-  real mr_pe_nc[N, T];  // Prediction error of the non-chosen option
+  real pe_c[N, T];   // Prediction error of the chosen option
+  real pe_nc[N, T];  // Prediction error of the non-chosen option
 
-  real mr_dv[N, T];     // Decision value = PE_chosen - PE_non-chosen
+  real dv[N, T];     // Decision value = PE_chosen - PE_non-chosen
 
   // For posterior predictive check
   real y_pred[N, T];
@@ -117,20 +117,20 @@ generated quantities {
   // Initialize all the variables to avoid NULL values
   for (i in 1:N) {
     for (t in 1:T) {
-      mr_ev_c[i, t]   = 0;
-      mr_ev_nc[i, t]  = 0;
-      mr_pe_c[i, t]   = 0;
-      mr_pe_nc[i, t]  = 0;
-      mr_dv[i, t]     = 0;
+      ev_c[i, t]   = 0;
+      ev_nc[i, t]  = 0;
+      pe_c[i, t]   = 0;
+      pe_nc[i, t]  = 0;
+      dv[i, t]     = 0;
 
       y_pred[i, t]    = -1;
     }
   }
 
-  mu_eta_pos = Phi_approx(mu_p[1]);
-  mu_eta_neg = Phi_approx(mu_p[2]);
-  mu_alpha   = mu_p[3];
-  mu_beta    = Phi_approx(mu_p[4]) * 5;
+  mu_eta_pos = Phi_approx(mu_pr[1]);
+  mu_eta_neg = Phi_approx(mu_pr[2]);
+  mu_alpha   = mu_pr[3];
+  mu_beta    = Phi_approx(mu_pr[4]) * 5;
 
   { // local section, this saves time and space
     for (i in 1:N) {
@@ -138,8 +138,8 @@ generated quantities {
       vector[2] ev;     // expected value
       vector[2] prob;   // probability
 
-      real pe_c;    // prediction error
-      real pe_nc;   // fictitious prediction error (PE-non-chosen)
+      real PE;    // prediction error
+      real PEnc;   // fictitious prediction error (PE-non-chosen)
 
       // Initialize values
       ev = initV;   // initial ev values
@@ -157,23 +157,23 @@ generated quantities {
         y_pred[i, t] = categorical_rng(prob);
 
         // prediction error
-        pe_c  =  outcome[i, t] - ev[choice[i, t]];
-        pe_nc = -outcome[i, t] - ev[3 - choice[i, t]];
+        PE  =  outcome[i, t] - ev[choice[i, t]];
+        PEnc = -outcome[i, t] - ev[3 - choice[i, t]];
 
         // Store values for model regressors
-        mr_ev_c[i, t]   = ev[choice[i, t]];
-        mr_ev_nc[i, t]  = ev[3 - choice[i, t]];
-        mr_pe_c[i, t]   = pe_c;
-        mr_pe_nc[i, t]  = pe_nc;
-        mr_dv[i, t]     = pe_c - pe_nc;
+        ev_c[i, t]   = ev[choice[i, t]];
+        ev_nc[i, t]  = ev[3 - choice[i, t]];
+        pe_c[i, t]   = PE;
+        pe_nc[i, t]  = PEnc;
+        dv[i, t]     = PE - PEnc;
 
         // Value updating (learning)
-        if (pe_c >= 0) {
-          ev[choice[i, t]]      += eta_pos[i] * pe_c;
-          ev[3 - choice[i, t]]  += eta_pos[i] * pe_nc;
+        if (PE >= 0) {
+          ev[choice[i, t]]      += eta_pos[i] * PE;
+          ev[3 - choice[i, t]]  += eta_pos[i] * PEnc;
         } else {
-          ev[choice[i, t]]      += eta_neg[i] * pe_c;
-          ev[3 - choice[i, t]]  += eta_neg[i] * pe_nc;
+          ev[choice[i, t]]      += eta_neg[i] * PE;
+          ev[3 - choice[i, t]]  += eta_neg[i] * PEnc;
         }
       }
     }

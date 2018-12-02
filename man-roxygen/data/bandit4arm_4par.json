@@ -1,0 +1,7 @@
+{
+  "model_function": "bandit4arm_4par",
+  "data_columns": ["subjID", "choice", "gain", "loss"],
+  "data_list": ["N", "T", "Tsubj", "rew", "los", "choice"],
+  "parameters": ["Arew", "Apun", "R", "P"],
+  "gen_init": [[0, 0.1, 1], [0, 0.1, 1], [0, 1, 30], [0, 1, 30]]
+}

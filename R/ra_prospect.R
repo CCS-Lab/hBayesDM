@@ -1,118 +1,34 @@
-#' Risk Aversion Task
+#' @templateVar MODEL_FUNCTION ra_prospect
+#' @templateVar TASK_NAME Risk Aversion Task
+#' @templateVar MODEL_NAME Prospect Theory
+#' @templateVar MODEL_CITE (Sokol-Hessner et al., 2009, PNAS)
+#' @templateVar MODEL_TYPE Hierarchical
+#' @templateVar DATA_COLUMNS "subjID", "gain", "loss", "cert", "gamble"
+#' @templateVar PARAMETERS "rho" (risk aversion), "lambda" (loss aversion), "tau" (inverse temperature)
+#' @templateVar LENGTH_DATA_COLUMNS 5
+#' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
+#' @templateVar DETAILS_DATA_2 \item{"gain"}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
+#' @templateVar DETAILS_DATA_3 \item{"loss"}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
+#' @templateVar DETAILS_DATA_4 \item{"cert"}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
+#' @templateVar DETAILS_DATA_5 \item{"gamble"}{If gamble was taken, gamble == 1; else gamble == 0.}
 #'
-#' @description
-#' Hierarchical Bayesian Modeling of the Risk Aversion Task with the following parameters: "rho" (risk aversion), "lambda" (loss aversion), and "tau" (inverse temp).
-#'
-#' \strong{MODEL:}
-#' Prospect Theory (Sokol-Hessner et al., 2009, PNAS)
-#'
-#' @param data A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "gain", "loss", "cert", and "gamble". See \bold{Details} below for more information.
-#' @param niter Number of iterations, including warm-up.
-#' @param nwarmup Number of iterations used for warm-up only.
-#' @param nchain Number of chains to be run.
-#' @param ncore Integer value specifying how many CPUs to run the MCMC sampling on. Defaults to 1.
-#' @param nthin Every \code{i == nthin} sample will be used to generate the posterior distribution. Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is high.
-#' @param inits Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.
-#' @param indPars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
-#' @param saveDir Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.
-#' @param modelRegressor Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.
-#' @param vb             Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.
-#' @param inc_postpred Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.
-#' @param adapt_delta Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
-#' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.
-#' @param max_treedepth Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.
-#'
-#' @return \code{modelData}  A class \code{"hBayesDM"} object with the following components:
-#' \describe{
-#'  \item{\code{model}}{Character string with the name of the model (\code{"ra_prospect"}).}
-#'  \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
-#'    values (as specified by \code{"indPars"}) for each subject.}
-#'  \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
-#'    over different model parameters. }
-#'  \item{\code{fit}}{A class \code{"stanfit"} object containing the fitted model.}
-#'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
-#' }
+#' @template model-documentation
 #'
 #' @export
-#'
 #' @include hBayesDM_model.R
-#' @importFrom data.table as.data.table
-#'
-#' @details
-#' This section describes some of the function arguments in greater detail.
-#'
-#' \strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
-#' (e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
-#' The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
-#' represent variables. For the Risk Aversion Task, there should be four columns of data  with the labels
-#' "subjID", "riskyGain", "riskyLoss", and "safeOption". It is not necessary for the columns to be in this
-#' particular order, however it is necessary that they be labelled correctly and contain the information below:
-#' \describe{
-#'  \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
-#'  \item{\code{"gain"}}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
-#'  \item{\code{"loss"}}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
-#'  \item{\code{"cert"}}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
-#'  \item{\code{"gamble"}}{If gamble was taken, gamble == 1, else gamble == 0.}
-#' }
-#' \strong{*}Note: The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
-#' names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
-#' there is no need to remove other miscellaneous data columns.
-#'
-#' \strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the
-#' beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
-#' Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
-#' on the generated posterior distributions. The \code{nwarmup} argument can be set to a high number in order to curb the
-#' effects that initial values have on the resulting posteriors.
-#'
-#' \strong{nchain} is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
-#' used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
-#' process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
-#' sampling is completed, the multiple chains may be checked for convergence with the \code{plot(myModel, type = "trace")}
-#' command. The chains should resemble a "furry caterpillar".
-#'
-#' \strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
-#' to generate the posterior distributions. By default, \code{nthin} is equal to 1, hence every sample is used to
-#' generate the posterior.
-#'
-#' \strong{Contol Parameters:} adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control
-#' over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
-#' can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for
-#' more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
-#' \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
 #'
 #' @references
-#' Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
-#' Journal of Machine Learning Research, 15(1), 1593-1623.
-#'
-#' Sokol-Hessner, P., Hsu, M., Curley, N. G., Delgado, M. R., Camerer, C. F., Phelps, E. A., & Smith, E. E. (2009). Thinking like
-#' a Trader Selectively Reduces Individuals' Loss Aversion. Proceedings of the National Academy of Sciences of the United States
-#' of America, 106(13), 5035-5040. http://doi.org/10.2307/40455144?ref = search-gateway:1f452c8925000031ef87ca756455c9e3
-#'
-#' @seealso
-#' We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
+#' Sokol-Hessner, P., Hsu, M., Curley, N. G., Delgado, M. R., Camerer, C. F., Phelps, E. A., &
+#'   Smith, E. E. (2009). Thinking like a Trader Selectively Reduces Individuals' Loss Aversion.
+#'   Proceedings of the National Academy of Sciences of the United States of America, 106(13),
+#'   5035-5040. http://www.pnas.org/content/106/13/5035
 #'
 #' @examples
+#'
 #' \dontrun{
-#' # Run the model and store results in "output"
-#' output <- ra_prospect(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
-#'
-#' # Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
-#' plot(output, type = 'trace')
-#'
-#' # Check Rhat values (all Rhat values should be less than or equal to 1.1)
-#' rhat(output)
-#'
-#' # Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)
-#' plot(output)
-#'
-#' # Show the WAIC and LOOIC model fit estimates
-#' printFit(output)
-#'
-#'
 #' # Paths to data published in Sokol-Hessner et al. (2009)
-#' path_to_attend_data = system.file("extdata/ra_data_attend.txt", package = "hBayesDM")
-#'
-#' path_to_regulate_data = system.file("extdata/ra_data_reappraisal.txt", package = "hBayesDM")
+#' path_to_attend_data <- system.file("extdata", "ra_data_attend.txt", package = "hBayesDM")
+#' path_to_regulate_data <- system.file("extdata", "ra_data_reappraisal.txt", package = "hBayesDM")
 #' }
 
 ra_prospect <- hBayesDM_model(
@@ -123,11 +39,9 @@ ra_prospect <- hBayesDM_model(
                          "lambda" = c(0, 1, 5),
                          "tau"    = c(0, 1, 5)),
   preprocess_func = function(raw_data, general_info) {
+    # Currently class(raw_data) == "data.table"
 
-    # Use data.table
-    DT <- as.data.table(raw_data)
-
-    # Use general informations of raw_data
+    # Use general_info of raw_data
     subjs   <- general_info$subjs
     n_subj  <- general_info$n_subj
     t_subjs <- general_info$t_subjs
@@ -143,7 +57,7 @@ ra_prospect <- hBayesDM_model(
     for (i in 1:n_subj) {
       subj <- subjs[i]
       t <- t_subjs[i]
-      DT_subj <- DT[subjid == subj]
+      DT_subj <- raw_data[subjid == subj]
 
       gain[i, 1:t]   <- DT_subj$gain
       loss[i, 1:t]   <- abs(DT_subj$loss)  # absolute loss amount
@@ -166,5 +80,4 @@ ra_prospect <- hBayesDM_model(
     return(data_list)
   }
 )
-
 

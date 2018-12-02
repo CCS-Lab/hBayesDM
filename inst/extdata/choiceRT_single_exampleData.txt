@@ -1,4 +1,4 @@
-"RT"	"choice"	"subjID"	"condition"
+RT	choice	subjID	condition
 0.238126253704183	1	1	1
 0.788334139249308	2	1	1
 0.524351202388138	2	1	1

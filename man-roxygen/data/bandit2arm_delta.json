@@ -1,0 +1,7 @@
+{
+  "model_function": "bandit2arm_delta",
+  "data_columns": ["subjID", "choice", "outcome"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["A", "tau"],
+  "gen_init": [[0, 0.5, 1], [0, 1, 5]]
+}
