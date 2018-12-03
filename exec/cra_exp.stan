@@ -85,10 +85,20 @@ generated quantities {
   // For posterior predictive check
   real y_pred[N, T];
 
+  // Model regressors
+  real sv[N, T];
+  real sv_fix[N, T];
+  real sv_var[N, T];
+  real<lower=0,upper=1> p_var[N, T];
+
   // Set all posterior predictions to -1 (avoids NULL values)
   for (i in 1:N) {
     for (t in 1:T) {
       y_pred[i, t] = -1;
+      sv[i, t] = 0;
+      sv_fix[i, t] = 0;
+      sv_var[i, t] = 0;
+      p_var[i, t] = 0;
     }
   }
 
@@ -104,14 +114,17 @@ generated quantities {
       for (t in 1:Tsubj[i]) {
         real u_fix;  // subjective value of the fixed lottery
         real u_var;  // subjective value of the variable lottery
-        real p_var;  // probability of choosing the variable option
 
         u_fix = subjective_value(alpha[i], beta[i], 0.5, 0, reward_fix[i, t]);
         u_var = subjective_value(alpha[i], beta[i], prob[i, t], ambig[i, t], reward_var[i, t]);
-        p_var = inv_logit(gamma[i] * (u_var - u_fix));
+        p_var[i, t] = inv_logit(gamma[i] * (u_var - u_fix));
 
-        log_lik[i] += bernoulli_lpmf(choice[i, t] | p_var);
-        y_pred[i, t] = bernoulli_rng(p_var);
+        sv_fix[i, t] = u_fix;
+        sv_var[i, t] = u_var;
+        sv[i, t] = (choice[i, t] == 1) ? u_var : u_fix;
+
+        log_lik[i] += bernoulli_lpmf(choice[i, t] | p_var[i, t]);
+        y_pred[i, t] = bernoulli_rng(p_var[i, t]);
       }
     }
   }

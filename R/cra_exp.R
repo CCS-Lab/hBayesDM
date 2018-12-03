@@ -31,6 +31,10 @@ cra_exp <- hBayesDM_model(
   parameters      = list("alpha" = c(0, 1, 2),
                          "beta"  = c(-Inf, 0, Inf),
                          "gamma" = c(0, 1, Inf)),
+  regressors      = list("sv"     = 2,
+                         "sv_fix" = 2,
+                         "sv_var" = 2,
+                         "p_var"  = 2),
   preprocess_func = function(raw_data, general_info) {
     # Currently class(raw_data) == "data.table"
 
