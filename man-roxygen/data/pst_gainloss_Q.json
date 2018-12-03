@@ -3,5 +3,5 @@
   "data_columns": ["subjID", "type", "choice", "reward"],
   "data_list": ["N", "T", "Tsubj", "option1", "option2", "choice", "reward"],
   "parameters": ["alpha_pos", "alpha_neg", "beta"],
-  "gen_init": [[0, 1, 1], [0, 1, 1], [0, 1, 10]]
+  "gen_init": [[0, 0.5, 1], [0, 0.5, 1], [0, 1, 10]]
 }
