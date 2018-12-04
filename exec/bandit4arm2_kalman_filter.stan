@@ -109,8 +109,8 @@ generated quantities {
   mu_theta  = Phi_approx(mu_pr[2]) * 100;
   mu_beta   = Phi_approx(mu_pr[3]);
   mu_mu0    = Phi_approx(mu_pr[4]) * 100;
-  mu_sigma0 = sqrt(Phi_approx(mu_pr[5]) * 200);
-  mu_sigmaD = sqrt(Phi_approx(mu_pr[6]) * 200);
+  mu_sigma0 = Phi_approx(mu_pr[5]) * 15;
+  mu_sigmaD = Phi_approx(mu_pr[6]) * 15;
 
   { // local block
     for (i in 1:N) {

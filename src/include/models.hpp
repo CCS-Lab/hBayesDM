@@ -1703,8 +1703,8 @@ public:
             stan::math::assign(mu_theta, (Phi_approx(get_base1(mu_pr,2,"mu_pr",1)) * 100));
             stan::math::assign(mu_beta, Phi_approx(get_base1(mu_pr,3,"mu_pr",1)));
             stan::math::assign(mu_mu0, (Phi_approx(get_base1(mu_pr,4,"mu_pr",1)) * 100));
-            stan::math::assign(mu_sigma0, stan::math::sqrt((Phi_approx(get_base1(mu_pr,5,"mu_pr",1)) * 200)));
-            stan::math::assign(mu_sigmaD, stan::math::sqrt((Phi_approx(get_base1(mu_pr,6,"mu_pr",1)) * 200)));
+            stan::math::assign(mu_sigma0, (Phi_approx(get_base1(mu_pr,5,"mu_pr",1)) * 15));
+            stan::math::assign(mu_sigmaD, (Phi_approx(get_base1(mu_pr,6,"mu_pr",1)) * 15));
 
             for (int i = 1; i <= N; ++i) {
                 {

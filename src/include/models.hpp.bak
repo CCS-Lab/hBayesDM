@@ -1867,9 +1867,9 @@ public:
             current_statement_begin__ = 111;
             stan::math::assign(mu_mu0, (Phi_approx(get_base1(mu_pr,4,"mu_pr",1)) * 100));
             current_statement_begin__ = 112;
-            stan::math::assign(mu_sigma0, stan::math::sqrt((Phi_approx(get_base1(mu_pr,5,"mu_pr",1)) * 200)));
+            stan::math::assign(mu_sigma0, (Phi_approx(get_base1(mu_pr,5,"mu_pr",1)) * 15));
             current_statement_begin__ = 113;
-            stan::math::assign(mu_sigmaD, stan::math::sqrt((Phi_approx(get_base1(mu_pr,6,"mu_pr",1)) * 200)));
+            stan::math::assign(mu_sigmaD, (Phi_approx(get_base1(mu_pr,6,"mu_pr",1)) * 15));
 
             current_statement_begin__ = 116;
             for (int i = 1; i <= N; ++i) {
