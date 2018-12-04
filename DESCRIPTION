@@ -1,6 +1,6 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.6.3
+Version: 0.7.0
 Date: 2018-10-30
 Author:
     Woo-Young Ahn [aut, cre],
@@ -47,7 +47,7 @@ LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
 RoxygenNote: 6.1.1
-Collate: 
+Collate:
     'HDIofMCMC.R'
     'stanmodels.R'
     'hBayesDM_model.R'
