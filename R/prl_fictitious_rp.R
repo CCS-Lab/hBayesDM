@@ -32,7 +32,7 @@ prl_fictitious_rp <- hBayesDM_model(
   parameters      = list("eta_pos" = c(0, 0.5, 1),
                          "eta_neg" = c(0, 0.5, 1),
                          "alpha"   = c(-Inf, 0, Inf),
-                         "beta"    = c(0, 1, 5)),
+                         "beta"    = c(0, 1, 10)),
   regressors      = list("ev_c"  = 2,
                          "ev_nc" = 2,
                          "pe_c"  = 2,
