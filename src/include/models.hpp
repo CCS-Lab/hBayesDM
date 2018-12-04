@@ -1415,8 +1415,8 @@ public:
         names__.push_back("mu_theta");
         names__.push_back("mu_beta");
         names__.push_back("mu_mu0");
-        names__.push_back("mu_sigma0");
-        names__.push_back("mu_sigmaD");
+        names__.push_back("mu_sigma0_sq");
+        names__.push_back("mu_sigmaD_sq");
         names__.push_back("log_lik");
         names__.push_back("y_pred");
     }
@@ -1668,16 +1668,16 @@ public:
 
             stan::math::initialize(mu_mu0, DUMMY_VAR__);
             stan::math::fill(mu_mu0,DUMMY_VAR__);
-            local_scalar_t__ mu_sigma0;
-            (void) mu_sigma0;  // dummy to suppress unused var warning
+            local_scalar_t__ mu_sigma0_sq;
+            (void) mu_sigma0_sq;  // dummy to suppress unused var warning
 
-            stan::math::initialize(mu_sigma0, DUMMY_VAR__);
-            stan::math::fill(mu_sigma0,DUMMY_VAR__);
-            local_scalar_t__ mu_sigmaD;
-            (void) mu_sigmaD;  // dummy to suppress unused var warning
+            stan::math::initialize(mu_sigma0_sq, DUMMY_VAR__);
+            stan::math::fill(mu_sigma0_sq,DUMMY_VAR__);
+            local_scalar_t__ mu_sigmaD_sq;
+            (void) mu_sigmaD_sq;  // dummy to suppress unused var warning
 
-            stan::math::initialize(mu_sigmaD, DUMMY_VAR__);
-            stan::math::fill(mu_sigmaD,DUMMY_VAR__);
+            stan::math::initialize(mu_sigmaD_sq, DUMMY_VAR__);
+            stan::math::fill(mu_sigmaD_sq,DUMMY_VAR__);
             validate_non_negative_index("log_lik", "N", N);
             vector<local_scalar_t__> log_lik(N);
             stan::math::initialize(log_lik, DUMMY_VAR__);
@@ -1703,8 +1703,8 @@ public:
             stan::math::assign(mu_theta, (Phi_approx(get_base1(mu_pr,2,"mu_pr",1)) * 100));
             stan::math::assign(mu_beta, Phi_approx(get_base1(mu_pr,3,"mu_pr",1)));
             stan::math::assign(mu_mu0, (Phi_approx(get_base1(mu_pr,4,"mu_pr",1)) * 100));
-            stan::math::assign(mu_sigma0, stan::math::sqrt((Phi_approx(get_base1(mu_pr,5,"mu_pr",1)) * 200)));
-            stan::math::assign(mu_sigmaD, stan::math::sqrt((Phi_approx(get_base1(mu_pr,6,"mu_pr",1)) * 200)));
+            stan::math::assign(mu_sigma0_sq, (Phi_approx(get_base1(mu_pr,5,"mu_pr",1)) * 200));
+            stan::math::assign(mu_sigmaD_sq, (Phi_approx(get_base1(mu_pr,6,"mu_pr",1)) * 200));
 
             for (int i = 1; i <= N; ++i) {
                 {
@@ -1773,18 +1773,18 @@ public:
             check_less_or_equal(function__,"mu_beta",mu_beta,1);
             check_greater_or_equal(function__,"mu_mu0",mu_mu0,0);
             check_less_or_equal(function__,"mu_mu0",mu_mu0,100);
-            check_greater_or_equal(function__,"mu_sigma0",mu_sigma0,0);
-            check_less_or_equal(function__,"mu_sigma0",mu_sigma0,15);
-            check_greater_or_equal(function__,"mu_sigmaD",mu_sigmaD,0);
-            check_less_or_equal(function__,"mu_sigmaD",mu_sigmaD,15);
+            check_greater_or_equal(function__,"mu_sigma0_sq",mu_sigma0_sq,0);
+            check_less_or_equal(function__,"mu_sigma0_sq",mu_sigma0_sq,15);
+            check_greater_or_equal(function__,"mu_sigmaD_sq",mu_sigmaD_sq,0);
+            check_less_or_equal(function__,"mu_sigmaD_sq",mu_sigmaD_sq,15);
 
             // write generated quantities
         vars__.push_back(mu_lambda);
         vars__.push_back(mu_theta);
         vars__.push_back(mu_beta);
         vars__.push_back(mu_mu0);
-        vars__.push_back(mu_sigma0);
-        vars__.push_back(mu_sigmaD);
+        vars__.push_back(mu_sigma0_sq);
+        vars__.push_back(mu_sigmaD_sq);
             for (int k_0__ = 0; k_0__ < N; ++k_0__) {
             vars__.push_back(log_lik[k_0__]);
             }
@@ -1919,10 +1919,10 @@ public:
         param_name_stream__ << "mu_mu0";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "mu_sigma0";
+        param_name_stream__ << "mu_sigma0_sq";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "mu_sigmaD";
+        param_name_stream__ << "mu_sigmaD_sq";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -2034,10 +2034,10 @@ public:
         param_name_stream__ << "mu_mu0";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "mu_sigma0";
+        param_name_stream__ << "mu_sigma0_sq";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "mu_sigmaD";
+        param_name_stream__ << "mu_sigmaD_sq";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= N; ++k_0__) {
             param_name_stream__.str(std::string());
