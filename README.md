@@ -20,14 +20,6 @@ https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started
 
 [rstan]: https://github.com/stan-dev/rstan
 
-For the moment, RStan requires you to specify that the C++14 standard should be used to compile Stan programs (based on [this link][rstan-loading]):
-```r
-Sys.setenv(USE_CXX14 = 1)
-library("rstan") # observe startup messages
-```
-
-[rstan-loading]: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#loading-the-package
-
 ### Installation
 
 hBayesDM can be installed from CRAN by running the following command in R:
