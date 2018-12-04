@@ -32,7 +32,8 @@ Imports:
     loo (>= 2.0),
     grid,
     parallel,
-    ggplot2
+    ggplot2,
+    data.table
 LinkingTo:
     StanHeaders (>= 2.18.0),
     rstan (>= 2.18.1),
@@ -45,7 +46,7 @@ License: GPL-3
 LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate: 
     'HDIofMCMC.R'
     'stanmodels.R'
