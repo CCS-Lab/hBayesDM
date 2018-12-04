@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Peer Influence Task (Chung et al., 2015, Nature Neuroscience) — peer_ocu • hBayesDM</title>
+<title>4-Armed Bandit Task (2) — bandit4arm2_kalman_filter • hBayesDM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,12 @@
 
 
 
-<meta property="og:title" content="Peer Influence Task (Chung et al., 2015, Nature Neuroscience) — peer_ocu" />
+<meta property="og:title" content="4-Armed Bandit Task (2) — bandit4arm2_kalman_filter" />
 
-<meta property="og:description" content="Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters:
-  &quot;rho&quot; (risk preference), &quot;tau&quot; (inverse temperature), &quot;ocu&quot; (other-conferred utility).
-Contributor: Harhim Park
-MODEL: Other-Conferred Utility (OCU) Model" />
+<meta property="og:description" content="Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (2) with the following parameters:
+  &quot;lambda&quot; (decay factor), &quot;theta&quot; (decay center), &quot;beta&quot; (inverse softmax temperature), &quot;mu0&quot; (anticipated initial mean of all 4 options), &quot;sigma0&quot; (anticipated initial sd (uncertainty factor) of all 4 options), &quot;sigmaD&quot; (sd of diffusion noise).
+Contributor: Yoonseo Zoh, Lei Zhang
+MODEL: Kalman Filter (Daw et al., 2006, Nature)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,24 +97,25 @@ MODEL: Other-Conferred Utility (OCU) Model" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Peer Influence Task (Chung et al., 2015, Nature Neuroscience)</h1>
+    <h1>4-Armed Bandit Task (2)</h1>
     
-    <div class="hidden name"><code>peer_ocu.Rd</code></div>
+    <div class="hidden name"><code>bandit4arm2_kalman_filter.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters:
-  "rho" (risk preference), "tau" (inverse temperature), "ocu" (other-conferred utility).</p>
-<p>Contributor: <a href='https://ccs-lab.github.io/team/harhim-park/'>Harhim Park</a></p>
-<p><strong>MODEL:</strong> Other-Conferred Utility (OCU) Model</p>
+    <p>Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (2) with the following parameters:
+  "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), "sigmaD" (sd of diffusion noise).</p>
+<p>Contributor: <a href='https://zohyos7.github.io'>Yoonseo Zoh</a>, <a href='https://lei-zhang.net/'>Lei Zhang</a></p>
+<p><strong>MODEL:</strong> Kalman Filter (Daw et al., 2006, Nature)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>peer_ocu</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>bandit4arm2_kalman_filter</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>,
+  <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -122,7 +123,7 @@ MODEL: Other-Conferred Utility (OCU) Model" />
     <tr>
       <th>data</th>
       <td><p>A .txt file containing the data to be modeled. Data columns should be labeled as:
-"subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". See <b>Details</b> below for more information.</p></td>
+"subjID", "choice", "outcome". See <b>Details</b> below for more information.</p></td>
     </tr>
     <tr>
       <th>niter</th>
@@ -191,7 +192,7 @@ on each new iteration. See <b>Details</b> below.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A class "hBayesDM" object <code>modelData</code> with the following components:</p><dl class='dl-horizontal'>
-  <dt><code>model</code></dt><dd><p>Character value that is the name of the model ("peer_ocu").</p></dd>
+  <dt><code>model</code></dt><dd><p>Character value that is the name of the model ("bandit4arm2_kalman_filter").</p></dd>
   <dt><code>allIndPars</code></dt><dd><p>Data.frame containing the summarized parameter values (as specified by
     <code>indPars</code>) for each subject.</p></dd>
   <dt><code>parVals</code></dt><dd><p>List object containing the posterior samples over different parameters.</p></dd>
@@ -212,17 +213,12 @@ on each new iteration. See <b>Details</b> below.</p></td>
   extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
   subjects of interest for the current analysis. The file should be a <strong>tab-delimited</strong> text
   file, whose rows represent trial-by-trial observations and columns represent variables.<br />
-For the Peer Influence Task, there should be 8 columns of data with the
-  labels "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". It is not necessary for the columns to be in this particular order,
+For the 4-Armed Bandit Task (2), there should be 3 columns of data with the
+  labels "subjID", "choice", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:</p><dl class='dl-horizontal'>
   <dt>"subjID"</dt><dd><p>A unique identifier for each subject in the data-set.</p></dd>
-  <dt>"condition"</dt><dd><p>0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky).</p></dd>
-  <dt>"p_gamble"</dt><dd><p>Probability of receiving a high payoff (same for both options).</p></dd>
-  <dt>"safe_Hpayoff"</dt><dd><p>High payoff of the safe option.</p></dd>
-  <dt>"safe_Lpayoff"</dt><dd><p>Low payoff of the safe option.</p></dd>
-  <dt>"risky_Hpayoff"</dt><dd><p>High payoff of the risky option.</p></dd>
-  <dt>"risky_Lpayoff"</dt><dd><p>Low payoff of the risky option.</p></dd>
-  <dt>"choice"</dt><dd><p>Which option was chosen? 0: safe, 1: risky.</p></dd>
+  <dt>"choice"</dt><dd><p>Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.</p></dd>
+  <dt>"outcome"</dt><dd><p>Integer value representing the outcome of the given trial (where reward == 1, and loss == -1).</p></dd>
     </dl><p><strong>*</strong>Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
   etc.), but only the data within the column names listed above will be used during the modeling.
   As long as the necessary columns mentioned above are present and labeled correctly, there is no
@@ -254,9 +250,8 @@ For the Peer Influence Task, there should be 8 columns of data with the
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Chung, D., Christopoulos, G. I., King-Casas, B., Ball, S. B., &amp; Chiu, P. H. (2015). Social
-  signals of safety and risk confer utility and have asymmetric effects on observers' choices.
-  Nature Neuroscience, 18(6), 912-916.</p>
+    <p>Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., &amp; Dolan, R. J. (2006). Cortical substrates
+  for exploratory decisions in humans. Nature, 441(7095), 876-879.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -267,7 +262,7 @@ For the Peer Influence Task, there should be 8 columns of data with the
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># Run the model and store results in "output"</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>peer_ocu</span>(<span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>bandit4arm2_kalman_filter</span>(<span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 
 <span class='co'># Visually check convergence of the sampling chains (should look like 'hairy caterpillars')</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>output</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"trace"</span>)
