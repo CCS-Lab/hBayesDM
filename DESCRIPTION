@@ -46,8 +46,8 @@ License: GPL-3
 LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
-RoxygenNote: 6.1.0
-Collate: 
+RoxygenNote: 6.1.1
+Collate:
     'HDIofMCMC.R'
     'stanmodels.R'
     'hBayesDM_model.R'
