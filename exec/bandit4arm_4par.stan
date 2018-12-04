@@ -30,8 +30,8 @@ transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] Arew;
   vector<lower=0, upper=1>[N] Apun;
-  vector<lower=0>[N] R;
-  vector<lower=0>[N] P;
+  vector<lower=0, upper=30>[N] R;
+  vector<lower=0, upper=30>[N] P;
 
   for (i in 1:N) {
     Arew[i] = Phi_approx(mu_pr[1] + sigma[1] * Arew_pr[i]);
@@ -100,8 +100,8 @@ generated quantities {
   // For group level parameters
   real<lower=0, upper=1> mu_Arew;
   real<lower=0, upper=1> mu_Apun;
-  real<lower=0> mu_R;
-  real<lower=0> mu_P;
+  real<lower=0, upper=30> mu_R;
+  real<lower=0, upper=30> mu_P;
 
   // For log likelihood calculation
   real log_lik[N];
