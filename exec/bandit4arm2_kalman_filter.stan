@@ -94,8 +94,8 @@ generated quantities {
   real<lower=0,upper=100> mu_theta;
   real<lower=0,upper=1> mu_beta;
   real<lower=0,upper=100> mu_mu0;
-  real<lower=0,upper=15> mu_sigma0_sq;
-  real<lower=0,upper=15> mu_sigmaD_sq;
+  real<lower=0,upper=15> mu_sigma0;
+  real<lower=0,upper=15> mu_sigmaD;
   real log_lik[N];
   real y_pred[N,T];
 
@@ -109,8 +109,8 @@ generated quantities {
   mu_theta  = Phi_approx(mu_pr[2]) * 100;
   mu_beta   = Phi_approx(mu_pr[3]);
   mu_mu0    = Phi_approx(mu_pr[4]) * 100;
-  mu_sigma0_sq = Phi_approx(mu_pr[5]) * 200;
-  mu_sigmaD_sq = Phi_approx(mu_pr[6]) * 200;
+  mu_sigma0 = Phi_approx(mu_pr[5]) * 15;
+  mu_sigmaD = Phi_approx(mu_pr[6]) * 15;
 
   { // local block
     for (i in 1:N) {
