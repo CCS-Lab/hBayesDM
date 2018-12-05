@@ -33,7 +33,7 @@ high.}
 are: "mean", "median", or "mode".}
 
 \item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+For this model they are: "sv", "sv_fix", "sv_var", "p_var".}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
 to FALSE.}
@@ -63,7 +63,7 @@ A class "hBayesDM" object \code{modelData} with the following components:
     the user.}
   
   
-  
+  \item{\code{modelRegressor}}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
