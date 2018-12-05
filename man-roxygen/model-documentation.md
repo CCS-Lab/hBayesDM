@@ -46,9 +46,6 @@ Template Variable | Required? | Format
 #' @export
 #' @include hBayesDM_model.R
 #'
-#' @param payscale \strong{(Model-specific argument.)} Raw payoffs within data are divided by this
-#'   number. Used for scaling data. Defaults to 100.
-#'
 #' @references
 #' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva,
 #'   J. (2014). Decision-making in stimulant and opiate addicts in protracted abstinence: evidence
