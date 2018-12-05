@@ -6,6 +6,7 @@
 #' @templateVar DATA_COLUMNS "subjID", "choice", "RT"
 #' @templateVar PARAMETERS "alpha" (boundary separation), "beta" (bias), "delta" (drift rate), "tau" (non-decision time)
 #' @templateVar IS_NULL_POSTPREDS TRUE
+#' @templateVar ADDITIONAL_ARG \code{RTbound}: Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"choice"}{Choice made for the current trial, coded as \code{1}/\code{2} to indicate lower/upper boundary or left/right choices (e.g., 1 1 1 2 1 2).}
@@ -25,8 +26,6 @@
 #' \cr - beta (b): Initial bias, for either response (beta > 0.5 means bias towards "upper" response 'A'). 0 < beta < 1
 #' \cr - delta (v): Drift rate; Quality of the stimulus (delta close to 0 means ambiguous stimulus or weak ability). 0 < delta
 #' \cr - tau (ter): Non-decision time + Motor response time + encoding time (high means slow encoding, execution). 0 < tau (in seconds)
-#'
-#' @param RTbound \strong{(Model-specific argument.)} Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).
 #'
 #' @references
 #' Ratcliff, R. (1978). A theory of memory retrieval. Psychological Review, 85(2), 59-108. http://doi.org/10.1037/0033-295X.85.2.59

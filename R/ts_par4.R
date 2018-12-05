@@ -6,6 +6,7 @@
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "level1_choice", "level2_choice", "reward"
 #' @templateVar PARAMETERS "a" (learning rate for both stages 1 & 2), "beta" (inverse temperature for both stages 1 & 2), "pi" (perseverance), "w" (model-based weight)
+#' @templateVar ADDITIONAL_ARG \code{trans_prob}: Common state transition probability from Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"level1_choice"}{Choice made for Level (Stage) 1 (1: stimulus 1, 2: stimulus 2).}
@@ -16,9 +17,6 @@
 #'
 #' @export
 #' @include hBayesDM_model.R
-#'
-#' @param trans_prob \strong{(Model-specific argument.)} Common state transition probability from
-#'   Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.
 #'
 #' @references
 #' Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011).

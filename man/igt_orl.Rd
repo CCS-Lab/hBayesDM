@@ -49,8 +49,8 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{payscale}{\strong{(Model-specific argument.)} Raw payoffs within data are divided by this
-number. Used for scaling data. Defaults to 100.}
+\item{...}{For this model, it's possible to set the following \strong{model-specific argument} to a value that you may prefer. \cr
+\code{payscale}: Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
