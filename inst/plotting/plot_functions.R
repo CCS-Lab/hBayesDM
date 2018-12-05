@@ -420,18 +420,18 @@ plot_bandit4arm2_kalman_filter <- function(obj, fontSize = 10, ncols = 6, binSiz
   h2 = plotDist(sample = pars$mu_theta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(theta, " (Decay Center)")))
   h3 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse Temp.)")))
   h4 = plotDist(sample = pars$mu_mu0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(mu0, " (Anticipated Initial Mean)")))
-  h5 = plotDist(sample = pars$mu_sigma0_sq, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigma0, " (Anticipated Initial SD (Uncertainty Factor))")))
-  h6 = plotDist(sample = pars$mu_sigmaD_sq, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigmaD, " (SD of Diffusion Noise)")))
+  h5 = plotDist(sample = pars$mu_sigma0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigma0, " (Anticipated Initial SD (Uncertainty))")))
+  h6 = plotDist(sample = pars$mu_sigmaD, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigmaD, " (SD of Diffusion Noise)")))
   h_all = multiplot(h1, h2, h3, h4, h5, h6, cols = ncols)
   return(h_all)
 }
 
 plot_dbdm_prob_weight <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
   pars = obj$parVals
-  h1 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(tau, " (Prob. Weight)")))
-  h2 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(rho, " (Subject Utility)")))
-  h3 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(lambda, " (Loss Aversion)")))
-  h4 = plotDist(sample = pars$mu_, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse Temp.)")))
+  h1 = plotDist(sample = pars$mu_tau, fontSize = fontSize, binSize = binSize, xLab = expression(paste(tau, " (Prob. Weight)")))
+  h2 = plotDist(sample = pars$mu_rho, fontSize = fontSize, binSize = binSize, xLab = expression(paste(rho, " (Subject Utility)")))
+  h3 = plotDist(sample = pars$mu_lambda, fontSize = fontSize, binSize = binSize, xLab = expression(paste(lambda, " (Loss Aversion)")))
+  h4 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse Temp.)")))
   h_all = multiplot(h1, h2, h3, h4, cols = ncols)
   return(h_all)
 }
