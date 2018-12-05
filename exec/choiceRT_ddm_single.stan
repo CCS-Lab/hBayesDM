@@ -19,7 +19,7 @@ parameters {
   //to avoid zero likelihood for fast responses.
   //tau can for physiological reasone not be faster than 0.1 s.*/
 
-  real<lower=0> alpha;  // boundary separation
+  real<lower=0, upper=5> alpha;  // boundary separation
   real<lower=0, upper=1> beta;   // initial bias
   real<lower=0> delta;  // drift rate
   real<lower=RTbound, upper=minRT> tau;  // nondecision time
@@ -29,7 +29,7 @@ model {
   alpha ~ uniform(0, 5);
   beta  ~ uniform(0, 1);
   delta ~ normal(0, 2);
-  tau ~ uniform(0.1, minRT);
+  tau ~ uniform(RTbound, minRT);
 
   RTu ~ wiener(alpha, tau, beta, delta);
   RTl ~ wiener(alpha, tau, 1-beta, -delta);
