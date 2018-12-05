@@ -6,6 +6,7 @@
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "prob", "ambig", "reward_var", "reward_fix", "choice"
 #' @templateVar PARAMETERS "alpha" (risk attitude), "beta" (ambiguity attitude), "gamma" (inverse temperature)
+#' @templateVar REGRESSORS "ev", "ev_fix", "ev_var", "p_var"
 #' @templateVar LENGTH_DATA_COLUMNS 6
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"prob"}{Objective probability of the variable lottery.}
