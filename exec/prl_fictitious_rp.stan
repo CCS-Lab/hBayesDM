@@ -36,12 +36,12 @@ transformed parameters {
   vector<lower=0, upper=1>[N] eta_pos;
   vector<lower=0, upper=1>[N] eta_neg;
   vector[N] alpha;
-  vector<lower=0, upper=5>[N] beta;
+  vector<lower=0, upper=10>[N] beta;
 
   for (i in 1:N) {
     eta_pos[i]  = Phi_approx(mu_pr[1] + sigma[1] * eta_pos_pr[i]);
     eta_neg[i]  = Phi_approx(mu_pr[2] + sigma[2] * eta_neg_pr[i]);
-    beta[i]     = Phi_approx(mu_pr[4] + sigma[4] * beta_pr[i]) * 5;
+    beta[i]     = Phi_approx(mu_pr[4] + sigma[4] * beta_pr[i]) * 10;
   }
   alpha = mu_pr[3] + sigma[3] * alpha_pr;
 }
@@ -97,7 +97,7 @@ generated quantities {
   real<lower=0, upper=1> mu_eta_pos;
   real<lower=0, upper=1> mu_eta_neg;
   real mu_alpha;
-  real<lower=0, upper=5> mu_beta;
+  real<lower=0, upper=10> mu_beta;
 
   // For log likelihood calculation
   real log_lik[N];
@@ -130,7 +130,7 @@ generated quantities {
   mu_eta_pos = Phi_approx(mu_pr[1]);
   mu_eta_neg = Phi_approx(mu_pr[2]);
   mu_alpha   = mu_pr[3];
-  mu_beta    = Phi_approx(mu_pr[4]) * 5;
+  mu_beta    = Phi_approx(mu_pr[4]) * 10;
 
   { // local section, this saves time and space
     for (i in 1:N) {

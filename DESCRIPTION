@@ -33,7 +33,7 @@ Imports:
     grid,
     parallel,
     ggplot2,
-    data.table
+    data.table (>= 1.11.8)
 LinkingTo:
     StanHeaders (>= 2.18.0),
     rstan (>= 2.18.1),

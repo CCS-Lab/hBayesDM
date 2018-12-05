@@ -26,8 +26,8 @@ ug_delta <- hBayesDM_model(
   model_name      = "delta",
   data_columns    = c("subjID", "offer", "accept"),
   parameters      = list("alpha" = c(0, 1, 20),
-                         "tau"   = c(0, 0.5, 10),
-                         "ep"    = c(0, 1, 1)),
+                         "tau"   = c(0, 1, 10),
+                         "ep"    = c(0, 0.5, 1)),
   preprocess_func = function(raw_data, general_info) {
     # Currently class(raw_data) == "data.table"
 

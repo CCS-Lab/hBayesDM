@@ -26,8 +26,8 @@ pst_gainloss_Q <- hBayesDM_model(
   task_name       = "pst",
   model_name      = "gainloss_Q",
   data_columns    = c("subjID", "type", "choice", "reward"),
-  parameters      = list("alpha_pos" = c(0, 1, 1),
-                         "alpha_neg" = c(0, 1, 1),
+  parameters      = list("alpha_pos" = c(0, 0.5, 1),
+                         "alpha_neg" = c(0, 0.5, 1),
                          "beta"      = c(0, 1, 10)),
   preprocess_func = function(raw_data, general_info) {
     # Currently class(raw_data) == "data.table"
