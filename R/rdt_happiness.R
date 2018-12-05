@@ -35,7 +35,7 @@ rdt_happiness <- hBayesDM_model(
                          "w1"  = c(-Inf, 1, Inf),
                          "w2"  = c(-Inf, 1, Inf),
                          "w3"  = c(-Inf, 1, Inf),
-                         "gam" = c(0, 1, 1),
+                         "gam" = c(0, 0.5, 1),
                          "sig" = c(0, 1, Inf)),
   preprocess_func = function(raw_data, general_info) {
     # Currently class(raw_data) == "data.table"

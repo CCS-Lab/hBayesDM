@@ -84,7 +84,7 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real<lower=0> mu_phi = Phi_approx(mu_pr[1]);
+  real<lower=0, upper=1> mu_phi = Phi_approx(mu_pr[1]);
   real<lower=0> mu_eta = exp(mu_pr[2]);
   real<lower=0> mu_gam = exp(mu_pr[3]);
   real<lower=0> mu_tau = exp(mu_pr[4]);

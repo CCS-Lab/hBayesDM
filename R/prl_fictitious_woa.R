@@ -26,7 +26,7 @@ prl_fictitious_woa <- hBayesDM_model(
   model_name      = "fictitious_woa",
   data_columns    = c("subjID", "choice", "outcome"),
   parameters      = list("eta"  = c(0, 0.5, 1),
-                         "beta" = c(0, 1, 5)),
+                         "beta" = c(0, 1, 10)),
   regressors      = list("ev_c"  = 2,
                          "ev_nc" = 2,
                          "pe_c"  = 2,
