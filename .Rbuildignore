@@ -11,3 +11,4 @@
 ^\.editorconfig$
 ^\.gitignore$
 ^\.travis\.yml$
+^README\.md$
