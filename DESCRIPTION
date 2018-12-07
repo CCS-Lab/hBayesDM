@@ -29,7 +29,6 @@ Imports:
     methods,
     Rcpp (>= 0.12.0),
     rstan (>= 2.18.1),
-    rstantools (>= 1.5.1.9000),
     loo (>= 2.0),
     grid,
     parallel,
