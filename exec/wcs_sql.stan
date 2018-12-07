@@ -135,7 +135,7 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
 
-        log_lik[i] = log_lik[i] + multinomial_lpmf(choice[i,,t] | pred_prob_mat);
+        log_lik[i] += multinomial_lpmf(choice[i,,t] | pred_prob_mat);
 
         y_pred[i,,t] = multinomial_rng(pred_prob_mat, 1);
 

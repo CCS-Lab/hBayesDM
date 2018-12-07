@@ -67,7 +67,7 @@ model {
       }
 
       // delta
-      ev[choice[i, t]] = ev[choice[i, t]] + A[i] * (curUtil - ev[choice[i, t]]);
+      ev[choice[i, t]] += A[i] * (curUtil - ev[choice[i, t]]);
     }
   }
 }
@@ -110,7 +110,7 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         // softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, t] | theta * ev);
+        log_lik[i] += categorical_logit_lpmf(choice[i, t] | theta * ev);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(softmax(theta * ev));
@@ -122,7 +122,7 @@ generated quantities {
         }
 
         // delta
-        ev[choice[i, t]] = ev[choice[i, t]] + A[i] * (curUtil - ev[choice[i, t]]);
+        ev[choice[i, t]] += A[i] * (curUtil - ev[choice[i, t]]);
       }
     }
   }

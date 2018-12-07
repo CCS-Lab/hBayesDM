@@ -94,7 +94,7 @@ generated quantities {
       for (t in 1:(Tsubj[i])) {
         ev_later  = amount_later[i, t] * exp(-1* (pow(r[i] * delay_later[i, t], s[i])));
         ev_sooner = amount_sooner[i, t] * exp(-1* (pow(r[i] * delay_sooner[i, t], s[i])));
-        log_lik[i] = log_lik[i] + bernoulli_logit_lpmf(choice[i, t] | beta[i] * (ev_later - ev_sooner));
+        log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i] * (ev_later - ev_sooner));
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(inv_logit(beta[i] * (ev_later - ev_sooner)));

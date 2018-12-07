@@ -77,8 +77,8 @@ model {
       PEnc = -outcome[i, t] - ev[3-choice[i, t]];
 
       // Value updating (learning)
-      ev[choice[i, t]]   = ev[choice[i, t]]   + eta[i] * PE;
-      ev[3-choice[i, t]] = ev[3-choice[i, t]] + eta[i] * PEnc;
+      ev[choice[i, t]]   += eta[i] * PE;
+      ev[3-choice[i, t]] += eta[i] * PEnc;
     }
   }
 }
@@ -140,7 +140,7 @@ generated quantities {
         prob[1] = 1 / (1 + exp(beta[i] * (alpha[i] - (ev[1] - ev[2]))));
         prob[2] = 1 - prob[1];
 
-        log_lik[i] = log_lik[i] + categorical_lpmf(choice[i, t] | prob);
+        log_lik[i] += categorical_lpmf(choice[i, t] | prob);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(prob);

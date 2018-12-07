@@ -89,13 +89,13 @@ model {
 
       if (outcome[i,t] >= 0) {
         // Update ev for all decks
-        ef = ef + Apun[i] * PEfreq_fic;
+        ef += Apun[i] * PEfreq_fic;
         // Update chosendeck with stored value
         ef[ choice[i,t]] = efChosen + Arew[i] * PEfreq;
         ev[ choice[i,t]] = evChosen + Arew[i] * PEval;
       } else {
         // Update ev for all decks
-        ef = ef + Arew[i] * PEfreq_fic;
+        ef += Arew[i] * PEfreq_fic;
         // Update chosendeck with stored value
         ef[ choice[i,t]] = efChosen + Apun[i] * PEfreq;
         ev[ choice[i,t]] = evChosen + Apun[i] * PEval;
@@ -164,7 +164,7 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         // softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i, t] | util );
+        log_lik[i] += categorical_logit_lpmf( choice[i, t] | util );
 
         // generate posterior prediction for current trial
         y_pred[i,t] = categorical_rng(softmax(util));
@@ -180,13 +180,13 @@ generated quantities {
 
         if (outcome[i,t] >= 0) {
           // Update ev for all decks
-          ef = ef + Apun[i] * PEfreq_fic;
+          ef += Apun[i] * PEfreq_fic;
           // Update chosendeck with stored value
           ef[ choice[i,t]] = efChosen + Arew[i] * PEfreq;
           ev[ choice[i,t]] = evChosen + Arew[i] * PEval;
         } else {
           // Update ev for all decks
-          ef = ef + Arew[i] * PEfreq_fic;
+          ef += Arew[i] * PEfreq_fic;
           // Update chosendeck with stored value
           ef[ choice[i,t]] = efChosen + Apun[i] * PEfreq;
           ev[ choice[i,t]] = evChosen + Apun[i] * PEval;

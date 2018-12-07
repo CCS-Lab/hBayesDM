@@ -46,7 +46,7 @@ generated quantities {
 
   { // local section, this saves time and space
     log_lik = wiener_lpdf(RTu | alpha, tau, beta, delta);
-    log_lik = log_lik + wiener_lpdf(RTl | alpha, tau, 1-beta, -delta);
+    log_lik += wiener_lpdf(RTl | alpha, tau, 1-beta, -delta);
 
     // generate posterior predictions (Not implemented yet)
     // y_pred_upper = wiener_rng(alpha, tau, beta, delta);

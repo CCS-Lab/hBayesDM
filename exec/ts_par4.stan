@@ -81,7 +81,7 @@ model {
       level1_choice_01 ~ bernoulli( level1_prob_choice2 );  // level 1, prob. of choosing 2 in level 1
 
       // Observe Level2 and update Level1 of the chosen option
-      v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + a[i]*(v_mf[2+ level2_choice[i,t]] - v_mf[ level1_choice[i,t]]);
+      v_mf[level1_choice[i,t]] += a[i]*(v_mf[2+ level2_choice[i,t]] - v_mf[ level1_choice[i,t]]);
 
       // Prob of choosing stim 2 (2 from [1,2] OR 4 from [3,4]) in ** Level (step) 2 **
       level2_choice_01 = 1 - modulus(level2_choice[i,t], 2); // 1,3 --> 0; 2,4 --> 1
@@ -94,10 +94,10 @@ model {
 
       // After observing the reward at Level 2...
       // Update Level 2 v_mf of the chosen option. Level 2--> choose one of level 2 options and observe reward
-      v_mf[2+ level2_choice[i,t]] = v_mf[2+ level2_choice[i,t]] + a[i]*(reward[i,t] - v_mf[2+ level2_choice[i,t] ] );
+      v_mf[2+ level2_choice[i,t]] += a[i]*(reward[i,t] - v_mf[2+ level2_choice[i,t] ] );
 
       // Update Level 1 v_mf
-      v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + a[i] * (reward[i,t] - v_mf[2+level2_choice[i,t]]);
+      v_mf[level1_choice[i,t]] += a[i] * (reward[i,t] - v_mf[2+level2_choice[i,t]]);
 
     } // end of t loop
   } // end of i loop
@@ -166,10 +166,10 @@ generated quantities {
       } else{
         level1_prob_choice2 = inv_logit( beta[i]*(v_hybrid[2]-v_hybrid[1]) + pi[i]*(2*level1_choice[i,t-1] -3) );
       }
-      log_lik[i] = log_lik[i] + bernoulli_lpmf( level1_choice_01 | level1_prob_choice2 );
+      log_lik[i] += bernoulli_lpmf( level1_choice_01 | level1_prob_choice2 );
 
       // Observe Level2 and update Level1 of the chosen option
-      v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + a[i]*(v_mf[2+ level2_choice[i,t]] - v_mf[ level1_choice[i,t]]);
+      v_mf[level1_choice[i,t]] += a[i]*(v_mf[2+ level2_choice[i,t]] - v_mf[ level1_choice[i,t]]);
 
       // Prob of choosing stim 2 (2 from [1,2] OR 4 from [3,4]) in ** Level (step) 2 **
       level2_choice_01 = 1 - modulus(level2_choice[i,t], 2); // 1,3 --> 0; 2,4
@@ -179,21 +179,21 @@ generated quantities {
       } else { // level2_choice = 1 or 2
         level2_prob_choice2 = inv_logit( beta[i]*( v_mf[4] - v_mf[3] ) );
       }
-      log_lik[i] = log_lik[i] + bernoulli_lpmf( level2_choice_01 | level2_prob_choice2 );
+      log_lik[i] += bernoulli_lpmf( level2_choice_01 | level2_prob_choice2 );
 
       // generate posterior prediction for current trial
       y_pred_step1[i,t] = bernoulli_rng(level1_prob_choice2);
       y_pred_step2[i,t] = bernoulli_rng(level2_prob_choice2);
 
       // Observe Level2 and update Level1 of the chosen option
-      v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + a[i]*(v_mf[2+ level2_choice[i,t]] - v_mf[ level1_choice[i,t]]);
+      v_mf[level1_choice[i,t]] += a[i]*(v_mf[2+ level2_choice[i,t]] - v_mf[ level1_choice[i,t]]);
 
       // After observing the reward at Level 2...
       // Update Level 2 v_mf of the chosen option. Level 2--> choose one of level 2 options and observe reward
-      v_mf[2+ level2_choice[i,t]] = v_mf[2+ level2_choice[i,t]] + a[i]*(reward[i,t] - v_mf[2+ level2_choice[i,t] ] );
+      v_mf[2+ level2_choice[i,t]] += a[i]*(reward[i,t] - v_mf[2+ level2_choice[i,t] ] );
 
       // Update Level 1 v_mf
-      v_mf[level1_choice[i,t]] = v_mf[level1_choice[i,t]] + a[i] * (reward[i,t] - v_mf[2+level2_choice[i,t]]);
+      v_mf[level1_choice[i,t]] += a[i] * (reward[i,t] - v_mf[2+level2_choice[i,t]]);
 
       } // end of t loop
     } // end of i loop

@@ -51,7 +51,7 @@ generated quantities {
     log_lik = 0;
 
     for (t in 1:Tsubj) {
-      log_lik = log_lik + bernoulli_logit_lpmf(choice[t] | beta * (ev_later[t] - ev_sooner[t]));
+      log_lik += bernoulli_logit_lpmf(choice[t] | beta * (ev_later[t] - ev_sooner[t]));
 
       // generate posterior prediction for current trial
       y_pred[t] = bernoulli_rng(inv_logit(beta * (ev_later[t] - ev_sooner[t])));

@@ -65,9 +65,9 @@ model {
 
       // update action values
       if (pressed[i, t]) { // update go value
-        qv_g[cue[i, t]]  = qv_g[cue[i, t]] + ep[i] * (rho[i] * outcome[i, t] - qv_g[cue[i, t]]);
+        qv_g[cue[i, t]] += ep[i] * (rho[i] * outcome[i, t] - qv_g[cue[i, t]]);
       } else { // update no-go value
-        qv_ng[cue[i, t]] = qv_ng[cue[i, t]] + ep[i] * (rho[i] * outcome[i, t] - qv_ng[cue[i, t]]);
+        qv_ng[cue[i, t]] += ep[i] * (rho[i] * outcome[i, t] - qv_ng[cue[i, t]]);
       }
     } // end of t loop
   } // end of i loop
@@ -117,7 +117,7 @@ generated quantities {
         wv_ng[cue[i, t]] = qv_ng[cue[i, t]];  // qv_ng is always equal to wv_ng (regardless of action)
         pGo[cue[i, t]]   = inv_logit(wv_g[cue[i, t]] - wv_ng[cue[i, t]]);
         pGo[cue[i, t]]   = pGo[cue[i, t]] * (1 - xi[i]) + xi[i]/2;  // noise
-        log_lik[i] = log_lik[i] + bernoulli_lpmf(pressed[i, t] | pGo[cue[i, t]]);
+        log_lik[i] += bernoulli_lpmf(pressed[i, t] | pGo[cue[i, t]]);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(pGo[cue[i, t]]);
@@ -130,9 +130,9 @@ generated quantities {
 
         // update action values
         if (pressed[i, t]) { // update go value
-          qv_g[cue[i, t]]  = qv_g[cue[i, t]] + ep[i] * (rho[i] * outcome[i, t] - qv_g[cue[i, t]]);
+          qv_g[cue[i, t]] += ep[i] * (rho[i] * outcome[i, t] - qv_g[cue[i, t]]);
         } else { // update no-go value
-          qv_ng[cue[i, t]] = qv_ng[cue[i, t]] + ep[i] * (rho[i] * outcome[i, t] - qv_ng[cue[i, t]]);
+          qv_ng[cue[i, t]] += ep[i] * (rho[i] * outcome[i, t] - qv_ng[cue[i, t]]);
         }
       } // end of t loop
     } // end of i loop

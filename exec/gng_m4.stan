@@ -86,23 +86,23 @@ model {
 
       // after receiving feedback, update sv[t + 1]
       if (outcome[i, t] >= 0) {
-        sv[cue[i, t]] = sv[cue[i, t]] + ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
+        sv[cue[i, t]] += ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
       } else {
-        sv[cue[i, t]] = sv[cue[i, t]] + ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
+        sv[cue[i, t]] += ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
       }
 
       // update action values
       if (pressed[i, t]) { // update go value
         if (outcome[i, t] >=0) {
-          qv_g[cue[i, t]] = qv_g[cue[i, t]] + ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
+          qv_g[cue[i, t]] += ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
         } else {
-          qv_g[cue[i, t]] = qv_g[cue[i, t]] + ep[i] * (rhoPun[i] * outcome[i, t] - qv_g[cue[i, t]]);
+          qv_g[cue[i, t]] += ep[i] * (rhoPun[i] * outcome[i, t] - qv_g[cue[i, t]]);
         }
       } else { // update no-go value
         if (outcome[i, t] >=0) {
-          qv_ng[cue[i, t]] = qv_ng[cue[i, t]] + ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
+          qv_ng[cue[i, t]] += ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
         } else {
-          qv_ng[cue[i, t]] = qv_ng[cue[i, t]] + ep[i] * (rhoPun[i] * outcome[i, t] - qv_ng[cue[i, t]]);
+          qv_ng[cue[i, t]] += ep[i] * (rhoPun[i] * outcome[i, t] - qv_ng[cue[i, t]]);
         }
       }
     } // end of t loop
@@ -162,7 +162,7 @@ generated quantities {
         wv_ng[cue[i, t]] = qv_ng[cue[i, t]];  // qv_ng is always equal to wv_ng (regardless of action)
         pGo[cue[i, t]]   = inv_logit(wv_g[cue[i, t]] - wv_ng[cue[i, t]]);
         pGo[cue[i, t]]   = pGo[cue[i, t]] * (1 - xi[i]) + xi[i]/2;  // noise
-        log_lik[i] = log_lik[i] + bernoulli_lpmf(pressed[i, t] | pGo[cue[i, t]]);
+        log_lik[i] += bernoulli_lpmf(pressed[i, t] | pGo[cue[i, t]]);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(pGo[cue[i, t]]);
@@ -176,23 +176,23 @@ generated quantities {
 
         // after receiving feedback, update sv[t + 1]
         if (outcome[i, t] >= 0) {
-          sv[cue[i, t]] = sv[cue[i, t]] + ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
+          sv[cue[i, t]] += ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
         } else {
-          sv[cue[i, t]] = sv[cue[i, t]] + ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
+          sv[cue[i, t]] += ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
         }
 
         // update action values
         if (pressed[i, t]) { // update go value
           if (outcome[i, t] >=0) {
-            qv_g[cue[i, t]] = qv_g[cue[i, t]] + ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
+            qv_g[cue[i, t]] += ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
           } else {
-            qv_g[cue[i, t]] = qv_g[cue[i, t]] + ep[i] * (rhoPun[i] * outcome[i, t] - qv_g[cue[i, t]]);
+            qv_g[cue[i, t]] += ep[i] * (rhoPun[i] * outcome[i, t] - qv_g[cue[i, t]]);
           }
         } else { // update no-go value
           if (outcome[i, t] >=0) {
-            qv_ng[cue[i, t]] = qv_ng[cue[i, t]] + ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
+            qv_ng[cue[i, t]] += ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
           } else {
-            qv_ng[cue[i, t]] = qv_ng[cue[i, t]] + ep[i] * (rhoPun[i] * outcome[i, t] - qv_ng[cue[i, t]]);
+            qv_ng[cue[i, t]] += ep[i] * (rhoPun[i] * outcome[i, t] - qv_ng[cue[i, t]]);
           }
         }
       } // end of t loop

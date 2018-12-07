@@ -118,7 +118,7 @@ functions {
           get_pos_drift = 0;
         }
       }
-      iter = iter + 1;
+      iter += 1;
       if (iter > max_iter) {
         get_pos_drift = 0;
         no_pos_drift  = 1;
@@ -149,7 +149,7 @@ functions {
           pred[2] = resp[iter];
           get_first_pos = 0;
         }
-        iter = iter + 1;
+        iter += 1;
       }
     }
     return pred;
@@ -221,7 +221,7 @@ generated quantities {
       n_trials = tr_cond[j];
 
       // Sum likelihood over conditions within subjects
-      log_lik = log_lik + lba_lpdf(RT[j, , 1:n_trials] | d, A, v[j,], s, tau);
+      log_lik += lba_lpdf(RT[j, , 1:n_trials] | d, A, v[j,], s, tau);
 
       for (t in 1:n_trials) {
           // generate posterior predictions
