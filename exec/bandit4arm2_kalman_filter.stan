@@ -83,10 +83,14 @@ model {
       sd_ev_sq[choice[i,t]] *= (1-k);
 
       // diffusion process
-      mu_ev    *= lambda[i];
-      mu_ev    += (1 - lambda[i]) * theta[i];
-      sd_ev_sq *= lambda[i]^2;
-      sd_ev_sq += sigmaD[i]^2;
+      {
+        mu_ev    *= lambda[i];
+        mu_ev    += (1 - lambda[i]) * theta[i];
+      }
+      {
+        sd_ev_sq *= lambda[i]^2;
+        sd_ev_sq += sigmaD[i]^2;
+      }
     }
   }
 }
@@ -142,10 +146,14 @@ generated quantities {
         sd_ev_sq[choice[i,t]] *= (1-k);
 
         // diffusion process
-        mu_ev    *= lambda[i];
-        mu_ev    += (1 - lambda[i]) * theta[i];
-        sd_ev_sq *= lambda[i]^2;
-        sd_ev_sq += sigmaD[i]^2;
+        {
+          mu_ev    *= lambda[i];
+          mu_ev    += (1 - lambda[i]) * theta[i];
+        }
+        {
+          sd_ev_sq *= lambda[i]^2;
+          sd_ev_sq += sigmaD[i]^2;
+        }
       }
     }
   } // local block END

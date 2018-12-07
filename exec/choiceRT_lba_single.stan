@@ -101,7 +101,6 @@ functions {
     int iter;
     real start[num_elements(v)];
     real ttf[num_elements(v)];
-    real temp_ttf[num_elements(v)];
     int resp[num_elements(v)];
     real rt;
     vector[2] pred;
@@ -141,8 +140,11 @@ functions {
       //rt is the fastest accumulator finish time
       //if one is negative get the positive drift
       resp = sort_indices_asc(ttf);
-      temp_ttf = sort_asc(ttf);
-      ttf = temp_ttf;
+      {
+        real temp_ttf[num_elements(v)];
+        temp_ttf = sort_asc(ttf);
+        ttf = temp_ttf;
+      }
       get_first_pos = 1;
       iter = 1;
       while(get_first_pos) {
