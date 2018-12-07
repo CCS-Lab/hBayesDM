@@ -103,7 +103,7 @@ model {
 
       // Perseverance updating
       pers[ choice[i,t] ] = 1;   // perseverance term
-      pers = pers / (1 + K_tr); // decay
+      pers /= (1 + K_tr);        // decay
 
       // Utility of expected value and perseverance
       util  = ev + ef * betaF[i] + pers * betaP[i];
@@ -194,7 +194,7 @@ generated quantities {
 
         // Perseverance updating
         pers[ choice[i,t] ] = 1;   // perseverance term
-        pers = pers / (1 + K_tr); // decay
+        pers /= (1 + K_tr);        // decay
 
         // Utility of expected value and perseverance
         util  = ev + ef * betaF[i] + pers * betaP[i];

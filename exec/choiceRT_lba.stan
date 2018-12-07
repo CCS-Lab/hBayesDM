@@ -73,10 +73,10 @@ functions {
         }
         prob_neg = 1;
         for (j in 1:num_elements(v)) {
-          prob_neg = Phi(-v[j]/s) * prob_neg;
+          prob_neg *= Phi(-v[j]/s);
         }
         prob[i] = pdf * (1-cdf);
-        prob[i] = prob[i]/(1-prob_neg);
+        prob[i] /= (1-prob_neg);
         if (prob[i] < 1e-10) {
           prob[i] = 1e-10;
         }
@@ -99,6 +99,7 @@ functions {
     int iter;
     real start[num_elements(v)];
     real ttf[num_elements(v)];
+    real temp_ttf[num_elements(v)];
     int resp[num_elements(v)];
     real rt;
     vector[2] pred;
@@ -138,7 +139,8 @@ functions {
       //rt is the fastest accumulator finish time
       //if one is negative get the positive drift
       resp          = sort_indices_asc(ttf);
-      ttf           = sort_asc(ttf);
+      temp_ttf      = sort_asc(ttf);
+      ttf           = temp_ttf;
       get_first_pos = 1;
       iter          = 1;
       while(get_first_pos) {

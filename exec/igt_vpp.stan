@@ -90,7 +90,7 @@ model {
       choice[i, t] ~ categorical_logit(theta * V);
 
       // perseverance decay
-      pers = pers * K[i]; // decay
+      pers *= K[i]; // decay
 
       if (outcome[i, t] >= 0) {  // x(t) >= 0
         curUtil = pow(outcome[i, t], alpha[i]);
@@ -166,7 +166,7 @@ generated quantities {
         y_pred[i, t] = categorical_rng(softmax(theta * V));
 
         // perseverance decay
-        pers = pers * K[i]; // decay
+        pers *= K[i]; // decay
 
         if (outcome[i, t] >= 0) {  // x(t) >= 0
           curUtil = pow(outcome[i, t], alpha[i]);

@@ -67,7 +67,7 @@ model {
       }
 
       // decay-RI
-      ev = ev * A[i];
+      ev *= A[i];
       ev[choice[i, t]] += curUtil;
     }
   }
@@ -123,7 +123,7 @@ generated quantities {
         }
 
         // decay-RI
-        ev = ev * A[i];
+        ev *= A[i];
         ev[choice[i, t]] += curUtil;
       }
     }
