@@ -75,9 +75,9 @@ model {
         rpe_sum += outcome[i,t] - 0.5 * (gain[i,t] - loss[i,t]);
       }
 
-      cert_sum = gam[i] * cert_sum;
-      ev_sum = gam[i] * ev_sum;
-      rpe_sum = gam[i] * rpe_sum;
+      cert_sum *= gam[i];
+      ev_sum   *= gam[i];
+      rpe_sum  *= gam[i];
     }
   }
 }
@@ -134,9 +134,9 @@ generated quantities {
           rpe_sum += outcome[i,t] - 0.5 * (gain[i,t] - loss[i,t]);
         }
 
-        cert_sum = gam[i] * cert_sum;
-        ev_sum = gam[i] * ev_sum;
-        rpe_sum = gam[i] * rpe_sum;
+        cert_sum *= gam[i];
+        ev_sum   *= gam[i];
+        rpe_sum  *= gam[i];
       }
     }
   }

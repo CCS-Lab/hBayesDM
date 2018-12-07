@@ -57,6 +57,7 @@ model {
     // Define values
     vector[2] ev;     // expected value
     vector[2] prob;   // probability
+    real prob_1_;
 
     real PE;    // prediction error
     real PEnc;   // fictitious prediction error (PE-non-chosen)
@@ -67,7 +68,8 @@ model {
     for (t in 1:(Tsubj[i])) {
       // compute action probabilities
       prob[1] = 1 / (1 + exp(beta[i] * (ev[2] - ev[1])));
-      prob[2] = 1 - prob[1];
+      prob_1_ = prob[1];
+      prob[2] = 1 - prob_1_;
       choice[i, t] ~ categorical(prob);
 
       // prediction error
@@ -129,6 +131,7 @@ generated quantities {
       // Define values
       vector[2] ev;     // expected value
       vector[2] prob;   // probability
+      real prob_1_;
 
       real PE;    // prediction error
       real PEnc;   // fictitious prediction error (PE-non-chosen)
@@ -141,7 +144,8 @@ generated quantities {
       for (t in 1:(Tsubj[i])) {
         // compute action probabilities
         prob[1] = 1 / (1 + exp(beta[i] * (ev[2] - ev[1])));
-        prob[2] = 1 - prob[1];
+        prob_1_ = prob[1];
+        prob[2] = 1 - prob_1_;
 
         log_lik[i]  += categorical_lpmf(choice[i, t] | prob);
 
