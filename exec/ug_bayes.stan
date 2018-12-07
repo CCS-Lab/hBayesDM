@@ -148,7 +148,7 @@ generated quantities {
         PE   = offer[i, t] - mu_old;
         util = offer[i, t] - alpha[i] * fmax(mu_new - offer[i, t], 0.0) - beta[i] * fmax(offer[i, t] - mu_new, 0.0);
 
-        log_lik[i] = log_lik[i] + bernoulli_logit_lpmf(accept[i, t] | util * tau[i]);
+        log_lik[i] += bernoulli_logit_lpmf(accept[i, t] | util * tau[i]);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(inv_logit(util * tau[i]));

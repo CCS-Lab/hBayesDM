@@ -69,15 +69,15 @@ model {
       }
 
       if(gamble[i,t] == 0){
-        cert_sum = cert_sum + type[i,t] * cert[i,t];
+        cert_sum += type[i,t] * cert[i,t];
       } else {
-        ev_sum = ev_sum + 0.5 * (gain[i,t] - loss[i,t]);
-        rpe_sum = rpe_sum + outcome[i,t] - 0.5 * (gain[i,t] - loss[i,t]);
+        ev_sum += 0.5 * (gain[i,t] - loss[i,t]);
+        rpe_sum += outcome[i,t] - 0.5 * (gain[i,t] - loss[i,t]);
       }
 
-      cert_sum = gam[i] * cert_sum;
-      ev_sum = gam[i] * ev_sum;
-      rpe_sum = gam[i] * rpe_sum;
+      cert_sum *= gam[i];
+      ev_sum   *= gam[i];
+      rpe_sum  *= gam[i];
     }
   }
 }
@@ -123,20 +123,20 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         if(t == 1 || t > 1 && RT_happy[i,t] != RT_happy[i,t-1]){
-          log_lik[i] = log_lik[i] + normal_lpdf(happy[i, t] | w0[i] + w1[i] * cert_sum + w2[i] * ev_sum + w3[i] * rpe_sum, sig[i]);
+          log_lik[i] += normal_lpdf(happy[i, t] | w0[i] + w1[i] * cert_sum + w2[i] * ev_sum + w3[i] * rpe_sum, sig[i]);
           y_pred[i, t] = normal_rng(w0[i] + w1[i] * cert_sum + w2[i] * ev_sum + w3[i] * rpe_sum, sig[i]);
         }
 
         if(gamble[i,t] == 0){
-          cert_sum = cert_sum + type[i,t] * cert[i,t];
+          cert_sum += type[i,t] * cert[i,t];
         } else {
-          ev_sum = ev_sum + 0.5 * (gain[i,t] - loss[i,t]);
-          rpe_sum = rpe_sum + outcome[i,t] - 0.5 * (gain[i,t] - loss[i,t]);
+          ev_sum += 0.5 * (gain[i,t] - loss[i,t]);
+          rpe_sum += outcome[i,t] - 0.5 * (gain[i,t] - loss[i,t]);
         }
 
-        cert_sum = gam[i] * cert_sum;
-        ev_sum = gam[i] * ev_sum;
-        rpe_sum = gam[i] * rpe_sum;
+        cert_sum *= gam[i];
+        ev_sum   *= gam[i];
+        rpe_sum  *= gam[i];
       }
     }
   }

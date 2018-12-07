@@ -85,8 +85,8 @@ model {
       Qp_chosen = Qp[choice[i, t]];
 
       // First, update Qr & Qp for all decks w/ fictive updating
-      Qr = Qr + Arew[i] * PEr_fic;
-      Qp = Qp + Apun[i] * PEp_fic;
+      Qr += Arew[i] * PEr_fic;
+      Qp += Apun[i] * PEp_fic;
       // Replace Q values of chosen deck with correct values using stored values
       Qr[choice[i, t]] = Qr_chosen + Arew[i] * PEr;
       Qp[choice[i, t]] = Qp_chosen + Apun[i] * PEp;
@@ -143,7 +143,7 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         // compute log likelihood of current trial
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, t] | Qsum);
+        log_lik[i] += categorical_logit_lpmf(choice[i, t] | Qsum);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(softmax(Qsum));
@@ -159,8 +159,8 @@ generated quantities {
         Qp_chosen = Qp[choice[i, t]];
 
         // First, update Qr & Qp for all decks w/ fictive updating
-        Qr = Qr + Arew[i] * PEr_fic;
-        Qp = Qp + Apun[i] * PEp_fic;
+        Qr += Arew[i] * PEr_fic;
+        Qp += Apun[i] * PEp_fic;
         // Replace Q values of chosen deck with correct values using stored values
         Qr[choice[i, t]] = Qr_chosen + Arew[i] * PEr;
         Qp[choice[i, t]] = Qp_chosen + Apun[i] * PEp;

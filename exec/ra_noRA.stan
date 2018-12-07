@@ -82,7 +82,7 @@ generated quantities {
         evSafe   = cert[i, t];
         evGamble = 0.5 * (gain[i, t] - lambda[i] * loss[i, t]);
         pGamble    = inv_logit(tau[i] * (evGamble - evSafe));
-        log_lik[i] = log_lik[i] + bernoulli_lpmf(gamble[i, t] | pGamble);
+        log_lik[i] += bernoulli_lpmf(gamble[i, t] | pGamble);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(pGamble);

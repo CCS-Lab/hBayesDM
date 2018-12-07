@@ -64,6 +64,7 @@ model {
       // Define values
       vector[2] ev;    // expected value
       vector[2] prob;  // probability
+      real prob_1_;
 
       real PE;     // prediction error
       real PEnc;   // fictitious prediction error (PE-non-chosen)
@@ -74,7 +75,8 @@ model {
       for (t in 1:(Tsubj[i, bIdx])) {  // new
         // compute action probabilities
         prob[1] = 1 / (1 + exp(beta[i] * (alpha[i] - (ev[1] - ev[2]))));
-        prob[2] = 1 - prob[1];
+        prob_1_ = prob[1];
+        prob[2] = 1 - prob_1_;
         choice[i, bIdx, t] ~ categorical(prob);
         //choice[i, t] ~ bernoulli(prob);
 
@@ -83,8 +85,8 @@ model {
         PEnc = -outcome[i, bIdx, t] - ev[3-choice[i, bIdx, t]];  //new
 
         // value updating (learning)
-        ev[choice[i, bIdx, t]]   = ev[choice[i, bIdx, t]]   + eta[i] * PE;   //new
-        ev[3-choice[i, bIdx, t]] = ev[3-choice[i, bIdx, t]] + eta[i] * PEnc;  //new
+        ev[choice[i, bIdx, t]]   += eta[i] * PE;   //new
+        ev[3-choice[i, bIdx, t]] += eta[i] * PEnc;  //new
       } // end of t loop
     } // end of bIdx loop
   } // end of i loop
@@ -139,6 +141,7 @@ generated quantities {
         // Define values
         vector[2] ev;     // expected value
         vector[2] prob;   // probability
+        real prob_1_;
 
         real PE;     // prediction error
         real PEnc;   // fictitious prediction error (PE-non-chosen)
@@ -149,9 +152,10 @@ generated quantities {
         for (t in 1:(Tsubj[i, bIdx])) {
           // compute action probabilities
           prob[1] = 1 / (1 + exp(beta[i] * (alpha[i] - (ev[1] - ev[2]))));
-          prob[2] = 1 - prob[1];
+          prob_1_ = prob[1];
+          prob[2] = 1 - prob_1_;
 
-          log_lik[i] = log_lik[i] + categorical_lpmf(choice[i, bIdx, t] | prob);  //new
+          log_lik[i] += categorical_lpmf(choice[i, bIdx, t] | prob);  //new
 
           // generate posterior prediction for current trial
           y_pred[i, bIdx, t] = categorical_rng(prob);
@@ -169,8 +173,8 @@ generated quantities {
           dv[i, bIdx, t]     = PE - PEnc;
 
           // value updating (learning)
-          ev[choice[i, bIdx, t]]   = ev[choice[i, bIdx, t]]   + eta[i] * PE;   //new
-          ev[3-choice[i, bIdx, t]] = ev[3-choice[i, bIdx, t]] + eta[i] * PEnc;  //new
+          ev[choice[i, bIdx, t]]   += eta[i] * PE;   //new
+          ev[3-choice[i, bIdx, t]] += eta[i] * PEnc;  //new
         } // end of t loop
       } // end of bIdx loop
     }

@@ -59,6 +59,7 @@ model {
     // Define values
     vector[2] ev;    // expected value
     vector[2] prob;  // probability
+    real prob_1_;
 
     real PE;     // prediction error
     real PEnc;   // fictitious prediction error (PE-non-chosen)
@@ -69,7 +70,8 @@ model {
     for (t in 1:(Tsubj[i])) {
       // Compute action probabilities
       prob[1] = 1 / (1 + exp(beta[i] * (alpha[i] - (ev[1] - ev[2]))));
-      prob[2] = 1 - prob[1];
+      prob_1_ = prob[1];
+      prob[2] = 1 - prob_1_;
       choice[i, t] ~ categorical(prob);
 
       // Prediction error
@@ -77,8 +79,8 @@ model {
       PEnc = -outcome[i, t] - ev[3-choice[i, t]];
 
       // Value updating (learning)
-      ev[choice[i, t]]   = ev[choice[i, t]]   + eta[i] * PE;
-      ev[3-choice[i, t]] = ev[3-choice[i, t]] + eta[i] * PEnc;
+      ev[choice[i, t]]   += eta[i] * PE;
+      ev[3-choice[i, t]] += eta[i] * PEnc;
     }
   }
 }
@@ -126,6 +128,7 @@ generated quantities {
       // Define values
       vector[2] ev;     // expected value
       vector[2] prob;   // probability
+      real prob_1_;
 
       real PE;          // prediction error
       real PEnc;        // fictitious prediction error (PE-non-chosen)
@@ -138,9 +141,10 @@ generated quantities {
       for (t in 1:(Tsubj[i])) {
         // compute action probabilities
         prob[1] = 1 / (1 + exp(beta[i] * (alpha[i] - (ev[1] - ev[2]))));
-        prob[2] = 1 - prob[1];
+        prob_1_ = prob[1];
+        prob[2] = 1 - prob_1_;
 
-        log_lik[i] = log_lik[i] + categorical_lpmf(choice[i, t] | prob);
+        log_lik[i] += categorical_lpmf(choice[i, t] | prob);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(prob);

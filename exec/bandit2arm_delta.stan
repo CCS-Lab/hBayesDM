@@ -53,7 +53,7 @@ model {
       PE = outcome[i, t] - ev[choice[i, t]];
 
       // value updating (learning)
-      ev[choice[i, t]] = ev[choice[i, t]] + A[i] * PE;
+      ev[choice[i, t]] += A[i] * PE;
     }
   }
 }
@@ -90,7 +90,7 @@ generated quantities {
 
       for (t in 1:(Tsubj[i])) {
         // compute log likelihood of current trial
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, t] | tau[i] * ev);
+        log_lik[i] += categorical_logit_lpmf(choice[i, t] | tau[i] * ev);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(softmax(tau[i] * ev));
@@ -99,7 +99,7 @@ generated quantities {
         PE = outcome[i, t] - ev[choice[i, t]];
 
         // value updating (learning)
-        ev[choice[i, t]] = ev[choice[i, t]] + A[i] * PE;
+        ev[choice[i, t]] += A[i] * PE;
       }
     }
   }

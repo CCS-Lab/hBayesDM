@@ -133,7 +133,7 @@ generated quantities {
 
         for (t in 1:Tsubj[i, bIdx]) {
           // Softmax choice
-          log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, bIdx, t] | ev * beta[i]);
+          log_lik[i] += categorical_logit_lpmf(choice[i, bIdx, t] | ev * beta[i]);
 
           // generate posterior prediction for current trial
           y_pred[i, bIdx, t] = categorical_rng(softmax(ev * beta[i]));

@@ -142,7 +142,7 @@ generated quantities {
         }
 
       // compute action probabilities
-      log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i,t] | U_opt*beta[i]);
+      log_lik[i] += categorical_logit_lpmf(choice[i,t] | U_opt*beta[i]);
       y_pred[i, t]  = categorical_rng(softmax(U_opt*beta[i]));
 
       }

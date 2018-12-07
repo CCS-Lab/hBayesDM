@@ -68,15 +68,15 @@ functions {
           if (RT[2, i] == j) {
             pdf = lba_pdf(t, b, A, v[j], s);
           } else {
-            cdf = lba_cdf(t, b, A, v[j], s) * cdf;
+            cdf *= lba_cdf(t, b, A, v[j], s);
           }
         }
         prob_neg = 1;
         for (j in 1:num_elements(v)) {
-          prob_neg = Phi(-v[j]/s) * prob_neg;
+          prob_neg *= Phi(-v[j]/s);
         }
         prob[i] = pdf * (1-cdf);
-        prob[i] = prob[i]/(1-prob_neg);
+        prob[i] /= (1-prob_neg);
         if (prob[i] < 1e-10) {
           prob[i] = 1e-10;
         }
@@ -116,7 +116,7 @@ functions {
           get_pos_drift = 0;
         }
       }
-      iter = iter + 1;
+      iter += 1;
       if (iter > max_iter) {
         get_pos_drift = 0;
         no_pos_drift  = 1;
@@ -138,7 +138,11 @@ functions {
       //rt is the fastest accumulator finish time
       //if one is negative get the positive drift
       resp          = sort_indices_asc(ttf);
-      ttf           = sort_asc(ttf);
+      {
+        real temp_ttf[num_elements(v)];
+        temp_ttf    = sort_asc(ttf);
+        ttf         = temp_ttf;
+      }
       get_first_pos = 1;
       iter          = 1;
       while(get_first_pos) {
@@ -147,7 +151,7 @@ functions {
           pred[2]       = resp[iter];
           get_first_pos = 0;
         }
-        iter = iter + 1;
+        iter += 1;
       }
     }
     return pred;
@@ -258,7 +262,7 @@ generated quantities {
         n_trials = N_tr_cond[i, j];
 
         // Sum likelihood over conditions within subjects
-        log_lik[i] = log_lik[i] + lba_lpdf(RT[i, j, , 1:n_trials] | d[i], A[i], v[i, j,], s, tau[i]);
+        log_lik[i] += lba_lpdf(RT[i, j, , 1:n_trials] | d[i], A[i], v[i, j,], s, tau[i]);
 
         for (t in 1:n_trials) {
           // generate posterior predictions

@@ -54,10 +54,10 @@ model {
       U_safe  = p_gamble[i, t] * pow(safe_Hpayoff[i, t], rho[i])  + (1-p_gamble[i, t]) * pow(safe_Lpayoff[i, t], rho[i]);
       U_risky = p_gamble[i, t] * pow(risky_Hpayoff[i, t], rho[i]) + (1-p_gamble[i, t]) * pow(risky_Lpayoff[i, t], rho[i]);
       if (condition[i, t] == 1) {  // safe-safe
-        U_safe = U_safe + ocu[i];
+        U_safe += ocu[i];
       }
       if (condition[i, t] == 3) {  // risky-risky
-        U_risky = U_risky + ocu[i];
+        U_risky += ocu[i];
       }
       choice[i, t] ~ bernoulli_logit(tau[i] * (U_risky - U_safe));
     }
@@ -98,12 +98,12 @@ generated quantities {
         U_safe  = p_gamble[i, t] * pow(safe_Hpayoff[i, t], rho[i])  + (1-p_gamble[i, t]) * pow(safe_Lpayoff[i, t], rho[i]);
         U_risky = p_gamble[i, t] * pow(risky_Hpayoff[i, t], rho[i]) + (1-p_gamble[i, t]) * pow(risky_Lpayoff[i, t], rho[i]);
         if (condition[i, t] == 1) {  // safe-safe
-          U_safe = U_safe + ocu[i];
+          U_safe += ocu[i];
         }
         if (condition[i, t] == 3) {  // risky-risky
-          U_risky = U_risky + ocu[i];
+          U_risky += ocu[i];
         }
-        log_lik[i] = log_lik[i] + bernoulli_logit_lpmf(choice[i, t] | tau[i] * (U_risky - U_safe));
+        log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | tau[i] * (U_risky - U_safe));
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(inv_logit(tau[i] * (U_risky - U_safe)));
       }

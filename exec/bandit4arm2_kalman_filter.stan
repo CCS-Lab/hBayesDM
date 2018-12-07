@@ -79,12 +79,18 @@ model {
       pe = outcome[i,t] - mu_ev[choice[i,t]];
 
       // value updating (learning)
-      mu_ev[choice[i,t]]    = mu_ev[choice[i,t]] + k * pe;
-      sd_ev_sq[choice[i,t]] = (1-k) * sd_ev_sq[choice[i,t]];
+      mu_ev[choice[i,t]] += k * pe;
+      sd_ev_sq[choice[i,t]] *= (1-k);
 
       // diffusion process
-      mu_ev    = lambda[i] * mu_ev + (1 - lambda[i]) * theta[i];
-      sd_ev_sq = lambda[i]^2 * sd_ev_sq + sigmaD[i]^2;
+      {
+        mu_ev    *= lambda[i];
+        mu_ev    += (1 - lambda[i]) * theta[i];
+      }
+      {
+        sd_ev_sq *= lambda[i]^2;
+        sd_ev_sq += sigmaD[i]^2;
+      }
     }
   }
 }
@@ -126,7 +132,7 @@ generated quantities {
 
       for (t in 1:(Tsubj[i])) {
         // compute action probabilities
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf( choice[i,t] | beta[i] * mu_ev );
+        log_lik[i] += categorical_logit_lpmf( choice[i,t] | beta[i] * mu_ev );
         y_pred[i, t]  = categorical_rng(softmax(beta[i] * mu_ev));
 
         // learning rate
@@ -136,12 +142,18 @@ generated quantities {
         pe = outcome[i,t] - mu_ev[choice[i,t]];
 
         // value updating (learning)
-        mu_ev[choice[i,t]]    = mu_ev[choice[i,t]] + k * pe;
-        sd_ev_sq[choice[i,t]] = (1-k) * sd_ev_sq[choice[i,t]];
+        mu_ev[choice[i,t]] += k * pe;
+        sd_ev_sq[choice[i,t]] *= (1-k);
 
         // diffusion process
-        mu_ev    = lambda[i] * mu_ev + (1 - lambda[i]) * theta[i];
-        sd_ev_sq = lambda[i]^2 * sd_ev_sq + sigmaD[i]^2;
+        {
+          mu_ev    *= lambda[i];
+          mu_ev    += (1 - lambda[i]) * theta[i];
+        }
+        {
+          sd_ev_sq *= lambda[i]^2;
+          sd_ev_sq += sigmaD[i]^2;
+        }
       }
     }
   } // local block END

@@ -67,8 +67,8 @@ model {
       }
 
       // decay-RI
-      ev = ev * A[i];
-      ev[choice[i, t]] = ev[choice[i, t]] + curUtil;
+      ev *= A[i];
+      ev[choice[i, t]] += curUtil;
     }
   }
 }
@@ -111,7 +111,7 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         // softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, t] | theta * ev);
+        log_lik[i] += categorical_logit_lpmf(choice[i, t] | theta * ev);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(softmax(theta * ev));
@@ -123,8 +123,8 @@ generated quantities {
         }
 
         // decay-RI
-        ev = ev * A[i];
-        ev[choice[i, t]] = ev[choice[i, t]] + curUtil;
+        ev *= A[i];
+        ev[choice[i, t]] += curUtil;
       }
     }
   }

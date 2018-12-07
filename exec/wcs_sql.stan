@@ -54,9 +54,10 @@ model {
   for (i in 1:N) {
     // define values
     vector[4] pred_prob_mat;  // predicted probability of choosing a deck in each trial based on attention
-    matrix[1, 3] subj_att;     // subject's attention to each dimension
-    matrix[1, 3] att_signal;    // signal where a subject has to pay attention after reward/punishment
-    matrix[1, 3] tmpatt;       // temporary variable to calculate subj_att
+    matrix[1, 3] subj_att;    // subject's attention to each dimension
+    matrix[1, 3] att_signal;  // signal where a subject has to pay attention after reward/punishment
+    real sum_att_signal;      // temporary variable to calculate sum(att_signal)
+    matrix[1, 3] tmpatt;      // temporary variable to calculate subj_att
     vector[4] tmpp;           // temporary variable to calculate pred_prob_mat
 
     // initiate values
@@ -70,11 +71,13 @@ model {
       // re-distribute attention after getting a feedback
       if (outcome[i,t] == 1) {
         att_signal = subj_att .* choice_match_att[i,t];
-        att_signal = att_signal/sum(att_signal);
+        sum_att_signal = sum(att_signal);
+        att_signal /= sum_att_signal;
         tmpatt = (1.0 - r[i])*subj_att + r[i]*att_signal;
       } else {
         att_signal = subj_att .* (unit - choice_match_att[i,t]);
-        att_signal = att_signal/sum(att_signal);
+        sum_att_signal = sum(att_signal);
+        att_signal /= sum_att_signal;
         tmpatt = (1.0 - p[i])*subj_att + p[i]*att_signal;
       }
 
@@ -128,6 +131,8 @@ generated quantities {
       matrix[1, 3] tmpatt;
       vector[4] tmpp;
 
+      real sum_att_signal;
+
       subj_att = initAtt;
       pred_prob_mat = to_vector(subj_att*deck_match_rule[1,,]);
 
@@ -135,17 +140,19 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
 
-        log_lik[i] = log_lik[i] + multinomial_lpmf(choice[i,,t] | pred_prob_mat);
+        log_lik[i] += multinomial_lpmf(choice[i,,t] | pred_prob_mat);
 
         y_pred[i,,t] = multinomial_rng(pred_prob_mat, 1);
 
         if(outcome[i,t] == 1) {
           att_signal = subj_att .* choice_match_att[i,t];
-          att_signal = att_signal/sum(att_signal);
+          sum_att_signal = sum(att_signal);
+          att_signal /= sum_att_signal;
           tmpatt = (1.0 - r[i])*subj_att + r[i]*att_signal;
         } else {
           att_signal = subj_att .* (unit - choice_match_att[i,t]);
-          att_signal = att_signal/sum(att_signal);
+          sum_att_signal = sum(att_signal);
+          att_signal /= sum_att_signal;
           tmpatt = (1.0 - p[i])*subj_att + p[i]*att_signal;
         }
 

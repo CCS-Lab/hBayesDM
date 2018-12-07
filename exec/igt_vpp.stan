@@ -90,17 +90,17 @@ model {
       choice[i, t] ~ categorical_logit(theta * V);
 
       // perseverance decay
-      pers = pers * K[i]; // decay
+      pers *= K[i]; // decay
 
       if (outcome[i, t] >= 0) {  // x(t) >= 0
         curUtil = pow(outcome[i, t], alpha[i]);
-        pers[choice[i, t]] = pers[choice[i, t]] + epP[i];  // perseverance term
+        pers[choice[i, t]] += epP[i];  // perseverance term
       } else {                  // x(t) < 0
         curUtil = -1 * lambda[i] * pow(-1 * outcome[i, t], alpha[i]);
-        pers[choice[i, t]] = pers[choice[i, t]] + epN[i];  // perseverance term
+        pers[choice[i, t]] += epN[i];  // perseverance term
       }
 
-      ev[choice[i, t]] = ev[choice[i, t]] + A[i] * (curUtil - ev[choice[i, t]]);
+      ev[choice[i, t]] += A[i] * (curUtil - ev[choice[i, t]]);
       // calculate V
       V = w[i] * ev + (1-w[i]) * pers;
     }
@@ -160,23 +160,23 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         // softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, t] | theta * V);
+        log_lik[i] += categorical_logit_lpmf(choice[i, t] | theta * V);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(softmax(theta * V));
 
         // perseverance decay
-        pers = pers * K[i]; // decay
+        pers *= K[i]; // decay
 
         if (outcome[i, t] >= 0) {  // x(t) >= 0
           curUtil = pow(outcome[i, t], alpha[i]);
-          pers[choice[i, t]] = pers[choice[i, t]] + epP[i];  // perseverance term
+          pers[choice[i, t]] += epP[i];  // perseverance term
         } else {                  // x(t) < 0
           curUtil = -1 * lambda[i] * pow(-1 * outcome[i, t], alpha[i]);
-          pers[choice[i, t]] = pers[choice[i, t]] + epN[i];  // perseverance term
+          pers[choice[i, t]] += epN[i];  // perseverance term
         }
 
-        ev[choice[i, t]] = ev[choice[i, t]] + A[i] * (curUtil - ev[choice[i, t]]);
+        ev[choice[i, t]] += A[i] * (curUtil - ev[choice[i, t]]);
         // calculate V
         V = w[i] * ev + (1-w[i]) * pers;
       }

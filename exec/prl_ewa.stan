@@ -73,10 +73,17 @@ model {
       ewt1 = ew[choice[i, t]];
 
       // Update experience weight for chosen stimulus
-      ew[choice[i, t]] = ew[choice[i, t]] * rho[i] + 1;
+      {
+        ew[choice[i, t]] *= rho[i];
+        ew[choice[i, t]] += 1;
+      }
 
       // Update expected value of chosen stimulus
-      ev[choice[i, t]] = (ev[choice[i, t]] * phi[i] * ewt1 + outcome[i, t]) /  ew[choice[i, t]];
+      {
+        ev[choice[i, t]] *= phi[i] * ewt1;
+        ev[choice[i, t]] += outcome[i, t];
+        ev[choice[i, t]] /= ew[choice[i, t]];
+      }
     }
   }
 }
@@ -134,7 +141,7 @@ generated quantities {
 
       for (t in 1:Tsubj[i]) {
         // Softmax choice
-        log_lik[i] = log_lik[i] + categorical_logit_lpmf(choice[i, t] | ev * beta[i]);
+        log_lik[i] += categorical_logit_lpmf(choice[i, t] | ev * beta[i]);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(softmax(ev * beta[i]));
@@ -152,10 +159,17 @@ generated quantities {
         ewt1 = ew[choice[i, t]];
 
         // Update experience weight for chosen stimulus
-        ew[choice[i, t]] = ew[choice[i, t]] * rho[i] + 1;
+        {
+          ew[choice[i, t]] *= rho[i];
+          ew[choice[i, t]] += 1;
+        }
 
         // Update expected value of chosen stimulus
-        ev[choice[i, t]] = (ev[choice[i, t]] * phi[i] * ewt1 + outcome[i, t]) /  ew[choice[i, t]];
+        {
+          ev[choice[i, t]] *= phi[i] * ewt1;
+          ev[choice[i, t]] += outcome[i, t];
+          ev[choice[i, t]] /= ew[choice[i, t]];
+        }
       }
     }
   }

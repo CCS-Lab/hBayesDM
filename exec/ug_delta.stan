@@ -64,7 +64,7 @@ model {
       accept[i, t] ~ bernoulli_logit(util * tau[i]);
 
       // Update internal norm
-      f = f + ep[i] * PE;
+      f += ep[i] * PE;
 
     } // end of t loop
   } // end of i loop
@@ -112,13 +112,13 @@ generated quantities {
         util = offer[i, t] - alpha[i] * fmax(f - offer[i, t], 0.0);
 
         // Calculate log likelihood
-        log_lik[i] = log_lik[i] + bernoulli_logit_lpmf(accept[i, t] | util * tau[i]);
+        log_lik[i] += bernoulli_logit_lpmf(accept[i, t] | util * tau[i]);
 
         // generate posterior prediction for current trial
         y_pred[i, t] = bernoulli_rng(inv_logit(util * tau[i]));
 
         // Update internal norm
-        f = f + ep[i] * PE;
+        f += ep[i] * PE;
 
       } // end of t loop
     } // end of i loop

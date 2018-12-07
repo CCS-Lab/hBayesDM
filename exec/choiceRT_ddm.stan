@@ -89,7 +89,7 @@ generated quantities {
     // Begin subject loop
     for (i in 1:N) {
       log_lik[i] = wiener_lpdf(RTu[i, :Nu[i]] | alpha[i], tau[i], beta[i], delta[i]);
-      log_lik[i] = log_lik[i] + wiener_lpdf(RTl[i, :Nl[i]] | alpha[i], tau[i], 1-beta[i], -delta[i]);
+      log_lik[i] += wiener_lpdf(RTl[i, :Nl[i]] | alpha[i], tau[i], 1-beta[i], -delta[i]);
     }
   }
 }
