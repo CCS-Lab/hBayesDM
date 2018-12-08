@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 /**
  * Probabilistic Reversal Learning (PRL) Task
  *

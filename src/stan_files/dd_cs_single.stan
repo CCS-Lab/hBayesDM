@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 data {
   int<lower=1> Tsubj;
   real<lower=0> delay_later[Tsubj];

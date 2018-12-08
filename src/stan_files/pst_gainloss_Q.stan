@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 data {
   int<lower=1> N;             // Number of subjects
   int<lower=1> T;             // Maximum # of trials

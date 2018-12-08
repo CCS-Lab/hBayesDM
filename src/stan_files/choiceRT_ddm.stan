@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 // based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potentially others @ Stan mailing lists
 data {
   int<lower=1> N;      // Number of subjects

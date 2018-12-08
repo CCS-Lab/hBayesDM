@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 // Seymour et al 2012 J neuro model, w/o C (chioce perseveration)
 data {
   int<lower=1> N;

@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 data {
   int<lower=1> N;
   int<lower=1> T;

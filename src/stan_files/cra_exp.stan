@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 /**
  * Choice under Risk and Ambiguity Task
  *

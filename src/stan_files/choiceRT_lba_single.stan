@@ -1,3 +1,5 @@
+#include /pre/license.stan
+
 // The model published in Annis, J., Miller, B. J., & Palmeri, T. J. (2016).
 // Bayesian inference with Stan: A tutorial on adding custom distributions. Behavior research methods, 1-24.
 functions {
