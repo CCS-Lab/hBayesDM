@@ -1,3 +1,5 @@
+## MEMO: While gitignore uses shell glob, Rbuildignore uses regex.
+
 # RStudio files
 .Rproj.user
 
