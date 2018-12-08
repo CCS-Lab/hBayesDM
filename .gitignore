@@ -1,3 +1,6 @@
+# RStudio files
+.Rproj.user
+
 # History files
 .Rhistory
 .Rapp.history
@@ -30,13 +33,18 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
-# Source files
+# Source files (orig) --> may want to remove this part later for tidiness
 src/Modules.o
 src/hBayesDM.so
 src/hBayesDM.dll
 src/include
 src/RcppExports.*
 
-# RStudio files
-.Rproj.user
+# Source files (new)
+src/stan_files/*.o
+src/stan_files/*.cc
+src/stan_files/*.hpp
+src/hBayesDM.so
+src/hBayesDM.dll
+src/init.o
 
