@@ -48,5 +48,4 @@ src/stan_files/*.cc
 src/stan_files/*.hpp
 src/hBayesDM.so
 src/hBayesDM.dll
-src/init.o
 
