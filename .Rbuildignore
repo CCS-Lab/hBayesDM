@@ -1,3 +1,5 @@
+## MEMO: While gitignore uses shell glob, Rbuildignore uses regex.
+
 ^codecov\.yml$
 ^man-roxygen/
 ^docs/
@@ -7,8 +9,10 @@
 ^\.Rproj\.user$
 ^.*\.Rmd$
 ^.*\.o$
-^cleanup.*$
 ^\.editorconfig$
 ^\.gitignore$
 ^\.travis\.yml$
 ^README\.md$
+src/stan_files/.*\.o$
+src/stan_files/.*\.cc$
+src/stan_files/.*\.hpp$

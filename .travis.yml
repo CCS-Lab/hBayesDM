@@ -1,10 +1,16 @@
 language: r
-
-# Be strict when checking our package
-warnings_are_errors: false
-
-# Sudo is disabled to use the container-based builds and package caching
 sudo: false
+
+branches:
+  only:
+    - master
+    - develop
+    - release/*
+    - hotfix/*
+    - bugfix/*
+
+r_build_args: '--no-build-vignettes'
+r_check_args: '--ignore-vignettes'
 
 # Use cache for packages
 cache:
@@ -12,7 +18,10 @@ cache:
   packages: true
   ccache: true
 
-# Use both linux and osx operating systems
+env:
+  global:
+    - MAKEFLAGS="-j 2"
+
 matrix:
   include:
     # Linux + g++-7
@@ -23,43 +32,26 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-6
-            - g++-6
+            - gcc-7
+            - g++-7
+            - gfortran-7
       env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-    # Linux + clang-7.0
-    - os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-7
-          packages:
-            - clang-7
-            - libomp-7-dev
-      env:
-        - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
-    # Temporarily disabled
-    # # OS X + clang
-    # - os: osx
-    #   env:
-    #     - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
   - eval "${MATRIX_EVAL}"
   - mkdir -p ~/.R/
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
-  - echo "CFLAGS = -g -O0 -w" >> ~/.R/Makevars
   - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
-  - echo "CXX14FLAGS = -mtune=native -march=native -w -O0" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
 
 install:
-  - if [[ $TRAVIS_OS_NAME = "osx" ]]; then brew install ccache; brew link ccache; fi
+  - R -e 'install.packages("devtools", quiet = T)' -e 'devtools::install_deps(dep = T, quiet = T)'
 
 script:
-  - travis_wait 40 R CMD build .
+  - travis_wait 42 R CMD build .
+  - travis_wait 59 R CMD check hBayesDM*.tar.gz --as-cran
 
 r_binary_packages:
   - testthat
@@ -69,3 +61,6 @@ r_binary_packages:
 
 # after_success:
 #   - Rscript -e 'covr::codecov()'
+
+after_failure:
+  - cat rstanarm.Rcheck/00*
