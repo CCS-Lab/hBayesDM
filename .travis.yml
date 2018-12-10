@@ -57,6 +57,7 @@ before_install:
 
 install:
   - if [[ $TRAVIS_OS_NAME = "osx" ]]; then brew install ccache; brew link ccache; fi
+  - R -e 'devtools::install_deps(dep = T)'
 
 script:
   - travis_wait 40 R CMD build .
