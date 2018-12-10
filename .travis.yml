@@ -12,6 +12,9 @@ cache:
   packages: true
   ccache: true
 
+packages:
+  - libgit2-dev
+
 # Use both linux and osx operating systems
 matrix:
   include:
