@@ -1,4 +1,6 @@
 language: r
+r_build_args: '--no-build-vignettes'
+r_check_args: '--ignore-vignettes'
 
 # Be strict when checking our package
 warnings_are_errors: false
@@ -11,6 +13,10 @@ cache:
   apt: true
   packages: true
   ccache: true
+
+env:
+  global:
+    - MAKEFLAGS="-j 2"
 
 packages:
   - libgit2-dev
@@ -55,6 +61,7 @@ before_install:
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
   - echo "CFLAGS = -g -O0 -w" >> ~/.R/Makevars
+  - echo "CXXFLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O0" >> ~/.R/Makevars
   - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
   - echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
 
@@ -74,3 +81,6 @@ r_binary_packages:
 
 # after_success:
 #   - Rscript -e 'covr::codecov()'
+
+after_failure:
+  - cat rstanarm.Rcheck/00*
