@@ -1,6 +1,14 @@
 language: r
 sudo: false
 
+branches:
+  only:
+    - master
+    - develop
+    - release/*
+    - hotfix/*
+    - bugfix/*
+
 r_build_args: '--no-build-vignettes'
 r_check_args: '--ignore-vignettes'
 
