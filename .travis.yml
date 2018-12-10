@@ -39,7 +39,7 @@ before_install:
   - echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
 
 install:
-  - R -e 'install.packages("devtools")' -e 'devtools::install_deps(dep = T)'
+  - R -e 'install.packages("devtools", quiet = T)' -e 'devtools::install_deps(dep = T, quiet = T)'
 
 script:
   - travis_wait 42 R CMD build .
