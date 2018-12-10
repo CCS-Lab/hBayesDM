@@ -60,6 +60,7 @@ install:
 
 script:
   - travis_wait 40 R CMD build .
+  - travis_wait 59 R CMD check *.tar.gz
 
 r_binary_packages:
   - testthat
