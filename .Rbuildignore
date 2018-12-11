@@ -12,6 +12,7 @@
 ^\.editorconfig$
 ^\.gitignore$
 ^\.travis\.yml$
+^cran-comments\.md$
 ^README\.md$
 src/stan_files/.*\.o$
 src/stan_files/.*\.cc$
