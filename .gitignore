@@ -35,12 +35,6 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
-# Source files (orig) --> may want to remove this part later for tidiness
-src/Modules.o
-src/hBayesDM.so
-src/hBayesDM.dll
-src/include
-
 # Source files (new)
 src/stan_files/*.o
 src/stan_files/*.o.tmp
