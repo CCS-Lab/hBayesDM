@@ -1,4 +1,4 @@
-## Dec 5, 2018 (0.7.0)
+## Dec 12, 2018 (0.7.0)
 * Now all the implemented models are refactored using `hBayesDM_model` function. You don't have to change anything to use them, but developers can easily implement new model now!
 * We added a Kalman filter model for 4-armed bandit task (`bandit4arm2_kalman_filter`; Daw et al., 2006) and a probability weighting function for general description-based tasks (`dbdm_prob_weight`; Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008).
 * Initial values of parameter estimation for some models are updated as plausible values, and the parameter boundaries of several models are fixed (see more on issue #63 and #64 in Github).
