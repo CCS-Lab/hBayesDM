@@ -63,4 +63,4 @@ r_binary_packages:
 #   - Rscript -e 'covr::codecov()'
 
 after_failure:
-  - cat rstanarm.Rcheck/00*
+  - cat hBayesDM.Rcheck/00*
