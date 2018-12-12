@@ -2,7 +2,7 @@
 
 data {
   // declares N, T, Tsubj[N]
-#include /data/NT.stan;
+#include /data/NT.stan
   // declares cue[N, T], pressed[N, T], outcome[N, T]
 #include /data/gng.stan
 }
