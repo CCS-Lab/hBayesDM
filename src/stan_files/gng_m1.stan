@@ -1,12 +1,10 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
-
-  int<lower=1, upper=4> cue[N, T];
-  int<lower=-1, upper=1> pressed[N, T];
-  real outcome[N, T];
+  // declares cue[N, T], pressed[N, T], outcome[N, T]
+#include /data/cue_pressed_outcome.stan
 }
 
 transformed data {

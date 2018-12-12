@@ -7,11 +7,10 @@
  */
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
-
-  int<lower=-1, upper=2> choice[N, T];                // The choices subjects made
-  real outcome[N, T];                                 // The outcome
+  // declares choice[N, T], outcome[N, T]
+#include /data/choice_outcome.stan
 }
 
 transformed data {

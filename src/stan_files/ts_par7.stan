@@ -1,16 +1,12 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
+  // declares level1_choice[N, T], level2_choice[N, T], reward[N, T], trans_prob
+#include /data/ts.stan
+}
 
-  int<lower=1, upper=2> level1_choice[N,T];  // 1: left, 2: right
-  int<lower=1, upper=4> level2_choice[N,T];  // 1-4: 1/2: commonly associated with level1=1, 3/4: commonly associated with level1=2
-  int<lower=0, upper=1> reward[N,T];
-  real<lower=0, upper=1> trans_prob;
-}
-transformed data {
-}
 parameters {
   // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
@@ -26,6 +22,7 @@ parameters {
   vector[N] w_pr;
   vector[N] lambda_pr;
 }
+
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0,upper=1>[N] a1;
@@ -46,6 +43,7 @@ transformed parameters {
       lambda[i] = Phi_approx( mu_pr[7] + sigma[7] * lambda_pr[i] );
   }
 }
+
 model {
   // Hyperparameters
   mu_pr  ~ normal(0, 1);

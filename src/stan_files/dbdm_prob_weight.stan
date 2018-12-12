@@ -1,7 +1,7 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
 
   int<lower=-1, upper=2> choice[N, T];

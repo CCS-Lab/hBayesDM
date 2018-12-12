@@ -9,9 +9,6 @@ data {
   int<lower=-1, upper=1> choice[Tsubj]; // 0 for instant reward, 1 for delayed reward
 }
 
-transformed data {
-}
-
 parameters {
   real<lower=0, upper=1> k;   // discounting rate
   real<lower=0, upper=5> beta;  // inverse temperature

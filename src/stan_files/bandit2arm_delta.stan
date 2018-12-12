@@ -1,16 +1,17 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
-
-  int<lower=-1, upper=2> choice[N, T];
-  real outcome[N, T];  // no lower and upper bounds
+  // declares choice[N, T], outcome[N, T]
+#include /data/choice_outcome.stan
 }
+
 transformed data {
   vector[2] initV;  // initial values for EV
   initV = rep_vector(0.0, 2);
 }
+
 parameters {
 // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
@@ -21,6 +22,7 @@ parameters {
   vector[N] A_pr;    // learning rate
   vector[N] tau_pr;  // inverse temperature
 }
+
 transformed parameters {
   // subject-level parameters
   vector<lower=0, upper=1>[N] A;

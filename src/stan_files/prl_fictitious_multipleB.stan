@@ -9,9 +9,8 @@
 data {
   // declares N, B, Bsubj, T, Tsubj
 #include /data/NBT.stan
-
-  int<lower=-1, upper=2> choice[N, B, T];  // Choice for each subject-block-trial
-  real outcome[N, B, T];                   // Outcome (reward/loss) for each subject-block-trial
+  // declares choice[N, B, T], outcome[N, B, T]
+#include /data/choice_outcome_block.stan
 }
 
 transformed data {

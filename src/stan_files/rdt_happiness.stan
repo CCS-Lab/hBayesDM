@@ -1,7 +1,7 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
 
   real<lower=0> gain[N, T];
@@ -13,8 +13,7 @@ data {
   real happy[N, T];
   real RT_happy[N, T];
 }
-transformed data {
-}
+
 parameters {
   vector[6] mu_pr;
   vector<lower=0>[6] sigma;
@@ -25,6 +24,7 @@ parameters {
   vector[N] gam_pr;
   vector[N] sig_pr;
 }
+
 transformed parameters {
   vector[N] w0;
   vector[N] w1;
@@ -43,6 +43,7 @@ transformed parameters {
   }
   sig = exp(mu_pr[6] + sigma[6] * sig_pr);
 }
+
 model {
   mu_pr  ~ normal(0, 1.0);
   sigma ~ normal(0, 0.2);
@@ -83,6 +84,7 @@ model {
     }
   }
 }
+
 generated quantities {
   real mu_w0;
   real mu_w1;

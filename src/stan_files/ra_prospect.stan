@@ -1,16 +1,12 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
+  // declares gain, loss, cert, gamble
+#include /data/cra.stan
+}
 
-  real<lower=0> gain[N, T];
-  real<lower=0> loss[N, T];  // absolute loss amount
-  real cert[N, T];
-  int<lower=-1, upper=1> gamble[N, T];
-}
-transformed data {
-}
 parameters {
   vector[3] mu_pr;
   vector<lower=0>[3] sigma;
@@ -18,6 +14,7 @@ parameters {
   vector[N] lambda_pr;
   vector[N] tau_pr;
 }
+
 transformed parameters {
   vector<lower=0, upper=2>[N] rho;
   vector<lower=0, upper=5>[N] lambda;
@@ -29,6 +26,7 @@ transformed parameters {
     tau[i]    = Phi_approx(mu_pr[3] + sigma[3] * tau_pr[i]) * 5;
   }
 }
+
 model {
   // ra_prospect: Original model in Soko-Hessner et al 2009 PNAS
   // hyper parameters
@@ -54,6 +52,7 @@ model {
     }
   }
 }
+
 generated quantities {
   real<lower=0, upper=2> mu_rho;
   real<lower=0, upper=5> mu_lambda;

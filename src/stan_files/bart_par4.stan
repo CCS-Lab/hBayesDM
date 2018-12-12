@@ -1,7 +1,7 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
 
   int<lower=2> P;            // Number of max pump + 1 ** CAUTION **

@@ -1,7 +1,7 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
 
   int<lower=0, upper=3> condition[N, T]; // 0: solo, 1: ss, 2: mix, 3: rr

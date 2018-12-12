@@ -1,14 +1,10 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
-
-  real offer[N, T];
-  int<lower=-1, upper=1> accept[N, T];
-}
-
-transformed data {
+  // declares offer[N, T], accept[N, T]
+#include /data/ug.stan
 }
 
 parameters {

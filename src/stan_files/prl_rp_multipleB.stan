@@ -7,11 +7,10 @@
  */
 
 data {
-  // declares N, B, Bsubj, T, Tsubj
+  // declares N, B, Bsubj[N], T, Tsubj[N, B]
 #include /data/NBT.stan
-
-  int<lower=-1, upper=2> choice[N, B, T];  // The choices subjects made
-  real outcome[N, B, T];                   // The outcome
+  // declares choice[N, B, T], outcome[N, B, T]
+#include /data/choice_outcome_block.stan
 }
 
 transformed data {

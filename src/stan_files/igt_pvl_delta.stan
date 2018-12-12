@@ -1,11 +1,10 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
-
-  int choice[N, T];
-  real outcome[N, T];
+  // declares choice[N, T], outcome[N, T]
+#include /data/choice_outcome.stan
 }
 transformed data {
   vector[4] initV;

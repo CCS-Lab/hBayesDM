@@ -1,17 +1,12 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
-
-  real<lower=0> delay_later[N, T];
-  real<lower=0> amount_later[N, T];
-  real<lower=0> delay_sooner[N, T];
-  real<lower=0> amount_sooner[N, T];
-  int<lower=-1, upper=1> choice[N, T]; // 0 for instant reward, 1 for delayed reward
-}
-
-transformed data {
+  // declares delay_later[N, T], amount_later[N, T], delay_sooner[N, T], amount_sooner[N, T]
+#include /data/dd.stan
+  // declares choice[N, T];
+#include /data/chunks/choice_NT_01.stan
 }
 
 parameters {

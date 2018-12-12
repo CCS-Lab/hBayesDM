@@ -1,16 +1,10 @@
 #include /pre/license.stan
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
-
-  real<lower=0> gain[N, T];
-  real<lower=0> loss[N, T];  // absolute loss amount
-  real cert[N, T];
-  int<lower=-1, upper=1> gamble[N, T];
-}
-
-transformed data {
+  // declares gain, loss, cert, gamble
+#include /data/cra.stan
 }
 
 parameters {
@@ -53,6 +47,7 @@ model {
     }
   }
 }
+
 generated quantities {
   real<lower=0, upper=2> mu_rho;
   real<lower=0, upper=5> mu_tau;

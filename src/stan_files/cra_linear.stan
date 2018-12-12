@@ -8,11 +8,11 @@
 
 functions {
   // declares sv_exp, sv_linear
-#include /func/sv_cra.stan
+#include /func/cra.stan
 }
 
 data {
-  // declares N, T, Tsubj
+  // declares N, T, Tsubj[N]
 #include /data/NT.stan
 
   int<lower=0,upper=1> choice[N, T];  // The options subjects choose (0: fixed / 1: variable)
