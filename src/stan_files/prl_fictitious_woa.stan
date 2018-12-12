@@ -10,7 +10,6 @@ data {
   // declares N, T, Tsubj
 #include /data/NT.stan
 
-  int<lower=1, upper=T> Tsubj[N];       // Number of trials/blocks for each subject
   int<lower=-1, upper=2> choice[N, T];  // The choices subjects made
   real outcome[N, T];                   // The outcome
 }
