@@ -1,9 +1,9 @@
 #include /pre/license.stan
 
 data {
-  int<lower=1> N;
-  int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
+  // declares N, T, Tsubj
+#include /data/NT.stan
+
   real<lower=0> gain[N, T];
   real<lower=0> loss[N, T];  // absolute loss amount
   real cert[N, T];

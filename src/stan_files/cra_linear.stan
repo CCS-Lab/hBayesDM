@@ -7,18 +7,13 @@
  */
 
 functions {
-  /**
-   * Subjective value function with the linear equation form
-   */
-  real subjective_value(real alpha, real beta, real p, real a, real v) {
-    return (p - beta * a / 2) * pow(v, alpha);
-  }
+  // declares sv_exp, sv_linear
+#include /func/sv_cra.stan
 }
 
 data {
-  int<lower=1> N;                     // Number of subjects
-  int<lower=1> T;                     // Max number of trials across subjects
-  int<lower=1,upper=T> Tsubj[N];      // Number of trials/block for each subject
+  // declares N, T, Tsubj
+#include /data/NT.stan
 
   int<lower=0,upper=1> choice[N, T];  // The options subjects choose (0: fixed / 1: variable)
   real<lower=0,upper=1> prob[N, T];   // The objective probability of the variable lottery
@@ -66,8 +61,8 @@ model {
       real u_var;  // subjective value of the variable lottery
       real p_var;  // probability of choosing the variable option
 
-      u_fix = subjective_value(alpha[i], beta[i], 0.5, 0, reward_fix[i, t]);
-      u_var = subjective_value(alpha[i], beta[i], prob[i, t], ambig[i, t], reward_var[i, t]);
+      u_fix = sv_linear(alpha[i], beta[i], 0.5, 0, reward_fix[i, t]);
+      u_var = sv_linear(alpha[i], beta[i], prob[i, t], ambig[i, t], reward_var[i, t]);
       p_var = inv_logit(gamma[i] * (u_var - u_fix));
 
       target += bernoulli_lpmf(choice[i, t] | p_var);
@@ -113,8 +108,8 @@ generated quantities {
         real u_fix;  // subjective value of the fixed lottery
         real u_var;  // subjective value of the variable lottery
 
-        u_fix = subjective_value(alpha[i], beta[i], 0.5, 0, reward_fix[i, t]);
-        u_var = subjective_value(alpha[i], beta[i], prob[i, t], ambig[i, t], reward_var[i, t]);
+        u_fix = sv_linear(alpha[i], beta[i], 0.5, 0, reward_fix[i, t]);
+        u_var = sv_linear(alpha[i], beta[i], prob[i, t], ambig[i, t], reward_var[i, t]);
         p_var[i, t] = inv_logit(gamma[i] * (u_var - u_fix));
 
         sv_fix[i, t] = u_fix;

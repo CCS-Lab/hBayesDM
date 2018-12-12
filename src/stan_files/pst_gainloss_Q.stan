@@ -1,9 +1,8 @@
 #include /pre/license.stan
 
 data {
-  int<lower=1> N;             // Number of subjects
-  int<lower=1> T;             // Maximum # of trials
-  int<lower=1> Tsubj[N];      // # of trials for acquisition phase
+  // declares N, T, Tsubj
+#include /data/NT.stan
 
   int<lower=-1,upper=6> option1[N, T];
   int<lower=-1,upper=6> option2[N, T];

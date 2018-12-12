@@ -1,9 +1,9 @@
 #include /pre/license.stan
 
 data {
-  int<lower=1> N;
-  int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
+  // declares N, T, Tsubj
+#include /data/NT.stan
+
   int<lower=1, upper=4> cue[N, T];
   int<lower=-1, upper=1> pressed[N, T];
   real outcome[N, T];

@@ -1,9 +1,8 @@
 #include /pre/license.stan
 
 data {
-  int<lower=1> N;                                       // number of subjects
-  int<lower=1> T;                                       // max trial
-  int<lower=40, upper=T> Tsubj[N];                      // number of max trials per subject
+  // declares N, T, Tsubj
+#include /data/NT.stan
 
   int<lower=0, upper=4> choice[N, 4, T];                // subject's deck choice within a trial (1, 2, 3 and 4)
   int<lower=-1, upper=1> outcome[N, T];                 // whether subject's choice is correct or not within a trial (1 and 0)

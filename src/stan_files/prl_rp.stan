@@ -7,9 +7,8 @@
  */
 
 data {
-  int<lower=1> N;                       // Number of subjects
-  int<lower=1> T;                       // Maximum number of trials across subjects
-  int<lower=1, upper=T> Tsubj[N];       // Number of trials/blocks for each subject
+  // declares N, T, Tsubj
+#include /data/NT.stan
 
   int<lower=-1, upper=2> choice[N, T];  // The choices subjects made
   real outcome[N, T];                   // The outcome

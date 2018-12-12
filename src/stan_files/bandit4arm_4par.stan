@@ -2,9 +2,9 @@
 
 // Seymour et al 2012 J neuro model, w/o C (chioce perseveration)
 data {
-  int<lower=1> N;
-  int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
+  // declares N, T, Tsubj
+#include /data/NT.stan
+
   real rew[N, T];
   real los[N, T];
   int choice[N, T];

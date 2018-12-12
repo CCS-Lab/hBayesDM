@@ -1,9 +1,9 @@
 #include /pre/license.stan
 
 data {
-  int<lower=1> N;
-  int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
+  // declares N, T, Tsubj
+#include /data/NT.stan
+
   real<lower=0> delay_later[N, T];
   real<lower=0> amount_later[N, T];
   real<lower=0> delay_sooner[N, T];

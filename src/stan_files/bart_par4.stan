@@ -1,9 +1,9 @@
 #include /pre/license.stan
 
 data {
-  int<lower=1> N;            // Number of subjects
-  int<lower=1> T;            // Maximum number of trials
-  int<lower=0> Tsubj[N];     // Number of trials for each subject
+  // declares N, T, Tsubj
+#include /data/NT.stan
+
   int<lower=2> P;            // Number of max pump + 1 ** CAUTION **
   int<lower=0> pumps[N, T];  // Number of pump
   int<lower=0,upper=1> explosion[N, T];  // Whether the balloon exploded (0 or 1)
