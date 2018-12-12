@@ -8,7 +8,7 @@
 
 data {
   // declares N, T, Tsubj
-#include /data/NTT.stan
+#include /data/NT.stan
 
   int<lower=-1, upper=2> choice[N, T];  // The choices subjects made
   real outcome[N, T];                   // The outcome

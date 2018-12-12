@@ -2,7 +2,7 @@
 
 data {
   // declares N, T, Tsubj
-#include /data/NTT.stan
+#include /data/NT.stan
 
   int<lower=0, upper=3> condition[N, T]; // 0: solo, 1: ss, 2: mix, 3: rr
   real<lower=0, upper=1> p_gamble[N, T];
