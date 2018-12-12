@@ -8,7 +8,7 @@
 
 There was no ERROR.
 
-There were 1 NOTES:
+There were 2 NOTES:
 
 * checking installed package size ... NOTE
   installed size is 26.7Mb
@@ -19,6 +19,14 @@ There were 1 NOTES:
 
   hBayesDM use compiled binaries for Stan models.
 
+* checking CRAN incoming feasibility ... NOTE
+  Maintainer: 'Woo-Young Ahn <wooyoung.ahn@gmail.com>'
+  
+  GNU make is a SystemRequirements.
+
+  To compile hBayesDM using rstan, GNU make is required.
+
 ## Misc
 
-Since hBayesDM takes about a hour for compilation, the timeout should be prolonged.
+Since hBayesDM takes about 80 min for compilation using 1 core, the timeout
+should be prolonged.
