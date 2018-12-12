@@ -28,5 +28,4 @@ There were 2 NOTES:
 
 ## Misc
 
-Since hBayesDM takes about 80 min for compilation using 1 core, the timeout
-should be prolonged.
+Because installation of hBayesDM may take approximately 80 minutes for compilation when using one core, could you allow a higher timeout (e.g., 3 hrs)?
