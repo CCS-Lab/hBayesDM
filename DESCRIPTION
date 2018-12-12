@@ -47,6 +47,7 @@ LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
 RoxygenNote: 6.1.1
+SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
     'stanmodels.R'
