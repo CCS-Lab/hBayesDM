@@ -1,7 +1,7 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.6.3
-Date: 2018-10-30
+Version: 0.7.0
+Date: 2018-12-11
 Author:
     Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
@@ -24,22 +24,22 @@ Description:
     a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of
     various computational models with a single line of coding.
 Depends:
-    R (>= 3.4.0),
-    Rcpp (>= 0.12.0),
-    methods
+    R (>= 3.4.0)
 Imports:
+    methods,
+    Rcpp (>= 0.12.0),
     rstan (>= 2.18.1),
     loo (>= 2.0),
     grid,
     parallel,
     ggplot2,
-    data.table (>= 1.11.8)
+    data.table
 LinkingTo:
-    StanHeaders (>= 2.18.0),
-    rstan (>= 2.18.1),
     BH (>= 1.66.0),
     Rcpp (>= 0.12.0),
-    RcppEigen (>= 0.3.3.3.0)
+    RcppEigen (>= 0.3.3.3.0),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
 URL: https://rpubs.com/CCSL/hBayesDM
 BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3

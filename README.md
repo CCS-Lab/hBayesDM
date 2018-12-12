@@ -4,7 +4,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master)](https://travis-ci.org/CCS-Lab/hBayesDM)
 [![CRAN Latest Release](https://www.r-pkg.org/badges/version-last-release/hBayesDM)](https://cran.r-project.org/package=hBayesDM)
-[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hBayesDM)](https://cran.rstudio.com/web/packages/rstan/index.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hBayesDM)](https://cran.r-project.org/web/packages/hBayesDM/index.html)
 <!-- [![Build Status](https://ci.appveyor.com/api/projects/status/hi3vp6ikm396pqcu?svg=true)](https://ci.appveyor.com/project/paulhendricks/hbayesdm)
 [![CodeCov](https://codecov.io/gh/CCS-Lab/hBayesDM/branch/master/graph/badge.svg)](https://codecov.io/gh/CCS-Lab/hBayesDM) -->
 
@@ -20,30 +20,30 @@ https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started
 
 [rstan]: https://github.com/stan-dev/rstan
 
-For the moment, RStan requires you to specify that the C++14 standard should be used to compile Stan programs (based on [this link][rstan-loading]):
-```r
-Sys.setenv(USE_CXX14 = 1)
-library("rstan") # observe startup messages
-```
-
-[rstan-loading]: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#loading-the-package
-
 ### Installation
 
 hBayesDM can be installed from CRAN by running the following command in R:
+</br>*Installing via CRAN uses precompiled models, which saves you the time for compiling Stan files.*
 
 ```r
-install.packages('hBayesDM')  # Install hBayesDM from CRAN
+install.packages("hBayesDM")  # Install hBayesDM from CRAN
 ```
 
-**We strongly recommend users to install hBayesDM from GitHub**. All models in this GitHub version are precompiled, which saves time for compiling Stan models. However, it may cause some memory allocation issues on a Windows machine.
-
-You can install the latest version from GitHub with:
+You can also install via GitHub with:
 
 ```r
 # `devtools` is required to install hBayesDM from GitHub
 if (!require(devtools)) install.packages("devtools")
 devtools::install_github("CCS-Lab/hBayesDM")
+```
+
+**(For advanced users)** The on-going developmental version of hBayesDM may also be installed via Github:
+</br>*Be warned that this version of hBayesDM may not work properly in some cases, due to on-going development.*
+
+```r
+# `devtools` is required to install hBayesDM from GitHub
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("CCS-Lab/hBayesDM", ref = "develop")
 ```
 
 ### Quick Links

@@ -1,3 +1,8 @@
+## MEMO: While gitignore uses shell glob, Rbuildignore uses regex.
+
+# RStudio files
+.Rproj.user
+
 # History files
 .Rhistory
 .Rapp.history
@@ -30,13 +35,12 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
-# Source files
-src/Modules.o
+# Source files (new)
+src/stan_files/*.o
+src/stan_files/*.o.tmp
+src/stan_files/*.cc
+src/stan_files/*.hpp
+src/RcppExports.*
 src/hBayesDM.so
 src/hBayesDM.dll
-src/include
-src/RcppExports.*
-
-# RStudio files
-.Rproj.user
-
+src/init.o

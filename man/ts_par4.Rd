@@ -49,8 +49,8 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{trans_prob}{\strong{(Model-specific argument.)} Common state transition probability from
-Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.}
+\item{...}{For this model, it's possible to set the following \strong{model-specific argument} to a value that you may prefer. \cr
+\code{trans_prob}: Common state transition probability from Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:

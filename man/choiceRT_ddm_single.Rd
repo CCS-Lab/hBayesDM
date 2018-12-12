@@ -51,7 +51,8 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{RTbound}{\strong{(Model-specific argument.)} Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).}
+\item{...}{For this model, it's possible to set the following \strong{model-specific argument} to a value that you may prefer. \cr
+\code{RTbound}: Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:

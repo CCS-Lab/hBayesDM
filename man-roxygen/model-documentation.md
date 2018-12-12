@@ -13,6 +13,7 @@ Template Variable | Required? | Format
 `PARAMETERS` | Y | " &nbsp; " ( &nbsp; ), ...
 `REGRESSORS` | *optional* | " &nbsp; ", ...
 `IS_NULL_POSTPREDS` | *optional* | `TRUE`
+`ADDITIONAL_ARG` | *optional* | \code{ &nbsp; }: *explanation here*
 `LENGTH_DATA_COLUMNS` | Y | #
 `DETAILS_DATA_1` | Y | `\item{"subjID"}{A unique identifier for each subject in the data-set.}`
 `DETAILS_DATA_2` | *optional* | \item{" &nbsp; "}{ &nbsp; }
@@ -33,6 +34,7 @@ Template Variable | Required? | Format
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
 #' @templateVar PARAMETERS "A" (decay rate), "alpha" (outcome sensitivity), "cons" (response consistency), "lambda" (loss aversion)
+#' @templateVar ADDITIONAL_ARG \code{payscale}: Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100.
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"choice"}{Integer indicating which deck was chosen on that trial (where A==1, B==2, C==3, and D==4).}
@@ -43,9 +45,6 @@ Template Variable | Required? | Format
 #'
 #' @export
 #' @include hBayesDM_model.R
-#'
-#' @param payscale \strong{(Model-specific argument.)} Raw payoffs within data are divided by this
-#'   number. Used for scaling data. Defaults to 100.
 #'
 #' @references
 #' Ahn, W.-Y., Vasilev, G., Lee, S.-H., Busemeyer, J. R., Kruschke, J. K., Bechara, A., & Vassileva,
