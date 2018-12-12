@@ -4,7 +4,7 @@ data {
   // declares N, T, Tsubj[N]
 #include /data/NT.stan
   // declares cue[N, T], pressed[N, T], outcome[N, T]
-#include /data/cue_pressed_outcome.stan
+#include /data/gng.stan
 }
 
 transformed data {
