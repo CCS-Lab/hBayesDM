@@ -169,6 +169,7 @@ hBayesDM_model <- function(task_name,
     colnames_raw_data <- colnames(raw_data)
 
     # Check if necessary data columns all exist (while ignoring case and underscores)
+    ..insensitive_data_columns <- NULL  # To avoid NOTEs by R CMD check
     insensitive_data_columns <- tolower(gsub("_", "", data_columns, fixed = TRUE))
     colnames(raw_data) <- tolower(gsub("_", "", colnames(raw_data), fixed = TRUE))
     if (!all(insensitive_data_columns %in% colnames(raw_data))) {
@@ -203,6 +204,10 @@ hBayesDM_model <- function(task_name,
 
     t_subjs  <- NULL   # Number of trials (per block) per subject (2D or 1D)
     t_max    <- NULL   # Maximum number of trials across all blocks & subjects (0D)
+
+    # To avoid NOTEs by R CMD check
+    .N <- NULL
+    subjid <- NULL
 
     if ((model_type == "") || (model_type == "single")) {
       DT_trials <- raw_data[, .N, by = "subjid"]
