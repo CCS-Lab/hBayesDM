@@ -24,6 +24,20 @@ env:
 
 matrix:
   include:
+    # Linux + g++-7 for CRAN
+    - os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - gfortran-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - FOR_CRAN="1"
     # Linux + g++-7
     - os: linux
       dist: trusty
