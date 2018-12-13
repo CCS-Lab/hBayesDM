@@ -388,7 +388,7 @@ hBayesDM_model <- function(task_name,
       if (FLAG_BUILD_ALL) {
         stanmodel_arg <- stanmodels[[model]]
       } else {
-        model_path <- system.file("inst", "stan_files", paste0(model, ".stan"),
+        model_path <- system.file("stan_files", paste0(model, ".stan"),
                                   package="hBayesDM")
         stanmodel_arg <- rstan::stan_model(model_path)
       }

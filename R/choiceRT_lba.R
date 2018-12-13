@@ -306,7 +306,7 @@ choiceRT_lba <- function(data           = "choose",
   if (FLAG_BUILD_ALL) {
     m = stanmodels$choiceRT_lba
   } else {
-    model_path <- system.file("inst", "stan_files", paste0(modelName, ".stan"),
+    model_path <- system.file("stan_files", paste0(modelName, ".stan"),
                               package="hBayesDM")
     m <- rstan::stan_model(model_path)
   }
