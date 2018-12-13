@@ -51,6 +51,7 @@ SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
     'stanmodels.R'
+    'settings.R'
     'hBayesDM_model.R'
     'bandit2arm_delta.R'
     'bandit4arm2_kalman_filter.R'
