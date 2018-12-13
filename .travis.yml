@@ -24,8 +24,8 @@ env:
 
 matrix:
   include:
-    # Linux + g++-7 for CRAN
-    - os: linux
+    - name: Ubuntu + g++-7 for CRAN
+      os: linux
       dist: trusty
       addons:
         apt:
@@ -37,9 +37,8 @@ matrix:
             - gfortran-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - FOR_CRAN="1"
-    # Linux + g++-7
-    - os: linux
+    - name: Ubuntu + g++-7
+      os: linux
       dist: trusty
       addons:
         apt:
@@ -51,6 +50,7 @@ matrix:
             - gfortran-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - HBAYESDM_BUILD_AT_ONCE="true"
 
 before_install:
   - eval "${MATRIX_EVAL}"
@@ -58,7 +58,7 @@ before_install:
   - echo "CC = $CC" >> ~/.R/Makevars
   - echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
   - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
-  - echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
 
 install:
   - R -e 'install.packages("devtools", quiet = T)' -e 'devtools::install_deps(dep = T, quiet = T)'

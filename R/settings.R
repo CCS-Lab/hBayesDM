@@ -1,2 +1,6 @@
 #' @noRd
-FLAG_FOR_CRAN <- Sys.getenv('FOR_CRAN') != ""
+if (Sys.getenv('HBAYESDM_BUILD_AT_ONCE') == "true") {
+  FLAG_BUILD_AT_ONCE <- TRUE
+} else {
+  FLAG_BUILD_AT_ONCE <- FALSE
+}

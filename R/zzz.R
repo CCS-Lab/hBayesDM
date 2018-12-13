@@ -6,7 +6,7 @@
 }
 
 .onLoad <- function(libname, pkgname) { # nocov start
-  if (!FLAG_FOR_CRAN) {
+  if (FLAG_BUILD_AT_ONCE) {
     modules <- paste0("stan_fit4", names(stanmodels), "_mod")
     for (m in modules) loadModule(m, what = TRUE)
   }

@@ -385,12 +385,12 @@ hBayesDM_model <- function(task_name,
 
     # Designate the Stan model
     if (is.null(stanmodel_arg)) {
-      if (FLAG_FOR_CRAN) {
+      if (FLAG_BUILD_AT_ONCE) {
+        stanmodel_arg <- stanmodels[[model]]
+      } else {
         model_path <- system.file("inst", "stan_files", paste0(model, ".stan"),
                                   package="hBayesDM")
         stanmodel_arg <- rstan::stan_model(model_path)
-      } else {
-        stanmodel_arg <- stanmodels[[model]]
       }
     } else if (is.character(stanmodel_arg)) {
       stanmodel_arg <- rstan::stan_model(stanmodel_arg)
