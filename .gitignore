@@ -44,3 +44,6 @@ src/RcppExports.*
 src/hBayesDM.so
 src/hBayesDM.dll
 src/init.o
+
+# CRAN-RELEASE
+CRAN-RELEASE

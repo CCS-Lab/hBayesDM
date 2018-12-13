@@ -1,19 +1,17 @@
+^CRAN-RELEASE$
 ## MEMO: While gitignore uses shell glob, Rbuildignore uses regex.
 
 ^\.Rproj\.user$
 \.Rproj$
 \.Rmd$
 \.o$
-
 ^docs/
 ^man-roxygen/
 ^src/stan_files/.*\.o$
 ^src/stan_files/.*\.cc$
 ^src/stan_files/.*\.hpp$
-
 ^README\.md$
 ^LICENSE$
-
 ^\.editorconfig$
 ^\.gitignore$
 ^\.travis\.yml$
