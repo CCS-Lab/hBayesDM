@@ -50,7 +50,7 @@ matrix:
             - gfortran-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - HBAYESDM_BUILD_AT_ONCE="true"
+        - BUILD_ALL="true"
 
 before_install:
   - eval "${MATRIX_EVAL}"

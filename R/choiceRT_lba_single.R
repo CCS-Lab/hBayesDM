@@ -280,7 +280,7 @@ choiceRT_lba_single <- function(data           = "choose",
   cat("***********************************\n")
 
   # Fit the Stan model
-  if (FLAG_BUILD_AT_ONCE) {
+  if (FLAG_BUILD_ALL) {
     m = stanmodels$choiceRT_lba_single
   } else {
     model_path <- system.file("inst", "stan_files", paste0(modelName, ".stan"),

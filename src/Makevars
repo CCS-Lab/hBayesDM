@@ -3,7 +3,7 @@ PKG_CPPFLAGS = -I"../inst/include" -I"$(STANHEADERS_SRC)" -DBOOST_DISABLE_ASSERT
 
 CXX_STD = CXX14
 SOURCE_PATH = ../inst/stan_files
-ifeq ($(HBAYESDM_BUILD_AT_ONCE), true)
+ifeq ($(BUILD_ALL), true)
 	SOURCES = $(wildcard $(SOURCE_PATH)/*.stan)
 endif
 OBJECTS = $(SOURCES:.stan=.o) init.o
