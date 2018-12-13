@@ -1,7 +1,7 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
 Version: 0.7.0
-Date: 2018-12-12
+Date: 2018-12-14
 Author:
     Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
@@ -51,6 +51,7 @@ SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
     'stanmodels.R'
+    'settings.R'
     'hBayesDM_model.R'
     'bandit2arm_delta.R'
     'bandit4arm2_kalman_filter.R'

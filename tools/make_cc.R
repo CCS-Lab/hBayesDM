@@ -24,7 +24,7 @@ make_cc <- function(file) {
   cppcode <- sub("(class[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]*: public prob_grad \\{)",
                  paste("#include <meta_header.hpp>\n", "\\1"), cppcode)
 
-  cat(readLines(file.path("stan_files", "pre", "license.stan")),
+  cat(readLines(file.path("..", "inst", "stan_files", "pre", "license.stan")),
       "#ifndef MODELS_HPP", "#define MODELS_HPP", "#define STAN__SERVICES__COMMAND_HPP",
       "#include <rstan/rstaninc.hpp>",
       cppcode, "#endif", file = sub("\\.stan$", ".hpp", file),
@@ -39,7 +39,7 @@ make_cc <- function(file) {
                                 "grad_log_prob", "log_prob",
                                 "unconstrain_pars", "constrain_pars", "num_pars_unconstrained",
                                 "unconstrained_param_names", "constrained_param_names"),
-                    file = file.path("stan_files", paste0(f, ".cc")),
+                    file = file.path("..", "inst", "stan_files", paste0(f, ".cc")),
                     header = paste0('#include "', f, '.hpp"'),
                     module = paste0("stan_fit4", f, "_mod"),
                     CppClass = "rstan::stan_fit<stan_model, boost::random::ecuyer1988> ",

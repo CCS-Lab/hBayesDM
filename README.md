@@ -23,27 +23,36 @@ https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started
 ### Installation
 
 hBayesDM can be installed from CRAN by running the following command in R:
-</br>*Installing via CRAN uses precompiled models, which saves you the time for compiling Stan files.*
 
 ```r
 install.packages("hBayesDM")  # Install hBayesDM from CRAN
 ```
 
-You can also install via GitHub with:
+or you can also install via GitHub with:
 
 ```r
 # `devtools` is required to install hBayesDM from GitHub
 if (!require(devtools)) install.packages("devtools")
+
 devtools::install_github("CCS-Lab/hBayesDM")
 ```
 
-**(For advanced users)** The on-going developmental version of hBayesDM may also be installed via Github:
-</br>*Be warned that this version of hBayesDM may not work properly in some cases, due to on-going development.*
+#### Building at once
+
+In default, you should build a Stan file into a binary for the first time to use the
+model, so it can be quite bothersome.
+In order to build all the models at once, you should set an environmental variable
+`BUILD_ALL` to `true`.
+We highly recommend you to use multiple cores for build, since it requires quite
+a long time to complete.
 
 ```r
-# `devtools` is required to install hBayesDM from GitHub
-if (!require(devtools)) install.packages("devtools")
-devtools::install_github("CCS-Lab/hBayesDM", ref = "develop")
+Sys.setenv(BUILD_ALL='true')  # Build all the models on installation
+Sys.setenv(MAKEFLAGS='-j 4')  # Use 4 cores for compilation (or the number you want)
+
+install.packages("hBayesDM")  # Install from CRAN
+# or
+devtools::install_github("CCS-Lab/hBayesDM")  # Install from GitHub
 ```
 
 ### Quick Links
