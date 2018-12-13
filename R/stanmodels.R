@@ -17,7 +17,7 @@
 
 # This file is only intended to be used during the installation process
 # nocov start
-MODELS_HOME <- "src"
+MODELS_HOME <- "inst"
 if (!file.exists(MODELS_HOME)) MODELS_HOME <- sub("R$", "src", getwd())
 
 stan_files <- dir(file.path(MODELS_HOME, "stan_files"),
