@@ -24,7 +24,7 @@ env:
 
 matrix:
   include:
-    - name: Ubuntu + g++-7 for CRAN
+    - name: Ubuntu + g++-7
       os: linux
       dist: trusty
       addons:
@@ -37,7 +37,7 @@ matrix:
             - gfortran-7
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-    - name: Ubuntu + g++-7
+    - name: Ubuntu + g++-7 (BUILD_ALL)
       os: linux
       dist: trusty
       addons:
