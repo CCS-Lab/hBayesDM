@@ -79,16 +79,31 @@
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
-<p>hBayesDM can be installed from CRAN by running the following command in R: <em>Installing via CRAN uses precompiled models, which saves you the time for compiling Stan files.</em></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"hBayesDM"</span>)  <span class="co"># Install hBayesDM from CRAN</span></code></pre></div>
-<p>You can also install via GitHub with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># `devtools` is required to install hBayesDM from GitHub</span>
-<span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>)</code></pre></div>
-<p><strong>(For advanced users)</strong> The on-going developmental version of hBayesDM may also be installed via Github: <em>Be warned that this version of hBayesDM may not work properly in some cases, due to on-going development.</em></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># `devtools` is required to install hBayesDM from GitHub</span>
-<span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>, <span class="dt">ref =</span> <span class="st">"develop"</span>)</code></pre></div>
+<p>hBayesDM can be installed from CRAN by running the following command in R:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"hBayesDM"</span>)  <span class="co"># Install hBayesDM from CRAN</span></a></code></pre></div>
+<p>or you can also install via GitHub with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># `devtools` is required to install hBayesDM from GitHub</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>)</a></code></pre></div>
+<div id="building-at-once" class="section level4">
+<h4 class="hasAnchor">
+<a href="#building-at-once" class="anchor"></a>Building at once</h4>
+<p>In default, you should build a Stan file into a binary for the first time to use the model, so it can be quite bothersome. In order to build all the models at once, you should set an environmental variable <code>BUILD_ALL</code> to <code>true</code>. We highly recommend you to use multiple cores for build, since it requires quite a long time to complete.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.setenv">Sys.setenv</a></span>(<span class="dt">BUILD_ALL=</span><span class="st">'true'</span>)  <span class="co"># Build all the models on installation</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.setenv">Sys.setenv</a></span>(<span class="dt">MAKEFLAGS=</span><span class="st">'-j 4'</span>)  <span class="co"># Use 4 cores for compilation (or the number you want)</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"hBayesDM"</span>)  <span class="co"># Install from CRAN</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># or</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>)  <span class="co"># Install from GitHub</span></a></code></pre></div>
+</div>
+</div>
+<div id="caveats" class="section level3">
+<h3 class="hasAnchor">
+<a href="#caveats" class="anchor"></a>Caveats</h3>
+<p>Before you load <code>hBayesDM</code>, you should load <code>rstan</code> to make sampling properly work.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rstan)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(hBayesDM)</a></code></pre></div>
 </div>
 <div id="quick-links" class="section level3">
 <h3 class="hasAnchor">
@@ -114,16 +129,16 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <p>Ahn, W.-Y., Haines, N., &amp; Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. Computational Psychiatry, 1, 24-57. <a href="https://doi.org/10.1162/CPSY_a_00002" class="uri">https://doi.org/10.1162/CPSY_a_00002</a>.</p>
 </blockquote>
 <p>or for BibTeX:</p>
-<div class="sourceCode"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span class="va">@article</span>{<span class="ot">hBayesDM</span>,
-  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},
-  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},
-  <span class="dt">journal</span> = {Computational Psychiatry},
-  <span class="dt">year</span> = {2017},
-  <span class="dt">volume</span> = {1},
-  <span class="dt">pages</span> = {24--57},
-  <span class="dt">publisher</span> = {MIT Press},
-  <span class="dt">url</span> = {https://doi.org/10.1162/CPSY_a_00002},
-}</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="va">@article</span>{<span class="ot">hBayesDM</span>,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">journal</span> = {Computational Psychiatry},</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">year</span> = {2017},</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">volume</span> = {1},</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">  <span class="dt">pages</span> = {24--57},</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">  <span class="dt">publisher</span> = {MIT Press},</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  <span class="dt">url</span> = {https://doi.org/10.1162/CPSY_a_00002},</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">}</a></code></pre></div>
 </div>
 </div>
   </div>

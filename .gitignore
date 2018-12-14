@@ -36,11 +36,12 @@ vignettes/*.pdf
 *.knit.md
 
 # Source files (new)
-src/stan_files/*.o
-src/stan_files/*.o.tmp
-src/stan_files/*.cc
-src/stan_files/*.hpp
-src/RcppExports.*
-src/hBayesDM.so
-src/hBayesDM.dll
-src/init.o
+*.o
+*.o.tmp
+*.cc
+*.hpp
+*.so
+*.dll
+
+# CRAN-RELEASE
+CRAN-RELEASE

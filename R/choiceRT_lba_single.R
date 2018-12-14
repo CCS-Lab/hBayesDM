@@ -37,6 +37,7 @@
 #'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 #' }
 #'
+#' @include settings.R
 #' @importFrom rstan vb sampling stan_model rstan_options extract
 #' @importFrom parallel detectCores
 #' @importFrom stats median qnorm density
@@ -279,7 +280,14 @@ choiceRT_lba_single <- function(data           = "choose",
   cat("***********************************\n")
 
   # Fit the Stan model
-  m = stanmodels$choiceRT_lba_single
+  if (FLAG_BUILD_ALL) {
+    m = stanmodels$choiceRT_lba_single
+  } else {
+    model_path <- system.file("stan_files", paste0(modelName, ".stan"),
+                              package="hBayesDM")
+    m <- rstan::stan_model(model_path)
+  }
+
   if (vb) {   # if variational Bayesian
     fit = rstan::vb(m,
                     data   = dataList,
