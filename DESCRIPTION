@@ -1,14 +1,13 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
 Version: 0.7.0
-Date: 2018-12-11
+Date: 2018-12-14
 Author:
     Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
     Lei Zhang [aut],
     Harhim Park [ctb],
     Jaeyeong Yang [ctb],
-    Dayeong Min [ctb],
     Jethro Lee [ctb]
 Authors@R: c(
     person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
@@ -16,7 +15,6 @@ Authors@R: c(
     person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")),
     person("Harhim", "Park", email = "hrpark12@gmail.com", role = c("ctb")),
     person("Jaeyeong", "Yang", email = "jaeyeong.yang1125@gmail.com", role = c("ctb")),
-    person("Dayeong", "Min", email = "mindy2801@snu.ac.kr", role = c("ctb")),
     person("Jethro", "Lee", email = "dlemfh96@snu.ac.kr", role = c("ctb")))
 Maintainer: Woo-Young Ahn <wooyoung.ahn@gmail.com>
 Description:
@@ -51,6 +49,7 @@ SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
     'stanmodels.R'
+    'settings.R'
     'hBayesDM_model.R'
     'bandit2arm_delta.R'
     'bandit4arm2_kalman_filter.R'

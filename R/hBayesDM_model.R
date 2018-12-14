@@ -8,6 +8,7 @@
 #' @export
 #' @keywords internal
 #'
+#' @include settings.R
 #' @include stanmodels.R
 #' @importFrom utils head
 #' @importFrom stats complete.cases qnorm median
@@ -384,7 +385,13 @@ hBayesDM_model <- function(task_name,
 
     # Designate the Stan model
     if (is.null(stanmodel_arg)) {
-      stanmodel_arg <- stanmodels[[model]]
+      if (FLAG_BUILD_ALL) {
+        stanmodel_arg <- stanmodels[[model]]
+      } else {
+        model_path <- system.file("stan_files", paste0(model, ".stan"),
+                                  package="hBayesDM")
+        stanmodel_arg <- rstan::stan_model(model_path)
+      }
     } else if (is.character(stanmodel_arg)) {
       stanmodel_arg <- rstan::stan_model(stanmodel_arg)
     }
