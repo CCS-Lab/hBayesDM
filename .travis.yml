@@ -1,43 +1,80 @@
 language: r
-r:
-  - oldrel
-  - release
+sudo: false
 
-# Be strict when checking our package
-warnings_are_errors: false
+branches:
+  only:
+    - master
+    - develop
+    - /release\/.*/
+    - /hotfix\/.*/
+    - /bugfix\/.*/
 
-# Sudo is required
-sudo: true
-
-# Use trusty distribution of linux
-dist: trusty
-
-# Use both linux and osx operating systems
-os:
-  - linux
-  - osx
+r_build_args: '--no-build-vignettes'
+r_check_args: '--ignore-vignettes'
 
 # Use cache for packages
 cache:
   apt: true
   packages: true
+  ccache: true
 
-# System dependencies for HTTP calling
-addons:
-  apt:
-    packages:
-      - libgit2-dev
-      - libcurl4-openssl-dev
-      - libxml2-dev
+env:
+  global:
+    - MAKEFLAGS="-j 2"
+
+matrix:
+  include:
+    - name: Ubuntu + g++-7
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - gfortran-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - name: Ubuntu + g++-7 (BUILD_ALL)
+      os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - gfortran-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - BUILD_ALL="true"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - mkdir -p ~/.R/
+  - echo "CC = $CC" >> ~/.R/Makevars
+  - echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
+  - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
+
+install:
+  - R -e 'install.packages("devtools", quiet = T)' -e 'devtools::install_deps(dep = T, quiet = T)'
 
 script:
-  - travis_wait 30 R CMD build .
+  - travis_wait 42 R CMD build .
+  - travis_wait 59 R CMD check hBayesDM*.tar.gz --as-cran
 
 r_binary_packages:
   - testthat
 
-r_github_packages:
-  - jimhester/covr
+# r_github_packages:
+#   - r-lib/covr
 
-after_success:
-  - Rscript -e 'covr::codecov()'
+# after_success:
+#   - Rscript -e 'covr::codecov()'
+
+after_failure:
+  - cat hBayesDM.Rcheck/00*

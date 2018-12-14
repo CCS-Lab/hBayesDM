@@ -5,114 +5,138 @@
 \title{Two-Step Task (Daw et al., 2011, Neuron)}
 \usage{
 ts_par6(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "fixed", indPars = "mean",
-  saveDir = NULL, modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, trans_prob = 0.7)
+  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labelled as follows: "subjID", "level1_choice", "level2_choice", "reward". See \bold{Details} below for more information.}
+\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+"subjID", "level1_choice", "level2_choice", "reward". See \bold{Details} below for more information.}
 
-\item{niter}{Number of iterations, including warm-up.}
+\item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
 
-\item{nwarmup}{Number of iterations used for warm-up only.}
+\item{nwarmup}{Number of iterations used for warm-up only. Defaults to 1000.}
 
-\item{nchain}{Number of chains to be run.}
+\item{nchain}{Number of Markov chains to run. Defaults to 4.}
 
-\item{ncore}{Integer value specifying how many CPUs to run the MCMC sampling on. Defaults to 1.}
+\item{ncore}{Number of CPUs to be used for running. Defaults to 1.}
 
-\item{nthin}{Every \code{i == nthin} sample will be used to generate the posterior distribution. Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is high.}
+\item{nthin}{Every \code{i == nthin} sample will be used to generate the posterior distribution.
+Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
+high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated. Options are
+"fixed" or "random", or your own initial values.}
 
-\item{indPars}{Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".}
+\item{indPars}{Character value specifying how to summarize individual parameters. Current options
+are: "mean", "median", or "mode".}
 
-\item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
+\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
+Currently not available for this model.}
 
-\item{modelRegressor}{Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.}
+\item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
+to FALSE.}
 
-\item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.}
+\item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
+size). Defaults to FALSE.}
 
-\item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.}
+\item{adapt_delta}{Floating point value representing the target acceptance probability of a new
+sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
 
-\item{adapt_delta}{Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
+\item{stepsize}{Integer value specifying the size of each leapfrog step that the MCMC sampler can
+take on each new iteration. See \bold{Details} below.}
 
-\item{stepsize}{Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
+\item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
+on each new iteration. See \bold{Details} below.}
 
-\item{max_treedepth}{Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
-
-\item{trans_prob}{Common state transition probability from Stage (Level) 1 to Stage 2. Defaults to 0.7.}
+\item{...}{For this model, it's possible to set the following \strong{model-specific argument} to a value that you may prefer. \cr
+\code{trans_prob}: Common state transition probability from Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.}
 }
 \value{
-\code{modelData}  A class \code{"hBayesDM"} object with the following components:
+A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
- \item{\code{model}}{Character string with the name of the model (\code{"ts_par6"}).}
- \item{\code{allIndPars}}{\code{"data.frame"} containing the summarized parameter
-   values (as specified by \code{"indPars"}) for each subject.}
- \item{\code{parVals}}{A \code{"list"} where each element contains posterior samples
-   over different model parameters. }
- \item{\code{fit}}{A class \code{"stanfit"} object containing the fitted model.}
- \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
+  \item{\code{model}}{Character value that is the name of the model ("ts_par6").}
+  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+    \code{indPars}) for each subject.}
+  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
+  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+    model.}
+  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+    the user.}
+  
+  
+  
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Two-Step Task with the following 6 parameters: "a1" (learnign rate in stage 1), "a2" (learnign rate in stage 2), "beta1" (inverse temperature in stage 1), "beta2" (inverse temperature in stage 2), "pi" (perseverance), and "w" (model-based weight).\cr\cr
+Hierarchical Bayesian Modeling of the Two-Step Task with the following parameters:
+  "a1" (learning rate in stage 1), "beta1" (inverse temperature in stage 1), "a2" (learning rate in stage 2), "beta2" (inverse temperature in stage 2), "pi" (perseverance), "w" (model-based weight).
 
 Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 
-\strong{MODEL:}
-Hybrid model (Daw et al., 2011, Neuron) with 6 parameters
+\strong{MODEL:} Hybrid Model (Daw et al., 2011, Neuron), with 6 parameters
 }
 \details{
 This section describes some of the function arguments in greater detail.
 
-\strong{data} should be assigned a character value specifying the full path and name of the file, including the file extension
-(e.g. ".txt"), that contains the behavioral data of all subjects of interest for the current analysis.
-The file should be a \strong{tab-delimited} text (.txt) file whose rows represent trial-by-trial observations and columns
-represent variables. For the Two-Step Task, there should be four columns of data  with the labels
-"subjID", "level1_choice", "level2_choice", "reward". It is not necessary for the columns to be in this
-particular order, however it is necessary that they be labelled correctly and contain the information below:
+\strong{data} should be assigned a character value specifying the full path and name (including
+  extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
+  subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
+  file, whose rows represent trial-by-trial observations and columns represent variables.\cr
+For the Two-Step Task, there should be 4 columns of data with the
+  labels "subjID", "level1_choice", "level2_choice", "reward". It is not necessary for the columns to be in this particular order,
+  however it is necessary that they be labeled correctly and contain the information below:
 \describe{
- \item{\code{"subjID"}}{A unique identifier for each subject within data-set to be analyzed.}
- \item{\code{"level1_choice"}}{Choice of the level 1. 1: stimulus 1, 2: stimulus 2}
- \item{\code{"level2_choice"}}{Choice of the level 2. 1: stimulus 3, 2: stimulus 4, 3: stimulus 5, 4: stimulus 6.}
- \item{\code{"reward"}}{Reward of the level 2 (0 or 1)}
+  \item{"subjID"}{A unique identifier for each subject in the data-set.}
+  \item{"level1_choice"}{Choice made for Level (Stage) 1 (1: stimulus 1, 2: stimulus 2).}
+  \item{"level2_choice"}{Choice made for Level (Stage) 2 (1: stimulus 3, 2: stimulus 4, 3: stimulus 5, 4: stimulus 6).\cr *Note that, in our notation, choosing stimulus 1 in Level 1 leads to stimulus 3 & 4 in Level 2 with a common (0.7 by default) transition. Similarly, choosing stimulus 2 in Level 1 leads to stimulus 5 & 6 in Level 2 with a common (0.7 by default) transition. To change this default transition probability, set the function argument \code{trans_prob} to your preferred value.}
+  \item{"reward"}{Reward after Level 2 (0 or 1).}
+  
+  
+  
+  
+  
 }
-\strong{*} Note: In our notation, choosing stimulus 1 in Level 1 leads to stimulus 3 & 4 in Level 2 with a common (0.7 by default) transition.
-Choosing stimulus 3 in Level 1 leads to stimulus 5 & 6 in Level 2 with a common (0.7 by default) transition.
-The data.txt file may contain other columns of data (e.g. "Reaction_Time", "trial_number", etc.), but only the data with the column
-names listed above will be used for analysis/modeling. As long as the columns above are present and labelled correctly,
-there is no need to remove other miscellaneous data columns.
+\strong{*}Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
+  etc.), but only the data within the column names listed above will be used during the modeling.
+  As long as the necessary columns mentioned above are present and labeled correctly, there is no
+  need to remove other miscellaneous data columns.
 
-\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored upon the
-beginning of each chain. For those familiar with Bayesian methods, this value is equivalent to a burn-in sample.
-Due to the nature of MCMC sampling, initial values (where the sampling chain begins) can have a heavy influence
-on the generated posterior distributions. The \code{nwarmup} argument can be set to a high number in order to curb the
-effects that initial values have on the resulting posteriors.
+\strong{nwarmup} is a numerical value that specifies how many MCMC samples should not be stored
+  upon the beginning of each chain. For those familiar with Bayesian methods, this is equivalent
+  to burn-in samples. Due to the nature of the MCMC algorithm, initial values (i.e. where the
+  sampling chains begin) can have a heavy influence on the generated posterior distributions. The
+  \code{nwarmup} argument can be set to a high number in order to curb the effects that initial
+  values have on the resulting posteriors.
 
-\strong{nchain} is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
-used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
-process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
-sampling is completed, the multiple chains may be checked for convergence with the \code{plot(myModel, type = "trace")}
-command. The chains should resemble a "furry caterpillar".
+\strong{nchain} is a numerical value that specifies how many chains (i.e. independent sampling
+  sequences) should be used to draw samples from the posterior distribution. Since the posteriors
+  are generated from a sampling process, it is good practice to run multiple chains to ensure
+  that a reasonably representative posterior is attained. When the sampling is complete, it is
+  possible to check the multiple chains for convergence by running the following line of code:
+  \code{plot(output, type = "trace")}. The trace-plot should resemble a "furry caterpillar".
 
-\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
-to generate the posterior distributions. By default, \code{nthin} is equal to 1, hence every sample is used to
-generate the posterior.
+\strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC sampler,
+  using only every \code{i == nthin} samples to generate posterior distributions. By default,
+  \code{nthin} is equal to 1, meaning that every sample is used to generate the posterior.
 
-\strong{Contol Parameters:} adapt_delta, stepsize, and max_treedepth are advanced options that give the user more control
-over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
-can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for
-more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
-\href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
+\strong{Control Parameters:} \code{adapt_delta}, \code{stepsize}, and \code{max_treedepth} are
+  advanced options that give the user more control over Stan's MCMC sampler. It is recommended
+  that only advanced users change the default values, as alterations can profoundly change the
+  sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
+  Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
+  more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
+  Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
+  and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
+  description of these arguments.
 }
 \examples{
 \dontrun{
 # Run the model and store results in "output"
-output <- ts_par6(data = "example", niter = 2000, nwarmup = 1000, nchain = 3, ncore = 3)
+output <- ts_par6("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
-# Visually check convergence of the sampling chains (should like like 'hairy caterpillars')
-plot(output, type = 'trace')
+# Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
+plot(output, type = "trace")
 
 # Check Rhat values (all Rhat values should be less than or equal to 1.1)
 rhat(output)
@@ -122,17 +146,14 @@ plot(output)
 
 # Show the WAIC and LOOIC model fit estimates
 printFit(output)
-
-
 }
 }
 \references{
-Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011). Model-Based Influences on Humans'
-Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
-
-Hoffman, M. D., & Gelman, A. (2014). The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. The
-Journal of Machine Learning Research, 15(1), 1593-1623.
+Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011).
+  Model-Based Influences on Humans' Choices and Striatal Prediction Errors. Neuron, 69(6),
+  1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
 }
 \seealso{
-We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
+We refer users to our in-depth tutorial for an example of using hBayesDM:
+  \url{https://rpubs.com/CCSL/hBayesDM}
 }

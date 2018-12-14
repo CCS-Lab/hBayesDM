@@ -1,0 +1,8 @@
+{
+  "model_function": "prl_fictitious_woa",
+  "data_columns": ["subjID", "choice", "outcome"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["eta", "beta"],
+  "gen_init": [[0, 0.5, 1], [0, 1, 10]],
+  "regressors": ["ev_c", "ev_nc", "pe_c", "pe_nc", "dv"]
+}

@@ -1,4 +1,4 @@
-"trialNum"	"cue"	"keyPressed"	"success"	"congruentOutcome"	"outcome"	"subjID"
+trialNum	cue	keyPressed	success	congruentOutcome	outcome	subjID
 1	1	1	1	2	0	1
 2	2	0	1	1	1	1
 3	4	0	1	1	0	1

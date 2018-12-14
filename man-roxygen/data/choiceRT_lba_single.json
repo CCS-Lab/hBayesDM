@@ -1,0 +1,7 @@
+{
+  "model_function": "choiceRT_lba_single",
+  "data_columns": ["subjID", "choice", "RT", "condition"],
+  "data_list": ["N_choice", "N_cond", "tr_cond", "max_tr", "RT"],
+  "parameters": ["d", "A", "v", "tau"],
+  "gen_init": [["None", 0.25, "None"], ["None", 0.75, "None"], ["None", 2, "None"], ["None", 0.2, "None"]]
+}

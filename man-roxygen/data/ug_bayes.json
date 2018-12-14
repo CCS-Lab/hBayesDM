@@ -1,0 +1,7 @@
+{
+  "model_function": "ug_bayes",
+  "data_columns": ["subjID", "offer", "accept"],
+  "data_list": ["N", "T", "Tsubj", "offer", "accept"],
+  "parameters": ["alpha", "beta", "tau"],
+  "gen_init": [[0, 1, 20], [0, 0.5, 10], [0, 1, 10]]
+}

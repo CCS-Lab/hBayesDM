@@ -1,0 +1,7 @@
+{
+  "model_function": "dd_exp",
+  "data_columns": ["subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"],
+  "data_list": ["N", "T", "Tsubj", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"],
+  "parameters": ["r", "beta"],
+  "gen_init": [[0, 0.1, 1], [0, 1, 5]]
+}

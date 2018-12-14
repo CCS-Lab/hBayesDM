@@ -1,0 +1,7 @@
+{
+  "model_function": "bandit4arm2_kalman_filter",
+  "data_columns": ["subjID", "choice", "outcome"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["lambda", "theta", "beta", "mu0", "sigma0", "sigmaD"],
+  "gen_init": [[0, 0.9, 1], [0, 50, 100], [0, 0.1, 1], [0, 85, 100], [0, 6, 15], [0, 3, 15]]
+}

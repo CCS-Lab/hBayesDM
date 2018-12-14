@@ -1,0 +1,35 @@
+reference:
+- title: Tasks & Models
+  contents:
+  - starts_with("bandit")
+  - starts_with("bart_")
+  - starts_with("choiceRT_")
+  - starts_with("cra_")
+  - starts_with("dbdm_")
+  - starts_with("dd_")
+  - starts_with("gng_")
+  - starts_with("igt_")
+  - starts_with("peer_")
+  - starts_with("prl_")
+  - starts_with("pst_")
+  - starts_with("ra_")
+  - starts_with("rdt_")
+  - starts_with("ts_")
+  - starts_with("ug_")
+  - starts_with("wcs_")
+- title: Functions
+  contents:
+  - estimate_mode
+  - extract_ic
+  - HDIofMCMC
+  - multiplot
+  - plotDist
+  - plotHDI
+  - plotInd
+  - printFit
+  - rhat
+- title: Internal functions
+  desc: >
+    These functions are for the developmental purpose.
+  contents:
+    - hBayesDM_model

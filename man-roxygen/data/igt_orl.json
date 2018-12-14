@@ -1,0 +1,7 @@
+{
+  "model_function": "igt_orl",
+  "data_columns": ["subjID", "choice", "gain", "loss"],
+  "data_list": ["N", "T", "Tsubj", "choice", "outcome", "sign_out"],
+  "parameters": ["Arew", "Apun", "K", "betaF", "betaP"],
+  "gen_init": [[0, 0.1, 1], [0, 0.1, 1], [0, 0.1, 5], ["-inf", 0.1, "inf"], ["-inf", 1, "inf"]]
+}

@@ -1,0 +1,8 @@
+{
+  "model_function": "gng_m3",
+  "data_columns": ["subjID", "cue", "keyPressed", "outcome"],
+  "data_list": ["N", "T", "Tsubj", "cue", "pressed", "outcome"],
+  "parameters": ["xi", "ep", "b", "pi", "rho"],
+  "gen_init": [[0, 0.1, 1], [0, 0.2, 1], ["-inf", 0, "inf"], ["-inf", 0, "inf"], [0, "exp(2)", "inf"]],
+  "regressors": ["Qgo", "Qnogo", "Wgo", "Wnogo", "SV"]
+}

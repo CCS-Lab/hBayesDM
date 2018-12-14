@@ -1,0 +1,7 @@
+{
+  "model_function": "choiceRT_ddm",
+  "data_columns": ["subjID", "choice", "RT"],
+  "data_list": ["N", "Nu_max", "Nl_max", "Nu", "Nl", "RTu", "RTl", "minRT", "RTbound"],
+  "parameters": ["alpha", "beta", "delta", "tau"],
+  "gen_init": [[0, 0.5, "inf"], [0, 0.5, 1], [0, 0.5, "inf"], [0, 0.15, 1]]
+}

@@ -1,0 +1,8 @@
+{
+  "model_function": "prl_fictitious_multipleB",
+  "data_columns": ["subjID", "block", "choice", "outcome"],
+  "data_list": ["N", "B", "Bsubj", "T", "Tsubj", "choice", "outcome"],
+  "parameters": ["eta", "alpha", "beta"],
+  "gen_init": [[0, 0.5, 1], ["-inf", 0, "inf"], [0, 1, 10]],
+  "regressors": ["ev_c", "ev_nc", "pe_c", "pe_nc", "dv"]
+}

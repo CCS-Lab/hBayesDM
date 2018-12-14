@@ -1,0 +1,8 @@
+{
+  "model_function": "cra_exp",
+  "data_columns": ["subjID", "prob", "ambig", "reward_var", "reward_fix", "choice"],
+  "data_list": ["N", "T", "Tsubj", "choice", "prob", "ambig", "reward_var", "reward_fix"],
+  "parameters": ["alpha", "beta", "gamma"],
+  "gen_init": [[0, 1, 2], ["-inf", 0, "inf"], [0, 1, "inf"]],
+  "regressors": ["sv", "sv_fix", "sv_var", "p_var"]
+}

@@ -1,0 +1,7 @@
+{
+  "model_function": "dd_cs_single",
+  "data_columns": ["subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"],
+  "data_list": ["Tsubj", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"],
+  "parameters": ["r", "s", "beta"],
+  "gen_init": [["None", 0.1, "None"], ["None", 1, "None"], ["None", 1, "None"]]
+}

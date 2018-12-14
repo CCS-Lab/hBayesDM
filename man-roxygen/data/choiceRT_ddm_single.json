@@ -1,0 +1,7 @@
+{
+  "model_function": "choiceRT_ddm_single",
+  "data_columns": ["subjID", "choice", "RT"],
+  "data_list": ["Nu", "Nl", "RTu", "RTl", "minRT", "RTbound"],
+  "parameters": ["alpha", "beta", "delta", "tau"],
+  "gen_init": [["None", 0.5, "None"], ["None", 0.5, "None"], ["None", 0.5, "None"], ["None", 0.15, "None"]]
+}

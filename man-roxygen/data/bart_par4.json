@@ -1,0 +1,7 @@
+{
+  "model_function": "bart_par4",
+  "data_columns": ["subjID", "pumps", "explosion"],
+  "data_list": ["N", "T", "Tsubj", "P", "pumps", "explosion"],
+  "parameters": ["phi", "eta", "gam", "tau"],
+  "gen_init": [[0, 0.5, 1], [0, 1, "inf"], [0, 1, "inf"], [0, 1, "inf"]]
+}

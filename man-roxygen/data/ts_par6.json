@@ -1,0 +1,7 @@
+{
+  "model_function": "ts_par6",
+  "data_columns": ["subjID", "level1_choice", "level2_choice", "reward"],
+  "data_list": ["N", "T", "Tsubj", "level1_choice", "level2_choice", "reward", "trans_prob"],
+  "parameters": ["a1", "beta1", "a2", "beta2", "pi", "w"],
+  "gen_init": [[0, 0.5, 1], [0, 1, "inf"], [0, 0.5, 1], [0, 1, "inf"], [0, 1, 5], [0, 0.5, 1]]
+}

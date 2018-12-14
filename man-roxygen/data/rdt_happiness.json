@@ -1,0 +1,7 @@
+{
+  "model_function": "rdt_happiness",
+  "data_columns": ["subjID", "gain", "loss", "cert", "type", "gamble", "outcome", "happy", "RT_happy"],
+  "data_list": ["N", "T", "Tsubj", "gain", "loss", "cert", "type", "gamble", "outcome", "happy", "RT_happy"],
+  "parameters": ["w0", "w1", "w2", "w3", "gam", "sig"],
+  "gen_init": [["-inf", 1, "inf"], ["-inf", 1, "inf"], ["-inf", 1, "inf"], ["-inf", 1, "inf"], [0, 0.5, 1], [0, 1, "inf"]]
+}

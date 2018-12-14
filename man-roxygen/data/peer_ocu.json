@@ -1,0 +1,7 @@
+{
+  "model_function": "peer_ocu",
+  "data_columns": ["subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice"],
+  "data_list": ["N", "T", "Tsubj", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice"],
+  "parameters": ["rho", "tau", "ocu"],
+  "gen_init": [[0, 1, 2], [0, 1, "inf"], ["-inf", 0, "inf"]]
+}

@@ -1,0 +1,7 @@
+{
+  "model_function": "ug_delta",
+  "data_columns": ["subjID", "offer", "accept"],
+  "data_list": ["N", "T", "Tsubj", "offer", "accept"],
+  "parameters": ["alpha", "tau", "ep"],
+  "gen_init": [[0, 1, 20], [0, 1, 10], [0, 0.5, 1]]
+}
