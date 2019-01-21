@@ -170,7 +170,6 @@ hBayesDM_model <- function(task_name,
     colnames_raw_data <- colnames(raw_data)
 
     # Check if necessary data columns all exist (while ignoring case and underscores)
-    ..insensitive_data_columns <- NULL  # To avoid NOTEs by R CMD check
     insensitive_data_columns <- tolower(gsub("_", "", data_columns, fixed = TRUE))
     colnames(raw_data) <- tolower(gsub("_", "", colnames(raw_data), fixed = TRUE))
     if (!all(insensitive_data_columns %in% colnames(raw_data))) {
@@ -179,7 +178,7 @@ hBayesDM_model <- function(task_name,
     }
 
     # Remove only the rows containing NAs in necessary columns
-    complete_rows       <- complete.cases(raw_data[, ..insensitive_data_columns])
+    complete_rows       <- complete.cases(raw_data[, insensitive_data_columns, with = FALSE])
     sum_incomplete_rows <- sum(!complete_rows)
     if (sum_incomplete_rows > 0) {
       raw_data <- raw_data[complete_rows, ]
