@@ -1,3 +1,8 @@
+# hBayesDM 0.7.1
+
+* Make it usable without manually loading `rstan`.
+* Remove an annoying warning about using `..insensitive_data_columns`.
+
 # hBayesDM 0.7.0
 
 * Now, in default, you should build a Stan file into a binary for the first time to use it. To build all the models on installation, you should set an environmental variable `BUILD_ALL` to `true` before installation.

@@ -55,15 +55,6 @@ install.packages("hBayesDM")  # Install from CRAN
 devtools::install_github("CCS-Lab/hBayesDM")  # Install from GitHub
 ```
 
-### Caveats
-
-Before you load `hBayesDM`, you should load `rstan` to make sampling properly work.
-
-```r
-library(rstan)
-library(hBayesDM)
-```
-
 ### Quick Links
 
 - **Tutorial**: http://rpubs.com/CCSL/hBayesDM
