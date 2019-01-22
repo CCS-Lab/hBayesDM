@@ -5,8 +5,7 @@
 [![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master)](https://travis-ci.org/CCS-Lab/hBayesDM)
 [![CRAN Latest Release](https://www.r-pkg.org/badges/version-last-release/hBayesDM)](https://cran.r-project.org/package=hBayesDM)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hBayesDM)](https://cran.r-project.org/web/packages/hBayesDM/index.html)
-<!-- [![Build Status](https://ci.appveyor.com/api/projects/status/hi3vp6ikm396pqcu?svg=true)](https://ci.appveyor.com/project/paulhendricks/hbayesdm)
-[![CodeCov](https://codecov.io/gh/CCS-Lab/hBayesDM/branch/master/graph/badge.svg)](https://codecov.io/gh/CCS-Lab/hBayesDM) -->
+[![DOI](https://zenodo.org/badge/doi/10.1162/CPSY_a_00002.svg)](https://doi.org/10.1162/CPSY_a_00002)
 
 **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. hBayesDM uses [Stan](http://mc-stan.org/) for Bayesian inference.
 
@@ -65,7 +64,7 @@ devtools::install_github("CCS-Lab/hBayesDM")  # Install from GitHub
 
 If you used hBayesDM or some of its codes for your research, please cite this paper: 
 
-> Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. Computational Psychiatry, 1, 24-57. https://doi.org/10.1162/CPSY_a_00002. 
+> Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. Computational Psychiatry, 1, 24-57. doi:10.1162/CPSY_a_00002. 
 
 or for BibTeX:
 
@@ -78,6 +77,6 @@ or for BibTeX:
   volume = {1},
   pages = {24--57},
   publisher = {MIT Press},
-  url = {https://doi.org/10.1162/CPSY_a_00002},
+  url = {doi:10.1162/CPSY_a_00002},
 }
 ```
