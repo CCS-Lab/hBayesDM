@@ -1,4 +1,5 @@
 #' @templateVar MODEL_FUNCTION dbdm_prob_weight
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh}
 #' @templateVar TASK_NAME Description Based Decison Making Task
 #' @templateVar MODEL_NAME Probability Weight Function
 #' @templateVar MODEL_CITE (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)

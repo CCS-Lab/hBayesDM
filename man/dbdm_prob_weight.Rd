@@ -72,6 +72,8 @@ A class "hBayesDM" object \code{modelData} with the following components:
 Hierarchical Bayesian Modeling of the Description Based Decison Making Task with the following parameters:
   "tau" (probability weight function), "rho" (subject utility function), "lambda" (loss aversion parameter), "beta" (inverse softmax temperature).
 
+Contributor: \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh}
+
 \strong{MODEL:} Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
 }
 \details{
