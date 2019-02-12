@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
       </span>
     </div>
 
@@ -98,57 +98,66 @@
       
     </div>
 
-    <div id="hbayesdm-071" class="section level1">
+    <div id="hbayesdm-0-7-2" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-071" class="anchor"></a>hBayesDM 0.7.1<small> Unreleased </small>
+<a href="#hbayesdm-0-7-2" class="anchor"></a>hBayesDM 0.7.2<small> Unreleased </small>
+</h1>
+<ul>
+<li>Add three new models for the bandit4arm task: <code>bandit4arm_2par_lapse</code>, <code>bandit4arm_lapse_decay</code> and <code>bandit4arm_singleA_lapse</code>.</li>
+<li>Fix various (minor) errors.</li>
+</ul>
+</div>
+    <div id="hbayesdm-0-7-1" class="section level1">
+<h1 class="page-header">
+<a href="#hbayesdm-0-7-1" class="anchor"></a>hBayesDM 0.7.1<small> 2019-01-21 </small>
 </h1>
 <ul>
 <li>Make it usable without manually loading <code>rstan</code>.</li>
 <li>Remove an annoying warning about using <code>..insensitive_data_columns</code>.</li>
 </ul>
 </div>
-    <div id="hbayesdm-070" class="section level1">
+    <div id="hbayesdm-0-7-0" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-070" class="anchor"></a>hBayesDM 0.7.0<small> 2018-12-13 </small>
+<a href="#hbayesdm-0-7-0" class="anchor"></a>hBayesDM 0.7.0<small> 2018-12-13 </small>
 </h1>
 <ul>
 <li>Now, in default, you should build a Stan file into a binary for the first time to use it. To build all the models on installation, you should set an environmental variable <code>BUILD_ALL</code> to <code>true</code> before installation.</li>
-<li>Now all the implemented models are refactored using <code>hBayesDM_model</code> function. You don’t have to change anything to use them, but developers can easily implement new model now!</li>
+<li>Now all the implemented models are refactored using <code>hBayesDM_model</code> function. You don’t have to change anything to use them, but developers can easily implement new models now!</li>
 <li>We added a Kalman filter model for 4-armed bandit task (<code>bandit4arm2_kalman_filter</code>; Daw et al., 2006) and a probability weighting function for general description-based tasks (<code>dbdm_prob_weight</code>; Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008).</li>
 <li>Initial values of parameter estimation for some models are updated as plausible values, and the parameter boundaries of several models are fixed (see more on issue #63 and #64 in Github).</li>
 <li>Exponential and linear models for choice under risk and ambiguity task now have four model regressors: <code>sv</code>, <code>sv_fix</code>, <code>sv_var</code>, and <code>p_var</code>.</li>
 <li>Fix the Travix CI settings and related codes to be properly passed.</li>
 </ul>
 </div>
-    <div id="hbayesdm-063" class="section level1">
+    <div id="hbayesdm-0-6-3" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-063" class="anchor"></a>hBayesDM 0.6.3<small> Unreleased </small>
+<a href="#hbayesdm-0-6-3" class="anchor"></a>hBayesDM 0.6.3<small> Unreleased </small>
 </h1>
 <ul>
 <li>Update the dependencies on rstan (&gt;= 2.18.1)</li>
 <li>No changes on model files, as same as the version 0.6.2</li>
 </ul>
 </div>
-    <div id="hbayesdm-062" class="section level1">
+    <div id="hbayesdm-0-6-2" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-062" class="anchor"></a>hBayesDM 0.6.2<small> Unreleased </small>
+<a href="#hbayesdm-0-6-2" class="anchor"></a>hBayesDM 0.6.2<small> Unreleased </small>
 </h1>
 <ul>
 <li>Fix an error on choiceRT_ddm (#44)</li>
 </ul>
 </div>
-    <div id="hbayesdm-061" class="section level1">
+    <div id="hbayesdm-0-6-1" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-061" class="anchor"></a>hBayesDM 0.6.1<small> Unreleased </small>
+<a href="#hbayesdm-0-6-1" class="anchor"></a>hBayesDM 0.6.1<small> Unreleased </small>
 </h1>
 <ul>
 <li>Solve an issue with built binary files.</li>
 <li>Fix an error on peer_ocu with misplaced parentheses.</li>
 </ul>
 </div>
-    <div id="hbayesdm-060" class="section level1">
+    <div id="hbayesdm-0-6-0" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-060" class="anchor"></a>hBayesDM 0.6.0<small> 2018-09-11 </small>
+<a href="#hbayesdm-0-6-0" class="anchor"></a>hBayesDM 0.6.0<small> 2018-09-11 </small>
 </h1>
 <ul>
 <li>Add new tasks (Balloon Analogue Risk Task, Choice under Risk and Ambiguity Task, Probabilistic Selection Task, Risky Decision Task (a.k.a. Happiness task), Wisconsin Card Sorting Task)</li>
@@ -157,9 +166,9 @@
 <li>printFit function now provides LOOIC weights and/or WAIC weights</li>
 </ul>
 </div>
-    <div id="hbayesdm-051" class="section level1">
+    <div id="hbayesdm-0-5-1" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-051" class="anchor"></a>hBayesDM 0.5.1<small> Unreleased </small>
+<a href="#hbayesdm-0-5-1" class="anchor"></a>hBayesDM 0.5.1<small> Unreleased </small>
 </h1>
 <ul>
 <li>Add models for the Two Step task</li>
@@ -168,9 +177,9 @@
 <li>For the PRL task &amp; prl_fictitious.stan &amp; prl_fictitious_rp.stan –&gt; change the range of alpha (indecision point) from [0, 1] to [-Inf, Inf]</li>
 </ul>
 </div>
-    <div id="hbayesdm-050" class="section level1">
+    <div id="hbayesdm-0-5-0" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-050" class="anchor"></a>hBayesDM 0.5.0<small> 2018-01-03 </small>
+<a href="#hbayesdm-0-5-0" class="anchor"></a>hBayesDM 0.5.0<small> 2018-01-03 </small>
 </h1>
 <ul>
 <li>Support variational Bayesian methods (vb=TRUE)</li>
@@ -183,9 +192,9 @@
 <li>When outputs are saved as a file (*.RData), the file name now contains the name of the data file.</li>
 </ul>
 </div>
-    <div id="hbayesdm-040" class="section level1">
+    <div id="hbayesdm-0-4-0" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-040" class="anchor"></a>hBayesDM 0.4.0<small> 2017-05-23 </small>
+<a href="#hbayesdm-0-4-0" class="anchor"></a>hBayesDM 0.4.0<small> 2017-05-23 </small>
 </h1>
 <ul>
 <li>Add a choice reaction time task and evidence accumulation models
@@ -200,18 +209,18 @@
 <li>Separate versions for CRAN and GitHub. All models/features are identical but the GitHub version contains precompilled models.</li>
 </ul>
 </div>
-    <div id="hbayesdm-031" class="section level1">
+    <div id="hbayesdm-0-3-1" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-031" class="anchor"></a>hBayesDM 0.3.1<small> Unreleased </small>
+<a href="#hbayesdm-0-3-1" class="anchor"></a>hBayesDM 0.3.1<small> Unreleased </small>
 </h1>
 <ul>
 <li>Remove dependence on the modeest package. Now use a built-in function to estimate the mode of a posterior distribution.</li>
 <li>Rewrite the “printFit” function.</li>
 </ul>
 </div>
-    <div id="hbayesdm-030" class="section level1">
+    <div id="hbayesdm-0-3-0" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-030" class="anchor"></a>hBayesDM 0.3.0<small> 2017-01-22 </small>
+<a href="#hbayesdm-0-3-0" class="anchor"></a>hBayesDM 0.3.0<small> 2017-01-22 </small>
 </h1>
 <ul>
 <li>Made several changes following the guidelines for R packages providing interfaces to Stan.</li>
@@ -221,9 +230,9 @@
 <li>The “printFit” function uses LOOIC by default. Users can select WAIC or both (LOOIC &amp; WAIC) if needed.</li>
 </ul>
 </div>
-    <div id="hbayesdm-0233" class="section level1">
+    <div id="hbayesdm-0-2-3-3" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-0233" class="anchor"></a>hBayesDM 0.2.3.3<small> 2016-12-28 </small>
+<a href="#hbayesdm-0-2-3-3" class="anchor"></a>hBayesDM 0.2.3.3<small> 2016-12-28 </small>
 </h1>
 <ul>
 <li>Add help files</li>
@@ -231,26 +240,26 @@
 <li>Change a link to its tutorial website</li>
 </ul>
 </div>
-    <div id="hbayesdm-0232" class="section level1">
+    <div id="hbayesdm-0-2-3-2" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-0232" class="anchor"></a>hBayesDM 0.2.3.2<small> 2016-12-21 </small>
+<a href="#hbayesdm-0-2-3-2" class="anchor"></a>hBayesDM 0.2.3.2<small> 2016-12-21 </small>
 </h1>
 <ul>
 <li>Use wide normal distributions for unbounded parameters (gng_* models).</li>
 <li>Automatic removal of rows (trials) containing NAs.</li>
 </ul>
 </div>
-    <div id="hbayesdm-0231" class="section level1">
+    <div id="hbayesdm-0-2-3-1" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-0231" class="anchor"></a>hBayesDM 0.2.3.1<small> 2016-09-30 </small>
+<a href="#hbayesdm-0-2-3-1" class="anchor"></a>hBayesDM 0.2.3.1<small> 2016-09-30 </small>
 </h1>
 <ul>
 <li>Add a function for plotting individual parameters (plotInd)</li>
 </ul>
 </div>
-    <div id="hbayesdm-023" class="section level1">
+    <div id="hbayesdm-0-2-3" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-023" class="anchor"></a>hBayesDM 0.2.3<small> 2016-07-17 </small>
+<a href="#hbayesdm-0-2-3" class="anchor"></a>hBayesDM 0.2.3<small> 2016-07-17 </small>
 </h1>
 <ul>
 <li>Add a new task: the Ultimatum Game</li>
@@ -261,9 +270,9 @@
 <li>‘plotHDI’ function -&gt; add ‘fontSize’ argument &amp; change the color of histogram</li>
 </ul>
 </div>
-    <div id="hbayesdm-021" class="section level1">
+    <div id="hbayesdm-0-2-1" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-021" class="anchor"></a>hBayesDM 0.2.1<small> 2016-04-03 </small>
+<a href="#hbayesdm-0-2-1" class="anchor"></a>hBayesDM 0.2.1<small> 2016-04-03 </small>
 </h1>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
@@ -281,9 +290,9 @@
 </ul>
 </div>
 </div>
-    <div id="hbayesdm-020" class="section level1">
+    <div id="hbayesdm-0-2-0" class="section level1">
 <h1 class="page-header">
-<a href="#hbayesdm-020" class="anchor"></a>hBayesDM 0.2.0<small> 2016-03-25 </small>
+<a href="#hbayesdm-0-2-0" class="anchor"></a>hBayesDM 0.2.0<small> 2016-03-25 </small>
 </h1>
 <p>Initially released.</p>
 </div>
@@ -293,23 +302,24 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#hbayesdm-071">0.7.1</a></li>
-        <li><a href="#hbayesdm-070">0.7.0</a></li>
-        <li><a href="#hbayesdm-063">0.6.3</a></li>
-        <li><a href="#hbayesdm-062">0.6.2</a></li>
-        <li><a href="#hbayesdm-061">0.6.1</a></li>
-        <li><a href="#hbayesdm-060">0.6.0</a></li>
-        <li><a href="#hbayesdm-051">0.5.1</a></li>
-        <li><a href="#hbayesdm-050">0.5.0</a></li>
-        <li><a href="#hbayesdm-040">0.4.0</a></li>
-        <li><a href="#hbayesdm-031">0.3.1</a></li>
-        <li><a href="#hbayesdm-030">0.3.0</a></li>
-        <li><a href="#hbayesdm-0233">0.2.3.3</a></li>
-        <li><a href="#hbayesdm-0232">0.2.3.2</a></li>
-        <li><a href="#hbayesdm-0231">0.2.3.1</a></li>
-        <li><a href="#hbayesdm-023">0.2.3</a></li>
-        <li><a href="#hbayesdm-021">0.2.1</a></li>
-        <li><a href="#hbayesdm-020">0.2.0</a></li>
+        <li><a href="#hbayesdm-0-7-2">0.7.2</a></li>
+        <li><a href="#hbayesdm-0-7-1">0.7.1</a></li>
+        <li><a href="#hbayesdm-0-7-0">0.7.0</a></li>
+        <li><a href="#hbayesdm-0-6-3">0.6.3</a></li>
+        <li><a href="#hbayesdm-0-6-2">0.6.2</a></li>
+        <li><a href="#hbayesdm-0-6-1">0.6.1</a></li>
+        <li><a href="#hbayesdm-0-6-0">0.6.0</a></li>
+        <li><a href="#hbayesdm-0-5-1">0.5.1</a></li>
+        <li><a href="#hbayesdm-0-5-0">0.5.0</a></li>
+        <li><a href="#hbayesdm-0-4-0">0.4.0</a></li>
+        <li><a href="#hbayesdm-0-3-1">0.3.1</a></li>
+        <li><a href="#hbayesdm-0-3-0">0.3.0</a></li>
+        <li><a href="#hbayesdm-0-2-3-3">0.2.3.3</a></li>
+        <li><a href="#hbayesdm-0-2-3-2">0.2.3.2</a></li>
+        <li><a href="#hbayesdm-0-2-3-1">0.2.3.1</a></li>
+        <li><a href="#hbayesdm-0-2-3">0.2.3</a></li>
+        <li><a href="#hbayesdm-0-2-1">0.2.1</a></li>
+        <li><a href="#hbayesdm-0-2-0">0.2.0</a></li>
       </ul>
     </div>
   </div>

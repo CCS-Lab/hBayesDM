@@ -1,7 +1,7 @@
 #' @templateVar MODEL_FUNCTION peer_ocu
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 #' @templateVar TASK_NAME Peer Influence Task
-#' @templateVar TASK_CITE (Chung et al., 2015, Nature Neuroscience)
+#' @templateVar TASK_CITE (Chung et al., 2015)
 #' @templateVar MODEL_NAME Other-Conferred Utility (OCU) Model
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice"
