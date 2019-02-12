@@ -1,6 +1,7 @@
 # hBayesDM 0.7.2
 
-* Add three new models for the bandit4arm task. 
+* Add three new models for the bandit4arm task: `bandit4arm_2par_lapse`,
+    `bandit4arm_lapse_decay` and `bandit4arm_singleA_lapse`.
 * Fix various (minor) errors.
 
 # hBayesDM 0.7.1
