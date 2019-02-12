@@ -20,13 +20,25 @@ Maintainer: Woo-Young Ahn <wooyoung.ahn@gmail.com>
 Description: 
     Fit an array of decision-making tasks with computational models in
     a hierarchical Bayesian framework. Can perform hierarchical Bayesian analysis of
-    various computational models with a single line of coding.
-    Ahn et al. (2017) <doi:10.1162/CPSY_a_00002>
-Depends: R (>= 3.4.0), Rcpp (>= 0.12.0), methods
-Imports: rstan (>= 2.18.1), loo (>= 2.0), grid, parallel, ggplot2,
-        data.table
-LinkingTo: BH (>= 1.66.0), Rcpp (>= 0.12.0), RcppEigen (>= 0.3.3.3.0),
-        rstan (>= 2.18.1), StanHeaders (>= 2.18.0)
+    various computational models with a single line of coding
+    (Ahn et al., 2017) <doi:10.1162/CPSY_a_00002>.
+Depends:
+    R (>= 3.4.0),
+    Rcpp (>= 0.12.0),
+    methods
+Imports:
+    rstan (>= 2.18.1),
+    loo (>= 2.0),
+    grid,
+    parallel,
+    ggplot2,
+    data.table
+LinkingTo:
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
 URL: https://rpubs.com/CCSL/hBayesDM
 BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3
