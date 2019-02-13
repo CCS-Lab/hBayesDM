@@ -2,7 +2,7 @@
 % Please edit documentation in R/bart_par4.R
 \name{bart_par4}
 \alias{bart_par4}
-\title{Balloon Analogue Risk Task (Ravenzwaaij et al., 2011, Journal of Mathematical Psychology)}
+\title{Balloon Analogue Risk Task (Ravenzwaaij et al., 2011)}
 \usage{
 bart_par4(data = "choose", niter = 4000, nwarmup = 1000,
   nchain = 4, ncore = 1, nthin = 1, inits = "random",

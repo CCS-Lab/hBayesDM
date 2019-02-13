@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>4-Armed Bandit Task (2) — bandit4arm2_kalman_filter • hBayesDM</title>
+<title>4-Armed Bandit Task (modified) — bandit4arm2_kalman_filter • hBayesDM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="4-Armed Bandit Task (2) — bandit4arm2_kalman_filter" />
+<meta property="og:title" content="4-Armed Bandit Task (modified) — bandit4arm2_kalman_filter" />
 
-<meta property="og:description" content="Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (2) with the following parameters:
+<meta property="og:description" content="Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (modified) with the following parameters:
   &quot;lambda&quot; (decay factor), &quot;theta&quot; (decay center), &quot;beta&quot; (inverse softmax temperature), &quot;mu0&quot; (anticipated initial mean of all 4 options), &quot;sigma0&quot; (anticipated initial sd (uncertainty factor) of all 4 options), &quot;sigmaD&quot; (sd of diffusion noise).
 Contributor: Yoonseo Zoh, Lei Zhang
 MODEL: Kalman Filter (Daw et al., 2006, Nature)" />
@@ -66,7 +66,7 @@ MODEL: Kalman Filter (Daw et al., 2006, Nature)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
       </span>
     </div>
 
@@ -100,14 +100,14 @@ MODEL: Kalman Filter (Daw et al., 2006, Nature)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>4-Armed Bandit Task (2)</h1>
+    <h1>4-Armed Bandit Task (modified)</h1>
     
     <div class="hidden name"><code>bandit4arm2_kalman_filter.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (2) with the following parameters:
+    <p>Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (modified) with the following parameters:
   "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), "sigmaD" (sd of diffusion noise).</p>
 <p>Contributor: <a href='https://zohyos7.github.io'>Yoonseo Zoh</a>, <a href='https://lei-zhang.net/'>Lei Zhang</a></p>
 <p><strong>MODEL:</strong> Kalman Filter (Daw et al., 2006, Nature)</p>
@@ -220,7 +220,7 @@ on each new iteration. See <b>Details</b> below.</p></td>
   extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
   subjects of interest for the current analysis. The file should be a <strong>tab-delimited</strong> text
   file, whose rows represent trial-by-trial observations and columns represent variables.<br />
-For the 4-Armed Bandit Task (2), there should be 3 columns of data with the
+For the 4-Armed Bandit Task (modified), there should be 3 columns of data with the
   labels "subjID", "choice", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:</p><dl class='dl-horizontal'>
   <dt>"subjID"</dt><dd><p>A unique identifier for each subject in the data-set.</p></dd>

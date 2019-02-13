@@ -1,6 +1,6 @@
 #' @templateVar MODEL_FUNCTION bandit4arm2_kalman_filter
 #' @templateVar CONTRIBUTOR \href{https://zohyos7.github.io}{Yoonseo Zoh}, \href{https://lei-zhang.net/}{Lei Zhang}
-#' @templateVar TASK_NAME 4-Armed Bandit Task (2)
+#' @templateVar TASK_NAME 4-Armed Bandit Task (modified)
 #' @templateVar MODEL_NAME Kalman Filter
 #' @templateVar MODEL_CITE (Daw et al., 2006, Nature)
 #' @templateVar MODEL_TYPE Hierarchical

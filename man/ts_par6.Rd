@@ -2,7 +2,7 @@
 % Please edit documentation in R/ts_par6.R
 \name{ts_par6}
 \alias{ts_par6}
-\title{Two-Step Task (Daw et al., 2011, Neuron)}
+\title{Two-Step Task (Daw et al., 2011)}
 \usage{
 ts_par6(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
   ncore = 1, nthin = 1, inits = "random", indPars = "mean",

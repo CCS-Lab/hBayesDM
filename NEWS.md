@@ -1,3 +1,9 @@
+# hBayesDM 0.7.2
+
+* Add three new models for the bandit4arm task: `bandit4arm_2par_lapse`,
+    `bandit4arm_lapse_decay` and `bandit4arm_singleA_lapse`.
+* Fix various (minor) errors.
+
 # hBayesDM 0.7.1
 
 * Make it usable without manually loading `rstan`.
@@ -6,7 +12,7 @@
 # hBayesDM 0.7.0
 
 * Now, in default, you should build a Stan file into a binary for the first time to use it. To build all the models on installation, you should set an environmental variable `BUILD_ALL` to `true` before installation.
-* Now all the implemented models are refactored using `hBayesDM_model` function. You don't have to change anything to use them, but developers can easily implement new model now!
+* Now all the implemented models are refactored using `hBayesDM_model` function. You don't have to change anything to use them, but developers can easily implement new models now!
 * We added a Kalman filter model for 4-armed bandit task (`bandit4arm2_kalman_filter`; Daw et al., 2006) and a probability weighting function for general description-based tasks (`dbdm_prob_weight`; Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008).
 * Initial values of parameter estimation for some models are updated as plausible values, and the parameter boundaries of several models are fixed (see more on issue #63 and #64 in Github).
 * Exponential and linear models for choice under risk and ambiguity task now have four model regressors: `sv`, `sv_fix`, `sv_var`, and `p_var`.

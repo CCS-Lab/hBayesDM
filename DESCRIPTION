@@ -1,7 +1,7 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.7.1
-Date: 2019-01-21
+Version: 0.7.2
+Date: 2019-02-11
 Author:
     Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
@@ -54,8 +54,11 @@ Collate:
     'hBayesDM_model.R'
     'bandit2arm_delta.R'
     'bandit4arm2_kalman_filter.R'
+    'bandit4arm_2par_lapse.R'
     'bandit4arm_4par.R'
     'bandit4arm_lapse.R'
+    'bandit4arm_lapse_decay.R'
+    'bandit4arm_singleA_lapse.R'
     'bart_par4.R'
     'choiceRT_ddm.R'
     'choiceRT_ddm_single.R'

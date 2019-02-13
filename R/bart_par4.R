@@ -1,7 +1,7 @@
 #' @templateVar MODEL_FUNCTION bart_par4
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}, \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang}, \href{https://ccs-lab.github.io/team/ayoung-lee/}{Ayoung Lee}, \href{https://ccs-lab.github.io/team/jeongbin-oh/}{Jeongbin Oh}, \href{https://ccs-lab.github.io/team/jiyoon-lee/}{Jiyoon Lee}, \href{https://ccs-lab.github.io/team/junha-jang/}{Junha Jang}
 #' @templateVar TASK_NAME Balloon Analogue Risk Task
-#' @templateVar TASK_CITE (Ravenzwaaij et al., 2011, Journal of Mathematical Psychology)
+#' @templateVar TASK_CITE (Ravenzwaaij et al., 2011)
 #' @templateVar MODEL_NAME Re-parameterized version (by Harhim Park & Jaeyeong Yang) of BART Model (Ravenzwaaij et al., 2011) with 4 parameters
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "pumps", "explosion"
