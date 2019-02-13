@@ -2,7 +2,7 @@
 % Please edit documentation in R/peer_ocu.R
 \name{peer_ocu}
 \alias{peer_ocu}
-\title{Peer Influence Task (Chung et al., 2015, Nature Neuroscience)}
+\title{Peer Influence Task (Chung et al., 2015)}
 \usage{
 peer_ocu(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
   ncore = 1, nthin = 1, inits = "random", indPars = "mean",

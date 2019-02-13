@@ -435,3 +435,34 @@ plot_dbdm_prob_weight <- function(obj, fontSize = 10, ncols = 4, binSize = 30) {
   h_all = multiplot(h1, h2, h3, h4, cols = ncols)
   return(h_all)
 }
+
+plot_bandit4arm_lapse_decay <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_Arew, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[rew], " (Rew. Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_Apun, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[pun], " (Pun. Learning Rate)")))
+  h3 = plotDist(sample = pars$mu_R, fontSize = fontSize, binSize = binSize, xLab = expression(paste(R, " (Rew. Sens.)")))
+  h4 = plotDist(sample = pars$mu_P, fontSize = fontSize, binSize = binSize, xLab = expression(paste(P, " (Pun. Sens.)")))
+  h5 = plotDist(sample = pars$mu_xi, fontSize = fontSize, binSize = binSize, xLab = expression(paste(xi, " (Noise)")))
+  h6 = plotDist(sample = pars$mu_d, fontSize = fontSize, binSize = binSize, xLab = expression(paste(d, " (Decay)")))
+  h_all = multiplot(h1, h2, h3, h4, h5, h6, cols = ncols)
+  return(h_all)
+}
+
+plot_bandit4arm_singleA_lapse <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_A, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A, " (Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_R, fontSize = fontSize, binSize = binSize, xLab = expression(paste(R, " (Rew. Sens.)")))
+  h3 = plotDist(sample = pars$mu_P, fontSize = fontSize, binSize = binSize, xLab = expression(paste(P, " (Pun. Sens.)")))
+  h4 = plotDist(sample = pars$mu_xi, fontSize = fontSize, binSize = binSize, xLab = expression(paste(xi, " (Noise)")))
+  h_all = multiplot(h1, h2, h3, h4, cols = ncols)
+  return(h_all)
+}
+
+plot_bandit4arm_2par_lapse <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_Arew, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[rew], " (Rew. Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_Apun, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(A[pun], " (Pun. Learning Rate)")))
+  h3 = plotDist(sample = pars$mu_xi, fontSize = fontSize, binSize = binSize, xLab = expression(paste(xi, " (Noise)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
+  return(h_all)
+}

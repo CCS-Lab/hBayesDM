@@ -1,7 +1,7 @@
 #' @templateVar MODEL_FUNCTION ts_par7
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
 #' @templateVar TASK_NAME Two-Step Task
-#' @templateVar TASK_CITE (Daw et al., 2011, Neuron)
+#' @templateVar TASK_CITE (Daw et al., 2011)
 #' @templateVar MODEL_NAME Hybrid Model (Daw et al., 2011, Neuron), with 7 parameters (original model)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "level1_choice", "level2_choice", "reward"
