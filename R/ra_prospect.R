@@ -37,7 +37,7 @@ ra_prospect <- hBayesDM_model(
   data_columns    = c("subjID", "gain", "loss", "cert", "gamble"),
   parameters      = list("rho"    = c(0, 1, 2),
                          "lambda" = c(0, 1, 5),
-                         "tau"    = c(0, 1, 10)),
+                         "tau"    = c(0, 1, 30)),
   preprocess_func = function(raw_data, general_info) {
     # Currently class(raw_data) == "data.table"
 

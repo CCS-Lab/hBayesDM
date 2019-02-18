@@ -21,12 +21,12 @@ parameters {
 transformed parameters {
   vector<lower=0, upper=2>[N]  rho;
   vector<lower=0, upper=5>[N]  lambda;
-  vector<lower=0, upper=10>[N] tau;
+  vector<lower=0, upper=30>[N] tau;
 
   for (i in 1:N) {
     rho[i]    = Phi_approx(mu_pr[1] + sigma[1] * rho_pr[i]) * 2;
     lambda[i] = Phi_approx(mu_pr[2] + sigma[2] * lambda_pr[i]) * 5;
-    tau[i]    = Phi_approx(mu_pr[3] + sigma[3] * tau_pr[i]) * 10;
+    tau[i]    = Phi_approx(mu_pr[3] + sigma[3] * tau_pr[i]) * 30;
   }
 }
 model {
@@ -57,7 +57,7 @@ model {
 generated quantities {
   real<lower=0, upper=2>  mu_rho;
   real<lower=0, upper=5>  mu_lambda;
-  real<lower=0, upper=10> mu_tau;
+  real<lower=0, upper=30> mu_tau;
 
   real log_lik[N];
 
@@ -73,7 +73,7 @@ generated quantities {
 
   mu_rho    = Phi_approx(mu_pr[1]) * 2;
   mu_lambda = Phi_approx(mu_pr[2]) * 5;
-  mu_tau    = Phi_approx(mu_pr[3]) * 10;
+  mu_tau    = Phi_approx(mu_pr[3]) * 30;
 
   { // local section, this saves time and space
     for (i in 1:N) {
