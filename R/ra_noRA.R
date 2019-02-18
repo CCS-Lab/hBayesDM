@@ -35,7 +35,7 @@ ra_noRA <- hBayesDM_model(
   model_name      = "noRA",
   data_columns    = c("subjID", "gain", "loss", "cert", "gamble"),
   parameters      = list("lambda" = c(0, 1, 5),
-                         "tau"    = c(0, 1, 5)),
+                         "tau"    = c(0, 1, 30)),
   preprocess_func = function(raw_data, general_info) {
     # Currently class(raw_data) == "data.table"
 
