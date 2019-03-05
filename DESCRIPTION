@@ -110,4 +110,5 @@ Collate:
     'ug_bayes.R'
     'ug_delta.R'
     'wcs_sql.R'
+    'wcs_wql_rpd1.R'
     'zzz.R'
