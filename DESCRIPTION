@@ -109,7 +109,6 @@ Collate:
     'ts_par7.R'
     'ug_bayes.R'
     'ug_delta.R'
-    'wcs_sql.R'
     'wcs_sql_rp1f.R'
     'wcs_sql_rpd0.R'
     'wcs_sql_rpd1.R'
