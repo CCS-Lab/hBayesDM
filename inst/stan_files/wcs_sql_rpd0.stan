@@ -67,8 +67,7 @@ model {
       // re-distribute attention after getting a feedback
       match_chosen = match[t, :, choice[i, t]];
       sig = (outcome[i, t] == 1) ? match_chosen : 1 - match_chosen;
-      tmp = att .* sig;
-      sig = tmp / sum(tmp);
+      sig /= sum(sig);
 
       rp = (outcome[i, t] == 1) ? r[i] : p[i];
       tmp = (1 - rp) * att + rp * sig;
@@ -131,8 +130,7 @@ generated quantities {
         // re-distribute attention after getting a feedback
         match_chosen = match[t, :, choice[i, t]];
         sig = (outcome[i, t] == 1) ? match_chosen : 1 - match_chosen;
-        tmp = att .* sig;
-        sig = tmp / sum(tmp);
+        sig /= sum(sig);
 
         rp = (outcome[i, t] == 1) ? r[i] : p[i];
         tmp = (1 - rp) * att + rp * sig;

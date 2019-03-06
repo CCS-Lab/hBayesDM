@@ -1,11 +1,11 @@
-#' @templateVar MODEL_FUNCTION wcs_sql_rpd1
-#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/dayeong-min/}{Dayeong Min}, \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang}
+#' @templateVar MODEL_FUNCTION wcs_sql_rrdf
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang}
 #' @templateVar TASK_NAME Wisconsin Card Sorting Task
-#' @templateVar MODEL_NAME Sequential Learning Model (RPD1)
+#' @templateVar MODEL_NAME Sequential Learning Model (RRDF)
 #' @templateVar MODEL_CITE (Bishara et al., 2010, Journal of Mathematical Psychology)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
-#' @templateVar PARAMETERS "r" (reward sensitivity), "p" (punishment sensitivity), "d" (decision consistency or inverse temperature)
+#' @templateVar PARAMETERS "r" (reward sensitivity), "d" (decision consistency or inverse temperature), "f" (attentional focusing)
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{"choice"}{Integer value indicating which deck was chosen on that trial: 1, 2, 3, or 4.}
@@ -22,13 +22,13 @@
 #'   (2010). Sequential learning models for the Wisconsin card sort task: Assessing processes in
 #'   substance dependent individuals. Journal of Mathematical Psychology, 54(1), 5-13.
 
-wcs_sql_rpd1 <- hBayesDM_model(
+wcs_sql_rrdf <- hBayesDM_model(
   task_name       = "wcs",
-  model_name      = "sql_rpd1",
+  model_name      = "sql_rrdf",
   data_columns    = c("subjID", "choice", "outcome"),
   parameters      = list("r" = c(0, 0.1, 1),
-                         "p" = c(0, 0.1, 1),
-                         "d" = c(0, 1, 5)),
+                         "d" = c(0, 1, 5),
+                         "f" = c(0, 1, 5)),
   preprocess_func = function(raw_data, general_info) {
     # Currently class(raw_data) == "data.table"
 
@@ -36,8 +36,7 @@ wcs_sql_rpd1 <- hBayesDM_model(
     subjs   <- general_info$subjs
     n_subj  <- general_info$n_subj
     t_subjs <- general_info$t_subjs
-#   t_max   <- general_info$t_max
-    t_max   <- 128
+    t_max   <- 128  # Max trial is fixed to 128
 
     # Read predefined answer sheet
     fn_answer <- system.file("extdata", "wcs_answersheet.txt",

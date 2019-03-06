@@ -1,0 +1,86 @@
+#' @templateVar MODEL_FUNCTION wcs_sql_rpdf
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang}
+#' @templateVar TASK_NAME Wisconsin Card Sorting Task
+#' @templateVar MODEL_NAME Sequential Learning Model (RPDF)
+#' @templateVar MODEL_CITE (Bishara et al., 2010, Journal of Mathematical Psychology)
+#' @templateVar MODEL_TYPE Hierarchical
+#' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
+#' @templateVar PARAMETERS "r" (reward sensitivity), "p" (punishment sensitivity), "d" (decision consistency or inverse temperature), "f" (attentional focusing)
+#' @templateVar LENGTH_DATA_COLUMNS 3
+#' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
+#' @templateVar DETAILS_DATA_2 \item{"choice"}{Integer value indicating which deck was chosen on that trial: 1, 2, 3, or 4.}
+#' @templateVar DETAILS_DATA_3 \item{"outcome"}{1 or 0, indicating the outcome of that trial: correct == 1, wrong == 0.}
+#'
+#' @template model-documentation
+#'
+#' @export
+#' @include hBayesDM_model.R
+#' @importFrom utils read.table
+#'
+#' @references
+#' Bishara, A. J., Kruschke, J. K., Stout, J. C., Bechara, A., McCabe, D. P., & Busemeyer, J. R.
+#'   (2010). Sequential learning models for the Wisconsin card sort task: Assessing processes in
+#'   substance dependent individuals. Journal of Mathematical Psychology, 54(1), 5-13.
+
+wcs_sql_rpdf <- hBayesDM_model(
+  task_name       = "wcs",
+  model_name      = "sql_rpdf",
+  data_columns    = c("subjID", "choice", "outcome"),
+  parameters      = list("r" = c(0, 0.1, 1),
+                         "p" = c(0, 0.1, 1),
+                         "d" = c(0, 1, 5),
+                         "f" = c(0, 1, 5)),
+  preprocess_func = function(raw_data, general_info) {
+    # Currently class(raw_data) == "data.table"
+
+    # Use general_info of raw_data
+    subjs   <- general_info$subjs
+    n_subj  <- general_info$n_subj
+    t_subjs <- general_info$t_subjs
+    t_max   <- 128  # Max trial is fixed to 128
+
+    # Read predefined answer sheet
+    fn_answer <- system.file("extdata", "wcs_answersheet.txt",
+                             package = "hBayesDM")
+    answer <- read.table(fn_answer, header = TRUE)
+
+    # Initialize data arrays
+    choice  <- array( 0, c(n_subj, t_max))
+    outcome <- array(-1, c(n_subj, t_max))
+    match   <- array( 0, c(t_max, 3, 4))
+
+    for (i in 1:n_subj) {
+      subj <- subjs[i]
+      t <- t_subjs[i]
+      DT_subj <- raw_data[subjid == subj]
+      DT_subj_choice  <- DT_subj$choice
+      DT_subj_outcome <- DT_subj$outcome
+
+      for (tr in 1:t) {
+        choice[i, tr] <- DT_subj_choice[tr]
+        outcome[i, tr] <- DT_subj_outcome[tr]
+      }
+    }
+
+    # Write: deck_match_rule
+    for (tr in 1:t_max) {
+      for (ru in 1:3) {
+        match[tr, ru, answer[ru, tr]] <- 1
+      }
+    }
+
+    # Wrap into a list for Stan
+    data_list <- list(
+      N       = n_subj,
+      T       = t_max,
+      Tsubj   = t_subjs,
+      choice  = choice,
+      outcome = outcome,
+      match   = match
+    )
+
+    # Returned data_list will directly be passed to Stan
+    return(data_list)
+  }
+)
+
