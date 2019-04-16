@@ -149,7 +149,7 @@ hBayesDM_model <- function(task_name,
       } else {
         exampleData <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
       }
-      data <- system.file("extdata", exampleData, package = "hBayesDM")
+      data <- system.file("common", "extdata", exampleData, package = "hBayesDM")
     } else if (data == "choose") {
       data <- file.choose()
     }
@@ -387,7 +387,7 @@ hBayesDM_model <- function(task_name,
       if (FLAG_BUILD_ALL) {
         stanmodel_arg <- stanmodels[[model]]
       } else {
-        model_path <- system.file("stan_files", paste0(model, ".stan"),
+        model_path <- system.file("common", "stan_files", paste0(model, ".stan"),
                                   package="hBayesDM")
         stanmodel_arg <- rstan::stan_model(model_path)
       }

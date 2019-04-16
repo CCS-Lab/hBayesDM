@@ -27,8 +27,8 @@
 #'
 #' \dontrun{
 #' # Paths to data published in Sokol-Hessner et al. (2009)
-#' path_to_attend_data <- system.file("extdata", "ra_data_attend.txt", package = "hBayesDM")
-#' path_to_regulate_data <- system.file("extdata", "ra_data_reappraisal.txt", package = "hBayesDM")
+#' path_to_attend_data <- system.file("common", "extdata", "ra_data_attend.txt", package = "hBayesDM")
+#' path_to_regulate_data <- system.file("common", "extdata", "ra_data_reappraisal.txt", package = "hBayesDM")
 #' }
 
 ra_prospect <- hBayesDM_model(
