@@ -92,7 +92,7 @@ generated quantities {
   real<lower=0> mu_tau = exp(mu_pr[4]);
 
   // Log-likelihood for model fit
-  real log_lik = 0;
+  real log_lik[N];
 
   // For posterior predictive check
   real y_pred[N, T, P];
@@ -108,6 +108,8 @@ generated quantities {
       int n_succ = 0;
       int n_pump = 0;
 
+      log_lik[j] = 0;
+
       for (k in 1:Tsubj[j]) {
         real p_burst;  // Belief on a balloon to be burst
         real omega;    // Optimal number of pumps
@@ -116,7 +118,7 @@ generated quantities {
         omega = -gam[j] / log1m(p_burst);
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          log_lik += bernoulli_logit_lpmf(d[j, k, l] | tau[j] * (omega - l));
+          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | tau[j] * (omega - l));
           y_pred[j, k, l] = bernoulli_logit_rng(tau[j] * (omega - l));
         }
 
