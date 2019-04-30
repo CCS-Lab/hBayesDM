@@ -1,0 +1,171 @@
+{
+  "title": "Model Information Schema",
+  "description": "Written by Jethro Lee",
+  "type": "object",
+  "required": ["task_name", "model_name", "model_type", "notes", "contributors", "data_columns", "parameters", "regressors", "postpreds", "additional_args"],
+  "properties": {
+    "task_name": {
+      "$ref": "#/definitions/_name"
+    },
+    "model_name": {
+      "$ref": "#/definitions/_name"
+    },
+    "model_type": {
+      "type": "object",
+      "enum": [
+        {
+          "code": "",
+          "desc": "Hierarchical"
+        },
+        {
+          "code": "single",
+          "desc": "Individual"
+        },
+        {
+          "code": "multipleB",
+          "desc": "Multiple-Block Hierarchical"
+        }
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "contributors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "email", "link"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "format": "email"
+          },
+          "link": {
+            "type": "string",
+            "minLength": 1,
+            "format": "uri"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "data_columns": {
+      "type": "object",
+      "required": ["subjID"],
+      "patternProperties": {
+        "^[a-zA-Z0-9_]+$": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "parameters": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9_]+$": {
+          "type": "object",
+          "required": ["desc", "info"],
+          "properties": {
+            "desc": {
+              "type": "string",
+              "minLength": 1
+            },
+            "info": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": ["number", "string", "null"],
+                "description": "**Edit below to add more allowed patterns**",
+                "pattern": "^(-?Inf|exp\\([0-9.]+\\))$"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "regressors": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9_]+$": {
+          "type": "integer",
+          "description": "**Edit below to add more allowed values**",
+          "enum": [2, 3]
+        }
+      },
+      "additionalProperties": false
+    },
+    "postpreds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "**Edit below to add more allowed values**",
+        "enum": ["y_pred", "y_pred_step1", "y_pred_step2"]
+      }
+    },
+    "additional_args": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "default", "desc"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_]+$"
+          },
+          "default": {
+            "type": "number"
+          },
+          "desc": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "if": {
+    "properties": {"model_type": {"properties": {"code": {"const": "multipleB"}}}}
+  },
+  "then": {
+    "properties": {"data_columns": {"required": ["block"]}}
+  },
+  "definitions": {
+    "_name": {
+      "type": "object",
+      "required": ["code", "desc", "cite"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+$"
+        },
+        "desc": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cite": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

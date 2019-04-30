@@ -1,0 +1,42 @@
+{
+  "task_name": {
+    "code": "ug",
+    "desc": "Norm-Training Ultimatum Game",
+    "cite": []
+  },
+  "model_name": {
+    "code": "bayes",
+    "desc": "Ideal Observer Model",
+    "cite": [
+      "Xiang, T., Lohrenz, T., & Montague, P. R. (2013). Computational Substrates of Norms and Their Violations during Social Exchange. Journal of Neuroscience, 33(3), 1099-1108. http://doi.org/10.1523/JNEUROSCI.1642-12.2013"
+    ]
+  },
+  "model_type": {
+    "code": "",
+    "desc": "Hierarchical"
+  },
+  "notes": [],
+  "contributors": [],
+  "data_columns": {
+    "subjID": "A unique identifier for each subject in the data-set.",
+    "offer": "Floating point value representing the offer made in that trial (e.g. 4, 10, 11).",
+    "accept": "1 or 0, indicating whether the offer was accepted in that trial (where accepted == 1, rejected == 0)."
+  },
+  "parameters": {
+    "alpha": {
+      "desc": "envy",
+      "info": [0, 1, 20]
+    },
+    "beta": {
+      "desc": "guilt",
+      "info": [0, 0.5, 10]
+    },
+    "tau": {
+      "desc": "inverse temperature",
+      "info": [0, 1, 10]
+    }
+  },
+  "regressors": {},
+  "postpreds": ["y_pred"],
+  "additional_args": []
+}
