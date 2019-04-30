@@ -143,7 +143,7 @@ choiceRT_lba_single <- function(data           = "choose",
 
   # For using example data
   if (data == "example") {
-    data <- system.file("common", "extdata", "choiceRT_single_exampleData.txt", package = "hBayesDM")
+    data <- system.file("extdata", "choiceRT_single_exampleData.txt", package = "hBayesDM")
   } else if (data == "choose") {
     data <- file.choose()
   }
@@ -283,7 +283,7 @@ choiceRT_lba_single <- function(data           = "choose",
   if (FLAG_BUILD_ALL) {
     m = stanmodels$choiceRT_lba_single
   } else {
-    model_path <- system.file("common", "stan_files", paste0(modelName, ".stan"),
+    model_path <- system.file("stan_files", paste0(modelName, ".stan"),
                               package="hBayesDM")
     m <- rstan::stan_model(model_path)
   }

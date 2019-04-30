@@ -40,7 +40,7 @@ wcs_sql <- hBayesDM_model(
     t_max   <- 128
 
     # Read predefined answer sheet
-    answersheet <- system.file("common", "extdata", "wcs_answersheet.txt", package = "hBayesDM")
+    answersheet <- system.file("extdata", "wcs_answersheet.txt", package = "hBayesDM")
     answer <- read.table(answersheet, header = TRUE)
 
     # Initialize data arrays

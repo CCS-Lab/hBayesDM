@@ -2,7 +2,7 @@ STANHEADERS_SRC = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "cat(system.file('inc
 PKG_CPPFLAGS = -I"../inst/include" -I"$(STANHEADERS_SRC)" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -DBOOST_MATH_OVERFLOW_ERROR_POLICY=errno_on_error -DBOOST_NO_AUTO_PTR
 
 CXX_STD = CXX14
-SOURCE_PATH = ../inst/common/stan_files
+SOURCE_PATH = ../inst/stan_files
 ifeq ($(BUILD_ALL), true)
 	SOURCES = $(wildcard $(SOURCE_PATH)/*.stan)
 endif

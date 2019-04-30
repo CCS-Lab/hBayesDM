@@ -20,7 +20,7 @@
 MODELS_HOME <- "inst"
 if (!file.exists(MODELS_HOME)) MODELS_HOME <- sub("R$", "src", getwd())
 
-stan_files <- dir(file.path(MODELS_HOME, "common", "stan_files"),
+stan_files <- dir(file.path(MODELS_HOME, "stan_files"),
                   pattern = "stan$", full.names = TRUE)
 stanmodels <- lapply(stan_files, function(f) {
   model_cppname <- sub("\\.stan$", "", basename(f))
