@@ -351,5 +351,5 @@ $RECYCLE.BIN/
 CRAN-RELEASE
 
 # Py-related
-hbayesdm/version.py
+Python/hbayesdm/version.py
 *.pkl
