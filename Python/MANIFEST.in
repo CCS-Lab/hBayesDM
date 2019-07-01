@@ -1,4 +1,4 @@
 include README.rst
 include LICENSE
 graft hbayesdm/common
-global-exclude .git
+exclude hbayesdm/version.py
