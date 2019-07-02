@@ -1,15 +1,6 @@
 hBayesDM-py
 ===========
 
-.. image:: https://www.repostatus.org/badges/latest/wip.svg
-   :alt: Project Status: WIP – Initial development is in progress,
-         but there has not yet been a stable, usable release suitable
-         for the public.
-   :target: https://www.repostatus.org/#wip
-.. image:: https://travis-ci.com/CCS-Lab/hBayesDM-py.svg?token=gbyEQoyAYgexeSRwBwj6&branch=master
-   :alt: Travis CI
-   :target: https://travis-ci.com/CCS-Lab/hBayesDM-py
-
 This is the Python version of *hBayesDM* (hierarchical Bayesian modeling of
 Decision-Making tasks), a user-friendly package that offers hierarchical
 Bayesian analysis of various computational models on an array of
@@ -36,23 +27,28 @@ You can install hBayesDM-py from PyPI with the following line:
 
 .. code:: bash
 
-   pip install hbayesdm
+   pip install hbayesdm                  # Install using pip
 
-If you want to install from source (via cloning from GitHub):
+If you want to install from source (by cloning from GitHub):
 
 .. code:: bash
 
-   git clone --recursive https://github.com/CCS-Lab/hBayesDM-py.git
-   cd hBayesDM-py
-   python setup.py install
+   git clone https://github.com/CCS-Lab/hBayesDM.git
+   cd hBayesDM
+   cd Python
 
-If you want to make a virtual environment using `pipenv`_,
-you can do so with the following command:
+   python setup.py install               # Install from source
+
+If you want to create a virtual environment using `pipenv`_:
 
 .. _pipenv: https://pipenv.readthedocs.io/en/latest/
 
 .. code:: bash
 
-   # After cloning (recursively) & cd-ing into hBayesDM-py
-   pipenv install
-   pipenv install --dev  # For developmental purpose
+   git clone https://github.com/CCS-Lab/hBayesDM.git
+   cd hBayesDM
+   cd Python
+
+   pipenv install --skip-lock            # Install using pipenv
+   pipenv install --dev --skip-lock      # For developmental purposes
+
