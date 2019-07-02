@@ -98,7 +98,7 @@ with open('README.rst', 'r', encoding='utf-8') as f:
 LONG_DESC_TYPE = 'text/restructuredtext'
 AUTHOR = 'hBayesDM Developers'
 AUTHOR_EMAIL = 'hbayesdm-users@googlegroups.com'
-URL = 'https://github.com/CCS-Lab/hBayesDM-py'
+URL = 'https://github.com/CCS-Lab/hBayesDM'
 LICENSE = 'GPLv3'
 CLASSIFIERS = [
     'Environment :: Console',
