@@ -126,9 +126,9 @@ matrix:
         - sudo -H pipenv --python 3.7
         - sudo -H pipenv install --dev --skip-lock
         - sudo -H pipenv install -e . --skip-lock
-        - sudo -H pipenv run pytest tests
       script:
-        - sudo -H pipenv run pytest tests --doctest-modules
+        - travis_wait 30 sudo -H pipenv run pytest tests
+        - travis_wait 30 sudo -H pipenv run pytest tests --doctest-modules
       after_success:
         - sudo -H pipenv run flake8 hbayesdm --format=pylint --statistics --exit-zero
         - sudo -H pipenv run pylint hbayesdm --rcfile=setup.cfg --exit-zero

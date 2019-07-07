@@ -50,5 +50,6 @@ If you want to create a virtual environment using `pipenv`_:
    cd Python
 
    pipenv install --skip-lock            # Install using pipenv
+   # or
    pipenv install --dev --skip-lock      # For developmental purposes
 
