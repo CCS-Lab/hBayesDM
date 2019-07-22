@@ -1,0 +1,22 @@
+STANHEADERS_SRC = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "cat(system.file('include', 'src', package = 'StanHeaders', mustWork = TRUE), sep = '')"`
+PKG_CPPFLAGS = -I"../inst/include" -I"$(STANHEADERS_SRC)" -DBOOST_DISABLE_ASSERTS -DEIGEN_NO_DEBUG -DBOOST_MATH_OVERFLOW_ERROR_POLICY=errno_on_error -DBOOST_NO_AUTO_PTR
+
+CXX_STD = CXX14
+SOURCE_PATH = ../inst/stan_files
+ifeq ($(BUILD_ALL), true)
+	SOURCES = $(wildcard $(SOURCE_PATH)/*.stan)
+endif
+OBJECTS = $(SOURCES:.stan=.o) init.o
+
+all: $(SHLIB)
+
+clean:
+		rm -rf "$(SOURCE_PATH)/*.o"
+		rm -rf *.so *.o
+		rm -rf "$(SOURCE_PATH)/*.cc"
+		rm -rf "$(SOURCE_PATH)/*.hpp"
+
+%.cc: %.stan
+		"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "source(file.path('..', 'tools', 'make_cc.R')); make_cc(commandArgs(TRUE))" $<
+
+.phony: all clean

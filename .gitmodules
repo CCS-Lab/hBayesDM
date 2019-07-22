@@ -1,3 +1,0 @@
-[submodule "hBayesDM-models"]
-	path = inst/common
-	url = https://github.com/CCS-Lab/hBayesDM-models.git

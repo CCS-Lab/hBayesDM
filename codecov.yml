@@ -1,8 +1,12 @@
 ignore:
-  - "docs/"
-  - "inst/"
-  - "man/"
-  - "src/"
-  - "tools/"
+  - "R/docs/**/*"
+  - "R/inst/**/*"
+  - "R/man/**/*"
+  - "R/src/**/*"
+  - "R/tools/**/*"
+  - "Python/docs/**/*"
+  - "Python/hbayesdm/models/**/*"
+  - "Python/hbayesdm/preprocess_funcs.py"
+  - "JSON/ValidateAll.sh"
 
 comment: false

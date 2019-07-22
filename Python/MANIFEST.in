@@ -1,0 +1,4 @@
+include README.rst
+include LICENSE
+graft hbayesdm/common
+exclude hbayesdm/version.py
