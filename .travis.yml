@@ -21,6 +21,10 @@ cache:
 
 matrix:
   include:
+    - name: Test sync (R/Python packages)
+      script:
+        - diff -r Python/hbayesdm/common/extdata R/inst/extdata
+        - diff -r Python/hbayesdm/common/stan_files R/inst/stan_files
     - name: Ubuntu + g++-7
       os: linux
       dist: trusty
@@ -134,10 +138,6 @@ matrix:
         - sudo -H pipenv run pylint hbayesdm --rcfile=setup.cfg --exit-zero
         - sudo -H pipenv run travis-sphinx build
         - sudo -H pipenv run travis-sphinx deploy
-    - name: Test sync (R/Python packages)
-      script:
-        - diff -r Python/hbayesdm/common/extdata R/inst/extdata
-        - diff -r Python/hbayesdm/common/stan_files R/inst/stan_files
 
 # r_github_packages:
 #   - r-lib/covr
