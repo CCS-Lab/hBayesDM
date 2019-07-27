@@ -21,6 +21,10 @@ cache:
 
 matrix:
   include:
+    - name: Test sync (R/Python packages)
+      script:
+        - diff -r Python/hbayesdm/common/extdata R/inst/extdata
+        - diff -r Python/hbayesdm/common/stan_files R/inst/stan_files
     - name: Ubuntu + g++-7
       os: linux
       dist: trusty
