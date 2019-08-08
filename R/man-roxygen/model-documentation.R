@@ -18,8 +18,8 @@
 #' @param nthin Every \code{i == nthin} sample will be used to generate the posterior distribution.
 #'   Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 #'   high.
-#' @param inits Character value specifying how the initial values should be generated. Options are
-#'   "fixed" or "random", or your own initial values.
+#' @param inits Character value specifying how the initial values should be generated.
+#'   Possible options are "vb" (default), "fixed", "random", or your own initial values.
 #' @param indPars Character value specifying how to summarize individual parameters. Current options
 #'   are: "mean", "median", or "mode".
 #' @param modelRegressor
