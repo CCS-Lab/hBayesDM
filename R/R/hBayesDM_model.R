@@ -241,7 +241,7 @@ hBayesDM_model <- function(task_name,
     #########################################################
     ##   Prepare: data_list                             #####
     ##            pars                                  #####
-    ##            gen_init        for passing to Stan   #####
+    ##            model_name                            #####
     #########################################################
 
     # Preprocess the raw data to pass to Stan
@@ -265,47 +265,6 @@ hBayesDM_model <- function(task_name,
       pars <- c(pars, postpreds)
     }
 
-    # Initial values for the parameters
-    if (inits[1] == "random") {
-      gen_init <- "random"
-    } else {
-      if (inits[1] == "fixed") {
-        inits <- unlist(lapply(parameters, "[", 2))   # plausible values of each parameter
-      } else if (length(inits) != length(parameters)) {
-        stop("** Length of 'inits' must be ", length(parameters),
-             " (= the number of parameters of this model). Please check again. **\n")
-      }
-      if (model_type == "single") {
-        gen_init <- function() {
-          individual_level        <- as.list(inits)
-          names(individual_level) <- names(parameters)
-          return(individual_level)
-        }
-      } else {
-        gen_init <- function() {
-          primes <- numeric(length(parameters))
-          for (i in 1:length(parameters)) {
-            lb <- parameters[[i]][1]   # lower bound
-            ub <- parameters[[i]][3]   # upper bound
-            if (is.infinite(lb)) {
-              primes[i] <- inits[i]                             # (-Inf, Inf)
-            } else if (is.infinite(ub)) {
-              primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
-            } else {
-              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
-            }
-          }
-          group_level             <- list(mu_pr = primes,
-                                          sigma = rep(1.0, length(primes)))
-          individual_level        <- lapply(primes, function(x) rep(x, n_subj))
-          names(individual_level) <- paste0(names(parameters), "_pr")
-          return(c(group_level, individual_level))
-        }
-      }
-    }
-
-    ############### Print for user ###############
-
     # Full name of model
     if (model_type == "") {
       model <- paste0(task_name, "_", model_name)
@@ -326,7 +285,7 @@ hBayesDM_model <- function(task_name,
     }
     options(mc.cores = ncore)
 
-    # Print for user
+    ############### Print for user ###############
     cat("\n")
     cat("Model name  =", model, "\n")
     cat("Data file   =", data, "\n")
@@ -380,8 +339,6 @@ hBayesDM_model <- function(task_name,
       cat("\n")
     }
 
-    ############### Fit & extract ###############
-
     # Designate the Stan model
     if (is.null(stanmodel_arg)) {
       if (FLAG_BUILD_ALL) {
@@ -394,6 +351,69 @@ hBayesDM_model <- function(task_name,
     } else if (is.character(stanmodel_arg)) {
       stanmodel_arg <- rstan::stan_model(stanmodel_arg)
     }
+
+    # Initial values for the parameters
+    if (inits[1] == "vb") {
+      cat("\n")
+      cat("****************************************\n")
+      cat("** Use VB estimates as initial values **\n")
+      cat("****************************************\n")
+
+      fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list)
+      m_vb <- colMeans(as.data.frame(fit_vb))
+
+      gen_init <- function() {
+        ret <- list(
+          mu_pr = as.vector(m_vb[startsWith(names(m_vb), 'mu_pr')]),
+          sigma = as.vector(m_vb[startsWith(names(m_vb), 'sigma')])
+        )
+
+        for (p in names(parameters)) {
+          ret[[p]] <- as.vector(m_vb[startsWith(names(m_vb), paste0(p, '_pr'))])
+        }
+
+        return(ret)
+      }
+    } else if (inits[1] == "random") {
+      gen_init <- "random"
+    } else {
+      if (inits[1] == "fixed") {
+        inits <- unlist(lapply(parameters, "[", 2))   # plausible values of each parameter
+      } else if (length(inits) != length(parameters)) {
+        stop("** Length of 'inits' must be ", length(parameters),
+             " (= the number of parameters of this model). Please check again. **\n")
+      }
+      if (model_type == "single") {
+        gen_init <- function() {
+          individual_level        <- as.list(inits)
+          names(individual_level) <- names(parameters)
+          return(individual_level)
+        }
+      } else {
+        gen_init <- function() {
+          primes <- numeric(length(parameters))
+          for (i in 1:length(parameters)) {
+            lb <- parameters[[i]][1]   # lower bound
+            ub <- parameters[[i]][3]   # upper bound
+            if (is.infinite(lb)) {
+              primes[i] <- inits[i]                             # (-Inf, Inf)
+            } else if (is.infinite(ub)) {
+              primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
+            } else {
+              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
+            }
+          }
+          group_level             <- list(mu_pr = primes,
+                                          sigma = rep(1.0, length(primes)))
+          individual_level        <- lapply(primes, function(x) rep(x, n_subj))
+          names(individual_level) <- paste0(names(parameters), "_pr")
+          return(c(group_level, individual_level))
+        }
+      }
+    }
+
+
+    ############### Fit & extract ###############
 
     # Fit the Stan model
     if (vb) {  # if variational Bayesian
