@@ -21,7 +21,7 @@ _common = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'common')
 
 
 class TaskModel(metaclass=ABCMeta):
-    """HBayesDM TaskModel Base Class.
+    """hBayesDM TaskModel Base Class.
 
     The base class that is inherited by all hBayesDM task-models. Child classes
     should implement (i.e. override) the abstract method: `_preprocess_func`.
@@ -165,7 +165,12 @@ class TaskModel(metaclass=ABCMeta):
         data_dict = self._preprocess_func(
             raw_data, general_info, additional_args)
         pars = self._prepare_pars(model_regressor, inc_postpred)
-        gen_init = self._prepare_gen_init(inits, general_info['n_subj'])
+
+        n_subj = general_info['n_subj']
+        if inits == 'vb':
+            gen_init = self._prepare_gen_init_vb(data_dict, n_subj)
+        else:
+            gen_init = self._prepare_gen_init(inits, n_subj)
 
         model = self._get_model_full_name()
         ncore = self._set_number_of_cores(ncore)
@@ -423,16 +428,68 @@ class TaskModel(metaclass=ABCMeta):
             pars += self.postpreds
         return pars
 
+    def _prepare_gen_init_vb(self,
+                             data_dict: Dict,
+                             n_subj: int,
+                             ) -> Union[str, Callable]:
+        """Prepare initial values for the parameters using Variational Bayesian
+        methods.
+
+        Parameters
+        ----------
+        data_dict
+            Dict holding the data to pass to Stan.
+        n_subj
+            Total number of subjects in data.
+
+        Returns
+        -------
+        gen_init : Union[str, Callable]
+            A function that returns initial values for each parameter, based on
+            the variational Bayesian method.
+        """
+        model = self._get_model_full_name()
+        sm = self._designate_stan_model(model)
+
+        try:
+            fit = sm.vb(data=data_dict)
+        except Exception:
+            raise RuntimeError(
+                'Failed to get VB estimates for initial values. '
+                'Please re-run the code to try fitting model with VB.')
+
+        len_param = len(self.parameters)
+        dict_vb = {
+            k: v
+            for k, v in zip(fit['mean_par_names'], fit['mean_pars'])
+            if k.startswith('sigma[') or '_pr[' in k
+        }
+
+        dict_init = {}
+        dict_init['mu_pr'] = \
+            [dict_vb['mu_pr[%d]' % (i + 1)] for i in range(len_param)]
+        dict_init['sigma'] = \
+            [dict_vb['sigma[%d]' % (i + 1)] for i in range(len_param)]
+        for p in self.parameters:
+            dict_init['%s_pr' % p] = \
+                [dict_vb['%s_pr[%d]' % (p, i + 1)] for i in range(n_subj)]
+
+        def gen_init():
+            return dict_init
+
+        return gen_init
+
     def _prepare_gen_init(self,
                           inits: Union[str, Sequence[float]],
-                          n_subj: int) -> Union[str, Callable]:
+                          n_subj: int,
+                          ) -> Union[str, Callable]:
         """Prepare initial values for the parameters.
 
         Parameters
         ----------
         inits
-            User-defined inits. Can be the strings 'random' or 'fixed', or a
-            list of float values to use as initial values for the parameters.
+            User-defined inits. Can be the strings 'random' or 'fixed',
+            or a list of float values to use as initial values for parameters.
         n_subj
             Total number of subjects in data.
 
@@ -825,7 +882,8 @@ class TaskModel(metaclass=ABCMeta):
         """
         type_options = ('dist', 'trace')
         if type not in type_options:
-            raise RuntimeError('Plot type must be one of ' + repr(type_options))
+            raise RuntimeError(
+                'Plot type must be one of ' + repr(type_options))
 
         if self.model_type == 'single':
             var_names = list(self.parameters_desc)
