@@ -654,24 +654,32 @@ class TaskModel(metaclass=ABCMeta):
         """
         stan_files = os.path.join(_common, 'stan_files')
         model_path = os.path.join(stan_files, model + '.stan')
-        cache_file = 'cached-%s-hbayesdm=%s-pystan=%s.pkl' % (
-            model, _hbayesdm_version, _pystan_version)
-        try:
-            with open(cache_file, 'rb') as cached_stan_model:
-                sm = pickle.load(cached_stan_model)
-            with open(model_path, 'r') as model_stan_code:
-                assert sm.model_code == model_stan_code.read()
-        except (FileNotFoundError, AssertionError):
-            sm = StanModel(
-                file=model_path, model_name=model, include_paths=[stan_files])
+        cache_file = 'cached-%s-hbayesdm=%s-pystan=%s.pkl' % \
+            (model, _hbayesdm_version, _pystan_version)
+
+        if os.path.exists(cache_file):
+            try:
+                with open(cache_file, 'rb') as cached_stan_model:
+                    sm = pickle.load(cached_stan_model)
+                with open(model_path, 'r') as model_stan_code:
+                    assert sm.model_code == model_stan_code.read()
+                does_exist = True
+            except Exception:
+                print('Invalid cached StanModel:', cache_file)
+                print('Remove the cached model...')
+                os.remove(cache_file)
+                does_exist = False
+        else:
+            does_exist = False
+
+        if does_exist:
+            print('Using cached StanModel:', cache_file)
+        else:
+            sm = StanModel(file=model_path, model_name=model,
+                           include_paths=[stan_files])
             with open(cache_file, 'wb') as f:
                 pickle.dump(sm, f)
-        except:  # All other exceptions
-            raise RuntimeError(
-                'Cache file is corrupted. Please remove file `' +
-                cache_file + '` and run again.')
-        else:
-            print('Using cached StanModel:', cache_file)
+
         return sm
 
     def _fit_stan_model(self, vb: bool, sm: StanModel, data_dict: Dict,
