@@ -4,6 +4,9 @@ language: cpp
 # NOTE: was `false`
 sudo: required
 
+os: linux
+dist: trusty
+
 branches:
   only:
     - master
@@ -16,131 +19,48 @@ branches:
 cache:
   apt: true
   packages: true
-  ccache: true
   pip: true
+  directories:
+    - $HOME/miniconda3
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - build-essential
+      - gcc-7
+      - g++-7
+      - gfortran-7
+      - libcurl4-openssl-dev
+      - libxml2-dev
 
 matrix:
   include:
-    - name: Test sync (R/Python packages)
-      script:
-        - diff -r Python/hbayesdm/common/extdata R/inst/extdata
-        - diff -r Python/hbayesdm/common/stan_files R/inst/stan_files
-    - name: Ubuntu + g++-7
-      os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-7
-            - g++-7
-            - gfortran-7
-            - libcurl4-openssl-dev
-            - libxml2-dev
-      env:
-        - MAKEFLAGS="-j 2"
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-      before_install:
-        - sudo apt-get update
-        - sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
-        - gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
-        - gpg -a --export E084DAB9 | sudo apt-key add -
-        - sudo apt-get update
-        - sudo apt-get install gcc
-        - sudo apt-get install r-base-core
-        - sudo apt-get install libssl-dev
-        - sudo apt-get install -y r-base r-base-dev
-        - eval "${MATRIX_EVAL}"
-        - mkdir -p ~/.R/
-        - echo "CC = $CC" >> ~/.R/Makevars
-        - echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
-        - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
-        - echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
-      install:
-        - sudo R -e 'install.packages(c("devtools", "roxygen2"), dep = T, quiet = T,repos = "https://cran.rstudio.com")'
-        - sudo R -e 'library(devtools); library(methods); options(repos=c(CRAN="https://cran.rstudio.com")); devtools::install_deps(pkg = "./R/", dep = T, quiet = T)'
-      script:
-        - cd ./R/
-        - travis_wait 42 R CMD build . --no-build-vignettes --no-manual
-        - travis_wait 59 R CMD check hBayesDM*.tar.gz --as-cran --no-build-vignettes --no-manual
-      r_binary_packages:
-        - testthat
-      after_failure:
-        - cat hBayesDM.Rcheck/00*
-    - name: Ubuntu + g++-7 (BUILD_ALL)
-      os: linux
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-7
-            - g++-7
-            - gfortran-7
-            - libcurl4-openssl-dev
-            - libxml2-dev
-      env:
-        - MAKEFLAGS="-j 2"
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-        - BUILD_ALL="true"
-      before_install:
-        - sudo apt-get update
-        - sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
-        - gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
-        - gpg -a --export E084DAB9 | sudo apt-key add -
-        - sudo apt-get update
-        - sudo apt-get install gcc
-        - sudo apt-get install r-base-core
-        - sudo apt-get install libssl-dev
-        - sudo apt-get install -y r-base r-base-dev
-        - eval "${MATRIX_EVAL}"
-        - mkdir -p ~/.R/
-        - echo "CC = $CC" >> ~/.R/Makevars
-        - echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
-        - echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
-        - echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
-      install:
-        - sudo R -e 'install.packages(c("devtools", "roxygen2"), dep = T, quiet = T,repos = "https://cran.rstudio.com")'
-        - sudo R -e 'library(devtools); library(methods); options(repos=c(CRAN="https://cran.rstudio.com")); devtools::install_deps(pkg = "./R/", dep = T, quiet = T)'
-      script:
-        - cd ./R/
-        - travis_wait 42 R CMD build . --no-build-vignettes --no-manual
-        - travis_wait 59 R CMD check hBayesDM*.tar.gz --as-cran --no-build-vignettes --no-manual
-      r_binary_packages:
-        - testthat
-      after_failure:
-        - cat hBayesDM.Rcheck/00*
-    - name: Python-package
-      addons:
-        apt:
-          packages:
-            - libcurl4-openssl-dev
-            - libxml2-dev
-      before_install:
-        - sudo -H apt-get install gfortran
-        - sudo -H apt-get install python3-setuptools
-        - sudo -H easy_install3 pip
-        - sudo -H pip3 install --upgrade pip
-        - sudo -H apt-get install python3-tk
-      install:
-        - cd ./Python/
-        - sudo -H pip install pipenv
-        - sudo -H pipenv --python 3.7
-        - sudo -H pipenv install --dev --skip-lock
-        - sudo -H pipenv install -e . --skip-lock
-      script:
-        - travis_wait 30 sudo -H pipenv run pytest tests
-        - travis_wait 30 sudo -H pipenv run pytest tests --doctest-modules
-      after_success:
-        - sudo -H pipenv run flake8 hbayesdm --format=pylint --statistics --exit-zero
-        - sudo -H pipenv run pylint hbayesdm --rcfile=setup.cfg --exit-zero
-        - sudo -H pipenv run travis-sphinx build
-        - sudo -H pipenv run travis-sphinx deploy
+    - name: 'Test sync on models and data'
+      env: TARGET='Sync'
+    - name: 'Test R codes'
+      env: TARGET='R' && MAKEFLAGS='-j 2' && CC=gcc-7 && CXX=g++-7
+    - name: 'Test Python codes (Python 3.5)'
+      env: TARGET='Python' && PYTHON_VERSION=3.5
+#     - name: 'Test Python codes (Python 3.6)'
+#       env: TARGET='Python' && PYTHON_VERSION=3.6
+#     - name: 'Test Python codes (Python 3.7)'
+#       env: TARGET='Python' && PYTHON_VERSION=3.7
 
-# r_github_packages:
-#   - r-lib/covr
+before_install:
+  - export ROOTPATH=`pwd`
+  - [ "$TARGET" = "R" ] && cd ./R
+  - [ "$TARGET" = "Python" ] && cd ./Python
 
-# after_success:
-#   - Rscript -e 'covr::codecov()'
+install:
+  - bash $ROOTPATH/travis/setup.sh
+
+script:
+  - bash $ROOTPATH/travis/script.sh
+
+after_failure:
+  - bash $ROOTPATH/travis/after-failure.sh
+
+after_success:
+  - bash $ROOTPATH/travis/after-success.sh
