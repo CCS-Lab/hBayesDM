@@ -1,0 +1,13 @@
+-e .
+arviz
+flake8
+matplotlib
+numpy
+pandas
+pylint
+pystan
+pytest
+scipy
+sphinx
+sphinx-autodoc-typehints
+sphinx-rtd-theme
