@@ -1,9 +1,5 @@
 # Model Information JSON Files
 
-Contributed by [Jethro Lee][jethro-lee].
-
-[jethro-lee]: https://github.com/dlemfh
-
 ## JSON Schema
 
 Schema for the Model Information JSON files is stored in `ModelInformation.schema.json` as a JSON Schema format.
@@ -108,9 +104,9 @@ To validate JSON files, you need to have [`jsonschema`][jsonschema] installed; y
 
 [jsonschema]: https://github.com/Julian/jsonschema
 
-To validate a single JSON file (e.g. `gng_m1.json`):
+To validate a single JSON file (e.g. `models/gng_m1.json`):
 ```
-$ jsonschema -i gng_m1.json ModelInformation.schema.json
+$ jsonschema -i models/gng_m1.json ModelInformation.schema.json
 ```
 
 To validate all JSON files in directory, use following shell script:
@@ -150,3 +146,9 @@ Created file: _bandit2arm_delta.py
 ...
 Created file: _wcs_sql.py
 ```
+
+## Contribution
+
+Largely contributed by [Jethro Lee][jethro-lee].
+
+[jethro-lee]: https://github.com/dlemfh
