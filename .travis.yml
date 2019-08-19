@@ -18,10 +18,9 @@ branches:
 # Use cache for packages
 cache:
   apt: true
-  packages: true
-  pip: true
   directories:
     - $HOME/miniconda3
+    - $HOME/R/Library
 
 addons:
   apt:
@@ -37,30 +36,35 @@ addons:
 
 matrix:
   include:
-    - name: 'Test sync on models and data'
-      env: TARGET='Sync'
-    - name: 'Test R codes'
-      env: TARGET='R' && MAKEFLAGS='-j 2' && CC=gcc-7 && CXX=g++-7
-    - name: 'Test Python codes (Python 3.5)'
-      env: TARGET='Python' && PYTHON_VERSION=3.5
-#     - name: 'Test Python codes (Python 3.6)'
-#       env: TARGET='Python' && PYTHON_VERSION=3.6
-#     - name: 'Test Python codes (Python 3.7)'
-#       env: TARGET='Python' && PYTHON_VERSION=3.7
+  - name: 'Test sync on models and data'
+    env: TARGET='Sync'
+  - name: 'Test R codes'
+    env: TARGET='R'
+  - name: 'Test R codes (BUILD_ALL)'
+    env: TARGET='R' && BUILD_ALL=1
+  - name: 'Test Python codes (Python 3.5)'
+    env: TARGET='Python' && PYTHON_VERSION=3.5
+  - name: 'Test Python codes (Python 3.6)'
+    env: TARGET='Python' && PYTHON_VERSION=3.6
+  - name: 'Test Python codes (Python 3.7)'
+    env: TARGET='Python' && PYTHON_VERSION=3.7
 
 before_install:
   - export ROOTPATH=`pwd`
-  - [ "$TARGET" = "R" ] && cd ./R
-  - [ "$TARGET" = "Python" ] && cd ./Python
+  - export MAKEFLAGS='-j 2'
+  - export CC=gcc-7
+  - export CXX=g++-7
+  - if [ "$TARGET" = "R" ]; then cd ./R; fi
+  - if [ "$TARGET" = "Python" ]; then cd ./Python; fi
 
 install:
-  - bash $ROOTPATH/travis/setup.sh
+  - source $ROOTPATH/travis/setup.sh
 
 script:
-  - bash $ROOTPATH/travis/script.sh
+  - source $ROOTPATH/travis/script.sh
 
 after_failure:
-  - bash $ROOTPATH/travis/after-failure.sh
+  - source $ROOTPATH/travis/after-failure.sh
 
 after_success:
-  - bash $ROOTPATH/travis/after-success.sh
+  - source $ROOTPATH/travis/after-success.sh

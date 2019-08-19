@@ -18,3 +18,4 @@ elif [ "$TARGET" = "Sync" ]; then
 else
   echo 'No script required'
 fi
+
