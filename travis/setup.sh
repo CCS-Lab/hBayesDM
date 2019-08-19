@@ -51,12 +51,12 @@ elif [ "$TARGET" = "Python" ]; then
 
   if [[ -z "$PYTHON_VERSION" ]]; then
     echo "Use latest Python version"
-    conda create -q -n test-`echo $PYTHON_VERSION` python
+    conda create -q -n test-$PYTHON_VERSION python
   else
     echo "Use Python ${PYTHON_VERSION}"
-    conda create -q -n test-`echo $PYTHON_VERSION` python="$PYTHON_VERSION"
+    conda create -q -n test-$PYTHON_VERSION python="$PYTHON_VERSION"
   fi
-  conda activate test-`echo $PYTHON_VERSION`
+  conda activate test-$PYTHON_VERSION
 
   # Install dependencies
   pip install -r requirements.txt --upgrade
