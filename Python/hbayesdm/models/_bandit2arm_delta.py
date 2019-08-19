@@ -54,7 +54,7 @@ def bandit2arm_delta(
         nchain: int = 4,
         ncore: int = 1,
         nthin: int = 1,
-        inits: Union[str, Sequence[float]] = 'random',
+        inits: Union[str, Sequence[float]] = 'vb',
         ind_pars: str = 'mean',
         model_regressor: bool = False,
         vb: bool = False,
