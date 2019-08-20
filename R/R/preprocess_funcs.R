@@ -1,5 +1,3 @@
-#'
-
 bandit2arm_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
