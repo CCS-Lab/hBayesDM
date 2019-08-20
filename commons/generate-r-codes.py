@@ -49,8 +49,6 @@ def parse_cite_string(cite):
         'year': year,
         'shortcite': shortcite,
         'barecite': barecite,
-        'textcite': textcite,
-        'parencite': parencite,
         'fullcite': cite
     }
 
@@ -85,7 +83,7 @@ def generate_docstring(info):
 
     # Notes
     if len(info.get('notes', [])) > 0:
-        notes = '@description\n#\' \\strong{Notes:}\n#\' ' + \
+        notes = '@note\n#\' \\strong{Notes:}\n#\' ' + \
                 '\n#\' '.join(info['notes'])
         notes = '\n#\' ' + notes + '\n#\''
     else:
@@ -93,7 +91,8 @@ def generate_docstring(info):
 
     # Contributors
     contributors = ', '.join([
-        r'\href{%s}{%s} <%s>' % (c['link'], c['name'], c['email'])
+        r'\href{%s}{%s} <\email{%s}>'
+        % (c['link'], c['name'], c['email'].replace('@', '@@'))
         for c in info.get('contributors', [])
     ])
 
@@ -103,14 +102,14 @@ def generate_docstring(info):
     ])
     data_columns_len = len(info['data_columns'])
     data_columns_details = '\n#\' '.join([
-        r'@templateVar DETAILS_DATA_%d \item{"%s"}{%s}'
+        r'@templateVar DETAILS_DATA_%d \item{%s}{%s}'
         % (i + 1, k, v.replace('\n', '\\cr'))
         for i, (k, v) in enumerate(info['data_columns'].items())
     ])
 
     # Parameters
     parameters = ', '.join([
-        '"%s" (%s)' % (k, v['desc'])
+        '\\code{%s} (%s)' % (k, v['desc'])
         for k, v in info['parameters'].items()
     ])
 
@@ -129,7 +128,7 @@ def generate_docstring(info):
     additional_args_len = len(additional_args)
     if additional_args_len > 0:
         additional_args_details = '\n#\' '.join([
-            r'@templateVar ADDITIONAL_ARGS_%d \strong{%s}: %s'
+            r'@templateVar ADDITIONAL_ARGS_%d \item{%s}{%s}'
             % (i + 1, v['code'], v['desc'])
             for i, v in enumerate(additional_args)
         ])
@@ -144,8 +143,10 @@ def generate_docstring(info):
     docs = docs_template % dict(
         model_function=model_function,
         task_name=info['task_name']['desc'],
+        task_code=info['task_name']['code'],
         task_parencite=task_parencite,
         model_name=info['model_name']['desc'],
+        model_code=info['model_name']['code'],
         model_parencite=model_parencite,
         model_type=info['model_type']['desc'],
         notes=notes,
@@ -221,8 +222,8 @@ def generate_code(info):
 
     code = code_template % dict(
         model_function=model_function,
-        task_name=info['task_name']['code'],
-        model_name=info['model_name']['code'],
+        task_code=info['task_name']['code'],
+        model_code=info['model_name']['code'],
         model_type=info['model_type']['code'],
         data_columns=data_columns,
         parameters=parameters,

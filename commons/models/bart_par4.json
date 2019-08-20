@@ -2,14 +2,14 @@
   "task_name": {
     "code": "bart",
     "desc": "Balloon Analogue Risk Task",
-    "cite": [
-      "van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model decomposition of the BART: Assessment and application. Journal of Mathematical Psychology, 55(1), 94-105."
-    ]
+    "cite": []
   },
   "model_name": {
     "code": "par4",
-    "desc": "Re-parameterized version (by Harhim Park & Jaeyeong Yang) of BART Model (Ravenzwaaij et al., 2011) with 4 parameters",
-    "cite": []
+    "desc": "Re-parameterized version of BART model with 4 parameters",
+    "cite": [
+      "van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model decomposition of the BART: Assessment and application. Journal of Mathematical Psychology, 55(1), 94-105."
+    ]
   },
   "model_type": {
     "code": "",
