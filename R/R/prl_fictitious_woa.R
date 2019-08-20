@@ -1,18 +1,20 @@
 #' @templateVar MODEL_FUNCTION prl_fictitious_woa
-#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang (for model-based regressors)} <jaeyeong.yang1125@gmail.com>, \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park (for model-based regressors)} <hrpark12@gmail.com>
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang (for model-based regressors)} <\email{jaeyeong.yang1125@@gmail.com}>, \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park (for model-based regressors)} <\email{hrpark12@@gmail.com}>
 #' @templateVar TASK_NAME Probabilistic Reversal Learning Task
+#' @templateVar TASK_CODE prl
 #' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Fictitious Update Model, without alpha (indecision point)
+#' @templateVar MODEL_CODE fictitious_woa
 #' @templateVar MODEL_CITE (Glascher et al., 2009)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
-#' @templateVar PARAMETERS "eta" (learning rate), "beta" (inverse temperature)
+#' @templateVar PARAMETERS \code{eta} (learning rate), \code{beta} (inverse temperature)
 #' @templateVar REGRESSORS "ev_c", "ev_nc", "pe_c", "pe_nc", "dv"
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
-#' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_2 \item{"choice"}{Integer value representing the option chosen on that trial: 1 or 2.}
-#' @templateVar DETAILS_DATA_3 \item{"outcome"}{Integer value representing the outcome of that trial (where reward == 1, and loss == -1).}
+#' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
+#' @templateVar DETAILS_DATA_2 \item{choice}{Integer value representing the option chosen on that trial: 1 or 2.}
+#' @templateVar DETAILS_DATA_3 \item{outcome}{Integer value representing the outcome of that trial (where reward == 1, and loss == -1).}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 0
 #' 
 #' @template model-documentation
@@ -43,4 +45,3 @@ prl_fictitious_woa <- hBayesDM_model(
   ),
   postpreds       = c("y_pred"),
   preprocess_func = prl_preprocess_func)
-

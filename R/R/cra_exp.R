@@ -1,21 +1,23 @@
 #' @templateVar MODEL_FUNCTION cra_exp
-#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <jaeyeong.yang1125@gmail.com>
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@@gmail.com}>
 #' @templateVar TASK_NAME Choice Under Risk and Ambiguity Task
+#' @templateVar TASK_CODE cra
 #' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Exponential Subjective Value Model
+#' @templateVar MODEL_CODE exp
 #' @templateVar MODEL_CITE (Hsu et al., 2005)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "prob", "ambig", "reward_var", "reward_fix", "choice"
-#' @templateVar PARAMETERS "alpha" (risk attitude), "beta" (ambiguity attitude), "gamma" (inverse temperature)
+#' @templateVar PARAMETERS \code{alpha} (risk attitude), \code{beta} (ambiguity attitude), \code{gamma} (inverse temperature)
 #' @templateVar REGRESSORS "sv", "sv_fix", "sv_var", "p_var"
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 6
-#' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_2 \item{"prob"}{Objective probability of the variable lottery.}
-#' @templateVar DETAILS_DATA_3 \item{"ambig"}{Ambiguity level of the variable lottery (0 for risky lottery; greater than 0 for ambiguous lottery).}
-#' @templateVar DETAILS_DATA_4 \item{"reward_var"}{Amount of reward in variable lottery. Assumed to be greater than zero.}
-#' @templateVar DETAILS_DATA_5 \item{"reward_fix"}{Amount of reward in fixed lottery. Assumed to be greater than zero.}
-#' @templateVar DETAILS_DATA_6 \item{"choice"}{If the variable lottery was selected, choice == 1; otherwise choice == 0.}
+#' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
+#' @templateVar DETAILS_DATA_2 \item{prob}{Objective probability of the variable lottery.}
+#' @templateVar DETAILS_DATA_3 \item{ambig}{Ambiguity level of the variable lottery (0 for risky lottery; greater than 0 for ambiguous lottery).}
+#' @templateVar DETAILS_DATA_4 \item{reward_var}{Amount of reward in variable lottery. Assumed to be greater than zero.}
+#' @templateVar DETAILS_DATA_5 \item{reward_fix}{Amount of reward in fixed lottery. Assumed to be greater than zero.}
+#' @templateVar DETAILS_DATA_6 \item{choice}{If the variable lottery was selected, choice == 1; otherwise choice == 0.}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 0
 #' 
 #' @template model-documentation
@@ -46,4 +48,3 @@ cra_exp <- hBayesDM_model(
   ),
   postpreds       = c("y_pred"),
   preprocess_func = cra_preprocess_func)
-

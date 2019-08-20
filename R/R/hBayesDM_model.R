@@ -5,7 +5,6 @@
 #'
 #' Contributor: \href{https://ccs-lab.github.io/team/jethro-lee/}{Jethro Lee}
 #'
-#' @export
 #' @keywords internal
 #'
 #' @include settings.R

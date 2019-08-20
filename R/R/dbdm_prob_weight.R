@@ -1,23 +1,25 @@
 #' @templateVar MODEL_FUNCTION dbdm_prob_weight
-#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <zohyos7@gmail.com>
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>
 #' @templateVar TASK_NAME Description Based Decison Making Task
+#' @templateVar TASK_CODE dbdm
 #' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Probability Weight Function
+#' @templateVar MODEL_CODE prob_weight
 #' @templateVar MODEL_CITE (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice"
-#' @templateVar PARAMETERS "tau" (probability weight function), "rho" (subject utility function), "lambda" (loss aversion parameter), "beta" (inverse softmax temperature)
+#' @templateVar PARAMETERS \code{tau} (probability weight function), \code{rho} (subject utility function), \code{lambda} (loss aversion parameter), \code{beta} (inverse softmax temperature)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 8
-#' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_2 \item{"opt1hprob"}{Possiblity of getting higher value of outcome(opt1hval) when choosing option 1.}
-#' @templateVar DETAILS_DATA_3 \item{"opt2hprob"}{Possiblity of getting higher value of outcome(opt2hval) when choosing option 2.}
-#' @templateVar DETAILS_DATA_4 \item{"opt1hval"}{Possible (with opt1hprob probability) outcome of option 1.}
-#' @templateVar DETAILS_DATA_5 \item{"opt1lval"}{Possible (with (1 - opt1hprob) probability) outcome of option 1.}
-#' @templateVar DETAILS_DATA_6 \item{"opt2hval"}{Possible (with opt2hprob probability) outcome of option 2.}
-#' @templateVar DETAILS_DATA_7 \item{"opt2lval"}{Possible (with (1 - opt2hprob) probability) outcome of option 2.}
-#' @templateVar DETAILS_DATA_8 \item{"choice"}{If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.}
+#' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
+#' @templateVar DETAILS_DATA_2 \item{opt1hprob}{Possiblity of getting higher value of outcome(opt1hval) when choosing option 1.}
+#' @templateVar DETAILS_DATA_3 \item{opt2hprob}{Possiblity of getting higher value of outcome(opt2hval) when choosing option 2.}
+#' @templateVar DETAILS_DATA_4 \item{opt1hval}{Possible (with opt1hprob probability) outcome of option 1.}
+#' @templateVar DETAILS_DATA_5 \item{opt1lval}{Possible (with (1 - opt1hprob) probability) outcome of option 1.}
+#' @templateVar DETAILS_DATA_6 \item{opt2hval}{Possible (with opt2hprob probability) outcome of option 2.}
+#' @templateVar DETAILS_DATA_7 \item{opt2lval}{Possible (with (1 - opt2hprob) probability) outcome of option 2.}
+#' @templateVar DETAILS_DATA_8 \item{choice}{If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 0
 #' 
 #' @template model-documentation
@@ -48,4 +50,3 @@ dbdm_prob_weight <- hBayesDM_model(
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = dbdm_preprocess_func)
-

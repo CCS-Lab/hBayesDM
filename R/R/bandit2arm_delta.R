@@ -1,18 +1,20 @@
 #' @templateVar MODEL_FUNCTION bandit2arm_delta
 #' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME 2-Armed Bandit Task
+#' @templateVar TASK_CODE bandit2arm
 #' @templateVar TASK_CITE (Erev et al., 2010; Hertwig et al., 2004)
 #' @templateVar MODEL_NAME Rescorla-Wagner (Delta) Model
+#' @templateVar MODEL_CODE delta
 #' @templateVar MODEL_CITE 
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
-#' @templateVar PARAMETERS "A" (learning rate), "tau" (inverse temperature)
+#' @templateVar PARAMETERS \code{A} (learning rate), \code{tau} (inverse temperature)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
-#' @templateVar DETAILS_DATA_1 \item{"subjID"}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_2 \item{"choice"}{Integer value representing the option chosen on the given trial: 1 or 2.}
-#' @templateVar DETAILS_DATA_3 \item{"outcome"}{Integer value representing the outcome of the given trial (where reward == 1, and loss == -1).}
+#' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
+#' @templateVar DETAILS_DATA_2 \item{choice}{Integer value representing the option chosen on the given trial: 1 or 2.}
+#' @templateVar DETAILS_DATA_3 \item{outcome}{Integer value representing the outcome of the given trial (where reward == 1, and loss == -1).}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 0
 #' 
 #' @template model-documentation
@@ -39,4 +41,3 @@ bandit2arm_delta <- hBayesDM_model(
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = bandit2arm_preprocess_func)
-
