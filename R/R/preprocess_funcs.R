@@ -1,6 +1,5 @@
-#### bandit2arm
+#'
 
-# From bandit2arm_delta
 bandit2arm_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -37,12 +36,6 @@ bandit2arm_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### bandit4arm2
-
-# From bandit4arm2_kalman_filter
 bandit4arm2_preprocess_func <- function(raw_data, general_info) {
   subjs   <- general_info$subjs
   n_subj  <- general_info$n_subj
@@ -72,12 +65,6 @@ bandit4arm2_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### bandit4arm
-
-# From bandit4arm_2par_lapse
 bandit4arm_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -117,12 +104,6 @@ bandit4arm_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### bart
-
-# From bart_par4
 bart_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -160,12 +141,6 @@ bart_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### choiceRT
-
-# From choiceRT_ddm
 choiceRT_preprocess_func <- function(raw_data, general_info, RTbound = 0.1) {
   # Use raw_data as a data.frame
   raw_data <- as.data.frame(raw_data)
@@ -209,7 +184,6 @@ choiceRT_preprocess_func <- function(raw_data, general_info, RTbound = 0.1) {
   return(data_list)
 }
 
-# From choiceRT_ddm_single
 choiceRT_single_preprocess_func <- function(raw_data, general_info, RTbound = 0.1) {
   # Currently class(raw_data) == "data.table"
 
@@ -231,12 +205,6 @@ choiceRT_single_preprocess_func <- function(raw_data, general_info, RTbound = 0.
   return(data_list)
 }
 
-
-
-
-#### cra
-
-# From cra_exp
 cra_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -282,12 +250,6 @@ cra_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### dbdm
-
-# From dbdm_prob_weight
 dbdm_preprocess_func <- function(raw_data, general_info) {
   subjs   <- general_info$subjs
   n_subj  <- general_info$n_subj
@@ -332,12 +294,6 @@ dbdm_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### dd
-
-# From dd_cs
 dd_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -383,7 +339,6 @@ dd_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-# From dd_cs_single
 dd_single_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -411,12 +366,6 @@ dd_single_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### gng
-
-# From gng_m1
 gng_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -456,12 +405,6 @@ gng_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### igt
-
-# From igt_orl
 igt_preprocess_func <- function(raw_data, general_info, payscale = 100) {
   # Currently class(raw_data) == "data.table"
 
@@ -499,11 +442,6 @@ igt_preprocess_func <- function(raw_data, general_info, payscale = 100) {
   return(data_list)
 }
 
-
-
-#### peer
-
-# From peer_ocu
 peer_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -555,12 +493,6 @@ peer_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### prl
-
-# From prl_ewa
 prl_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -597,7 +529,6 @@ prl_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-# From prl_fictitious_multipleB
 prl_multipleB_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -644,12 +575,6 @@ prl_multipleB_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### pst
-
-# From pst_gainloss_Q
 pst_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -692,12 +617,6 @@ pst_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### ra
-
-# From ra_noLA
 ra_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -740,12 +659,6 @@ ra_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### rdt
-
-# From rdt_happiness
 rdt_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -800,12 +713,6 @@ rdt_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### ts
-
-# From ts_par4
 ts_preprocess_func <- function(raw_data, general_info, trans_prob = 0.7) {
   # Currently class(raw_data) == "data.table"
 
@@ -846,12 +753,6 @@ ts_preprocess_func <- function(raw_data, general_info, trans_prob = 0.7) {
   return(data_list)
 }
 
-
-
-
-#### ug
-
-# From ug_bayes
 ug_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -888,12 +789,6 @@ ug_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-
-
-
-#### wcs
-
-# From wcs_sql
 wcs_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -952,7 +847,4 @@ wcs_preprocess_func <- function(raw_data, general_info) {
   # Returned data_list will directly be passed to Stan
   return(data_list)
 }
-
-
-
 
