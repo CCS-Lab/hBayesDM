@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Description Based Decison Making Task — dbdm_prob_weight • hBayesDM</title>
+<title>Probability Weight Function — dbdm_prob_weight • hBayesDM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,14 @@
 
 
 
-<meta property="og:title" content="Description Based Decison Making Task — dbdm_prob_weight" />
+<meta property="og:title" content="Probability Weight Function — dbdm_prob_weight" />
 
-<meta property="og:description" content="Hierarchical Bayesian Modeling of the Description Based Decison Making Task with the following parameters:
-  &quot;tau&quot; (probability weight function), &quot;rho&quot; (subject utility function), &quot;lambda&quot; (loss aversion parameter), &quot;beta&quot; (inverse softmax temperature).
-Contributor: Yoonseo Zoh
-MODEL: Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)" />
+<meta property="og:description" content="Hierarchical Bayesian Modeling of the Description Based Decison Making Task using Probability Weight Function.
+It has the following parameters: tau (probability weight function), rho (subject utility function), lambda (loss aversion parameter), beta (inverse softmax temperature).
+
+Task: Description Based Decison Making Task
+Model: Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +68,7 @@ MODEL: Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jes
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2.9000</span>
       </span>
     </div>
 
@@ -81,13 +83,15 @@ MODEL: Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jes
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/CCS-Lab/hBayesDM">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -100,32 +104,35 @@ MODEL: Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jes
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Description Based Decison Making Task</h1>
-    
+    <h1>Probability Weight Function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CCS-Lab/hBayesDM/blob/master/R/dbdm_prob_weight.R'><code>R/dbdm_prob_weight.R</code></a></small>
     <div class="hidden name"><code>dbdm_prob_weight.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Hierarchical Bayesian Modeling of the Description Based Decison Making Task with the following parameters:
-  "tau" (probability weight function), "rho" (subject utility function), "lambda" (loss aversion parameter), "beta" (inverse softmax temperature).</p>
-<p>Contributor: <a href='https://ccs-lab.github.io/team/yoonseo-zoh/'>Yoonseo Zoh</a></p>
-<p><strong>MODEL:</strong> Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)</p>
+    <p>Hierarchical Bayesian Modeling of the Description Based Decison Making Task using Probability Weight Function.
+It has the following parameters: <code>tau</code> (probability weight function), <code>rho</code> (subject utility function), <code>lambda</code> (loss aversion parameter), <code>beta</code> (inverse softmax temperature).</p>
+<ul>
+<li><p><strong>Task</strong>: Description Based Decison Making Task</p></li>
+<li><p><strong>Model</strong>: Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)</p></li>
+</ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>dbdm_prob_weight</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>,
+    <pre class="usage"><span class='fu'>dbdm_prob_weight</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>datafile</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>,
+  <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"vb"</span>,
   <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>use_example</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>choose_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>A .txt file containing the data to be modeled. Data columns should be labeled as:
+      <th>data, datafile</th>
+      <td><p>A data.frame object (<code>data</code>) or a filepath for a tab-seperated txt file
+containing the data (<code>datafile</code>) to be modeled. Data columns should be labeled as:
 "subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice". See <b>Details</b> below for more information.</p></td>
     </tr>
     <tr>
@@ -152,8 +159,8 @@ high.</p></td>
     </tr>
     <tr>
       <th>inits</th>
-      <td><p>Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.</p></td>
+      <td><p>Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.</p></td>
     </tr>
     <tr>
       <th>indPars</th>
@@ -162,18 +169,19 @@ are: "mean", "median", or "mode".</p></td>
     </tr>
     <tr>
       <th>modelRegressor</th>
-      <td><p>Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.</p></td>
+      <td><p>Whether to export model-based regressors (<code>TRUE</code> or <code>FALSE</code>).
+Not available for this model.</p></td>
     </tr>
     <tr>
       <th>vb</th>
       <td><p>Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.</p></td>
+to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>inc_postpred</th>
       <td><p>Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.</p></td>
+size). Defaults to <code>FALSE</code>.
+If set to <code>TRUE</code>, it includes: "y_pred"</p></td>
     </tr>
     <tr>
       <th>adapt_delta</th>
@@ -191,25 +199,44 @@ take on each new iteration. See <b>Details</b> below.</p></td>
 on each new iteration. See <b>Details</b> below.</p></td>
     </tr>
     <tr>
+      <th>use_example</th>
+      <td><p>Whether to use example data. By default, set to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>choose_data</th>
+      <td><p>Whether to choose data with an interactive window.
+By default, set to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Not used for this model.</p></td>
+      <td><p>For this model, there is no model-specific argument.</p><dl class='dl-horizontal'>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</dl></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A class "hBayesDM" object <code>modelData</code> with the following components:</p><dl class='dl-horizontal'>
-  <dt><code>model</code></dt><dd><p>Character value that is the name of the model ("dbdm_prob_weight").</p></dd>
-  <dt><code>allIndPars</code></dt><dd><p>Data.frame containing the summarized parameter values (as specified by
+  <dt>model</dt><dd><p>Character value that is the name of the model (\code"dbdm_prob_weight").</p></dd>
+  <dt>allIndPars</dt><dd><p>Data.frame containing the summarized parameter values (as specified by
     <code>indPars</code>) for each subject.</p></dd>
-  <dt><code>parVals</code></dt><dd><p>List object containing the posterior samples over different parameters.</p></dd>
-  <dt><code>fit</code></dt><dd><p>A class <code><a href='https://www.rdocumentation.org/packages/rstan/topics/stanfit-class'>stanfit</a></code> object that contains the fitted Stan
+  <dt>parVals</dt><dd><p>List object containing the posterior samples over different parameters.</p></dd>
+  <dt>fit</dt><dd><p>A class <code><a href='https://www.rdocumentation.org/packages/rstan/topics/stanfit-class'>stanfit</a></code> object that contains the fitted Stan
     model.</p></dd>
-  <dt><code>rawdata</code></dt><dd><p>Data.frame containing the raw data used to fit the model, as specified by
+  <dt>rawdata</dt><dd><p>Data.frame containing the raw data used to fit the model, as specified by
     the user.</p></dd>
   
   
-  
+  <dt>modelRegressor</dt><dd><p>List object containing the extracted model-based regressors.</p></dd>
 </dl>
 
     
@@ -223,14 +250,14 @@ on each new iteration. See <b>Details</b> below.</p></td>
 For the Description Based Decison Making Task, there should be 8 columns of data with the
   labels "subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:</p><dl class='dl-horizontal'>
-  <dt>"subjID"</dt><dd><p>A unique identifier for each subject in the data-set.</p></dd>
-  <dt>"opt1hprob"</dt><dd><p>Possiblity of getting higher value of outcome(opt1hval) when choosing option 1.</p></dd>
-  <dt>"opt2hprob"</dt><dd><p>Possiblity of getting higher value of outcome(opt2hval) when choosing option 2.</p></dd>
-  <dt>"opt1hval"</dt><dd><p>Possible (with opt1hprob probability) outcome of option 1.</p></dd>
-  <dt>"opt1lval"</dt><dd><p>Possible (with (1 - opt1hprob) probability) outcome of option 1.</p></dd>
-  <dt>"opt2hval"</dt><dd><p>Possible (with opt2hprob probability) outcome of option 2.</p></dd>
-  <dt>"opt2lval"</dt><dd><p>Possible (with (1 - opt2hprob) probability) outcome of option 2.</p></dd>
-  <dt>"choice"</dt><dd><p>If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.</p></dd>
+  <dt>subjID</dt><dd><p>A unique identifier for each subject in the data-set.</p></dd>
+  <dt>opt1hprob</dt><dd><p>Possiblity of getting higher value of outcome(opt1hval) when choosing option 1.</p></dd>
+  <dt>opt2hprob</dt><dd><p>Possiblity of getting higher value of outcome(opt2hval) when choosing option 2.</p></dd>
+  <dt>opt1hval</dt><dd><p>Possible (with opt1hprob probability) outcome of option 1.</p></dd>
+  <dt>opt1lval</dt><dd><p>Possible (with (1 - opt1hprob) probability) outcome of option 1.</p></dd>
+  <dt>opt2hval</dt><dd><p>Possible (with opt2hprob probability) outcome of option 2.</p></dd>
+  <dt>opt2lval</dt><dd><p>Possible (with (1 - opt2hprob) probability) outcome of option 2.</p></dd>
+  <dt>choice</dt><dd><p>If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.</p></dd>
     </dl><p><strong>*</strong>Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
   etc.), but only the data within the column names listed above will be used during the modeling.
   As long as the necessary columns mentioned above are present and labeled correctly, there is no
@@ -259,16 +286,14 @@ For the Description Based Decison Making Task, there should be 8 columns of data
   Algorithm Parameters' of the <a href='http://mc-stan.org/users/documentation/'>Stan User's Guide
   and Reference Manual</a>, or to the help page for <code><a href='https://www.rdocumentation.org/packages/rstan/topics/stan'>stan</a></code> for a less technical
   description of these arguments.</p>
+<h3>Contributors</h3>
+<a href='https://ccs-lab.github.io/team/yoonseo-zoh/'>Yoonseo Zoh</a> &lt;<a href='mailto:zohyos7@gmail.com'>zohyos7@gmail.com</a>&gt;
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., ... &amp; Lebiere, C. (2010). A
-  choice prediction competition: Choices from experience and from description. Journal of
-  Behavioral Decision Making, 23(1), 15-47.</p>
-<p>Hertwig, R., Barron, G., Weber, E. U., &amp; Erev, I. (2004). Decisions from experience and the
-  effect of rare events in risky choice. Psychological science, 15(8), 534-539.</p>
-<p>Jessup, R. K., Bishara, A. J., &amp; Busemeyer, J. R. (2008). Feedback produces divergence from
-  prospect theory in descriptive choice. Psychological Science, 19(10), 1015-1022.</p>
+    <p>Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., ... &amp; Lebiere, C. (2010). A choice prediction competition: Choices from experience and from description. Journal of Behavioral Decision Making, 23(1), 15-47.</p>
+<p>Hertwig, R., Barron, G., Weber, E. U., &amp; Erev, I. (2004). Decisions from experience and the effect of rare events in risky choice. Psychological science, 15(8), 534-539.</p>
+<p>Jessup, R. K., Bishara, A. J., &amp; Busemeyer, J. R. (2008). Feedback produces divergence from prospect theory in descriptive choice. Psychological Science, 19(10), 1015-1022.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -278,8 +303,11 @@ For the Description Based Decison Making Task, there should be 8 columns of data
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Run the model and store results in "output"</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>dbdm_prob_weight</span>(<span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='co'># Run the model with a given data.frame as df</span>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>dbdm_prob_weight</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+
+<span class='co'># Run the model with example data</span>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>dbdm_prob_weight</span>(<span class='kw'>use_example</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 
 <span class='co'># Visually check convergence of the sampling chains (should look like 'hairy caterpillars')</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>output</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"trace"</span>)

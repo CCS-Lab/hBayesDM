@@ -1,18 +1,20 @@
-#' @title <%= TASK_NAME %> - <%= MODEL_NAME %>
+#' @title <%= MODEL_NAME %>
 #'
 #' @description
-#' <%= MODEL_TYPE %> Bayesian Modeling of the <%= TASK_NAME %> <%= get0("TASK_CITE") %>
-#'   with the following parameters:
-#'   <%= PARAMETERS %>.
+#' <%= MODEL_TYPE %> Bayesian Modeling of the <%= TASK_NAME %> using <%= MODEL_NAME %>.
+#' It has the following parameters: <%= PARAMETERS %>.
 #'
-#' @description
-#' \strong{TASK:} <%= TASK_NAME %> <%= get0("TASK_CITE") %>
-#' \strong{MODEL:} <%= MODEL_NAME %> <%= get0("MODEL_CITE") %>
+#' \itemize{
+#'   \item \strong{Task}: <%= TASK_NAME %> <%= ifelse(!is.na(TASK_CITE), TASK_CITE, '') %>
+#'   \item \strong{Model}: <%= MODEL_NAME %> <%= ifelse(!is.na(MODEL_CITE), MODEL_CITE, '') %>
+#' }
 #'
-#' <%= ifelse(exists("CONTRIBUTOR"), paste0("@description Contributor: ", CONTRIBUTOR), "") %>
-#'
-#' @param data A .txt file containing the data to be modeled. Data columns should be labeled as:
+#' @param data,datafile A data.frame object (\code{data}) or a filepath for a tab-seperated txt file
+#'   containing the data (\code{datafile}) to be modeled. Data columns should be labeled as:
 #'   <%= DATA_COLUMNS %>. See \bold{Details} below for more information.
+#' @param use_example Whether to use example data. By default, set to \code{FALSE}.
+#' @param choose_data Whether to choose data with an interactive window.
+#'   By default, set to \code{FALSE}.
 #' @param niter Number of iterations, including warm-up. Defaults to 4000.
 #' @param nwarmup Number of iterations used for warm-up only. Defaults to 1000.
 #' @param nchain Number of Markov chains to run. Defaults to 4.
@@ -26,17 +28,18 @@
 #'   are: "mean", "median", or "mode".
 #' @param modelRegressor
 #'   <% EXISTS_REGRESSORS <- paste0("For this model they are: ", get0("REGRESSORS"), ".") %>
-#'   <% NOT_EXISTS_REGRESSORS <- "Currently not available for this model." %>
-#'   Export model-based regressors? TRUE or FALSE.
-#'   <%= ifelse(exists("REGRESSORS"), EXISTS_REGRESSORS, NOT_EXISTS_REGRESSORS) %>
+#'   <% NOT_EXISTS_REGRESSORS <- "Not available for this model." %>
+#'   Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+#'   <%= ifelse(!is.na(REGRESSORS), EXISTS_REGRESSORS, NOT_EXISTS_REGRESSORS) %>
 #' @param vb Use variational inference to approximately draw from a posterior distribution. Defaults
-#'   to FALSE.
+#'   to \code{FALSE}.
 #' @param inc_postpred
-#'   <% HAS_POSTPREDS <- exists("POSTPREDS") && (POSTPREDS != "TRUE") %>
-#'   <%= ifelse(HAS_POSTPREDS, "", "\\strong{(Currently not available.)}") %>
+#'   <% HAS_POSTPREDS <- !is.na(POSTPREDS) %>
+#'   <% PP_T <- paste0("If set to \\code{TRUE}, it includes: ", POSTPREDS) %>
+#'   <% PP_F <- "Not available for this model." %>
 #'   Include trial-level posterior predictive simulations in model output (may greatly increase file
-#'   size). Defaults to FALSE.
-#'   <%= ifelse(HAS_POSTPREDS, paste0("If set to TRUE, it includes: ", POSTPREDS), "") %>
+#'   size). Defaults to \code{FALSE}.
+#'   <%= ifelse(HAS_POSTPREDS, PP_T, PP_F) %>
 #' @param adapt_delta Floating point value representing the target acceptance probability of a new
 #'   sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can
@@ -44,7 +47,37 @@
 #' @param max_treedepth Integer value specifying how many leapfrog steps the MCMC sampler can take
 #'   on each new iteration. See \bold{Details} below.
 #' @param ...
-#'   Additional arguments. See \bold{Details} below.
+#'   <% AA_T1 <- "For this model, it's possible to set \\strong{model-specific argument(s)} " %>
+#'   <% AA_T2 <- "as follows: " %>
+#'   <% AA_T <- paste0(AA_T1, AA_T2) %>
+#'   <% AA_F <- "For this model, there is no model-specific argument." %>
+#'   <%= ifelse(as.integer(LENGTH_ADDITIONAL_ARGS) > 0, AA_T, AA_F) %>
+#'   \describe{
+#'     <%= get0("ADDITIONAL_ARGS_1") %>
+#'     <%= get0("ADDITIONAL_ARGS_2") %>
+#'     <%= get0("ADDITIONAL_ARGS_3") %>
+#'     <%= get0("ADDITIONAL_ARGS_4") %>
+#'     <%= get0("ADDITIONAL_ARGS_5") %>
+#'     <%= get0("ADDITIONAL_ARGS_6") %>
+#'     <%= get0("ADDITIONAL_ARGS_7") %>
+#'     <%= get0("ADDITIONAL_ARGS_8") %>
+#'     <%= get0("ADDITIONAL_ARGS_9") %>
+#'   }
+#'
+#' @return A class "hBayesDM" object \code{modelData} with the following components:
+#' \describe{
+#'   \item{model}{Character value that is the name of the model (\\code{"<%= MODEL_FUNCTION %>"}).}
+#'   \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
+#'     \code{indPars}) for each subject.}
+#'   \item{parVals}{List object containing the posterior samples over different parameters.}
+#'   \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+#'     model.}
+#'   \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
+#'     the user.}
+#'   <% RETURN_REGRESSORS <- "\\item{modelRegressor}{List object containing the " %>
+#'   <% RETURN_REGRESSORS <- paste0(RETURN_REGRESSORS, "extracted model-based regressors.}") %>
+#'   <%= ifelse(!is.na("REGRESSORS"), RETURN_REGRESSORS, "") %>
+#' }
 #'
 #' @details
 #' This section describes some of the function arguments in greater detail.
@@ -100,38 +133,7 @@
 #'   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
 #'   description of these arguments.
 #'
-#' \strong{...}:
-#'   <% AA_T1 <- "For this model, it's possible to set \\strong{model-specific argument(s)} " %>
-#'   <% AA_T2 <- "as follows: " %>
-#'   <% AA_T <- paste0(AA_T1, AA_T2) %>
-#'   <% AA_F <- "For this model, there is no model-specific argument." %>
-#'   <%= ifelse(as.integer(ADDITIONAL_ARGS_LEN) > 0, AA_T, AA_F) %>
-#'   \describe{
-#'     <%= get0("ADDITIONAL_ARGS_1") %>
-#'     <%= get0("ADDITIONAL_ARGS_2") %>
-#'     <%= get0("ADDITIONAL_ARGS_3") %>
-#'     <%= get0("ADDITIONAL_ARGS_4") %>
-#'     <%= get0("ADDITIONAL_ARGS_5") %>
-#'     <%= get0("ADDITIONAL_ARGS_6") %>
-#'     <%= get0("ADDITIONAL_ARGS_7") %>
-#'     <%= get0("ADDITIONAL_ARGS_8") %>
-#'     <%= get0("ADDITIONAL_ARGS_9") %>
-#'   }
-#'
-#' @return A class "hBayesDM" object \code{modelData} with the following components:
-#' \describe{
-#'   \item{\code{model}}{Character value that is the name of the model ("<%= MODEL_FUNCTION %>").}
-#'   \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
-#'     \code{indPars}) for each subject.}
-#'   \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-#'   \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
-#'     model.}
-#'   \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
-#'     the user.}
-#'   <% RETURN_REGRESSORS <- "\\item{\\code{modelRegressor}}{List object containing the " %>
-#'   <% RETURN_REGRESSORS <- paste0(RETURN_REGRESSORS, "extracted model-based regressors.}") %>
-#'   <%= ifelse(exists("REGRESSORS"), RETURN_REGRESSORS, "") %>
-#' }
+#' <%= ifelse(!is.na(CONTRIBUTOR), paste0("\\subsection{Contributors}{", CONTRIBUTOR, "}"), "") %>
 #'
 #' @seealso
 #' We refer users to our in-depth tutorial for an example of using hBayesDM:
@@ -139,8 +141,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Run the model and store results in "output"
-#' output <- <%= MODEL_FUNCTION %>("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+#' # Run the model with a given data.frame as df
+#' output <- <%= MODEL_FUNCTION %>(data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+#'
+#' # Run the model with example data
+#' output <- <%= MODEL_FUNCTION %>(use_example = TRUE, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 #'
 #' # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 #' plot(output, type = "trace")

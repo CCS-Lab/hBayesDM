@@ -28,8 +28,3 @@ reference:
   - plotInd
   - printFit
   - rhat
-- title: Internal functions
-  desc: >
-    These functions are for the developmental purpose.
-  contents:
-    - hBayesDM_model
