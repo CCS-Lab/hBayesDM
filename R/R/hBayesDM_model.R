@@ -5,7 +5,6 @@
 #'
 #' Contributor: \href{https://ccs-lab.github.io/team/jethro-lee/}{Jethro Lee}
 #'
-#' @export
 #' @keywords internal
 #'
 #' @include settings.R
@@ -114,7 +113,8 @@ hBayesDM_model <- function(task_name,
                            preprocess_func) {
 
   # The resulting hBayesDM model function to be returned
-  function(data           = "choose",
+  function(data           = NULL,
+           datafile       = "",
            niter          = 4000,
            nwarmup        = 1000,
            nchain         = 4,
@@ -128,6 +128,8 @@ hBayesDM_model <- function(task_name,
            adapt_delta    = 0.95,
            stepsize       = 1,
            max_treedepth  = 10,
+           use_example    = FALSE,
+           choose_data    = FALSE,
            ...) {
 
     ############### Stop checks ###############
@@ -142,29 +144,35 @@ hBayesDM_model <- function(task_name,
       stop("** Posterior predictions are not yet available for this model. **\n")
     }
 
-    # For using "example" or "choose" data
-    if (data == "example") {
-      if (model_type == "") {
-        exampleData <- paste0(task_name, "_", "exampleData.txt")
-      } else {
-        exampleData <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
+    if (!is.null(data)) {
+      # Use the given data object
+      raw_data <- data.table::as.data.table(data)
+    } else {
+      if (!is.na(datafile) && datafile != '') {
+        # Use the datafile to read data
+      } else if (use_example) {
+        if (model_type == "") {
+          exampleData <- paste0(task_name, "_", "exampleData.txt")
+        } else {
+          exampleData <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
+        }
+        datafile <- system.file("extdata", exampleData, package = "hBayesDM")
+      } else if (choose_data) {
+        datafile <- file.choose()
       }
-      data <- system.file("extdata", exampleData, package = "hBayesDM")
-    } else if (data == "choose") {
-      data <- file.choose()
-    }
 
-    # Check if data file exists
-    if (!file.exists(data)) {
-      stop("** Data file does not exist. Please check again. **\n",
-           "  e.g. data = \"MySubFolder/myData.txt\"\n")
-    }
+      # Check if data file exists
+      if (!file.exists(datafile)) {
+        stop("** Data file does not exist. Please check again. **\n",
+             "  e.g. data = \"MySubFolder/myData.txt\"\n")
+      }
 
-    # Load the data
-    raw_data <- data.table::fread(file = data, header = TRUE, sep = "\t", data.table = TRUE,
-                                  fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
-    # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files
-    # that have missing values.
+      # Load the data
+      raw_data <- data.table::fread(file = datafile, header = TRUE, sep = "\t", data.table = TRUE,
+                                    fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
+      # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files
+      # that have missing values.
+    }
 
     # Save initial colnames of raw_data for later
     colnames_raw_data <- colnames(raw_data)

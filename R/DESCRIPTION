@@ -1,6 +1,6 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 0.7.2
+Version: 0.7.2.9000
 Date: 2019-02-11
 Author:
     Woo-Young Ahn [aut, cre],
@@ -39,7 +39,7 @@ LinkingTo:
     RcppEigen (>= 0.3.3.3.0),
     rstan (>= 2.18.1),
     StanHeaders (>= 2.18.0)
-URL: https://rpubs.com/CCSL/hBayesDM
+URL: https://github.com/CCS-Lab/hBayesDM
 BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3
 LazyData: true
@@ -49,6 +49,7 @@ RoxygenNote: 6.1.1
 SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
+    'preprocess_funcs.R'
     'stanmodels.R'
     'settings.R'
     'hBayesDM_model.R'

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Orthogonalized Go/Nogo Task — gng_m3 • hBayesDM</title>
+<title>RW + noise + bias + pi — gng_m3 • hBayesDM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,14 @@
 
 
 
-<meta property="og:title" content="Orthogonalized Go/Nogo Task — gng_m3" />
+<meta property="og:title" content="RW + noise + bias + pi — gng_m3" />
 
-<meta property="og:description" content="Hierarchical Bayesian Modeling of the Orthogonalized Go/Nogo Task with the following parameters:
-  &quot;xi&quot; (noise), &quot;ep&quot; (learning rate), &quot;b&quot; (action bias), &quot;pi&quot; (Pavlovian bias), &quot;rho&quot; (effective size).
-MODEL: RW + noise + bias + pi (Guitart-Masip et al., 2012, Neuroimage)" />
+<meta property="og:description" content="Hierarchical Bayesian Modeling of the Orthogonalized Go/Nogo Task using RW + noise + bias + pi.
+It has the following parameters: xi (noise), ep (learning rate), b (action bias), pi (Pavlovian bias), rho (effective size).
+
+Task: Orthogonalized Go/Nogo Task
+Model: RW + noise + bias + pi (Guitart-Masip et al., 2012)
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +68,7 @@ MODEL: RW + noise + bias + pi (Guitart-Masip et al., 2012, Neuroimage)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2.9000</span>
       </span>
     </div>
 
@@ -80,13 +83,15 @@ MODEL: RW + noise + bias + pi (Guitart-Masip et al., 2012, Neuroimage)" />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/CCS-Lab/hBayesDM">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -99,30 +104,35 @@ MODEL: RW + noise + bias + pi (Guitart-Masip et al., 2012, Neuroimage)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Orthogonalized Go/Nogo Task</h1>
-    
+    <h1>RW + noise + bias + pi</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CCS-Lab/hBayesDM/blob/master/R/gng_m3.R'><code>R/gng_m3.R</code></a></small>
     <div class="hidden name"><code>gng_m3.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Hierarchical Bayesian Modeling of the Orthogonalized Go/Nogo Task with the following parameters:
-  "xi" (noise), "ep" (learning rate), "b" (action bias), "pi" (Pavlovian bias), "rho" (effective size).</p>
-<p><strong>MODEL:</strong> RW + noise + bias + pi (Guitart-Masip et al., 2012, Neuroimage)</p>
+    <p>Hierarchical Bayesian Modeling of the Orthogonalized Go/Nogo Task using RW + noise + bias + pi.
+It has the following parameters: <code>xi</code> (noise), <code>ep</code> (learning rate), <code>b</code> (action bias), <code>pi</code> (Pavlovian bias), <code>rho</code> (effective size).</p>
+<ul>
+<li><p><strong>Task</strong>: Orthogonalized Go/Nogo Task</p></li>
+<li><p><strong>Model</strong>: RW + noise + bias + pi (Guitart-Masip et al., 2012)</p></li>
+</ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>gng_m3</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>gng_m3</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>datafile</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"vb"</span>,
+  <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>use_example</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>choose_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>A .txt file containing the data to be modeled. Data columns should be labeled as:
+      <th>data, datafile</th>
+      <td><p>A data.frame object (<code>data</code>) or a filepath for a tab-seperated txt file
+containing the data (<code>datafile</code>) to be modeled. Data columns should be labeled as:
 "subjID", "cue", "keyPressed", "outcome". See <b>Details</b> below for more information.</p></td>
     </tr>
     <tr>
@@ -149,8 +159,8 @@ high.</p></td>
     </tr>
     <tr>
       <th>inits</th>
-      <td><p>Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.</p></td>
+      <td><p>Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.</p></td>
     </tr>
     <tr>
       <th>indPars</th>
@@ -159,18 +169,19 @@ are: "mean", "median", or "mode".</p></td>
     </tr>
     <tr>
       <th>modelRegressor</th>
-      <td><p>Export model-based regressors? TRUE or FALSE.
+      <td><p>Whether to export model-based regressors (<code>TRUE</code> or <code>FALSE</code>).
 For this model they are: "Qgo", "Qnogo", "Wgo", "Wnogo", "SV".</p></td>
     </tr>
     <tr>
       <th>vb</th>
       <td><p>Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.</p></td>
+to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>inc_postpred</th>
       <td><p>Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.</p></td>
+size). Defaults to <code>FALSE</code>.
+If set to <code>TRUE</code>, it includes: "y_pred"</p></td>
     </tr>
     <tr>
       <th>adapt_delta</th>
@@ -188,25 +199,44 @@ take on each new iteration. See <b>Details</b> below.</p></td>
 on each new iteration. See <b>Details</b> below.</p></td>
     </tr>
     <tr>
+      <th>use_example</th>
+      <td><p>Whether to use example data. By default, set to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>choose_data</th>
+      <td><p>Whether to choose data with an interactive window.
+By default, set to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Not used for this model.</p></td>
+      <td><p>For this model, there is no model-specific argument.</p><dl class='dl-horizontal'>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</dl></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A class "hBayesDM" object <code>modelData</code> with the following components:</p><dl class='dl-horizontal'>
-  <dt><code>model</code></dt><dd><p>Character value that is the name of the model ("gng_m3").</p></dd>
-  <dt><code>allIndPars</code></dt><dd><p>Data.frame containing the summarized parameter values (as specified by
+  <dt>model</dt><dd><p>Character value that is the name of the model (\code"gng_m3").</p></dd>
+  <dt>allIndPars</dt><dd><p>Data.frame containing the summarized parameter values (as specified by
     <code>indPars</code>) for each subject.</p></dd>
-  <dt><code>parVals</code></dt><dd><p>List object containing the posterior samples over different parameters.</p></dd>
-  <dt><code>fit</code></dt><dd><p>A class <code><a href='https://www.rdocumentation.org/packages/rstan/topics/stanfit-class'>stanfit</a></code> object that contains the fitted Stan
+  <dt>parVals</dt><dd><p>List object containing the posterior samples over different parameters.</p></dd>
+  <dt>fit</dt><dd><p>A class <code><a href='https://www.rdocumentation.org/packages/rstan/topics/stanfit-class'>stanfit</a></code> object that contains the fitted Stan
     model.</p></dd>
-  <dt><code>rawdata</code></dt><dd><p>Data.frame containing the raw data used to fit the model, as specified by
+  <dt>rawdata</dt><dd><p>Data.frame containing the raw data used to fit the model, as specified by
     the user.</p></dd>
   
   
-  <dt><code>modelRegressor</code></dt><dd><p>List object containing the extracted model-based regressors.</p></dd>
+  <dt>modelRegressor</dt><dd><p>List object containing the extracted model-based regressors.</p></dd>
 </dl>
 
     
@@ -220,10 +250,10 @@ on each new iteration. See <b>Details</b> below.</p></td>
 For the Orthogonalized Go/Nogo Task, there should be 4 columns of data with the
   labels "subjID", "cue", "keyPressed", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:</p><dl class='dl-horizontal'>
-  <dt>"subjID"</dt><dd><p>A unique identifier for each subject in the data-set.</p></dd>
-  <dt>"cue"</dt><dd><p>Nominal integer representing the cue shown for that trial: 1, 2, 3, or 4.</p></dd>
-  <dt>"keyPressed"</dt><dd><p>Binary value representing the subject's response for that trial (where Press == 1; No press == 0).</p></dd>
-  <dt>"outcome"</dt><dd><p>Ternary value representing the outcome of that trial (where Positive feedback == 1; Neutral feedback == 0; Negative feedback == -1).</p></dd>
+  <dt>subjID</dt><dd><p>A unique identifier for each subject in the data-set.</p></dd>
+  <dt>cue</dt><dd><p>Nominal integer representing the cue shown for that trial: 1, 2, 3, or 4.</p></dd>
+  <dt>keyPressed</dt><dd><p>Binary value representing the subject's response for that trial (where Press == 1; No press == 0).</p></dd>
+  <dt>outcome</dt><dd><p>Ternary value representing the outcome of that trial (where Positive feedback == 1; Neutral feedback == 0; Negative feedback == -1).</p></dd>
     </dl><p><strong>*</strong>Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
   etc.), but only the data within the column names listed above will be used during the modeling.
   As long as the necessary columns mentioned above are present and labeled correctly, there is no
@@ -255,9 +285,7 @@ For the Orthogonalized Go/Nogo Task, there should be 4 columns of data with the
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., &amp; Dolan, R. J. (2012).
-  Go and no-go learning in reward and punishment: Interactions between affect and effect.
-  Neuroimage, 62(1), 154-166. http://doi.org/10.1016/j.neuroimage.2012.04.024</p>
+    <p>Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., &amp; Dolan, R. J. (2012). Go and no-go learning in reward and punishment: Interactions between affect and effect. Neuroimage, 62(1), 154-166. http://doi.org/10.1016/j.neuroimage.2012.04.024</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -267,8 +295,11 @@ For the Orthogonalized Go/Nogo Task, there should be 4 columns of data with the
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Run the model and store results in "output"</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>gng_m3</span>(<span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='co'># Run the model with a given data.frame as df</span>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>gng_m3</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+
+<span class='co'># Run the model with example data</span>
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>gng_m3</span>(<span class='kw'>use_example</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 
 <span class='co'># Visually check convergence of the sampling chains (should look like 'hairy caterpillars')</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>output</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"trace"</span>)
