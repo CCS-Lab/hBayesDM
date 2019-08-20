@@ -1,13 +1,15 @@
-#' @title <%= TASK_NAME %> <%= get0("TASK_CITE") %>
+#' @title <%= TASK_NAME %> - <%= MODEL_NAME %>
 #'
 #' @description
-#' <%= MODEL_TYPE %> Bayesian Modeling of the <%= TASK_NAME %> with the following parameters:
+#' <%= MODEL_TYPE %> Bayesian Modeling of the <%= TASK_NAME %> <%= get0("TASK_CITE") %>
+#'   with the following parameters:
 #'   <%= PARAMETERS %>.
 #'
-#' <%= ifelse(exists("CONTRIBUTOR"), paste0("@description Contributor: ", CONTRIBUTOR), "") %>
-#'
 #' @description
+#' \strong{TASK:} <%= TASK_NAME %> <%= get0("TASK_CITE") %>
 #' \strong{MODEL:} <%= MODEL_NAME %> <%= get0("MODEL_CITE") %>
+#'
+#' <%= ifelse(exists("CONTRIBUTOR"), paste0("@description Contributor: ", CONTRIBUTOR), "") %>
 #'
 #' @param data A .txt file containing the data to be modeled. Data columns should be labeled as:
 #'   <%= DATA_COLUMNS %>. See \bold{Details} below for more information.
@@ -30,10 +32,11 @@
 #' @param vb Use variational inference to approximately draw from a posterior distribution. Defaults
 #'   to FALSE.
 #' @param inc_postpred
-#'   <% POSTPREDS_NULL <- exists("IS_NULL_POSTPREDS") && (IS_NULL_POSTPREDS == "TRUE") %>
-#'   <%= ifelse(POSTPREDS_NULL, "\\strong{(Currently not available.)}", "") %>
+#'   <% HAS_POSTPREDS <- exists("POSTPREDS") && (POSTPREDS != "TRUE") %>
+#'   <%= ifelse(HAS_POSTPREDS, "", "\\strong{(Currently not available.)}") %>
 #'   Include trial-level posterior predictive simulations in model output (may greatly increase file
 #'   size). Defaults to FALSE.
+#'   <%= ifelse(HAS_POSTPREDS, paste0("If set to TRUE, it includes: ", POSTPREDS), "") %>
 #' @param adapt_delta Floating point value representing the target acceptance probability of a new
 #'   sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can
@@ -41,10 +44,7 @@
 #' @param max_treedepth Integer value specifying how many leapfrog steps the MCMC sampler can take
 #'   on each new iteration. See \bold{Details} below.
 #' @param ...
-#'   <% AA_EXP_1 <- "For this model, it's possible to set the following \\strong{model-specific " %>
-#'   <% AA_EXP_2 <- "argument} to a value that you may prefer. \\cr" %>
-#'   <%= ifelse(exists("ADDITIONAL_ARG"), paste0(AA_EXP_1, AA_EXP_2), "Not used for this model.") %>
-#'   <%= ifelse(exists("ADDITIONAL_ARG"), ADDITIONAL_ARG, "") %>
+#'   Additional arguments. See \bold{Details} below.
 #'
 #' @details
 #' This section describes some of the function arguments in greater detail.
@@ -99,6 +99,24 @@
 #'   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
 #'   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
 #'   description of these arguments.
+#'
+#' \strong{...}:
+#'   <% AA_T1 <- "For this model, it's possible to set \\strong{model-specific argument(s)} " %>
+#'   <% AA_T2 <- "as follows: " %>
+#'   <% AA_T <- paste0(AA_T1, AA_T2) %>
+#'   <% AA_F <- "For this model, there is no model-specific argument." %>
+#'   <%= ifelse(as.integer(ADDITIONAL_ARGS_LEN) > 0, AA_T, AA_F) %>
+#'   \describe{
+#'     <%= get0("ADDITIONAL_ARGS_1") %>
+#'     <%= get0("ADDITIONAL_ARGS_2") %>
+#'     <%= get0("ADDITIONAL_ARGS_3") %>
+#'     <%= get0("ADDITIONAL_ARGS_4") %>
+#'     <%= get0("ADDITIONAL_ARGS_5") %>
+#'     <%= get0("ADDITIONAL_ARGS_6") %>
+#'     <%= get0("ADDITIONAL_ARGS_7") %>
+#'     <%= get0("ADDITIONAL_ARGS_8") %>
+#'     <%= get0("ADDITIONAL_ARGS_9") %>
+#'   }
 #'
 #' @return A class "hBayesDM" object \code{modelData} with the following components:
 #' \describe{
