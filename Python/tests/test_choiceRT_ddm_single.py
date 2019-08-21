@@ -1,10 +1,10 @@
 import pytest
 
-from hbayesdm.models import gng_m1
+from hbayesdm.models import choiceRT_ddm_single
 
 
-def test_gng_m1():
-    _ = gng_m1(
+def test_choiceRT_ddm_single():
+    _ = choiceRT_ddm_single(
         example=True, niter=10, nwarmup=5, nchain=1, ncore=1)
 
 

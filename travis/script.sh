@@ -7,7 +7,7 @@ if [ "$TARGET" = "R" ]; then
 
 # Scripts for Python
 elif [ "$TARGET" = "Python" ]; then
-  travis_wait 30 pytest tests
+  travis_wait 30 pytest tests/test_ra_prospect.py
 
 # Check sync for models and data
 elif [ "$TARGET" = "Sync" ]; then

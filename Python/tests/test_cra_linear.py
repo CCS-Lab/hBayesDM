@@ -1,10 +1,10 @@
 import pytest
 
-from hbayesdm.models import gng_m1
+from hbayesdm.models import cra_linear
 
 
-def test_gng_m1():
-    _ = gng_m1(
+def test_cra_linear():
+    _ = cra_linear(
         example=True, niter=10, nwarmup=5, nchain=1, ncore=1)
 
 

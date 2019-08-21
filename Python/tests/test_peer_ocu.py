@@ -1,10 +1,10 @@
 import pytest
 
-from hbayesdm.models import gng_m1
+from hbayesdm.models import peer_ocu
 
 
-def test_gng_m1():
-    _ = gng_m1(
+def test_peer_ocu():
+    _ = peer_ocu(
         example=True, niter=10, nwarmup=5, nchain=1, ncore=1)
 
 

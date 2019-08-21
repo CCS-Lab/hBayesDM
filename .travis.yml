@@ -1,7 +1,6 @@
 # Use cpp to enable both R & Python
 language: cpp
 
-# NOTE: was `false`
 sudo: required
 
 os: linux
@@ -40,8 +39,6 @@ matrix:
     env: TARGET='Sync'
   - name: 'Test R codes'
     env: TARGET='R'
-  - name: 'Test R codes (BUILD_ALL)'
-    env: TARGET='R' && BUILD_ALL=1
   - name: 'Test Python codes (Python 3.5)'
     env: TARGET='Python' && PYTHON_VERSION=3.5
   - name: 'Test Python codes (Python 3.6)'

@@ -1,10 +1,10 @@
 import pytest
 
-from hbayesdm.models import gng_m1
+from hbayesdm.models import prl_fictitious
 
 
-def test_gng_m1():
-    _ = gng_m1(
+def test_prl_fictitious():
+    _ = prl_fictitious(
         example=True, niter=10, nwarmup=5, nchain=1, ncore=1)
 
 

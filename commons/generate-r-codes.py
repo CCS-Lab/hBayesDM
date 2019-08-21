@@ -13,7 +13,7 @@ from collections import OrderedDict
 PATH_ROOT = Path(__file__).absolute().parent
 PATH_MODELS = PATH_ROOT / 'models'
 PATH_TEMPLATE = PATH_ROOT / 'templates'
-PATH_OUTPUT = PATH_ROOT / 'R'
+PATH_OUTPUT = PATH_ROOT / 'R-codes'
 
 TEMPLATE_DOCS = PATH_TEMPLATE / 'R_DOCS_TEMPLATE.txt'
 TEMPLATE_CODE = PATH_TEMPLATE / 'R_CODE_TEMPLATE.txt'
@@ -244,7 +244,7 @@ def main(json_fn, verbose):
 
         # Load json_file
         with open(p, 'r') as f:
-            info = model_info = json.load(f, object_pairs_hook=OrderedDict)
+            info = json.load(f, object_pairs_hook=OrderedDict)
 
     docs = generate_docstring(info)
     code = generate_code(info)
@@ -255,8 +255,8 @@ def main(json_fn, verbose):
         print(output)
     else:
         # Model full name (Snake-case)
-        model_function = [info['task_name']
-                          ['code'], info['model_name']['code']]
+        model_function = [info['task_name']['code'],
+                          info['model_name']['code']]
         if info['model_type']['code'] != '':
             model_function.append(info['model_type']['code'])
         model_function = '_'.join(model_function)
@@ -294,4 +294,5 @@ if __name__ == '__main__':
         for json_fn in all_json_files:
             main(json_fn, False)
     else:
-        main(args.json_file, args.verbose)
+        for fn in args.json_file:
+            main(fn, args.verbose)

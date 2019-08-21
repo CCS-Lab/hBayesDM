@@ -454,9 +454,10 @@ class TaskModel(metaclass=ABCMeta):
         try:
             fit = sm.vb(data=data_dict)
         except Exception:
-            raise RuntimeError(
+            raise RuntimeWarning(
                 'Failed to get VB estimates for initial values. '
-                'Please re-run the code to try fitting model with VB.')
+                'Use random values for initial values.')
+            return 'random'
 
         len_param = len(self.parameters)
         dict_vb = {
