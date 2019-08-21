@@ -52,7 +52,7 @@
 #'   <% AA_T <- paste0(AA_T1, AA_T2) %>
 #'   <% AA_F <- "For this model, there is no model-specific argument." %>
 #'   <%= ifelse(as.integer(LENGTH_ADDITIONAL_ARGS) > 0, AA_T, AA_F) %>
-#'   \describe{
+#'   <%= ifelse(as.integer(LENGTH_ADDITIONAL_ARGS) > 0, "\\describe{", "") %>
 #'     <%= get0("ADDITIONAL_ARGS_1") %>
 #'     <%= get0("ADDITIONAL_ARGS_2") %>
 #'     <%= get0("ADDITIONAL_ARGS_3") %>
@@ -62,7 +62,7 @@
 #'     <%= get0("ADDITIONAL_ARGS_7") %>
 #'     <%= get0("ADDITIONAL_ARGS_8") %>
 #'     <%= get0("ADDITIONAL_ARGS_9") %>
-#'   }
+#'   <%= ifelse(as.integer(LENGTH_ADDITIONAL_ARGS) > 0, "}", "") %>
 #'
 #' @return A class "hBayesDM" object \code{modelData} with the following components:
 #' \describe{
