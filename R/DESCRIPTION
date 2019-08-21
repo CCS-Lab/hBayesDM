@@ -112,3 +112,5 @@ Collate:
     'ug_delta.R'
     'wcs_sql.R'
     'zzz.R'
+Suggests: 
+    testthat
