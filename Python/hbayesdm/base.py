@@ -12,7 +12,6 @@ from pystan import StanModel
 import matplotlib.pyplot as plt
 import arviz as az
 
-from hbayesdm import __version__ as _hbayesdm_version
 from pystan import __version__ as _pystan_version
 
 __all__ = ['TaskModel']
@@ -655,8 +654,7 @@ class TaskModel(metaclass=ABCMeta):
         """
         stan_files = os.path.join(_common, 'stan_files')
         model_path = os.path.join(stan_files, model + '.stan')
-        cache_file = 'cached-%s-hbayesdm=%s-pystan=%s.pkl' % \
-            (model, _hbayesdm_version, _pystan_version)
+        cache_file = 'cached-%s-pystan_%s.pkl' % (model, _pystan_version)
 
         if os.path.exists(cache_file):
             try:
