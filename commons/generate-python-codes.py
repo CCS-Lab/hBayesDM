@@ -16,7 +16,7 @@ from collections import OrderedDict
 PATH_ROOT = Path(__file__).absolute().parent
 PATH_MODELS = PATH_ROOT / 'models'
 PATH_TEMPLATE = PATH_ROOT / 'templates'
-PATH_OUTPUT = PATH_ROOT / 'Python'
+PATH_OUTPUT = PATH_ROOT / 'Python-codes'
 PATH_OUTPUT_TEST = PATH_ROOT / 'Python-tests'
 
 TEMPLATE_DOCS = PATH_TEMPLATE / 'PY_DOCS_TEMPLATE.txt'

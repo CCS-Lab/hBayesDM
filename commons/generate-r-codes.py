@@ -13,7 +13,7 @@ from collections import OrderedDict
 PATH_ROOT = Path(__file__).absolute().parent
 PATH_MODELS = PATH_ROOT / 'models'
 PATH_TEMPLATE = PATH_ROOT / 'templates'
-PATH_OUTPUT = PATH_ROOT / 'R'
+PATH_OUTPUT = PATH_ROOT / 'R-codes'
 
 TEMPLATE_DOCS = PATH_TEMPLATE / 'R_DOCS_TEMPLATE.txt'
 TEMPLATE_CODE = PATH_TEMPLATE / 'R_CODE_TEMPLATE.txt'
