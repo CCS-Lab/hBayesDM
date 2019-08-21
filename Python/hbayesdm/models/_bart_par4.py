@@ -67,16 +67,16 @@ def bart_par4(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """Balloon Analogue Risk Task - Re-parameterized version (by Harhim Park & Jaeyeong Yang) of BART Model (Ravenzwaaij et al., 2011) with 4 parameters
+    """Balloon Analogue Risk Task - Re-parameterized version of BART model with 4 parameters
 
-    Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task [van_Ravenzwaaij2011]_
-    using Re-parameterized version (by Harhim Park & Jaeyeong Yang) of BART Model (Ravenzwaaij et al., 2011) with 4 parameters  with the following parameters:
+    Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task 
+    using Re-parameterized version of BART model with 4 parameters [van_Ravenzwaaij2011]_ with the following parameters:
     "phi" (prior belief of balloon not bursting), "eta" (updating rate), "gam" (risk-taking parameter), "tau" (inverse temperature).
 
     
 
-    .. [van_Ravenzwaaij2011] van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model decomposition of the BART: Assessment and application. Journal of Mathematical Psychology, 55(1), 94-105.
     
+    .. [van_Ravenzwaaij2011] van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model decomposition of the BART: Assessment and application. Journal of Mathematical Psychology, 55(1), 94-105.
 
     .. codeauthor:: Harhim Park <hrpark12@gmail.com>
     .. codeauthor:: Jaeyeong Yang <jaeyeong.yang1125@gmail.com>
