@@ -1,11 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import sys
 import subprocess
 from setuptools import setup, find_packages
+from pathlib import Path
 
 if sys.version_info[:2] < (3, 5):
     raise RuntimeError("Python version >= 3.5 required.")
+
+
+PATH_ROOT = Path(__file__).absolute().parent
 
 
 MAJOR = 0
@@ -80,7 +84,7 @@ if not release:
 """
     FULLVERSION, GIT_REVISION = get_version_info()
 
-    a = open(filename, 'w')
+    a = open(PATH_ROOT / filename, 'w')
     try:
         a.write(cnt % {'version': VERSION,
                        'full_version': FULLVERSION,
