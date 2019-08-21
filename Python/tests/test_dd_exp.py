@@ -4,7 +4,8 @@ from hbayesdm.models import dd_exp
 
 
 def test_dd_exp():
-    _ = dd_exp(example=True, niter=2, nwarmup=1, nchain=1, ncore=1)
+    _ = dd_exp(
+        example=True, niter=10, nwarmup=5, nchain=1, ncore=1)
 
 
 if __name__ == '__main__':

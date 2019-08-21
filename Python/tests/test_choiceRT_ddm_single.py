@@ -4,7 +4,8 @@ from hbayesdm.models import choiceRT_ddm_single
 
 
 def test_choiceRT_ddm_single():
-    _ = choiceRT_ddm_single(example=True, niter=2, nwarmup=1, nchain=1, ncore=1)
+    _ = choiceRT_ddm_single(
+        example=True, niter=10, nwarmup=5, nchain=1, ncore=1)
 
 
 if __name__ == '__main__':
