@@ -57,18 +57,7 @@ on each new iteration. See \bold{Details} below.}
 \item{choose_data}{Whether to choose data with an interactive window.
 By default, set to \code{FALSE}.}
 
-\item{...}{For this model, there is no model-specific argument.
-\describe{
-  
-  
-  
-  
-  
-  
-  
-  
-  
-}}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:

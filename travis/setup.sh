@@ -5,7 +5,6 @@ if [ "$TARGET" = "R" ]; then
   export R_LIBS_USER=~/R/Library
   export R_LIBS_SITE=/usr/local/lib/R/site-library:/usr/lib/R/site-library
   export _R_CHECK_CRAN_INCOMING_=false
-  export NOT_CRAN=true
   export R_PROFILE=~/.Rprofile.site
 
   # Add CRAN as an APT source
@@ -26,7 +25,7 @@ if [ "$TARGET" = "R" ]; then
 
   # Install R packages
   Rscript \
-    -e 'install.packages(c("devtools", "roxygen2", "covr"), quiet = T, repos = "https://cran.rstudio.com")' \
+    -e 'install.packages(c("devtools", "roxygen2", "testthat", "covr"), quiet = T, repos = "https://cran.rstudio.com")' \
     -e 'devtools::install_deps(dep = T, quiet = T)'
 
 # Setup codes for Python

@@ -90,20 +90,7 @@ def pst_gainloss_Q(
     correctly and contain the information below:
 
     - "subjID": A unique identifier for each subject in the data-set.
-    - "type": Two-digit number indicating which pair of stimuli were presented for that trial, e.g. 12, 34, or 56. The digit on the left (tens-digit) indicates the presented stimulus for option1, while the digit on the right (ones-digit) indicates that for option2. Code for each stimulus type (1~6) is defined as below:
-
-        ===== ======== ==================
-        Code  Stimulus Probability to win
-        ===== ======== ==================
-          1   A        80%
-          2   B        20%
-          3   C        70%
-          4   D        30%
-          5   E        60%
-          6   F        40%
-        ===== ======== ==================
-
-        The modeling will still work even if different probabilities are used for the stimuli; however, the total number of stimuli should be less than or equal to 6.
+    - "type": Two-digit number indicating which pair of stimuli were presented for that trial, e.g. 12, 34, or 56. The digit on the left (tens-digit) indicates the presented stimulus for option1, while the digit on the right (ones-digit) indicates that for option2. Code for each stimulus type (1~6) is defined as for 80\% (type 1), 20\% (type 2), 70\% (type 3), 30\% (type 4), 60\% (type 5), 40\% (type 6). The modeling will still work even if different probabilities are used for the stimuli; however, the total number of stimuli should be less than or equal to 6.
     - "choice": Whether the subject chose the left option (option1) out of the given two options (i.e. if option1 was chosen, 1; if option2 was chosen, 0).
     - "reward": Amount of reward earned as a result of the trial.
 
