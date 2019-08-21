@@ -361,35 +361,60 @@ hBayesDM_model <- function(task_name,
     }
 
     # Initial values for the parameters
+    gen_init <- NULL
     if (inits[1] == "vb") {
-      cat("\n")
-      cat("****************************************\n")
-      cat("** Use VB estimates as initial values **\n")
-      cat("****************************************\n")
+      if (vb) {
+        cat("\n")
+        cat("*****************************************\n")
+        cat("** Use random values as initial values **\n")
+        cat("*****************************************\n")
+        gen_init <- "random"
 
-      fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list)
-      m_vb <- colMeans(as.data.frame(fit_vb))
+      } else {
+        cat("\n")
+        cat("****************************************\n")
+        cat("** Use VB estimates as initial values **\n")
+        cat("****************************************\n")
 
-      gen_init <- function() {
-        ret <- list(
-          mu_pr = as.vector(m_vb[startsWith(names(m_vb), 'mu_pr')]),
-          sigma = as.vector(m_vb[startsWith(names(m_vb), 'sigma')])
-        )
+        tryCatch({
+          fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list)
+          m_vb <- colMeans(as.data.frame(fit_vb))
 
-        for (p in names(parameters)) {
-          ret[[p]] <- as.vector(m_vb[startsWith(names(m_vb), paste0(p, '_pr'))])
-        }
+          gen_init <<- function() {
+            ret <- list(
+              mu_pr = as.vector(m_vb[startsWith(names(m_vb), "mu_pr")]),
+              sigma = as.vector(m_vb[startsWith(names(m_vb), "sigma")])
+            )
 
-        return(ret)
+            for (p in names(parameters)) {
+              ret[[p]] <- as.vector(m_vb[startsWith(names(m_vb), paste0(p, "_pr"))])
+            }
+
+            return(ret)
+          }
+        }, error = function(e) {
+          cat("\n")
+          cat("******************************************\n")
+          cat("** Failed to obtain VB estimates.       **\n")
+          cat("** Use random values as initial values. **\n")
+          cat("******************************************\n")
+          gen_init <<- "random"
+        })
       }
     } else if (inits[1] == "random") {
+      cat("\n")
+      cat("*****************************************\n")
+      cat("** Use random values as initial values **\n")
+      cat("*****************************************\n")
       gen_init <- "random"
     } else {
       if (inits[1] == "fixed") {
-        inits <- unlist(lapply(parameters, "[", 2))   # plausible values of each parameter
+        # plausible values of each parameter
+        inits <- unlist(lapply(parameters, "[", 2))
       } else if (length(inits) != length(parameters)) {
-        stop("** Length of 'inits' must be ", length(parameters),
-             " (= the number of parameters of this model). Please check again. **\n")
+        stop("** Length of 'inits' must be ", length(parameters), " ",
+             "(= the number of parameters of this model). ",
+             "Please check again. **\n")
       }
       if (model_type == "single") {
         gen_init <- function() {
@@ -424,7 +449,7 @@ hBayesDM_model <- function(task_name,
     ############### Fit & extract ###############
 
     # Fit the Stan model
-    if (vb) {  # if variational Bayesian
+    if (vb) {
       fit <- rstan::vb(object = stanmodel_arg,
                        data   = data_list,
                        pars   = pars,
