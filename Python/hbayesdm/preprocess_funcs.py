@@ -136,7 +136,7 @@ def bart_preprocess_func(self, raw_data, general_info, additional_args):
         'N': n_subj,
         'T': t_max,
         'Tsubj': t_subjs,
-        'P': max(pumps) + 1,
+        'P': np.max(pumps) + 1,
         'pumps': pumps,
         'explosion': explosion,
     }
@@ -163,8 +163,8 @@ def choiceRT_preprocess_func(self, raw_data, general_info, additional_args):
         Nl[s] = value_counts.at[1]
 
     # Reaction-times for upper/lower boundary responses
-    RTu = np.full((n_subj, max(Nu)), -1, dtype=float)
-    RTl = np.full((n_subj, max(Nl)), -1, dtype=float)
+    RTu = np.full((n_subj, np.max(Nu)), -1, dtype=float)
+    RTl = np.full((n_subj, np.max(Nl)), -1, dtype=float)
 
     # Write RTu, RTl
     subj_group = iter(general_info['grouped_data'])
@@ -188,8 +188,8 @@ def choiceRT_preprocess_func(self, raw_data, general_info, additional_args):
     # Wrap into a dict for pystan
     data_dict = {
         'N': n_subj,
-        'Nu_max': max(Nu),
-        'Nl_max': max(Nl),
+        'Nu_max': np.max(Nu),
+        'Nl_max': np.max(Nl),
         'Nu': Nu,
         'Nl': Nl,
         'RTu': RTu,
