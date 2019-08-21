@@ -63,11 +63,6 @@ html_static_path = ['_static']
 # Autodoc settings
 autoclass_content = 'both'
 autodoc_member_order = 'bysource'
-autodoc_default_options = {
-    'members': True,
-    'undoc-members': True,
-    'show-inheritance': False
-}
 autodoc_typehints = 'none'
 
 # Napoleon settings
