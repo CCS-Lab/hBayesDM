@@ -21,8 +21,8 @@ import hbayesdm  # noqa: E402
 # -- Project information -----------------------------------------------------
 
 project = 'hBayesDM'
-copyright = '2019, hBayesDM Developers'
-author = 'hBayesDM Developers'
+copyright = '2019, hBayesDM developers'
+author = 'hBayesDM developers'
 
 # The short X.Y version
 version = hbayesdm.version.version
@@ -40,9 +40,8 @@ release = hbayesdm.version.release
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.napoleon',
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.todo',
     'sphinx.ext.mathjax',
     'sphinx.ext.githubpages',
 ]
@@ -181,7 +180,24 @@ epub_exclude_files = ['search.html']
 
 # -- Extension configuration -------------------------------------------------
 
-# -- Options for todo extension ----------------------------------------------
+# Autodoc settings
+autoclass_content = 'both'
+autodoc_member_order = 'bysource'
+autodoc_default_options = {
+    'members': True,
+    'undoc-members': True,
+    'show-inheritance': False
+}
+autodoc_typehints = 'none'
 
-# If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos = True
+# Napoleon settings
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = False
+napoleon_use_rtype = False
