@@ -460,20 +460,20 @@ class TaskModel(metaclass=ABCMeta):
             return 'random'
 
         len_param = len(self.parameters)
-        dict_vb = {
-            k: v
-            for k, v in zip(fit['mean_par_names'], fit['mean_pars'])
-            if k.startswith('sigma[') or '_pr[' in k
-        }
+        dict_vb = dict(zip(fit['mean_par_names'], fit['mean_pars']))
 
         dict_init = {}
-        dict_init['mu_pr'] = \
-            [dict_vb['mu_pr[%d]' % (i + 1)] for i in range(len_param)]
-        dict_init['sigma'] = \
-            [dict_vb['sigma[%d]' % (i + 1)] for i in range(len_param)]
-        for p in self.parameters:
-            dict_init['%s_pr' % p] = \
-                [dict_vb['%s_pr[%d]' % (p, i + 1)] for i in range(n_subj)]
+        if self.model_type == 'single':
+            for p in self.parameters:
+                dict_init[p] = dict_vb[p]
+        else:
+            dict_init['mu_pr'] = \
+                [dict_vb['mu_pr[%d]' % (i + 1)] for i in range(len_param)]
+            dict_init['sigma'] = \
+                [dict_vb['sigma[%d]' % (i + 1)] for i in range(len_param)]
+            for p in self.parameters:
+                dict_init['%s_pr' % p] = \
+                    [dict_vb['%s_pr[%d]' % (p, i + 1)] for i in range(n_subj)]
 
         def gen_init():
             return dict_init
