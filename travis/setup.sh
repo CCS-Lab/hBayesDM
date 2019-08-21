@@ -5,7 +5,6 @@ if [ "$TARGET" = "R" ]; then
   export R_LIBS_USER=~/R/Library
   export R_LIBS_SITE=/usr/local/lib/R/site-library:/usr/lib/R/site-library
   export _R_CHECK_CRAN_INCOMING_=false
-  export NOT_CRAN=true
   export R_PROFILE=~/.Rprofile.site
 
   # Add CRAN as an APT source
