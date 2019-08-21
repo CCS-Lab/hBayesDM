@@ -1,8 +1,5 @@
-Diagnostics (:mod:`hbayesdm.diagnostics`)
-=========================================
+Diagnostics
+===========
 
-.. autofunction:: hbayesdm.rhat
-.. autofunction:: hbayesdm.print_fit
-.. autofunction:: hbayesdm.hdi
-.. autofunction:: hbayesdm.plot_hdi
+.. automodule:: hbayesdm.diagnostics
 

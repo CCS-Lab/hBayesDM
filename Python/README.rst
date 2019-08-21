@@ -11,8 +11,7 @@ decision-making tasks. *hBayesDM* uses `PyStan`_ (Python interface for
 .. _Stan: http://mc-stan.org/
 
 hBayesDM-py supports Python 3.5 or higher. It requires several packages including:
-
-* `NumPy`_, `SciPy`_, `Pandas`_, `PyStan`_, `Matplotlib`_, `ArviZ`_
+`NumPy`_, `SciPy`_, `Pandas`_, `PyStan`_, `Matplotlib`_, and `ArviZ`_.
 
 .. _NumPy: https://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
@@ -27,7 +26,7 @@ You can install hBayesDM-py from PyPI with the following line:
 
 .. code:: bash
 
-   pip install hbayesdm                  # Install using pip
+   pip install hbayesdm  # Install using pip
 
 If you want to install from source (by cloning from GitHub):
 
@@ -37,4 +36,24 @@ If you want to install from source (by cloning from GitHub):
    cd hBayesDM
    cd Python
 
-   python setup.py install               # Install from source
+   python setup.py install  # Install from source
+
+Citation
+--------
+
+If you used hBayesDM or some of its codes for your research, please cite `this paper`_:
+
+.. _this paper: https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002
+
+.. code:: bibtex
+
+   @article{hBayesDM,
+     title = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},
+     author = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},
+     journal = {Computational Psychiatry},
+     year = {2017},
+     volume = {1},
+     pages = {24--57},
+     publisher = {MIT Press},
+     url = {doi:10.1162/CPSY_a_00002},
+   }

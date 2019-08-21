@@ -1,5 +1,5 @@
-Models (:py:mod:`hbayesdm.models`)
-==================================
+Models
+======
 
 .. automodule:: hbayesdm.models
    :members:
