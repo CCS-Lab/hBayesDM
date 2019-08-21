@@ -23,11 +23,6 @@ project = 'hBayesDM'
 copyright = '2019, hBayesDM developers'
 author = 'hBayesDM developers'
 
-# The short X.Y version
-version = hbayesdm.version.version
-# The full version, including alpha/beta/rc tags
-release = hbayesdm.version.release
-
 
 # -- General configuration ---------------------------------------------------
 
