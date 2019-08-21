@@ -1,5 +1,5 @@
 
-# hBayesDM
+# hBayesDM-R
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively

@@ -38,18 +38,3 @@ If you want to install from source (by cloning from GitHub):
    cd Python
 
    python setup.py install               # Install from source
-
-If you want to create a virtual environment using `pipenv`_:
-
-.. _pipenv: https://pipenv.readthedocs.io/en/latest/
-
-.. code:: bash
-
-   git clone https://github.com/CCS-Lab/hBayesDM.git
-   cd hBayesDM
-   cd Python
-
-   pipenv install --skip-lock            # Install using pipenv
-   # or
-   pipenv install --dev --skip-lock      # For developmental purposes
-
