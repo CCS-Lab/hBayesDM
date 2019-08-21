@@ -1,4 +1,3 @@
--e ./Python/.
 arviz
 flake8
 matplotlib
@@ -10,4 +9,4 @@ pytest
 scipy
 sphinx
 sphinx-autodoc-typehints
-sphinx-rtd-theme
+./Python
