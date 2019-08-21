@@ -14,9 +14,11 @@ PATH_ROOT = Path(__file__).absolute().parent
 PATH_MODELS = PATH_ROOT / 'models'
 PATH_TEMPLATE = PATH_ROOT / 'templates'
 PATH_OUTPUT = PATH_ROOT / 'R-codes'
+PATH_OUTPUT_TEST = PATH_ROOT / 'R-tests'
 
 TEMPLATE_DOCS = PATH_TEMPLATE / 'R_DOCS_TEMPLATE.txt'
 TEMPLATE_CODE = PATH_TEMPLATE / 'R_CODE_TEMPLATE.txt'
+TEMPLATE_TEST = PATH_TEMPLATE / 'R_TEST_TEMPLATE.txt'
 
 
 def parse_cite_string(cite):
@@ -38,11 +40,8 @@ def parse_cite_string(cite):
     shortcite = '{}{}'.format(firstauthor, year)
     if len(authors) == 1:
         barecite = '{}, {}'.format(firstauthor, year)
-        textcite = '{} ({})'.format(firstauthor, year)
     else:
         barecite = '{} et al., {}'.format(firstauthor, year)
-        textcite = '{} et al. ({})'.format(firstauthor, year)
-    parencite = '({})'.format(barecite)
 
     return {
         'authors': authors,
@@ -65,7 +64,7 @@ def format_fullcite(cites, sep='\n#\' '):
     return sep.join([c['fullcite'] for c in cites if c])
 
 
-def generate_docstring(info):
+def generate_docs(info):
     # Model full name (Snake-case)
     model_function = [info['task_name']['code'], info['model_name']['code']]
     if info['model_type']['code'] != '':
@@ -235,19 +234,37 @@ def generate_code(info):
     return code
 
 
+def generate_test(info):
+    # Model full name (Snake-case)
+    model_function = [info['task_name']['code'], info['model_name']['code']]
+    if info['model_type']['code'] != '':
+        model_function.append(info['model_type']['code'])
+    model_function = '_'.join(model_function)
+
+    # Read template for model tests
+    with open(TEMPLATE_TEST, 'r') as f:
+        test_template = f.read()
+
+    test = test_template % dict(model_function=model_function)
+
+    return test
+
+
 def main(json_fn, verbose):
     with Path(json_fn) as p:
         # Check if file exists
         if not p.exists():
-            print('FileNotFound: Please specify existing json_file as argument.')
+            print('FileNotFound: '
+                  'Please specify existing json_file as argument.')
             sys.exit(1)
 
         # Load json_file
         with open(p, 'r') as f:
             info = json.load(f, object_pairs_hook=OrderedDict)
 
-    docs = generate_docstring(info)
+    docs = generate_docs(info)
     code = generate_code(info)
+    test = generate_test(info)
     output = docs + code
 
     if verbose:
@@ -263,12 +280,20 @@ def main(json_fn, verbose):
 
         if not PATH_OUTPUT.exists():
             PATH_OUTPUT.mkdir(exist_ok=True)
+        if not PATH_OUTPUT_TEST.exists():
+            PATH_OUTPUT_TEST.mkdir(exist_ok=True)
 
-        # Write model python code
+        # Write model codes
         code_fn = PATH_OUTPUT / (model_function + '.R')
         with open(code_fn, 'w') as f:
             f.write(output)
         print('Created file:', code_fn.name)
+
+        # Write test codes
+        test_fn = PATH_OUTPUT_TEST / ('test_' + model_function + '.R')
+        with open(test_fn, 'w') as f:
+            f.write(test)
+        print('Created file:', test_fn.name)
 
 
 if __name__ == '__main__':
