@@ -61,7 +61,8 @@ def get_version_info():
         GIT_REVISION = "Unknown"
 
     if not ISRELEASED:
-        FULLVERSION += '.dev0+' + GIT_REVISION[:7]
+        # Following the R versioning convention
+        FULLVERSION += '.9000'
 
     return FULLVERSION, GIT_REVISION
 
