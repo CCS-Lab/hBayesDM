@@ -26,7 +26,7 @@ if [ "$TARGET" = "R" ]; then
 
   # Install R packages
   Rscript \
-    -e 'install.packages(c("devtools", "roxygen2", "covr"), quiet = T, repos = "https://cran.rstudio.com")' \
+    -e 'install.packages(c("devtools", "roxygen2", "testthat", "covr"), quiet = T, repos = "https://cran.rstudio.com")' \
     -e 'devtools::install_deps(dep = T, quiet = T)'
 
 # Setup codes for Python
