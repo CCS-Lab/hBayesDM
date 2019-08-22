@@ -19,6 +19,8 @@ __all__ = ['TaskModel']
 
 PATH_ROOT = Path(__file__).absolute().parent
 PATH_COMMON = PATH_ROOT / 'common'
+PATH_STAN = (PATH_COMMON / 'stan_files').absolute()
+PATH_EXTDATA = (PATH_COMMON / 'extdata').absolute()
 
 
 class TaskModel(metaclass=ABCMeta):
@@ -269,7 +271,7 @@ class TaskModel(metaclass=ABCMeta):
             else:
                 filename = '%s_%s_exampleData.txt' % (
                     self.task_name, self.model_type)
-            example_data = PATH_COMMON / 'extdata' / filename
+            example_data = PATH_EXTDATA / filename
             raw_data = pd.read_csv(example_data, sep='\t')
 
         # Save initial column names of raw data for later
@@ -654,7 +656,6 @@ class TaskModel(metaclass=ABCMeta):
         sm
             Compiled StanModel obj to use for sampling & fitting.
         """
-        PATH_STAN = PATH_COMMON / 'stan_files'
         model_path = PATH_STAN / (model + '.stan')
         cache_file = 'cached-%s-pystan_%s.pkl' % (model, _pystan_version)
 
