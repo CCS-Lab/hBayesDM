@@ -59,7 +59,7 @@ elif [ "$TARGET" = "Python" ]; then
 
   # Install dependencies
   pip install -r requirements.txt --upgrade
-  pip install .
+  python setup.py install
 
 # Otherwise
 else
