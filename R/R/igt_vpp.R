@@ -37,14 +37,14 @@ igt_vpp <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "A" = c(NULL, 0.5, 1),
-    "alpha" = c(NULL, 0.5, 2),
-    "cons" = c(NULL, 1, 5),
-    "lambda" = c(NULL, 1, 10),
-    "epP" = c(-Inf, NULL, Inf),
-    "epN" = c(-Inf, NULL, Inf),
-    "K" = c(NULL, 0.5, 1),
-    "w" = c(NULL, 0.5, 1)
+    "A" = c(0, 0.5, 1),
+    "alpha" = c(0, 0.5, 2),
+    "cons" = c(0, 1, 5),
+    "lambda" = c(0, 1, 10),
+    "epP" = c(-Inf, 0, Inf),
+    "epN" = c(-Inf, 0, Inf),
+    "K" = c(0, 0.5, 1),
+    "w" = c(0, 0.5, 1)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

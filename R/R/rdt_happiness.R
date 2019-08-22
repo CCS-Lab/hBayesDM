@@ -43,8 +43,8 @@ rdt_happiness <- hBayesDM_model(
     "w1" = c(-Inf, 1, Inf),
     "w2" = c(-Inf, 1, Inf),
     "w3" = c(-Inf, 1, Inf),
-    "gam" = c(NULL, 0.5, 1),
-    "sig" = c(NULL, 1, Inf)
+    "gam" = c(0, 0.5, 1),
+    "sig" = c(0, 1, Inf)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

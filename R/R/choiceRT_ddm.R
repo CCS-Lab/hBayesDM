@@ -39,10 +39,10 @@ choiceRT_ddm <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "RT"),
   parameters      = list(
-    "alpha" = c(NULL, 0.5, Inf),
-    "beta" = c(NULL, 0.5, 1),
-    "delta" = c(NULL, 0.5, Inf),
-    "tau" = c(NULL, 0.15, 1)
+    "alpha" = c(0, 0.5, Inf),
+    "beta" = c(0, 0.5, 1),
+    "delta" = c(0, 0.5, Inf),
+    "tau" = c(0, 0.15, 1)
   ),
   regressors      = NULL,
   postpreds       = NULL,

@@ -33,9 +33,9 @@ prl_ewa <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "outcome"),
   parameters      = list(
-    "phi" = c(NULL, 0.5, 1),
-    "rho" = c(NULL, 0.1, 1),
-    "beta" = c(NULL, 1, 10)
+    "phi" = c(0, 0.5, 1),
+    "rho" = c(0, 0.1, 1),
+    "beta" = c(0, 1, 10)
   ),
   regressors      = list(
     "ev_c" = 2,

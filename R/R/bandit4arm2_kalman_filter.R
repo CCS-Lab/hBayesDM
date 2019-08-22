@@ -33,12 +33,12 @@ bandit4arm2_kalman_filter <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "outcome"),
   parameters      = list(
-    "lambda" = c(NULL, 0.9, 1),
-    "theta" = c(NULL, 50, 100),
-    "beta" = c(NULL, 0.1, 1),
-    "mu0" = c(NULL, 85, 100),
-    "sigma0" = c(NULL, 6, 15),
-    "sigmaD" = c(NULL, 3, 15)
+    "lambda" = c(0, 0.9, 1),
+    "theta" = c(0, 50, 100),
+    "beta" = c(0, 0.1, 1),
+    "mu0" = c(0, 85, 100),
+    "sigma0" = c(0, 6, 15),
+    "sigmaD" = c(0, 3, 15)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

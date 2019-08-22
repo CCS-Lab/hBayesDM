@@ -37,9 +37,9 @@ igt_orl <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "Arew" = c(NULL, 0.1, 1),
-    "Apun" = c(NULL, 0.1, 1),
-    "K" = c(NULL, 0.1, 5),
+    "Arew" = c(0, 0.1, 1),
+    "Apun" = c(0, 0.1, 1),
+    "K" = c(0, 0.1, 5),
     "betaF" = c(-Inf, 0.1, Inf),
     "betaP" = c(-Inf, 1, Inf)
   ),

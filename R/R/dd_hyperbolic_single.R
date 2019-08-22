@@ -36,8 +36,8 @@ dd_hyperbolic_single <- hBayesDM_model(
   model_type      = "single",
   data_columns    = c("subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"),
   parameters      = list(
-    "k" = c(NULL, 0.1, NULL),
-    "beta" = c(NULL, 1, NULL)
+    "k" = c(0, 0.1, 1),
+    "beta" = c(0, 1, 5)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

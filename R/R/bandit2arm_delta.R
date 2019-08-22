@@ -35,8 +35,8 @@ bandit2arm_delta <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "outcome"),
   parameters      = list(
-    "A" = c(NULL, 0.5, 1),
-    "tau" = c(NULL, 1, 5)
+    "A" = c(0, 0.5, 1),
+    "tau" = c(0, 1, 5)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

@@ -1,0 +1,40 @@
+task_name:
+  code: bandit4arm
+  desc: 4-Armed Bandit Task
+  cite:
+model_name:
+  code: 4par
+  desc: 4 Parameter Model, without C (choice perseveration)
+  cite:
+  - Seymour, Daw, Roiser, Dayan, & Dolan (2012). Serotonin Selectively Modulates Reward
+    Value in Human Decision-Making. J Neuro, 32(17), 5833-5842.
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  choice: 'Integer value representing the option chosen on the given trial: 1, 2,
+    3, or 4.'
+  gain: Floating point value representing the amount of currency won on the given
+    trial (e.g. 50, 100).
+  loss: Floating point value representing the amount of currency lost on the given
+    trial (e.g. 0, -50).
+parameters:
+  Arew:
+    desc: reward learning rate
+    info: [0, 0.1, 1]
+  Apun:
+    desc: punishment learning rate
+    info: [0, 0.1, 1]
+  R:
+    desc: reward sensitivity
+    info: [0, 1, 30]
+  P:
+    desc: punishment sensitivity
+    info: [0, 1, 30]
+regressors:
+postpreds:
+- y_pred
+additional_args:

@@ -34,10 +34,10 @@ gng_m2 <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "cue", "keyPressed", "outcome"),
   parameters      = list(
-    "xi" = c(NULL, 0.1, 1),
-    "ep" = c(NULL, 0.2, 1),
-    "b" = c(-Inf, NULL, Inf),
-    "rho" = c(NULL, exp(2), Inf)
+    "xi" = c(0, 0.1, 1),
+    "ep" = c(0, 0.2, 1),
+    "b" = c(-Inf, 0, Inf),
+    "rho" = c(0, exp(2), Inf)
   ),
   regressors      = list(
     "Qgo" = 2,

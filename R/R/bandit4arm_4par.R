@@ -34,10 +34,10 @@ bandit4arm_4par <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "Arew" = c(NULL, 0.1, 1),
-    "Apun" = c(NULL, 0.1, 1),
-    "R" = c(NULL, 1, 30),
-    "P" = c(NULL, 1, 30)
+    "Arew" = c(0, 0.1, 1),
+    "Apun" = c(0, 0.1, 1),
+    "R" = c(0, 1, 30),
+    "P" = c(0, 1, 30)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

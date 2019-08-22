@@ -1,0 +1,41 @@
+task_name:
+  code: dd
+  desc: Delay Discounting Task
+  cite:
+model_name:
+  code: cs
+  desc: Constant-Sensitivity (CS) Model
+  cite:
+  - 'Ebert, J. E. J., & Prelec, D. (2007). The Fragility of Time: Time-Insensitivity
+    and Valuation of the Near and Far Future. Management Science. http://doi.org/10.1287/mnsc.1060.0671'
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  delay_later: An integer representing the delayed days for the later option (e.g.
+    1, 6, 28).
+  amount_later: A floating point number representing the amount for the later option
+    (e.g. 10.5, 13.4, 30.9).
+  delay_sooner: An integer representing the delayed days for the sooner option (e.g.
+    0).
+  amount_sooner: A floating point number representing the amount for the sooner option
+    (e.g. 10).
+  choice: If amount_later was selected, choice == 1; else if amount_sooner was selected,
+    choice == 0.
+parameters:
+  r:
+    desc: exponential discounting rate
+    info: [0, 0.1, 1]
+  s:
+    desc: impatience
+    info: [0, 1, 10]
+  beta:
+    desc: inverse temperature
+    info: [0, 1, 5]
+regressors:
+postpreds:
+- y_pred
+additional_args:

@@ -33,9 +33,9 @@ ug_delta <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "offer", "accept"),
   parameters      = list(
-    "alpha" = c(NULL, 1, 20),
-    "tau" = c(NULL, 1, 10),
-    "ep" = c(NULL, 0.5, 1)
+    "alpha" = c(0, 1, 20),
+    "tau" = c(0, 1, 10),
+    "ep" = c(0, 0.5, 1)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

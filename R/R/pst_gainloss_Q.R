@@ -34,9 +34,9 @@ pst_gainloss_Q <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "type", "choice", "reward"),
   parameters      = list(
-    "alpha_pos" = c(NULL, 0.5, 1),
-    "alpha_neg" = c(NULL, 0.5, 1),
-    "beta" = c(NULL, 1, 10)
+    "alpha_pos" = c(0, 0.5, 1),
+    "alpha_neg" = c(0, 0.5, 1),
+    "beta" = c(0, 1, 10)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

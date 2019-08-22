@@ -33,9 +33,9 @@ ug_bayes <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "offer", "accept"),
   parameters      = list(
-    "alpha" = c(NULL, 1, 20),
-    "beta" = c(NULL, 0.5, 10),
-    "tau" = c(NULL, 1, 10)
+    "alpha" = c(0, 1, 20),
+    "beta" = c(0, 0.5, 10),
+    "tau" = c(0, 1, 10)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

@@ -33,9 +33,9 @@ prl_rp <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "outcome"),
   parameters      = list(
-    "Apun" = c(NULL, 0.1, 1),
-    "Arew" = c(NULL, 0.1, 1),
-    "beta" = c(NULL, 1, 10)
+    "Apun" = c(0, 0.1, 1),
+    "Arew" = c(0, 0.1, 1),
+    "beta" = c(0, 1, 10)
   ),
   regressors      = list(
     "ev_c" = 2,
