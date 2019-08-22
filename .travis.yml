@@ -35,8 +35,6 @@ addons:
 
 matrix:
   include:
-  - name: 'Test sync on models and data'
-    env: TARGET='Sync'
   - name: 'Test R codes'
     env: TARGET='R'
   - name: 'Test Python codes (Python 3.5)'
