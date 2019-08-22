@@ -1,29 +1,65 @@
 #!/usr/bin/env python3
 """
-Generate R codes for hBayesDM using model information defined in a JSON file.
+Generate R codes for hBayesDM using model information defined in YAML files.
 """
 import sys
 import argparse
-import json
 import re
 from pathlib import Path
-from typing import List, Iterable, Callable
 from collections import OrderedDict
+
+import yaml
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
+
+
+def represent_none(self, _):
+    return self.represent_scalar('tag:yaml.org,2002:null', '')
+
+
+Dumper.add_representer(type(None), represent_none)
 
 PATH_ROOT = Path(__file__).absolute().parent
 PATH_MODELS = PATH_ROOT / 'models'
 PATH_TEMPLATE = PATH_ROOT / 'templates'
-PATH_OUTPUT = PATH_ROOT / 'R-codes'
-PATH_OUTPUT_TEST = PATH_ROOT / 'R-tests'
+PATH_OUTPUT = PATH_ROOT / '_r-codes'
+PATH_OUTPUT_TEST = PATH_ROOT / '_r-tests'
 
 TEMPLATE_DOCS = PATH_TEMPLATE / 'R_DOCS_TEMPLATE.txt'
 TEMPLATE_CODE = PATH_TEMPLATE / 'R_CODE_TEMPLATE.txt'
 TEMPLATE_TEST = PATH_TEMPLATE / 'R_TEST_TEMPLATE.txt'
 
 
+def ordered_load(stream, Loader=Loader, object_pairs_hook=OrderedDict):
+    class OrderedLoader(Loader):
+        pass
+
+    def construct_mapping(loader, node):
+        loader.flatten_mapping(node)
+        return object_pairs_hook(loader.construct_pairs(node))
+    OrderedLoader.add_constructor(
+        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+        construct_mapping)
+    return yaml.load(stream, OrderedLoader)
+
+
+def ordered_dump(data, stream=None, Dumper=Dumper, **kwds):
+    class OrderedDumper(Dumper):
+        pass
+
+    def _dict_representer(dumper, data):
+        return dumper.represent_mapping(
+            yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+            data.items())
+    OrderedDumper.add_representer(OrderedDict, _dict_representer)
+    return yaml.dump(data, stream, OrderedDumper, **kwds)
+
+
 def parse_cite_string(cite):
     """Parse given APA citation string into a dict object"""
-    if cite == '':
+    if not cite:
         return None
 
     regex_authoryear = r'(?P<authors>^.+?)\s\((?P<year>\d+?)\)'
@@ -67,13 +103,20 @@ def format_fullcite(cites, sep='\n#\' '):
 def generate_docs(info):
     # Model full name (Snake-case)
     model_function = [info['task_name']['code'], info['model_name']['code']]
-    if info['model_type']['code'] != '':
+    if info['model_type']['code']:
         model_function.append(info['model_type']['code'])
     model_function = '_'.join(model_function)
 
     # Citations
-    task_cite = [parse_cite_string(c) for c in info['task_name']['cite']]
-    model_cite = [parse_cite_string(c) for c in info['model_name']['cite']]
+    if info['task_name'].get('cite'):
+        task_cite = [parse_cite_string(c) for c in info['task_name']['cite']]
+    else:
+        task_cite = []
+
+    if info['model_name'].get('cite'):
+        model_cite = [parse_cite_string(c) for c in info['model_name']['cite']]
+    else:
+        model_cite = []
 
     task_parencite = format_parencite(task_cite)
     model_parencite = format_parencite(model_cite)
@@ -81,7 +124,7 @@ def generate_docs(info):
     references = format_fullcite(task_cite + model_cite, sep='\n#\'\n#\' ')
 
     # Notes
-    if len(info.get('notes', [])) > 0:
+    if info.get('notes'):
         notes = '@note\n#\' \\strong{Notes:}\n#\' ' + \
                 '\n#\' '.join(info['notes'])
         notes = '\n#\' ' + notes + '\n#\''
@@ -89,11 +132,14 @@ def generate_docs(info):
         notes = ''
 
     # Contributors
-    contributors = ', '.join([
-        r'\href{%s}{%s} <\email{%s}>'
-        % (c['link'], c['name'], c['email'].replace('@', '@@'))
-        for c in info.get('contributors', [])
-    ])
+    if info.get('contributors'):
+        contributors = ', '.join([
+            r'\href{%s}{%s} <\email{%s}>'
+            % (c['link'], c['name'], c['email'].replace('@', '@@'))
+            for c in info['contributors']
+        ])
+    else:
+        contributors = ''
 
     # Data columns
     data_columns = ', '.join([
@@ -113,26 +159,32 @@ def generate_docs(info):
     ])
 
     # Regressors
-    regressors = ', '.join([
-        '"%s"' % k for k in info.get('regressors', {}).keys()
-    ])
+    if info.get('regressors'):
+        regressors = ', '.join([
+            '"%s"' % k for k in info['regressors'].keys()
+        ])
+    else:
+        regressors = ''
 
     # Postpreds
-    postpreds = ', '.join([
-        '"%s"' % v for v in info.get('postpreds', [])
-    ])
+    if info.get('postpreds'):
+        postpreds = ', '.join(['"%s"' % v for v in info['postpreds']])
+    else:
+        postpreds = ''
 
     # Additional arguments
-    additional_args = info.get('additional_args', {})
-    additional_args_len = len(additional_args)
-    if additional_args_len > 0:
-        additional_args_details = '\n#\' '.join([
-            r'@templateVar ADDITIONAL_ARGS_%d \item{%s}{%s}'
-            % (i + 1, v['code'], v['desc'])
-            for i, v in enumerate(additional_args)
-        ])
-        additional_args_details += '\n#\''
+    if info.get('additional_args'):
+        additional_args = info.get('additional_args', {})
+        additional_args_len = len(additional_args)
+        if additional_args_len > 0:
+            additional_args_details = '\n#\' '.join([
+                r'@templateVar ADDITIONAL_ARGS_%d \item{%s}{%s}'
+                % (i + 1, v['code'], v['desc'])
+                for i, v in enumerate(additional_args)
+            ])
+            additional_args_details += '\n#\''
     else:
+        additional_args_len = 0
         additional_args_details = ''
 
     # Read template for docstring
@@ -167,7 +219,7 @@ def generate_docs(info):
 def generate_code(info):
     # Model full name (Snake-case)
     model_function = [info['task_name']['code'], info['model_name']['code']]
-    if info['model_type']['code'] != '':
+    if info['model_type']['code']:
         model_function.append(info['model_type']['code'])
     model_function = '_'.join(model_function)
 
@@ -184,7 +236,7 @@ def generate_code(info):
 
     # Parameters
     _params = info.get('parameters', {})
-    if len(_params) > 0:
+    if _params and len(_params) > 0:
         parameters = ',\n    '.join([
             '"{}" = c({}, {}, {})'
             .format(k,
@@ -199,7 +251,7 @@ def generate_code(info):
 
     # Regressors
     _regs = info.get('regressors', {})
-    if len(_regs) > 0:
+    if _regs and len(_regs) > 0:
         regressors = ',\n    '.join([
             '"{}" = {}'.format(k, v) for k, v in _regs.items()
         ])
@@ -209,7 +261,7 @@ def generate_code(info):
 
     # Postpreds
     _postpreds = info.get('postpreds', [])
-    if len(_postpreds) > 0:
+    if _postpreds and len(_postpreds) > 0:
         postpreds = ', '.join(['"%s"' % v for v in _postpreds])
         postpreds = 'c(' + postpreds + ')'
     else:
@@ -237,7 +289,7 @@ def generate_code(info):
 def generate_test(info):
     # Model full name (Snake-case)
     model_function = [info['task_name']['code'], info['model_name']['code']]
-    if info['model_type']['code'] != '':
+    if info['model_type']['code']:
         model_function.append(info['model_type']['code'])
     model_function = '_'.join(model_function)
 
@@ -250,74 +302,68 @@ def generate_test(info):
     return test
 
 
-def main(json_fn, verbose):
-    with Path(json_fn) as p:
-        # Check if file exists
-        if not p.exists():
-            print('FileNotFound: '
-                  'Please specify existing json_file as argument.')
-            sys.exit(1)
+def main(info_fn):
+    # Check if file exists
+    if not info_fn.exists():
+        print('FileNotFound:', info_fn)
+        sys.exit(1)
 
-        # Load json_file
-        with open(p, 'r') as f:
-            info = json.load(f, object_pairs_hook=OrderedDict)
+    with open(info_fn, 'r') as f:
+        info = ordered_load(f, Loader=Loader)
 
+    # Generate codes
     docs = generate_docs(info)
     code = generate_code(info)
     test = generate_test(info)
     output = docs + code
 
-    if verbose:
-        # Print code string to stdout
-        print(output)
-    else:
-        # Model full name (Snake-case)
-        model_function = [info['task_name']['code'],
-                          info['model_name']['code']]
-        if info['model_type']['code'] != '':
-            model_function.append(info['model_type']['code'])
-        model_function = '_'.join(model_function)
+    # Model full name (Snake-case)
+    model_function = [info['task_name']['code'],
+                      info['model_name']['code']]
+    if info['model_type']['code']:
+        model_function.append(info['model_type']['code'])
+    model_function = '_'.join(model_function)
 
-        if not PATH_OUTPUT.exists():
-            PATH_OUTPUT.mkdir(exist_ok=True)
-        if not PATH_OUTPUT_TEST.exists():
-            PATH_OUTPUT_TEST.mkdir(exist_ok=True)
+    # Make directories if not exist
+    if not PATH_OUTPUT.exists():
+        PATH_OUTPUT.mkdir(exist_ok=True)
+    if not PATH_OUTPUT_TEST.exists():
+        PATH_OUTPUT_TEST.mkdir(exist_ok=True)
 
-        # Write model codes
-        code_fn = PATH_OUTPUT / (model_function + '.R')
-        with open(code_fn, 'w') as f:
-            f.write(output)
-        print('Created file:', code_fn.name)
+    # Write model codes
+    code_fn = PATH_OUTPUT / (model_function + '.R')
+    with open(code_fn, 'w') as f:
+        f.write(output)
 
-        # Write test codes
-        test_fn = PATH_OUTPUT_TEST / ('test_' + model_function + '.R')
-        with open(test_fn, 'w') as f:
-            f.write(test)
-        print('Created file:', test_fn.name)
+    # Write test codes
+    test_fn = PATH_OUTPUT_TEST / ('test_' + model_function + '.R')
+    with open(test_fn, 'w') as f:
+        f.write(test)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-a', '--all',
-        help='write for all json files in directory',
-        action='store_true')
-    parser.add_argument(
         '-v', '--verbose',
-        help='print output to stdout instead of writing to file',
+        help='Whether to print its process.',
         action='store_true')
     parser.add_argument(
-        'json_file',
-        help='JSON file of the model to generate corresponding python code',
-        type=str, nargs='*')
+        'info_files',
+        help='YAML-formatted file(s) for model information.',
+        type=str,
+        nargs='*')
 
     args = parser.parse_args()
 
-    if args.all:
-        # `all` flag overrides `json_file` & `verbose`
-        all_json_files = PATH_MODELS.glob('*.json')
-        for json_fn in all_json_files:
-            main(json_fn, False)
+    if args.info_files:
+        info_fns = [PATH_MODELS / fn for fn in args.info_files]
     else:
-        for fn in args.json_file:
-            main(fn, args.verbose)
+        info_fns = sorted(PATH_MODELS.glob('*.yml'))
+
+    num_models = len(info_fns)
+
+    for i, info_fn in enumerate(info_fns):
+        main(info_fn)
+        if args.verbose:
+            print('[{:2d} / {:2d}] Done for {}'
+                  .format(i + 1, num_models, info_fn))
