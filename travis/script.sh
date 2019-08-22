@@ -7,7 +7,7 @@ if [ "$TARGET" = "R" ]; then
 
 # Scripts for Python
 elif [ "$TARGET" = "Python" ]; then
-  travis_wait 30 pytest tests/test_ra_prospect.py
+  travis_wait 30 pytest tests/test_ra_prospect.py --reruns 5
 
 # Otherwise
 else
