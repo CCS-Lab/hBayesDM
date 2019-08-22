@@ -37,10 +37,10 @@ igt_pvl_delta <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "A" = c(NULL, 0.5, 1),
-    "alpha" = c(NULL, 0.5, 2),
-    "cons" = c(NULL, 1, 5),
-    "lambda" = c(NULL, 1, 10)
+    "A" = c(0, 0.5, 1),
+    "alpha" = c(0, 0.5, 2),
+    "cons" = c(0, 1, 5),
+    "lambda" = c(0, 1, 10)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

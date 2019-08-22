@@ -33,9 +33,9 @@ wcs_sql <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "outcome"),
   parameters      = list(
-    "r" = c(NULL, 0.1, 1),
-    "p" = c(NULL, 0.1, 1),
-    "d" = c(NULL, 1, 5)
+    "r" = c(0, 0.1, 1),
+    "p" = c(0, 0.1, 1),
+    "d" = c(0, 1, 5)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

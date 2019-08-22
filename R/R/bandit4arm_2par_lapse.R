@@ -34,9 +34,9 @@ bandit4arm_2par_lapse <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "Arew" = c(NULL, 0.1, 1),
-    "Apun" = c(NULL, 0.1, 1),
-    "xi" = c(NULL, 0.1, 1)
+    "Arew" = c(0, 0.1, 1),
+    "Apun" = c(0, 0.1, 1),
+    "xi" = c(0, 0.1, 1)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

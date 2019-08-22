@@ -33,10 +33,10 @@ bart_par4 <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "pumps", "explosion"),
   parameters      = list(
-    "phi" = c(NULL, 0.5, 1),
-    "eta" = c(NULL, 1, Inf),
-    "gam" = c(NULL, 1, Inf),
-    "tau" = c(NULL, 1, Inf)
+    "phi" = c(0, 0.5, 1),
+    "eta" = c(0, 1, Inf),
+    "gam" = c(0, 1, Inf),
+    "tau" = c(0, 1, Inf)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

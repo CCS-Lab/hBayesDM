@@ -39,10 +39,10 @@ ts_par4 <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "level1_choice", "level2_choice", "reward"),
   parameters      = list(
-    "a" = c(NULL, 0.5, 1),
-    "beta" = c(NULL, 1, Inf),
-    "pi" = c(NULL, 1, 5),
-    "w" = c(NULL, 0.5, 1)
+    "a" = c(0, 0.5, 1),
+    "beta" = c(0, 1, Inf),
+    "pi" = c(0, 1, 5),
+    "w" = c(0, 0.5, 1)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred_step1", "y_pred_step2"),

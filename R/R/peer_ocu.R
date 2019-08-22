@@ -38,9 +38,9 @@ peer_ocu <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice"),
   parameters      = list(
-    "rho" = c(NULL, 1, 2),
-    "tau" = c(NULL, 1, Inf),
-    "ocu" = c(-Inf, NULL, Inf)
+    "rho" = c(0, 1, 2),
+    "tau" = c(0, 1, Inf),
+    "ocu" = c(-Inf, 0, Inf)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

@@ -36,9 +36,9 @@ dd_cs <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"),
   parameters      = list(
-    "r" = c(NULL, 0.1, 1),
-    "s" = c(NULL, 1, 10),
-    "beta" = c(NULL, 1, 5)
+    "r" = c(0, 0.1, 1),
+    "s" = c(0, 1, 10),
+    "beta" = c(0, 1, 5)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

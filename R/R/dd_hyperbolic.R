@@ -36,8 +36,8 @@ dd_hyperbolic <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"),
   parameters      = list(
-    "k" = c(NULL, 0.1, 1),
-    "beta" = c(NULL, 1, 5)
+    "k" = c(0, 0.1, 1),
+    "beta" = c(0, 1, 5)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

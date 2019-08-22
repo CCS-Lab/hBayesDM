@@ -35,8 +35,8 @@ ra_noRA <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "gain", "loss", "cert", "gamble"),
   parameters      = list(
-    "lambda" = c(NULL, 1, 5),
-    "tau" = c(NULL, 1, 30)
+    "lambda" = c(0, 1, 5),
+    "tau" = c(0, 1, 30)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

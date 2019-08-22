@@ -36,9 +36,9 @@ cra_exp <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "prob", "ambig", "reward_var", "reward_fix", "choice"),
   parameters      = list(
-    "alpha" = c(NULL, 1, 2),
-    "beta" = c(-Inf, NULL, Inf),
-    "gamma" = c(NULL, 1, Inf)
+    "alpha" = c(0, 1, 2),
+    "beta" = c(-Inf, 0, Inf),
+    "gamma" = c(0, 1, Inf)
   ),
   regressors      = list(
     "sv" = 2,

@@ -42,10 +42,10 @@ dbdm_prob_weight <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice"),
   parameters      = list(
-    "tau" = c(NULL, 0.8, 1),
-    "rho" = c(NULL, 0.7, 2),
-    "lambda" = c(NULL, 2.5, 5),
-    "beta" = c(NULL, 0.2, 1)
+    "tau" = c(0, 0.8, 1),
+    "rho" = c(0, 0.7, 2),
+    "lambda" = c(0, 2.5, 5),
+    "beta" = c(0, 0.2, 1)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

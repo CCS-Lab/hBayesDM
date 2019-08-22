@@ -34,10 +34,10 @@ bandit4arm_singleA_lapse <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "A" = c(NULL, 0.1, 1),
-    "R" = c(NULL, 1, 30),
-    "P" = c(NULL, 1, 30),
-    "xi" = c(NULL, 0.1, 1)
+    "A" = c(0, 0.1, 1),
+    "R" = c(0, 1, 30),
+    "P" = c(0, 1, 30),
+    "xi" = c(0, 0.1, 1)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
