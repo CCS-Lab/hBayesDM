@@ -656,7 +656,7 @@ class TaskModel(metaclass=ABCMeta):
         sm
             Compiled StanModel obj to use for sampling & fitting.
         """
-        model_path = PATH_STAN / (model + '.stan')
+        model_path = str(PATH_STAN / (model + '.stan'))
         cache_file = 'cached-%s-pystan_%s.pkl' % (model, _pystan_version)
 
         if os.path.exists(cache_file):
