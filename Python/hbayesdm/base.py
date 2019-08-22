@@ -19,8 +19,8 @@ __all__ = ['TaskModel']
 
 PATH_ROOT = Path(__file__).absolute().parent
 PATH_COMMON = PATH_ROOT / 'common'
-PATH_STAN = (PATH_COMMON / 'stan_files').absolute()
-PATH_EXTDATA = (PATH_COMMON / 'extdata').absolute()
+PATH_STAN = (PATH_COMMON / 'stan_files').resolve()
+PATH_EXTDATA = (PATH_COMMON / 'extdata').resolve()
 
 
 class TaskModel(metaclass=ABCMeta):
