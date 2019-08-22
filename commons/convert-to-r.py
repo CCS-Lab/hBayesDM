@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Generate R codes for hBayesDM using model information defined in YAML files.
 """
@@ -229,6 +228,11 @@ def generate_code(info):
         prefix_preprocess_func += '_' + info['model_type']['code']
     preprocess_func = prefix_preprocess_func + '_preprocess_func'
 
+    # Model type code
+    model_type_code = info['model_type'].get('code')
+    if model_type_code is None:
+        model_type_code = ''
+
     # Data columns
     data_columns = ', '.join([
         r'"%s"' % k for k in info.get('data_columns', {}).keys()
@@ -240,9 +244,9 @@ def generate_code(info):
         parameters = ',\n    '.join([
             '"{}" = c({}, {}, {})'
             .format(k,
-                    v['info'][0] if v['info'][0] else 'NULL',
-                    v['info'][1] if v['info'][1] else 'NULL',
-                    v['info'][2] if v['info'][2] else 'NULL')
+                    v['info'][0] if v['info'][0] is not None else 'NULL',
+                    v['info'][1] if v['info'][1] is not None else 'NULL',
+                    v['info'][2] if v['info'][2] is not None else 'NULL')
             for k, v in _params.items()
         ])
         parameters = 'list(\n    ' + parameters + '\n  )'
@@ -275,7 +279,7 @@ def generate_code(info):
         model_function=model_function,
         task_code=info['task_name']['code'],
         model_code=info['model_name']['code'],
-        model_type=info['model_type']['code'],
+        model_type=model_type_code,
         data_columns=data_columns,
         parameters=parameters,
         regressors=regressors,
@@ -308,6 +312,7 @@ def main(info_fn):
         print('FileNotFound:', info_fn)
         sys.exit(1)
 
+    # Load model information
     with open(info_fn, 'r') as f:
         info = ordered_load(f, Loader=Loader)
 
