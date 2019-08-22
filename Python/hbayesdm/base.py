@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import pickle
 import multiprocessing
 from abc import ABCMeta, abstractmethod
@@ -16,7 +17,8 @@ from pystan import __version__ as _pystan_version
 
 __all__ = ['TaskModel']
 
-_common = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'common')
+PATH_ROOT = Path(__file__).absolute().parent
+PATH_COMMON = PATH_ROOT / 'common'
 
 
 class TaskModel(metaclass=ABCMeta):
@@ -267,7 +269,7 @@ class TaskModel(metaclass=ABCMeta):
             else:
                 filename = '%s_%s_exampleData.txt' % (
                     self.task_name, self.model_type)
-            example_data = os.path.join(_common, 'extdata', filename)
+            example_data = PATH_COMMON / 'extdata' / filename
             raw_data = pd.read_csv(example_data, sep='\t')
 
         # Save initial column names of raw data for later
@@ -652,8 +654,8 @@ class TaskModel(metaclass=ABCMeta):
         sm
             Compiled StanModel obj to use for sampling & fitting.
         """
-        stan_files = os.path.join(_common, 'stan_files')
-        model_path = os.path.join(stan_files, model + '.stan')
+        PATH_STAN = PATH_COMMON / 'stan_files'
+        model_path = PATH_STAN / (model + '.stan')
         cache_file = 'cached-%s-pystan_%s.pkl' % (model, _pystan_version)
 
         if os.path.exists(cache_file):
@@ -675,7 +677,7 @@ class TaskModel(metaclass=ABCMeta):
             print('Using cached StanModel:', cache_file)
         else:
             sm = StanModel(file=model_path, model_name=model,
-                           include_paths=[stan_files])
+                           include_paths=[str(PATH_STAN)])
             with open(cache_file, 'wb') as f:
                 pickle.dump(sm, f)
 

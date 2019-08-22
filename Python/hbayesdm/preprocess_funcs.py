@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from hbayesdm.base import _common
+from hbayesdm.base import PATH_COMMON
 
 
 def bandit2arm_preprocess_func(self, raw_data, general_info, additional_args):
@@ -811,7 +811,7 @@ def wcs_preprocess_func(self, raw_data, general_info, additional_args):
     t_max = 128
 
     # Read from predefined answer sheet
-    answersheet = os.path.join(_common, 'extdata', 'wcs_answersheet.txt')
+    answersheet = PATH_COMMON / 'extdata' / 'wcs_answersheet.txt'
     answer = pd.read_csv(
         answersheet, sep='\t', header=0, index_col=0).to_numpy() - 1
 
