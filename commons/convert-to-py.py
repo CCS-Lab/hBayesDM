@@ -274,6 +274,34 @@ def main(info_fn):
         f.write(test)
 
 
+def generate_init(info_fns):
+    mfs = []
+
+    for info_fn in info_fns:
+        # Load model information
+        with open(info_fn, 'r') as f:
+            info = ordered_load(f, Loader=Loader)
+
+        # Model full name (Snake-case)
+        model_function = [info['task_name']['code'],
+                          info['model_name']['code']]
+        if info['model_type']['code']:
+            model_function.append(info['model_type']['code'])
+        model_function = '_'.join(model_function)
+
+        mfs.append(model_function)
+
+    lines = []
+    lines += ['from ._{mf} import {mf}'.format(mf=mf) for mf in mfs]
+    lines += ['']
+    lines += ['__all__ = [']
+    lines += ['    \'{mf}\','.format(mf=mf) for mf in mfs]
+    lines += [']']
+
+    with open(PATH_OUTPUT_CODE / '__init__.py', 'w') as f:
+        f.write('\n'.join(lines))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -300,3 +328,5 @@ if __name__ == '__main__':
         if args.verbose:
             print('[{:2d} / {:2d}] Done for {}'
                   .format(i + 1, num_models, info_fn))
+
+    generate_init(sorted(PATH_MODELS.glob('*.yml')))
