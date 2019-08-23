@@ -50,17 +50,17 @@ or you can also install from GitHub with:
 # `devtools` is required to install hBayesDM from GitHub
 if (!require(devtools)) install.packages("devtools")
 
-devtools::install_github("CCS-Lab/hBayesDM/R")
+devtools::install_github("CCS-Lab/hBayesDM", subdir="R")
 ```
 
-If you want to use the lastest *development* version of hBayesDM, run
-the following in R:
+If you want to use the latest *development* version of hBayesDM, run the
+following in R:
 
 ``` r
 # `devtools` is required to install hBayesDM from GitHub
 if (!require(devtools)) install.packages("devtools")
 
-devtools::install_github("CCS-Lab/hBayesDM/R@develop")
+devtools::install_github("CCS-Lab/hBayesDM", ref="develop", subdir="R")
 ```
 
 ### Building at once
