@@ -84,8 +84,6 @@
 #' more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
 #' \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
 #'
-#' @export
-#'
 #' @references
 #' Brown, S. D., & Heathcote, A. (2008). The simplest complete model of choice response time: Linear ballistic accumulation.
 #' Cognitive Psychology, 57(3), 153-178. http://doi.org/10.1016/j.cogpsych.2007.12.002
