@@ -49,6 +49,9 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -72,12 +75,27 @@
 
     
     
-<div id="hbayesdm" class="section level1">
+<div id="hbayesdm-r" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#hbayesdm" class="anchor"></a>hBayesDM</h1></div>
+<a href="#hbayesdm-r" class="anchor"></a>hBayesDM-R</h1></div>
 
 <p><strong>hBayesDM</strong> (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. hBayesDM uses <a href="http://mc-stan.org/">Stan</a> for Bayesian inference.</p>
-<p>Please see the respective sections below for installing hBayesDM with R/python.</p>
+<div id="quick-links" class="section level2">
+<h2 class="hasAnchor">
+<a href="#quick-links" class="anchor"></a>Quick Links</h2>
+<ul>
+<li>
+<strong>Tutorial</strong>: <a href="http://rpubs.com/CCSL/hBayesDM" class="uri">http://rpubs.com/CCSL/hBayesDM</a> (R)</li>
+<li>
+<strong>Mailing list</strong>: <a href="https://groups.google.com/forum/#!forum/hbayesdm-users" class="uri">https://groups.google.com/forum/#!forum/hbayesdm-users</a>
+</li>
+<li>
+<strong>Bug reports</strong>: <a href="https://github.com/CCS-Lab/hBayesDM/issues" class="uri">https://github.com/CCS-Lab/hBayesDM/issues</a>
+</li>
+<li>
+<strong>Contributing</strong>: See the <a href="https://github.com/CCS-Lab/hBayesDM/wiki">Wiki</a> of this repository.</li>
+</ul>
+</div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
@@ -95,15 +113,16 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># `devtools` is required to install hBayesDM from GitHub</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM/R"</span>)</a></code></pre></div>
-<p>If you want to use the lastest <em>development</em> version of hBayesDM, run the following in R:</p>
+<a class="sourceLine" id="cb2-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>, <span class="dt">subdir=</span><span class="st">"R"</span>)</a></code></pre></div>
+<p>If you want to use the latest <em>development</em> version of hBayesDM, run the following in R:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># `devtools` is required to install hBayesDM from GitHub</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM/R@develop"</span>)</a></code></pre></div>
-<div id="building-at-once" class="section level4">
-<h4 class="hasAnchor">
-<a href="#building-at-once" class="anchor"></a>Building at once</h4>
+<a class="sourceLine" id="cb3-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM"</span>, <span class="dt">ref=</span><span class="st">"develop"</span>, <span class="dt">subdir=</span><span class="st">"R"</span>)</a></code></pre></div>
+</div>
+<div id="building-at-once" class="section level3">
+<h3 class="hasAnchor">
+<a href="#building-at-once" class="anchor"></a>Building at once</h3>
 <p>By default, you will have to wait for compilation when you run each model for the first time. If you plan on runnning several different models and want to pre-build all models during installation time, set an environment variable <code>BUILD_ALL</code> to <code>true</code>, like the following. We highly recommend you only do so when you have multiple cores available, since building all models at once takes quite a long time to complete.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.setenv">Sys.setenv</a></span>(<span class="dt">BUILD_ALL =</span> <span class="st">"true"</span>)  <span class="co"># Build *all* models at installation time</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.setenv">Sys.setenv</a></span>(<span class="dt">MAKEFLAGS =</span> <span class="st">"-j 4"</span>)  <span class="co"># Use 4 cores for build (or any other number you want)</span></a>
@@ -112,24 +131,6 @@
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># or</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"CCS-Lab/hBayesDM/R"</span>)  <span class="co"># Install from GitHub</span></a></code></pre></div>
 </div>
-</div>
-</div>
-<div id="quick-links" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quick-links" class="anchor"></a>Quick Links</h2>
-<ul>
-<li>
-<strong>Tutorial-R</strong>: <a href="http://rpubs.com/CCSL/hBayesDM" class="uri">http://rpubs.com/CCSL/hBayesDM</a>
-</li>
-<li>
-<strong>Mailing list</strong>: <a href="https://groups.google.com/forum/#!forum/hbayesdm-users" class="uri">https://groups.google.com/forum/#!forum/hbayesdm-users</a>
-</li>
-<li>
-<strong>Bug reports</strong>: <a href="https://github.com/CCS-Lab/hBayesDM/issues" class="uri">https://github.com/CCS-Lab/hBayesDM/issues</a>
-</li>
-<li>
-<strong>Contributing</strong>: See the <a href="https://github.com/CCS-Lab/hBayesDM/wiki">Wiki</a> of this repository.</li>
-</ul>
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">

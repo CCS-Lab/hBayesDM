@@ -135,3 +135,4 @@ Journal of Machine Learning Research, 15(1), 1593-1623.
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM: \url{https://rpubs.com/CCSL/hBayesDM}
 }
+\keyword{internal}
