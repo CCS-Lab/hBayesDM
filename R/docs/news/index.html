@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2.9000</span>
       </span>
     </div>
 
@@ -81,7 +81,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/CCS-Lab/hBayesDM">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -95,7 +100,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1>Changelog <small></small></h1>
-      
+      <small>Source: <a href='https://github.com/CCS-Lab/hBayesDM/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div id="hbayesdm-0-7-2" class="section level1">
@@ -124,7 +129,7 @@
 <li>Now, in default, you should build a Stan file into a binary for the first time to use it. To build all the models on installation, you should set an environmental variable <code>BUILD_ALL</code> to <code>true</code> before installation.</li>
 <li>Now all the implemented models are refactored using <code>hBayesDM_model</code> function. You don’t have to change anything to use them, but developers can easily implement new models now!</li>
 <li>We added a Kalman filter model for 4-armed bandit task (<code>bandit4arm2_kalman_filter</code>; Daw et al., 2006) and a probability weighting function for general description-based tasks (<code>dbdm_prob_weight</code>; Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008).</li>
-<li>Initial values of parameter estimation for some models are updated as plausible values, and the parameter boundaries of several models are fixed (see more on issue #63 and #64 in Github).</li>
+<li>Initial values of parameter estimation for some models are updated as plausible values, and the parameter boundaries of several models are fixed (see more on issue <a href='https://github.com/CCS-Lab/hBayesDM/issues/63'>#63</a> and <a href='https://github.com/CCS-Lab/hBayesDM/issues/64'>#64</a> in Github).</li>
 <li>Exponential and linear models for choice under risk and ambiguity task now have four model regressors: <code>sv</code>, <code>sv_fix</code>, <code>sv_var</code>, and <code>p_var</code>.</li>
 <li>Fix the Travix CI settings and related codes to be properly passed.</li>
 </ul>
@@ -143,7 +148,7 @@
 <a href="#hbayesdm-0-6-2" class="anchor"></a>hBayesDM 0.6.2<small> Unreleased </small>
 </h1>
 <ul>
-<li>Fix an error on choiceRT_ddm (#44)</li>
+<li>Fix an error on choiceRT_ddm (<a href='https://github.com/CCS-Lab/hBayesDM/issues/44'>#44</a>)</li>
 </ul>
 </div>
     <div id="hbayesdm-0-6-1" class="section level1">
