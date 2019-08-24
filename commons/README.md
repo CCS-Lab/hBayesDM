@@ -26,6 +26,7 @@ git checkout develop  # Check out the develop branch
 git checkout -b feature/{branch_name}  # Make new branch from develop
 ```
 2. Write a Stan code and a YAML file for model information, and append its example data.
+You can check out [an example YAML file](./example.yml) for model information.
     - `/commons/stan_files/{task_name}_{model_name}[_{model_type}].stan`
     - `/commons/models/{task_name}_{model_name}[_{model_type}].yml`
     - `/commons/extdata/{task_name}[_{model_type}]_exampleData.txt`
