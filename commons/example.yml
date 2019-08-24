@@ -21,12 +21,15 @@ task_name:
   desc: 2-Armed Bandit Task  # description (title-case)
   cite:  # A list of citations. They should be APA-formatted.
   - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
+  - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
 
 # Model information.
 model_name:
   code: delta  # code for the model
   desc: Rescorla-Wagner (Delta) Model  # description (title-case)
   cite:  # A list of citations. They should be APA-formatted.
+  - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
+  - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
 
 # Model type.
 # For now, it should be one among three types:
