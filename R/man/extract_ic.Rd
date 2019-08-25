@@ -11,7 +11,7 @@ extract_ic(model_data = NULL, ic = "looic", ncore = 2)
 
 \item{ic}{Information Criterion. 'looic', 'waic', or 'both'}
 
-\item{ncore}{Number of corse to use when computing LOOIC}
+\item{ncore}{Number of cores to use when computing LOOIC}
 }
 \value{
 IC Leave-One-Out and/or Watanabe-Akaike information criterion estimates.

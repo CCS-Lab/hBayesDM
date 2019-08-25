@@ -1,3 +1,5 @@
-from hbayesdm.diagnostics import rhat, print_fit, hdi, plot_hdi
+import hbayesdm
+from hbayesdm.diagnostics import *
 
-__all__ = ['rhat', 'print_fit', 'hdi', 'plot_hdi']
+__all__ = []
+__all__ += hbayesdm.diagnostics.__all__
