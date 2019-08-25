@@ -6,6 +6,5 @@ test_that("Test prl_rp_multipleB", {
   skip_on_cran()
 
   expect_output(prl_rp_multipleB(
-      use_example = TRUE,
-      niter=10, nwarmup=5, nchain=1, ncore=1))
+      data = "example", niter = 10, nwarmup = 5, nchain = 1, ncore = 1))
 })

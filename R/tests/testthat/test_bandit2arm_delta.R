@@ -6,6 +6,5 @@ test_that("Test bandit2arm_delta", {
   skip_on_cran()
 
   expect_output(bandit2arm_delta(
-      use_example = TRUE,
-      niter=10, nwarmup=5, nchain=1, ncore=1))
+      data = "example", niter = 10, nwarmup = 5, nchain = 1, ncore = 1))
 })

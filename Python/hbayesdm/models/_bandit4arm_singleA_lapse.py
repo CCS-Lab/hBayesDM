@@ -48,9 +48,7 @@ class Bandit4ArmSingleaLapse(TaskModel):
 
 
 def bandit4arm_singleA_lapse(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -225,8 +223,6 @@ def bandit4arm_singleA_lapse(
         print_fit(output)
     """
     return Bandit4ArmSingleaLapse(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

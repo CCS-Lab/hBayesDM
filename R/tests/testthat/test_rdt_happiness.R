@@ -6,6 +6,5 @@ test_that("Test rdt_happiness", {
   skip_on_cran()
 
   expect_output(rdt_happiness(
-      use_example = TRUE,
-      niter=10, nwarmup=5, nchain=1, ncore=1))
+      data = "example", niter = 10, nwarmup = 5, nchain = 1, ncore = 1))
 })

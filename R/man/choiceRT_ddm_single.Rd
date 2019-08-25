@@ -4,15 +4,17 @@
 \alias{choiceRT_ddm_single}
 \title{Drift Diffusion Model}
 \usage{
-choiceRT_ddm_single(data = NULL, datafile = "", niter = 4000,
-  nwarmup = 1000, nchain = 4, ncore = 1, nthin = 1, inits = "vb",
+choiceRT_ddm_single(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, use_example = FALSE, choose_data = FALSE, ...)
+  max_treedepth = 10, ...)
 }
 \arguments{
-\item{data, datafile}{A data.frame object (\code{data}) or a filepath for a tab-seperated txt file
-containing the data (\code{datafile}) to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "choice", "RT". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -51,11 +53,6 @@ take on each new iteration. See \bold{Details} below.}
 
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
-
-\item{use_example}{Whether to use example data. By default, set to \code{FALSE}.}
-
-\item{choose_data}{Whether to choose data with an interactive window.
-By default, set to \code{FALSE}.}
 
 \item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
 \describe{
@@ -157,10 +154,12 @@ Code for this model is based on codes/comments by Guido Biele, Joseph Burling, A
 \examples{
 \dontrun{
 # Run the model with a given data.frame as df
-output <- choiceRT_ddm_single(data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+output <- choiceRT_ddm_single(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Run the model with example data
-output <- choiceRT_ddm_single(use_example = TRUE, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+output <- choiceRT_ddm_single(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")

@@ -48,9 +48,7 @@ class DdCsSingle(TaskModel):
 
 
 def dd_cs_single(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -227,8 +225,6 @@ def dd_cs_single(
         print_fit(output)
     """
     return DdCsSingle(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

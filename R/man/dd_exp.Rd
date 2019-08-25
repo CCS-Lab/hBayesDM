@@ -4,15 +4,16 @@
 \alias{dd_exp}
 \title{Exponential Model}
 \usage{
-dd_exp(data = NULL, datafile = "", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
-  indPars = "mean", modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, use_example = FALSE, choose_data = FALSE, ...)
+dd_exp(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data, datafile}{A data.frame object (\code{data}) or a filepath for a tab-seperated txt file
-containing the data (\code{datafile}) to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -51,11 +52,6 @@ take on each new iteration. See \bold{Details} below.}
 
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
-
-\item{use_example}{Whether to use example data. By default, set to \code{FALSE}.}
-
-\item{choose_data}{Whether to choose data with an interactive window.
-By default, set to \code{FALSE}.}
 
 \item{...}{For this model, there is no model-specific argument.}
 }
@@ -141,10 +137,12 @@ For the Delay Discounting Task, there should be 6 columns of data with the
 \examples{
 \dontrun{
 # Run the model with a given data.frame as df
-output <- dd_exp(data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+output <- dd_exp(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Run the model with example data
-output <- dd_exp(use_example = TRUE, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+output <- dd_exp(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")

@@ -48,9 +48,7 @@ class Bandit4Arm4Par(TaskModel):
 
 
 def bandit4arm_4par(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -225,8 +223,6 @@ def bandit4arm_4par(
         print_fit(output)
     """
     return Bandit4Arm4Par(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

@@ -39,9 +39,7 @@ class {class_name}(TaskModel):
 
 
 def {model_function}(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -58,8 +56,6 @@ def {model_function}(
         **additional_args: Any) -> TaskModel:
     """{docstring_template}    """
     return {class_name}(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

@@ -46,9 +46,7 @@ class DdHyperbolicSingle(TaskModel):
 
 
 def dd_hyperbolic_single(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -225,8 +223,6 @@ def dd_hyperbolic_single(
         print_fit(output)
     """
     return DdHyperbolicSingle(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

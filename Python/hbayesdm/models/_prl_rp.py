@@ -47,9 +47,7 @@ class PrlRp(TaskModel):
 
 
 def prl_rp(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -224,8 +222,6 @@ def prl_rp(
         print_fit(output)
     """
     return PrlRp(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

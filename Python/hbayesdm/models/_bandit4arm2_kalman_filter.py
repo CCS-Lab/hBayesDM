@@ -51,9 +51,7 @@ class Bandit4Arm2KalmanFilter(TaskModel):
 
 
 def bandit4arm2_kalman_filter(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -227,8 +225,6 @@ def bandit4arm2_kalman_filter(
         print_fit(output)
     """
     return Bandit4Arm2KalmanFilter(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

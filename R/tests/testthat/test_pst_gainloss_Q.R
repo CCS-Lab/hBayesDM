@@ -6,6 +6,5 @@ test_that("Test pst_gainloss_Q", {
   skip_on_cran()
 
   expect_output(pst_gainloss_Q(
-      use_example = TRUE,
-      niter=10, nwarmup=5, nchain=1, ncore=1))
+      data = "example", niter = 10, nwarmup = 5, nchain = 1, ncore = 1))
 })

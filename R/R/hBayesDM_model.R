@@ -114,7 +114,6 @@ hBayesDM_model <- function(task_name,
 
   # The resulting hBayesDM model function to be returned
   function(data           = NULL,
-           datafile       = "",
            niter          = 4000,
            nwarmup        = 1000,
            nchain         = 4,
@@ -128,8 +127,6 @@ hBayesDM_model <- function(task_name,
            adapt_delta    = 0.95,
            stepsize       = 1,
            max_treedepth  = 10,
-           use_example    = FALSE,
-           choose_data    = FALSE,
            ...) {
 
     ############### Stop checks ###############
@@ -144,21 +141,28 @@ hBayesDM_model <- function(task_name,
       stop("** Posterior predictions are not yet available for this model. **\n")
     }
 
-    if (!is.null(data)) {
+    if (is.null(data) || is.na(data) || data == "") {
+      stop("Invalid input for the 'data' value. ",
+           "You should pass a data.frame, or a filepath for a data file,",
+           "\"example\" for an example dataset, ",
+           "or \"choose\" to choose it in a prompt.")
+
+    } else if ("data.frame" %in% class(data)) {
       # Use the given data object
       raw_data <- data.table::as.data.table(data)
-    } else {
-      if (!is.na(datafile) && datafile != '') {
-        # Use the datafile to read data
-      } else if (use_example) {
-        if (model_type == "") {
-          exampleData <- paste0(task_name, "_", "exampleData.txt")
-        } else {
-          exampleData <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
-        }
-        datafile <- system.file("extdata", exampleData, package = "hBayesDM")
-      } else if (choose_data) {
+
+    } else if ("character" %in% class(data)) {
+      # Set
+      if (data == "example") {
+        example_data <-
+          ifelse(model_type == "",
+                 paste0(task_name, "_", "exampleData.txt"),
+                 paste0(task_name, "_", model_type, "_", "exampleData.txt"))
+        datafile <- system.file("extdata", example_data, package = "hBayesDM")
+      } else if (data == "choose") {
         datafile <- file.choose()
+      } else {
+        datafile <- data
       }
 
       # Check if data file exists
@@ -172,6 +176,12 @@ hBayesDM_model <- function(task_name,
                                     fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
       # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files
       # that have missing values.
+
+    } else {
+      stop("Invalid input for the 'data' value. ",
+           "You should pass a data.frame, or a filepath for a data file,",
+           "\"example\" for an example dataset, ",
+           "or \"choose\" to choose it in a prompt.")
     }
 
     # Save initial colnames of raw_data for later

@@ -43,9 +43,7 @@ class Bandit2ArmDelta(TaskModel):
 
 
 def bandit2arm_delta(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -220,8 +218,6 @@ def bandit2arm_delta(
         print_fit(output)
     """
     return Bandit2ArmDelta(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

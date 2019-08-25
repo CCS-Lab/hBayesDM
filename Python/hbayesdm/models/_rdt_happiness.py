@@ -57,9 +57,7 @@ class RdtHappiness(TaskModel):
 
 
 def rdt_happiness(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -239,8 +237,6 @@ def rdt_happiness(
         print_fit(output)
     """
     return RdtHappiness(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

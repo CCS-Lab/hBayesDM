@@ -6,6 +6,5 @@ test_that("Test choiceRT_ddm_single", {
   skip_on_cran()
 
   expect_output(choiceRT_ddm_single(
-      use_example = TRUE,
-      niter=10, nwarmup=5, nchain=1, ncore=1))
+      data = "example", niter = 10, nwarmup = 5, nchain = 1, ncore = 1))
 })

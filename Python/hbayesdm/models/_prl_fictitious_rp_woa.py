@@ -49,9 +49,7 @@ class PrlFictitiousRpWoa(TaskModel):
 
 
 def prl_fictitious_rp_woa(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -227,8 +225,6 @@ def prl_fictitious_rp_woa(
         print_fit(output)
     """
     return PrlFictitiousRpWoa(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

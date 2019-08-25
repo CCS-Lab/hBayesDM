@@ -61,14 +61,6 @@ class TaskModel(metaclass=ABCMeta):
         model, all_ind_pars, par_vals, fit, raw_data, model_regressor \
             = self._run(**kwargs)
 
-        # Assign results as attributes
-        self.__model = model
-        self.__all_ind_pars = all_ind_pars
-        self.__par_vals = par_vals
-        self.__fit = fit
-        self.__raw_data = raw_data
-        self.__model_regressor = model_regressor
-
     @property
     def task_name(self) -> str:
         return self.__task_name
@@ -130,8 +122,6 @@ class TaskModel(metaclass=ABCMeta):
         return self.__model_regressor
 
     def _run(self,
-             example: bool = False,
-             datafile: str = None,
              data: pd.DataFrame = None,
              niter: int = 4000,
              nwarmup: int = 1000,
@@ -146,18 +136,13 @@ class TaskModel(metaclass=ABCMeta):
              adapt_delta: float = 0.95,
              stepsize: float = 1,
              max_treedepth: int = 10,
-             **additional_args: Any) -> Tuple[str,
-                                              pd.DataFrame,
-                                              OrderedDict,
-                                              Any,
-                                              pd.DataFrame,
-                                              Dict]:
+             **additional_args: Any) \
+            -> Tuple[str, pd.DataFrame, OrderedDict, Any, Dict]:
         """Run the hbayesdm modeling function."""
         self._check_regressor(model_regressor)
         self._check_postpred(inc_postpred)
 
-        raw_data, initial_columns = self._handle_data_args(
-            example, datafile, data)
+        raw_data, initial_columns = self._handle_data_args(data)
         insensitive_data_columns = self._get_insensitive_data_columns()
 
         self._check_data_columns(raw_data, insensitive_data_columns)
@@ -179,7 +164,7 @@ class TaskModel(metaclass=ABCMeta):
         ncore = self._set_number_of_cores(ncore)
 
         self._print_for_user(
-            model, example, datafile, data, vb, nchain, ncore, niter, nwarmup,
+            model, data, vb, nchain, ncore, niter, nwarmup,
             general_info, additional_args, model_regressor)
 
         sm = self._designate_stan_model(model)
@@ -196,6 +181,14 @@ class TaskModel(metaclass=ABCMeta):
 
         self._revert_initial_columns(raw_data, initial_columns)
         self._inform_completion()
+
+        # Assign results as attributes
+        self.__model = model
+        self.__all_ind_pars = all_ind_pars
+        self.__par_vals = par_vals
+        self.__fit = fit
+        self.__raw_data = raw_data
+        self.__model_regressor = model_regressor
 
         return model, all_ind_pars, par_vals, fit, raw_data, model_regressor
 
@@ -223,20 +216,14 @@ class TaskModel(metaclass=ABCMeta):
             raise RuntimeError(
                 'Posterior predictions are not yet available for this model.')
 
-    def _handle_data_args(self,
-                          example: bool,
-                          datafile: str,
-                          data: pd.DataFrame) -> Tuple[pd.DataFrame, List]:
+    def _handle_data_args(self, data) -> Tuple[pd.DataFrame, List]:
         """Handle user data arguments and return raw_data.
 
         Parameters
         ----------
-        example : bool
-            Whether to use example data.
-        datafile : str
-            String of filepath for the data file.
-        data : pandas.DataFrame
+        data : Union[pandas.DataFrame, str]
             Pandas DataFrame object that holds the data.
+            String of filepath for the data file.
 
         Returns
         -------
@@ -245,34 +232,30 @@ class TaskModel(metaclass=ABCMeta):
         initial_columns : List
             Initial column names of raw data, as given by the user.
         """
-        # Check the number of valid arguments (which should be 1)
-        if int(example) \
-                + int(datafile is not None) \
-                + int(data is not None) != 1:
-            raise RuntimeError(
-                'Please give one of these arguments: '
-                'example, datafile, or data.')
-
-        if data is not None:  # Use given data as raw_data
+        if isinstance(data, pd.DataFrame):
             if not isinstance(data, pd.DataFrame):
                 raise RuntimeError(
                     'Please provide `data` argument as a pandas.DataFrame.')
             raw_data = data
 
-        elif datafile is not None:  # Load data from given filepath
-            if datafile.endswith('.csv'):
-                raw_data = pd.read_csv(datafile)
-            else:  # Read the file as a tsv format
-                raw_data = pd.read_csv(datafile, sep='\t')
-
-        else:  # (example == True) Load example data
-            if self.model_type == '':
-                filename = '%s_exampleData.txt' % self.task_name
+        elif isinstance(data, str):
+            if data == "example":
+                if self.model_type == '':
+                    filename = '%s_exampleData.txt' % self.task_name
+                else:
+                    filename = '%s_%s_exampleData.txt' % (
+                        self.task_name, self.model_type)
+                example_data = PATH_EXTDATA / filename
+                raw_data = pd.read_csv(example_data, sep='\t')
             else:
-                filename = '%s_%s_exampleData.txt' % (
-                    self.task_name, self.model_type)
-            example_data = PATH_EXTDATA / filename
-            raw_data = pd.read_csv(example_data, sep='\t')
+                if data.endswith('.csv'):
+                    raw_data = pd.read_csv(data)
+                else:  # Read the file as a tsv format
+                    raw_data = pd.read_csv(data, sep='\t')
+
+        else:
+            raise RuntimeError(
+                'Invalid `data` argument given: ' + str(data))
 
         # Save initial column names of raw data for later
         initial_columns = list(raw_data.columns)
@@ -566,20 +549,16 @@ class TaskModel(metaclass=ABCMeta):
             return local_cores
         return ncore
 
-    def _print_for_user(self, model: str, example: bool, datafile: str,
-                        data: pd.DataFrame, vb: bool, nchain: int, ncore: int,
-                        niter: int, nwarmup: int, general_info: Dict,
-                        additional_args: Dict, model_regressor: bool):
+    def _print_for_user(self, model: str, data: pd.DataFrame, vb: bool,
+                        nchain: int, ncore: int, niter: int, nwarmup: int,
+                        general_info: Dict, additional_args: Dict,
+                        model_regressor: bool):
         """Print information for user.
 
         Parameters
         ----------
         model
             Full name of model.
-        example
-            Whether to use example data.
-        datafile
-            String of filepath for data file.
         data
             Pandas DataFrame object holding user data.
         vb
@@ -601,12 +580,10 @@ class TaskModel(metaclass=ABCMeta):
         """
         print()
         print('Model  =', model)
-        if example:
-            print('Data   = example')
-        elif datafile:
-            print('Data   =', datafile)
+        if isinstance(data, pd.DataFrame):
+            print('Data   = <pandas.DataFrame object>')
         else:
-            print('Data   =', object.__repr__(data))
+            print('Data   =', str(data))
         print()
         print('Details:')
         if vb:

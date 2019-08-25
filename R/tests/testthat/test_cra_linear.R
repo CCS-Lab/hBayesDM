@@ -6,6 +6,5 @@ test_that("Test cra_linear", {
   skip_on_cran()
 
   expect_output(cra_linear(
-      use_example = TRUE,
-      niter=10, nwarmup=5, nchain=1, ncore=1))
+      data = "example", niter = 10, nwarmup = 5, nchain = 1, ncore = 1))
 })

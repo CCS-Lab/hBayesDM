@@ -9,12 +9,11 @@
 #'   \item \strong{Model}: <%= MODEL_NAME %> <%= ifelse(!is.na(MODEL_CITE), MODEL_CITE, '') %>
 #' }
 #'
-#' @param data,datafile A data.frame object (\code{data}) or a filepath for a tab-seperated txt file
-#'   containing the data (\code{datafile}) to be modeled. Data columns should be labeled as:
+#' @param data Data to be modeled. It should be given as a data.frame object,
+#'   a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+#'   \code{"choose"} to choose data with an interactive window.
+#'   Columns in the dataset must include:
 #'   <%= DATA_COLUMNS %>. See \bold{Details} below for more information.
-#' @param use_example Whether to use example data. By default, set to \code{FALSE}.
-#' @param choose_data Whether to choose data with an interactive window.
-#'   By default, set to \code{FALSE}.
 #' @param niter Number of iterations, including warm-up. Defaults to 4000.
 #' @param nwarmup Number of iterations used for warm-up only. Defaults to 1000.
 #' @param nchain Number of Markov chains to run. Defaults to 4.
@@ -142,10 +141,12 @@
 #' @examples
 #' \dontrun{
 #' # Run the model with a given data.frame as df
-#' output <- <%= MODEL_FUNCTION %>(data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+#' output <- <%= MODEL_FUNCTION %>(
+#'   data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 #'
 #' # Run the model with example data
-#' output <- <%= MODEL_FUNCTION %>(use_example = TRUE, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+#' output <- <%= MODEL_FUNCTION %>(
+#'   data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 #'
 #' # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 #' plot(output, type = "trace")

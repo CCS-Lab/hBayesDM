@@ -48,9 +48,7 @@ class IgtPvlDelta(TaskModel):
 
 
 def igt_pvl_delta(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -227,8 +225,6 @@ def igt_pvl_delta(
         print_fit(output)
     """
     return IgtPvlDelta(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

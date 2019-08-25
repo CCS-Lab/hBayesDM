@@ -52,9 +52,7 @@ class TsPar6(TaskModel):
 
 
 def ts_par6(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -232,8 +230,6 @@ def ts_par6(
         print_fit(output)
     """
     return TsPar6(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

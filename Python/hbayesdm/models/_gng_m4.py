@@ -56,9 +56,7 @@ class GngM4(TaskModel):
 
 
 def gng_m4(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -233,8 +231,6 @@ def gng_m4(
         print_fit(output)
     """
     return GngM4(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

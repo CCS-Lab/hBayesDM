@@ -52,9 +52,7 @@ class DbdmProbWeight(TaskModel):
 
 
 def dbdm_prob_weight(
-        example: bool = False,
-        datafile: str = None,
-        data: pd.DataFrame = None,
+        data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
         nchain: int = 4,
@@ -235,8 +233,6 @@ def dbdm_prob_weight(
         print_fit(output)
     """
     return DbdmProbWeight(
-        example=example,
-        datafile=datafile,
         data=data,
         niter=niter,
         nwarmup=nwarmup,

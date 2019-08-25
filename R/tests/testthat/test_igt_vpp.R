@@ -6,6 +6,5 @@ test_that("Test igt_vpp", {
   skip_on_cran()
 
   expect_output(igt_vpp(
-      use_example = TRUE,
-      niter=10, nwarmup=5, nchain=1, ncore=1))
+      data = "example", niter = 10, nwarmup = 5, nchain = 1, ncore = 1))
 })
