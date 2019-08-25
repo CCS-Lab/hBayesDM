@@ -2,7 +2,7 @@
 #'
 #' @param model_data Object returned by \code{'hBayesDM'} model function
 #' @param ic Information Criterion. 'looic', 'waic', or 'both'
-#' @param ncore Number of corse to use when computing LOOIC
+#' @param ncore Number of cores to use when computing LOOIC
 #'
 #' @importFrom loo extract_log_lik relative_eff loo waic
 #'
