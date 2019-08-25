@@ -7,7 +7,7 @@ import arviz as az
 
 from hbayesdm.base import TaskModel
 
-__all__ = ['rhat', 'print_fit', 'hdi', 'plot_hdi']
+__all__ = ['rhat', 'print_fit', 'hdi', 'plot_hdi', 'extract_ic']
 
 
 def rhat(model_data: TaskModel,
@@ -40,7 +40,7 @@ def rhat(model_data: TaskModel,
                 for v in (rhat_data.max() <= less).data_vars.values()}
 
 
-def print_fit(*args: TaskModel, ic: str = 'loo') -> pd.DataFrame:
+def print_fit(*args: TaskModel, ic: str = 'looic') -> pd.DataFrame:
     """Print model-fits (mean LOOIC or WAIC values) of hbayesdm models.
 
     Parameters
@@ -48,14 +48,14 @@ def print_fit(*args: TaskModel, ic: str = 'loo') -> pd.DataFrame:
     args
         Output instances of running hbayesdm model functions.
     ic
-        Information criterion (defaults to 'loo').
+        Information criterion (defaults to 'looic').
 
     Returns
     -------
     pd.DataFrame
         Model-fit info per each hbayesdm output given as argument(s).
     """
-    ic_options = ('loo', 'waic')
+    ic_options = ('looic', 'waic')
     if ic not in ic_options:
         raise RuntimeError(
             'Information Criterion (ic) must be one of ' + repr(ic_options))
@@ -64,6 +64,8 @@ def print_fit(*args: TaskModel, ic: str = 'loo') -> pd.DataFrame:
             az.from_pystan(model_data.fit, log_likelihood='log_lik')
         for model_data in args
     }
+
+    ic = 'loo' if ic == 'looic' else 'waic'
     return az.compare(dataset_dict=dataset_dict, ic=ic)
 
 
@@ -134,3 +136,41 @@ def plot_hdi(x: np.ndarray,
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     plt.show()
+
+
+def extract_ic(model_data: TaskModel,
+               ic: str = 'both',
+               ncore: int = 2) \
+        -> Dict:
+    """Extract model comparison estimates.
+
+    Parameters
+    ----------
+    model_data
+        hBayesDM output objects from running model functions.
+    ic
+        Information criterion. 'looic', 'waic', or 'both'. Defaults to 'both'.
+    ncore
+        Number of cores to use when computing LOOIC. Defaults to 2.
+
+    Returns
+    -------
+    Dict
+        Leave-One-Out and/or Watanabe-Akaike information criterion estimates.
+    """
+    ic_options = ('looic', 'waic', 'both')
+    if ic not in ic_options:
+        raise RuntimeError(
+            'Information Criterion (ic) must be one of ' + repr(ic_options))
+
+    dat = az.from_pystan(model_data.fit, log_likelihood='log_lik')
+
+    ret = {}
+
+    if ic in ['looic', 'both']:
+        ret['looic'] = az.loo(dat)['loo']
+
+    if ic in ['waic', 'both']:
+        ret['waic'] = az.waic(dat)['waic']
+
+    return ret
