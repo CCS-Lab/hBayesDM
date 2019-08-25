@@ -34,7 +34,7 @@ parameters:
     info: [0, 0.5, 1]
   delta:
     desc: drift rate
-    info: [0, 0.5, Inf]
+    info: [-Inf, 0, Inf]
   tau:
     desc: non-decision time
     info: [0, 0.15, 1]

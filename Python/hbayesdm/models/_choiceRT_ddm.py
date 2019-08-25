@@ -24,7 +24,7 @@ class ChoicertDdm(TaskModel):
             parameters=OrderedDict([
                 ('alpha', (0, 0.5, Inf)),
                 ('beta', (0, 0.5, 1)),
-                ('delta', (0, 0.5, Inf)),
+                ('delta', (-Inf, 0, Inf)),
                 ('tau', (0, 0.15, 1)),
             ]),
             regressors=OrderedDict([

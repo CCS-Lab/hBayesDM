@@ -38,9 +38,9 @@ parameters {
 
 transformed parameters {
   // Transform subject-level raw parameters
-  vector<lower=0>[N]         alpha; // boundary separation
-  vector<lower=0, upper=1>[N] beta;  // initial bias
-  vector<lower=0>[N]         delta; // drift rate
+  vector<lower=0>[N]                         alpha; // boundary separation
+  vector<lower=0, upper=1>[N]                beta;  // initial bias
+  vector[N]                                  delta; // drift rate
   vector<lower=RTbound, upper=max(minRT)>[N] tau; // nondecision time
 
   for (i in 1:N) {
@@ -48,7 +48,7 @@ transformed parameters {
     tau[i]  = Phi_approx(mu_pr[4] + sigma[4] * tau_pr[i]) * (minRT[i] - RTbound) + RTbound;
   }
   alpha = exp(mu_pr[1] + sigma[1] * alpha_pr);
-  delta = exp(mu_pr[3] + sigma[3] * delta_pr);
+  delta = mu_pr[3] + sigma[3] * delta_pr;
 }
 
 model {
@@ -73,9 +73,9 @@ model {
 
 generated quantities {
   // For group level parameters
-  real<lower=0>         mu_alpha; // boundary separation
-  real<lower=0, upper=1> mu_beta;  // initial bias
-  real<lower=0>         mu_delta; // drift rate
+  real<lower=0>                         mu_alpha; // boundary separation
+  real<lower=0, upper=1>                mu_beta;  // initial bias
+  real                                  mu_delta; // drift rate
   real<lower=RTbound, upper=max(minRT)> mu_tau; // nondecision time
 
   // For log likelihood calculation
@@ -84,7 +84,7 @@ generated quantities {
   // Assign group level parameter values
   mu_alpha = exp(mu_pr[1]);
   mu_beta  = Phi_approx(mu_pr[2]);
-  mu_delta = exp(mu_pr[3]);
+  mu_delta = mu_pr[3];
   mu_tau   = Phi_approx(mu_pr[4]) * (mean(minRT)-RTbound) + RTbound;
 
   { // local section, this saves time and space

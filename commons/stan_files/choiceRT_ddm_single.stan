@@ -23,7 +23,7 @@ parameters {
 
   real<lower=0, upper=5> alpha;  // boundary separation
   real<lower=0, upper=1> beta;   // initial bias
-  real<lower=0> delta;  // drift rate
+  real delta;  // drift rate
   real<lower=RTbound, upper=minRT> tau;  // nondecision time
 }
 
