@@ -45,7 +45,7 @@ data_columns:
   gamble_type: ''
   percentage_staked: ''
   trial_initial_points: ''
-  assessment_stages: ''
+  assessment_stage: ''
   left_colour_chosen: ''
   n_left_colour_boxes: ''
 
