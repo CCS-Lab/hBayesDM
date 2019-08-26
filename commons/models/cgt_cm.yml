@@ -1,0 +1,105 @@
+# Task information.
+task_name:
+  code: cgt # code for the task
+  desc: Cambridge Gambling Task  # description (title-case)
+  cite:  # A list of citations. They should be APA-formatted.
+  - >
+    Rogers, R. D., Everitt, B. J., Baldacchino, A., Blackshaw, A. J.,
+    Swainson, R., Wynne, K., Baker, N. B., Hunter, J., Carthy, T.,
+    London, M., Deakin, J. F. W., Sahakian, B. J., Robbins, T. W. (1999).
+    Dissociable deficits in the decision-making cognition of chronic
+    amphetamine abusers, opiate abusers, patients with focal damage to
+    prefrontal cortex, and tryptophan-depleted normal volunteers:
+    evidence for monoaminergic mechanisms. Neuropsychopharmacology, 20, 322–339.
+
+# Model information.
+model_name:
+  code: cm  # code for the model
+  desc: Cumulative Model  # description (title-case)
+  cite: # A list of citations. They should be APA-formatted.
+
+# Model type.
+# For now, it should be one among three types:
+# 1) Hierarchical
+#   code: ''
+#   desc: 'Hierarchical'
+# 2) Individual
+#   code: 'single'
+#   desc: 'Individual'
+# 3) Multiple-block Hierarchical
+#   code: 'multipleB'
+#   desc: 'Multiple-block Hierarchical'
+model_type:
+  code:  # code for the model type
+  desc: Hierarchical  # description
+
+# Data columns that must be included in a input data.
+# For each column, it should be defined as:
+#   {column_name}: {one-line description}
+#
+# Note: `subjID` must always be included.
+#       Also, if `model_type` is "multipleB", `block` must be included, too.
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.  # Required
+# block: A unique identifier for each of the multiple blocks within each subject.  # Required for multipleB type
+  gamble_type: ''
+  percentage_staked: ''
+  trial_initial_points: ''
+  assessment_stages: ''
+  left_colour_chosen: ''
+  n_left_colour_boxes: ''
+
+# Model parameters.
+# For each parameter, it should be defined as:
+#   {parameter_name}:
+#     desc: {description}
+#     info: [{lower_bound}, {plausible_value}, {upper_bound}]
+#
+# `info` is defined for a fixed initial value of the parameter.
+# `lower_bound`, `plausible_value`, `upper_bound` can be numbers, strings
+# (e.g., 'Inf', '-Inf', 'exp([0-9.]+)'), where plausible_value should be
+# neither 'Inf' nor '-Inf'.
+parameters:
+  alpha:
+    desc: probability distortion
+    info: [0, 1, 5]
+  c:
+    desc: color bias
+    info: [0, 0.5, 1]
+  rho:
+    desc: relative loss sensitivity
+    info: [0, 1, Inf]
+  beta:
+    desc: discounting rate
+    info: [0, 1, Inf]
+  gamma:
+    desc: choice sensitivity
+    info: [0, 1, Inf]
+
+# (optional) Model regressors.
+# If exists, for each regressor, it should be defined as:
+#   {regressor}: {number_of_dimension}
+regressors:
+  y_hat_col: 2
+  y_hat_bet: 2
+  bet_utils: 3
+
+# (optional) response variables for posterior predictive checks (PPC).
+# Should be defined in a generated quantity block.
+postpreds:
+
+# (optional) a list of additional arguments.
+# For each additional argument, it should be defined as:
+#   - code: {code}
+#     default: {default_value}
+#     desc: {description}
+additional_args:
+
+# (optional) notes on the model. Should be given as a list of notes.
+notes:
+
+# (optional) a list of contributors. To specify who wrote this model codes for hBayesDM.
+contributors:
+- name: Nathaniel Haines
+  email: haines.175@osu.edu
+  link: http://haines-lab.com/
