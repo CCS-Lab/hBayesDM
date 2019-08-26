@@ -849,3 +849,62 @@ wcs_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
+cgt_preprocess_func <- function(raw_data, general_info) {
+  # Currently class(raw_data) == "data.table"
+
+  # Use general_info of raw_data
+  subjs   <- general_info$subjs
+  n_subj  <- general_info$n_subj
+  t_subjs <- general_info$t_subjs
+  t_max   <- general_info$t_max
+
+  n_bets <- length(unique(raw_data$percentage_staked))
+  bets_asc  <- sort(unique(raw_data$percentage_staked) / 100)
+  bets_dsc  <- sort(unique(raw_data$percentage_staked) / 100, decreasing = T)
+
+  bet_time <- raw_data$percentage_staked / 100
+  for (b in 1:n_bets) {
+    bet_time[bet_time == bets_asc[b]] <- b
+  }
+  raw_data$bet_time <- ifelse(raw_data$gamble_type == 0,
+                              n_bets + 1 - bet_time,
+                              bet_time)
+
+  col_chosen <- bet_chosen <- prop_red  <- prop_chosen <-
+    array(0, c(n_subj, t_max))
+  gain <- loss <- array(0, c(n_subj, t_max, n_bets))
+
+  for (i in 1:n_subj) {
+    t <- t_subj[i]
+    DT_subj <- raw_data[subjid == subjs[i]]
+
+    col_chosen [i, 1:t] <- ifelse(DT_subj$left_colour_chosen == 1, 1, 2)
+    bet_chosen [i, 1:t] <- DT_subj$bet_time
+    prop_red   [i, 1:t] <- DT_subj$n_left_colour_boxes / 10
+    prop_chosen[i, 1:t] <- ifelse(DT_subj$left_colour_chosen == 1,
+                                  prop_red[i, 1:t],
+                                  1 - prop_red[i, 1:t])
+
+    for (b in 1:n_bets) {
+      gain[i, 1:t, b] <- with(DT_subj, trial_initial_points / 100 + trial_initial_points / 100 * ifelse(gamble_type == 1, bets_asc[b], bets_dsc[b]))
+      loss[i, 1:t, b] <- with(DT_subj, trial_initial_points / 100 - trial_initial_points / 100 * ifelse(gamble_type == 1, bets_asc[b], bets_dsc[b]))
+    }
+  }
+
+  # Wrap into a list for Stan
+  data_list <- list(
+    N           = n_subj,
+    T           = t_max,
+    B           = n_bets,
+    Tsubj       = t_subjs,
+    gain        = gain,
+    loss        = loss,
+    prop_red    = prop_red,
+    prop_chosen = prop_chosen,
+    col_chosen  = col_chosen,
+    bet_chosen  = bet_chosen
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
+}

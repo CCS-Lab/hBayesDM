@@ -852,3 +852,71 @@ def wcs_preprocess_func(self, raw_data, general_info, additional_args):
 
     # Returned data_dict will directly be passed to pystan
     return data_dict
+
+
+def cgt_preprocess_func(self, raw_data, general_info, additional_args):
+    # Iterate through grouped_data
+    subj_group = iter(general_info['grouped_data'])
+
+    # Use general_info(s) about raw_data
+    # subjs = general_info['subjs']
+    n_subj = general_info['n_subj']
+    t_subjs = general_info['t_subjs']
+    t_max = general_info['t_max']
+
+    uniq_bets = np.unique(raw_data['percentage_staked'])
+    n_bets = len(uniq_bets)
+    bets_asc = np.sort(uniq_bets / 100)
+    bets_dsc = np.flip(np.sort(uniq_bets / 100))
+
+    bet_time = raw_data['percentage_staked'] / 100
+    for b in range(n_bets):
+        bet_time[bet_time == bets_asc[b]] = b + 1
+    raw_data['bet_time'] = np.where(raw_data['gamble_type'] == 0,
+                                    n_bets + 1 - bet_time,
+                                    bet_time)
+
+    col_chosen = bet_chosen = np.full((n_subj, t_max), 0, dtype=int)
+    prop_red = prop_chosen = np.full((n_subj, t_max), 0, dtype=float)
+    gain = loss = np.full((n_subj, t_max, n_bets), 0, dtype=float)
+
+    for s in range(n_subj):
+        t = t_subjs[s]
+        _, subj_data = next(subj_group)
+
+        col_chosen[s, :t] = np.where(subj_data['left_colour_chosen'] == 1,
+                                     1, 2)
+        bet_chosen[s, :t] = subj_data['bet_time']
+        prop_red[s, :t] = subj_data['n_left_colour_boxes'] / 10
+        prop_chosen[s, :t] = np.where(subj_data['left_colour_chosen'] == 1,
+                                      prop_red[s][:t],
+                                      1 - prop_red[s][:t])
+
+        for b in range(n_bets):
+            gain[s, :t, b] = subj_data['trial_initial_points'] / 100 \
+                + subj_data['trial_initial_points'] / 100 \
+                * np.where(subj_data['gamble_type'] == 1,
+                           bets_asc[b],
+                           bets_dsc[b])
+            loss[s, :t, b] = subj_data['trial_initial_points'] / 100 \
+                - subj_data['trial_initial_points'] / 100 \
+                * np.where(subj_data['gamble_type'] == 1,
+                           bets_asc[b],
+                           bets_dsc[b])
+
+    # Wrap into a dict for pystan
+    data_dict = {
+        'N': n_subj,
+        'T': t_max,
+        'B': n_bets,
+        'Tsubj': t_subjs,
+        'gain': gain,
+        'loss': loss,
+        'prop_red': prop_red,
+        'prop_chosen': prop_chosen,
+        'col_chosen': col_chosen,
+        'bet_chosen': bet_chosen
+    }
+
+    # Returned data_dict will directly be passed to pystan
+    return data_dict
