@@ -210,7 +210,7 @@ def igt_pvl_delta(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- igt_pvl_delta(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- igt_pvl_delta(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')

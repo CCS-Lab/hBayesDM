@@ -208,7 +208,7 @@ def dd_hyperbolic(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- dd_hyperbolic(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- dd_hyperbolic(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')

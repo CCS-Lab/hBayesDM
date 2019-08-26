@@ -216,7 +216,7 @@ def gng_m4(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- gng_m4(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- gng_m4(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')

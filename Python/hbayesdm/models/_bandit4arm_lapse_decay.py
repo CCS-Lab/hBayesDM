@@ -212,7 +212,7 @@ def bandit4arm_lapse_decay(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- bandit4arm_lapse_decay(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- bandit4arm_lapse_decay(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
