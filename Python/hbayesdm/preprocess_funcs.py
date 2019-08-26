@@ -864,45 +864,51 @@ def cgt_preprocess_func(self, raw_data, general_info, additional_args):
     t_subjs = general_info['t_subjs']
     t_max = general_info['t_max']
 
-    uniq_bets = np.unique(raw_data['percentage_staked'])
+    uniq_bets = np.unique(raw_data['percentagestaked'])
     n_bets = len(uniq_bets)
     bets_asc = np.sort(uniq_bets / 100)
     bets_dsc = np.flip(np.sort(uniq_bets / 100))
+    bet_delay = np.arange(n_bets) / 4
 
-    bet_time = raw_data['percentage_staked'] / 100
+    bet_time = raw_data['percentagestaked'] / 100
     for b in range(n_bets):
         bet_time[bet_time == bets_asc[b]] = b + 1
-    raw_data['bet_time'] = np.where(raw_data['gamble_type'] == 0,
+    raw_data['bet_time'] = np.where(raw_data['gambletype'] == 0,
                                     n_bets + 1 - bet_time,
                                     bet_time)
 
-    col_chosen = bet_chosen = np.full((n_subj, t_max), 0, dtype=int)
-    prop_red = prop_chosen = np.full((n_subj, t_max), 0, dtype=float)
-    gain = loss = np.full((n_subj, t_max, n_bets), 0, dtype=float)
+    col_chosen = np.full((n_subj, t_max), 0, dtype=int)
+    bet_chosen = np.full((n_subj, t_max), 0, dtype=int)
+    prop_red = np.full((n_subj, t_max), 0, dtype=float)
+    prop_chosen = np.full((n_subj, t_max), 0, dtype=float)
+    gain = np.full((n_subj, t_max, n_bets), 0, dtype=float)
+    loss = np.full((n_subj, t_max, n_bets), 0, dtype=float)
 
     for s in range(n_subj):
         t = t_subjs[s]
         _, subj_data = next(subj_group)
 
-        col_chosen[s, :t] = np.where(subj_data['left_colour_chosen'] == 1,
-                                     1, 2)
+        col_chosen[s, :t] = np.where(subj_data['leftcolourchosen'] == 1, 1, 2)
         bet_chosen[s, :t] = subj_data['bet_time']
-        prop_red[s, :t] = subj_data['n_left_colour_boxes'] / 10
-        prop_chosen[s, :t] = np.where(subj_data['left_colour_chosen'] == 1,
+        prop_red[s, :t] = subj_data['nleftcolourboxes'] / 10
+        prop_chosen[s, :t] = np.where(subj_data['leftcolourchosen'] == 1,
                                       prop_red[s][:t],
                                       1 - prop_red[s][:t])
 
         for b in range(n_bets):
-            gain[s, :t, b] = subj_data['trial_initial_points'] / 100 \
-                + subj_data['trial_initial_points'] / 100 \
-                * np.where(subj_data['gamble_type'] == 1,
+            gain[s, :t, b] = subj_data['trialinitialpoints'] / 100 \
+                + subj_data['trialinitialpoints'] / 100 \
+                * np.where(subj_data['gambletype'] == 1,
                            bets_asc[b],
                            bets_dsc[b])
-            loss[s, :t, b] = subj_data['trial_initial_points'] / 100 \
-                - subj_data['trial_initial_points'] / 100 \
-                * np.where(subj_data['gamble_type'] == 1,
+            loss[s, :t, b] = subj_data['trialinitialpoints'] / 100 \
+                - subj_data['trialinitialpoints'] / 100 \
+                * np.where(subj_data['gambletype'] == 1,
                            bets_asc[b],
                            bets_dsc[b])
+
+    # Remove the unnecessary intermediate column
+    raw_data.drop(columns='bet_time', inplace=True)
 
     # Wrap into a dict for pystan
     data_dict = {
@@ -910,6 +916,7 @@ def cgt_preprocess_func(self, raw_data, general_info, additional_args):
         'T': t_max,
         'B': n_bets,
         'Tsubj': t_subjs,
+        'bet_delay': bet_delay,
         'gain': gain,
         'loss': loss,
         'prop_red': prop_red,
