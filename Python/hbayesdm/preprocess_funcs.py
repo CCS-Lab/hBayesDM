@@ -170,8 +170,10 @@ def choiceRT_preprocess_func(self, raw_data, general_info, additional_args):
     subj_group = iter(general_info['grouped_data'])
     for s in range(n_subj):
         _, subj_data = next(subj_group)
-        RTu[s][:Nu[s]] = subj_data['rt'][subj_data['choice'] == 2]
-        RTl[s][:Nl[s]] = subj_data['rt'][subj_data['choice'] == 1]
+        if Nu[s] > 0:
+            RTu[s][:Nu[s]] = subj_data['rt'][subj_data['choice'] == 2]
+        if Nl[s] > 0:
+            RTl[s][:Nl[s]] = subj_data['rt'][subj_data['choice'] == 1]
 
     # Minimum reaction time
     minRT = np.full(n_subj, -1, dtype=float)

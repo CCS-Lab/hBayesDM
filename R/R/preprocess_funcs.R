@@ -161,8 +161,10 @@ choiceRT_preprocess_func <- function(raw_data, general_info, RTbound = 0.1) {
     subj <- subjs[i]
     subj_data <- subset(raw_data, raw_data$subjid == subj)
 
-    RTu[i, 1:Nu[i]] <- subj_data$rt[subj_data$choice == 2]  # (Nu/Nl[i]+1):Nu/Nl_max will be padded with 0's
-    RTl[i, 1:Nl[i]] <- subj_data$rt[subj_data$choice == 1]  # 0 padding is skipped in likelihood calculation
+    if (Nu[i] > 0)
+      RTu[i, 1:Nu[i]] <- subj_data$rt[subj_data$choice == 2]  # (Nu/Nl[i]+1):Nu/Nl_max will be padded with 0's
+    if (Nl[i] > 0)
+      RTl[i, 1:Nl[i]] <- subj_data$rt[subj_data$choice == 1]  # 0 padding is skipped in likelihood calculation
   }
 
   # Minimum reaction time
