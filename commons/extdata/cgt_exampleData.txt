@@ -1,4 +1,4 @@
-"groupID" "subjID" "stage" "assessment.stage" "includes.gamble" "gamble.type" "block" "completed" "block.initial.points" "block.final.points" "trial.initial.points" "trial.final.points" "choice.latency" "n.left.colour.boxes" "token.box" "left.colour.chosen" "response.latency" "stake.index" "percentage.staked" "points.staked" "left.won" "subject.won"
+"groupID" "subjID" "stage" "assessment_stage" "includes_gamble" "gamble_type" "block" "completed" "block_initial_points" "block_final_points" "trial_initial_points" "trial_final_points" "choice_latency" "n_left_colour_boxes" "token_box" "left_colour_chosen" "response_latency" "stake_index" "percentage_staked" "points_staked" "left_won" "subject_won"
 "24100" 4 102 2 0 1 1 1 1 100 140 100 150 16114 8 3 1 3602 3 50 50 1 1
 "24101" 4 102 2 0 1 1 1 1 100 140 150 225 7371 3 7 0 1634 3 50 75 0 1
 "24102" 4 102 2 0 1 1 1 1 100 140 225 281 2698 8 2 1 1575 2 25 56 1 1
