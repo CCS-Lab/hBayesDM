@@ -210,7 +210,7 @@ def bandit4arm2_kalman_filter(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- bandit4arm2_kalman_filter(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- bandit4arm2_kalman_filter(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')

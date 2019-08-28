@@ -6,6 +6,7 @@ from ._bandit4arm_lapse import bandit4arm_lapse
 from ._bandit4arm_lapse_decay import bandit4arm_lapse_decay
 from ._bandit4arm_singleA_lapse import bandit4arm_singleA_lapse
 from ._bart_par4 import bart_par4
+from ._cgt_cm import cgt_cm
 from ._choiceRT_ddm import choiceRT_ddm
 from ._choiceRT_ddm_single import choiceRT_ddm_single
 from ._cra_exp import cra_exp
@@ -54,6 +55,7 @@ __all__ = [
     'bandit4arm_lapse_decay',
     'bandit4arm_singleA_lapse',
     'bart_par4',
+    'cgt_cm',
     'choiceRT_ddm',
     'choiceRT_ddm_single',
     'cra_exp',

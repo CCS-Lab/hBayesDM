@@ -209,7 +209,7 @@ def prl_rp_multipleB(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- prl_rp_multipleB(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- prl_rp_multipleB(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
