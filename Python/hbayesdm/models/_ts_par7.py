@@ -217,7 +217,7 @@ def ts_par7(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- ts_par7(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- ts_par7(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')

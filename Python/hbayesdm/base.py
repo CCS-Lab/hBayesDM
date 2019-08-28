@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import pickle
+import warnings
 import multiprocessing
 from abc import ABCMeta, abstractmethod
 from typing import Tuple, List, Sequence, Dict, Union, Callable, Any
@@ -440,9 +441,10 @@ class TaskModel(metaclass=ABCMeta):
         try:
             fit = sm.vb(data=data_dict)
         except Exception:
-            raise RuntimeWarning(
+            warnings.warn(
                 'Failed to get VB estimates for initial values. '
-                'Use random values for initial values.')
+                'Use random values for initial values.',
+                RuntimeWarning, stacklevel=1)
             return 'random'
 
         len_param = len(self.parameters)
@@ -828,6 +830,8 @@ class TaskModel(metaclass=ABCMeta):
         initial_columns
             Initial column names of raw data, as given by the user.
         """
+        print(raw_data.columns)
+        print(initial_columns)
         raw_data.columns = initial_columns
 
     def _inform_completion(self):

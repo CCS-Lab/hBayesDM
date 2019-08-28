@@ -214,7 +214,7 @@ def peer_ocu(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- peer_ocu(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- peer_ocu(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')

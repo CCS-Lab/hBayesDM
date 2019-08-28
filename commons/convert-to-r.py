@@ -61,10 +61,12 @@ def parse_cite_string(cite):
     if not cite:
         return None
 
+    fullcite = cite.replace('\n', '')
+
     regex_authoryear = r'(?P<authors>^.+?)\s\((?P<year>\d+?)\)'
     regex_author = r'(?=\s\&)?\s?(?P<author>[^,&]+?,\s[^,&]+?)(?=,|\n|\r|$)'
 
-    m_ay = re.search(regex_authoryear, cite)
+    m_ay = re.search(regex_authoryear, fullcite)
     year = m_ay.group('year')
 
     authors = []
@@ -83,7 +85,7 @@ def parse_cite_string(cite):
         'year': year,
         'shortcite': shortcite,
         'barecite': barecite,
-        'fullcite': cite
+        'fullcite': fullcite
     }
 
 

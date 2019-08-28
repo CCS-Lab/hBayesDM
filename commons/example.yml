@@ -106,7 +106,7 @@ notes:
   This is a note for this model.
 - >
   If you want to write long notes for the model,
-  you'd be better to check out how to write multiline strings in YAML
+  you would be better to check out how to write multiline strings in YAML
   (https://yaml-multiline.info)
 
 # (optional) a list of contributors. To specify who wrote this model codes for hBayesDM.

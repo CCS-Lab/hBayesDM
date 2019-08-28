@@ -210,7 +210,7 @@ def dd_cs_single(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- dd_cs_single(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- dd_cs_single(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')

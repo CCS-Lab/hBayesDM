@@ -208,7 +208,7 @@ def dd_exp(
     .. code:: python
 
         # Run the model and store results in "output"
-        output <- dd_exp(example=True, niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output <- dd_exp(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
