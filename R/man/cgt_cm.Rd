@@ -14,7 +14,7 @@ cgt_cm(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
 a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
 \code{"choose"} to choose data with an interactive window.
 Columns in the dataset must include:
-"subjID", "gamble_type", "percentage_staked", "trial_initial_points", "assessment_stage", "left_colour_chosen", "n_left_colour_boxes". See \bold{Details} below for more information.}
+"subjID", "gamble_type", "percentage_staked", "trial_initial_points", "assessment_stage", "red_chosen", "n_red_boxes". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
 
@@ -88,16 +88,16 @@ This section describes some of the function arguments in greater detail.
   subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
   file, whose rows represent trial-by-trial observations and columns represent variables.\cr
 For the Cambridge Gambling Task, there should be 7 columns of data with the
-  labels "subjID", "gamble_type", "percentage_staked", "trial_initial_points", "assessment_stage", "left_colour_chosen", "n_left_colour_boxes". It is not necessary for the columns to be in this particular order,
+  labels "subjID", "gamble_type", "percentage_staked", "trial_initial_points", "assessment_stage", "red_chosen", "n_red_boxes". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
   \item{subjID}{A unique identifier for each subject in the data-set.}
-  \item{gamble_type}{}
-  \item{percentage_staked}{}
-  \item{trial_initial_points}{}
-  \item{assessment_stage}{}
-  \item{left_colour_chosen}{}
-  \item{n_left_colour_boxes}{}
+  \item{gamble_type}{Integer value representng whether the bets on the current trial were presented in descending (0) or ascending (1) order.}
+  \item{percentage_staked}{Integer value representing the bet percentage (not proportion) selected on the current trial: 5, 25, 50, 75, or 95.}
+  \item{trial_initial_points}{Floating point value representing the number of points that the subject has at the start of the current trial (e.g., 100, 150, etc.).}
+  \item{assessment_stage}{Integer value representing whether the current trial is a practice trial (0) or a test trial (1). Only test trials are used for model fitting.}
+  \item{red_chosen}{Integer value representing whether the red color was chosen (1) versus the blue color (0).}
+  \item{n_red_boxes}{Integer value representing the number of red boxes shown on the current trial: 1, 2, 3,..., or 9.}
   
   
 }
