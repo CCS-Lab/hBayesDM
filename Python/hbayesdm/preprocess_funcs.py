@@ -888,10 +888,10 @@ def cgt_preprocess_func(self, raw_data, general_info, additional_args):
         t = t_subjs[s]
         _, subj_data = next(subj_group)
 
-        col_chosen[s, :t] = np.where(subj_data['leftcolourchosen'] == 1, 1, 2)
+        col_chosen[s, :t] = np.where(subj_data['redchosen'] == 1, 1, 2)
         bet_chosen[s, :t] = subj_data['bet_time']
-        prop_red[s, :t] = subj_data['nleftcolourboxes'] / 10
-        prop_chosen[s, :t] = np.where(subj_data['leftcolourchosen'] == 1,
+        prop_red[s, :t] = subj_data['nredboxes'] / 10
+        prop_chosen[s, :t] = np.where(subj_data['redchosen'] == 1,
                                       prop_red[s][:t],
                                       1 - prop_red[s][:t])
 

@@ -883,10 +883,10 @@ cgt_preprocess_func <- function(raw_data, general_info) {
     t <- t_subjs[i]
     DT_subj <- raw_data[subjid == subjs[i]]
 
-    col_chosen [i, 1:t] <- ifelse(DT_subj$leftcolourchosen == 1, 1, 2)
+    col_chosen [i, 1:t] <- ifelse(DT_subj$redchosen == 1, 1, 2)
     bet_chosen [i, 1:t] <- DT_subj$bet_time
-    prop_red   [i, 1:t] <- DT_subj$nleftcolourboxes / 10
-    prop_chosen[i, 1:t] <- ifelse(DT_subj$leftcolourchosen == 1,
+    prop_red   [i, 1:t] <- DT_subj$nredboxes / 10
+    prop_chosen[i, 1:t] <- ifelse(DT_subj$redchosen == 1,
                                   prop_red[i, 1:t],
                                   1 - prop_red[i, 1:t])
 
