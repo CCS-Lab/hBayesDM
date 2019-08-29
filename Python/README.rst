@@ -19,6 +19,8 @@ It supports Python 3.5 or higher versions and requires several packages includin
 .. _Matplotlib: https://matplotlib.org/
 .. _ArviZ: https://arviz-devs.github.io/arviz/
 
+- **Documentation**: http://hbayesdm.readthedocs.io/
+
 Installation
 ------------
 
