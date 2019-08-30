@@ -35,3 +35,7 @@ articles:
 
 toc:
   depth: 1
+
+template:
+  params:
+    bootswatch: flatly
