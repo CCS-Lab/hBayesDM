@@ -38,6 +38,13 @@ matrix:
   include:
   - name: 'Test R codes'
     env: TARGET='R'
+    deploy:
+      provider: script
+      script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
+      skip_cleanup: true
+      on:
+        branch: hotfix/fix-travis-settings
+        condition: $TARGET = R
   - name: 'Test Python codes (Python 3.5)'
     env: TARGET='Python' && PYTHON_VERSION=3.5
   - name: 'Test Python codes (Python 3.6)'
@@ -64,12 +71,3 @@ after_failure:
 
 after_success:
   - source $ROOTPATH/travis/after-success.sh
-
-deploy:
-  provider: script
-  script: $ROOTPATH/travis/deploy.sh
-  skip_cleanup: true
-  on:
-    branch: hotfix/fix-travis-settings
-    condition: $TARGET = R
-#    branch: master

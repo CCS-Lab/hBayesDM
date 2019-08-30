@@ -9,10 +9,8 @@ if [ "$TARGET" = "R" ]; then
   echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
   echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
 
-  # # Install R packages
-  # Rscript \
-  #   -e 'install.packages(c("devtools", "roxygen2", "covr"), quiet = T, repos = "https://cran.rstudio.com")' \
-  #   -e 'devtools::install_deps(dep = T, quiet = T)'
+  # Install R packages
+  Rscript -e 'devtools::install_deps(dep = T, quiet = T)'
 
 # Setup codes for Python
 elif [ "$TARGET" = "Python" ]; then
