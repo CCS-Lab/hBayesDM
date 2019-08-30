@@ -18,7 +18,7 @@ bandit2arm_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     choice[i, 1:t]  <- DT_subj$choice
     outcome[i, 1:t] <- DT_subj$outcome
@@ -49,7 +49,7 @@ bandit4arm2_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     choice[i, 1:t]  <- DT_subj$choice
     outcome[i, 1:t] <- DT_subj$outcome
@@ -84,7 +84,7 @@ bandit4arm_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     rew[i, 1:t]    <- DT_subj$gain
     los[i, 1:t]    <- -1 * abs(DT_subj$loss)
@@ -122,7 +122,7 @@ bart_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     pumps[i, 1:t]     <- DT_subj$pumps
     explosion[i, 1:t] <- DT_subj$explosion
@@ -191,8 +191,8 @@ choiceRT_single_preprocess_func <- function(raw_data, general_info, RTbound = 0.
   # Currently class(raw_data) == "data.table"
 
   # Data.tables for upper and lower boundary responses
-  DT_upper <- raw_data[choice == 2]
-  DT_lower <- raw_data[choice == 1]
+  DT_upper <- raw_data[raw_data$choice == 2]
+  DT_lower <- raw_data[raw_data$choice == 1]
 
   # Wrap into a list for Stan
   data_list <- list(
@@ -228,7 +228,7 @@ cra_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     choice[i, 1:t]     <- DT_subj$choice
     prob[i, 1:t]       <- DT_subj$prob
@@ -270,7 +270,7 @@ dbdm_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     opt1hprob[i, 1:t] <- DT_subj$opt1hprob
     opt2hprob[i, 1:t] <- DT_subj$opt2hprob
@@ -317,7 +317,7 @@ dd_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     delay_later[i, 1:t]   <- DT_subj$delaylater
     amount_later[i, 1:t]  <- DT_subj$amountlater
@@ -387,7 +387,7 @@ gng_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     cue[i, 1:t]     <- DT_subj$cue
     pressed[i, 1:t] <- DT_subj$keypressed
@@ -425,7 +425,7 @@ igt_preprocess_func <- function(raw_data, general_info, payscale = 100) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     Ydata[i, 1:t]    <- DT_subj$choice
     RLmatrix[i, 1:t] <- DT_subj$gain - abs(DT_subj$loss)
@@ -467,7 +467,7 @@ peer_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     condition[i, 1:t]     <- DT_subj$condition
     p_gamble[i, 1:t]      <- DT_subj$pgamble
@@ -513,7 +513,7 @@ prl_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     choice[i, 1:t]  <- DT_subj$choice
     outcome[i, 1:t] <- sign(DT_subj$outcome)  # use sign
@@ -550,12 +550,12 @@ prl_multipleB_preprocess_func <- function(raw_data, general_info) {
   # Write from raw_data to the data arrays
   for (i in 1:n_subj) {
     subj <- subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
     blocks_of_subj <- unique(DT_subj$block)
 
     for (b in 1:b_subjs[i]) {
       curr_block <- blocks_of_subj[b]
-      DT_curr_block <- DT_subj[block == curr_block]
+      DT_curr_block <- DT_subj[DT_subj$block == curr_block]
       t <- t_subjs[i, b]
 
       choice[i, b, 1:t]  <- DT_curr_block$choice
@@ -597,7 +597,7 @@ pst_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     option1[i, 1:t] <- DT_subj$type %/% 10
     option2[i, 1:t] <- DT_subj$type %% 10
@@ -639,7 +639,7 @@ ra_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     gain[i, 1:t]   <- DT_subj$gain
     loss[i, 1:t]   <- abs(DT_subj$loss)  # absolute loss amount
@@ -685,7 +685,7 @@ rdt_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     gain[i, 1:t]     <- DT_subj$gain
     loss[i, 1:t]     <- abs(DT_subj$loss)  # absolute loss amount
@@ -734,7 +734,7 @@ ts_preprocess_func <- function(raw_data, general_info, trans_prob = 0.7) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     level1_choice[i, 1:t] <- DT_subj$level1choice
     level2_choice[i, 1:t] <- DT_subj$level2choice
@@ -773,7 +773,7 @@ ug_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
 
     offer[i, 1:t]  <- DT_subj$offer
     accept[i, 1:t] <- DT_subj$accept
@@ -816,7 +816,7 @@ wcs_preprocess_func <- function(raw_data, general_info) {
   for (i in 1:n_subj) {
     subj <- subjs[i]
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subj]
+    DT_subj <- raw_data[raw_data$subjid == subj]
     DT_subj_choice  <- DT_subj$choice
     DT_subj_outcome <- DT_subj$outcome
 
@@ -883,7 +883,7 @@ cgt_preprocess_func <- function(raw_data, general_info) {
 
   for (i in 1:n_subj) {
     t <- t_subjs[i]
-    DT_subj <- raw_data[subjid == subjs[i]]
+    DT_subj <- raw_data[raw_data$subjid == subjs[i]]
 
     col_chosen [i, 1:t] <- ifelse(DT_subj$redchosen == 1, 1, 2)
     bet_chosen [i, 1:t] <- DT_subj$bet_time

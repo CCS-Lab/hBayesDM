@@ -1,16 +1,16 @@
-hBayesDM-py
-===========
+hBayesDM
+========
 
 This is the Python version of *hBayesDM* (hierarchical Bayesian modeling of
 Decision-Making tasks), a user-friendly package that offers hierarchical
 Bayesian analysis of various computational models on an array of
-decision-making tasks. *hBayesDM* uses `PyStan`_ (Python interface for
+decision-making tasks. *hBayesDM* in Python uses `PyStan`_ (Python interface for
 `Stan`_) for Bayesian inference.
 
 .. _PyStan: https://github.com/stan-dev/pystan
 .. _Stan: http://mc-stan.org/
 
-hBayesDM-py supports Python 3.5 or higher. It requires several packages including:
+It supports Python 3.5 or higher versions and requires several packages including:
 `NumPy`_, `SciPy`_, `Pandas`_, `PyStan`_, `Matplotlib`_, and `ArviZ`_.
 
 .. _NumPy: https://www.numpy.org/
@@ -19,10 +19,12 @@ hBayesDM-py supports Python 3.5 or higher. It requires several packages includin
 .. _Matplotlib: https://matplotlib.org/
 .. _ArviZ: https://arviz-devs.github.io/arviz/
 
+- **Documentation**: http://hbayesdm.readthedocs.io/
+
 Installation
 ------------
 
-You can install hBayesDM-py from PyPI with the following line:
+You can install hBayesDM from PyPI with the following line:
 
 .. code:: bash
 

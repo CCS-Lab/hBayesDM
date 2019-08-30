@@ -12,10 +12,10 @@ if sys.version_info[:2] < (3, 5):
 PATH_ROOT = Path(__file__).absolute().parent
 
 
-MAJOR = 0
-MINOR = 7
-MICRO = 2
-ISRELEASED = False
+MAJOR = 1
+MINOR = 0
+MICRO = 1
+ISRELEASED = True
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 VERSION += '' if ISRELEASED else '.9000'
 
@@ -23,7 +23,7 @@ VERSION += '' if ISRELEASED else '.9000'
 DESC = 'Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks'
 with open('README.rst', 'r', encoding='utf-8') as f:
     LONG_DESC = f.read()
-LONG_DESC_TYPE = 'text/restructuredtext'
+LONG_DESC_TYPE = 'text/x-rst'
 AUTHOR = 'hBayesDM Developers'
 AUTHOR_EMAIL = 'hbayesdm-users@googlegroups.com'
 URL = 'https://github.com/CCS-Lab/hBayesDM'
