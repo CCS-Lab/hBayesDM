@@ -103,6 +103,36 @@
       <small>Source: <a href='https://github.com/CCS-Lab/hBayesDM/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="hbayesdm-1-0-0" class="section level1">
+<h1 class="page-header">
+<a href="#hbayesdm-1-0-0" class="anchor"></a>hBayesDM 1.0.0<small> Unreleased </small>
+</h1>
+<ul>
+<li>Major changes
+<ul>
+<li>Now, hBayesDM has both R and Python version, with same models included! You can run hBayesDM with a language you prefer!</li>
+<li>Models in hBayesDM are now specified as YAML files. Using the YAML files, R and Python codes are generated automatically. If you want to contribute hBayesDM by adding a model, what you have to do is just to write a Stan file and to specify its information! You can find how to do in the hBayesDM wiki (<a href="https://github.com/CCS-Lab/hBayesDM/wiki" class="uri">https://github.com/CCS-Lab/hBayesDM/wiki</a>).</li>
+<li>Model functions try to use parameter estimates using variational Bayesian methods as its initial values for MCMC sampling by default (<a href='https://github.com/CCS-Lab/hBayesDM/issues/96'>#96</a>). If VB estimation fails, then it uses random values instead.</li>
+<li>The <code>data</code> argument for model functions can handle a data.frame object (<a href='https://github.com/CCS-Lab/hBayesDM/issues/2'>#2</a>, <a href='https://github.com/CCS-Lab/hBayesDM/issues/98'>#98</a>).</li>
+<li>
+<code>choiceRT_lba</code> and <code>choiceRT_lba_single</code> are temporarily removed since their codes are not suitable to the new package structure. We plan to re-add the models in future versions.</li>
+<li>The Cumulative Model for Cambridge Gambling Task is added (<code>cgt_cm</code>; <a href='https://github.com/CCS-Lab/hBayesDM/issues/108'>#108</a>).</li>
+</ul>
+</li>
+<li>Minor changes
+<ul>
+<li>The <code>tau</code> parameter in all models for the risk aversion task is modified to be bounded to [0, 30] (<a href='https://github.com/CCS-Lab/hBayesDM/issues/77'>#77</a>, <a href='https://github.com/CCS-Lab/hBayesDM/issues/78'>#78</a>).</li>
+<li>
+<code>bart_4par</code> is fixed to compute subject-wise log-likelihood (<a href='https://github.com/CCS-Lab/hBayesDM/issues/82'>#82</a>).</li>
+<li>
+<code>extract_ic</code> is fixed for its wrong <code>rep</code> function usage (<a href='https://github.com/CCS-Lab/hBayesDM/issues/94'>#94</a>, <a href='https://github.com/CCS-Lab/hBayesDM/issues/100'>#100</a>).</li>
+<li>The drift rate (<code>delta</code> parameter) in <code>choiceRT_ddm</code> and <code>choiceRT_ddm_single</code> is unbounded and now it is estimated between [-Inf, Inf] (<a href='https://github.com/CCS-Lab/hBayesDM/issues/95'>#95</a>, <a href='https://github.com/CCS-Lab/hBayesDM/issues/107'>#107</a>).</li>
+<li>Fix a preprocessing error in <code>choiceRT_ddm</code> and <code>choiceRT_ddm_single</code> (<a href='https://github.com/CCS-Lab/hBayesDM/issues/95'>#95</a>, <a href='https://github.com/CCS-Lab/hBayesDM/issues/109'>#109</a>).</li>
+<li>Fix <code>igt_orl</code> for a wrong Matt trick operation (<a href='https://github.com/CCS-Lab/hBayesDM/issues/110'>#110</a>).</li>
+</ul>
+</li>
+</ul>
+</div>
     <div id="hbayesdm-0-7-2" class="section level1">
 <h1 class="page-header">
 <a href="#hbayesdm-0-7-2" class="anchor"></a>hBayesDM 0.7.2<small> 2019-02-12 </small>
@@ -307,6 +337,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#hbayesdm-1-0-0">1.0.0</a></li>
         <li><a href="#hbayesdm-0-7-2">0.7.2</a></li>
         <li><a href="#hbayesdm-0-7-1">0.7.1</a></li>
         <li><a href="#hbayesdm-0-7-0">0.7.0</a></li>
