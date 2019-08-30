@@ -104,13 +104,9 @@ def bandit4arm_lapse_decay(
 
     Parameters
     ----------
-    example
-        Whether to use the example data provided by hBayesDM.
-    datafile
-        Path for a TSV file containing the data to be modeled.
-        Data columns should be labeled as: "subjID", "choice", "gain", "loss".
     data
-        Pandas DataFrame object holding the data to be modeled.
+        Data to be modeled. It should be given as a Pandas DataFrame object,
+        a filepath for a data file, or ``"example"`` for example data.
         Data columns should be labeled as: "subjID", "choice", "gain", "loss".
     niter
         Number of iterations, including warm-up. Defaults to 4000.

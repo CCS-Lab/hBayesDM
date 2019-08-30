@@ -106,13 +106,9 @@ def peer_ocu(
 
     Parameters
     ----------
-    example
-        Whether to use the example data provided by hBayesDM.
-    datafile
-        Path for a TSV file containing the data to be modeled.
-        Data columns should be labeled as: "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice".
     data
-        Pandas DataFrame object holding the data to be modeled.
+        Data to be modeled. It should be given as a Pandas DataFrame object,
+        a filepath for a data file, or ``"example"`` for example data.
         Data columns should be labeled as: "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice".
     niter
         Number of iterations, including warm-up. Defaults to 4000.
