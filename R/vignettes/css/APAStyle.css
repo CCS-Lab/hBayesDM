@@ -1,0 +1,122 @@
+@import "http://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic&subset=latin,latin-ext";
+@import url(http://fonts.googleapis.com/css?family=Inconsolata:400,700);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
+
+
+body {
+    margin:0 auto;
+    font-family: "Times New Roman", Times, serif;
+    font-size:1em;
+    text-align:left;
+    max-width:6.5in
+}
+
+table {
+    border-collapse: collapse;
+	border-bottom:1px solid #000;
+	margin:auto;
+}
+
+th, td{padding:5px;}
+
+
+
+p {
+    text-align:left;
+    margin-bottom:2ex;
+	text-indent: 2em;
+	line-height: 1.25em;
+}
+
+.references p {padding-left: 2.5em ;
+    text-indent: -2.5em;}
+
+.level1 h1 {font-size:1em;}
+
+.level2 h2 {font-size:1em;}
+
+.level3 h3 {font-size:1em;}
+
+.level4
+ h4 {font-size:1em;}
+
+h1 {
+    text-align:center;
+}
+
+h2, h3, h4, h5 {
+text-align: left;
+}
+
+h3, h4, h5 {
+margin-left: 2em;
+}
+
+.author , .date, .author_afil h4 {text-align:left;
+		margin-left:0;
+		font-weight:normal;
+		font-style:normal;
+		padding:0px;
+		margin:0px;
+		}
+		
+#header h4 em  {
+		font-weight:normal;
+		font-style:normal;
+		}
+		
+
+
+blockquote p {text-indent:0em;
+			margin-left:2.5em;}
+
+blockquote p + p {
+text-indent: 2.5em;
+}
+
+pre, img {
+max-width: 100%;
+}
+
+pre {
+overflow-x: auto;
+}
+
+code {
+    font-family:"Anonymous Pro",monospace;
+	text-align:left;
+	padding:5px;
+	font-size: 92%;
+	border: 1px solid #ccc;
+}
+
+pre code {
+font-size: 0.9em;
+font-family: 'Source Code Pro' !important;
+text-align: left;
+display: block; padding: 0.5em;
+}
+
+code.r {
+font-family: 'Inconsolata' !important;
+font-size: 1.2em;
+background-color: rgba(160, 160, 160, 0.2);
+}
+sup,sub {
+    position: relative;
+    vertical-align: 0;
+}
+
+sup {
+    bottom: .4em
+}
+
+sub {
+    top:.4em
+}
+
+.header th {
+    border-bottom:1px solid #000;
+    border-top: 1px solid #000;
+	font-weight: normal;
+}

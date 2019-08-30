@@ -17,7 +17,7 @@ reference:
   - starts_with("ts_")
   - starts_with("ug_")
   - starts_with("wcs_")
-- title: Functions
+- title: Diagnostics
   contents:
   - estimate_mode
   - extract_ic
@@ -28,3 +28,10 @@ reference:
   - plotInd
   - printFit
   - rhat
+
+articles:
+- title: Getting started
+  contents: getting_started
+
+toc:
+  depth: 1
