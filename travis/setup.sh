@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Setup codes for R
 if [ "$TARGET" = "R" ]; then
