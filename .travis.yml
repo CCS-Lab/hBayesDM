@@ -66,11 +66,11 @@ after_success:
 
 before_deploy:
   - cd $ROOTPATH
-  - Rscript -e 'remotes::install_cran("pkgdown", quiet = T, repos = "https://cran.rstudio.com")'
+  - if [ "$TARGET" = "R" ]; then Rscript -e 'remotes::install_cran("pkgdown", quiet = T, repos = "https://cran.rstudio.com")'; fi
 
 deploy:
   provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github()'
+  script: if [ "$TARGET" = "R" ]; then Rscript -e 'pkgdown::deploy_site_github()'; fi
   skip_cleanup: true
   on:
     branch: master
