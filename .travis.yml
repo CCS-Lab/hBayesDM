@@ -16,6 +16,11 @@ branches:
     - /hotfix\/.*/
     - /bugfix\/.*/
 
+env:
+  global:
+  # Don't treat missing suggested packages as error
+  - _R_CHECK_FORCE_SUGGESTS_=false
+
 # Use cache for packages
 cache:
   apt: true
@@ -44,7 +49,6 @@ matrix:
       skip_cleanup: true
       on:
         branch: hotfix/fix-travis-settings
-        condition: $TARGET = R
   - name: 'Test Python codes (Python 3.5)'
     env: TARGET='Python' && PYTHON_VERSION=3.5
   - name: 'Test Python codes (Python 3.6)'
