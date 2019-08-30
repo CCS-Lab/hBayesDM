@@ -1,30 +1,33 @@
 # hBayesDM 1.0.0
 
-- Major changes
-    - Now, hBayesDM has both R and Python version, with same models included!
-    You can run hBayesDM with a language you prefer!
-    - Models in hBayesDM are now specified as YAML files. Using the YAML files,
-    R and Python codes are generated automatically. If you want to contribute
-    hBayesDM by adding a model, what you have to do is just to write a Stan file
-    and to specify its information! You can find how to do in the hBayesDM wiki
-    (https://github.com/CCS-Lab/hBayesDM/wiki).
-    - Model functions try to use parameter estimates using variational Bayesian
-    methods as its initial values for MCMC sampling by default (#96). If VB
-    estimation fails, then it uses random values instead.
-    - The `data` argument for model functions can handle a data.frame object (#2, #98).
-    - `choiceRT_lba` and `choiceRT_lba_single` are temporarily removed since their codes
-    are not suitable to the new package structure. We plan to re-add the models
-    in future versions.
-    - The Cumulative Model for Cambridge Gambling Task is added (`cgt_cm`; #108).
-- Minor changes
-    - The `tau` parameter in all models for the risk aversion task is modified to
-    be bounded to [0, 30] (#77, #78).
-    - `bart_4par` is fixed to compute subject-wise log-likelihood (#82).
-    - `extract_ic` is fixed for its wrong `rep` function usage (#94, #100).
-    - The drift rate (`delta` parameter) in `choiceRT_ddm` and `choiceRT_ddm_single` is
-    unbounded and now it is estimated between [-Inf, Inf] (#95, #107).
-    - Fix a preprocessing error in  `choiceRT_ddm` and `choiceRT_ddm_single` (#95, #109).
-    - Fix `igt_orl` for a wrong Matt trick operation (#110).
+##  Major changes
+
+* Now, hBayesDM has both R and Python version, with same models included!
+You can run hBayesDM with a language you prefer!
+* Models in hBayesDM are now specified as YAML files. Using the YAML files,
+R and Python codes are generated automatically. If you want to contribute
+hBayesDM by adding a model, what you have to do is just to write a Stan file
+and to specify its information! You can find how to do in the hBayesDM wiki
+(https://github.com/CCS-Lab/hBayesDM/wiki).
+* Model functions try to use parameter estimates using variational Bayesian
+methods as its initial values for MCMC sampling by default (#96). If VB
+estimation fails, then it uses random values instead.
+* The `data` argument for model functions can handle a data.frame object (#2, #98).
+* `choiceRT_lba` and `choiceRT_lba_single` are temporarily removed since their codes
+are not suitable to the new package structure. We plan to re-add the models
+in future versions.
+* The Cumulative Model for Cambridge Gambling Task is added (`cgt_cm`; #108).
+
+## Minor changes
+
+* The `tau` parameter in all models for the risk aversion task is modified to
+be bounded to [0, 30] (#77, #78).
+* `bart_4par` is fixed to compute subject-wise log-likelihood (#82).
+* `extract_ic` is fixed for its wrong `rep` function usage (#94, #100).
+* The drift rate (`delta` parameter) in `choiceRT_ddm` and `choiceRT_ddm_single` is
+unbounded and now it is estimated between [-Inf, Inf] (#95, #107).
+* Fix a preprocessing error in  `choiceRT_ddm` and `choiceRT_ddm_single` (#95, #109).
+* Fix `igt_orl` for a wrong Matt trick operation (#110).
 
 # hBayesDM 0.7.2
 
