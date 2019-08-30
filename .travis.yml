@@ -1,5 +1,6 @@
 # Use cpp to enable both R & Python
 language: cpp
+pandoc_version: 2.7.2
 
 sudo: required
 
@@ -32,6 +33,7 @@ addons:
       - gfortran-7
       - libcurl4-openssl-dev
       - libxml2-dev
+      - pandoc
 
 matrix:
   include:
