@@ -1,0 +1,9 @@
+%(model_function)s <- hBayesDM_model(
+  task_name       = "%(task_code)s",
+  model_name      = "%(model_code)s",
+  model_type      = "%(model_type)s",
+  data_columns    = c(%(data_columns)s),
+  parameters      = %(parameters)s,
+  regressors      = %(regressors)s,
+  postpreds       = %(postpreds)s,
+  preprocess_func = %(preprocess_func)s)

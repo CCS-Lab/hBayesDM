@@ -1,0 +1,37 @@
+task_name:
+  code: dd
+  desc: Delay Discounting Task
+  cite:
+model_name:
+  code: hyperbolic
+  desc: Hyperbolic Model
+  cite:
+  - Mazur, J. E. (1987). An adjustment procedure for studying delayed reinforcement.
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  delay_later: An integer representing the delayed days for the later option (e.g.
+    1, 6, 28).
+  amount_later: A floating point number representing the amount for the later option
+    (e.g. 10.5, 13.4, 30.9).
+  delay_sooner: An integer representing the delayed days for the sooner option (e.g.
+    0).
+  amount_sooner: A floating point number representing the amount for the sooner option
+    (e.g. 10).
+  choice: If amount_later was selected, choice == 1; else if amount_sooner was selected,
+    choice == 0.
+parameters:
+  k:
+    desc: discounting rate
+    info: [0, 0.1, 1]
+  beta:
+    desc: inverse temperature
+    info: [0, 1, 5]
+regressors:
+postpreds:
+- y_pred
+additional_args:

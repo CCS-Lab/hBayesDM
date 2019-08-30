@@ -1,0 +1,45 @@
+task_name:
+  code: cra
+  desc: Choice Under Risk and Ambiguity Task
+  cite:
+model_name:
+  code: exp
+  desc: Exponential Subjective Value Model
+  cite:
+  - Hsu, M., Bhatt, M., Adolphs, R., Tranel, D., & Camerer, C. F. (2005). Neural systems
+    responding to degrees of uncertainty in human decision-making. Science, 310(5754),
+    1680-1683. https://doi.org/10.1126/science.1115327
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+- name: Jaeyeong Yang
+  email: jaeyeong.yang1125@gmail.com
+  link: https://ccs-lab.github.io/team/jaeyeong-yang/
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  prob: Objective probability of the variable lottery.
+  ambig: Ambiguity level of the variable lottery (0 for risky lottery; greater than
+    0 for ambiguous lottery).
+  reward_var: Amount of reward in variable lottery. Assumed to be greater than zero.
+  reward_fix: Amount of reward in fixed lottery. Assumed to be greater than zero.
+  choice: If the variable lottery was selected, choice == 1; otherwise choice == 0.
+parameters:
+  alpha:
+    desc: risk attitude
+    info: [0, 1, 2]
+  beta:
+    desc: ambiguity attitude
+    info: [-Inf, 0, Inf]
+  gamma:
+    desc: inverse temperature
+    info: [0, 1, Inf]
+regressors:
+  sv: 2
+  sv_fix: 2
+  sv_var: 2
+  p_var: 2
+postpreds:
+- y_pred
+additional_args:
