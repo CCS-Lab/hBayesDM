@@ -72,3 +72,4 @@ deploy:
     branch:
       - master
       - /hotfix\/.*/
+    condition: "$TARGET" = "R"
