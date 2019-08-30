@@ -63,3 +63,12 @@ after_failure:
 
 after_success:
   - source $ROOTPATH/travis/after-success.sh
+
+before_deploy:
+  - cd $ROOTPATH
+  - Rscript -e 'remotes::install_cran("pkgdown", quiet = T, repos = "https://cran.rstudio.com")'
+
+deploy:
+  provider: script
+  script: Rscript -e 'pkgdown::deploy_site_github()'
+  skip_cleanup: true
