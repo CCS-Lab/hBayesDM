@@ -386,29 +386,33 @@ hBayesDM_model <- function(task_name,
         cat("** Use VB estimates as initial values **\n")
         cat("****************************************\n")
 
-        tryCatch({
+        make_gen_init_from_vb <- function() {
           fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list)
           m_vb <- colMeans(as.data.frame(fit_vb))
 
-          gen_init <<- function() {
+          function() {
             ret <- list(
               mu_pr = as.vector(m_vb[startsWith(names(m_vb), "mu_pr")]),
               sigma = as.vector(m_vb[startsWith(names(m_vb), "sigma")])
             )
 
             for (p in names(parameters)) {
-              ret[[p]] <- as.vector(m_vb[startsWith(names(m_vb), paste0(p, "_pr"))])
+              ret[[paste0(p, "_pr")]] <-
+                as.vector(m_vb[startsWith(names(m_vb), paste0(p, "_pr"))])
             }
 
             return(ret)
           }
-        }, error = function(e) {
+        }
+
+        gen_init <- tryCatch(make_gen_init_from_vb(), error = function(e) {
           cat("\n")
           cat("******************************************\n")
           cat("** Failed to obtain VB estimates.       **\n")
           cat("** Use random values as initial values. **\n")
           cat("******************************************\n")
-          gen_init <<- "random"
+
+          return("random")
         })
       }
     } else if (inits[1] == "random") {
@@ -426,6 +430,7 @@ hBayesDM_model <- function(task_name,
              "(= the number of parameters of this model). ",
              "Please check again. **\n")
       }
+
       if (model_type == "single") {
         gen_init <- function() {
           individual_level        <- as.list(inits)
