@@ -9,3 +9,6 @@ if [ "$TARGET" = "R" ]; then
 else
   echo 'No script required'
 fi
+
+exit 0
+
