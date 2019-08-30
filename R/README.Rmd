@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-# hBayesDM-R
+# hBayesDM
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master)](https://travis-ci.org/CCS-Lab/hBayesDM)
@@ -14,13 +14,15 @@ output: github_document
 
 ## Quick Links
 
-  - **Tutorial**: <http://rpubs.com/CCSL/hBayesDM> (R)
-  - **Mailing list**:
-    <https://groups.google.com/forum/#!forum/hbayesdm-users>
-  - **Bug reports**: <https://github.com/CCS-Lab/hBayesDM/issues>
-  - **Contributing**: See the
-    [Wiki](https://github.com/CCS-Lab/hBayesDM/wiki) of this repository.
+- **Mailing list**:
+  <https://groups.google.com/forum/#!forum/hbayesdm-users>
+- **Bug reports**: <https://github.com/CCS-Lab/hBayesDM/issues>
+- **Contributing**: See the [Wiki][wiki] of this repository.
+- **Python interface for hBayesDM**: [PyPI][hbayesdm-pypi], [documentation][hbayesdm-py-doc]
 
+[hbayesdm-pypi]: https://pypi.org/project/hbayesdm/
+[hbayesdm-py-doc]: https://hbayesdm.readthedocs.io
+[wiki]: https://github.com/CCS-Lab/hBayesDM/wiki
 
 ## Getting Started
 

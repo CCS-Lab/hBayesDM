@@ -1,5 +1,5 @@
 
-# hBayesDM-R
+# hBayesDM
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
@@ -18,12 +18,14 @@ hBayesDM uses [Stan](http://mc-stan.org/) for Bayesian inference.
 
 ## Quick Links
 
-  - **Tutorial**: <http://rpubs.com/CCSL/hBayesDM> (R)
   - **Mailing list**:
     <https://groups.google.com/forum/#!forum/hbayesdm-users>
   - **Bug reports**: <https://github.com/CCS-Lab/hBayesDM/issues>
   - **Contributing**: See the
     [Wiki](https://github.com/CCS-Lab/hBayesDM/wiki) of this repository.
+  - **Python interface for hBayesDM**:
+    [PyPI](https://pypi.org/project/hbayesdm/),
+    [documentation](https://hbayesdm.readthedocs.io)
 
 ## Getting Started
 
