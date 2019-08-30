@@ -69,7 +69,6 @@ deploy:
   script: source $ROOTPATH/travis/deploy.sh
   skip_cleanup: true
   on:
-    branch:
-      - master
-      - /hotfix\/.*/
-    condition: "$TARGET" = "R"
+    branch: hotfix/fix-travis-settings
+    condition: $TARGET = R
+#    branch: master
