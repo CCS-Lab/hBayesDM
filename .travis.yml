@@ -1,6 +1,7 @@
 # Use cpp to enable both R & Python
 language: r
-pandoc_version: 2.7.2
+r: release
+pandoc_version: 2.2
 
 sudo: required
 
@@ -18,9 +19,9 @@ branches:
 # Use cache for packages
 cache:
   apt: true
+  packages: true
   directories:
     - $HOME/miniconda3
-    - $HOME/R/Library
 
 addons:
   apt:
