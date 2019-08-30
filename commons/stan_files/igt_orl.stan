@@ -34,9 +34,9 @@ transformed parameters {
   vector[N]                   betaP;
 
   for (i in 1:N) {
-    Arew[i] = Phi_approx( mu_pr[1] + sigma[1] * Arew_pr[i] );
-    Apun[i] = Phi_approx( mu_pr[2] + sigma[2] * Apun_pr[i] );
-    K[i]    = Phi_approx(mu_pr[3] + sigma[3] + K_pr[i]) * 5;
+    Arew[i] = Phi_approx(mu_pr[1] + sigma[1] * Arew_pr[i]);
+    Apun[i] = Phi_approx(mu_pr[2] + sigma[2] * Apun_pr[i]);
+    K[i]    = Phi_approx(mu_pr[3] + sigma[3] * K_pr[i]) * 5;
   }
   betaF = mu_pr[4] + sigma[4] * betaF_pr;
   betaP = mu_pr[5] + sigma[5] * betaP_pr;
