@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Scripts for R
 if [ "$TARGET" = "R" ]; then
