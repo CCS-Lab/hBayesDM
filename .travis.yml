@@ -43,6 +43,8 @@ matrix:
   include:
   - name: 'Test R codes'
     env: TARGET='R'
+    before_deploy:
+      - Rscript -e 'install.packages("pkgdown", repos = "https://cloud.r-project.org/")'
     deploy:
       provider: script
       script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
@@ -61,8 +63,8 @@ before_install:
   - export MAKEFLAGS='-j 2'
   - export CC=gcc-7
   - export CXX=g++-7
-  - if [ "$TARGET" = "R" ]; then cd ./R; fi
-  - if [ "$TARGET" = "Python" ]; then cd ./Python; fi
+  - if [ "$TARGET" = "R" ]; then cd $ROOTPATH/R; fi
+  - if [ "$TARGET" = "Python" ]; then cd $ROOTPATH/Python; fi
 
 install:
   - source $ROOTPATH/travis/setup.sh

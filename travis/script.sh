@@ -3,7 +3,7 @@
 # Scripts for R
 if [ "$TARGET" = "R" ]; then
   R CMD build .
-  R CMD check hBayesDM*.tar.gz
+  R CMD check hBayesDM*.tar.gz --as-cran
 
 # Scripts for Python
 elif [ "$TARGET" = "Python" ]; then
