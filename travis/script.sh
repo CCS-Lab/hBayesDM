@@ -3,7 +3,7 @@
 # Scripts for R
 if [ "$TARGET" = "R" ]; then
   travis_wait 59 R CMD build .
-  travis_wait 59 R CMD check hBayesDM*.tar.gz --as-cran
+  travis_wait 59 R CMD check hBayesDM*.tar.gz --no-tests
 
 # Scripts for Python
 elif [ "$TARGET" = "Python" ]; then
