@@ -44,6 +44,7 @@ matrix:
   - name: 'Test R codes'
     env: TARGET='R'
     before_deploy:
+      - export PKG_TARBALL=$(Rscript -e 'pkg <- devtools::as.package("."); cat(paste0(pkg$package,"_",pkg$version,".tar.gz"))')
       - Rscript -e 'install.packages("pkgdown", repos = "https://cloud.r-project.org/")'
     deploy:
       provider: script
