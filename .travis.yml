@@ -20,6 +20,7 @@ env:
   global:
   # Don't treat missing suggested packages as error
   - _R_CHECK_FORCE_SUGGESTS_=false
+  - NOT_CRAN=false
 
 # Use cache for packages
 cache:
