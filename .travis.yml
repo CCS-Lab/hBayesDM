@@ -1,7 +1,6 @@
 # Use cpp to enable both R & Python
 language: r
 r: release
-pandoc_version: 2.2
 
 sudo: required
 
@@ -43,15 +42,6 @@ matrix:
   include:
   - name: 'Test R codes'
     env: TARGET='R'
-    before_deploy:
-      - export PKG_TARBALL=$(Rscript -e 'pkg <- devtools::as.package("."); cat(paste0(pkg$package,"_",pkg$version,".tar.gz"))')
-      - Rscript -e 'install.packages("pkgdown", repos = "https://cloud.r-project.org/")'
-    deploy:
-      provider: script
-      script: $ROOTPATH/travis/deploy.sh
-      skip_cleanup: true
-      on:
-        branch: hotfix/fix-travis-settings
   - name: 'Test Python codes (Python 3.5)'
     env: TARGET='Python' && PYTHON_VERSION=3.5
   - name: 'Test Python codes (Python 3.6)'
