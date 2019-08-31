@@ -48,7 +48,7 @@ matrix:
       - Rscript -e 'install.packages("pkgdown", repos = "https://cloud.r-project.org/")'
     deploy:
       provider: script
-      script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
+      script: travis_wait 59 Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
       skip_cleanup: true
       on:
         branch: hotfix/fix-travis-settings
