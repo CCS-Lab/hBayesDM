@@ -98,6 +98,22 @@ def dd_hyperbolic_single(
         mentioned above are present and labeled correctly, there is no need to
         remove other miscellaneous data columns.
 
+    .. note::
+
+        ``adapt_delta``, ``stepsize``, and ``max_treedepth`` are advanced options that
+        give the user more control over Stan's MCMC sampler. It is recommended that
+        only advanced users change the default values, as alterations can profoundly
+        change the sampler's behavior. See [Hoffman2014]_ for more information on the
+        sampler control parameters. One can also refer to 'Section 34.2. HMC Algorithm
+        Parameters' of the `Stan User's Guide and Reference Manual`__.
+
+        .. [Hoffman2014]
+            Hoffman, M. D., & Gelman, A. (2014).
+            The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
+            Journal of Machine Learning Research, 15(1), 1593-1623.
+
+        __ http://mc-stan.org/users/documentation/
+
     Parameters
     ----------
     data
@@ -168,22 +184,6 @@ def dd_hyperbolic_single(
     **additional_args
         Not used for this model.
 
-    .. note::
-
-        ``adapt_delta``, ``stepsize``, and ``max_treedepth`` are advanced options that
-        give the user more control over Stan's MCMC sampler. It is recommended that
-        only advanced users change the default values, as alterations can profoundly
-        change the sampler's behavior. See [Hoffman2014]_ for more information on the
-        sampler control parameters. One can also refer to 'Section 34.2. HMC Algorithm
-        Parameters' of the `Stan User's Guide and Reference Manual`__.
-
-        .. [Hoffman2014]
-            Hoffman, M. D., & Gelman, A. (2014).
-            The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
-            Journal of Machine Learning Research, 15(1), 1593-1623.
-
-        __ http://mc-stan.org/users/documentation/
-
     Returns
     -------
     model_data
@@ -203,17 +203,20 @@ def dd_hyperbolic_single(
 
     .. code:: python
 
+        from hbayesdm import rhat, print_fit
+        from hbayesdm.models import dd_hyperbolic_single
+
         # Run the model and store results in "output"
-        output <- dd_hyperbolic_single(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = dd_hyperbolic_single(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
 
-        # Check Rhat values (all Rhat values should be less than or equal to 1.1)
-        rhat(output, less=1.1)
-
         # Plot posterior distributions of the hyper-parameters (distributions should be unimodal)
         output.plot()
+
+        # Check Rhat values (all Rhat values should be less than or equal to 1.1)
+        rhat(output, less=1.1)
 
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
