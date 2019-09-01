@@ -194,11 +194,11 @@ def ts_par4(
 
         - ``model``: String value that is the name of the model ('ts_par4').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
-            (as specified by ``ind_pars``) for each subject.
+          (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
         - ``fit``: A PyStan StanFit object that contains the fitted Stan model.
         - ``raw_data``: Pandas DataFrame containing the raw data used to fit the model,
-            as specified by the user.
+          as specified by the user.
         
 
     Examples
