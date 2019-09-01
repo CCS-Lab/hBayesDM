@@ -1,3 +1,7 @@
+# hBayesDM 1.0.1
+
+- Minor fix on the plotting function.
+
 # hBayesDM 1.0.0
 
 ##  Major changes
