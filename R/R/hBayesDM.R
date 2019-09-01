@@ -17,6 +17,7 @@
 #'                         4-Armed Bandit with fictive updating + reward/punishment sensitvity (Rescorla-Wagner (delta)) --- \link{bandit4arm_4par} \cr
 #'                         4-Armed Bandit with fictive updating + reward/punishment sensitvity + lapse (Rescorla-Wagner (delta)) --- \link{bandit4arm_lapse}}
 #'  \item{\strong{Bandit2}}{Kalman filter --- \link{bandit4arm2_kalman_filter}}
+#'  \item{\strong{Cambridge Gambling Task}}{Cumulative Model --- \link{cgt_cm}}
 #'  \item{\strong{Choice RT}}{Drift Diffusion Model --- \link{choiceRT_ddm} \cr
 #'                            Drift Diffusion Model for a single subject --- \link{choiceRT_ddm_single} \cr
 #'                            Linear Ballistic Accumulator (LBA) model --- \link{choiceRT_lba} \cr

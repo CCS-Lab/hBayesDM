@@ -466,3 +466,14 @@ plot_bandit4arm_2par_lapse <- function(obj, fontSize = 10, ncols = 2, binSize = 
   h_all = multiplot(h1, h2, h3, cols = ncols)
   return(h_all)
 }
+
+plot_cgt_cm <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_alpha, fontSize = fontSize, binSize = binSize, xLim = c(0, 5), xLab = expression(paste(alpha, " (Probability Distortion)")))
+  h2 = plotDist(sample = pars$mu_c, fontSize = fontSize, binSize = binSize, xLim = c(0, 1), xLab = expression(paste(c, " (Color Bias)")))
+  h3 = plotDist(sample = pars$mu_rho, fontSize = fontSize, binSize = binSize, xLab = expression(paste(rho, " (Rel. Loss Sensitivity)")))
+  h4 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Discounting Rate)")))
+  h5 = plotDist(sample = pars$mu_gamma, fontSize = fontSize, binSize = binSize, xLab = expression(paste(gamma, " (Choice Sensitivity)")))
+  h_all = multiplot(h1, h2, h3, h4, h5, cols = ncols)
+  return(h_all)
+}
