@@ -1,10 +1,12 @@
 """
 Generate Python codes for hBayesDM using model information defined in YAML
 files.
+
+.. moduleauthor:: Jethro Lee <dlemfh96@snu.ac.kr>
+.. moduleauthor:: Jaeyeong Yang <jaeyeong.yang1125@gmail.com>
 """
 import sys
 import argparse
-import json
 import re
 from pathlib import Path
 from collections import OrderedDict
