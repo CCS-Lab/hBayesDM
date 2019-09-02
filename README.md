@@ -13,7 +13,7 @@ Now, **hBayesDM** supports both [R](./R) and [Python](./Python)!
 
 ## Quick Links
 
-- **Tutorial**: http://rpubs.com/CCSL/hBayesDM (R)
+- **Tutorial**: https://ccs-lab.github.io/hBayesDM/articles/getting_started.html (R) & https://hbayesdm.readthedocs.io (Python)
 - **Mailing list**: https://groups.google.com/forum/#!forum/hbayesdm-users
 - **Bug reports**: https://github.com/CCS-Lab/hBayesDM/issues
 - **Contributing**: See the [Wiki](https://github.com/CCS-Lab/hBayesDM/wiki) of this repository.
