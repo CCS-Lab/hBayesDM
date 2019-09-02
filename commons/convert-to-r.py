@@ -1,5 +1,8 @@
 """
 Generate R codes for hBayesDM using model information defined in YAML files.
+
+.. moduleauthor:: Jethro Lee <dlemfh96@snu.ac.kr>
+.. moduleauthor:: Jaeyeong Yang <jaeyeong.yang1125@gmail.com>
 """
 import sys
 import argparse
