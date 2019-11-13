@@ -181,8 +181,8 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001808 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 18.08 seconds.
+## Chain 1: Gradient evaluation took 0.001939 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 19.39 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -191,15 +191,28 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)
 ## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)
 ## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)
-## Chain 1: Success! Found best value [eta = 10] earlier than expected.
+## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)
+## Chain 1: Success! Found best value [eta = 1] earlier than expected.
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## 
-## ******************************************
-## ** Failed to obtain VB estimates.       **
-## ** Use random values as initial values. **
-## ******************************************
+## Chain 1:    100         -830.450             1.000            1.000
+## Chain 1:    200         -815.664             0.509            1.000
+## Chain 1:    300         -812.693             0.341            0.018
+## Chain 1:    400         -809.323             0.256            0.018
+## Chain 1:    500         -809.234             0.205            0.004   MEDIAN ELBO CONVERGED
+## Chain 1: 
+## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
+## Chain 1: COMPLETED.
+```
+
+```
+## Warning: Pareto k diagnostic value is 1.09. Resampling is disabled.
+## Decreasing tol_rel_obj may help if variational algorithm has terminated
+## prematurely. Otherwise consider using sampling instead.
+```
+
+```
 ## 
 ## ************************************
 ## **** Model fitting is complete! ****
@@ -339,16 +352,16 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03920243 0.1391666 5.993172
-## 2       2 0.03620333 0.1610181 6.177474
-## 3       3 0.04303717 0.1275647 5.948090
-## 4       4 0.03154531 0.1490699 6.245520
-## 5       5 0.03460996 0.1485122 6.188598
-## 6       6 0.04182891 0.1536498 6.312717
-## 7       7 0.04334904 0.1478407 5.819111
-## 8       8 0.03442776 0.1616355 6.498130
-## 9       9 0.04013337 0.1452176 6.090319
-## 10     10 0.04848870 0.1301579 5.590747
+## 1       1 0.03912684 0.1390364 5.971566
+## 2       2 0.03559554 0.1622292 6.154059
+## 3       3 0.04195460 0.1277940 5.922376
+## 4       4 0.03149474 0.1494447 6.223886
+## 5       5 0.03442572 0.1491020 6.168325
+## 6       6 0.04100730 0.1539260 6.288472
+## 7       7 0.04275452 0.1481033 5.792658
+## 8       8 0.03397865 0.1612648 6.510263
+## 9       9 0.03957498 0.1452006 6.064876
+## 10     10 0.04719602 0.1302818 5.554479
 ```
 -->
 
@@ -441,8 +454,8 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.002426 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 24.26 seconds.
+## Chain 1: Gradient evaluation took 0.004173 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 41.73 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -456,22 +469,18 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -860.855             1.000            1.000
-## Chain 1:    200         -824.063             0.522            1.000
-## Chain 1:    300         -819.166             0.350            0.045
-## Chain 1:    400         -827.479             0.265            0.045
-## Chain 1:    500         -815.930             0.215            0.014
-## Chain 1:    600         -816.835             0.179            0.014
-## Chain 1:    700         -818.891             0.154            0.010
-## Chain 1:    800         -816.808             0.135            0.010
-## Chain 1:    900         -818.104             0.120            0.006   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -833.499             1.000            1.000
+## Chain 1:    200         -819.287             0.509            1.000
+## Chain 1:    300         -819.175             0.339            0.017
+## Chain 1:    400         -823.919             0.256            0.017
+## Chain 1:    500         -818.524             0.206            0.007   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.
 ```
 
 ```
-## Warning: Pareto k diagnostic value is 1.16. Resampling is disabled.
+## Warning: Pareto k diagnostic value is 1.34. Resampling is disabled.
 ## Decreasing tol_rel_obj may help if variational algorithm has terminated
 ## prematurely. Otherwise consider using sampling instead.
 ```
