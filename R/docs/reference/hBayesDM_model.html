@@ -18,13 +18,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -53,6 +55,7 @@ Contributor: Jethro Lee" />
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -69,7 +72,7 @@ Contributor: Jethro Lee" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -77,7 +80,7 @@ Contributor: Jethro Lee" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,7 +106,7 @@ Contributor: Jethro Lee" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/CCS-Lab/hBayesDM">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -114,6 +117,7 @@ Contributor: Jethro Lee" />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -152,18 +156,18 @@ Contributor: Jethro Lee" />
     <tr>
       <th>data_columns</th>
       <td><p>Character vector of necessary column names for the data. E.g.
-<code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("subjID", "cue", "keyPressed", "outcome")</a></code>.</p></td>
+<code><a href='https://rdrr.io/r/base/c.html'>c("subjID", "cue", "keyPressed", "outcome")</a></code>.</p></td>
     </tr>
     <tr>
       <th>parameters</th>
       <td><p>List of parameters, with information about their lower bound, plausible value,
-upper bound. E.g. <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2),
+upper bound. E.g. <code><a href='https://rdrr.io/r/base/list.html'>list("xi" = c(0, 0.1, 1), "ep" = c(0, 0.2, 1), "rho" = c(0, exp(2),
 Inf))</a></code>.</p></td>
     </tr>
     <tr>
       <th>regressors</th>
       <td><p>List of regressors, with information about their extracted dimensions. E.g.
-<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)</a></code>. OR if model-based regressors are
+<code><a href='https://rdrr.io/r/base/list.html'>list("Qgo" = 2, "Qnogo" = 2, "Wgo" = 2, "Wnogo" = 2)</a></code>. OR if model-based regressors are
 not available for this model, <code>NULL</code>.</p></td>
     </tr>
     <tr>
@@ -176,7 +180,7 @@ this model, <code>NULL</code>.</p></td>
       <th>stanmodel_arg</th>
       <td><p>Leave as <code>NULL</code> (default) for completed models. Else should either be a
 character value (specifying the name of a Stan file) OR a <code>stanmodel</code> object (returned as
-a result of running <code><a href='https://www.rdocumentation.org/packages/rstan/topics/stan_model'>stan_model</a></code>).</p></td>
+a result of running <code><a href='https://rdrr.io/pkg/rstan/man/stan_model.html'>stan_model</a></code>).</p></td>
     </tr>
     <tr>
       <th>preprocess_func</th>
@@ -200,8 +204,10 @@ Should return a list object <code>data_list</code>, which will then directly be 
   <dt><code>"single"</code></dt><dd><p>Modeling of a single subject.</p></dd>
   <dt><code>"multipleB"</code></dt><dd><p>Modeling of multiple subjects, where multiple blocks exist within
     each subject.</p></dd>
+
 </dl>
-    <p><strong>data_columns</strong> must be the entirety of necessary data columns used at some point in the R
+
+<p><strong>data_columns</strong> must be the entirety of necessary data columns used at some point in the R
   or Stan code. I.e. <code>"subjID"</code> must always be included. In the case of 'multipleB' type
   models, <code>"block"</code> should also be included as well.</p>
 <p><strong>parameters</strong> is a list object, whose keys are the parameters of this model. Each parameter
@@ -223,16 +229,18 @@ Should return a list object <code>data_list</code>, which will then directly be 
   written in the specific model R file.<br />
 Arguments for this function are:</p><dl class='dl-horizontal'>
   <dt><code>raw_data</code></dt><dd><p>A data.table that holds the raw user data, which was read by using
-    <code><a href='https://www.rdocumentation.org/packages/data.table/topics/fread'>fread</a></code>.</p></dd>
+    <code><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></code>.</p></dd>
   <dt><code>general_info</code></dt><dd><p>A list that holds the general informations about the raw data, i.e.
     <code>subjs</code>, <code>n_subj</code>, <code>t_subjs</code>, <code>t_max</code>, <code>b_subjs</code>, <code>b_max</code>.</p></dd>
   <dt><code>...</code></dt><dd><p>Optional additional argument(s) that specific model functions may want to
     include. Examples of such additional arguments currently being used in hBayesDM models are:
     <code>RTbound</code> (choiceRT_ddm models), <code>payscale</code> (igt models), and <code>trans_prob</code> (ts
     models).</p></dd>
+
 </dl><p>Return value for this function should be:</p><dl class='dl-horizontal'>
   <dt><code>data_list</code></dt><dd><p>A list with appropriately named keys (as required by the model Stan
     file), holding the fully preprocessed user data.</p></dd>
+
 </dl><p>NOTE: Syntax for data.table slightly differs from that of data.frame. If you want to use
   <code>raw_data</code> as a data.frame when writing the <code>preprocess_func</code>, simply begin with the
   line: <code>raw_data &lt;- as.data.frame(raw_data)</code>.<br />
@@ -252,19 +260,23 @@ NOTE: Because of allowing case &amp; underscore insensitive column names in user
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Woo-Young Ahn, Nate Haines, Lei Zhang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

@@ -306,7 +306,8 @@ hBayesDM_model <- function(task_name,
     ############### Print for user ###############
     cat("\n")
     cat("Model name  =", model, "\n")
-    cat("Data file   =", data, "\n")
+    if (is.character(data))
+      cat("Data file   =", data, "\n")
     cat("\n")
     cat("Details:\n")
     if (vb) {

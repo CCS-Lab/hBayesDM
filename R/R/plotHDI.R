@@ -1,6 +1,7 @@
-#' Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console. HDI is indicated by a red line.
+#' Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console.
+#' HDI is indicated by a red line.
+#' Based on John Kruschke's codes.
 #'
-#' Based on John Kruschke's codes \url{http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/}
 #' @param sample MCMC samples
 #' @param credMass A scalar between 0 and 1, indicating the mass within the credible interval that is to be estimated.
 #' @param Title Character value containing the main title for the plot

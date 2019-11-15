@@ -1,3 +1,7 @@
+# hBayesDM 1.0.2
+
+- Fix an error on using data.frame objects as data (#112).
+
 # hBayesDM 1.0.1
 
 - Minor fix on the plotting function.
