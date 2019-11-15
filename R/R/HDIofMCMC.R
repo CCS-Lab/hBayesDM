@@ -1,8 +1,9 @@
 #' Compute Highest-Density Interval
 #'
 #' @description
-#' Computes the highest density interval from a sample of representative values, estimated as shortest credible interval.
-#' Downloaded from John Kruschke's website \url{http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/}
+#' Computes the highest density interval from a sample of representative values,
+#' estimated as shortest credible interval.
+#' Based on John Kruschke's codes.
 #'
 #' @param sampleVec A vector of representative values from a probability distribution (e.g., MCMC samples).
 #' @param credMass A scalar between 0 and 1, indicating the mass within the credible interval that is to be estimated.

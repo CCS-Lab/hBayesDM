@@ -15,6 +15,7 @@ HDIofMCMC(sampleVec, credMass = 0.95)
 A vector containing the limits of the HDI
 }
 \description{
-Computes the highest density interval from a sample of representative values, estimated as shortest credible interval.
-Downloaded from John Kruschke's website \url{http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/}
+Computes the highest density interval from a sample of representative values,
+estimated as shortest credible interval.
+Based on John Kruschke's codes.
 }

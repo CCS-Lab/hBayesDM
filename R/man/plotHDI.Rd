@@ -2,7 +2,9 @@
 % Please edit documentation in R/plotHDI.R
 \name{plotHDI}
 \alias{plotHDI}
-\title{Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console. HDI is indicated by a red line.}
+\title{Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console.
+HDI is indicated by a red line.
+Based on John Kruschke's codes.}
 \usage{
 plotHDI(sample = NULL, credMass = 0.95, Title = NULL,
   xLab = "Value", yLab = "Density", fontSize = NULL, binSize = 30,
@@ -29,5 +31,7 @@ plotHDI(sample = NULL, credMass = 0.95, Title = NULL,
 A vector containing the limits of the HDI
 }
 \description{
-Based on John Kruschke's codes \url{http://www.indiana.edu/~kruschke/DoingBayesianDataAnalysis/}
+Plots highest density interval (HDI) from (MCMC) samples and prints HDI in the R console.
+HDI is indicated by a red line.
+Based on John Kruschke's codes.
 }
