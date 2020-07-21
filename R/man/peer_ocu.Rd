@@ -2,15 +2,18 @@
 % Please edit documentation in R/peer_ocu.R
 \name{peer_ocu}
 \alias{peer_ocu}
-\title{Peer Influence Task (Chung et al., 2015)}
+\title{Other-Conferred Utility (OCU) Model}
 \usage{
-peer_ocu(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
+peer_ocu(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
   modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -25,20 +28,21 @@ peer_ocu(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -49,31 +53,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("peer_ocu").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"peer_ocu"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Peer Influence Task with the following parameters:
-  "rho" (risk preference), "tau" (inverse temperature), "ocu" (other-conferred utility).
+Hierarchical Bayesian Modeling of the Peer Influence Task using Other-Conferred Utility (OCU) Model.
+It has the following parameters: \code{rho} (risk preference), \code{tau} (inverse temperature), \code{ocu} (other-conferred utility).
 
-Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
-
-\strong{MODEL:} Other-Conferred Utility (OCU) Model
+\itemize{
+  \item \strong{Task}: Peer Influence Task (Chung et al., 2015)
+  \item \strong{Model}: Other-Conferred Utility (OCU) Model 
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -86,14 +91,14 @@ For the Peer Influence Task, there should be 8 columns of data with the
   labels "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"condition"}{0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky).}
-  \item{"p_gamble"}{Probability of receiving a high payoff (same for both options).}
-  \item{"safe_Hpayoff"}{High payoff of the safe option.}
-  \item{"safe_Lpayoff"}{Low payoff of the safe option.}
-  \item{"risky_Hpayoff"}{High payoff of the risky option.}
-  \item{"risky_Lpayoff"}{Low payoff of the risky option.}
-  \item{"choice"}{Which option was chosen? 0: safe, 1: risky.}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{condition}{0: solo, 1: info (safe/safe), 2: info (mix), 3: info (risky/risky).}
+  \item{p_gamble}{Probability of receiving a high payoff (same for both options).}
+  \item{safe_Hpayoff}{High payoff of the safe option.}
+  \item{safe_Lpayoff}{Low payoff of the safe option.}
+  \item{risky_Hpayoff}{High payoff of the risky option.}
+  \item{risky_Lpayoff}{Low payoff of the risky option.}
+  \item{choice}{Which option was chosen? 0: safe, 1: risky.}
   
 }
 \strong{*}Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
@@ -128,11 +133,18 @@ For the Peer Influence Task, there should be 8 columns of data with the
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- peer_ocu("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- peer_ocu(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- peer_ocu(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -148,9 +160,7 @@ printFit(output)
 }
 }
 \references{
-Chung, D., Christopoulos, G. I., King-Casas, B., Ball, S. B., & Chiu, P. H. (2015). Social
-  signals of safety and risk confer utility and have asymmetric effects on observers' choices.
-  Nature Neuroscience, 18(6), 912-916.
+Chung, D., Christopoulos, G. I., King-Casas, B., Ball, S. B., & Chiu, P. H. (2015). Social signals of safety and risk confer utility and have asymmetric effects on observers' choices. Nature Neuroscience, 18(6), 912-916.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

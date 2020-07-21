@@ -1,0 +1,119 @@
+################################################################################
+#
+# hBayesDM model definition
+#
+# Model information for hBayesDM should be defined as a YAML file. If you are
+# not familiar to YAML, see more on the following links:
+# - https://en.wikipedia.org/wiki/YAML
+# - https://yaml-multiline.info
+# - https://www.tutorialspoint.com/yaml/index.htm
+#
+# In short, using a YAML-formatted model information, the function is defined as
+#   {['task_name']['code']}_{['model_name']['code']}
+# or if model_type is specified other than 'Hierarchical',
+#   {['task_name']['code']}_{['model_name']['code']}_{['model_type']['code']}
+#
+################################################################################
+
+# Task information.
+task_name:
+  code: task_a # code for the task
+  desc: 2-Armed Bandit Task  # description (title-case)
+  cite:  # A list of citations. They should be APA-formatted.
+  - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
+  - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
+
+# Model information.
+model_name:
+  code: delta  # code for the model
+  desc: Rescorla-Wagner (Delta) Model  # description (title-case)
+  cite:  # A list of citations. They should be APA-formatted.
+  - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
+  - Doe, J., & Doe, J. (2019). A great paper. Good journal, 1(1), 1-2.
+
+# Model type.
+# For now, it should be one among three types:
+# 1) Hierarchical
+#   code: ''
+#   desc: 'Hierarchical'
+# 2) Individual
+#   code: 'single'
+#   desc: 'Individual'
+# 3) Multiple-block Hierarchical
+#   code: 'multipleB'
+#   desc: 'Multiple-block Hierarchical'
+model_type:
+  code:  # code for the model type
+  desc: Hierarchical  # description
+
+# Data columns that must be included in a input data.
+# For each column, it should be defined as:
+#   {column_name}: {one-line description}
+#
+# Note: `subjID` must always be included.
+#       Also, if `model_type` is "multipleB", `block` must be included, too.
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.  # Required
+# block: A unique identifier for each of the multiple blocks within each subject.  # Required for multipleB type
+  choice: Integer value representing the option chosen on the given trial (1 or 2).
+  outcome: Integer value representing the outcome of the given trial (where reward
+    == 1, and loss == -1).
+
+# Model parameters.
+# For each parameter, it should be defined as:
+#   {parameter_name}:
+#     desc: {description}
+#     info: [{lower_bound}, {plausible_value}, {upper_bound}]
+#
+# `info` is defined for a fixed initial value of the parameter.
+# `lower_bound`, `plausible_value`, `upper_bound` can be numbers, strings
+# (e.g., 'Inf', '-Inf', 'exp([0-9.]+)'), where plausible_value should be
+# neither 'Inf' nor '-Inf'.
+parameters:
+  alpha:
+    desc: learning rate
+    info: [0, 0.5, 1]
+  tau:
+    desc: inverse temperature
+    info: [0, 1, 5]
+
+# (optional) Model regressors.
+# If exists, for each regressor, it should be defined as:
+#   {regressor}: {number_of_dimension}
+regressors:
+  ev_risk: 2  # shape: [N, T]
+  ev_safe: 2  # shape: [N, T]
+
+# (optional) response variables for posterior predictive checks (PPC).
+# Should be defined in a generated quantity block.
+postpreds:
+- y_pred
+
+# (optional) a list of additional arguments.
+# For each additional argument, it should be defined as:
+#   - code: {code}
+#     default: {default_value}
+#     desc: {description}
+additional_args:
+- code: RTbound
+  default: 0.1
+  desc: Floating point value representing the lower bound (i.e., minimum allowed)
+    reaction time. Defaults to 0.1 (100 milliseconds).
+
+# (optional) notes on the model. Should be given as a list of notes.
+notes:
+- >
+  This is a note for this model.
+- >
+  If you want to write long notes for the model,
+  you would be better to check out how to write multiline strings in YAML
+  (https://yaml-multiline.info)
+
+# (optional) a list of contributors. To specify who wrote this model codes for hBayesDM.
+contributors:
+- name: Jane Doe
+  email: jane-doe@gmail.com
+  link: https://jane-doe.com/
+- name: John Doe
+  email: john-doe@gmail.com
+  link: https://john-doe.com/

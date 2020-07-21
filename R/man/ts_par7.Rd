@@ -2,15 +2,18 @@
 % Please edit documentation in R/ts_par7.R
 \name{ts_par7}
 \alias{ts_par7}
-\title{Two-Step Task (Daw et al., 2011)}
+\title{Hybrid Model, with 7 parameters (original model)}
 \usage{
-ts_par7(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
+ts_par7(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
   modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "level1_choice", "level2_choice", "reward". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -25,20 +28,21 @@ ts_par7(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred_step1", "y_pred_step2"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -49,32 +53,43 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{For this model, it's possible to set the following \strong{model-specific argument} to a value that you may prefer. \cr
-\code{trans_prob}: Common state transition probability from Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.}
+\item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
+\describe{
+  \item{trans_prob}{Common state transition probability from Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.}
+  
+  
+  
+  
+  
+  
+  
+  
+}}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("ts_par7").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"ts_par7"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Two-Step Task with the following parameters:
-  "a1" (learning rate in stage 1), "beta1" (inverse temperature in stage 1), "a2" (learning rate in stage 2), "beta2" (inverse temperature in stage 2), "pi" (perseverance), "w" (model-based weight), "lambda" (eligibility trace).
+Hierarchical Bayesian Modeling of the Two-Step Task using Hybrid Model, with 7 parameters (original model).
+It has the following parameters: \code{a1} (learning rate in stage 1), \code{beta1} (inverse temperature in stage 1), \code{a2} (learning rate in stage 2), \code{beta2} (inverse temperature in stage 2), \code{pi} (perseverance), \code{w} (model-based weight), \code{lambda} (eligibility trace).
 
-Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
-
-\strong{MODEL:} Hybrid Model (Daw et al., 2011, Neuron), with 7 parameters (original model)
+\itemize{
+  \item \strong{Task}: Two-Step Task (Daw et al., 2011)
+  \item \strong{Model}: Hybrid Model, with 7 parameters (original model) (Daw et al., 2011)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,10 +102,10 @@ For the Two-Step Task, there should be 4 columns of data with the
   labels "subjID", "level1_choice", "level2_choice", "reward". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"level1_choice"}{Choice made for Level (Stage) 1 (1: stimulus 1, 2: stimulus 2).}
-  \item{"level2_choice"}{Choice made for Level (Stage) 2 (1: stimulus 3, 2: stimulus 4, 3: stimulus 5, 4: stimulus 6).\cr *Note that, in our notation, choosing stimulus 1 in Level 1 leads to stimulus 3 & 4 in Level 2 with a common (0.7 by default) transition. Similarly, choosing stimulus 2 in Level 1 leads to stimulus 5 & 6 in Level 2 with a common (0.7 by default) transition. To change this default transition probability, set the function argument \code{trans_prob} to your preferred value.}
-  \item{"reward"}{Reward after Level 2 (0 or 1).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{level1_choice}{Choice made for Level (Stage) 1 (1: stimulus 1, 2: stimulus 2).}
+  \item{level2_choice}{Choice made for Level (Stage) 2 (1: stimulus 3, 2: stimulus 4, 3: stimulus 5, 4: stimulus 6).\cr        Note that, in our notation, choosing stimulus 1 in Level 1 leads to stimulus 3 & 4 in Level 2 with a common (0.7 by default) transition. Similarly, choosing stimulus 2 in Level 1 leads to stimulus 5 & 6 in Level 2 with a common (0.7 by default) transition. To change this default transition probability, set the function argument `trans_prob` to your preferred value.}
+  \item{reward}{Reward after Level 2 (0 or 1).}
   
   
   
@@ -129,11 +144,18 @@ For the Two-Step Task, there should be 4 columns of data with the
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- ts_par7("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- ts_par7(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- ts_par7(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,9 +171,9 @@ printFit(output)
 }
 }
 \references{
-Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011).
-  Model-Based Influences on Humans' Choices and Striatal Prediction Errors. Neuron, 69(6),
-  1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
+Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011). Model-Based Influences on Humans' Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
+
+Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011). Model-Based Influences on Humans' Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

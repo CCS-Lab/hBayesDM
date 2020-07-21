@@ -2,16 +2,19 @@
 % Please edit documentation in R/prl_fictitious.R
 \name{prl_fictitious}
 \alias{prl_fictitious}
-\title{Probabilistic Reversal Learning Task}
+\title{Fictitious Update Model}
 \usage{
-prl_fictitious(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+prl_fictitious(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "choice", "outcome". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ prl_fictitious(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
 For this model they are: "ev_c", "ev_nc", "pe_c", "pe_nc", "dv".}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("prl_fictitious").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"prl_fictitious"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  \item{\code{modelRegressor}}{List object containing the extracted model-based regressors.}
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning Task with the following parameters:
-  "eta" (learning rate), "alpha" (indecision point), "beta" (inverse temperature).
+Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning Task using Fictitious Update Model.
+It has the following parameters: \code{eta} (learning rate), \code{alpha} (indecision point), \code{beta} (inverse temperature).
 
-Contributor: (for model-based regressors) \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
-
-\strong{MODEL:} Fictitious Update Model (Glascher et al., 2009, Cerebral Cortex)
+\itemize{
+  \item \strong{Task}: Probabilistic Reversal Learning Task 
+  \item \strong{Model}: Fictitious Update Model (Glascher et al., 2009)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,9 +92,9 @@ For the Probabilistic Reversal Learning Task, there should be 3 columns of data 
   labels "subjID", "choice", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"choice"}{Integer value representing the option chosen on that trial: 1 or 2.}
-  \item{"outcome"}{Integer value representing the outcome of that trial (where reward == 1, and loss == -1).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{choice}{Integer value representing the option chosen on that trial: 1 or 2.}
+  \item{outcome}{Integer value representing the outcome of that trial (where reward == 1, and loss == -1).}
   
   
   
@@ -129,11 +134,18 @@ For the Probabilistic Reversal Learning Task, there should be 3 columns of data 
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang (for model-based regressors)} <\email{jaeyeong.yang1125@gmail.com}>, \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park (for model-based regressors)} <\email{hrpark12@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- prl_fictitious("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- prl_fictitious(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- prl_fictitious(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,9 +161,7 @@ printFit(output)
 }
 }
 \references{
-Glascher, J., Hampton, A. N., & O'Doherty, J. P. (2009). Determining a Role for Ventromedial
-  Prefrontal Cortex in Encoding Action-Based Value Signals During Reward-Related Decision Making.
-  Cerebral Cortex, 19(2), 483-495. http://doi.org/10.1093/cercor/bhn098
+Glascher, J., Hampton, A. N., & O'Doherty, J. P. (2009). Determining a Role for Ventromedial Prefrontal Cortex in Encoding Action-Based Value Signals During Reward-Related Decision Making. Cerebral Cortex, 19(2), 483-495. http://doi.org/10.1093/cercor/bhn098
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

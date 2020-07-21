@@ -2,16 +2,19 @@
 % Please edit documentation in R/prl_rp_multipleB.R
 \name{prl_rp_multipleB}
 \alias{prl_rp_multipleB}
-\title{Probabilistic Reversal Learning Task}
+\title{Reward-Punishment Model}
 \usage{
-prl_rp_multipleB(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+prl_rp_multipleB(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "block", "choice", "outcome". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ prl_rp_multipleB(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
 For this model they are: "ev_c", "ev_nc", "pe".}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("prl_rp_multipleB").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"prl_rp_multipleB"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  \item{\code{modelRegressor}}{List object containing the extracted model-based regressors.}
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Multiple-Block Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning Task with the following parameters:
-  "Apun" (punishment learning rate), "Arew" (reward learning rate), "beta" (inverse temperature).
+Multiple-Block Hierarchical Bayesian Modeling of the Probabilistic Reversal Learning Task using Reward-Punishment Model.
+It has the following parameters: \code{Apun} (punishment learning rate), \code{Arew} (reward learning rate), \code{beta} (inverse temperature).
 
-Contributor: (for model-based regressors) \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} and \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
-
-\strong{MODEL:} Reward-Punishment Model (Ouden et al., 2013, Neuron)
+\itemize{
+  \item \strong{Task}: Probabilistic Reversal Learning Task 
+  \item \strong{Model}: Reward-Punishment Model (Ouden et al., 2013)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,10 +92,10 @@ For the Probabilistic Reversal Learning Task, there should be 4 columns of data 
   labels "subjID", "block", "choice", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"block"}{A unique identifier for each of the multiple blocks within each subject.}
-  \item{"choice"}{Integer value representing the option chosen on that trial: 1 or 2.}
-  \item{"outcome"}{Integer value representing the outcome of that trial (where reward == 1, and loss == -1).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{block}{A unique identifier for each of the multiple blocks within each subject.}
+  \item{choice}{Integer value representing the option chosen on that trial: 1 or 2.}
+  \item{outcome}{Integer value representing the outcome of that trial (where reward == 1, and loss == -1).}
   
   
   
@@ -129,11 +134,18 @@ For the Probabilistic Reversal Learning Task, there should be 4 columns of data 
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang (for model-based regressors)} <\email{jaeyeong.yang1125@gmail.com}>, \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park (for model-based regressors)} <\email{hrpark12@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- prl_rp_multipleB("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- prl_rp_multipleB(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- prl_rp_multipleB(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,9 +161,7 @@ printFit(output)
 }
 }
 \references{
-Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al.
-  (2013). Dissociable Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4),
-  1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
+Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

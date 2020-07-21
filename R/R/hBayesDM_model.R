@@ -5,7 +5,6 @@
 #'
 #' Contributor: \href{https://ccs-lab.github.io/team/jethro-lee/}{Jethro Lee}
 #'
-#' @export
 #' @keywords internal
 #'
 #' @include settings.R
@@ -114,13 +113,13 @@ hBayesDM_model <- function(task_name,
                            preprocess_func) {
 
   # The resulting hBayesDM model function to be returned
-  function(data           = "choose",
+  function(data           = NULL,
            niter          = 4000,
            nwarmup        = 1000,
            nchain         = 4,
            ncore          = 1,
            nthin          = 1,
-           inits          = "random",
+           inits          = "vb",
            indPars        = "mean",
            modelRegressor = FALSE,
            vb             = FALSE,
@@ -142,29 +141,48 @@ hBayesDM_model <- function(task_name,
       stop("** Posterior predictions are not yet available for this model. **\n")
     }
 
-    # For using "example" or "choose" data
-    if (data == "example") {
-      if (model_type == "") {
-        exampleData <- paste0(task_name, "_", "exampleData.txt")
+    if (is.null(data) || is.na(data) || data == "") {
+      stop("Invalid input for the 'data' value. ",
+           "You should pass a data.frame, or a filepath for a data file,",
+           "\"example\" for an example dataset, ",
+           "or \"choose\" to choose it in a prompt.")
+
+    } else if ("data.frame" %in% class(data)) {
+      # Use the given data object
+      raw_data <- data.table::as.data.table(data)
+
+    } else if ("character" %in% class(data)) {
+      # Set
+      if (data == "example") {
+        example_data <-
+          ifelse(model_type == "",
+                 paste0(task_name, "_", "exampleData.txt"),
+                 paste0(task_name, "_", model_type, "_", "exampleData.txt"))
+        datafile <- system.file("extdata", example_data, package = "hBayesDM")
+      } else if (data == "choose") {
+        datafile <- file.choose()
       } else {
-        exampleData <- paste0(task_name, "_", model_type, "_", "exampleData.txt")
+        datafile <- data
       }
-      data <- system.file("extdata", exampleData, package = "hBayesDM")
-    } else if (data == "choose") {
-      data <- file.choose()
-    }
 
-    # Check if data file exists
-    if (!file.exists(data)) {
-      stop("** Data file does not exist. Please check again. **\n",
-           "  e.g. data = \"MySubFolder/myData.txt\"\n")
-    }
+      # Check if data file exists
+      if (!file.exists(datafile)) {
+        stop("** Data file does not exist. Please check again. **\n",
+             "  e.g. data = \"MySubFolder/myData.txt\"\n")
+      }
 
-    # Load the data
-    raw_data <- data.table::fread(file = data, header = TRUE, sep = "\t", data.table = TRUE,
-                                  fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
-    # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files
-    # that have missing values.
+      # Load the data
+      raw_data <- data.table::fread(file = datafile, header = TRUE, sep = "\t", data.table = TRUE,
+                                    fill = TRUE, stringsAsFactors = TRUE, logical01 = FALSE)
+      # NOTE: Separator is fixed to "\t" because fread() has trouble reading space delimited files
+      # that have missing values.
+
+    } else {
+      stop("Invalid input for the 'data' value. ",
+           "You should pass a data.frame, or a filepath for a data file,",
+           "\"example\" for an example dataset, ",
+           "or \"choose\" to choose it in a prompt.")
+    }
 
     # Save initial colnames of raw_data for later
     colnames_raw_data <- colnames(raw_data)
@@ -241,7 +259,7 @@ hBayesDM_model <- function(task_name,
     #########################################################
     ##   Prepare: data_list                             #####
     ##            pars                                  #####
-    ##            gen_init        for passing to Stan   #####
+    ##            model_name                            #####
     #########################################################
 
     # Preprocess the raw data to pass to Stan
@@ -265,47 +283,6 @@ hBayesDM_model <- function(task_name,
       pars <- c(pars, postpreds)
     }
 
-    # Initial values for the parameters
-    if (inits[1] == "random") {
-      gen_init <- "random"
-    } else {
-      if (inits[1] == "fixed") {
-        inits <- unlist(lapply(parameters, "[", 2))   # plausible values of each parameter
-      } else if (length(inits) != length(parameters)) {
-        stop("** Length of 'inits' must be ", length(parameters),
-             " (= the number of parameters of this model). Please check again. **\n")
-      }
-      if (model_type == "single") {
-        gen_init <- function() {
-          individual_level        <- as.list(inits)
-          names(individual_level) <- names(parameters)
-          return(individual_level)
-        }
-      } else {
-        gen_init <- function() {
-          primes <- numeric(length(parameters))
-          for (i in 1:length(parameters)) {
-            lb <- parameters[[i]][1]   # lower bound
-            ub <- parameters[[i]][3]   # upper bound
-            if (is.infinite(lb)) {
-              primes[i] <- inits[i]                             # (-Inf, Inf)
-            } else if (is.infinite(ub)) {
-              primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
-            } else {
-              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
-            }
-          }
-          group_level             <- list(mu_pr = primes,
-                                          sigma = rep(1.0, length(primes)))
-          individual_level        <- lapply(primes, function(x) rep(x, n_subj))
-          names(individual_level) <- paste0(names(parameters), "_pr")
-          return(c(group_level, individual_level))
-        }
-      }
-    }
-
-    ############### Print for user ###############
-
     # Full name of model
     if (model_type == "") {
       model <- paste0(task_name, "_", model_name)
@@ -326,10 +303,11 @@ hBayesDM_model <- function(task_name,
     }
     options(mc.cores = ncore)
 
-    # Print for user
+    ############### Print for user ###############
     cat("\n")
     cat("Model name  =", model, "\n")
-    cat("Data file   =", data, "\n")
+    if (is.character(data))
+      cat("Data file   =", data, "\n")
     cat("\n")
     cat("Details:\n")
     if (vb) {
@@ -380,8 +358,6 @@ hBayesDM_model <- function(task_name,
       cat("\n")
     }
 
-    ############### Fit & extract ###############
-
     # Designate the Stan model
     if (is.null(stanmodel_arg)) {
       if (FLAG_BUILD_ALL) {
@@ -395,8 +371,101 @@ hBayesDM_model <- function(task_name,
       stanmodel_arg <- rstan::stan_model(stanmodel_arg)
     }
 
+    # Initial values for the parameters
+    gen_init <- NULL
+    if (inits[1] == "vb") {
+      if (vb) {
+        cat("\n")
+        cat("*****************************************\n")
+        cat("** Use random values as initial values **\n")
+        cat("*****************************************\n")
+        gen_init <- "random"
+
+      } else {
+        cat("\n")
+        cat("****************************************\n")
+        cat("** Use VB estimates as initial values **\n")
+        cat("****************************************\n")
+
+        make_gen_init_from_vb <- function() {
+          fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list)
+          m_vb <- colMeans(as.data.frame(fit_vb))
+
+          function() {
+            ret <- list(
+              mu_pr = as.vector(m_vb[startsWith(names(m_vb), "mu_pr")]),
+              sigma = as.vector(m_vb[startsWith(names(m_vb), "sigma")])
+            )
+
+            for (p in names(parameters)) {
+              ret[[paste0(p, "_pr")]] <-
+                as.vector(m_vb[startsWith(names(m_vb), paste0(p, "_pr"))])
+            }
+
+            return(ret)
+          }
+        }
+
+        gen_init <- tryCatch(make_gen_init_from_vb(), error = function(e) {
+          cat("\n")
+          cat("******************************************\n")
+          cat("** Failed to obtain VB estimates.       **\n")
+          cat("** Use random values as initial values. **\n")
+          cat("******************************************\n")
+
+          return("random")
+        })
+      }
+    } else if (inits[1] == "random") {
+      cat("\n")
+      cat("*****************************************\n")
+      cat("** Use random values as initial values **\n")
+      cat("*****************************************\n")
+      gen_init <- "random"
+    } else {
+      if (inits[1] == "fixed") {
+        # plausible values of each parameter
+        inits <- unlist(lapply(parameters, "[", 2))
+      } else if (length(inits) != length(parameters)) {
+        stop("** Length of 'inits' must be ", length(parameters), " ",
+             "(= the number of parameters of this model). ",
+             "Please check again. **\n")
+      }
+
+      if (model_type == "single") {
+        gen_init <- function() {
+          individual_level        <- as.list(inits)
+          names(individual_level) <- names(parameters)
+          return(individual_level)
+        }
+      } else {
+        gen_init <- function() {
+          primes <- numeric(length(parameters))
+          for (i in 1:length(parameters)) {
+            lb <- parameters[[i]][1]   # lower bound
+            ub <- parameters[[i]][3]   # upper bound
+            if (is.infinite(lb)) {
+              primes[i] <- inits[i]                             # (-Inf, Inf)
+            } else if (is.infinite(ub)) {
+              primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
+            } else {
+              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
+            }
+          }
+          group_level             <- list(mu_pr = primes,
+                                          sigma = rep(1.0, length(primes)))
+          individual_level        <- lapply(primes, function(x) rep(x, n_subj))
+          names(individual_level) <- paste0(names(parameters), "_pr")
+          return(c(group_level, individual_level))
+        }
+      }
+    }
+
+
+    ############### Fit & extract ###############
+
     # Fit the Stan model
-    if (vb) {  # if variational Bayesian
+    if (vb) {
       fit <- rstan::vb(object = stanmodel_arg,
                        data   = data_list,
                        pars   = pars,

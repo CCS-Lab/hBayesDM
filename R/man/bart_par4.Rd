@@ -2,16 +2,18 @@
 % Please edit documentation in R/bart_par4.R
 \name{bart_par4}
 \alias{bart_par4}
-\title{Balloon Analogue Risk Task (Ravenzwaaij et al., 2011)}
+\title{Re-parameterized version of BART model with 4 parameters}
 \usage{
-bart_par4(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, ...)
+bart_par4(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "pumps", "explosion". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +28,21 @@ bart_par4(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +53,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("bart_par4").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"bart_par4"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task with the following parameters:
-  "phi" (prior belief of balloon not bursting), "eta" (updating rate), "gam" (risk-taking parameter), "tau" (inverse temperature).
+Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task using Re-parameterized version of BART model with 4 parameters.
+It has the following parameters: \code{phi} (prior belief of balloon not bursting), \code{eta} (updating rate), \code{gam} (risk-taking parameter), \code{tau} (inverse temperature).
 
-Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}, \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang}, \href{https://ccs-lab.github.io/team/ayoung-lee/}{Ayoung Lee}, \href{https://ccs-lab.github.io/team/jeongbin-oh/}{Jeongbin Oh}, \href{https://ccs-lab.github.io/team/jiyoon-lee/}{Jiyoon Lee}, \href{https://ccs-lab.github.io/team/junha-jang/}{Junha Jang}
-
-\strong{MODEL:} Re-parameterized version (by Harhim Park & Jaeyeong Yang) of BART Model (Ravenzwaaij et al., 2011) with 4 parameters
+\itemize{
+  \item \strong{Task}: Balloon Analogue Risk Task 
+  \item \strong{Model}: Re-parameterized version of BART model with 4 parameters (van Ravenzwaaij et al., 2011)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,9 +91,9 @@ For the Balloon Analogue Risk Task, there should be 3 columns of data with the
   labels "subjID", "pumps", "explosion". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"pumps"}{The number of pumps.}
-  \item{"explosion"}{0: intact, 1: burst}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{pumps}{The number of pumps.}
+  \item{explosion}{0: intact, 1: burst}
   
   
   
@@ -129,11 +133,18 @@ For the Balloon Analogue Risk Task, there should be 3 columns of data with the
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@gmail.com}>, \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@gmail.com}>, \href{https://ccs-lab.github.io/team/ayoung-lee/}{Ayoung Lee} <\email{aylee2008@naver.com}>, \href{https://ccs-lab.github.io/team/jeongbin-oh/}{Jeongbin Oh} <\email{ows0104@gmail.com}>, \href{https://ccs-lab.github.io/team/jiyoon-lee/}{Jiyoon Lee} <\email{nicole.lee2001@gmail.com}>, \href{https://ccs-lab.github.io/team/junha-jang/}{Junha Jang} <\email{andy627robo@naver.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- bart_par4("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- bart_par4(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- bart_par4(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,8 +160,7 @@ printFit(output)
 }
 }
 \references{
-van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model decomposition of the
-  BART: Assessment and application. Journal of Mathematical Psychology, 55(1), 94-105.
+van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model decomposition of the BART: Assessment and application. Journal of Mathematical Psychology, 55(1), 94-105.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

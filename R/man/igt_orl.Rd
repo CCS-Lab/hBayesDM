@@ -2,15 +2,18 @@
 % Please edit documentation in R/igt_orl.R
 \name{igt_orl}
 \alias{igt_orl}
-\title{Iowa Gambling Task}
+\title{Outcome-Representation Learning Model}
 \usage{
-igt_orl(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
+igt_orl(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
   modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "choice", "gain", "loss". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -25,20 +28,21 @@ igt_orl(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -49,32 +53,43 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{For this model, it's possible to set the following \strong{model-specific argument} to a value that you may prefer. \cr
-\code{payscale}: Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100.}
+\item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
+\describe{
+  \item{payscale}{Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100.}
+  
+  
+  
+  
+  
+  
+  
+  
+}}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("igt_orl").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"igt_orl"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Iowa Gambling Task with the following parameters:
-  "Arew" (reward learning rate), "Apun" (punishment learning rate), "K" (perseverance decay), "betaF" (outcome frequency weight), "betaP" (perseverance weight).
+Hierarchical Bayesian Modeling of the Iowa Gambling Task using Outcome-Representation Learning Model.
+It has the following parameters: \code{Arew} (reward learning rate), \code{Apun} (punishment learning rate), \code{K} (perseverance decay), \code{betaF} (outcome frequency weight), \code{betaP} (perseverance weight).
 
-Contributor: \href{https://ccs-lab.github.io/team/nate-haines/}{Nate Haines}
-
-\strong{MODEL:} Outcome-Representation Learning Model (Haines et al., 2018, Cognitive Science)
+\itemize{
+  \item \strong{Task}: Iowa Gambling Task (Ahn et al., 2008)
+  \item \strong{Model}: Outcome-Representation Learning Model (Haines et al., 2018)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,10 +102,10 @@ For the Iowa Gambling Task, there should be 4 columns of data with the
   labels "subjID", "choice", "gain", "loss". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"choice"}{Integer indicating which deck was chosen on that trial (where A==1, B==2, C==3, and D==4).}
-  \item{"gain"}{Floating point value representing the amount of currency won on that trial (e.g. 50, 100).}
-  \item{"loss"}{Floating point value representing the amount of currency lost on that trial (e.g. 0, -50).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{choice}{Integer indicating which deck was chosen on that trial (where A==1, B==2, C==3, and D==4).}
+  \item{gain}{Floating point value representing the amount of currency won on that trial (e.g. 50, 100).}
+  \item{loss}{Floating point value representing the amount of currency lost on that trial (e.g. 0, -50).}
   
   
   
@@ -129,11 +144,18 @@ For the Iowa Gambling Task, there should be 4 columns of data with the
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/nate-haines/}{Nate Haines} <\email{haines.175@osu.edu}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- igt_orl("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- igt_orl(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- igt_orl(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,9 +171,9 @@ printFit(output)
 }
 }
 \references{
-Haines, N., Vassileva, J., & Ahn, W.-Y. (2018). The Outcome-Representation Learning Model: A
-  Novel Reinforcement Learning Model of the Iowa Gambling Task. Cognitive Science.
-  https://doi.org/10.1111/cogs.12688
+Ahn, W. Y., Busemeyer, J. R., & Wagenmakers, E. J. (2008). Comparison of decision learning models using the generalization criterion method. Cognitive Science, 32(8), 1376-1402. http://doi.org/10.1080/03640210802352992
+
+Haines, N., Vassileva, J., & Ahn, W.-Y. (2018). The Outcome-Representation Learning Model: A Novel Reinforcement Learning Model of the Iowa Gambling Task. Cognitive Science. https://doi.org/10.1111/cogs.12688
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

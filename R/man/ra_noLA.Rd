@@ -2,15 +2,18 @@
 % Please edit documentation in R/ra_noLA.R
 \name{ra_noLA}
 \alias{ra_noLA}
-\title{Risk Aversion Task}
+\title{Prospect Theory, without loss aversion (LA) parameter}
 \usage{
-ra_noLA(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
+ra_noLA(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
   modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "gain", "loss", "cert", "gamble". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -25,20 +28,21 @@ ra_noLA(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -49,29 +53,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("ra_noLA").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"ra_noLA"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Risk Aversion Task with the following parameters:
-  "rho" (risk aversion), "tau" (inverse temperature).
+Hierarchical Bayesian Modeling of the Risk Aversion Task using Prospect Theory, without loss aversion (LA) parameter.
+It has the following parameters: \code{rho} (risk aversion), \code{tau} (inverse temperature).
 
-\strong{MODEL:} Prospect Theory (Sokol-Hessner et al., 2009, PNAS), without loss aversion (LA) parameter
+\itemize{
+  \item \strong{Task}: Risk Aversion Task 
+  \item \strong{Model}: Prospect Theory, without loss aversion (LA) parameter (Sokol-Hessner et al., 2009)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -84,11 +91,11 @@ For the Risk Aversion Task, there should be 5 columns of data with the
   labels "subjID", "gain", "loss", "cert", "gamble". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"gain"}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
-  \item{"loss"}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
-  \item{"cert"}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
-  \item{"gamble"}{If gamble was taken, gamble == 1; else gamble == 0.}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{gain}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
+  \item{loss}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
+  \item{cert}{Guaranteed amount of a safe option. "cert" is assumed to be zero or greater than zero.}
+  \item{gamble}{If gamble was taken, gamble == 1; else gamble == 0.}
   
   
   
@@ -129,8 +136,13 @@ For the Risk Aversion Task, there should be 5 columns of data with the
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- ra_noLA("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- ra_noLA(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- ra_noLA(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -144,18 +156,9 @@ plot(output)
 # Show the WAIC and LOOIC model fit estimates
 printFit(output)
 }
-
-\dontrun{
-# Paths to data published in Sokol-Hessner et al. (2009)
-path_to_attend_data <- system.file("extdata", "ra_data_attend.txt", package = "hBayesDM")
-path_to_regulate_data <- system.file("extdata", "ra_data_reappraisal.txt", package = "hBayesDM")
-}
 }
 \references{
-Sokol-Hessner, P., Hsu, M., Curley, N. G., Delgado, M. R., Camerer, C. F., Phelps, E. A., &
-  Smith, E. E. (2009). Thinking like a Trader Selectively Reduces Individuals' Loss Aversion.
-  Proceedings of the National Academy of Sciences of the United States of America, 106(13),
-  5035-5040. http://www.pnas.org/content/106/13/5035
+Sokol-Hessner, P., Hsu, M., Curley, N. G., Delgado, M. R., Camerer, C. F., Phelps, E. A., & Smith, E. E. (2009). Thinking like a Trader Selectively Reduces Individuals' Loss Aversion. Proceedings of the National Academy of Sciences of the United States of America, 106(13), 5035-5040. http://www.pnas.org/content/106/13/5035
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

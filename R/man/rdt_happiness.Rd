@@ -2,16 +2,19 @@
 % Please edit documentation in R/rdt_happiness.R
 \name{rdt_happiness}
 \alias{rdt_happiness}
-\title{Risky Decision Task}
+\title{Happiness Computational Model}
 \usage{
-rdt_happiness(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+rdt_happiness(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "gain", "loss", "cert", "type", "gamble", "outcome", "happy", "RT_happy". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ rdt_happiness(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("rdt_happiness").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"rdt_happiness"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Risky Decision Task with the following parameters:
-  "w0" (baseline), "w1" (weight of certain rewards), "w2" (weight of expected values), "w3" (weight of reward prediction errors), "gam" (forgetting factor), "sig" (standard deviation of error).
+Hierarchical Bayesian Modeling of the Risky Decision Task using Happiness Computational Model.
+It has the following parameters: \code{w0} (baseline), \code{w1} (weight of certain rewards), \code{w2} (weight of expected values), \code{w3} (weight of reward prediction errors), \code{gam} (forgetting factor), \code{sig} (standard deviation of error).
 
-Contributor: \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park}
-
-\strong{MODEL:} Happiness Computational Model (Rutledge et al., 2014, PNAS)
+\itemize{
+  \item \strong{Task}: Risky Decision Task 
+  \item \strong{Model}: Happiness Computational Model (Rutledge et al., 2014)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,15 +92,15 @@ For the Risky Decision Task, there should be 9 columns of data with the
   labels "subjID", "gain", "loss", "cert", "type", "gamble", "outcome", "happy", "RT_happy". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"gain"}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
-  \item{"loss"}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
-  \item{"cert"}{Guaranteed amount of a safe option.}
-  \item{"type"}{loss == -1, mixed == 0, gain == 1}
-  \item{"gamble"}{If gamble was taken, gamble == 1; else gamble == 0.}
-  \item{"outcome"}{Result of the trial.}
-  \item{"happy"}{Happiness score.}
-  \item{"RT_happy"}{Reaction time for answering the happiness score.}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{gain}{Possible (50\%) gain outcome of a risky option (e.g. 9).}
+  \item{loss}{Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).}
+  \item{cert}{Guaranteed amount of a safe option.}
+  \item{type}{loss == -1, mixed == 0, gain == 1}
+  \item{gamble}{If gamble was taken, gamble == 1; else gamble == 0.}
+  \item{outcome}{Result of the trial.}
+  \item{happy}{Happiness score.}
+  \item{RT_happy}{Reaction time for answering the happiness score.}
 }
 \strong{*}Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
   etc.), but only the data within the column names listed above will be used during the modeling.
@@ -129,11 +134,18 @@ For the Risky Decision Task, there should be 9 columns of data with the
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- rdt_happiness("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- rdt_happiness(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- rdt_happiness(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,9 +161,7 @@ printFit(output)
 }
 }
 \references{
-Rutledge, R. B., Skandali, N., Dayan, P., & Dolan, R. J. (2014). A computational and neural model
-  of momentary subjective well-being. Proceedings of the National Academy of Sciences, 111(33),
-  12252-12257.
+Rutledge, R. B., Skandali, N., Dayan, P., & Dolan, R. J. (2014). A computational and neural model of momentary subjective well-being. Proceedings of the National Academy of Sciences, 111(33), 12252-12257.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

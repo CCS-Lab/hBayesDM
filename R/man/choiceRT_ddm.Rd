@@ -2,16 +2,18 @@
 % Please edit documentation in R/choiceRT_ddm.R
 \name{choiceRT_ddm}
 \alias{choiceRT_ddm}
-\title{Choice Reaction Time Task}
+\title{Drift Diffusion Model}
 \usage{
-choiceRT_ddm(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, ...)
+choiceRT_ddm(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "choice", "RT". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,21 +28,21 @@ choiceRT_ddm(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
-\item{inc_postpred}{\strong{(Currently not available.)}
-Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+\item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
+size). Defaults to \code{FALSE}.
+Not available for this model.}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -51,38 +53,43 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{For this model, it's possible to set the following \strong{model-specific argument} to a value that you may prefer. \cr
-\code{RTbound}: Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).}
+\item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
+\describe{
+  \item{RTbound}{Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).}
+  
+  
+  
+  
+  
+  
+  
+  
+}}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("choiceRT_ddm").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"choiceRT_ddm"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Choice Reaction Time Task with the following parameters:
-  "alpha" (boundary separation), "beta" (bias), "delta" (drift rate), "tau" (non-decision time).
+Hierarchical Bayesian Modeling of the Choice Reaction Time Task using Drift Diffusion Model.
+It has the following parameters: \code{alpha} (boundary separation), \code{beta} (bias), \code{delta} (drift rate), \code{tau} (non-decision time).
 
-\strong{MODEL:} Drift Diffusion Model (Ratcliff, 1978, Psychological Review)\cr *Note that this implementation is \strong{not} the full Drift Diffusion Model as described in Ratcliff (1978). This implementation estimates the drift rate, boundary separation, starting point, and non-decision time; but not the between- and within-trial variances in these parameters.
-
-Code for this model is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potential others @ Stan mailing
-
-Parameters of the DDM (parameter names in Ratcliff), from \url{https://github.com/gbiele/stan_wiener_test/blob/master/stan_wiener_test.R}
-\cr - alpha (a): Boundary separation or Speed-accuracy trade-off (high alpha means high accuracy). 0 < alpha
-\cr - beta (b): Initial bias, for either response (beta > 0.5 means bias towards "upper" response 'A'). 0 < beta < 1
-\cr - delta (v): Drift rate; Quality of the stimulus (delta close to 0 means ambiguous stimulus or weak ability). 0 < delta
-\cr - tau (ter): Non-decision time + Motor response time + encoding time (high means slow encoding, execution). 0 < tau (in seconds)
+\itemize{
+  \item \strong{Task}: Choice Reaction Time Task 
+  \item \strong{Model}: Drift Diffusion Model (Ratcliff, 1978)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -95,9 +102,9 @@ For the Choice Reaction Time Task, there should be 3 columns of data with the
   labels "subjID", "choice", "RT". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"choice"}{Choice made for the current trial, coded as \code{1}/\code{2} to indicate lower/upper boundary or left/right choices (e.g., 1 1 1 2 1 2).}
-  \item{"RT"}{Choice reaction time for the current trial, in \strong{seconds} (e.g., 0.435 0.383 0.314 0.309, etc.).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{choice}{Choice made for the current trial, coded as 1/2 to indicate lower/upper boundary or left/right choices (e.g., 1 1 1 2 1 2).}
+  \item{RT}{Choice reaction time for the current trial, in **seconds** (e.g., 0.435 0.383 0.314 0.309, etc.).}
   
   
   
@@ -138,10 +145,20 @@ For the Choice Reaction Time Task, there should be 3 columns of data with the
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 }
+\note{
+\strong{Notes:}
+Note that this implementation is NOT the full Drift Diffusion Model as described in Ratcliff (1978). This implementation estimates the drift rate, boundary separation, starting point, and non-decision time; but not the between- and within-trial variances in these parameters.
+Code for this model is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potential others @ Stan mailing.
+}
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- choiceRT_ddm("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- choiceRT_ddm(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- choiceRT_ddm(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")

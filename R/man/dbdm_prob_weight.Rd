@@ -2,16 +2,19 @@
 % Please edit documentation in R/dbdm_prob_weight.R
 \name{dbdm_prob_weight}
 \alias{dbdm_prob_weight}
-\title{Description Based Decison Making Task}
+\title{Probability Weight Function}
 \usage{
-dbdm_prob_weight(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+dbdm_prob_weight(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ dbdm_prob_weight(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("dbdm_prob_weight").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"dbdm_prob_weight"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Description Based Decison Making Task with the following parameters:
-  "tau" (probability weight function), "rho" (subject utility function), "lambda" (loss aversion parameter), "beta" (inverse softmax temperature).
+Hierarchical Bayesian Modeling of the Description Based Decison Making Task using Probability Weight Function.
+It has the following parameters: \code{tau} (probability weight function), \code{rho} (subject utility function), \code{lambda} (loss aversion parameter), \code{beta} (inverse softmax temperature).
 
-Contributor: \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh}
-
-\strong{MODEL:} Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
+\itemize{
+  \item \strong{Task}: Description Based Decison Making Task 
+  \item \strong{Model}: Probability Weight Function (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,14 +92,14 @@ For the Description Based Decison Making Task, there should be 8 columns of data
   labels "subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"opt1hprob"}{Possiblity of getting higher value of outcome(opt1hval) when choosing option 1.}
-  \item{"opt2hprob"}{Possiblity of getting higher value of outcome(opt2hval) when choosing option 2.}
-  \item{"opt1hval"}{Possible (with opt1hprob probability) outcome of option 1.}
-  \item{"opt1lval"}{Possible (with (1 - opt1hprob) probability) outcome of option 1.}
-  \item{"opt2hval"}{Possible (with opt2hprob probability) outcome of option 2.}
-  \item{"opt2lval"}{Possible (with (1 - opt2hprob) probability) outcome of option 2.}
-  \item{"choice"}{If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{opt1hprob}{Possiblity of getting higher value of outcome(opt1hval) when choosing option 1.}
+  \item{opt2hprob}{Possiblity of getting higher value of outcome(opt2hval) when choosing option 2.}
+  \item{opt1hval}{Possible (with opt1hprob probability) outcome of option 1.}
+  \item{opt1lval}{Possible (with (1 - opt1hprob) probability) outcome of option 1.}
+  \item{opt2hval}{Possible (with opt2hprob probability) outcome of option 2.}
+  \item{opt2lval}{Possible (with (1 - opt2hprob) probability) outcome of option 2.}
+  \item{choice}{If option 1 was selected, choice == 1; else if option 2 was selected, choice == 2.}
   
 }
 \strong{*}Note: The file may contain other columns of data (e.g. "ReactionTime", "trial_number",
@@ -129,11 +134,18 @@ For the Description Based Decison Making Task, there should be 8 columns of data
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <\email{zohyos7@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- dbdm_prob_weight("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- dbdm_prob_weight(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- dbdm_prob_weight(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,15 +161,11 @@ printFit(output)
 }
 }
 \references{
-Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., ... & Lebiere, C. (2010). A
-  choice prediction competition: Choices from experience and from description. Journal of
-  Behavioral Decision Making, 23(1), 15-47.
+Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., ... & Lebiere, C. (2010). A choice prediction competition: Choices from experience and from description. Journal of Behavioral Decision Making, 23(1), 15-47.
 
-Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions from experience and the
-  effect of rare events in risky choice. Psychological science, 15(8), 534-539.
+Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions from experience and the effect of rare events in risky choice. Psychological science, 15(8), 534-539.
 
-Jessup, R. K., Bishara, A. J., & Busemeyer, J. R. (2008). Feedback produces divergence from
-  prospect theory in descriptive choice. Psychological Science, 19(10), 1015-1022.
+Jessup, R. K., Bishara, A. J., & Busemeyer, J. R. (2008). Feedback produces divergence from prospect theory in descriptive choice. Psychological Science, 19(10), 1015-1022.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

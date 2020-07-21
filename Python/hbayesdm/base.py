@@ -1,5 +1,7 @@
 import os
+from pathlib import Path
 import pickle
+import warnings
 import multiprocessing
 from abc import ABCMeta, abstractmethod
 from typing import Tuple, List, Sequence, Dict, Union, Callable, Any
@@ -12,16 +14,18 @@ from pystan import StanModel
 import matplotlib.pyplot as plt
 import arviz as az
 
-from hbayesdm import __version__ as _hbayesdm_version
 from pystan import __version__ as _pystan_version
 
 __all__ = ['TaskModel']
 
-_common = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'common')
+PATH_ROOT = Path(__file__).absolute().parent
+PATH_COMMON = PATH_ROOT / 'common'
+PATH_STAN = (PATH_COMMON / 'stan_files').resolve()
+PATH_EXTDATA = (PATH_COMMON / 'extdata').resolve()
 
 
 class TaskModel(metaclass=ABCMeta):
-    """HBayesDM TaskModel Base Class.
+    """hBayesDM TaskModel Base Class.
 
     The base class that is inherited by all hBayesDM task-models. Child classes
     should implement (i.e. override) the abstract method: `_preprocess_func`.
@@ -57,14 +61,6 @@ class TaskModel(metaclass=ABCMeta):
         # Run model function
         model, all_ind_pars, par_vals, fit, raw_data, model_regressor \
             = self._run(**kwargs)
-
-        # Assign results as attributes
-        self.__model = model
-        self.__all_ind_pars = all_ind_pars
-        self.__par_vals = par_vals
-        self.__fit = fit
-        self.__raw_data = raw_data
-        self.__model_regressor = model_regressor
 
     @property
     def task_name(self) -> str:
@@ -127,8 +123,6 @@ class TaskModel(metaclass=ABCMeta):
         return self.__model_regressor
 
     def _run(self,
-             example: bool = False,
-             datafile: str = None,
              data: pd.DataFrame = None,
              niter: int = 4000,
              nwarmup: int = 1000,
@@ -143,18 +137,13 @@ class TaskModel(metaclass=ABCMeta):
              adapt_delta: float = 0.95,
              stepsize: float = 1,
              max_treedepth: int = 10,
-             **additional_args: Any) -> Tuple[str,
-                                              pd.DataFrame,
-                                              OrderedDict,
-                                              Any,
-                                              pd.DataFrame,
-                                              Dict]:
+             **additional_args: Any) \
+            -> Tuple[str, pd.DataFrame, OrderedDict, Any, Dict]:
         """Run the hbayesdm modeling function."""
         self._check_regressor(model_regressor)
         self._check_postpred(inc_postpred)
 
-        raw_data, initial_columns = self._handle_data_args(
-            example, datafile, data)
+        raw_data, initial_columns = self._handle_data_args(data)
         insensitive_data_columns = self._get_insensitive_data_columns()
 
         self._check_data_columns(raw_data, insensitive_data_columns)
@@ -165,13 +154,18 @@ class TaskModel(metaclass=ABCMeta):
         data_dict = self._preprocess_func(
             raw_data, general_info, additional_args)
         pars = self._prepare_pars(model_regressor, inc_postpred)
-        gen_init = self._prepare_gen_init(inits, general_info['n_subj'])
+
+        n_subj = general_info['n_subj']
+        if inits == 'vb':
+            gen_init = self._prepare_gen_init_vb(data_dict, n_subj)
+        else:
+            gen_init = self._prepare_gen_init(inits, n_subj)
 
         model = self._get_model_full_name()
         ncore = self._set_number_of_cores(ncore)
 
         self._print_for_user(
-            model, example, datafile, data, vb, nchain, ncore, niter, nwarmup,
+            model, data, vb, nchain, ncore, niter, nwarmup,
             general_info, additional_args, model_regressor)
 
         sm = self._designate_stan_model(model)
@@ -188,6 +182,14 @@ class TaskModel(metaclass=ABCMeta):
 
         self._revert_initial_columns(raw_data, initial_columns)
         self._inform_completion()
+
+        # Assign results as attributes
+        self.__model = model
+        self.__all_ind_pars = all_ind_pars
+        self.__par_vals = par_vals
+        self.__fit = fit
+        self.__raw_data = raw_data
+        self.__model_regressor = model_regressor
 
         return model, all_ind_pars, par_vals, fit, raw_data, model_regressor
 
@@ -215,20 +217,14 @@ class TaskModel(metaclass=ABCMeta):
             raise RuntimeError(
                 'Posterior predictions are not yet available for this model.')
 
-    def _handle_data_args(self,
-                          example: bool,
-                          datafile: str,
-                          data: pd.DataFrame) -> Tuple[pd.DataFrame, List]:
+    def _handle_data_args(self, data) -> Tuple[pd.DataFrame, List]:
         """Handle user data arguments and return raw_data.
 
         Parameters
         ----------
-        example : bool
-            Whether to use example data.
-        datafile : str
-            String of filepath for the data file.
-        data : pandas.DataFrame
+        data : Union[pandas.DataFrame, str]
             Pandas DataFrame object that holds the data.
+            String of filepath for the data file.
 
         Returns
         -------
@@ -237,34 +233,30 @@ class TaskModel(metaclass=ABCMeta):
         initial_columns : List
             Initial column names of raw data, as given by the user.
         """
-        # Check the number of valid arguments (which should be 1)
-        if int(example) \
-                + int(datafile is not None) \
-                + int(data is not None) != 1:
-            raise RuntimeError(
-                'Please give one of these arguments: '
-                'example, datafile, or data.')
-
-        if data is not None:  # Use given data as raw_data
+        if isinstance(data, pd.DataFrame):
             if not isinstance(data, pd.DataFrame):
                 raise RuntimeError(
                     'Please provide `data` argument as a pandas.DataFrame.')
             raw_data = data
 
-        elif datafile is not None:  # Load data from given filepath
-            if datafile.endswith('.csv'):
-                raw_data = pd.read_csv(datafile)
-            else:  # Read the file as a tsv format
-                raw_data = pd.read_csv(datafile, sep='\t')
-
-        else:  # (example == True) Load example data
-            if self.model_type == '':
-                filename = '%s_exampleData.txt' % self.task_name
+        elif isinstance(data, str):
+            if data == "example":
+                if self.model_type == '':
+                    filename = '%s_exampleData.txt' % self.task_name
+                else:
+                    filename = '%s_%s_exampleData.txt' % (
+                        self.task_name, self.model_type)
+                example_data = PATH_EXTDATA / filename
+                raw_data = pd.read_csv(example_data, sep='\t')
             else:
-                filename = '%s_%s_exampleData.txt' % (
-                    self.task_name, self.model_type)
-            example_data = os.path.join(_common, 'extdata', filename)
-            raw_data = pd.read_csv(example_data, sep='\t')
+                if data.endswith('.csv'):
+                    raw_data = pd.read_csv(data)
+                else:  # Read the file as a tsv format
+                    raw_data = pd.read_csv(data, sep='\t')
+
+        else:
+            raise RuntimeError(
+                'Invalid `data` argument given: ' + str(data))
 
         # Save initial column names of raw data for later
         initial_columns = list(raw_data.columns)
@@ -423,16 +415,70 @@ class TaskModel(metaclass=ABCMeta):
             pars += self.postpreds
         return pars
 
+    def _prepare_gen_init_vb(self,
+                             data_dict: Dict,
+                             n_subj: int,
+                             ) -> Union[str, Callable]:
+        """Prepare initial values for the parameters using Variational Bayesian
+        methods.
+
+        Parameters
+        ----------
+        data_dict
+            Dict holding the data to pass to Stan.
+        n_subj
+            Total number of subjects in data.
+
+        Returns
+        -------
+        gen_init : Union[str, Callable]
+            A function that returns initial values for each parameter, based on
+            the variational Bayesian method.
+        """
+        model = self._get_model_full_name()
+        sm = self._designate_stan_model(model)
+
+        try:
+            fit = sm.vb(data=data_dict)
+        except Exception:
+            warnings.warn(
+                'Failed to get VB estimates for initial values. '
+                'Use random values for initial values.',
+                RuntimeWarning, stacklevel=1)
+            return 'random'
+
+        len_param = len(self.parameters)
+        dict_vb = dict(zip(fit['mean_par_names'], fit['mean_pars']))
+
+        dict_init = {}
+        if self.model_type == 'single':
+            for p in self.parameters:
+                dict_init[p] = dict_vb[p]
+        else:
+            dict_init['mu_pr'] = \
+                [dict_vb['mu_pr[%d]' % (i + 1)] for i in range(len_param)]
+            dict_init['sigma'] = \
+                [dict_vb['sigma[%d]' % (i + 1)] for i in range(len_param)]
+            for p in self.parameters:
+                dict_init['%s_pr' % p] = \
+                    [dict_vb['%s_pr[%d]' % (p, i + 1)] for i in range(n_subj)]
+
+        def gen_init():
+            return dict_init
+
+        return gen_init
+
     def _prepare_gen_init(self,
                           inits: Union[str, Sequence[float]],
-                          n_subj: int) -> Union[str, Callable]:
+                          n_subj: int,
+                          ) -> Union[str, Callable]:
         """Prepare initial values for the parameters.
 
         Parameters
         ----------
         inits
-            User-defined inits. Can be the strings 'random' or 'fixed', or a
-            list of float values to use as initial values for the parameters.
+            User-defined inits. Can be the strings 'random' or 'fixed',
+            or a list of float values to use as initial values for parameters.
         n_subj
             Total number of subjects in data.
 
@@ -505,20 +551,16 @@ class TaskModel(metaclass=ABCMeta):
             return local_cores
         return ncore
 
-    def _print_for_user(self, model: str, example: bool, datafile: str,
-                        data: pd.DataFrame, vb: bool, nchain: int, ncore: int,
-                        niter: int, nwarmup: int, general_info: Dict,
-                        additional_args: Dict, model_regressor: bool):
+    def _print_for_user(self, model: str, data: pd.DataFrame, vb: bool,
+                        nchain: int, ncore: int, niter: int, nwarmup: int,
+                        general_info: Dict, additional_args: Dict,
+                        model_regressor: bool):
         """Print information for user.
 
         Parameters
         ----------
         model
             Full name of model.
-        example
-            Whether to use example data.
-        datafile
-            String of filepath for data file.
         data
             Pandas DataFrame object holding user data.
         vb
@@ -540,12 +582,10 @@ class TaskModel(metaclass=ABCMeta):
         """
         print()
         print('Model  =', model)
-        if example:
-            print('Data   = example')
-        elif datafile:
-            print('Data   =', datafile)
+        if isinstance(data, pd.DataFrame):
+            print('Data   = <pandas.DataFrame object>')
         else:
-            print('Data   =', object.__repr__(data))
+            print('Data   =', str(data))
         print()
         print('Details:')
         if vb:
@@ -595,10 +635,8 @@ class TaskModel(metaclass=ABCMeta):
         sm
             Compiled StanModel obj to use for sampling & fitting.
         """
-        stan_files = os.path.join(_common, 'stan_files')
-        model_path = os.path.join(stan_files, model + '.stan')
-        cache_file = 'cached-%s-hbayesdm=%s-pystan=%s.pkl' % \
-            (model, _hbayesdm_version, _pystan_version)
+        model_path = str(PATH_STAN / (model + '.stan'))
+        cache_file = 'cached-%s-pystan_%s.pkl' % (model, _pystan_version)
 
         if os.path.exists(cache_file):
             try:
@@ -619,7 +657,7 @@ class TaskModel(metaclass=ABCMeta):
             print('Using cached StanModel:', cache_file)
         else:
             sm = StanModel(file=model_path, model_name=model,
-                           include_paths=[stan_files])
+                           include_paths=[str(PATH_STAN)])
             with open(cache_file, 'wb') as f:
                 pickle.dump(sm, f)
 
@@ -792,6 +830,8 @@ class TaskModel(metaclass=ABCMeta):
         initial_columns
             Initial column names of raw data, as given by the user.
         """
+        print(raw_data.columns)
+        print(initial_columns)
         raw_data.columns = initial_columns
 
     def _inform_completion(self):

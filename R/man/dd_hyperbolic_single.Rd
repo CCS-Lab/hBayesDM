@@ -2,16 +2,19 @@
 % Please edit documentation in R/dd_hyperbolic_single.R
 \name{dd_hyperbolic_single}
 \alias{dd_hyperbolic_single}
-\title{Delay Discounting Task}
+\title{Hyperbolic Model}
 \usage{
-dd_hyperbolic_single(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+dd_hyperbolic_single(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ dd_hyperbolic_single(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,29 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("dd_hyperbolic_single").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"dd_hyperbolic_single"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Individual Bayesian Modeling of the Delay Discounting Task with the following parameters:
-  "k" (discounting rate), "beta" (inverse temperature).
+Individual Bayesian Modeling of the Delay Discounting Task using Hyperbolic Model.
+It has the following parameters: \code{k} (discounting rate), \code{beta} (inverse temperature).
 
-\strong{MODEL:} Hyperbolic Model (Mazur, 1987)
+\itemize{
+  \item \strong{Task}: Delay Discounting Task 
+  \item \strong{Model}: Hyperbolic Model (Mazur, 1987)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -85,12 +92,12 @@ For the Delay Discounting Task, there should be 6 columns of data with the
   labels "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"delay_later"}{An integer representing the delayed days for the later option (e.g. 1, 6, 28).}
-  \item{"amount_later"}{A floating point number representing the amount for the later option (e.g. 10.5, 13.4, 30.9).}
-  \item{"delay_sooner"}{An integer representing the delayed days for the sooner option (e.g. 0).}
-  \item{"amount_sooner"}{A floating point number representing the amount for the sooner option (e.g. 10).}
-  \item{"choice"}{If amount_later was selected, choice == 1; else if amount_sooner was selected, choice == 0.}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{delay_later}{An integer representing the delayed days for the later option (e.g. 1, 6, 28).}
+  \item{amount_later}{A floating point number representing the amount for the later option (e.g. 10.5, 13.4, 30.9).}
+  \item{delay_sooner}{An integer representing the delayed days for the sooner option (e.g. 0).}
+  \item{amount_sooner}{A floating point number representing the amount for the sooner option (e.g. 10).}
+  \item{choice}{If amount_later was selected, choice == 1; else if amount_sooner was selected, choice == 0.}
   
   
   
@@ -130,8 +137,13 @@ For the Delay Discounting Task, there should be 6 columns of data with the
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- dd_hyperbolic_single("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- dd_hyperbolic_single(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- dd_hyperbolic_single(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")

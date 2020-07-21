@@ -2,15 +2,18 @@
 % Please edit documentation in R/gng_m3.R
 \name{gng_m3}
 \alias{gng_m3}
-\title{Orthogonalized Go/Nogo Task}
+\title{RW + noise + bias + pi}
 \usage{
-gng_m3(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
+gng_m3(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
   modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "cue", "keyPressed", "outcome". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -25,20 +28,21 @@ gng_m3(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
 For this model they are: "Qgo", "Qnogo", "Wgo", "Wnogo", "SV".}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -49,29 +53,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("gng_m3").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"gng_m3"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  \item{\code{modelRegressor}}{List object containing the extracted model-based regressors.}
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Orthogonalized Go/Nogo Task with the following parameters:
-  "xi" (noise), "ep" (learning rate), "b" (action bias), "pi" (Pavlovian bias), "rho" (effective size).
+Hierarchical Bayesian Modeling of the Orthogonalized Go/Nogo Task using RW + noise + bias + pi.
+It has the following parameters: \code{xi} (noise), \code{ep} (learning rate), \code{b} (action bias), \code{pi} (Pavlovian bias), \code{rho} (effective size).
 
-\strong{MODEL:} RW + noise + bias + pi (Guitart-Masip et al., 2012, Neuroimage)
+\itemize{
+  \item \strong{Task}: Orthogonalized Go/Nogo Task 
+  \item \strong{Model}: RW + noise + bias + pi (Guitart-Masip et al., 2012)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -84,10 +91,10 @@ For the Orthogonalized Go/Nogo Task, there should be 4 columns of data with the
   labels "subjID", "cue", "keyPressed", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"cue"}{Nominal integer representing the cue shown for that trial: 1, 2, 3, or 4.}
-  \item{"keyPressed"}{Binary value representing the subject's response for that trial (where Press == 1; No press == 0).}
-  \item{"outcome"}{Ternary value representing the outcome of that trial (where Positive feedback == 1; Neutral feedback == 0; Negative feedback == -1).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{cue}{Nominal integer representing the cue shown for that trial: 1, 2, 3, or 4.}
+  \item{keyPressed}{Binary value representing the subject's response for that trial (where Press == 1; No press == 0).}
+  \item{outcome}{Ternary value representing the outcome of that trial (where Positive feedback == 1; Neutral feedback == 0; Negative feedback == -1).}
   
   
   
@@ -129,8 +136,13 @@ For the Orthogonalized Go/Nogo Task, there should be 4 columns of data with the
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- gng_m3("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- gng_m3(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- gng_m3(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -146,9 +158,7 @@ printFit(output)
 }
 }
 \references{
-Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., & Dolan, R. J. (2012).
-  Go and no-go learning in reward and punishment: Interactions between affect and effect.
-  Neuroimage, 62(1), 154-166. http://doi.org/10.1016/j.neuroimage.2012.04.024
+Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., & Dolan, R. J. (2012). Go and no-go learning in reward and punishment: Interactions between affect and effect. Neuroimage, 62(1), 154-166. http://doi.org/10.1016/j.neuroimage.2012.04.024
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

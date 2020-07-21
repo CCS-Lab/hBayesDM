@@ -6,11 +6,10 @@
 
 ## R CMD check results
 
-There were 1 NOTE:
+There was 1 NOTE:
 
-* checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Woo-Young Ahn <wooyoung.ahn@gmail.com>'
-  
-  GNU make is a SystemRequirements.
-
-  To compile hBayesDM using rstan, GNU make is required.
+- To compile hBayesDM using rstan, GNU make is required.
+```
+* checking for GNU extensions in Makefiles ... NOTE
+GNU make is a SystemRequirements.
+```

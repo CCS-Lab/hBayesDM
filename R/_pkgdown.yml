@@ -17,7 +17,7 @@ reference:
   - starts_with("ts_")
   - starts_with("ug_")
   - starts_with("wcs_")
-- title: Functions
+- title: Diagnostics
   contents:
   - estimate_mode
   - extract_ic
@@ -28,8 +28,14 @@ reference:
   - plotInd
   - printFit
   - rhat
-- title: Internal functions
-  desc: >
-    These functions are for the developmental purpose.
-  contents:
-    - hBayesDM_model
+
+articles:
+- title: Getting started
+  contents: getting_started
+
+toc:
+  depth: 1
+
+template:
+  params:
+    bootswatch: flatly

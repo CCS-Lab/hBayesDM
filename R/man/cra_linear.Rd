@@ -2,16 +2,18 @@
 % Please edit documentation in R/cra_linear.R
 \name{cra_linear}
 \alias{cra_linear}
-\title{Choice Under Risk and Ambiguity Task}
+\title{Linear Subjective Value Model}
 \usage{
-cra_linear(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
-  indPars = "mean", modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, ...)
+cra_linear(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
+  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
+  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "prob", "ambig", "reward_var", "reward_fix", "choice". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +28,21 @@ cra_linear(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
 For this model they are: "sv", "sv_fix", "sv_var", "p_var".}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +53,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("cra_linear").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"cra_linear"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  \item{\code{modelRegressor}}{List object containing the extracted model-based regressors.}
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Choice Under Risk and Ambiguity Task with the following parameters:
-  "alpha" (risk attitude), "beta" (ambiguity attitude), "gamma" (inverse temperature).
+Hierarchical Bayesian Modeling of the Choice Under Risk and Ambiguity Task using Linear Subjective Value Model.
+It has the following parameters: \code{alpha} (risk attitude), \code{beta} (ambiguity attitude), \code{gamma} (inverse temperature).
 
-Contributor: \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang}
-
-\strong{MODEL:} Linear Subjective Value Model (Levy et al., 2010, J Neurophysiol)
+\itemize{
+  \item \strong{Task}: Choice Under Risk and Ambiguity Task 
+  \item \strong{Model}: Linear Subjective Value Model (Levy et al., 2010)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,12 +91,12 @@ For the Choice Under Risk and Ambiguity Task, there should be 6 columns of data 
   labels "subjID", "prob", "ambig", "reward_var", "reward_fix", "choice". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"prob"}{Objective probability of the variable lottery.}
-  \item{"ambig"}{Ambiguity level of the variable lottery (0 for risky lottery; greater than 0 for ambiguous lottery).}
-  \item{"reward_var"}{Amount of reward in variable lottery. Assumed to be greater than zero.}
-  \item{"reward_fix"}{Amount of reward in fixed lottery. Assumed to be greater than zero.}
-  \item{"choice"}{If the variable lottery was selected, choice == 1; otherwise choice == 0.}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{prob}{Objective probability of the variable lottery.}
+  \item{ambig}{Ambiguity level of the variable lottery (0 for risky lottery; greater than 0 for ambiguous lottery).}
+  \item{reward_var}{Amount of reward in variable lottery. Assumed to be greater than zero.}
+  \item{reward_fix}{Amount of reward in fixed lottery. Assumed to be greater than zero.}
+  \item{choice}{If the variable lottery was selected, choice == 1; otherwise choice == 0.}
   
   
   
@@ -129,11 +133,18 @@ For the Choice Under Risk and Ambiguity Task, there should be 6 columns of data 
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- cra_linear("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- cra_linear(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- cra_linear(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,9 +160,7 @@ printFit(output)
 }
 }
 \references{
-Levy, I., Snell, J., Nelson, A. J., Rustichini, A., & Glimcher, P. W. (2010). Neural
-  representation of subjective value under risk and ambiguity. Journal of Neurophysiology,
-  103(2), 1036-1047.
+Levy, I., Snell, J., Nelson, A. J., Rustichini, A., & Glimcher, P. W. (2010). Neural representation of subjective value under risk and ambiguity. Journal of Neurophysiology, 103(2), 1036-1047.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

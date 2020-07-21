@@ -2,16 +2,19 @@
 % Please edit documentation in R/bandit4arm2_kalman_filter.R
 \name{bandit4arm2_kalman_filter}
 \alias{bandit4arm2_kalman_filter}
-\title{4-Armed Bandit Task (modified)}
+\title{Kalman Filter}
 \usage{
-bandit4arm2_kalman_filter(data = "choose", niter = 4000,
-  nwarmup = 1000, nchain = 4, ncore = 1, nthin = 1,
-  inits = "random", indPars = "mean", modelRegressor = FALSE,
-  vb = FALSE, inc_postpred = FALSE, adapt_delta = 0.95,
-  stepsize = 1, max_treedepth = 10, ...)
+bandit4arm2_kalman_filter(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
+  indPars = "mean", modelRegressor = FALSE, vb = FALSE,
+  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
+  max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "choice", "outcome". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ bandit4arm2_kalman_filter(data = "choose", niter = 4000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("bandit4arm2_kalman_filter").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"bandit4arm2_kalman_filter"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (modified) with the following parameters:
-  "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), "sigmaD" (sd of diffusion noise).
+Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (modified) using Kalman Filter.
+It has the following parameters: \code{lambda} (decay factor), \code{theta} (decay center), \code{beta} (inverse softmax temperature), \code{mu0} (anticipated initial mean of all 4 options), \code{sigma0} (anticipated initial sd (uncertainty factor) of all 4 options), \code{sigmaD} (sd of diffusion noise).
 
-Contributor: \href{https://zohyos7.github.io}{Yoonseo Zoh}, \href{https://lei-zhang.net/}{Lei Zhang}
-
-\strong{MODEL:} Kalman Filter (Daw et al., 2006, Nature)
+\itemize{
+  \item \strong{Task}: 4-Armed Bandit Task (modified) 
+  \item \strong{Model}: Kalman Filter (Daw et al., 2006)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,9 +92,9 @@ For the 4-Armed Bandit Task (modified), there should be 3 columns of data with t
   labels "subjID", "choice", "outcome". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"choice"}{Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.}
-  \item{"outcome"}{Integer value representing the outcome of the given trial (where reward == 1, and loss == -1).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{choice}{Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.}
+  \item{outcome}{Integer value representing the outcome of the given trial (where reward == 1, and loss == -1).}
   
   
   
@@ -129,11 +134,18 @@ For the 4-Armed Bandit Task (modified), there should be 3 columns of data with t
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://zohyos7.github.io}{Yoonseo Zoh} <\email{zohyos7@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- bandit4arm2_kalman_filter("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- bandit4arm2_kalman_filter(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- bandit4arm2_kalman_filter(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,8 +161,7 @@ printFit(output)
 }
 }
 \references{
-Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates
-  for exploratory decisions in humans. Nature, 441(7095), 876-879.
+Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates for exploratory decisions in humans. Nature, 441(7095), 876-879.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

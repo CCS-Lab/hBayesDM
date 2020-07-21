@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from hbayesdm.base import _common
+from hbayesdm.base import PATH_COMMON
 
 
 def bandit2arm_preprocess_func(self, raw_data, general_info, additional_args):
@@ -136,7 +136,7 @@ def bart_preprocess_func(self, raw_data, general_info, additional_args):
         'N': n_subj,
         'T': t_max,
         'Tsubj': t_subjs,
-        'P': max(pumps) + 1,
+        'P': np.max(pumps) + 1,
         'pumps': pumps,
         'explosion': explosion,
     }
@@ -163,15 +163,17 @@ def choiceRT_preprocess_func(self, raw_data, general_info, additional_args):
         Nl[s] = value_counts.at[1]
 
     # Reaction-times for upper/lower boundary responses
-    RTu = np.full((n_subj, max(Nu)), -1, dtype=float)
-    RTl = np.full((n_subj, max(Nl)), -1, dtype=float)
+    RTu = np.full((n_subj, np.max(Nu)), -1, dtype=float)
+    RTl = np.full((n_subj, np.max(Nl)), -1, dtype=float)
 
     # Write RTu, RTl
     subj_group = iter(general_info['grouped_data'])
     for s in range(n_subj):
         _, subj_data = next(subj_group)
-        RTu[s][:Nu[s]] = subj_data['rt'][subj_data['choice'] == 2]
-        RTl[s][:Nl[s]] = subj_data['rt'][subj_data['choice'] == 1]
+        if Nu[s] > 0:
+            RTu[s][:Nu[s]] = subj_data['rt'][subj_data['choice'] == 2]
+        if Nl[s] > 0:
+            RTl[s][:Nl[s]] = subj_data['rt'][subj_data['choice'] == 1]
 
     # Minimum reaction time
     minRT = np.full(n_subj, -1, dtype=float)
@@ -188,8 +190,8 @@ def choiceRT_preprocess_func(self, raw_data, general_info, additional_args):
     # Wrap into a dict for pystan
     data_dict = {
         'N': n_subj,
-        'Nu_max': max(Nu),
-        'Nl_max': max(Nl),
+        'Nu_max': np.max(Nu),
+        'Nl_max': np.max(Nl),
         'Nu': Nu,
         'Nl': Nl,
         'RTu': RTu,
@@ -811,7 +813,7 @@ def wcs_preprocess_func(self, raw_data, general_info, additional_args):
     t_max = 128
 
     # Read from predefined answer sheet
-    answersheet = os.path.join(_common, 'extdata', 'wcs_answersheet.txt')
+    answersheet = PATH_COMMON / 'extdata' / 'wcs_answersheet.txt'
     answer = pd.read_csv(
         answersheet, sep='\t', header=0, index_col=0).to_numpy() - 1
 
@@ -848,6 +850,81 @@ def wcs_preprocess_func(self, raw_data, general_info, additional_args):
         'outcome': outcome,
         'choice_match_att': choice_match_att,
         'deck_match_rule': deck_match_rule,
+    }
+
+    # Returned data_dict will directly be passed to pystan
+    return data_dict
+
+
+def cgt_preprocess_func(self, raw_data, general_info, additional_args):
+    # Iterate through grouped_data
+    subj_group = iter(general_info['grouped_data'])
+
+    # Use general_info(s) about raw_data
+    # subjs = general_info['subjs']
+    n_subj = general_info['n_subj']
+    t_subjs = general_info['t_subjs']
+    t_max = general_info['t_max']
+
+    uniq_bets = np.unique(raw_data['percentagestaked'])
+    n_bets = len(uniq_bets)
+    bets_asc = np.sort(uniq_bets / 100)
+    bets_dsc = np.flip(np.sort(uniq_bets / 100))
+    bet_delay = np.arange(n_bets) / 4
+
+    bet_time = raw_data['percentagestaked'] / 100
+    for b in range(n_bets):
+        bet_time[bet_time == bets_asc[b]] = b + 1
+    raw_data['bet_time'] = np.where(raw_data['gambletype'] == 0,
+                                    n_bets + 1 - bet_time,
+                                    bet_time)
+
+    col_chosen = np.full((n_subj, t_max), 0, dtype=int)
+    bet_chosen = np.full((n_subj, t_max), 0, dtype=int)
+    prop_red = np.full((n_subj, t_max), 0, dtype=float)
+    prop_chosen = np.full((n_subj, t_max), 0, dtype=float)
+    gain = np.full((n_subj, t_max, n_bets), 0, dtype=float)
+    loss = np.full((n_subj, t_max, n_bets), 0, dtype=float)
+
+    for s in range(n_subj):
+        t = t_subjs[s]
+        _, subj_data = next(subj_group)
+
+        col_chosen[s, :t] = np.where(subj_data['redchosen'] == 1, 1, 2)
+        bet_chosen[s, :t] = subj_data['bet_time']
+        prop_red[s, :t] = subj_data['nredboxes'] / 10
+        prop_chosen[s, :t] = np.where(subj_data['redchosen'] == 1,
+                                      prop_red[s][:t],
+                                      1 - prop_red[s][:t])
+
+        for b in range(n_bets):
+            gain[s, :t, b] = subj_data['trialinitialpoints'] / 100 \
+                + subj_data['trialinitialpoints'] / 100 \
+                * np.where(subj_data['gambletype'] == 1,
+                           bets_asc[b],
+                           bets_dsc[b])
+            loss[s, :t, b] = subj_data['trialinitialpoints'] / 100 \
+                - subj_data['trialinitialpoints'] / 100 \
+                * np.where(subj_data['gambletype'] == 1,
+                           bets_asc[b],
+                           bets_dsc[b])
+
+    # Remove the unnecessary intermediate column
+    raw_data.drop(columns='bet_time', inplace=True)
+
+    # Wrap into a dict for pystan
+    data_dict = {
+        'N': n_subj,
+        'T': t_max,
+        'B': n_bets,
+        'Tsubj': t_subjs,
+        'bet_delay': bet_delay,
+        'gain': gain,
+        'loss': loss,
+        'prop_red': prop_red,
+        'prop_chosen': prop_chosen,
+        'col_chosen': col_chosen,
+        'bet_chosen': bet_chosen
     }
 
     # Returned data_dict will directly be passed to pystan

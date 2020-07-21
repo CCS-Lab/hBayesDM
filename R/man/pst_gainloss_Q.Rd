@@ -2,16 +2,19 @@
 % Please edit documentation in R/pst_gainloss_Q.R
 \name{pst_gainloss_Q}
 \alias{pst_gainloss_Q}
-\title{Probabilistic Selection Task}
+\title{Gain-Loss Q Learning Model}
 \usage{
-pst_gainloss_Q(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+pst_gainloss_Q(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "type", "choice", "reward". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ pst_gainloss_Q(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,31 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("pst_gainloss_Q").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"pst_gainloss_Q"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Probabilistic Selection Task with the following parameters:
-  "alpha_pos" (learning rate for positive feedbacks), "alpha_neg" (learning rate for negative feedbacks), "beta" (inverse temperature).
+Hierarchical Bayesian Modeling of the Probabilistic Selection Task using Gain-Loss Q Learning Model.
+It has the following parameters: \code{alpha_pos} (learning rate for positive feedbacks), \code{alpha_neg} (learning rate for negative feedbacks), \code{beta} (inverse temperature).
 
-Contributor: \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang}
-
-\strong{MODEL:} Gain-Loss Q Learning Model (Frank et al., 2007, PNAS)
+\itemize{
+  \item \strong{Task}: Probabilistic Selection Task 
+  \item \strong{Model}: Gain-Loss Q Learning Model (Frank et al., 2007)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -87,10 +92,10 @@ For the Probabilistic Selection Task, there should be 4 columns of data with the
   labels "subjID", "type", "choice", "reward". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"type"}{Two-digit number indicating which pair of stimuli were presented for that trial, e.g. \code{12}, \code{34}, or \code{56}. The digit on the left (tens-digit) indicates the presented stimulus for option1, while the digit on the right (ones-digit) indicates that for option2.\cr Code for each stimulus type (1~6) is defined as below: \tabular{ccl}{Code \tab Stimulus \tab Probability to win \cr \code{1} \tab A \tab 80\% \cr \code{2} \tab B \tab 20\% \cr \code{3} \tab C \tab 70\% \cr \code{4} \tab D \tab 30\% \cr \code{5} \tab E \tab 60\% \cr \code{6} \tab F \tab 40\%} The modeling will still work even if different probabilities are used for the stimuli; however, the total number of stimuli should be less than or equal to 6.}
-  \item{"choice"}{Whether the subject chose the left option (option1) out of the given two options (i.e. if option1 was chosen, 1; if option2 was chosen, 0).}
-  \item{"reward"}{Amount of reward earned as a result of the trial.}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{type}{Two-digit number indicating which pair of stimuli were presented for that trial, e.g. 12, 34, or 56. The digit on the left (tens-digit) indicates the presented stimulus for option1, while the digit on the right (ones-digit) indicates that for option2. Code for each stimulus type (1~6) is defined as for 80\% (type 1), 20\% (type 2), 70\% (type 3), 30\% (type 4), 60\% (type 5), 40\% (type 6). The modeling will still work even if different probabilities are used for the stimuli; however, the total number of stimuli should be less than or equal to 6.}
+  \item{choice}{Whether the subject chose the left option (option1) out of the given two options (i.e. if option1 was chosen, 1; if option2 was chosen, 0).}
+  \item{reward}{Amount of reward earned as a result of the trial.}
   
   
   
@@ -129,11 +134,18 @@ For the Probabilistic Selection Task, there should be 4 columns of data with the
   Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@gmail.com}>}
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- pst_gainloss_Q("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- pst_gainloss_Q(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- pst_gainloss_Q(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -149,9 +161,7 @@ printFit(output)
 }
 }
 \references{
-Frank, M. J., Moustafa, A. A., Haughey, H. M., Curran, T., & Hutchison, K. E. (2007). Genetic
-  triple dissociation reveals multiple roles for dopamine in reinforcement learning. Proceedings
-  of the National Academy of Sciences, 104(41), 16311-16316.
+Frank, M. J., Moustafa, A. A., Haughey, H. M., Curran, T., & Hutchison, K. E. (2007). Genetic triple dissociation reveals multiple roles for dopamine in reinforcement learning. Proceedings of the National Academy of Sciences, 104(41), 16311-16316.
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

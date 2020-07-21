@@ -2,16 +2,19 @@
 % Please edit documentation in R/bandit4arm_2par_lapse.R
 \name{bandit4arm_2par_lapse}
 \alias{bandit4arm_2par_lapse}
-\title{4-Armed Bandit Task}
+\title{3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise)}
 \usage{
-bandit4arm_2par_lapse(data = "choose", niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "random",
+bandit4arm_2par_lapse(data = NULL, niter = 4000, nwarmup = 1000,
+  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
   indPars = "mean", modelRegressor = FALSE, vb = FALSE,
   inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
   max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "choice", "gain", "loss". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -26,20 +29,21 @@ bandit4arm_2par_lapse(data = "choose", niter = 4000, nwarmup = 1000,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -50,29 +54,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("bandit4arm_2par_lapse").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"bandit4arm_2par_lapse"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the 4-Armed Bandit Task with the following parameters:
-  "Arew" (reward learning rate), "Apun" (punishment learning rate), "xi" (noise).
+Hierarchical Bayesian Modeling of the 4-Armed Bandit Task using 3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise).
+It has the following parameters: \code{Arew} (reward learning rate), \code{Apun} (punishment learning rate), \code{xi} (noise).
 
-\strong{MODEL:} 3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise) (Aylward et al., 2018, PsyArXiv)
+\itemize{
+  \item \strong{Task}: 4-Armed Bandit Task 
+  \item \strong{Model}: 3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise) (Aylward et al., 2018)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -85,10 +92,10 @@ For the 4-Armed Bandit Task, there should be 4 columns of data with the
   labels "subjID", "choice", "gain", "loss". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"choice"}{Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.}
-  \item{"gain"}{Floating point value representing the amount of currency won on the given trial (e.g. 50, 100).}
-  \item{"loss"}{Floating point value representing the amount of currency lost on the given trial (e.g. 0, -50).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{choice}{Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.}
+  \item{gain}{Floating point value representing the amount of currency won on the given trial (e.g. 50, 100).}
+  \item{loss}{Floating point value representing the amount of currency lost on the given trial (e.g. 0, -50).}
   
   
   
@@ -130,8 +137,13 @@ For the 4-Armed Bandit Task, there should be 4 columns of data with the
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- bandit4arm_2par_lapse("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- bandit4arm_2par_lapse(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- bandit4arm_2par_lapse(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -147,8 +159,7 @@ printFit(output)
 }
 }
 \references{
-Aylward, Valton, Ahn, Bond, Dayan, Roiser, & Robinson (2018) Altered decision-making under
-   uncertainty in unmedicated mood and anxiety disorders. PsyArxiv. 10.31234/osf.io/k5b8m
+Aylward, Valton, Ahn, Bond, Dayan, Roiser, & Robinson (2018) Altered decision-making under uncertainty in unmedicated mood and anxiety disorders. PsyArxiv. 10.31234/osf.io/k5b8m
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

@@ -2,15 +2,18 @@
 % Please edit documentation in R/ug_delta.R
 \name{ug_delta}
 \alias{ug_delta}
-\title{Norm-Training Ultimatum Game}
+\title{Rescorla-Wagner (Delta) Model}
 \usage{
-ug_delta(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "random", indPars = "mean",
+ug_delta(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
+  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
   modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
   adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
 }
 \arguments{
-\item{data}{A .txt file containing the data to be modeled. Data columns should be labeled as:
+\item{data}{Data to be modeled. It should be given as a data.frame object,
+a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
+\code{"choose"} to choose data with an interactive window.
+Columns in the dataset must include:
 "subjID", "offer", "accept". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
@@ -25,20 +28,21 @@ ug_delta(data = "choose", niter = 4000, nwarmup = 1000, nchain = 4,
 Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is
 high.}
 
-\item{inits}{Character value specifying how the initial values should be generated. Options are
-"fixed" or "random", or your own initial values.}
+\item{inits}{Character value specifying how the initial values should be generated.
+Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
 \item{indPars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Export model-based regressors? TRUE or FALSE.
-Currently not available for this model.}
+\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
-to FALSE.}
+to \code{FALSE}.}
 
 \item{inc_postpred}{Include trial-level posterior predictive simulations in model output (may greatly increase file
-size). Defaults to FALSE.}
+size). Defaults to \code{FALSE}.
+If set to \code{TRUE}, it includes: "y_pred"}
 
 \item{adapt_delta}{Floating point value representing the target acceptance probability of a new
 sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
@@ -49,29 +53,32 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{Not used for this model.}
+\item{...}{For this model, there is no model-specific argument.}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:
 \describe{
-  \item{\code{model}}{Character value that is the name of the model ("ug_delta").}
-  \item{\code{allIndPars}}{Data.frame containing the summarized parameter values (as specified by
+  \item{model}{Character value that is the name of the model (\\code{"ug_delta"}).}
+  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
     \code{indPars}) for each subject.}
-  \item{\code{parVals}}{List object containing the posterior samples over different parameters.}
-  \item{\code{fit}}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
+  \item{parVals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
     model.}
-  \item{\code{rawdata}}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  
+  \item{modelRegressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Norm-Training Ultimatum Game with the following parameters:
-  "alpha" (envy), "tau" (inverse temperature), "ep" (norm adaptation rate).
+Hierarchical Bayesian Modeling of the Norm-Training Ultimatum Game using Rescorla-Wagner (Delta) Model.
+It has the following parameters: \code{alpha} (envy), \code{tau} (inverse temperature), \code{ep} (norm adaptation rate).
 
-\strong{MODEL:} Rescorla-Wagner (Delta) Model (Gu et al., 2015, J Neuro)
+\itemize{
+  \item \strong{Task}: Norm-Training Ultimatum Game 
+  \item \strong{Model}: Rescorla-Wagner (Delta) Model (Gu et al., 2015)
+}
 }
 \details{
 This section describes some of the function arguments in greater detail.
@@ -84,9 +91,9 @@ For the Norm-Training Ultimatum Game, there should be 3 columns of data with the
   labels "subjID", "offer", "accept". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{"subjID"}{A unique identifier for each subject in the data-set.}
-  \item{"offer"}{Floating point value representing the offer made in that trial (e.g. 4, 10, 11).}
-  \item{"accept"}{1 or 0, indicating whether the offer was accepted in that trial (where accepted == 1, rejected == 0).}
+  \item{subjID}{A unique identifier for each subject in the data-set.}
+  \item{offer}{Floating point value representing the offer made in that trial (e.g. 4, 10, 11).}
+  \item{accept}{1 or 0, indicating whether the offer was accepted in that trial (where accepted == 1, rejected == 0).}
   
   
   
@@ -129,8 +136,13 @@ For the Norm-Training Ultimatum Game, there should be 3 columns of data with the
 }
 \examples{
 \dontrun{
-# Run the model and store results in "output"
-output <- ug_delta("example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+# Run the model with a given data.frame as df
+output <- ug_delta(
+  data = df, niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
+
+# Run the model with example data
+output <- ug_delta(
+  data = "example", niter = 2000, nwarmup = 1000, nchain = 4, ncore = 4)
 
 # Visually check convergence of the sampling chains (should look like 'hairy caterpillars')
 plot(output, type = "trace")
@@ -146,10 +158,7 @@ printFit(output)
 }
 }
 \references{
-Gu, X., Wang, X., Hula, A., Wang, S., Xu, S., Lohrenz, T. M., et al. (2015). Necessary, Yet
-  Dissociable Contributions of the Insular and Ventromedial Prefrontal Cortices to Norm
-  Adaptation: Computational and Lesion Evidence in Humans. Journal of Neuroscience, 35(2),
-  467-473. http://doi.org/10.1523/JNEUROSCI.2906-14.2015
+Gu, X., Wang, X., Hula, A., Wang, S., Xu, S., Lohrenz, T. M., et al. (2015). Necessary, Yet Dissociable Contributions of the Insular and Ventromedial Prefrontal Cortices to Norm Adaptation: Computational and Lesion Evidence in Humans. Journal of Neuroscience, 35(2), 467-473. http://doi.org/10.1523/JNEUROSCI.2906-14.2015
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:
