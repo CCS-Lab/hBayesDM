@@ -1,5 +1,4 @@
-
-# hBayesDM
+# hBayesDM <img src="https://github.com/CCS-Lab/hBayesDM/raw/master/logo.png" align="right" width="200px">
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master)](https://travis-ci.org/CCS-Lab/hBayesDM)
@@ -36,3 +35,7 @@ If you used hBayesDM or some of its codes for your research, please cite [this p
   url = {doi:10.1162/CPSY_a_00002},
 }
 ```
+
+## Logo
+
+We thank [HuaFeng Lu](https://www.huafenglu.com/aboutme) who designed and donated the logo for the hBayesDM package.
