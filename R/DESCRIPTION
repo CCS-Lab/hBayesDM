@@ -45,7 +45,7 @@ License: GPL-3
 LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
@@ -106,6 +106,7 @@ Collate:
     'ra_prospect.R'
     'rdt_happiness.R'
     'rhat.R'
+    'task2AFC_sdt.R'
     'ts_par4.R'
     'ts_par6.R'
     'ts_par7.R'

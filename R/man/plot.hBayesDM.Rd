@@ -4,8 +4,14 @@
 \alias{plot.hBayesDM}
 \title{General Purpose Plotting for hBayesDM. This function plots hyper parameters.}
 \usage{
-\method{plot}{hBayesDM}(x = NULL, type = "dist", ncols = NULL,
-  fontSize = NULL, binSize = NULL, ...)
+\method{plot}{hBayesDM}(
+  x = NULL,
+  type = "dist",
+  ncols = NULL,
+  fontSize = NULL,
+  binSize = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{Model output of class hBayesDM}

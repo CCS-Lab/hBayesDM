@@ -39,6 +39,7 @@ from ._ra_noLA import ra_noLA
 from ._ra_noRA import ra_noRA
 from ._ra_prospect import ra_prospect
 from ._rdt_happiness import rdt_happiness
+from ._task2AFC_sdt import task2AFC_sdt
 from ._ts_par4 import ts_par4
 from ._ts_par6 import ts_par6
 from ._ts_par7 import ts_par7
@@ -88,6 +89,7 @@ __all__ = [
     'ra_noRA',
     'ra_prospect',
     'rdt_happiness',
+    'task2AFC_sdt',
     'ts_par4',
     'ts_par6',
     'ts_par7',

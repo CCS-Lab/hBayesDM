@@ -4,10 +4,23 @@
 \alias{ts_par7}
 \title{Hybrid Model, with 7 parameters (original model)}
 \usage{
-ts_par7(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
-  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
-  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
+ts_par7(
+  data = NULL,
+  niter = 4000,
+  nwarmup = 1000,
+  nchain = 4,
+  ncore = 1,
+  nthin = 1,
+  inits = "vb",
+  indPars = "mean",
+  modelRegressor = FALSE,
+  vb = FALSE,
+  inc_postpred = FALSE,
+  adapt_delta = 0.95,
+  stepsize = 1,
+  max_treedepth = 10,
+  ...
+)
 }
 \arguments{
 \item{data}{Data to be modeled. It should be given as a data.frame object,

@@ -4,9 +4,17 @@
 \alias{hBayesDM_model}
 \title{hBayesDM Model Base Function}
 \usage{
-hBayesDM_model(task_name, model_name, model_type = "", data_columns,
-  parameters, regressors = NULL, postpreds = "y_pred",
-  stanmodel_arg = NULL, preprocess_func)
+hBayesDM_model(
+  task_name,
+  model_name,
+  model_type = "",
+  data_columns,
+  parameters,
+  regressors = NULL,
+  postpreds = "y_pred",
+  stanmodel_arg = NULL,
+  preprocess_func
+)
 }
 \arguments{
 \item{task_name}{Character value for name of task. E.g. \code{"gng"}.}

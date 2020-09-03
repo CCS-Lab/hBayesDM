@@ -4,11 +4,23 @@
 \alias{bandit2arm_delta}
 \title{Rescorla-Wagner (Delta) Model}
 \usage{
-bandit2arm_delta(data = NULL, niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
-  indPars = "mean", modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, ...)
+bandit2arm_delta(
+  data = NULL,
+  niter = 4000,
+  nwarmup = 1000,
+  nchain = 4,
+  ncore = 1,
+  nthin = 1,
+  inits = "vb",
+  indPars = "mean",
+  modelRegressor = FALSE,
+  vb = FALSE,
+  inc_postpred = FALSE,
+  adapt_delta = 0.95,
+  stepsize = 1,
+  max_treedepth = 10,
+  ...
+)
 }
 \arguments{
 \item{data}{Data to be modeled. It should be given as a data.frame object,
