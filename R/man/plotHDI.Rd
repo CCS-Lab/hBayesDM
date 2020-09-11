@@ -6,9 +6,16 @@
 HDI is indicated by a red line.
 Based on John Kruschke's codes.}
 \usage{
-plotHDI(sample = NULL, credMass = 0.95, Title = NULL,
-  xLab = "Value", yLab = "Density", fontSize = NULL, binSize = 30,
-  ...)
+plotHDI(
+  sample = NULL,
+  credMass = 0.95,
+  Title = NULL,
+  xLab = "Value",
+  yLab = "Density",
+  fontSize = NULL,
+  binSize = 30,
+  ...
+)
 }
 \arguments{
 \item{sample}{MCMC samples}

@@ -4,11 +4,23 @@
 \alias{bandit4arm_singleA_lapse}
 \title{4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P.}
 \usage{
-bandit4arm_singleA_lapse(data = NULL, niter = 4000, nwarmup = 1000,
-  nchain = 4, ncore = 1, nthin = 1, inits = "vb",
-  indPars = "mean", modelRegressor = FALSE, vb = FALSE,
-  inc_postpred = FALSE, adapt_delta = 0.95, stepsize = 1,
-  max_treedepth = 10, ...)
+bandit4arm_singleA_lapse(
+  data = NULL,
+  niter = 4000,
+  nwarmup = 1000,
+  nchain = 4,
+  ncore = 1,
+  nthin = 1,
+  inits = "vb",
+  indPars = "mean",
+  modelRegressor = FALSE,
+  vb = FALSE,
+  inc_postpred = FALSE,
+  adapt_delta = 0.95,
+  stepsize = 1,
+  max_treedepth = 10,
+  ...
+)
 }
 \arguments{
 \item{data}{Data to be modeled. It should be given as a data.frame object,

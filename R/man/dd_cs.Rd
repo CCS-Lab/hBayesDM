@@ -4,10 +4,23 @@
 \alias{dd_cs}
 \title{Constant-Sensitivity (CS) Model}
 \usage{
-dd_cs(data = NULL, niter = 4000, nwarmup = 1000, nchain = 4,
-  ncore = 1, nthin = 1, inits = "vb", indPars = "mean",
-  modelRegressor = FALSE, vb = FALSE, inc_postpred = FALSE,
-  adapt_delta = 0.95, stepsize = 1, max_treedepth = 10, ...)
+dd_cs(
+  data = NULL,
+  niter = 4000,
+  nwarmup = 1000,
+  nchain = 4,
+  ncore = 1,
+  nthin = 1,
+  inits = "vb",
+  indPars = "mean",
+  modelRegressor = FALSE,
+  vb = FALSE,
+  inc_postpred = FALSE,
+  adapt_delta = 0.95,
+  stepsize = 1,
+  max_treedepth = 10,
+  ...
+)
 }
 \arguments{
 \item{data}{Data to be modeled. It should be given as a data.frame object,
