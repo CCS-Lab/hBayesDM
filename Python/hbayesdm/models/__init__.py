@@ -1,3 +1,5 @@
+from ._alt_delta import alt_delta
+from ._alt_gamma import alt_gamma
 from ._bandit2arm_delta import bandit2arm_delta
 from ._bandit4arm2_kalman_filter import bandit4arm2_kalman_filter
 from ._bandit4arm_2par_lapse import bandit4arm_2par_lapse
@@ -47,6 +49,8 @@ from ._ug_delta import ug_delta
 from ._wcs_sql import wcs_sql
 
 __all__ = [
+    'alt_delta',
+    'alt_gamma',
     'bandit2arm_delta',
     'bandit4arm2_kalman_filter',
     'bandit4arm_2par_lapse',

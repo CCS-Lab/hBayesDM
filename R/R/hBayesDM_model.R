@@ -159,6 +159,10 @@ hBayesDM_model <- function(task_name,
                  paste0(task_name, "_", "exampleData.txt"),
                  paste0(task_name, "_", model_type, "_", "exampleData.txt"))
         datafile <- system.file("extdata", example_data, package = "hBayesDM")
+
+        if (!file.exists(datafile)) {
+          stop("** Example data for this task does not exist **")
+        }
       } else if (data == "choose") {
         datafile <- file.choose()
       } else {
