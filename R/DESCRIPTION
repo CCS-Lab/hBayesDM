@@ -108,6 +108,7 @@ Collate:
     'ra_prospect.R'
     'rdt_happiness.R'
     'rhat.R'
+    'task2AFC_sdt.R'
     'ts_par4.R'
     'ts_par6.R'
     'ts_par7.R'

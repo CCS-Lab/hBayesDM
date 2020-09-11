@@ -1,0 +1,111 @@
+################################################################################
+#
+# hBayesDM model definition
+#
+# Model information for hBayesDM should be defined as a YAML file. If you are
+# not familiar to YAML, see more on the following links:
+# - https://en.wikipedia.org/wiki/YAML
+# - https://yaml-multiline.info
+# - https://www.tutorialspoint.com/yaml/index.htm
+#
+# In short, using a YAML-formatted model information, the function is defined as
+#   {['task_name']['code']}_{['model_name']['code']}
+# or if model_type is specified other than 'Hierarchical',
+#   {['task_name']['code']}_{['model_name']['code']}_{['model_type']['code']}
+#
+################################################################################
+
+# Task information.
+task_name:
+  code: task2AFC # code for the task
+  desc: 2-alternative forced choice task  # description (title-case)
+  cite:
+
+# Model information.
+model_name:
+  code: sdt  # code for the model
+  desc: Signal detection theory model  # description (title-case)
+  cite:  # A list of citations. They should be APA-formatted.
+
+# Model type.
+# For now, it should be one among three types:
+# 1) Hierarchical
+#   code: ''
+#   desc: 'Hierarchical'
+# 2) Individual
+#   code: 'single'
+#   desc: 'Individual'
+# 3) Multiple-block Hierarchical
+#   code: 'multipleB'
+#   desc: 'Multiple-block Hierarchical'
+model_type:
+  code: '' # code for the model type
+  desc: Hierarchical  # description
+
+# Data columns that must be included in a input data.
+# For each column, it should be defined as:
+#   {column_name}: {one-line description}
+#
+# Note: `subjID` must always be included.
+#       Also, if `model_type` is "multipleB", `block` must be included, too.
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.  # Required
+  stimulus: Types of Stimuli (Should be 1 or 0. 1 for Signal and 0 for Noise)
+  response: Types of Responses (It should be same format as the stimulus field. Should be 1 or 0)
+
+# Model parameters.
+# For each parameter, it should be defined as:
+#   {parameter_name}:
+#     desc: {description}
+#     info: [{lower_bound}, {plausible_value}, {upper_bound}]
+#
+# `info` is defined for a fixed initial value of the parameter.
+# `lower_bound`, `plausible_value`, `upper_bound` can be numbers, strings
+# (e.g., 'Inf', '-Inf', 'exp([0-9.]+)'), where plausible_value should be
+# neither 'Inf' nor '-Inf'.
+parameters:
+  d:
+    desc: discriminability
+    info: [-Inf, 0, Inf]
+  c:
+    desc: decision bias (criteria)
+    info: [-Inf, 0, Inf]
+
+# (optional) Model regressors.
+# If exists, for each regressor, it should be defined as:
+#   {regressor}: {number_of_dimension}
+regressors:
+  #ev_risk: 2  # shape: [N, T]
+  #ev_safe: 2  # shape: [N, T]
+
+# (optional) response variables for posterior predictive checks (PPC).
+# Should be defined in a generated quantity block.
+postpreds:
+- y_pred
+
+# (optional) a list of additional arguments.
+# For each additional argument, it should be defined as:
+#   - code: {code}
+#     default: {default_value}
+#     desc: {description}
+additional_args:
+#- code:
+#  default:
+#  desc:
+#  desc: Floating point value representing the lower bound (i.e., minimum allowed)
+#    reaction time. Defaults to 0.1 (100 milliseconds).
+
+# (optional) notes on the model. Should be given as a list of notes.
+notes:
+- >
+
+- >
+  If you want to write long notes for the model,
+  you would be better to check out how to write multiline strings in YAML
+  (https://yaml-multiline.info)
+
+# (optional) a list of contributors. To specify who wrote this model codes for hBayesDM.
+contributors:
+- name: Heesun Park
+  email: heesunpark26@gmail.com
+  link: https://heesunpark26.github.io/
