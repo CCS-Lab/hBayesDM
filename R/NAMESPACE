@@ -2,6 +2,8 @@
 
 S3method(plot,hBayesDM)
 export(HDIofMCMC)
+export(alt_delta)
+export(alt_gamma)
 export(bandit2arm_delta)
 export(bandit4arm2_kalman_filter)
 export(bandit4arm_2par_lapse)

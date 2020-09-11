@@ -1,8 +1,49 @@
 import os
+
 import numpy as np
 import pandas as pd
 
 from hbayesdm.base import PATH_COMMON
+
+
+def alt_preprocess_func(self, raw_data, general_info, additional_args):
+    # Iterate through grouped_data
+    subj_group = iter(general_info['grouped_data'])
+
+    # Use general_info(s) about raw_data
+    # subjs = general_info['subjs']
+    n_subj = general_info['n_subj']
+    t_subjs = general_info['t_subjs']
+    t_max = general_info['t_max']
+
+    # Initialize (model-specific) data arrays
+    choice = np.full((n_subj, t_max), -1, dtype=int)
+    outcome = np.full((n_subj, t_max), 0, dtype=float)
+    blue_punish = np.full((n_subj, t_max), 0, dtype=float)
+    orange_punish = np.full((n_subj, t_max), 0, dtype=float)
+
+    # Write from subj_data to the data arrays
+    for s in range(n_subj):
+        _, subj_data = next(subj_group)
+        t = t_subjs[s]
+        choice[s][:t] = subj_data['choice']
+        outcome[s][:t] = subj_data['outcome']
+        blue_punish[s][:t] = subj_data['bluepunish']
+        orange_punish[s][:t] = subj_data['orangepunish']
+
+    # Wrap into a dict for pystan
+    data_dict = {
+        'N': n_subj,
+        'T': t_max,
+        'Tsubj': t_subjs,
+        'choice': choice,
+        'outcome': outcome,
+        'bluePunish': blue_punish,
+        'orangePunish': orange_punish,
+    }
+
+    # Returned data_dict will directly be passed to pystan
+    return data_dict
 
 
 def bandit2arm_preprocess_func(self, raw_data, general_info, additional_args):

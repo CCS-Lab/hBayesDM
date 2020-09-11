@@ -1,19 +1,19 @@
+import multiprocessing
 import os
-from pathlib import Path
 import pickle
 import warnings
-import multiprocessing
 from abc import ABCMeta, abstractmethod
-from typing import Tuple, List, Sequence, Dict, Union, Callable, Any
 from collections import OrderedDict
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Sequence, Tuple, Union
 
 import numpy as np
 import pandas as pd
 from scipy import stats
-from pystan import StanModel
-import matplotlib.pyplot as plt
-import arviz as az
 
+import arviz as az
+import matplotlib.pyplot as plt
+from pystan import StanModel
 from pystan import __version__ as _pystan_version
 
 __all__ = ['TaskModel']
@@ -246,7 +246,11 @@ class TaskModel(metaclass=ABCMeta):
                 else:
                     filename = '%s_%s_exampleData.txt' % (
                         self.task_name, self.model_type)
+
                 example_data = PATH_EXTDATA / filename
+                if not example_data.exists():
+                    raise RuntimeError(
+                        'Example data for this task does not exist.')
                 raw_data = pd.read_csv(example_data, sep='\t')
             else:
                 if data.endswith('.csv'):

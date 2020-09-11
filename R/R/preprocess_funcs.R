@@ -1,6 +1,48 @@
 #' @noRd
 #' @keywords internal
 
+alt_preprocess_func <- function(raw-data, general_info) {
+  # Currently class(raw_data) == "data.table"
+
+  # Use general_info of raw_data
+  subjs   <- general_info$subjs
+  n_subj  <- general_info$n_subj
+  t_subjs <- general_info$t_subjs
+  t_max   <- general_info$t_max
+
+  # Initialize (model-specific) data arrays
+  choice  <- array(-1, c(n_subj, t_max))
+  outcome <- array( 0, c(n_subj, t_max))
+  blue_punish <- array(0, c(n_subj, t_max))
+  orange_punish <- array(0, c(n_subj, t_max))
+
+  # Write from raw_data to the data arrays
+  for (i in 1:n_subj) {
+    subj <- subjs[i]
+    t <- t_subjs[i]
+    DT_subj <- raw_data[raw_data$subjid == subj]
+
+    choice[i, 1:t]  <- DT_subj$choice
+    outcome[i, 1:t] <- DT_subj$outcome
+    blue_punish[i, 1:t]  <- DT_subj$bluepunish
+    orange_punish[i, 1:t] <- DT_subj$orangepunish
+  }
+
+  # Wrap into a list for Stan
+  data_list <- list(
+    N       = n_subj,
+    T       = t_max,
+    Tsubj   = t_subjs,
+    choice  = choice,
+    outcome = outcome,
+    bluePunish = blue_punish,
+    orangePunish = orange_punish
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
+}
+
 bandit2arm_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
