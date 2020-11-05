@@ -38,5 +38,5 @@ pst_gain_Q <- hBayesDM_model(
     "beta" = c(0, 1, 10)
   ),
   regressors      = NULL,
-  postpreds       = c("y_pred"),
+  postpreds       = "y_pred",
   preprocess_func = pst_preprocess_func)
