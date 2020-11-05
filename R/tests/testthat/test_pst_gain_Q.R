@@ -1,5 +1,5 @@
 context("Test pst_gain_Q")
-library(hBayesDM)
+#library(hBayesDM)
 
 test_that("Test pst_gain_Q", {
   # Do not run this test on CRAN
