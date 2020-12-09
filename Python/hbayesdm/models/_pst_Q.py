@@ -7,14 +7,14 @@ import pandas as pd
 from hbayesdm.base import TaskModel
 from hbayesdm.preprocess_funcs import pst_preprocess_func
 
-__all__ = ['pst_gain_Q']
+__all__ = ['pst_Q']
 
 
-class PstGainQ(TaskModel):
+class PstQ(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
             task_name='pst',
-            model_name='gain_Q',
+            model_name='Q',
             model_type='',
             data_columns=(
                 'subjID',
@@ -23,7 +23,7 @@ class PstGainQ(TaskModel):
                 'reward',
             ),
             parameters=OrderedDict([
-                ('alpha_pos', (0, 0.5, 1)),
+                ('alpha', (0, 0.5, 1)),
                 ('beta', (0, 1, 10)),
             ]),
             regressors=OrderedDict([
@@ -31,7 +31,7 @@ class PstGainQ(TaskModel):
             ]),
             postpreds=['y_pred'],
             parameters_desc=OrderedDict([
-                ('alpha_pos', 'learning rate for positive feedbacks'),
+                ('alpha', 'learning rate'),
                 ('beta', 'inverse temperature'),
             ]),
             additional_args_desc=OrderedDict([
@@ -43,7 +43,7 @@ class PstGainQ(TaskModel):
     _preprocess_func = pst_preprocess_func
 
 
-def pst_gain_Q(
+def pst_Q(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -59,11 +59,11 @@ def pst_gain_Q(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """Probabilistic Selection Task - Gain Q Learning Model
+    """Probabilistic Selection Task - Q Learning Model
 
     Hierarchical Bayesian Modeling of the Probabilistic Selection Task 
-    using Gain Q Learning Model [Frank2007]_ with the following parameters:
-    "alpha_pos" (learning rate for positive feedbacks), "beta" (inverse temperature).
+    using Q Learning Model [Frank2007]_ with the following parameters:
+    "alpha" (learning rate), "beta" (inverse temperature).
 
     
 
@@ -185,7 +185,7 @@ def pst_gain_Q(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('pst_gain_Q').
+        - ``model``: String value that is the name of the model ('pst_Q').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -200,10 +200,10 @@ def pst_gain_Q(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import pst_gain_Q
+        from hbayesdm.models import pst_Q
 
         # Run the model and store results in "output"
-        output = pst_gain_Q(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = pst_Q(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -217,7 +217,7 @@ def pst_gain_Q(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return PstGainQ(
+    return PstQ(
         data=data,
         niter=niter,
         nwarmup=nwarmup,

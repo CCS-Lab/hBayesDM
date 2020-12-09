@@ -23,15 +23,15 @@ parameters {
   vector<lower=0>[2] sigma;
 
   // Subject-level parameters for Matt trick
-  vector[N] alpha_pos_pr;
+  vector[N] alpha_pr;
   vector[N] beta_pr;
 }
 
 transformed parameters {
-  vector<lower=0,upper=1>[N] alpha_pos;
+  vector<lower=0,upper=1>[N] alpha;
   vector<lower=0,upper=10>[N] beta;
 
-  alpha_pos = Phi_approx(mu_pr[1] + sigma[1] * alpha_pos_pr);
+  alpha      = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr);
   beta      = Phi_approx(mu_pr[2] + sigma[2] * beta_pr) * 10;
 }
 
@@ -41,14 +41,14 @@ model {
   sigma ~ normal(0, 0.2);
 
   // Priors for subject-level parameters
-  alpha_pos_pr ~ normal(0, 1);
+  alpha_pr ~ normal(0, 1);
   beta_pr      ~ normal(0, 1);
 
   for (i in 1:N) {
     int co;         // Chosen option
     real delta;     // Difference between two options
     real pe;        // Prediction error
-    real alpha;
+    //real alpha;
     vector[6] ev;   // Expected values
 
     ev = initial_values;
@@ -62,21 +62,20 @@ model {
       target += bernoulli_logit_lpmf(choice[i, t] | beta[i] * delta);
 
       pe = reward[i, t] - ev[co];
-      alpha = alpha_pos[i];
-      ev[co] += alpha * pe;
+      ev[co] += alpha[i] * pe;
     }
   }
 }
 
 generated quantities {
   // For group-level parameters
-  real<lower=0,upper=1>  mu_alpha_pos;
+  real<lower=0,upper=1>  mu_alpha;
   real<lower=0,upper=10> mu_beta;
 
   // For log-likelihood calculation
   real log_lik[N];
 
-  mu_alpha_pos = Phi_approx(mu_pr[1]);
+  mu_alpha     = Phi_approx(mu_pr[1]);
   mu_beta      = Phi_approx(mu_pr[2]) * 10;
 
   {
@@ -84,7 +83,7 @@ generated quantities {
       int co;         // Chosen option
       real delta;     // Difference between two options
       real pe;        // Prediction error
-      real alpha;
+      //real alpha;
       vector[6] ev;   // Expected values
 
       ev = initial_values;
@@ -99,8 +98,7 @@ generated quantities {
         log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i] * delta);
 
         pe = reward[i, t] - ev[co];
-        alpha = alpha_pos[i];
-        ev[co] += alpha * pe;
+        ev[co] += alpha[i] * pe;
       }
     }
   }

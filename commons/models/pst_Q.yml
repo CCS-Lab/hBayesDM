@@ -3,8 +3,8 @@ task_name:
   desc: Probabilistic Selection Task
   cite:
 model_name:
-  code: gain_Q
-  desc: Gain Q Learning Model
+  code: Q
+  desc: Q Learning Model
   cite:
   - Frank, M. J., Moustafa, A. A., Haughey, H. M., Curran, T., & Hutchison, K. E.
     (2007). Genetic triple dissociation reveals multiple roles for dopamine in reinforcement
@@ -30,8 +30,8 @@ data_columns:
     options (i.e. if option1 was chosen, 1; if option2 was chosen, 0).
   reward: Amount of reward earned as a result of the trial.
 parameters:
-  alpha_pos:
-    desc: learning rate for positive feedbacks
+  alpha:
+    desc: learning rate
     info: [0, 0.5, 1]
   beta:
     desc: inverse temperature

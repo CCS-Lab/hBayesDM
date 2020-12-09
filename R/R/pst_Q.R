@@ -1,14 +1,14 @@
-#' @templateVar MODEL_FUNCTION pst_gain_Q
+#' @templateVar MODEL_FUNCTION pst_Q
 #' @templateVar CONTRIBUTOR \href{https://www.unige.ch/fapse/e3lab/members1/phd-candidates/david-munoz-tord}{David Munoz Tord} <\email{david.munoztord@@unige.ch}>
 #' @templateVar TASK_NAME Probabilistic Selection Task
 #' @templateVar TASK_CODE pst
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME Gain Q Learning Model
-#' @templateVar MODEL_CODE gain_Q
+#' @templateVar MODEL_NAME Q Learning Model
+#' @templateVar MODEL_CODE Q
 #' @templateVar MODEL_CITE (Frank et al., 2007)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "type", "choice", "reward"
-#' @templateVar PARAMETERS \code{alpha_pos} (learning rate for positive feedbacks), \code{beta} (inverse temperature)
+#' @templateVar PARAMETERS \code{alpha} (learning rate), \code{beta} (inverse temperature)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
@@ -28,15 +28,15 @@
 #' Frank, M. J., Moustafa, A. A., Haughey, H. M., Curran, T., & Hutchison, K. E. (2007). Genetic triple dissociation reveals multiple roles for dopamine in reinforcement learning. Proceedings of the National Academy of Sciences, 104(41), 16311-16316.
 #'
 
-pst_gain_Q <- hBayesDM_model(
+pst_Q <- hBayesDM_model(
   task_name       = "pst",
-  model_name      = "gain_Q",
+  model_name      = "Q",
   model_type      = "",
   data_columns    = c("subjID", "type", "choice", "reward"),
   parameters      = list(
-    "alpha_pos" = c(0, 0.5, 1),
+    "alpha" = c(0, 0.5, 1),
     "beta" = c(0, 1, 10)
   ),
   regressors      = NULL,
-  postpreds       = "y_pred",
+  postpreds       = c("y_pred"),
   preprocess_func = pst_preprocess_func)
