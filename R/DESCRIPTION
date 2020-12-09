@@ -102,6 +102,7 @@ Collate:
     'prl_fictitious_woa.R'
     'prl_rp.R'
     'prl_rp_multipleB.R'
+    'pst_Q.R'
     'pst_gainloss_Q.R'
     'ra_noLA.R'
     'ra_noRA.R'

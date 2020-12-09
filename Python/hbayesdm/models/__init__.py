@@ -36,6 +36,7 @@ from ._prl_fictitious_rp_woa import prl_fictitious_rp_woa
 from ._prl_fictitious_woa import prl_fictitious_woa
 from ._prl_rp import prl_rp
 from ._prl_rp_multipleB import prl_rp_multipleB
+from ._pst_Q import pst_Q
 from ._pst_gainloss_Q import pst_gainloss_Q
 from ._ra_noLA import ra_noLA
 from ._ra_noRA import ra_noRA
@@ -88,6 +89,7 @@ __all__ = [
     'prl_fictitious_woa',
     'prl_rp',
     'prl_rp_multipleB',
+    'pst_Q',
     'pst_gainloss_Q',
     'ra_noLA',
     'ra_noRA',
