@@ -5,7 +5,7 @@ r: release
 sudo: required
 
 os: linux
-dist: focal
+dist: trusty
 
 branches:
   only:
