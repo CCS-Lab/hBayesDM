@@ -39,3 +39,13 @@ If you used hBayesDM or some of its codes for your research, please cite [this p
 ## Logo
 
 We thank [HuaFeng Lu](https://www.huafenglu.com/aboutme) who designed and donated the logo for the hBayesDM package.
+
+## Acknowledgement
+
+The research was supported by the Institute for Information and Communications
+Technology Planning and Evaluation (IITP) grant funded by the Korea government
+(MSIT) (No. 2019-0-01367, BabyMind), the Basic Science Research Program through
+the National Research Foundation (NRF) of Korea funded by the Ministry of
+Science, ICT, and Future Planning (NRF-2018R1C1B3007313 and NRF-2018R1A4A1025891),
+and the Creative-Pioneering Researchers Program through Seoul National University
+to Woo-Young Ahn.
