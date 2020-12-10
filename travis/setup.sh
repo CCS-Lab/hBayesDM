@@ -42,9 +42,11 @@ elif [ "$TARGET" = "Python" ]; then
   fi
   conda activate test-$PYTHON_VERSION
 
+  # Install poetry
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+
   # Install dependencies
-  pip install -r requirements.txt --upgrade
-  python setup.py install
+  poetry install
 
 # Otherwise
 else
