@@ -30,11 +30,9 @@ cache:
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r/test
     packages:
       - gcc-7
-      - g++-7
-      - gfortran-7
       - libcurl4-openssl-dev
       - libxml2-dev
 
