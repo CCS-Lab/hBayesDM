@@ -5,7 +5,6 @@ r: release
 sudo: required
 
 os: linux
-dist: trusty
 
 branches:
   only:
