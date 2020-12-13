@@ -9,9 +9,9 @@ if [ "$TARGET" = "R" ]; then
   echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
   echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
 
-  Rscript \
-    -e 'install.packages("devtools", repos = "https://cloud.r-project.org/", quiet = TRUE)' \
-    -e 'devtools::install_deps(quiet = TRUE)'
+  # Rscript \
+  #   -e 'install.packages("devtools", repos = "https://cloud.r-project.org/", quiet = TRUE)' \
+  #   -e 'devtools::install_deps(quiet = TRUE)'
 
 # Setup codes for Python
 elif [ "$TARGET" = "Python" ]; then
@@ -44,6 +44,7 @@ elif [ "$TARGET" = "Python" ]; then
 
   # Install poetry
   curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+  source $HOME/.poetry/env
 
   # Install dependencies
   poetry install
