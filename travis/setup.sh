@@ -7,7 +7,7 @@ if [ "$TARGET" = "R" ]; then
   echo "CC = ${CC}" >> ~/.R/Makevars
   echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
   echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
-  echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
+  echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0 -Wall" >> ~/.R/Makevars
 
   Rscript \
     -e 'install.packages("devtools", repos = "https://cloud.r-project.org/", quiet = TRUE)' \
@@ -42,9 +42,12 @@ elif [ "$TARGET" = "Python" ]; then
   fi
   conda activate test-$PYTHON_VERSION
 
+  # Install poetry
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+  source $HOME/.poetry/env
+
   # Install dependencies
-  pip install -r requirements.txt --upgrade
-  python setup.py install
+  poetry install
 
 # Otherwise
 else
