@@ -2,10 +2,8 @@
 language: r
 r: release
 
-sudo: required
-
 os: linux
-dist: focal
+dist: xenial
 
 branches:
   only:
@@ -30,13 +28,16 @@ cache:
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r/test
+      - ubuntu-toolchain-r-test
     packages:
       - gcc-7
+      - g++-7
+      - gfortran-7
       - libcurl4-openssl-dev
       - libxml2-dev
+      - libgit2-dev
 
-matrix:
+jobs:
   include:
   - name: 'Test R codes'
     env: TARGET='R'
@@ -65,4 +66,4 @@ after_failure:
   - source $ROOTPATH/travis/after-failure.sh
 
 after_success:
-  - source $ROOTPATH/travis/after-success.sh
+  - travis_wait 50 source $ROOTPATH/travis/after-success.sh
