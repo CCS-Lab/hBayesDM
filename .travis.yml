@@ -2,9 +2,8 @@
 language: r
 r: release
 
-sudo: required
-
 os: linux
+dist: xenial
 
 branches:
   only:
@@ -37,7 +36,7 @@ addons:
       - libcurl4-openssl-dev
       - libxml2-dev
 
-matrix:
+jobs:
   include:
   - name: 'Test R codes'
     env: TARGET='R'
