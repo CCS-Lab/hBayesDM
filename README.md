@@ -1,7 +1,7 @@
 # hBayesDM <img src="https://github.com/CCS-Lab/hBayesDM/raw/master/logo.png" align="right" width="200px">
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master)](https://travis-ci.org/CCS-Lab/hBayesDM)
+[![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=develop)](https://travis-ci.org/CCS-Lab/hBayesDM)
 [![CRAN Latest Release](https://www.r-pkg.org/badges/version-last-release/hBayesDM)](https://cran.r-project.org/package=hBayesDM)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hBayesDM)](https://cran.r-project.org/web/packages/hBayesDM/index.html)
 [![DOI](https://zenodo.org/badge/doi/10.1162/CPSY_a_00002.svg)](https://doi.org/10.1162/CPSY_a_00002)
