@@ -62,10 +62,10 @@ def alt_gamma(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """Aversive Learning Task - Rescorla-Wagner (Delta) Model
+    """Aversive Learning Task - Rescorla-Wagner (Gamma) Model
 
     Hierarchical Bayesian Modeling of the Aversive Learning Task [Browning2015]_
-    using Rescorla-Wagner (Delta) Model  with the following parameters:
+    using Rescorla-Wagner (Gamma) Model  with the following parameters:
     "A" (learning rate), "beta" (inverse temperature), "gamma" (risk preference).
 
     

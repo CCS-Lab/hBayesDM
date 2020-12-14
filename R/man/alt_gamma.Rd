@@ -2,7 +2,7 @@
 % Please edit documentation in R/alt_gamma.R
 \name{alt_gamma}
 \alias{alt_gamma}
-\title{Rescorla-Wagner (Delta) Model}
+\title{Rescorla-Wagner (Gamma) Model}
 \usage{
 alt_gamma(
   data = NULL,
@@ -85,12 +85,12 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Aversive Learning Task using Rescorla-Wagner (Delta) Model.
+Hierarchical Bayesian Modeling of the Aversive Learning Task using Rescorla-Wagner (Gamma) Model.
 It has the following parameters: \code{A} (learning rate), \code{beta} (inverse temperature), \code{gamma} (risk preference).
 
 \itemize{
   \item \strong{Task}: Aversive Learning Task (Browning et al., 2015)
-  \item \strong{Model}: Rescorla-Wagner (Delta) Model 
+  \item \strong{Model}: Rescorla-Wagner (Gamma) Model 
 }
 }
 \details{

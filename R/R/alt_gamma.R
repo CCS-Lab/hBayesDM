@@ -3,7 +3,7 @@
 #' @templateVar TASK_NAME Aversive Learning Task
 #' @templateVar TASK_CODE alt
 #' @templateVar TASK_CITE (Browning et al., 2015)
-#' @templateVar MODEL_NAME Rescorla-Wagner (Delta) Model
+#' @templateVar MODEL_NAME Rescorla-Wagner (Gamma) Model
 #' @templateVar MODEL_CODE gamma
 #' @templateVar MODEL_CITE 
 #' @templateVar MODEL_TYPE Hierarchical
