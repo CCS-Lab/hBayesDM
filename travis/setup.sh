@@ -7,10 +7,10 @@ if [ "$TARGET" = "R" ]; then
   echo "CC = ${CC}" >> ~/.R/Makevars
   echo "CXX = ${CXX} -fPIC " >> ~/.R/Makevars
   echo "CXX14 = ${CXX} -fPIC -flto=2" >> ~/.R/Makevars
-  echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0" >> ~/.R/Makevars
+  echo "CXX14FLAGS = -mtune=native -march=native -Wno-ignored-attributes -O0 -Wall" >> ~/.R/Makevars
 
   Rscript \
-    -e 'install.packages("devtools", repos = "https://cloud.r-project.org/", quiet = TRUE)' \
+    -e 'install.packages("devtools", repos = "https://cloud.r-project.org/")' \
     -e 'devtools::install_deps(quiet = TRUE)'
 
 # Setup codes for Python
