@@ -66,4 +66,4 @@ after_failure:
   - source $ROOTPATH/travis/after-failure.sh
 
 after_success:
-  - source $ROOTPATH/travis/after-success.sh
+  - travis_wait 50 source $ROOTPATH/travis/after-success.sh
