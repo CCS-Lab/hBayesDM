@@ -66,4 +66,11 @@ after_failure:
   - source $ROOTPATH/travis/after-failure.sh
 
 after_success:
-  - travis_wait 50 source $ROOTPATH/travis/after-success.sh
+  - source $ROOTPATH/travis/after-success.sh
+
+deploy:
+  - provider: script
+    script: source $ROOTPATH/travis/deploy-develop.sh
+    skip_cleanup: true
+    on:
+      branch: develop

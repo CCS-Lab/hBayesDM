@@ -2,7 +2,7 @@
 
 # Scripts for R
 if [ "$TARGET" = "R" ]; then
-  Rscript -e 'covr::codecov()'
+  travis_wait 40 Rscript -e 'covr::codecov()'
   cat hBayesDM.Rcheck/00*
 
 # Scripts for Python
