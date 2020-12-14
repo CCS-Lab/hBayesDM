@@ -1,0 +1,44 @@
+task_name:
+  code: bart
+  desc: Balloon Analogue Risk Task
+  cite:
+model_name:
+  code: ewmv
+  desc: Exponential-Weight Mean-Variance Model
+  cite:
+  - 'Park, H., Yang, J., Vassileva, J., & Ahn, W. (2020). The Exponential-Weight Mean-Variance Model: A novel computational model for the Balloon Analogue Risk Task. https://doi.org/10.31234/osf.io/sdzj4'
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+- name: Harhim Park
+  email: hrpark12@gmail.com
+  link: https://ccs-lab.github.io/team/harhim-park/
+- name: Jaeyeong Yang
+  email: jaeyeong.yang1125@gmail.com
+  link: https://ccs-lab.github.io/team/jaeyeong-yang/
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  pumps: The number of pumps.
+  explosion: '0: intact, 1: burst'
+parameters:
+  phi:
+    desc: prior belief of burst
+    info: [0, 0.5, 1]
+  eta:
+    desc: updating exponent
+    info: [0, 0.5, 1]
+  rho:
+    desc: risk preference
+    info: [-0.5, 0, 0.5]
+  tau:
+    desc: inverse temperature
+    info: [0, 1, Inf]
+  lambda:
+    desc: loss aversion
+    info: [0, 1, Inf]
+regressors:
+postpreds:
+- y_pred
+additional_args:
