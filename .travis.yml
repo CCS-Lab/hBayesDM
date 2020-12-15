@@ -30,6 +30,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - git
       - gcc-7
       - g++-7
       - gfortran-7
