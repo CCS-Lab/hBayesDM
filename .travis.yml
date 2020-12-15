@@ -36,6 +36,8 @@ addons:
       - libcurl4-openssl-dev
       - libxml2-dev
       - libgit2-dev
+      - libharfbuzz-dev
+      - libfribidi-dev
 
 jobs:
   include:
