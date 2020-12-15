@@ -6,6 +6,8 @@ if [ "$TARGET" = "R" ]; then
   cat hBayesDM.Rcheck/00*
 
   if [ "$TRAVIS_BRANCH" = "develop" ]; then
+    R CMD build .
+    export PKG_TARBALL="$(ls *.tar.gz)"
     Rscript -e 'install.packages("pkgdown")'
     Rscript -e "pkgdown::deploy_site_github()"
   fi
