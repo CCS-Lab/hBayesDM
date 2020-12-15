@@ -69,11 +69,3 @@ after_failure:
 
 after_success:
   - source $ROOTPATH/travis/after-success.sh
-
-deploy:
-  - provider: script
-    script: $ROOTPATH/travis/deploy-develop.sh
-    skip_cleanup: true
-    on:
-      branch: develop
-      condition: "$TARGET = R"
