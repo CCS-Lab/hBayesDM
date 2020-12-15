@@ -74,3 +74,4 @@ deploy:
     skip_cleanup: true
     on:
       branch: develop
+      condition: "$TARGET = R"
