@@ -181,8 +181,8 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001637 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 16.37 seconds.
+## Chain 1: Gradient evaluation took 0.001589 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.89 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -196,21 +196,20 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -817.250             1.000            1.000
-## Chain 1:    200         -826.153             0.505            1.000
-## Chain 1:    300         -808.989             0.344            0.021
-## Chain 1:    400         -810.360             0.258            0.021
-## Chain 1:    500         -809.724             0.207            0.011
-## Chain 1:    600         -810.774             0.173            0.011
-## Chain 1:    700         -808.473             0.148            0.003   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -827.240             1.000            1.000
+## Chain 1:    200         -810.154             0.511            1.000
+## Chain 1:    300         -810.064             0.340            0.021
+## Chain 1:    400         -809.468             0.255            0.021
+## Chain 1:    500         -809.569             0.204            0.001   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.
 ```
 
 ```
-## Warning: Pareto k diagnostic value is 0.81. Resampling is unreliable. Increasing
-## the number of draws or decreasing tol_rel_obj may help.
+## Warning: Pareto k diagnostic value is 1.06. Resampling is disabled. Decreasing
+## tol_rel_obj may help if variational algorithm has terminated prematurely.
+## Otherwise consider using sampling instead.
 ```
 
 ```
@@ -313,7 +312,7 @@ Let's first visually diagnose MCMC performance of hyper parameters with trace pl
 plot(output1, type="trace", fontSize=11)   # traceplot of hyper parameters. Set font size 11.
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8EwyhT/fileb106d91a873/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDwFYhM/fileb3813653783/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their $\hat{R}$ values (see [**here**](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples. 
 
@@ -321,7 +320,7 @@ The trace plots indicate that MCMC samples are indeed well mixed and converged, 
 plot(output1, type="trace", inc_warmup=T)   # traceplot of hyper parameters w/ warmup samples
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8EwyhT/fileb106d91a873/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDwFYhM/fileb3813653783/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 You can also plot the posterior distributions of the hyper (group) parameters with `plot`:
 
@@ -329,7 +328,7 @@ You can also plot the posterior distributions of the hyper (group) parameters wi
 plot(output1)
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8EwyhT/fileb106d91a873/articles/getting_started_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDwFYhM/fileb3813653783/articles/getting_started_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 <!-- 
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
@@ -342,7 +341,7 @@ To visualize individual parameters, you can use our newly updated function calle
 plotInd(output1, "ep")  
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8EwyhT/fileb106d91a873/articles/getting_started_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDwFYhM/fileb3813653783/articles/getting_started_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
@@ -353,16 +352,16 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03933038 0.1384724 5.987878
-## 2       2 0.03591000 0.1612430 6.173013
-## 3       3 0.04264144 0.1264766 5.943976
-## 4       4 0.03142281 0.1490406 6.242028
-## 5       5 0.03441682 0.1482693 6.180900
-## 6       6 0.04130834 0.1537392 6.314307
-## 7       7 0.04276598 0.1478307 5.802925
-## 8       8 0.03443131 0.1612049 6.528019
-## 9       9 0.04025014 0.1446957 6.091536
-## 10     10 0.04738987 0.1290828 5.553236
+## 1       1 0.03932972 0.1398786 5.964376
+## 2       2 0.03568097 0.1613137 6.147910
+## 3       3 0.04294569 0.1282434 5.912359
+## 4       4 0.03184426 0.1494157 6.235526
+## 5       5 0.03440674 0.1492894 6.152342
+## 6       6 0.04193788 0.1537945 6.297126
+## 7       7 0.04335486 0.1486142 5.797744
+## 8       8 0.03429711 0.1607032 6.502166
+## 9       9 0.04050701 0.1455747 6.069076
+## 10     10 0.04826402 0.1314051 5.535629
 ```
 -->
 
@@ -455,8 +454,8 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.002352 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 23.52 seconds.
+## Chain 1: Gradient evaluation took 0.002564 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 25.64 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -470,18 +469,18 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -834.491             1.000            1.000
-## Chain 1:    200         -819.432             0.509            1.000
-## Chain 1:    300         -816.696             0.341            0.018
-## Chain 1:    400         -823.349             0.257            0.018
-## Chain 1:    500         -822.251             0.206            0.008   MEDIAN ELBO CONVERGED
+## Chain 1:    100        -1625.776             1.000            1.000
+## Chain 1:    200         -824.792             0.986            1.000
+## Chain 1:    300         -820.528             0.659            0.971
+## Chain 1:    400         -819.264             0.494            0.971
+## Chain 1:    500         -816.665             0.396            0.005   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.
 ```
 
 ```
-## Warning: Pareto k diagnostic value is 1.28. Resampling is disabled. Decreasing
+## Warning: Pareto k diagnostic value is 1.26. Resampling is disabled. Decreasing
 ## tol_rel_obj may help if variational algorithm has terminated prematurely.
 ## Otherwise consider using sampling instead.
 ```
@@ -513,14 +512,14 @@ dim(output3$modelRegressor$SV)  # number of rows=# of subjects (=10), number of 
 plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")  
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8EwyhT/fileb106d91a873/articles/getting_started_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDwFYhM/fileb3813653783/articles/getting_started_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 ```r
 ## visualize SV (Subject #5)
 plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")  
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8EwyhT/fileb106d91a873/articles/getting_started_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDwFYhM/fileb3813653783/articles/getting_started_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
 
 Similarly, users can extract and visualize other model-based regressors. **W(Go)**, **W(NoGo)**, **Q(Go)**, **Q(NoGo)** are stored in `Wgo`, `Wnogo`, `Qgo`, and `Qnogo`, respectively.
 
