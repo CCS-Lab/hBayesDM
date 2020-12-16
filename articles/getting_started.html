@@ -197,13 +197,14 @@
 <p>, which is the same as the command below because the default numbers of total (including warmup) iterations (MCMC samples), warmup iterations, and chains are 2,000, 1,000, and 4 for <code>gng</code> models.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span><span class="st">"example"</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in gng_m1(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</code></pre>
 <pre><code>## 
 ## Model name  = gng_m1 
 ## Data file   = example 
 ## 
 ## Details:
 ##  # of chains                    = 4 
-##  # of cores used                = 4 
+##  # of cores used                = 3 
 ##  # of MCMC samples (per chain)  = 2000 
 ##  # of burn-in samples           = 1000 
 ##  # of subjects                  = 10 
@@ -221,8 +222,8 @@
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001583 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.83 seconds.
+## Chain 1: Gradient evaluation took 0.001573 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.73 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -236,14 +237,17 @@
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -810.114             1.000            1.000
-## Chain 1:    200         -809.780             0.500            1.000
-## Chain 1:    300         -809.861             0.334            0.000   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -813.704             1.000            1.000
+## Chain 1:    200         -820.437             0.504            1.000
+## Chain 1:    300         -809.488             0.341            0.014
+## Chain 1:    400         -809.624             0.255            0.014
+## Chain 1:    500         -808.569             0.205            0.008   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 0.96. Resampling is unreliable. Increasing
-## the number of draws or decreasing tol_rel_obj may help.</code></pre>
+<pre><code>## Warning: Pareto k diagnostic value is 1.04. Resampling is disabled. Decreasing
+## tol_rel_obj may help if variational algorithm has terminated prematurely.
+## Otherwise consider using sampling instead.</code></pre>
 <pre><code>## 
 ## ************************************
 ## **** Model fitting is complete! ****
@@ -324,22 +328,22 @@ sigma[3]       0.12    0.00 0.09    0.01    0.05    0.10    0.16    0.33  2402 1
 <a href="#plot-model-parameters" class="anchor"></a>3) Plot model parameters</h3>
 <p>Make sure to visually diagnose MCMC performance (i.e., visually check whether MCMC samples are well mixed and converged to stationary distributions). For the diagnosis or visualization of hyper (group) parameters, you can use <code>plot.hBayesDM</code> or just <code>plot</code>, which searches for an extension function that contains the class name. The class of any hBayesDM output is <code>hBayesDM</code>:</p>
 <p>Let’s first visually diagnose MCMC performance of hyper parameters with trace plots:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, fontSize<span class="op">=</span><span class="fl">11</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters. Set font size 11.</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-11-1.png"><!-- --></p>
 <p>The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their <span class="math inline">\(\hat{R}\)</span> values (see <a href="http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains"><strong>here</strong></a> for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, inc_warmup<span class="op">=</span><span class="cn">T</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters w/ warmup samples</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-12-1.png"><!-- --></p>
 <p>You can also plot the posterior distributions of the hyper (group) parameters with <code>plot</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span><span class="op">)</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-13-1.png"><!-- --><!-- 
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
 --></p>
 <p>To visualize individual parameters, you can use our newly updated function called <code>plotInd</code> (based on Stan’s native function <code>stan_plot</code>). For example, to plot each individual’s <span class="math inline">\(\epsilon\)</span> (learning rate) parameter (e.g., individual posterior distributions):</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span>  </code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-14-1.png"><!-- --></p>
 <!--
@@ -351,16 +355,16 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03878383 0.1399889 5.951104
-## 2       2 0.03515331 0.1613016 6.154942
-## 3       3 0.04173532 0.1281707 5.918250
-## 4       4 0.03107053 0.1498654 6.224482
-## 5       5 0.03351242 0.1487621 6.149488
-## 6       6 0.04077821 0.1532909 6.298167
-## 7       7 0.04278558 0.1489110 5.775063
-## 8       8 0.03360191 0.1610104 6.518749
-## 9       9 0.03979251 0.1453614 6.060491
-## 10     10 0.04723845 0.1313267 5.514434
+## 1       1 0.03892428 0.1393718 5.964026
+## 2       2 0.03582126 0.1614095 6.165072
+## 3       3 0.04227931 0.1281955 5.909880
+## 4       4 0.03143037 0.1493546 6.235434
+## 5       5 0.03448550 0.1493524 6.157090
+## 6       6 0.04182122 0.1540598 6.305008
+## 7       7 0.04232593 0.1479695 5.780092
+## 8       8 0.03435019 0.1606113 6.513195
+## 9       9 0.03984976 0.1463012 6.075421
+## 10     10 0.04750832 0.1308292 5.530183
 ```
 -->
 </div>
@@ -378,7 +382,7 @@ output1$allIndPars
 <p>Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="waic")</a></code> or <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="both")</a></code>. Use the <code>extract_ic</code> function (e.g., <code><a href="../reference/extract_ic.html">extract_ic(output3)</a></code> ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the <code>extract_ic</code> function can be used only for a single model output.</p>
 <p>We also want to remind you that there are multiple ways to compare computational models (e.g., simulation method (absolute model performance), parameter recovery, generalization criterion) and the goodness of fit (e.g., LOOIC or WAIC) is just one of them. Check if predictions from your model (e.g., “posterior predictive check”) can mimic the data (same data or new data) with reasonable accuracy. See <span class="citation">Kruschke (2014)</span> (for posterior predictive check), Guitart-Masip et al. (2012) (for goodness of fit and simulation performance on the orthogonalized Go/Nogo task), and <span class="citation">Busemeyer &amp; Wang (2000)</span> (for generalization criterion) as well as Ahn et al. (2008; 2014) and <span class="citation">Steingroever et al. (2014)</span> (for the combination of multiple model comparison methods).</p>
 <p>To compare two groups in a Bayesian fashion <span class="citation">(e.g., Ahn et al., 2014)</span>, first you need to fit each group with the same model and ideally the same number of MCMC samples. For example,</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_group1</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group1.txt"</span>  <span class="co"># data file for group1</span>
 <span class="va">data_group2</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group2.txt"</span>  <span class="co"># data file for group2</span>
 
@@ -398,16 +402,17 @@ output1$allIndPars
 <p>In model-based neuroimaging <span class="citation">(e.g., O’Doherty et al., 2007)</span>, model-based time series of a latent cognitive process are generated by computational models, and then time series data are convolved with a hemodynamic response function and regressed again fMRI or EEG data. This model-based neuroimaging approach has been particularly popular in cognitive neuroscience.</p>
 <p>The biggest challenge for performing model-based fMRI/EEG is to learn how to extract trial-by-trial model-based regressors. The hBayesDM package allows users to easily extract model-based regressors that can be used for model-based fMRI or EEG analysis. The hBayesDM package currently provides the following model-based regressors. With the trial-by-trial regressors, users can easily use their favorite neuroimaging package (e.g., in Statistical Parametric Mapping (SPM; <a href="http://www.fil.ion.ucl.ac.uk/spm/" class="uri">http://www.fil.ion.ucl.ac.uk/spm/</a>) to perform model-based fMRI analysis. See our <a href="https://www.mitpressjournals.org/doi/abs/10.1162/CPSY_a_00002">paper</a> (<strong>Extracting Trial-by-Trial Regressors for Model-Based fMRI/EEG Analysis</strong>) for more details.</p>
 <p>As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the follwoing (set the <code>modelRegressor</code> input variable to <code>TRUE</code>. Its default value is <code>FALSE</code>):</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## fit example data with the gng_m3 model</span>
 <span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, modelRegressor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in gng_m3(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</code></pre>
 <pre><code>## 
 ## Model name  = gng_m3 
 ## Data file   = example 
 ## 
 ## Details:
 ##  # of chains                    = 4 
-##  # of cores used                = 4 
+##  # of cores used                = 3 
 ##  # of MCMC samples (per chain)  = 2000 
 ##  # of burn-in samples           = 1000 
 ##  # of subjects                  = 10 
@@ -429,8 +434,8 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001558 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.58 seconds.
+## Chain 1: Gradient evaluation took 0.001566 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.66 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -444,17 +449,15 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -832.889             1.000            1.000
-## Chain 1:    200         -824.469             0.505            1.000
-## Chain 1:    300         -830.975             0.339            0.010
-## Chain 1:    400         -816.668             0.259            0.018
-## Chain 1:    500         -817.359             0.207            0.010
-## Chain 1:    600         -818.605             0.173            0.010
-## Chain 1:    700         -818.482             0.148            0.008   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -846.937             1.000            1.000
+## Chain 1:    200         -819.507             0.517            1.000
+## Chain 1:    300         -815.580             0.346            0.033
+## Chain 1:    400         -817.456             0.260            0.033
+## Chain 1:    500         -817.942             0.208            0.005   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 1.22. Resampling is disabled. Decreasing
+<pre><code>## Warning: Pareto k diagnostic value is 1.23. Resampling is disabled. Decreasing
 ## tol_rel_obj may help if variational algorithm has terminated prematurely.
 ## Otherwise consider using sampling instead.</code></pre>
 <pre><code>## 
@@ -462,17 +465,17 @@ output1$allIndPars
 ## **** Model fitting is complete! ****
 ## ************************************</code></pre>
 <p>Once the sampling is completed, all model-based regressors are contained in the <code>modelRegressor</code> list.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## store all subjects' stimulus value (SV) in ‘sv_all’</span>
 <span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span> 
 
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span><span class="op">)</span>  <span class="co"># number of rows=# of subjects (=10), number of columns=# of trials (=240)</span></code></pre></div>
 <pre><code>## [1]  10 240</code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## visualize SV (Subject #1)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span>  </code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-1.png"><!-- --></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## visualize SV (Subject #5)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span>  </code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-2.png"><!-- --></p>
@@ -483,7 +486,7 @@ output1$allIndPars
 <a href="#variational-inference-for-approximate-posterior-sampling" class="anchor"></a>6) Variational inference for approximate posterior sampling</h3>
 <p>To use Stan’s variational algorithm for approximate posterior sampling in hBayesDM, users just need to set <code>vb=TRUE</code> (default = <code>FALSE</code>). It takes very little time (especially with precompiled models) to do variational inference - try it yourself for any model!! But variational inference should be used only to get a rough estimate. It is recommended that users use MCMC for final inferences.</p>
 <p>For example, to run <code>gng_m1</code> using variational inference:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## fit example data with the gng_m3 model</span>
 <span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, vb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Note that input arguments for MCMC sampling (e.g., <code>nchain</code>, <code>niter</code>, <code>nthin</code>, <code>nwarmup</code>) are not specified here. <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-vb.html">?rstan::vb</a></code> for more details.</p>
@@ -493,36 +496,36 @@ output1$allIndPars
 <a href="#posterior-predictive-checks" class="anchor"></a>7) Posterior predictive checks</h3>
 <p>Simply put, <em>posterior predictive checks</em> refer to when a fitted model is used to generate simulated data and check if simulated data are similar to the actual data. Posterior predictive checks are useful in assessing if a model generates valid predictions.</p>
 <p>From v0.5.0, users can run posterior predictive checks on all models except drift-diffusion models in hBayesDM. Simulated data from posterior predictive checks are contained in <code>hBayesDM_OUTPUT$parVals$y_pred</code>. In a future release, we will include a function/command that can conveniently summarize and plot posterior predictive checks. In the mean time, users can program their own codes like the following:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co">## fit example data with the gng_m3 model and run posterior predictive checks</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a>x =<span class="st"> </span><span class="kw">gng_m3</span>(<span class="dt">data=</span><span class="st">"example"</span>, <span class="dt">niter=</span><span class="dv">2000</span>, <span class="dt">nwarmup=</span><span class="dv">1000</span>, <span class="dt">nchain=</span><span class="dv">4</span>, <span class="dt">ncore=</span><span class="dv">4</span>, <span class="dt">inc_postpred =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb32-3"><a href="#cb32-3"></a></span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="co">## dimension of x$parVals$y_pred</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="kw">dim</span>(x<span class="op">$</span>parVals<span class="op">$</span>y_pred)   <span class="co"># y_pred --&gt; 4000 (MCMC samples) x 10 (subjects) x 240 (trials)</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a>[<span class="dv">1</span>] <span class="dv">4000</span>  <span class="dv">10</span>  <span class="dv">240</span></span>
-<span id="cb32-7"><a href="#cb32-7"></a></span>
-<span id="cb32-8"><a href="#cb32-8"></a>y_pred_mean =<span class="st"> </span><span class="kw">apply</span>(x<span class="op">$</span>parVals<span class="op">$</span>y_pred, <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), mean)  <span class="co"># average of 4000 MCMC samples</span></span>
-<span id="cb32-9"><a href="#cb32-9"></a></span>
-<span id="cb32-10"><a href="#cb32-10"></a><span class="kw">dim</span>(y_pred_mean)  <span class="co"># y_pred_mean --&gt; 10 (subjects) x 240 (trials)</span></span>
-<span id="cb32-11"><a href="#cb32-11"></a>[<span class="dv">1</span>]  <span class="dv">10</span> <span class="dv">240</span></span>
-<span id="cb32-12"><a href="#cb32-12"></a></span>
-<span id="cb32-13"><a href="#cb32-13"></a>numSubjs =<span class="st"> </span><span class="kw">dim</span>(x<span class="op">$</span>allIndPars)[<span class="dv">1</span>]  <span class="co"># number of subjects</span></span>
-<span id="cb32-14"><a href="#cb32-14"></a></span>
-<span id="cb32-15"><a href="#cb32-15"></a>subjList =<span class="st"> </span><span class="kw">unique</span>(x<span class="op">$</span>rawdata<span class="op">$</span>subjID)  <span class="co"># list of subject IDs</span></span>
-<span id="cb32-16"><a href="#cb32-16"></a>maxT =<span class="st"> </span><span class="kw">max</span>(<span class="kw">table</span>(x<span class="op">$</span>rawdata<span class="op">$</span>subjID))  <span class="co"># maximum number of trials</span></span>
-<span id="cb32-17"><a href="#cb32-17"></a>true_y =<span class="st"> </span><span class="kw">array</span>(<span class="ot">NA</span>, <span class="kw">c</span>(numSubjs, maxT)) <span class="co"># true data (`true_y`)</span></span>
-<span id="cb32-18"><a href="#cb32-18"></a></span>
-<span id="cb32-19"><a href="#cb32-19"></a><span class="co">## true data for each subject</span></span>
-<span id="cb32-20"><a href="#cb32-20"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>numSubjs) {</span>
-<span id="cb32-21"><a href="#cb32-21"></a>  tmpID =<span class="st"> </span>subjList[i]</span>
-<span id="cb32-22"><a href="#cb32-22"></a>  tmpData =<span class="st"> </span><span class="kw">subset</span>(x<span class="op">$</span>rawdata, subjID <span class="op">==</span><span class="st"> </span>tmpID)</span>
-<span id="cb32-23"><a href="#cb32-23"></a>  true_y[i, ] =<span class="st"> </span>tmpData<span class="op">$</span>keyPressed  <span class="co"># only for data with a 'choice' column</span></span>
-<span id="cb32-24"><a href="#cb32-24"></a>}</span>
-<span id="cb32-25"><a href="#cb32-25"></a></span>
-<span id="cb32-26"><a href="#cb32-26"></a><span class="co">## Subject #1</span></span>
-<span id="cb32-27"><a href="#cb32-27"></a><span class="kw">plot</span>(true_y[<span class="dv">1</span>, ], <span class="dt">type=</span><span class="st">"l"</span>, <span class="dt">xlab=</span><span class="st">"Trial"</span>, <span class="dt">ylab=</span><span class="st">"Choice (0 or 1)"</span>, <span class="dt">yaxt=</span><span class="st">"n"</span>)</span>
-<span id="cb32-28"><a href="#cb32-28"></a><span class="kw">lines</span>(y_pred_mean[<span class="dv">1</span>,], <span class="dt">col=</span><span class="st">"red"</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
-<span id="cb32-29"><a href="#cb32-29"></a><span class="kw">axis</span>(<span class="dt">side=</span><span class="dv">2</span>, <span class="dt">at =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>) )</span>
-<span id="cb32-30"><a href="#cb32-30"></a><span class="kw">legend</span>(<span class="st">"bottomleft"</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">"True"</span>, <span class="st">"PPC"</span>), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>), <span class="dt">lty=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co">## fit example data with the gng_m3 model and run posterior predictive checks</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>x =<span class="st"> </span><span class="kw">gng_m3</span>(<span class="dt">data=</span><span class="st">"example"</span>, <span class="dt">niter=</span><span class="dv">2000</span>, <span class="dt">nwarmup=</span><span class="dv">1000</span>, <span class="dt">nchain=</span><span class="dv">4</span>, <span class="dt">ncore=</span><span class="dv">4</span>, <span class="dt">inc_postpred =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb34-3"><a href="#cb34-3"></a></span>
+<span id="cb34-4"><a href="#cb34-4"></a><span class="co">## dimension of x$parVals$y_pred</span></span>
+<span id="cb34-5"><a href="#cb34-5"></a><span class="kw">dim</span>(x<span class="op">$</span>parVals<span class="op">$</span>y_pred)   <span class="co"># y_pred --&gt; 4000 (MCMC samples) x 10 (subjects) x 240 (trials)</span></span>
+<span id="cb34-6"><a href="#cb34-6"></a>[<span class="dv">1</span>] <span class="dv">4000</span>  <span class="dv">10</span>  <span class="dv">240</span></span>
+<span id="cb34-7"><a href="#cb34-7"></a></span>
+<span id="cb34-8"><a href="#cb34-8"></a>y_pred_mean =<span class="st"> </span><span class="kw">apply</span>(x<span class="op">$</span>parVals<span class="op">$</span>y_pred, <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), mean)  <span class="co"># average of 4000 MCMC samples</span></span>
+<span id="cb34-9"><a href="#cb34-9"></a></span>
+<span id="cb34-10"><a href="#cb34-10"></a><span class="kw">dim</span>(y_pred_mean)  <span class="co"># y_pred_mean --&gt; 10 (subjects) x 240 (trials)</span></span>
+<span id="cb34-11"><a href="#cb34-11"></a>[<span class="dv">1</span>]  <span class="dv">10</span> <span class="dv">240</span></span>
+<span id="cb34-12"><a href="#cb34-12"></a></span>
+<span id="cb34-13"><a href="#cb34-13"></a>numSubjs =<span class="st"> </span><span class="kw">dim</span>(x<span class="op">$</span>allIndPars)[<span class="dv">1</span>]  <span class="co"># number of subjects</span></span>
+<span id="cb34-14"><a href="#cb34-14"></a></span>
+<span id="cb34-15"><a href="#cb34-15"></a>subjList =<span class="st"> </span><span class="kw">unique</span>(x<span class="op">$</span>rawdata<span class="op">$</span>subjID)  <span class="co"># list of subject IDs</span></span>
+<span id="cb34-16"><a href="#cb34-16"></a>maxT =<span class="st"> </span><span class="kw">max</span>(<span class="kw">table</span>(x<span class="op">$</span>rawdata<span class="op">$</span>subjID))  <span class="co"># maximum number of trials</span></span>
+<span id="cb34-17"><a href="#cb34-17"></a>true_y =<span class="st"> </span><span class="kw">array</span>(<span class="ot">NA</span>, <span class="kw">c</span>(numSubjs, maxT)) <span class="co"># true data (`true_y`)</span></span>
+<span id="cb34-18"><a href="#cb34-18"></a></span>
+<span id="cb34-19"><a href="#cb34-19"></a><span class="co">## true data for each subject</span></span>
+<span id="cb34-20"><a href="#cb34-20"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>numSubjs) {</span>
+<span id="cb34-21"><a href="#cb34-21"></a>  tmpID =<span class="st"> </span>subjList[i]</span>
+<span id="cb34-22"><a href="#cb34-22"></a>  tmpData =<span class="st"> </span><span class="kw">subset</span>(x<span class="op">$</span>rawdata, subjID <span class="op">==</span><span class="st"> </span>tmpID)</span>
+<span id="cb34-23"><a href="#cb34-23"></a>  true_y[i, ] =<span class="st"> </span>tmpData<span class="op">$</span>keyPressed  <span class="co"># only for data with a 'choice' column</span></span>
+<span id="cb34-24"><a href="#cb34-24"></a>}</span>
+<span id="cb34-25"><a href="#cb34-25"></a></span>
+<span id="cb34-26"><a href="#cb34-26"></a><span class="co">## Subject #1</span></span>
+<span id="cb34-27"><a href="#cb34-27"></a><span class="kw">plot</span>(true_y[<span class="dv">1</span>, ], <span class="dt">type=</span><span class="st">"l"</span>, <span class="dt">xlab=</span><span class="st">"Trial"</span>, <span class="dt">ylab=</span><span class="st">"Choice (0 or 1)"</span>, <span class="dt">yaxt=</span><span class="st">"n"</span>)</span>
+<span id="cb34-28"><a href="#cb34-28"></a><span class="kw">lines</span>(y_pred_mean[<span class="dv">1</span>,], <span class="dt">col=</span><span class="st">"red"</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
+<span id="cb34-29"><a href="#cb34-29"></a><span class="kw">axis</span>(<span class="dt">side=</span><span class="dv">2</span>, <span class="dt">at =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>) )</span>
+<span id="cb34-30"><a href="#cb34-30"></a><span class="kw">legend</span>(<span class="st">"bottomleft"</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">"True"</span>, <span class="st">"PPC"</span>), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>), <span class="dt">lty=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="images/PPC.png"></p>
 </div>
 </div>
@@ -542,16 +545,16 @@ output1$allIndPars
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>If you used hBayesDM or some of its codes for your research, please cite <a href="https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002">this paper</a>:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb33-1"><a href="#cb33-1"></a><span class="va">@article</span>{<span class="ot">hBayesDM</span>,</span>
-<span id="cb33-2"><a href="#cb33-2"></a>  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},</span>
-<span id="cb33-3"><a href="#cb33-3"></a>  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},</span>
-<span id="cb33-4"><a href="#cb33-4"></a>  <span class="dt">journal</span> = {Computational Psychiatry},</span>
-<span id="cb33-5"><a href="#cb33-5"></a>  <span class="dt">year</span> = {2017},</span>
-<span id="cb33-6"><a href="#cb33-6"></a>  <span class="dt">volume</span> = {1},</span>
-<span id="cb33-7"><a href="#cb33-7"></a>  <span class="dt">pages</span> = {24--57},</span>
-<span id="cb33-8"><a href="#cb33-8"></a>  <span class="dt">publisher</span> = {MIT Press},</span>
-<span id="cb33-9"><a href="#cb33-9"></a>  <span class="dt">url</span> = {doi:10.1162/CPSY_a_00002},</span>
-<span id="cb33-10"><a href="#cb33-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb35-1"><a href="#cb35-1"></a><span class="va">@article</span>{<span class="ot">hBayesDM</span>,</span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},</span>
+<span id="cb35-3"><a href="#cb35-3"></a>  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},</span>
+<span id="cb35-4"><a href="#cb35-4"></a>  <span class="dt">journal</span> = {Computational Psychiatry},</span>
+<span id="cb35-5"><a href="#cb35-5"></a>  <span class="dt">year</span> = {2017},</span>
+<span id="cb35-6"><a href="#cb35-6"></a>  <span class="dt">volume</span> = {1},</span>
+<span id="cb35-7"><a href="#cb35-7"></a>  <span class="dt">pages</span> = {24--57},</span>
+<span id="cb35-8"><a href="#cb35-8"></a>  <span class="dt">publisher</span> = {MIT Press},</span>
+<span id="cb35-9"><a href="#cb35-9"></a>  <span class="dt">url</span> = {doi:10.1162/CPSY_a_00002},</span>
+<span id="cb35-10"><a href="#cb35-10"></a>}</span></code></pre></div>
 </div>
 <div id="papers-citing-hbayesdm" class="section level2">
 <h2 class="hasAnchor">
