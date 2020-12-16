@@ -9,6 +9,9 @@ jobs:
   pkgdown:
     runs-on: macOS-latest
 
+    github:
+      workspace: R
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -20,16 +23,16 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "../.github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), "../.github/R-version")
         shell: Rscript {0}
 
       - name: Cache R packages
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          key: ${{ runner.os }}-${{ hashFiles('../.github/R-version') }}-1-${{ hashFiles('../.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('../.github/R-version') }}-1-
 
       - name: Install dependencies
         run: |
@@ -39,11 +42,9 @@ jobs:
 
       - name: Install package
         run: R CMD INSTALL .
-        working-directory: R
 
       - name: Deploy package
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
-        working-directory: R
