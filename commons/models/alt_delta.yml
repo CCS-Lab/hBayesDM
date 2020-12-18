@@ -17,6 +17,10 @@ model_type:
 
 notes:
 contributors:
+- name: Lili Zhang
+  email: lili.zhang27@mail.dcu.ie
+  link: https://github.com/lilihub
+
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   choice: Integer value representing the option chosen on the given trial
