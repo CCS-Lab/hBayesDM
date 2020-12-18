@@ -1,8 +1,8 @@
 ## Test environments
 
-* Local mac OS install, R 3.5.2
-* Local Ubuntu 16.04 install, R 3.4.4
-* Ubuntu 14.04 (on Travis CI), R 3.5.2
+* Local mac OS install, R 4.0.3
+* Local Ubuntu 16.04 install, R 4.0.3
+* Ubuntu 18.04 (on Travis CI), R 4.0.3
 
 ## R CMD check results
 
