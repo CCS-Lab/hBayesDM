@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -40,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,7 +57,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/CCS-Lab/hBayesDM/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -222,8 +222,8 @@
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001573 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.73 seconds.
+## Chain 1: Gradient evaluation took 0.001553 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.53 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -237,17 +237,14 @@
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -813.704             1.000            1.000
-## Chain 1:    200         -820.437             0.504            1.000
-## Chain 1:    300         -809.488             0.341            0.014
-## Chain 1:    400         -809.624             0.255            0.014
-## Chain 1:    500         -808.569             0.205            0.008   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -811.066             1.000            1.000
+## Chain 1:    200         -810.294             0.500            1.000
+## Chain 1:    300         -809.036             0.334            0.002   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 1.04. Resampling is disabled. Decreasing
-## tol_rel_obj may help if variational algorithm has terminated prematurely.
-## Otherwise consider using sampling instead.</code></pre>
+<pre><code>## Warning: Pareto k diagnostic value is 0.94. Resampling is unreliable. Increasing
+## the number of draws or decreasing tol_rel_obj may help.</code></pre>
 <pre><code>## 
 ## ************************************
 ## **** Model fitting is complete! ****
@@ -355,16 +352,16 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03892428 0.1393718 5.964026
-## 2       2 0.03582126 0.1614095 6.165072
-## 3       3 0.04227931 0.1281955 5.909880
-## 4       4 0.03143037 0.1493546 6.235434
-## 5       5 0.03448550 0.1493524 6.157090
-## 6       6 0.04182122 0.1540598 6.305008
-## 7       7 0.04232593 0.1479695 5.780092
-## 8       8 0.03435019 0.1606113 6.513195
-## 9       9 0.03984976 0.1463012 6.075421
-## 10     10 0.04750832 0.1308292 5.530183
+## 1       1 0.03959871 0.1393704 5.989028
+## 2       2 0.03631071 0.1610643 6.193725
+## 3       3 0.04308719 0.1274322 5.941235
+## 4       4 0.03163914 0.1491597 6.267014
+## 5       5 0.03456193 0.1479249 6.187625
+## 6       6 0.04246798 0.1535593 6.332415
+## 7       7 0.04377054 0.1482364 5.816294
+## 8       8 0.03473596 0.1607106 6.541211
+## 9       9 0.04053175 0.1457039 6.095811
+## 10     10 0.04823608 0.1301435 5.552849
 ```
 -->
 </div>
@@ -434,8 +431,8 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001566 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.66 seconds.
+## Chain 1: Gradient evaluation took 0.002382 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 23.82 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -449,15 +446,15 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -846.937             1.000            1.000
-## Chain 1:    200         -819.507             0.517            1.000
-## Chain 1:    300         -815.580             0.346            0.033
-## Chain 1:    400         -817.456             0.260            0.033
-## Chain 1:    500         -817.942             0.208            0.005   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -829.757             1.000            1.000
+## Chain 1:    200         -820.238             0.506            1.000
+## Chain 1:    300         -822.039             0.338            0.012
+## Chain 1:    400         -822.729             0.254            0.012
+## Chain 1:    500         -818.920             0.204            0.005   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 1.23. Resampling is disabled. Decreasing
+<pre><code>## Warning: Pareto k diagnostic value is 1.64. Resampling is disabled. Decreasing
 ## tol_rel_obj may help if variational algorithm has terminated prematurely.
 ## Otherwise consider using sampling instead.</code></pre>
 <pre><code>## 
