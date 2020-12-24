@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@ Task: Choice Under Risk and Ambiguity Task
 Model: Linear Subjective Value Model (Levy et al., 2010)
 
 " />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +66,7 @@ Model: Linear Subjective Value Model (Levy et al., 2010)
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +80,7 @@ Model: Linear Subjective Value Model (Levy et al., 2010)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
       </span>
     </div>
 
@@ -92,17 +95,8 @@ Model: Linear Subjective Value Model (Levy et al., 2010)
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/getting_started.html">Getting Started</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -110,7 +104,7 @@ Model: Linear Subjective Value Model (Levy et al., 2010)
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/CCS-Lab/hBayesDM">
+  <a href="https://github.com/CCS-Lab/hBayesDM/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -143,10 +137,23 @@ It has the following parameters: <code>alpha</code> (risk attitude), <code>beta<
 
     </div>
 
-    <pre class="usage"><span class='fu'>cra_linear</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>4000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"vb"</span>, <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>cra_linear</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  niter <span class='op'>=</span> <span class='fl'>4000</span>,
+  nwarmup <span class='op'>=</span> <span class='fl'>1000</span>,
+  nchain <span class='op'>=</span> <span class='fl'>4</span>,
+  ncore <span class='op'>=</span> <span class='fl'>1</span>,
+  nthin <span class='op'>=</span> <span class='fl'>1</span>,
+  inits <span class='op'>=</span> <span class='st'>"vb"</span>,
+  indPars <span class='op'>=</span> <span class='st'>"mean"</span>,
+  modelRegressor <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  vb <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  inc_postpred <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  adapt_delta <span class='op'>=</span> <span class='fl'>0.95</span>,
+  stepsize <span class='op'>=</span> <span class='fl'>1</span>,
+  max_treedepth <span class='op'>=</span> <span class='fl'>10</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,12 +237,12 @@ on each new iteration. See <b>Details</b> below.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A class "hBayesDM" object <code>modelData</code> with the following components:</p><dl class='dl-horizontal'>
+    <p>A class "hBayesDM" object <code>modelData</code> with the following components:</p><dl>
   <dt>model</dt><dd><p>Character value that is the name of the model (\code"cra_linear").</p></dd>
   <dt>allIndPars</dt><dd><p>Data.frame containing the summarized parameter values (as specified by
     <code>indPars</code>) for each subject.</p></dd>
   <dt>parVals</dt><dd><p>List object containing the posterior samples over different parameters.</p></dd>
-  <dt>fit</dt><dd><p>A class <code><a href='https://rdrr.io/pkg/rstan/man/stanfit-class.html'>stanfit</a></code> object that contains the fitted Stan
+  <dt>fit</dt><dd><p>A class <code><a href='https://mc-stan.org/rstan/reference/stanfit-class.html'>stanfit</a></code> object that contains the fitted Stan
     model.</p></dd>
   <dt>rawdata</dt><dd><p>Data.frame containing the raw data used to fit the model, as specified by
     the user.</p></dd>
@@ -254,7 +261,7 @@ on each new iteration. See <b>Details</b> below.</p></td>
   file, whose rows represent trial-by-trial observations and columns represent variables.<br />
 For the Choice Under Risk and Ambiguity Task, there should be 6 columns of data with the
   labels "subjID", "prob", "ambig", "reward_var", "reward_fix", "choice". It is not necessary for the columns to be in this particular order,
-  however it is necessary that they be labeled correctly and contain the information below:</p><dl class='dl-horizontal'>
+  however it is necessary that they be labeled correctly and contain the information below:</p><dl>
   <dt>subjID</dt><dd><p>A unique identifier for each subject in the data-set.</p></dd>
   <dt>prob</dt><dd><p>Objective probability of the variable lottery.</p></dd>
   <dt>ambig</dt><dd><p>Ambiguity level of the variable lottery (0 for risky lottery; greater than 0 for ambiguous lottery).</p></dd>
@@ -280,7 +287,7 @@ For the Choice Under Risk and Ambiguity Task, there should be 6 columns of data 
   are generated from a sampling process, it is good practice to run multiple chains to ensure
   that a reasonably representative posterior is attained. When the sampling is complete, it is
   possible to check the multiple chains for convergence by running the following line of code:
-  <code><a href='https://rdrr.io/r/graphics/plot.html'>plot(output, type = "trace")</a></code>. The trace-plot should resemble a "furry caterpillar".</p>
+  <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot(output, type = "trace")</a></code>. The trace-plot should resemble a "furry caterpillar".</p>
 <p><strong>nthin</strong> is a numerical value that specifies the "skipping" behavior of the MCMC sampler,
   using only every <code>i == nthin</code> samples to generate posterior distributions. By default,
   <code>nthin</code> is equal to 1, meaning that every sample is used to generate the posterior.</p>
@@ -291,9 +298,9 @@ For the Choice Under Risk and Ambiguity Task, there should be 6 columns of data 
   Hamiltonian Monte Carlo (Hoffman &amp; Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
   Algorithm Parameters' of the <a href='http://mc-stan.org/users/documentation/'>Stan User's Guide
-  and Reference Manual</a>, or to the help page for <code><a href='https://rdrr.io/pkg/rstan/man/stan.html'>stan</a></code> for a less technical
+  and Reference Manual</a>, or to the help page for <code><a href='https://mc-stan.org/rstan/reference/stan.html'>stan</a></code> for a less technical
   description of these arguments.</p>
-<h3>Contributors</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Contributors</h3>
 <p><a href='https://ccs-lab.github.io/team/jaeyeong-yang/'>Jaeyeong Yang</a> &lt;<a href='mailto:jaeyeong.yang1125@gmail.com'>jaeyeong.yang1125@gmail.com</a>&gt;</p>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -305,39 +312,33 @@ For the Choice Under Risk and Ambiguity Task, there should be 6 columns of data 
   <a href='https://rpubs.com/CCSL/hBayesDM'>https://rpubs.com/CCSL/hBayesDM</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Run the model with a given data.frame as df</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>cra_linear</span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>cra_linear</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>df</span>, niter <span class='op'>=</span> <span class='fl'>2000</span>, nwarmup <span class='op'>=</span> <span class='fl'>1000</span>, nchain <span class='op'>=</span> <span class='fl'>4</span>, ncore <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
 
 <span class='co'># Run the model with example data</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>cra_linear</span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>cra_linear</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='st'>"example"</span>, niter <span class='op'>=</span> <span class='fl'>2000</span>, nwarmup <span class='op'>=</span> <span class='fl'>1000</span>, nchain <span class='op'>=</span> <span class='fl'>4</span>, ncore <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
 
 <span class='co'># Visually check convergence of the sampling chains (should look like 'hairy caterpillars')</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>output</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"trace"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>output</span>, type <span class='op'>=</span> <span class='st'>"trace"</span><span class='op'>)</span>
 
 <span class='co'># Check Rhat values (all Rhat values should be less than or equal to 1.1)</span>
-<span class='fu'><a href='rhat.html'>rhat</a></span>(<span class='no'>output</span>)
+<span class='fu'><a href='rhat.html'>rhat</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
 
 <span class='co'># Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>output</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
 
 <span class='co'># Show the WAIC and LOOIC model fit estimates</span>
-<span class='fu'><a href='printFit.html'>printFit</a></span>(<span class='no'>output</span>)
-}</div></pre>
+<span class='fu'><a href='printFit.html'>printFit</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -348,7 +349,7 @@ For the Choice Under Risk and Ambiguity Task, there should be 6 columns of data 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -1,9 +1,11 @@
 reference:
 - title: Tasks & Models
   contents:
+  - starts_with("alt_")
   - starts_with("bandit")
   - starts_with("bart_")
   - starts_with("choiceRT_")
+  - starts_with("cgt_")
   - starts_with("cra_")
   - starts_with("dbdm_")
   - starts_with("dd_")
@@ -14,6 +16,7 @@ reference:
   - starts_with("pst_")
   - starts_with("ra_")
   - starts_with("rdt_")
+  - starts_with("task2AFC_")
   - starts_with("ts_")
   - starts_with("ug_")
   - starts_with("wcs_")

@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "hbayesdm"
+version = "1.1.0"
+description = "Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks"
+authors = ["hBayesDM developers <hbayesdm-users@googlegroups.com>"]
+license = "GPLv3"
+readme = "README.rst"
+repository = "https://github.com/CCS-Lab/hBayesDM"
+documentation = "http://hbayesdm.readthedocs.io/"
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3 :: Only"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.6.1"
+numpy = "^1.19.4"
+scipy = "^1.5.4"
+pandas = "^1.1.5"
+pystan = "^2.19.1"
+matplotlib = "^3.3.3"
+arviz = "^0.10.0"
+importlib-metadata = "^3.3.0"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.5.4"
+pylint = "^2.6.0"
+pytest = "^6.1.2"
+flake8 = "^3.8.4"
+pytest-rerunfailures = "^9.1.1"
+Sphinx = "^3.3.1"
+sphinx-autodoc-typehints = "^1.11.1"
+sphinx-rtd-theme = "^0.5.0"
+mypy = "^0.790"
+
+[[tool.poetry.source]]
+name = "test"
+url = "https://test.pypi.org/legacy/"
+secondary = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

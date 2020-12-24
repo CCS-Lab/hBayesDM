@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@ Brown and Heathcote LBA model - single subject. Note that this implementation es
 for each condition-choice pair. For example, if the task involves deciding between two stimuli on each trial, and
 there are two different conditions throughout the task (e.g. speed versus accuracy), a total of 4 (2 stimuli by 2 conditions)
 drift rates will be estimated. For details on implementation, see Annis et al. (2016)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +66,7 @@ drift rates will be estimated. For details on implementation, see Annis et al. (
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +80,7 @@ drift rates will be estimated. For details on implementation, see Annis et al. (
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
       </span>
     </div>
 
@@ -92,17 +95,8 @@ drift rates will be estimated. For details on implementation, see Annis et al. (
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/getting_started.html">Getting Started</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -110,7 +104,7 @@ drift rates will be estimated. For details on implementation, see Annis et al. (
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/CCS-Lab/hBayesDM">
+  <a href="https://github.com/CCS-Lab/hBayesDM/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -143,11 +137,23 @@ there are two different conditions throughout the task (e.g. speed versus accura
 drift rates will be estimated. For details on implementation, see Annis et al. (2016).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>choiceRT_lba_single</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"choose"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>3000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>inits</span> <span class='kw'>=</span> <span class='st'>"random"</span>,
-  <span class='kw'>indPars</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>saveDir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelRegressor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>vb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inc_postpred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adapt_delta</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>stepsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_treedepth</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>choiceRT_lba_single</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='st'>"choose"</span>,
+  niter <span class='op'>=</span> <span class='fl'>3000</span>,
+  nwarmup <span class='op'>=</span> <span class='fl'>1000</span>,
+  nchain <span class='op'>=</span> <span class='fl'>2</span>,
+  ncore <span class='op'>=</span> <span class='fl'>2</span>,
+  nthin <span class='op'>=</span> <span class='fl'>1</span>,
+  inits <span class='op'>=</span> <span class='st'>"random"</span>,
+  indPars <span class='op'>=</span> <span class='st'>"mean"</span>,
+  saveDir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  modelRegressor <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  vb <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  inc_postpred <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  adapt_delta <span class='op'>=</span> <span class='fl'>0.95</span>,
+  stepsize <span class='op'>=</span> <span class='fl'>1</span>,
+  max_treedepth <span class='op'>=</span> <span class='fl'>10</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -216,7 +222,7 @@ drift rates will be estimated. For details on implementation, see Annis et al. (
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>modelData</code>  A class <code>'hBayesDM'</code> object with the following components:</p><dl class='dl-horizontal'>
+    <p><code>modelData</code>  A class <code>'hBayesDM'</code> object with the following components:</p><dl>
  <dt><code>model</code></dt><dd><p>Character string with the name of the model (<code>"choiceRT_lba_single"</code>).</p></dd>
  <dt><code>allIndPars</code></dt><dd><p><code>'data.frame'</code> containing the summarized parameter
    values (as specified by <code>'indPars'</code>) for each subject.</p></dd>
@@ -235,7 +241,7 @@ drift rates will be estimated. For details on implementation, see Annis et al. (
 The file should be a <strong>tab-delimited</strong> text (.txt) file whose rows represent trial-by-trial observations and columns
 represent variables. For choice/reaction time tasks, there should be four columns of data
 with the labels "choice", "RT", and "condition". It is not necessary for the columns to be in this particular order,
-however it is necessary that they be labelled correctly and contain the information below:</p><dl class='dl-horizontal'>
+however it is necessary that they be labelled correctly and contain the information below:</p><dl>
  <dt><code>"subjID"</code></dt><dd><p>A unique identifier for each subject within data-set to be analyzed.</p></dd>
  <dt><code>"choice"</code></dt><dd><p>An integer representing the choice made on the current trial. (e.g., 1 1 3 2 1 2).</p></dd>
  <dt><code>"RT"</code></dt><dd><p>A floating number the choice reaction time in <strong>seconds</strong>. (e.g., 0.435 0.383 0.314 0.309, etc.).</p></dd>
@@ -252,7 +258,7 @@ effects that initial values have on the resulting posteriors.</p>
 <p><strong>nchain</strong> is a numerical value that specifies how many chains (i.e. independent sampling sequences) should be
 used to draw samples from the posterior distribution. Since the posteriors are generated from a sampling
 process, it is good practice to run multiple chains to ensure that a representative posterior is attained. When
-sampling is completed, the multiple chains may be checked for convergence with the <code><a href='https://rdrr.io/r/graphics/plot.html'>plot(myModel, type = "trace")</a></code>
+sampling is completed, the multiple chains may be checked for convergence with the <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot(myModel, type = "trace")</a></code>
 command. The chains should resemble a "furry caterpillar".</p>
 <p><strong>nthin</strong> is a numerical value that specifies the "skipping" behavior of the MCMC samples being chosen
 to generate the posterior distributions. By default, <strong>nthin</strong> is equal to 1, hence every sample is used to
@@ -275,34 +281,28 @@ Journal of Machine Learning Research, 15(1), 1593-1623.</p>
     <div class='dont-index'><p>We refer users to our in-depth tutorial for an example of using hBayesDM: <a href='https://rpubs.com/CCSL/hBayesDM'>https://rpubs.com/CCSL/hBayesDM</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Run the model and store results in "output"</span>
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>choiceRT_lba_single</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"example"</span>, <span class='kw'>niter</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>nwarmup</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nchain</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ncore</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='va'>output</span> <span class='op'>&lt;-</span> <span class='fu'>choiceRT_lba_single</span><span class='op'>(</span>data <span class='op'>=</span> <span class='st'>"example"</span>, niter <span class='op'>=</span> <span class='fl'>2000</span>, nwarmup <span class='op'>=</span> <span class='fl'>1000</span>, nchain <span class='op'>=</span> <span class='fl'>3</span>, ncore <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='co'># Visually check convergence of the sampling chains (should like like 'hairy caterpillars')</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>output</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'trace'</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>output</span>, type <span class='op'>=</span> <span class='st'>'trace'</span><span class='op'>)</span>
 
 <span class='co'># Check Rhat values (all Rhat values should be less than or equal to 1.1)</span>
-<span class='fu'><a href='rhat.html'>rhat</a></span>(<span class='no'>output</span>)
+<span class='fu'><a href='rhat.html'>rhat</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
 
 <span class='co'># Plot the posterior distributions of the hyper-parameters (distributions should be unimodal)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>output</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
 
 <span class='co'># Show the WAIC and LOOIC model fit estimates</span>
-<span class='fu'><a href='printFit.html'>printFit</a></span>(<span class='no'>output</span>)
-}</div></pre>
+<span class='fu'><a href='printFit.html'>printFit</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -313,7 +313,7 @@ Journal of Machine Learning Research, 15(1), 1593-1623.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

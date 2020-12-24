@@ -1,3 +1,5 @@
+from ._alt_delta import alt_delta
+from ._alt_gamma import alt_gamma
 from ._bandit2arm_delta import bandit2arm_delta
 from ._bandit4arm2_kalman_filter import bandit4arm2_kalman_filter
 from ._bandit4arm_2par_lapse import bandit4arm_2par_lapse
@@ -5,6 +7,7 @@ from ._bandit4arm_4par import bandit4arm_4par
 from ._bandit4arm_lapse import bandit4arm_lapse
 from ._bandit4arm_lapse_decay import bandit4arm_lapse_decay
 from ._bandit4arm_singleA_lapse import bandit4arm_singleA_lapse
+from ._bart_ewmv import bart_ewmv
 from ._bart_par4 import bart_par4
 from ._cgt_cm import cgt_cm
 from ._choiceRT_ddm import choiceRT_ddm
@@ -34,11 +37,13 @@ from ._prl_fictitious_rp_woa import prl_fictitious_rp_woa
 from ._prl_fictitious_woa import prl_fictitious_woa
 from ._prl_rp import prl_rp
 from ._prl_rp_multipleB import prl_rp_multipleB
+from ._pst_Q import pst_Q
 from ._pst_gainloss_Q import pst_gainloss_Q
 from ._ra_noLA import ra_noLA
 from ._ra_noRA import ra_noRA
 from ._ra_prospect import ra_prospect
 from ._rdt_happiness import rdt_happiness
+from ._task2AFC_sdt import task2AFC_sdt
 from ._ts_par4 import ts_par4
 from ._ts_par6 import ts_par6
 from ._ts_par7 import ts_par7
@@ -47,6 +52,8 @@ from ._ug_delta import ug_delta
 from ._wcs_sql import wcs_sql
 
 __all__ = [
+    'alt_delta',
+    'alt_gamma',
     'bandit2arm_delta',
     'bandit4arm2_kalman_filter',
     'bandit4arm_2par_lapse',
@@ -54,6 +61,7 @@ __all__ = [
     'bandit4arm_lapse',
     'bandit4arm_lapse_decay',
     'bandit4arm_singleA_lapse',
+    'bart_ewmv',
     'bart_par4',
     'cgt_cm',
     'choiceRT_ddm',
@@ -83,11 +91,13 @@ __all__ = [
     'prl_fictitious_woa',
     'prl_rp',
     'prl_rp_multipleB',
+    'pst_Q',
     'pst_gainloss_Q',
     'ra_noLA',
     'ra_noRA',
     'ra_prospect',
     'rdt_happiness',
+    'task2AFC_sdt',
     'ts_par4',
     'ts_par6',
     'ts_par7',

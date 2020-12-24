@@ -1,6 +1,48 @@
 #' @noRd
 #' @keywords internal
 
+alt_preprocess_func <- function(raw_data, general_info) {
+  # Currently class(raw_data) == "data.table"
+
+  # Use general_info of raw_data
+  subjs   <- general_info$subjs
+  n_subj  <- general_info$n_subj
+  t_subjs <- general_info$t_subjs
+  t_max   <- general_info$t_max
+
+  # Initialize (model-specific) data arrays
+  choice  <- array(-1, c(n_subj, t_max))
+  outcome <- array( 0, c(n_subj, t_max))
+  blue_punish <- array(0, c(n_subj, t_max))
+  orange_punish <- array(0, c(n_subj, t_max))
+
+  # Write from raw_data to the data arrays
+  for (i in 1:n_subj) {
+    subj <- subjs[i]
+    t <- t_subjs[i]
+    DT_subj <- raw_data[raw_data$subjid == subj]
+
+    choice[i, 1:t]  <- DT_subj$choice
+    outcome[i, 1:t] <- DT_subj$outcome
+    blue_punish[i, 1:t]  <- DT_subj$bluepunish
+    orange_punish[i, 1:t] <- DT_subj$orangepunish
+  }
+
+  # Wrap into a list for Stan
+  data_list <- list(
+    N       = n_subj,
+    T       = t_max,
+    Tsubj   = t_subjs,
+    choice  = choice,
+    outcome = outcome,
+    bluePunish = blue_punish,
+    orangePunish = orange_punish
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
+}
+
 bandit2arm_preprocess_func <- function(raw_data, general_info) {
   # Currently class(raw_data) == "data.table"
 
@@ -710,6 +752,44 @@ rdt_preprocess_func <- function(raw_data, general_info) {
     outcome  = outcome,
     happy    = happy,
     RT_happy = RT_happy
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
+}
+
+task2AFC_preprocess_func <- function(raw_data, general_info) {
+  # Currently class(raw_data) == "data.table"
+
+  # Use general_info of raw_data
+  subjs <- general_info$subjs
+  n_subj <- general_info$n_subj
+
+  # Initialize (model-specific) data arrays
+  signal <- array(0, c(n_subj))
+  noise <- array(0, c(n_subj))
+  h <- array(0, c(n_subj))
+  f <- array(0, c(n_subj))
+
+
+  # Write from raw_data to the data arrays
+  for (i in 1:n_subj) {
+    subj <- subjs[i]
+    subj_data <- subset(raw_data, raw_data$subjid == subj)
+
+    signal[i] = nrow(subset(subj_data, subj_data$stimulus == 1))
+    noise[i] = nrow(subset(subj_data, subj_data$stimulus == 0))
+    h[i] = nrow(subset(subj_data, subj_data$stimulus ==1 & subj_data$response ==1))
+    f[i] = nrow(subset(subj_data, subj_data$stimulus ==0 & subj_data$response ==1))
+  }
+
+  # Wrap into a list for Stan
+  data_list <- list(
+    N = n_subj,
+    signal = signal,
+    noise = noise,
+    h = h,
+    f = f
   )
 
   # Returned data_list will directly be passed to Stan

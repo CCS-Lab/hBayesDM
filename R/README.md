@@ -5,7 +5,8 @@
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Build
-Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=master)](https://travis-ci.org/CCS-Lab/hBayesDM)
+Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=develop)](https://travis-ci.org/CCS-Lab/hBayesDM)
+[![Documentation](https://github.com/CCS-Lab/hBayesDM/workflows/Documentation/badge.svg)](https://github.com/CCS-Lab/hBayesDM/actions?query=workflow%3ADocumentation)
 [![CRAN Latest
 Release](https://www.r-pkg.org/badges/version-last-release/hBayesDM)](https://cran.r-project.org/package=hBayesDM)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hBayesDM)](https://cran.r-project.org/web/packages/hBayesDM/index.html)
@@ -18,12 +19,12 @@ hBayesDM uses [Stan](http://mc-stan.org/) for Bayesian inference.
 
 ## Quick Links
 
-  - **Mailing list**:
+-   **Mailing list**:
     <https://groups.google.com/forum/#!forum/hbayesdm-users>
-  - **Bug reports**: <https://github.com/CCS-Lab/hBayesDM/issues>
-  - **Contributing**: See the
+-   **Bug reports**: <https://github.com/CCS-Lab/hBayesDM/issues>
+-   **Contributing**: See the
     [Wiki](https://github.com/CCS-Lab/hBayesDM/wiki) of this repository.
-  - **Python interface for hBayesDM**:
+-   **Python interface for hBayesDM**:
     [PyPI](https://pypi.org/project/hbayesdm/),
     [documentation](https://hbayesdm.readthedocs.io)
 
@@ -72,8 +73,7 @@ model for the first time. If you plan on runnning several different
 models and want to pre-build all models during installation time, set an
 environment variable `BUILD_ALL` to `true`, like the following. We
 highly recommend you only do so when you have multiple cores available,
-since building all models at once takes quite a long time to
-complete.
+since building all models at once takes quite a long time to complete.
 
 ``` r
 Sys.setenv(BUILD_ALL = "true")  # Build *all* models at installation time

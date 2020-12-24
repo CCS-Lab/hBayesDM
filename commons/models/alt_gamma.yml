@@ -1,0 +1,49 @@
+task_name:
+  code: alt
+  desc: Aversive Learning Task
+  cite:
+  - Browning, M., Behrens, T. E., Jocham, G., O'reilly, J. X., & Bishop, S. J. (2015).
+    Anxious individuals have difficulty learning the causal statistics of aversive
+    environments. Nature neuroscience, 18(4), 590.
+
+model_name:
+  code: gamma
+  desc: Rescorla-Wagner (Gamma) Model
+  cite:
+
+model_type:
+  code:
+  desc: Hierarchical
+
+notes:
+contributors:
+- name: Lili Zhang
+  email: lili.zhang27@mail.dcu.ie
+  link: https://github.com/lilihub
+
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  choice: Integer value representing the option chosen on the given trial
+    (blue == 1, orange == 2).
+  outcome: Integer value representing the outcome of the given trial
+    (punishment == 1, and non-punishment == 0).
+  bluePunish: Floating point value representing the magnitude of punishment for blue
+    on that trial (e.g., 10, 97)
+  orangePunish: Floating point value representing the magnitude of punishment for orange
+    on that trial (e.g., 23, 45)
+
+parameters:
+  A:
+    desc: learning rate
+    info: [0, 0.5, 1]
+  beta:
+    desc: inverse temperature
+    info: [0, 1, 20]
+  gamma:
+    desc: risk preference
+    info: [0, 1, 10]
+
+regressors:
+postpreds:
+- y_pred
+additional_args:

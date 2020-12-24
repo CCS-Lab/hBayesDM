@@ -1,7 +1,7 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 1.0.2
-Date: 2019-11-13
+Version: 1.1.0
+Date: 2020-12-18
 Author:
     Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
@@ -45,7 +45,7 @@ License: GPL-3
 LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
@@ -53,6 +53,8 @@ Collate:
     'stanmodels.R'
     'settings.R'
     'hBayesDM_model.R'
+    'alt_delta.R'
+    'alt_gamma.R'
     'bandit2arm_delta.R'
     'bandit4arm2_kalman_filter.R'
     'bandit4arm_2par_lapse.R'
@@ -60,6 +62,7 @@ Collate:
     'bandit4arm_lapse.R'
     'bandit4arm_lapse_decay.R'
     'bandit4arm_singleA_lapse.R'
+    'bart_ewmv.R'
     'bart_par4.R'
     'cgt_cm.R'
     'choiceRT_ddm.R'
@@ -100,12 +103,14 @@ Collate:
     'prl_fictitious_woa.R'
     'prl_rp.R'
     'prl_rp_multipleB.R'
+    'pst_Q.R'
     'pst_gainloss_Q.R'
     'ra_noLA.R'
     'ra_noRA.R'
     'ra_prospect.R'
     'rdt_happiness.R'
     'rhat.R'
+    'task2AFC_sdt.R'
     'ts_par4.R'
     'ts_par6.R'
     'ts_par7.R'

@@ -2,10 +2,8 @@
 language: r
 r: release
 
-sudo: required
-
 os: linux
-dist: trusty
+dist: xenial
 
 branches:
   only:
@@ -32,22 +30,26 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - git
       - gcc-7
       - g++-7
       - gfortran-7
       - libcurl4-openssl-dev
       - libxml2-dev
+      - libgit2-dev
+      - libharfbuzz-dev
+      - libfribidi-dev
 
-matrix:
+jobs:
   include:
   - name: 'Test R codes'
     env: TARGET='R'
-  - name: 'Test Python codes (Python 3.5)'
-    env: TARGET='Python' && PYTHON_VERSION=3.5
   - name: 'Test Python codes (Python 3.6)'
     env: TARGET='Python' && PYTHON_VERSION=3.6
   - name: 'Test Python codes (Python 3.7)'
     env: TARGET='Python' && PYTHON_VERSION=3.7
+  - name: 'Test Python codes (Python 3.8)'
+    env: TARGET='Python' && PYTHON_VERSION=3.8
 
 before_install:
   - export ROOTPATH=`pwd`
