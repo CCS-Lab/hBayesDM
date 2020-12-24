@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION alt_gamma
-#' @templateVar CONTRIBUTOR 
+#' @templateVar CONTRIBUTOR \href{https://github.com/lilihub}{Lili Zhang} <\email{lili.zhang27@@mail.dcu.ie}>
 #' @templateVar TASK_NAME Aversive Learning Task
 #' @templateVar TASK_CODE alt
 #' @templateVar TASK_CITE (Browning et al., 2015)

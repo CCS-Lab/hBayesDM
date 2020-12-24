@@ -1,6 +1,15 @@
+# hBayesDM 1.1.0
+
+* Added the cumulative model for the Cambridge gambling task: `cgt_cm`.
+* Added two new models for aversive learning tasks: `alt_delta` and `alt_gamma`.
+* Added exponential-weight mean-variance model for BART task: `bart_ewmv`.
+* Added simple Q learning model for the probabilistic selection task: `prl_Q`.
+* Added signal detection theory model for 2-alternative forced choice task:
+`task2AFC_sdt`.
+
 # hBayesDM 1.0.2
 
-- Fix an error on using data.frame objects as data (#112).
+- Fixed an error on using data.frame objects as data (#112).
 
 # hBayesDM 1.0.1
 

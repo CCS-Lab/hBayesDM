@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hbayesdm"
-version = "1.0.1.9000"
+version = "1.1.0"
 description = "Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks"
 authors = ["hBayesDM developers <hbayesdm-users@googlegroups.com>"]
 license = "GPLv3"
@@ -25,6 +25,7 @@ pandas = "^1.1.5"
 pystan = "^2.19.1"
 matplotlib = "^3.3.3"
 arviz = "^0.10.0"
+importlib-metadata = "^3.3.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5.4"

@@ -73,7 +73,7 @@ def alt_gamma(
     .. [Browning2015] Browning, M., Behrens, T. E., Jocham, G., O'reilly, J. X., & Bishop, S. J. (2015). Anxious individuals have difficulty learning the causal statistics of aversive environments. Nature neuroscience, 18(4), 590.
     
 
-    
+    .. codeauthor:: Lili Zhang <lili.zhang27@mail.dcu.ie>
 
     User data should contain the behavioral data-set of all subjects of interest for
     the current analysis. When loading from a file, the datafile should be a
