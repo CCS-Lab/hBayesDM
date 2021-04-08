@@ -76,8 +76,8 @@ install.packages("hBayesDM", dependencies=TRUE)
 Install the package from GitHub:
 ```{r eval=FALSE}
 ## install 'devtools' if required
-if (!require(devtools)) install.packages("devtools", subdir="R")
-devtools::install_github("CCS-Lab/hBayesDM")
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("CCS-Lab/hBayesDM", subdir="R")
 ```
 
 ### Method C
