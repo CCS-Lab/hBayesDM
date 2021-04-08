@@ -146,8 +146,8 @@
 <p>Install the package from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## install 'devtools' if required</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span><span class="op">)</span></code></pre></div>
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="method-c" class="section level3">
 <h3 class="hasAnchor">
@@ -231,8 +231,8 @@
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001723 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 17.23 seconds.
+## Chain 1: Gradient evaluation took 0.001698 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 16.98 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -246,69 +246,19 @@
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100        -1708.228             1.000            1.000
-## Chain 1:    200        -1508.755             0.566            1.000
-## Chain 1:    300        -1463.139             0.388            0.132
-## Chain 1:    400        -1446.584             0.294            0.132
-## Chain 1:    500        -1447.110             0.235            0.031
-## Chain 1:    600        -1444.800             0.196            0.031
-## Chain 1:    700        -1558.802             0.179            0.031
-## Chain 1:    800        -5834.036             0.248            0.073
-## Chain 1:    900        -1488.998             0.545            0.073
-## Chain 1:   1000        -1421.107             0.495            0.073
-## Chain 1:   1100        -1825.650             0.417            0.073
-## Chain 1:   1200        -1432.255             0.431            0.073
-## Chain 1:   1300        -1511.906             0.433            0.073
-## Chain 1:   1400        -1477.824             0.435            0.073
-## Chain 1:   1500        -2683.566             0.479            0.222
-## Chain 1:   1600        -1500.562             0.558            0.275   MAY BE DIVERGING... INSPECT ELBO
-## Chain 1:   1700        -1560.627             0.555            0.275   MAY BE DIVERGING... INSPECT ELBO
-## Chain 1:   1800        -1467.560             0.488            0.222
-## Chain 1:   1900        -1495.957             0.198            0.063
-## Chain 1:   2000        -2303.099             0.228            0.222
-## Chain 1:   2100        -1551.596             0.254            0.275
-## Chain 1:   2200        -1584.414             0.229            0.063
-## Chain 1:   2300        -1612.867             0.225            0.063
-## Chain 1:   2400        -1601.204             0.224            0.063
-## Chain 1:   2500        -1775.639             0.189            0.063
-## Chain 1:   2600        -1507.507             0.128            0.063
-## Chain 1:   2700        -1546.000             0.126            0.063
-## Chain 1:   2800        -1490.595             0.124            0.037
-## Chain 1:   2900        -5200.823             0.193            0.098
-## Chain 1:   3000        -1483.400             0.409            0.098
-## Chain 1:   3100        -1544.136             0.364            0.039
-## Chain 1:   3200        -1691.800             0.371            0.087
-## Chain 1:   3300        -1538.839             0.379            0.098
-## Chain 1:   3400        -1487.762             0.382            0.098
-## Chain 1:   3500        -1479.199             0.373            0.087
-## Chain 1:   3600        -1565.621             0.360            0.055
-## Chain 1:   3700        -1466.714             0.365            0.067
-## Chain 1:   3800        -1567.309             0.367            0.067
-## Chain 1:   3900        -1370.395             0.310            0.067
-## Chain 1:   4000        -1187.959             0.075            0.067
-## Chain 1:   4100        -1090.735             0.080            0.087
-## Chain 1:   4200        -1063.851             0.074            0.067
-## Chain 1:   4300        -1044.124             0.066            0.064
-## Chain 1:   4400        -1026.640             0.064            0.064
-## Chain 1:   4500        -1030.721             0.064            0.064
-## Chain 1:   4600        -1001.646             0.061            0.064
-## Chain 1:   4700         -979.425             0.057            0.029
-## Chain 1:   4800         -966.807             0.052            0.025
-## Chain 1:   4900         -920.026             0.042            0.025
-## Chain 1:   5000         -895.763             0.030            0.025
-## Chain 1:   5100         -861.231             0.025            0.025
-## Chain 1:   5200         -838.161             0.025            0.027
-## Chain 1:   5300         -818.872             0.025            0.027
-## Chain 1:   5400         -811.355             0.025            0.027
-## Chain 1:   5500         -809.169             0.025            0.027
-## Chain 1:   5600         -808.555             0.022            0.024
-## Chain 1:   5700         -809.351             0.020            0.024
-## Chain 1:   5800         -808.880             0.018            0.024
-## Chain 1:   5900         -808.315             0.013            0.009   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -977.204             1.000            1.000
+## Chain 1:    200        -2694.953             0.819            1.000
+## Chain 1:    300         -840.406             1.281            1.000
+## Chain 1:    400         -811.299             0.970            1.000
+## Chain 1:    500         -812.925             0.776            0.637
+## Chain 1:    600         -809.679             0.648            0.637
+## Chain 1:    700         -809.635             0.555            0.036
+## Chain 1:    800         -809.975             0.486            0.036
+## Chain 1:    900         -808.280             0.432            0.004   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 0.9. Resampling is unreliable. Increasing
+<pre><code>## Warning: Pareto k diagnostic value is 0.78. Resampling is unreliable. Increasing
 ## the number of draws or decreasing tol_rel_obj may help.</code></pre>
 <pre><code>## 
 ## ************************************
@@ -417,16 +367,16 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03859874 0.1386315 5.971599
-## 2       2 0.03583420 0.1616136 6.154208
-## 3       3 0.04279987 0.1275814 5.935753
-## 4       4 0.03162681 0.1491150 6.240700
-## 5       5 0.03416821 0.1486428 6.178688
-## 6       6 0.04136273 0.1535794 6.288598
-## 7       7 0.04294095 0.1481476 5.778642
-## 8       8 0.03442245 0.1605268 6.510156
-## 9       9 0.04011054 0.1454854 6.079533
-## 10     10 0.04769613 0.1301719 5.547672
+## 1       1 0.03913093 0.1390867 5.969782
+## 2       2 0.03610008 0.1610513 6.167684
+## 3       3 0.04287178 0.1275595 5.936827
+## 4       4 0.03173295 0.1491241 6.243336
+## 5       5 0.03484960 0.1488251 6.183915
+## 6       6 0.04161634 0.1538227 6.294517
+## 7       7 0.04311709 0.1481923 5.791640
+## 8       8 0.03469555 0.1603766 6.530736
+## 9       9 0.04005595 0.1450438 6.075101
+## 10     10 0.04747233 0.1307934 5.538391
 ```
 -->
 </div>
@@ -496,8 +446,8 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.002608 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 26.08 seconds.
+## Chain 1: Gradient evaluation took 0.002466 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 24.66 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -511,17 +461,17 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -846.864             1.000            1.000
-## Chain 1:    200         -833.658             0.508            1.000
-## Chain 1:    300         -823.584             0.343            0.016
-## Chain 1:    400         -817.696             0.259            0.016
-## Chain 1:    500         -816.609             0.207            0.012
-## Chain 1:    600         -815.497             0.173            0.012
-## Chain 1:    700         -822.903             0.150            0.009   MEDIAN ELBO CONVERGED
+## Chain 1:    100        -1713.779             1.000            1.000
+## Chain 1:    200         -834.099             1.027            1.055
+## Chain 1:    300         -818.837             0.691            1.000
+## Chain 1:    400         -817.650             0.519            1.000
+## Chain 1:    500         -820.131             0.416            0.019
+## Chain 1:    600         -816.901             0.347            0.019
+## Chain 1:    700         -816.937             0.297            0.004   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 1.63. Resampling is disabled. Decreasing
+<pre><code>## Warning: Pareto k diagnostic value is 1.33. Resampling is disabled. Decreasing
 ## tol_rel_obj may help if variational algorithm has terminated prematurely.
 ## Otherwise consider using sampling instead.</code></pre>
 <pre><code>## 
