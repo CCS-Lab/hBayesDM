@@ -9,7 +9,7 @@ output:
     fig_width: 8
     keep_md: yes
     toc: yes
-  pdf_document: 
+  pdf_document:
     latex_engine: xelatex
     number_sections: yes
 header-includes: \setlength\parindent{24pt}\setlength{\parskip}{0.0pt plus 1.0pt}
@@ -23,32 +23,32 @@ hBayesDM (**_h_**ierarchical **_Bayes_**ian modeling of **_D_**ecision-**_M_**ak
 
 ## Motivation
 
-Computational modeling provides a quantitative framework for investigating latent neurocognitive processes (e.g., learning rate, reward sensitivity) and interactions among multiple decision-making systems. Parameters of a computational model reflect psychologically meaningful individual differences: thus, getting accurate parameter estimates of a computational model is critical to improving the interpretation of its findings. Hierarchical Bayesian analysis (HBA) is regarded as the gold standard for parameter estimation, especially when the amount of information from each participant is small (see below "Why hierarchical Bayesian analysis?"). However, many researchers interested in HBA often find the approach too technical and challenging to be implemented. 
+Computational modeling provides a quantitative framework for investigating latent neurocognitive processes (e.g., learning rate, reward sensitivity) and interactions among multiple decision-making systems. Parameters of a computational model reflect psychologically meaningful individual differences: thus, getting accurate parameter estimates of a computational model is critical to improving the interpretation of its findings. Hierarchical Bayesian analysis (HBA) is regarded as the gold standard for parameter estimation, especially when the amount of information from each participant is small (see below "Why hierarchical Bayesian analysis?"). However, many researchers interested in HBA often find the approach too technical and challenging to be implemented.
 
-We introduce a free R package **hBayesDM**, which offers HBA of various computational models on an array of decision-making tasks (see below for a list of tasks and models currently available). _**Users can perform HBA of various computational models with a single line of coding**_. Example datasets are also available. With hBayesDM, we hope anyone with minimal knowledge of programming can take advantage of advanced computational modeling and HBA. It is our expectation that hBayesDM will contribute to the dissemination of these computational tools and enable researchers in related fields to easily characterize latent neurocognitive processes within their study populations. 
+We introduce a free R package **hBayesDM**, which offers HBA of various computational models on an array of decision-making tasks (see below for a list of tasks and models currently available). _**Users can perform HBA of various computational models with a single line of coding**_. Example datasets are also available. With hBayesDM, we hope anyone with minimal knowledge of programming can take advantage of advanced computational modeling and HBA. It is our expectation that hBayesDM will contribute to the dissemination of these computational tools and enable researchers in related fields to easily characterize latent neurocognitive processes within their study populations.
 
 ## Why hierarchical Bayesian analysis (HBA)?
 
-![](images/HBA_concept.png) 
+![](images/HBA_concept.png)
 
-Most computational models do not have closed form solutions and we need to estimate parameter values. Traditionally parameters are estimated at the individual level with maximum likelihood estimation (MLE): getting point estimates for each individual separately. However, individual MLE estimates are often noisy especially when there is insufficient amount of data. A group-level analysis (e.g., group-level MLE), which estimate a single set of parameters for the whole group of individuals, may generate more reliable estimates but inevitably ignores individual differences. 
+Most computational models do not have closed form solutions and we need to estimate parameter values. Traditionally parameters are estimated at the individual level with maximum likelihood estimation (MLE): getting point estimates for each individual separately. However, individual MLE estimates are often noisy especially when there is insufficient amount of data. A group-level analysis (e.g., group-level MLE), which estimate a single set of parameters for the whole group of individuals, may generate more reliable estimates but inevitably ignores individual differences.
 
-HBA and other hierarchical approaches [e.g., @huys2011disentangling] allow for individual differences while pooling information across individuals. Both individual and group parameter estimates (i.e., posterior distributions) are estimated simultaneously in a mutually constraining fashion. Consequently, individual parameter estimates tend to be more stable and reliable because commonalities among individuals are captured and informed by the group tendencies [e.g., @ahn2011model]. HBA also finds full posterior distributions instead of point estimates (thus providing rich information about the parameters). HBA also makes it easy to do group comparisons in a Bayesian fashion (e.g., comparing clinical and non-clinical groups, see an example below). 
+HBA and other hierarchical approaches [e.g., @huys2011disentangling] allow for individual differences while pooling information across individuals. Both individual and group parameter estimates (i.e., posterior distributions) are estimated simultaneously in a mutually constraining fashion. Consequently, individual parameter estimates tend to be more stable and reliable because commonalities among individuals are captured and informed by the group tendencies [e.g., @ahn2011model]. HBA also finds full posterior distributions instead of point estimates (thus providing rich information about the parameters). HBA also makes it easy to do group comparisons in a Bayesian fashion (e.g., comparing clinical and non-clinical groups, see an example below).
 
 HBA is a branch of Bayesian statistics and the conceptual framework of Bayesian data analysis is clearly written in [Chapter 2](https://sites.google.com/site/doingbayesiandataanalysis/sample-chapter/DoingBayesianDataAnalysisChapter2.pdf) of John Kruschke's book [@kruschke2014doing]. In Bayesian statistics, we assume prior beliefs (i.e., prior distributions) for model parameters and update the priors into posterior distributions given the data (e.g., trial-by-trial choices and outcomes) using [Bayes' rule](https://en.wikipedia.org/wiki/Bayes%27_rule). Note that the prior distributions we use for model parameters are vague (e.g., flat) or weakly informative priors, so they play a minimal role in the posterior distribution.
 
-For Bayesian updating, we use the Stan software package (<http://mc-stan.org/>), which implements a very efficient Markov Chain Monte Carlo (MCMC) algorithm called Hamiltonian Monte Carlo (HMC). HMC is known to be effective and works well even for large complex models. See Stan reference manual (<http://mc-stan.org/documentation/>) and Chapter 14 of @kruschke2014doing for a comprehensive description of HMC and Stan. What is MCMC and why shoud we use it? Remember, we need to update our priors into posterior distributions in order to make inference about model parameters. Simply put, MCMC is a way of approximating a posterior distribution by drawing a large number of samples from it. MCMC algorithms are used when posterior distributions cannot be analytically achieved or using MCMC is more efficient than searching for the whole grid of parameter space (i.e., grid search). To learn more about the basic foundations of MCMC, we recommend Chapter 7 of @kruschke2014doing. 
+For Bayesian updating, we use the Stan software package (<http://mc-stan.org/>), which implements a very efficient Markov Chain Monte Carlo (MCMC) algorithm called Hamiltonian Monte Carlo (HMC). HMC is known to be effective and works well even for large complex models. See Stan reference manual (<http://mc-stan.org/documentation/>) and Chapter 14 of @kruschke2014doing for a comprehensive description of HMC and Stan. What is MCMC and why shoud we use it? Remember, we need to update our priors into posterior distributions in order to make inference about model parameters. Simply put, MCMC is a way of approximating a posterior distribution by drawing a large number of samples from it. MCMC algorithms are used when posterior distributions cannot be analytically achieved or using MCMC is more efficient than searching for the whole grid of parameter space (i.e., grid search). To learn more about the basic foundations of MCMC, we recommend Chapter 7 of @kruschke2014doing.
 
 
-Detailed specification of Bayesian models is not available in text yet (stay tuned for our tutorial paper whose citation is listed below). At the same time, users can go over our Stan codes to check how we implement each computational model (e.g., `pathTo_gng_m1 = system.file("stan/gng_m1.stan", package="hBayesDM")` ). We made strong efforts to optimize Stan codes through reparameterization (e.g., Matt trick) and vectorization. 
+Detailed specification of Bayesian models is not available in text yet (stay tuned for our tutorial paper whose citation is listed below). At the same time, users can go over our Stan codes to check how we implement each computational model (e.g., `pathTo_gng_m1 = system.file("stan/gng_m1.stan", package="hBayesDM")` ). We made strong efforts to optimize Stan codes through reparameterization (e.g., Matt trick) and vectorization.
 
 
 ## Prerequisites
 * R version 3.4.0 or later is required. R is freely available from <http://www.r-project.org/>.
 * **Latest Stan (RStan 2.18.1 or later)**. Detailed instructions for installing RStan is available in this link: <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/>.
-* RStudio (<https://www.rstudio.com/products/RStudio/>) is not required but strongly recommended. 
+* RStudio (<https://www.rstudio.com/products/RStudio/>) is not required but strongly recommended.
 
-**Note**: Additional R packages (e.g., [ggplot2](https://cran.r-project.org/web/packages/ggplot2/), [loo](https://cran.r-project.org/web/packages/loo/)) will be installed (if not installed yet) during the installation of hBayesDM. 
+**Note**: Additional R packages (e.g., [ggplot2](https://cran.r-project.org/web/packages/ggplot2/), [loo](https://cran.r-project.org/web/packages/loo/)) will be installed (if not installed yet) during the installation of hBayesDM.
 
 
 ## Tasks & models implemented in hBayesDM
@@ -62,7 +62,7 @@ See [here][list-tasks-models] for the list of tasks and models implemented in hB
 
 There are three ways to install hBayesDM as described below. _Make sure to install [RStan](http://mc-stan.org/interfaces/rstan) prior to install hBayesDM. And restart R/RStudio after the installation of hBayesDM._ Typically RStan can be installed just by typing `install.packages("rstan", dependencies = TRUE)`. **For Windows, you need to install <a href="https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows" target="_blank">Rtools</a> first to install RStan and install the hBayesDM from CRAN**. For detailed instructions for the installation of rstan, please go to this link: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started. If you are a Mac user, [make sure Xcode is installed](https://github.com/stan-dev/rstan/wiki/RStan-Mac-OS-X-Prerequisite-Installation-Instructions#step2_3).
 
-How can you tell if RStan is correctly installed? Check if you can fit the <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#example-1-eight-schools" target="_blank">'Eight Schools'</a> model without a problem. Check [here](http://mc-stan.org/interfaces/rstan.html) or <a href="https://groups.google.com/forum/#!categories/stan-users/installation" target="_blank">here</a> if you experience difficulty installing RStan. 
+How can you tell if RStan is correctly installed? Check if you can fit the <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#example-1-eight-schools" target="_blank">'Eight Schools'</a> model without a problem. Check [here](http://mc-stan.org/interfaces/rstan.html) or <a href="https://groups.google.com/forum/#!categories/stan-users/installation" target="_blank">here</a> if you experience difficulty installing RStan.
 
 ### Method A (recommended for all users - Windows/Mac/Linux)
 
@@ -72,29 +72,29 @@ Use the following call:
 install.packages("hBayesDM", dependencies=TRUE)
 ```
 
-### Method B 
+### Method B
 
 Install the package from GitHub:
 
 ```r
 ## install 'devtools' if required
-if (!require(devtools)) install.packages("devtools")  
+if (!require(devtools)) install.packages("devtools", subdir="R")
 devtools::install_github("CCS-Lab/hBayesDM")
 ```
 
-### Method C 
+### Method C
 
-1. Download a copy from [**here**](https://cran.r-project.org/src/contrib/hBayesDM_1.0.0.tar.gz) to a directory (e.g., "~/Downloads").
+1. Download a copy from [**here**](https://cran.r-project.org/src/contrib/hBayesDM_1.1.0.tar.gz) to a directory (e.g., "~/Downloads").
 2. Open R(Studio) and set working directory to the downloaded folder. (e.g., `setwd("~/Downloads")` )
 3. Install the package from the downloaded file.
 
 
 ```r
-install.packages(pkgs="hBayesDM_1.0.0.tar.gz", dependencies=TRUE, repos=NULL)
+install.packages(pkgs="hBayesDM_1.1.0.tar.gz", dependencies=TRUE, repos=NULL)
 ```
 
-### Precompiling Stan models during installation  
-If you follow the direction described below, Stan models will be precompiled during installation and models will run immediately when called. This is recommended if you are a frequent hBayesDM user! 
+### Precompiling Stan models during installation
+If you follow the direction described below, Stan models will be precompiled during installation and models will run immediately when called. This is recommended if you are a frequent hBayesDM user!
 
 
 ```r
@@ -103,7 +103,7 @@ Sys.setenv(MAKEFLAGS='-j 4')  # Use 4 cores for compilation (or the number you w
 
 install.packages("hBayesDM")  # Install from CRAN
 ## or
-devtools::install_github("CCS-Lab/hBayesDM")  # Install from GitHub
+devtools::install_github("CCS-Lab/hBayesDM", subdir="R")  # Install from GitHub
 ```
 
 **We highly recommend you use multiple cores for compiling, since it will take quite a long time to complete.**
@@ -118,18 +118,18 @@ First, open RStudio (or just R) and load the package:
 library(hBayesDM)
 ```
 
-Four steps of doing HBA with hBayesDM are illustrated below. As an example, four models of the orthogonalized Go/Nogo task (Guitart-Masip et al., 2012; Cavanagh et al., 2013) are fit and compared with the hBayesDM package. 
+Four steps of doing HBA with hBayesDM are illustrated below. As an example, four models of the orthogonalized Go/Nogo task (Guitart-Masip et al., 2012; Cavanagh et al., 2013) are fit and compared with the hBayesDM package.
 
 
-![](images/hBayesDM_pipeLine.png) 
+![](images/hBayesDM_pipeLine.png)
 
 
 ### 1) Prepare the data
 
-* For fitting a model with hBayesDM, all subjects' data should be combined into a single text (*.txt) file. Look at the sample dataset and a help file (e.g., `?gng_m1`) for each task and carefully follow the instructions. 
+* For fitting a model with hBayesDM, all subjects' data should be combined into a single text (*.txt) file. Look at the sample dataset and a help file (e.g., `?gng_m1`) for each task and carefully follow the instructions.
 * Subjects’ data must contain variables that are consistent with the column names specified in the help file, though extra variables are in practice allowed.
 * It is okay if the number of trials is different across subjects. But there should exist no N/A data. If some trials contain N/A data (e.g., `choice=NA` in trial#10), remove the trials first.
-* Sample data are available [**here**](https://u.osu.edu/ccsl/files/2016/03/sampleData_hBayesDM_0.2.0-1d9qdvj.zip), although users can fit a model with sample data without separately downloading them with one of the function arguments. Once the hBayesDM package is installed, sample data can be also retrieved from the package folder. Note that the file name of sample (example) data for a given task is **taskName_exampleData.txt** (e.g., dd_exampleData.txt, igt_exampleData.txt, gng_exampleData.txt, etc.). See each model's help file (e.g., `?gng_m1`) to check required data columns and their labels. 
+* Sample data are available [**here**](https://u.osu.edu/ccsl/files/2016/03/sampleData_hBayesDM_0.2.0-1d9qdvj.zip), although users can fit a model with sample data without separately downloading them with one of the function arguments. Once the hBayesDM package is installed, sample data can be also retrieved from the package folder. Note that the file name of sample (example) data for a given task is **taskName_exampleData.txt** (e.g., dd_exampleData.txt, igt_exampleData.txt, gng_exampleData.txt, etc.). See each model's help file (e.g., `?gng_m1`) to check required data columns and their labels.
 
 ```r
 dataPath = system.file("extdata/gng_exampleData.txt", package="hBayesDM")
@@ -185,8 +185,8 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001553 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.53 seconds.
+## Chain 1: Gradient evaluation took 0.001723 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 17.23 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -200,16 +200,72 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -811.066             1.000            1.000
-## Chain 1:    200         -810.294             0.500            1.000
-## Chain 1:    300         -809.036             0.334            0.002   MEDIAN ELBO CONVERGED
+## Chain 1:    100        -1708.228             1.000            1.000
+## Chain 1:    200        -1508.755             0.566            1.000
+## Chain 1:    300        -1463.139             0.388            0.132
+## Chain 1:    400        -1446.584             0.294            0.132
+## Chain 1:    500        -1447.110             0.235            0.031
+## Chain 1:    600        -1444.800             0.196            0.031
+## Chain 1:    700        -1558.802             0.179            0.031
+## Chain 1:    800        -5834.036             0.248            0.073
+## Chain 1:    900        -1488.998             0.545            0.073
+## Chain 1:   1000        -1421.107             0.495            0.073
+## Chain 1:   1100        -1825.650             0.417            0.073
+## Chain 1:   1200        -1432.255             0.431            0.073
+## Chain 1:   1300        -1511.906             0.433            0.073
+## Chain 1:   1400        -1477.824             0.435            0.073
+## Chain 1:   1500        -2683.566             0.479            0.222
+## Chain 1:   1600        -1500.562             0.558            0.275   MAY BE DIVERGING... INSPECT ELBO
+## Chain 1:   1700        -1560.627             0.555            0.275   MAY BE DIVERGING... INSPECT ELBO
+## Chain 1:   1800        -1467.560             0.488            0.222
+## Chain 1:   1900        -1495.957             0.198            0.063
+## Chain 1:   2000        -2303.099             0.228            0.222
+## Chain 1:   2100        -1551.596             0.254            0.275
+## Chain 1:   2200        -1584.414             0.229            0.063
+## Chain 1:   2300        -1612.867             0.225            0.063
+## Chain 1:   2400        -1601.204             0.224            0.063
+## Chain 1:   2500        -1775.639             0.189            0.063
+## Chain 1:   2600        -1507.507             0.128            0.063
+## Chain 1:   2700        -1546.000             0.126            0.063
+## Chain 1:   2800        -1490.595             0.124            0.037
+## Chain 1:   2900        -5200.823             0.193            0.098
+## Chain 1:   3000        -1483.400             0.409            0.098
+## Chain 1:   3100        -1544.136             0.364            0.039
+## Chain 1:   3200        -1691.800             0.371            0.087
+## Chain 1:   3300        -1538.839             0.379            0.098
+## Chain 1:   3400        -1487.762             0.382            0.098
+## Chain 1:   3500        -1479.199             0.373            0.087
+## Chain 1:   3600        -1565.621             0.360            0.055
+## Chain 1:   3700        -1466.714             0.365            0.067
+## Chain 1:   3800        -1567.309             0.367            0.067
+## Chain 1:   3900        -1370.395             0.310            0.067
+## Chain 1:   4000        -1187.959             0.075            0.067
+## Chain 1:   4100        -1090.735             0.080            0.087
+## Chain 1:   4200        -1063.851             0.074            0.067
+## Chain 1:   4300        -1044.124             0.066            0.064
+## Chain 1:   4400        -1026.640             0.064            0.064
+## Chain 1:   4500        -1030.721             0.064            0.064
+## Chain 1:   4600        -1001.646             0.061            0.064
+## Chain 1:   4700         -979.425             0.057            0.029
+## Chain 1:   4800         -966.807             0.052            0.025
+## Chain 1:   4900         -920.026             0.042            0.025
+## Chain 1:   5000         -895.763             0.030            0.025
+## Chain 1:   5100         -861.231             0.025            0.025
+## Chain 1:   5200         -838.161             0.025            0.027
+## Chain 1:   5300         -818.872             0.025            0.027
+## Chain 1:   5400         -811.355             0.025            0.027
+## Chain 1:   5500         -809.169             0.025            0.027
+## Chain 1:   5600         -808.555             0.022            0.024
+## Chain 1:   5700         -809.351             0.020            0.024
+## Chain 1:   5800         -808.880             0.018            0.024
+## Chain 1:   5900         -808.315             0.013            0.009   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.
 ```
 
 ```
-## Warning: Pareto k diagnostic value is 0.94. Resampling is unreliable. Increasing
+## Warning: Pareto k diagnostic value is 0.9. Resampling is unreliable. Increasing
 ## the number of draws or decreasing tol_rel_obj may help.
 ```
 
@@ -224,16 +280,16 @@ output1 = gng_m1("example", ncore=4)
 Executing the command will generate messages like below in the R console. It will take approximately 2~3 minutes (with the `gng_m1` model & "example" data) for the model fitting to complete (with MCMC sampling). Note that you may get warning messages about "numerical problems" or that there are a certain number of "divergent transitions after warmup". When we check our models with example datasets, warning messages appear mostly at the beginning of the warmup period and there are very few divergent transitions after warmup. In such cases, you can ignore the warnings. Also see Appendix D of the [Stan Reference Manual](https://github.com/stan-dev/stan/releases/download/v2.17.0/stan-reference-2.17.0.pdf).
 
 ```
-Model name  = gng_m1 
-Data file   = example 
+Model name  = gng_m1
+Data file   = example
 
 Details:
- # of chains                    = 4 
- # of cores used                = 4 
- # of MCMC samples (per chain)  = 2000 
- # of burn-in samples           = 1000 
- # of subjects                  = 10 
- # of (max) trials per subject  = 240 
+ # of chains                    = 4
+ # of cores used                = 4
+ # of MCMC samples (per chain)  = 2000
+ # of burn-in samples           = 1000
+ # of subjects                  = 10
+ # of (max) trials per subject  = 240
 
 ****************************************
 ** Use VB estimates as initial values **
@@ -265,8 +321,8 @@ When model fitting is complete, you see this message and data are stored into `o
 
 1. `model`: Name of the fitted model (i.e., `output1$model` is 'gng_m1').
 2. `allIndPars`: Summary of individual subjects' parameters (default: _mean_). Users can also choose to use _median_ or _mode_ (e.g., `output1 = gng_m1("example", indPars="mode")` ).
-3. `parVals`: Posterior samples of all parameters. Extracted by `rstan::extract(rstan_object, permuted=T)`. **Note that hyper (group) mean parameters are indicated by `mu_PARAMETER` (e.g., `mu_xi`, `mu_ep`, `mu_rho`).** 
-4. `fit`: RStan object (i.e., `fit = stan(file='gng_m1.stan', ...)` ). 
+3. `parVals`: Posterior samples of all parameters. Extracted by `rstan::extract(rstan_object, permuted=T)`. **Note that hyper (group) mean parameters are indicated by `mu_PARAMETER` (e.g., `mu_xi`, `mu_ep`, `mu_rho`).**
+4. `fit`: RStan object (i.e., `fit = stan(file='gng_m1.stan', ...)` ).
 5. `rawdata`: Raw trial-by-trial data used for modeling. Raw data are provided in the output to allow users to easily access data and compare trial-by-trial model-based regressors (e.g., prediction errors) with choice data.
 6. `modelRegressor` (optional): Trial-by-trial model-based regressors such as prediction errors, the values of the chosen option, etc. For each model, we pre-select appropriate model-based regressors.
 
@@ -284,7 +340,7 @@ When model fitting is complete, you see this message and data are stored into `o
 ```
 > output1$fit
 Inference for Stan model: gng_m1.
-4 chains, each with iter=2000; warmup=1000; thin=1; 
+4 chains, each with iter=2000; warmup=1000; thin=1;
 post-warmup draws per chain=4000, total post-warmup draws=4000.
 
                mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat
@@ -298,7 +354,7 @@ sigma[3]       0.12    0.00 0.09    0.01    0.05    0.10    0.16    0.33  2402 1
 ```
 
 
-$\hat{R}$ (`Rhat`) is an index of the convergence of the chains. $\hat{R}$ values close to 1.00 would indicate that MCMC chains are converged to stationary target distributions. When we check MCMC performance of our models on sample data, $\hat{R}$ values are 1.00 for most parameters or at most 1.04. 
+$\hat{R}$ (`Rhat`) is an index of the convergence of the chains. $\hat{R}$ values close to 1.00 would indicate that MCMC chains are converged to stationary target distributions. When we check MCMC performance of our models on sample data, $\hat{R}$ values are 1.00 for most parameters or at most 1.04.
 
 
 
@@ -313,15 +369,15 @@ Let's first visually diagnose MCMC performance of hyper parameters with trace pl
 plot(output1, type="trace", fontSize=11)   # traceplot of hyper parameters. Set font size 11.
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpsd0D1Q/filec5d6c0d2772/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpmgNewq/fileb55473dfc61/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
-The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their $\hat{R}$ values (see [**here**](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples. 
+The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their $\hat{R}$ values (see [**here**](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples.
 
 ```r
 plot(output1, type="trace", inc_warmup=T)   # traceplot of hyper parameters w/ warmup samples
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpsd0D1Q/filec5d6c0d2772/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpmgNewq/fileb55473dfc61/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 You can also plot the posterior distributions of the hyper (group) parameters with `plot`:
 
@@ -329,20 +385,20 @@ You can also plot the posterior distributions of the hyper (group) parameters wi
 plot(output1)
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpsd0D1Q/filec5d6c0d2772/articles/getting_started_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
-<!-- 
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpmgNewq/fileb55473dfc61/articles/getting_started_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+<!--
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
 -->
 
-To visualize individual parameters, you can use our newly updated function called `plotInd` (based on Stan's native function `stan_plot`). For example, to plot each individual's $\epsilon$ (learning rate) parameter (e.g., individual posterior distributions): 
+To visualize individual parameters, you can use our newly updated function called `plotInd` (based on Stan's native function `stan_plot`). For example, to plot each individual's $\epsilon$ (learning rate) parameter (e.g., individual posterior distributions):
 
 
 ```r
-plotInd(output1, "ep")  
+plotInd(output1, "ep")
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpsd0D1Q/filec5d6c0d2772/articles/getting_started_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpmgNewq/fileb55473dfc61/articles/getting_started_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
@@ -353,38 +409,38 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03959871 0.1393704 5.989028
-## 2       2 0.03631071 0.1610643 6.193725
-## 3       3 0.04308719 0.1274322 5.941235
-## 4       4 0.03163914 0.1491597 6.267014
-## 5       5 0.03456193 0.1479249 6.187625
-## 6       6 0.04246798 0.1535593 6.332415
-## 7       7 0.04377054 0.1482364 5.816294
-## 8       8 0.03473596 0.1607106 6.541211
-## 9       9 0.04053175 0.1457039 6.095811
-## 10     10 0.04823608 0.1301435 5.552849
+## 1       1 0.03859874 0.1386315 5.971599
+## 2       2 0.03583420 0.1616136 6.154208
+## 3       3 0.04279987 0.1275814 5.935753
+## 4       4 0.03162681 0.1491150 6.240700
+## 5       5 0.03416821 0.1486428 6.178688
+## 6       6 0.04136273 0.1535794 6.288598
+## 7       7 0.04294095 0.1481476 5.778642
+## 8       8 0.03442245 0.1605268 6.510156
+## 9       9 0.04011054 0.1454854 6.079533
+## 10     10 0.04769613 0.1301719 5.547672
 ```
 -->
 
 
 ### 4) Compare models (and groups)
 
-To compare models, you first fit all models in the same manner as the example above (e.g., `outpu4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)` ). Next, we use the command `printFit`, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see @vehtari2015e for the details of LOOIC and WAIC). By default, `printFit` function uses the LOOIC which is preferable to the WAIC when there are influential observations [@vehtari2015e]. 
+To compare models, you first fit all models in the same manner as the example above (e.g., `outpu4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)` ). Next, we use the command `printFit`, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see @vehtari2015e for the details of LOOIC and WAIC). By default, `printFit` function uses the LOOIC which is preferable to the WAIC when there are influential observations [@vehtari2015e].
 
 Assuming four models' outputs are `output1` (gng_m1), `output2` (gng_m2), `output3` (gng_m3), and `output4` (gng_m4), their model fits can be simultaneously summarized by:
 
 ```
 > printFit(output1, output2, output3, output4)
-   Model    LOOIC   
-1 gng_m1 1588.843 
-2 gng_m2 1571.129 
-3 gng_m3 1573.872 
-4 gng_m4 1543.335 
+   Model    LOOIC
+1 gng_m1 1588.843
+2 gng_m2 1571.129
+3 gng_m3 1573.872
+4 gng_m4 1543.335
 ```
 
-Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling `printFit(output1, output2, output3, output4, ic="waic")` or `printFit(output1, output2, output3, output4, ic="both")`. Use the `extract_ic` function (e.g., `extract_ic(output3)` ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the `extract_ic` function can be used only for a single model output. 
+Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling `printFit(output1, output2, output3, output4, ic="waic")` or `printFit(output1, output2, output3, output4, ic="both")`. Use the `extract_ic` function (e.g., `extract_ic(output3)` ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the `extract_ic` function can be used only for a single model output.
 
-We also want to remind you that there are multiple ways to compare computational models (e.g., simulation method (absolute model performance), parameter recovery, generalization criterion) and the goodness of fit (e.g., LOOIC or WAIC) is just one of them. Check if predictions from your model (e.g., "posterior predictive check") can mimic the data (same data or new data) with reasonable accuracy. See @kruschke2014doing (for posterior predictive check), Guitart-Masip et al. (2012) (for goodness of fit and simulation performance on the orthogonalized Go/Nogo task), and @Busemeyer2000a (for generalization criterion) as well as Ahn et al. (2008; 2014) and @steingroever2014absolute (for the combination of multiple model comparison methods). 
+We also want to remind you that there are multiple ways to compare computational models (e.g., simulation method (absolute model performance), parameter recovery, generalization criterion) and the goodness of fit (e.g., LOOIC or WAIC) is just one of them. Check if predictions from your model (e.g., "posterior predictive check") can mimic the data (same data or new data) with reasonable accuracy. See @kruschke2014doing (for posterior predictive check), Guitart-Masip et al. (2012) (for goodness of fit and simulation performance on the orthogonalized Go/Nogo task), and @Busemeyer2000a (for generalization criterion) as well as Ahn et al. (2008; 2014) and @steingroever2014absolute (for the combination of multiple model comparison methods).
 
 To compare two groups in a Bayesian fashion [e.g., @ahn2014decision], first you need to fit each group with the same model and ideally the same number of MCMC samples. For example,
 
@@ -393,14 +449,14 @@ To compare two groups in a Bayesian fashion [e.g., @ahn2014decision], first you 
 data_group1 = "~/Project_folder/gng_data_group1.txt"  # data file for group1
 data_group2 = "~/Project_folder/gng_data_group2.txt"  # data file for group2
 
-output_group1 = gng_m4(data_group1)  # fit group1 data with the gng_m4 model 
-output_group2 = gng_m4(data_group2)  # fit group2 data with the gng_m4 model 
+output_group1 = gng_m4(data_group1)  # fit group1 data with the gng_m4 model
+output_group2 = gng_m4(data_group2)  # fit group2 data with the gng_m4 model
 
 ## After model fitting is complete for both groups,
 ## evaluate the group difference (e.g., on the 'pi' parameter) by examining the posterior distribution of group mean differences.
 
-diffDist = output_group1$parVals$mu_pi - output_group2$parVals$mu_pi  # group1 - group2 
-HDIofMCMC( diffDist )  # Compute the 95% Highest Density Interval (HDI). 
+diffDist = output_group1$parVals$mu_pi - output_group2$parVals$mu_pi  # group1 - group2
+HDIofMCMC( diffDist )  # Compute the 95% Highest Density Interval (HDI).
 plotHDI( diffDist )    # plot the group mean differences
 ```
 
@@ -411,7 +467,7 @@ In model-based neuroimaging [e.g., @o2007model], model-based time series of a la
 
 
 The biggest challenge for performing model-based fMRI/EEG is to learn how to extract trial-by-trial model-based regressors. The hBayesDM package allows users to easily extract model-based regressors that can be used for model-based fMRI or EEG analysis.
-The hBayesDM package currently provides the following model-based regressors. With the trial-by-trial regressors, users can easily use their favorite neuroimaging package (e.g., in Statistical Parametric Mapping (SPM; http://www.fil.ion.ucl.ac.uk/spm/) to perform model-based fMRI analysis. See our [paper](https://www.mitpressjournals.org/doi/abs/10.1162/CPSY_a_00002) (**Extracting Trial-by-Trial Regressors for Model-Based fMRI/EEG Analysis**) for more details. 
+The hBayesDM package currently provides the following model-based regressors. With the trial-by-trial regressors, users can easily use their favorite neuroimaging package (e.g., in Statistical Parametric Mapping (SPM; http://www.fil.ion.ucl.ac.uk/spm/) to perform model-based fMRI analysis. See our [paper](https://www.mitpressjournals.org/doi/abs/10.1162/CPSY_a_00002) (**Extracting Trial-by-Trial Regressors for Model-Based fMRI/EEG Analysis**) for more details.
 
 
 As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the follwoing (set the `modelRegressor` input variable to `TRUE`. Its default value is `FALSE`):
@@ -459,8 +515,8 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.002382 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 23.82 seconds.
+## Chain 1: Gradient evaluation took 0.002608 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 26.08 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -474,18 +530,20 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -829.757             1.000            1.000
-## Chain 1:    200         -820.238             0.506            1.000
-## Chain 1:    300         -822.039             0.338            0.012
-## Chain 1:    400         -822.729             0.254            0.012
-## Chain 1:    500         -818.920             0.204            0.005   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -846.864             1.000            1.000
+## Chain 1:    200         -833.658             0.508            1.000
+## Chain 1:    300         -823.584             0.343            0.016
+## Chain 1:    400         -817.696             0.259            0.016
+## Chain 1:    500         -816.609             0.207            0.012
+## Chain 1:    600         -815.497             0.173            0.012
+## Chain 1:    700         -822.903             0.150            0.009   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.
 ```
 
 ```
-## Warning: Pareto k diagnostic value is 1.64. Resampling is disabled. Decreasing
+## Warning: Pareto k diagnostic value is 1.63. Resampling is disabled. Decreasing
 ## tol_rel_obj may help if variational algorithm has terminated prematurely.
 ## Otherwise consider using sampling instead.
 ```
@@ -503,7 +561,7 @@ Once the sampling is completed, all model-based regressors are contained in the 
 
 ```r
 ## store all subjects' stimulus value (SV) in ‘sv_all’
-sv_all = output3$modelRegressor$SV 
+sv_all = output3$modelRegressor$SV
 
 dim(output3$modelRegressor$SV)  # number of rows=# of subjects (=10), number of columns=# of trials (=240)
 ```
@@ -514,24 +572,24 @@ dim(output3$modelRegressor$SV)  # number of rows=# of subjects (=10), number of 
 
 ```r
 ## visualize SV (Subject #1)
-plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")  
+plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpsd0D1Q/filec5d6c0d2772/articles/getting_started_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpmgNewq/fileb55473dfc61/articles/getting_started_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 ```r
 ## visualize SV (Subject #5)
-plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")  
+plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")
 ```
 
-![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpsd0D1Q/filec5d6c0d2772/articles/getting_started_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
+![](/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpmgNewq/fileb55473dfc61/articles/getting_started_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
 
 Similarly, users can extract and visualize other model-based regressors. **W(Go)**, **W(NoGo)**, **Q(Go)**, **Q(NoGo)** are stored in `Wgo`, `Wnogo`, `Qgo`, and `Qnogo`, respectively.
 
 
 ### 6) Variational inference for approximate posterior sampling
 
-To use Stan's variational algorithm for approximate posterior sampling in hBayesDM, users just need to set `vb=TRUE` (default = `FALSE`). It takes very little time (especially with precompiled models) to do variational inference -  try it yourself for any model!! But variational inference should be used only to get a rough estimate. It is recommended that users use MCMC for final inferences. 
+To use Stan's variational algorithm for approximate posterior sampling in hBayesDM, users just need to set `vb=TRUE` (default = `FALSE`). It takes very little time (especially with precompiled models) to do variational inference -  try it yourself for any model!! But variational inference should be used only to get a rough estimate. It is recommended that users use MCMC for final inferences.
 
 For example, to run `gng_m1` using variational inference:
 
@@ -547,7 +605,7 @@ Note that input arguments for MCMC sampling (e.g., `nchain`, `niter`, `nthin`, `
 
 ### 7) Posterior predictive checks
 
-Simply put, _posterior predictive checks_ refer to when a fitted model is used to generate simulated data and check if simulated data are similar to the actual data. Posterior predictive checks are useful in assessing if a model generates valid predictions. 
+Simply put, _posterior predictive checks_ refer to when a fitted model is used to generate simulated data and check if simulated data are similar to the actual data. Posterior predictive checks are useful in assessing if a model generates valid predictions.
 
 From v0.5.0, users can run posterior predictive checks on all models except drift-diffusion models in hBayesDM. Simulated data from posterior predictive checks are contained in `hBayesDM_OUTPUT$parVals$y_pred`. In a future release, we will include a function/command that can conveniently summarize and plot posterior predictive checks. In the mean time, users can program their own codes like the following:
 
@@ -585,11 +643,11 @@ axis(side=2, at = c(0,1) )
 legend("bottomleft", legend=c("True", "PPC"), col=c("black", "red"), lty=1:2)
 ```
 
-![](images/PPC.png) 
+![](images/PPC.png)
 
 ## To-do list
 
-We are planning to add more tasks/models. We plan to include the following tasks and/or models in the near future. If you have any requests for a specific task or a model, please let us know. 
+We are planning to add more tasks/models. We plan to include the following tasks and/or models in the near future. If you have any requests for a specific task or a model, please let us know.
 
 * Hierarchical Gaussian Filtering [@mathys2011bayesian].
 * More sequential sampling models (e.g., drift diffusion models with different drift rates for multiple conditions).
@@ -617,7 +675,7 @@ paper][paper]:
 
 [paper]: https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002
 
-## Papers citing hBayesDM 
+## Papers citing hBayesDM
 
 Here is a selected list of papers being we know that used or cited hBayesDM (from Google Scholar). Let us know if you used hBayesDM for your papers!
 
@@ -625,7 +683,7 @@ Here is a selected list of papers being we know that used or cited hBayesDM (fro
 
 [paper-citing-hbayesdm]: https://scholar.google.co.kr/scholar?oi=bibs&hl=en&cites=14115085235970942065&as_sdt=5
 
-## Suggested reading 
+## Suggested reading
 
 You can refer to other helpful review papers or books [@lee2014bayesian; @daw2011trial; @Busemeyer2010; @Lee2011hba; @Shiffrin2008] to know more about HBA or computational modeling in general.
 
@@ -635,7 +693,7 @@ You can refer to other helpful review papers or books [@lee2014bayesian; @daw201
 1. "Modelling behavioural data" by Quentin Huys, available in <https://www.quentinhuys.com/teaching.html>.
 2. Introductory tutorial on reinforcment learning by Jill O'Reilly and Hanneke den Ouden, available in <http://hannekedenouden.ruhosting.nl/RLtutorial/Instructions.html>.
 3. VBA Toolbox: A flexible modeling (MATLAB) toolbox using Variational Bayes (<http://mbb-team.github.io/VBA-toolbox/>).
-4. TAPAS: A collection of algorithms and software tools written in MATLAB. Developed by the Translational Neuromodeling Unit (TNU) at Zurich (<http://www.translationalneuromodeling.org/tapas/>). 
+4. TAPAS: A collection of algorithms and software tools written in MATLAB. Developed by the Translational Neuromodeling Unit (TNU) at Zurich (<http://www.translationalneuromodeling.org/tapas/>).
 5. Bayesian analysis toolbox for delay discounting data, available in <http://www.inferencelab.com/delay-discounting-analysis/>.
 6. rtdists: Response time distributions in R, available in <https://github.com/rtdists/rtdists/>.
 7. RWiener: Wiener process distribution functions, available in <https://cran.r-project.org/web/packages/RWiener/index.html>.
@@ -646,8 +704,8 @@ This work was supported in part by the National Institute on Drug Abuse (NIDA) u
 
 ## References
 
-<!-- See here to learn how to cite references: 
-http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html 
+<!-- See here to learn how to cite references:
+http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
 
 ## for table of contents
 http://stackoverflow.com/questions/23957278/how-to-add-table-of-contents-in-rmarkdown

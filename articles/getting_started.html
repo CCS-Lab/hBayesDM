@@ -73,7 +73,16 @@
 
       </header><script src="getting_started_files/jquery-1.11.3/jquery.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="getting_started_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
-<script src="getting_started_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/respond.min.js"></script><script src="getting_started_files/navigation-1.1/tabsets.js"></script><script src="getting_started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+<script src="getting_started_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/respond.min.js"></script><style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="getting_started_files/navigation-1.1/tabsets.js"></script><script src="getting_started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started</h1>
@@ -137,19 +146,19 @@
 <p>Install the package from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## install 'devtools' if required</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>  
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="method-c" class="section level3">
 <h3 class="hasAnchor">
 <a href="#method-c" class="anchor"></a>Method C</h3>
 <ol style="list-style-type: decimal">
-<li>Download a copy from <a href="https://cran.r-project.org/src/contrib/hBayesDM_1.0.0.tar.gz"><strong>here</strong></a> to a directory (e.g., “~/Downloads”).</li>
+<li>Download a copy from <a href="https://cran.r-project.org/src/contrib/hBayesDM_1.1.0.tar.gz"><strong>here</strong></a> to a directory (e.g., “~/Downloads”).</li>
 <li>Open R(Studio) and set working directory to the downloaded folder. (e.g., <code><a href="https://rdrr.io/r/base/getwd.html">setwd("~/Downloads")</a></code> )</li>
 <li>Install the package from the downloaded file.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="st">"hBayesDM_1.0.0.tar.gz"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span>, repos<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="st">"hBayesDM_1.1.0.tar.gz"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span>, repos<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="precompiling-stan-models-during-installation" class="section level3">
 <h3 class="hasAnchor">
@@ -161,7 +170,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span><span class="op">)</span>  <span class="co"># Install from CRAN</span>
 <span class="co">## or</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span><span class="op">)</span>  <span class="co"># Install from GitHub</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span>  <span class="co"># Install from GitHub</span></code></pre></div>
 <p><strong>We highly recommend you use multiple cores for compiling, since it will take quite a long time to complete.</strong></p>
 </div>
 </div>
@@ -222,8 +231,8 @@
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001553 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 15.53 seconds.
+## Chain 1: Gradient evaluation took 0.001723 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 17.23 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -237,29 +246,85 @@
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -811.066             1.000            1.000
-## Chain 1:    200         -810.294             0.500            1.000
-## Chain 1:    300         -809.036             0.334            0.002   MEDIAN ELBO CONVERGED
+## Chain 1:    100        -1708.228             1.000            1.000
+## Chain 1:    200        -1508.755             0.566            1.000
+## Chain 1:    300        -1463.139             0.388            0.132
+## Chain 1:    400        -1446.584             0.294            0.132
+## Chain 1:    500        -1447.110             0.235            0.031
+## Chain 1:    600        -1444.800             0.196            0.031
+## Chain 1:    700        -1558.802             0.179            0.031
+## Chain 1:    800        -5834.036             0.248            0.073
+## Chain 1:    900        -1488.998             0.545            0.073
+## Chain 1:   1000        -1421.107             0.495            0.073
+## Chain 1:   1100        -1825.650             0.417            0.073
+## Chain 1:   1200        -1432.255             0.431            0.073
+## Chain 1:   1300        -1511.906             0.433            0.073
+## Chain 1:   1400        -1477.824             0.435            0.073
+## Chain 1:   1500        -2683.566             0.479            0.222
+## Chain 1:   1600        -1500.562             0.558            0.275   MAY BE DIVERGING... INSPECT ELBO
+## Chain 1:   1700        -1560.627             0.555            0.275   MAY BE DIVERGING... INSPECT ELBO
+## Chain 1:   1800        -1467.560             0.488            0.222
+## Chain 1:   1900        -1495.957             0.198            0.063
+## Chain 1:   2000        -2303.099             0.228            0.222
+## Chain 1:   2100        -1551.596             0.254            0.275
+## Chain 1:   2200        -1584.414             0.229            0.063
+## Chain 1:   2300        -1612.867             0.225            0.063
+## Chain 1:   2400        -1601.204             0.224            0.063
+## Chain 1:   2500        -1775.639             0.189            0.063
+## Chain 1:   2600        -1507.507             0.128            0.063
+## Chain 1:   2700        -1546.000             0.126            0.063
+## Chain 1:   2800        -1490.595             0.124            0.037
+## Chain 1:   2900        -5200.823             0.193            0.098
+## Chain 1:   3000        -1483.400             0.409            0.098
+## Chain 1:   3100        -1544.136             0.364            0.039
+## Chain 1:   3200        -1691.800             0.371            0.087
+## Chain 1:   3300        -1538.839             0.379            0.098
+## Chain 1:   3400        -1487.762             0.382            0.098
+## Chain 1:   3500        -1479.199             0.373            0.087
+## Chain 1:   3600        -1565.621             0.360            0.055
+## Chain 1:   3700        -1466.714             0.365            0.067
+## Chain 1:   3800        -1567.309             0.367            0.067
+## Chain 1:   3900        -1370.395             0.310            0.067
+## Chain 1:   4000        -1187.959             0.075            0.067
+## Chain 1:   4100        -1090.735             0.080            0.087
+## Chain 1:   4200        -1063.851             0.074            0.067
+## Chain 1:   4300        -1044.124             0.066            0.064
+## Chain 1:   4400        -1026.640             0.064            0.064
+## Chain 1:   4500        -1030.721             0.064            0.064
+## Chain 1:   4600        -1001.646             0.061            0.064
+## Chain 1:   4700         -979.425             0.057            0.029
+## Chain 1:   4800         -966.807             0.052            0.025
+## Chain 1:   4900         -920.026             0.042            0.025
+## Chain 1:   5000         -895.763             0.030            0.025
+## Chain 1:   5100         -861.231             0.025            0.025
+## Chain 1:   5200         -838.161             0.025            0.027
+## Chain 1:   5300         -818.872             0.025            0.027
+## Chain 1:   5400         -811.355             0.025            0.027
+## Chain 1:   5500         -809.169             0.025            0.027
+## Chain 1:   5600         -808.555             0.022            0.024
+## Chain 1:   5700         -809.351             0.020            0.024
+## Chain 1:   5800         -808.880             0.018            0.024
+## Chain 1:   5900         -808.315             0.013            0.009   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 0.94. Resampling is unreliable. Increasing
+<pre><code>## Warning: Pareto k diagnostic value is 0.9. Resampling is unreliable. Increasing
 ## the number of draws or decreasing tol_rel_obj may help.</code></pre>
 <pre><code>## 
 ## ************************************
 ## **** Model fitting is complete! ****
 ## ************************************</code></pre>
 <p>Executing the command will generate messages like below in the R console. It will take approximately 2~3 minutes (with the <code>gng_m1</code> model &amp; “example” data) for the model fitting to complete (with MCMC sampling). Note that you may get warning messages about “numerical problems” or that there are a certain number of “divergent transitions after warmup”. When we check our models with example datasets, warning messages appear mostly at the beginning of the warmup period and there are very few divergent transitions after warmup. In such cases, you can ignore the warnings. Also see Appendix D of the <a href="https://github.com/stan-dev/stan/releases/download/v2.17.0/stan-reference-2.17.0.pdf">Stan Reference Manual</a>.</p>
-<pre><code>Model name  = gng_m1 
-Data file   = example 
+<pre><code>Model name  = gng_m1
+Data file   = example
 
 Details:
- # of chains                    = 4 
- # of cores used                = 4 
- # of MCMC samples (per chain)  = 2000 
- # of burn-in samples           = 1000 
- # of subjects                  = 10 
- # of (max) trials per subject  = 240 
+ # of chains                    = 4
+ # of cores used                = 4
+ # of MCMC samples (per chain)  = 2000
+ # of burn-in samples           = 1000
+ # of subjects                  = 10
+ # of (max) trials per subject  = 240
 
 ****************************************
 ** Use VB estimates as initial values **
@@ -307,7 +372,7 @@ SAMPLING FOR MODEL 'gng_m1' NOW (CHAIN 2).
 ...</code></pre>
 <pre><code>&gt; output1$fit
 Inference for Stan model: gng_m1.
-4 chains, each with iter=2000; warmup=1000; thin=1; 
+4 chains, each with iter=2000; warmup=1000; thin=1;
 post-warmup draws per chain=4000, total post-warmup draws=4000.
 
                mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat
@@ -335,13 +400,13 @@ sigma[3]       0.12    0.00 0.09    0.01    0.05    0.10    0.16    0.33  2402 1
 <p>You can also plot the posterior distributions of the hyper (group) parameters with <code>plot</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span><span class="op">)</span></code></pre></div>
-<p><img src="getting_started_files/figure-html/unnamed-chunk-13-1.png"><!-- --><!-- 
+<p><img src="getting_started_files/figure-html/unnamed-chunk-13-1.png"><!-- --><!--
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
 --></p>
 <p>To visualize individual parameters, you can use our newly updated function called <code>plotInd</code> (based on Stan’s native function <code>stan_plot</code>). For example, to plot each individual’s <span class="math inline">\(\epsilon\)</span> (learning rate) parameter (e.g., individual posterior distributions):</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span>  </code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-14-1.png"><!-- --></p>
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
@@ -352,16 +417,16 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03959871 0.1393704 5.989028
-## 2       2 0.03631071 0.1610643 6.193725
-## 3       3 0.04308719 0.1274322 5.941235
-## 4       4 0.03163914 0.1491597 6.267014
-## 5       5 0.03456193 0.1479249 6.187625
-## 6       6 0.04246798 0.1535593 6.332415
-## 7       7 0.04377054 0.1482364 5.816294
-## 8       8 0.03473596 0.1607106 6.541211
-## 9       9 0.04053175 0.1457039 6.095811
-## 10     10 0.04823608 0.1301435 5.552849
+## 1       1 0.03859874 0.1386315 5.971599
+## 2       2 0.03583420 0.1616136 6.154208
+## 3       3 0.04279987 0.1275814 5.935753
+## 4       4 0.03162681 0.1491150 6.240700
+## 5       5 0.03416821 0.1486428 6.178688
+## 6       6 0.04136273 0.1535794 6.288598
+## 7       7 0.04294095 0.1481476 5.778642
+## 8       8 0.03442245 0.1605268 6.510156
+## 9       9 0.04011054 0.1454854 6.079533
+## 10     10 0.04769613 0.1301719 5.547672
 ```
 -->
 </div>
@@ -371,11 +436,11 @@ output1$allIndPars
 <p>To compare models, you first fit all models in the same manner as the example above (e.g., <code>outpu4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)</code> ). Next, we use the command <code>printFit</code>, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see <span class="citation">Vehtari et al. (2015)</span> for the details of LOOIC and WAIC). By default, <code>printFit</code> function uses the LOOIC which is preferable to the WAIC when there are influential observations <span class="citation">(Vehtari et al., 2015)</span>.</p>
 <p>Assuming four models’ outputs are <code>output1</code> (gng_m1), <code>output2</code> (gng_m2), <code>output3</code> (gng_m3), and <code>output4</code> (gng_m4), their model fits can be simultaneously summarized by:</p>
 <pre><code>&gt; printFit(output1, output2, output3, output4)
-   Model    LOOIC   
-1 gng_m1 1588.843 
-2 gng_m2 1571.129 
-3 gng_m3 1573.872 
-4 gng_m4 1543.335 </code></pre>
+   Model    LOOIC
+1 gng_m1 1588.843
+2 gng_m2 1571.129
+3 gng_m3 1573.872
+4 gng_m4 1543.335</code></pre>
 <p>Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="waic")</a></code> or <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="both")</a></code>. Use the <code>extract_ic</code> function (e.g., <code><a href="../reference/extract_ic.html">extract_ic(output3)</a></code> ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the <code>extract_ic</code> function can be used only for a single model output.</p>
 <p>We also want to remind you that there are multiple ways to compare computational models (e.g., simulation method (absolute model performance), parameter recovery, generalization criterion) and the goodness of fit (e.g., LOOIC or WAIC) is just one of them. Check if predictions from your model (e.g., “posterior predictive check”) can mimic the data (same data or new data) with reasonable accuracy. See <span class="citation">Kruschke (2014)</span> (for posterior predictive check), Guitart-Masip et al. (2012) (for goodness of fit and simulation performance on the orthogonalized Go/Nogo task), and <span class="citation">Busemeyer &amp; Wang (2000)</span> (for generalization criterion) as well as Ahn et al. (2008; 2014) and <span class="citation">Steingroever et al. (2014)</span> (for the combination of multiple model comparison methods).</p>
 <p>To compare two groups in a Bayesian fashion <span class="citation">(e.g., Ahn et al., 2014)</span>, first you need to fit each group with the same model and ideally the same number of MCMC samples. For example,</p>
@@ -383,14 +448,14 @@ output1$allIndPars
 <code class="sourceCode R"><span class="va">data_group1</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group1.txt"</span>  <span class="co"># data file for group1</span>
 <span class="va">data_group2</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group2.txt"</span>  <span class="co"># data file for group2</span>
 
-<span class="va">output_group1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group1</span><span class="op">)</span>  <span class="co"># fit group1 data with the gng_m4 model </span>
-<span class="va">output_group2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group2</span><span class="op">)</span>  <span class="co"># fit group2 data with the gng_m4 model </span>
+<span class="va">output_group1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group1</span><span class="op">)</span>  <span class="co"># fit group1 data with the gng_m4 model</span>
+<span class="va">output_group2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group2</span><span class="op">)</span>  <span class="co"># fit group2 data with the gng_m4 model</span>
 
 <span class="co">## After model fitting is complete for both groups,</span>
 <span class="co">## evaluate the group difference (e.g., on the 'pi' parameter) by examining the posterior distribution of group mean differences.</span>
 
-<span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2 </span>
-<span class="fu"><a href="../reference/HDIofMCMC.html">HDIofMCMC</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI). </span>
+<span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2</span>
+<span class="fu"><a href="../reference/HDIofMCMC.html">HDIofMCMC</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI).</span>
 <span class="fu"><a href="../reference/plotHDI.html">plotHDI</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>    <span class="co"># plot the group mean differences</span></code></pre></div>
 </div>
 <div id="extracting-trial-by-trial-regressors-for-model-based-fmrieeg-analysis" class="section level3">
@@ -431,8 +496,8 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.002382 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 23.82 seconds.
+## Chain 1: Gradient evaluation took 0.002608 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 26.08 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -446,15 +511,17 @@ output1$allIndPars
 ## Chain 1: 
 ## Chain 1: Begin stochastic gradient ascent.
 ## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -829.757             1.000            1.000
-## Chain 1:    200         -820.238             0.506            1.000
-## Chain 1:    300         -822.039             0.338            0.012
-## Chain 1:    400         -822.729             0.254            0.012
-## Chain 1:    500         -818.920             0.204            0.005   MEDIAN ELBO CONVERGED
+## Chain 1:    100         -846.864             1.000            1.000
+## Chain 1:    200         -833.658             0.508            1.000
+## Chain 1:    300         -823.584             0.343            0.016
+## Chain 1:    400         -817.696             0.259            0.016
+## Chain 1:    500         -816.609             0.207            0.012
+## Chain 1:    600         -815.497             0.173            0.012
+## Chain 1:    700         -822.903             0.150            0.009   MEDIAN ELBO CONVERGED
 ## Chain 1: 
 ## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
 ## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 1.64. Resampling is disabled. Decreasing
+<pre><code>## Warning: Pareto k diagnostic value is 1.63. Resampling is disabled. Decreasing
 ## tol_rel_obj may help if variational algorithm has terminated prematurely.
 ## Otherwise consider using sampling instead.</code></pre>
 <pre><code>## 
@@ -464,17 +531,17 @@ output1$allIndPars
 <p>Once the sampling is completed, all model-based regressors are contained in the <code>modelRegressor</code> list.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## store all subjects' stimulus value (SV) in ‘sv_all’</span>
-<span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span> 
+<span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span><span class="op">)</span>  <span class="co"># number of rows=# of subjects (=10), number of columns=# of trials (=240)</span></code></pre></div>
 <pre><code>## [1]  10 240</code></pre>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## visualize SV (Subject #1)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span>  </code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-1.png"><!-- --></p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## visualize SV (Subject #5)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span>  </code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-2.png"><!-- --></p>
 <p>Similarly, users can extract and visualize other model-based regressors. <strong>W(Go)</strong>, <strong>W(NoGo)</strong>, <strong>Q(Go)</strong>, <strong>Q(NoGo)</strong> are stored in <code>Wgo</code>, <code>Wnogo</code>, <code>Qgo</code>, and <code>Qnogo</code>, respectively.</p>
 </div>
@@ -587,8 +654,8 @@ output1$allIndPars
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<!-- See here to learn how to cite references: 
-http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html 
+<!-- See here to learn how to cite references:
+http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
 
 ## for table of contents
 http://stackoverflow.com/questions/23957278/how-to-add-table-of-contents-in-rmarkdown
