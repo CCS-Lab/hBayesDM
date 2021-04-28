@@ -158,11 +158,6 @@ For the Choice Reaction Time Task, there should be 3 columns of data with the
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 }
-\note{
-\strong{Notes:}
-Note that this implementation is NOT the full Drift Diffusion Model as described in Ratcliff (1978). This implementation estimates the drift rate, boundary separation, starting point, and non-decision time; but not the between- and within-trial variances in these parameters.
-Code for this model is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potential others @ Stan mailing.
-}
 \examples{
 \dontrun{
 # Run the model with a given data.frame as df

@@ -23,10 +23,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Aylward, Valton, Ahn, Bond, Dayan, Roiser, & Robinson (2018) Altered decision-making under uncertainty in unmedicated mood and anxiety disorders. PsyArxiv. 10.31234/osf.io/k5b8m
 #'
+
 
 bandit4arm_2par_lapse <- hBayesDM_model(
   task_name       = "bandit4arm",

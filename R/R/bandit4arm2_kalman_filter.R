@@ -22,10 +22,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates for exploratory decisions in humans. Nature, 441(7095), 876-879.
 #'
+
 
 bandit4arm2_kalman_filter <- hBayesDM_model(
   task_name       = "bandit4arm2",

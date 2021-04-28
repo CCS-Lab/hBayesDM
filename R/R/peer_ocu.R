@@ -27,10 +27,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Chung, D., Christopoulos, G. I., King-Casas, B., Ball, S. B., & Chiu, P. H. (2015). Social signals of safety and risk confer utility and have asymmetric effects on observers' choices. Nature Neuroscience, 18(6), 912-916.
 #'
+
 
 peer_ocu <- hBayesDM_model(
   task_name       = "peer",

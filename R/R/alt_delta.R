@@ -24,10 +24,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Browning, M., Behrens, T. E., Jocham, G., O'reilly, J. X., & Bishop, S. J. (2015). Anxious individuals have difficulty learning the causal statistics of aversive environments. Nature neuroscience, 18(4), 590.
 #'
+
 
 alt_delta <- hBayesDM_model(
   task_name       = "alt",

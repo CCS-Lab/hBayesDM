@@ -22,16 +22,8 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
-#' @note
-#' \strong{Notes:}
-#' 
-#' If you want to write long notes for the model, you would be better to check out how to write multiline strings in YAML (https://yaml-multiline.info)
 
-#'
-#' @references
-#' 
-#'
+
 
 task2AFC_sdt <- hBayesDM_model(
   task_name       = "task2AFC",

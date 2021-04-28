@@ -23,8 +23,8 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
-#' @note
+
+#' #' @note
 #' \strong{Notes:}
 #' Note that this implementation is NOT the full Drift Diffusion Model as described in Ratcliff (1978). This implementation estimates the drift rate, boundary separation, starting point, and non-decision time; but not the between- and within-trial variances in these parameters.
 #' Code for this model is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potential others @ Stan mailing.
@@ -32,6 +32,7 @@
 #' @references
 #' Ratcliff, R. (1978). A theory of memory retrieval. Psychological Review, 85(2), 59-108. http://doi.org/10.1037/0033-295X.85.2.59
 #'
+
 
 choiceRT_ddm <- hBayesDM_model(
   task_name       = "choiceRT",

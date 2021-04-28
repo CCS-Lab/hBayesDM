@@ -22,10 +22,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Park, H., Yang, J., Vassileva, J., & Ahn, W. (2020). The Exponential-Weight Mean-Variance Model: A novel computational model for the Balloon Analogue Risk Task. https://doi.org/10.31234/osf.io/sdzj4
 #'
+
 
 bart_ewmv <- hBayesDM_model(
   task_name       = "bart",

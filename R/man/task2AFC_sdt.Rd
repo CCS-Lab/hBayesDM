@@ -149,11 +149,6 @@ For the 2-alternative forced choice task, there should be 3 columns of data with
 
 \subsection{Contributors}{\href{https://heesunpark26.github.io/}{Heesun Park} <\email{heesunpark26@gmail.com}>}
 }
-\note{
-\strong{Notes:}
-
-If you want to write long notes for the model, you would be better to check out how to write multiline strings in YAML (https://yaml-multiline.info)
-}
 \examples{
 \dontrun{
 # Run the model with a given data.frame as df
@@ -176,9 +171,6 @@ plot(output)
 # Show the WAIC and LOOIC model fit estimates
 printFit(output)
 }
-}
-\references{
-
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

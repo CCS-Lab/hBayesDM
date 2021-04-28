@@ -23,10 +23,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Seymour, Daw, Roiser, Dayan, & Dolan (2012). Serotonin Selectively Modulates Reward Value in Human Decision-Making. J Neuro, 32(17), 5833-5842.
 #'
+
 
 bandit4arm_4par <- hBayesDM_model(
   task_name       = "bandit4arm",
