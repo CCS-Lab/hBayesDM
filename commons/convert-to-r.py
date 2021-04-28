@@ -4,17 +4,19 @@ Generate R codes for hBayesDM using model information defined in YAML files.
 .. moduleauthor:: Jethro Lee <dlemfh96@snu.ac.kr>
 .. moduleauthor:: Jaeyeong Yang <jaeyeong.yang1125@gmail.com>
 """
-import sys
 import argparse
 import re
-from pathlib import Path
+import sys
 from collections import OrderedDict
+from pathlib import Path
 
 import yaml
+
 try:
-    from yaml import CLoader as Loader, CDumper as Dumper
+    from yaml import CDumper as Dumper
+    from yaml import CLoader as Loader
 except ImportError:
-    from yaml import Loader, Dumper
+    from yaml import Dumper, Loader
 
 
 def represent_none(self, _):
@@ -104,6 +106,13 @@ def format_fullcite(cites, sep='\n#\' '):
     return sep.join([c['fullcite'] for c in cites if c])
 
 
+def format_references_block(cites_formatted):
+    return f"""#' @references
+#' {cites_formatted}
+#'
+"""
+
+
 def generate_docs(info):
     # Model full name (Snake-case)
     model_function = [info['task_name']['code'], info['model_name']['code']]
@@ -125,11 +134,15 @@ def generate_docs(info):
     task_parencite = format_parencite(task_cite)
     model_parencite = format_parencite(model_cite)
 
-    references = format_fullcite(task_cite + model_cite, sep='\n#\'\n#\' ')
+    if len(task_cite + model_cite) > 0:
+        references = format_fullcite(task_cite + model_cite, sep='\n#\'\n#\' ')
+        references = format_references_block(references)
+    else:
+        references = ''
 
     # Notes
     if info.get('notes'):
-        notes = '@note\n#\' \\strong{Notes:}\n#\' ' + \
+        notes = '#\' @note\n#\' \\strong{Notes:}\n#\' ' + \
                 '\n#\' '.join(info['notes'])
         notes = '\n#\' ' + notes + '\n#\''
     else:
