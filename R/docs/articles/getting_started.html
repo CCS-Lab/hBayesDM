@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -40,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,7 +57,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/CCS-Lab/hBayesDM/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -71,10 +71,18 @@
 
       
 
-      </header><script src="getting_started_files/header-attrs-2.5/header-attrs.js"></script><script src="getting_started_files/jquery-1.11.3/jquery.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
+      </header><script src="getting_started_files/header-attrs-2.7/header-attrs.js"></script><script src="getting_started_files/jquery-1.11.3/jquery.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="getting_started_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
-<script src="getting_started_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/respond.min.js"></script><script src="getting_started_files/navigation-1.1/tabsets.js"></script><link href="getting_started_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="getting_started_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+<script src="getting_started_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/respond.min.js"></script><style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="getting_started_files/navigation-1.1/tabsets.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started</h1>
@@ -138,19 +146,19 @@
 <p>Install the package from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## install 'devtools' if required</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>  
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span><span class="op">)</span></code></pre></div>
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="method-c" class="section level3">
 <h3 class="hasAnchor">
 <a href="#method-c" class="anchor"></a>Method C</h3>
 <ol style="list-style-type: decimal">
-<li>Download a copy from <a href="https://cran.r-project.org/src/contrib/hBayesDM_1.0.0.tar.gz"><strong>here</strong></a> to a directory (e.g., “~/Downloads”).</li>
+<li>Download a copy from <a href="https://cran.r-project.org/src/contrib/hBayesDM_1.1.0.tar.gz"><strong>here</strong></a> to a directory (e.g., “~/Downloads”).</li>
 <li>Open R(Studio) and set working directory to the downloaded folder. (e.g., <code><a href="https://rdrr.io/r/base/getwd.html">setwd("~/Downloads")</a></code> )</li>
 <li>Install the package from the downloaded file.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="st">"hBayesDM_1.0.0.tar.gz"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span>, repos<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="st">"hBayesDM_1.1.0.tar.gz"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span>, repos<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="precompiling-stan-models-during-installation" class="section level3">
 <h3 class="hasAnchor">
@@ -162,7 +170,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span><span class="op">)</span>  <span class="co"># Install from CRAN</span>
 <span class="co">## or</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span><span class="op">)</span>  <span class="co"># Install from GitHub</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span>  <span class="co"># Install from GitHub</span></code></pre></div>
 <p><strong>We highly recommend you use multiple cores for compiling, since it will take quite a long time to complete.</strong></p>
 </div>
 </div>
@@ -199,16 +207,16 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span><span class="st">"example"</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></code></pre></div>
 <p>Executing the command will generate messages like below in the R console. It will take approximately 2~3 minutes (with the <code>gng_m1</code> model &amp; “example” data) for the model fitting to complete (with MCMC sampling). Note that you may get warning messages about “numerical problems” or that there are a certain number of “divergent transitions after warmup.” When we check our models with example datasets, warning messages appear mostly at the beginning of the warmup period and there are very few divergent transitions after warmup. In such cases, you can ignore the warnings. Also see Appendix D of the <a href="https://github.com/stan-dev/stan/releases/download/v2.17.0/stan-reference-2.17.0.pdf">Stan Reference Manual</a>.</p>
-<pre><code>Model name  = gng_m1 
-Data file   = example 
+<pre><code>Model name  = gng_m1
+Data file   = example
 
 Details:
- # of chains                    = 4 
- # of cores used                = 4 
- # of MCMC samples (per chain)  = 2000 
- # of burn-in samples           = 1000 
- # of subjects                  = 10 
- # of (max) trials per subject  = 240 
+ # of chains                    = 4
+ # of cores used                = 4
+ # of MCMC samples (per chain)  = 2000
+ # of burn-in samples           = 1000
+ # of subjects                  = 10
+ # of (max) trials per subject  = 240
 
 ****************************************
 ** Use VB estimates as initial values **
@@ -256,7 +264,7 @@ SAMPLING FOR MODEL 'gng_m1' NOW (CHAIN 2).
 ...</code></pre>
 <pre><code>&gt; output1$fit
 Inference for Stan model: gng_m1.
-4 chains, each with iter=2000; warmup=1000; thin=1; 
+4 chains, each with iter=2000; warmup=1000; thin=1;
 post-warmup draws per chain=4000, total post-warmup draws=4000.
 
                mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat
@@ -284,13 +292,13 @@ sigma[3]       0.12    0.00 0.09    0.01    0.05    0.10    0.16    0.33  2402 1
 <p>You can also plot the posterior distributions of the hyper (group) parameters with <code>plot</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span><span class="op">)</span></code></pre></div>
-<p><img src="getting_started_files/figure-html/unnamed-chunk-13-1.png"><!-- --><!-- 
+<p><img src="getting_started_files/figure-html/unnamed-chunk-13-1.png"><!-- --><!--
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
 --></p>
 <p>To visualize individual parameters, you can use our newly updated function called <code>plotInd</code> (based on Stan’s native function <code>stan_plot</code>). For example, to plot each individual’s <span class="math inline">\(\epsilon\)</span> (learning rate) parameter (e.g., individual posterior distributions):</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span>  </code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-14-1.png"><!-- --></p>
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
@@ -320,11 +328,11 @@ output1$allIndPars
 <p>To compare models, you first fit all models in the same manner as the example above (e.g., <code>outpu4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)</code> ). Next, we use the command <code>printFit</code>, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see <span class="citation">Vehtari et al. (2015)</span> for the details of LOOIC and WAIC). By default, <code>printFit</code> function uses the LOOIC which is preferable to the WAIC when there are influential observations <span class="citation">(Vehtari et al., 2015)</span>.</p>
 <p>Assuming four models’ outputs are <code>output1</code> (gng_m1), <code>output2</code> (gng_m2), <code>output3</code> (gng_m3), and <code>output4</code> (gng_m4), their model fits can be simultaneously summarized by:</p>
 <pre><code>&gt; printFit(output1, output2, output3, output4)
-   Model    LOOIC   
-1 gng_m1 1588.843 
-2 gng_m2 1571.129 
-3 gng_m3 1573.872 
-4 gng_m4 1543.335 </code></pre>
+   Model    LOOIC
+1 gng_m1 1588.843
+2 gng_m2 1571.129
+3 gng_m3 1573.872
+4 gng_m4 1543.335</code></pre>
 <p>Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="waic")</a></code> or <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="both")</a></code>. Use the <code>extract_ic</code> function (e.g., <code><a href="../reference/extract_ic.html">extract_ic(output3)</a></code> ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the <code>extract_ic</code> function can be used only for a single model output.</p>
 <p>We also want to remind you that there are multiple ways to compare computational models (e.g., simulation method (absolute model performance), parameter recovery, generalization criterion) and the goodness of fit (e.g., LOOIC or WAIC) is just one of them. Check if predictions from your model (e.g., “posterior predictive check”) can mimic the data (same data or new data) with reasonable accuracy. See <span class="citation">Kruschke (2014)</span> (for posterior predictive check), Guitart-Masip et al. (2012) (for goodness of fit and simulation performance on the orthogonalized Go/Nogo task), and <span class="citation">Busemeyer &amp; Wang (2000)</span> (for generalization criterion) as well as Ahn et al. (2008; 2014) and <span class="citation">Steingroever et al. (2014)</span> (for the combination of multiple model comparison methods).</p>
 <p>To compare two groups in a Bayesian fashion <span class="citation">(e.g., Ahn et al., 2014)</span>, first you need to fit each group with the same model and ideally the same number of MCMC samples. For example,</p>
@@ -332,14 +340,14 @@ output1$allIndPars
 <code class="sourceCode R"><span class="va">data_group1</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group1.txt"</span>  <span class="co"># data file for group1</span>
 <span class="va">data_group2</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group2.txt"</span>  <span class="co"># data file for group2</span>
 
-<span class="va">output_group1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group1</span><span class="op">)</span>  <span class="co"># fit group1 data with the gng_m4 model </span>
-<span class="va">output_group2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group2</span><span class="op">)</span>  <span class="co"># fit group2 data with the gng_m4 model </span>
+<span class="va">output_group1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group1</span><span class="op">)</span>  <span class="co"># fit group1 data with the gng_m4 model</span>
+<span class="va">output_group2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group2</span><span class="op">)</span>  <span class="co"># fit group2 data with the gng_m4 model</span>
 
 <span class="co">## After model fitting is complete for both groups,</span>
 <span class="co">## evaluate the group difference (e.g., on the 'pi' parameter) by examining the posterior distribution of group mean differences.</span>
 
-<span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2 </span>
-<span class="fu"><a href="../reference/HDIofMCMC.html">HDIofMCMC</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI). </span>
+<span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2</span>
+<span class="fu"><a href="../reference/HDIofMCMC.html">HDIofMCMC</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI).</span>
 <span class="fu"><a href="../reference/plotHDI.html">plotHDI</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>    <span class="co"># plot the group mean differences</span></code></pre></div>
 </div>
 <div id="extracting-trial-by-trial-regressors-for-model-based-fmrieeg-analysis" class="section level3">
@@ -354,17 +362,17 @@ output1$allIndPars
 <p>Once the sampling is completed, all model-based regressors are contained in the <code>modelRegressor</code> list.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## store all subjects' stimulus value (SV) in ‘sv_all’</span>
-<span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span> 
+<span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span><span class="op">)</span>  <span class="co"># number of rows=# of subjects (=10), number of columns=# of trials (=240)</span></code></pre></div>
 <pre><code>## [1]  10 240</code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## visualize SV (Subject #1)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span>  </code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-1.png"><!-- --></p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## visualize SV (Subject #5)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span>  </code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-2.png"><!-- --></p>
 <p>Similarly, users can extract and visualize other model-based regressors. <strong>W(Go)</strong>, <strong>W(NoGo)</strong>, <strong>Q(Go)</strong>, <strong>Q(NoGo)</strong> are stored in <code>Wgo</code>, <code>Wnogo</code>, <code>Qgo</code>, and <code>Qnogo</code>, respectively.</p>
 </div>
@@ -477,8 +485,8 @@ output1$allIndPars
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<!-- See here to learn how to cite references: 
-http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html 
+<!-- See here to learn how to cite references:
+http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
 
 ## for table of contents
 http://stackoverflow.com/questions/23957278/how-to-add-table-of-contents-in-rmarkdown
