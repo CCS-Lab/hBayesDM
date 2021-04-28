@@ -1,15 +1,23 @@
 ## Test environments
 
-* Local mac OS install, R 4.0.3
-* Local Ubuntu 16.04 install, R 4.0.3
-* Ubuntu 18.04 (on Travis CI), R 4.0.3
+* Local macOS 10.16 install, R 4.0.5
+* Local Ubuntu 16.04 install, R 4.0.5
+* Ubuntu 18.04 (on Travis CI), R 4.0.5
 
 ## R CMD check results
 
-There was 1 NOTE:
+There was 2 NOTEs:
 
+- The installed package size is about 5.3Mb to include example data.
+```
+N  checking installed package size ...
+     installed size is  5.3Mb
+     sub-directories of 1Mb or more:
+       R         3.1Mb
+       extdata   1.2Mb
+```
 - To compile hBayesDM using rstan, GNU make is required.
 ```
-* checking for GNU extensions in Makefiles ... NOTE
-GNU make is a SystemRequirements.
+N  checking for GNU extensions in Makefiles
+   GNU make is a SystemRequirements.
 ```
