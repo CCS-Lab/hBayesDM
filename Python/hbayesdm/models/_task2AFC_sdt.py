@@ -64,12 +64,7 @@ def task2AFC_sdt(
     using Signal detection theory model  with the following parameters:
     "d" (discriminability), "c" (decision bias (criteria)).
 
-    .. note::
-        
-
-    .. note::
-        If you want to write long notes for the model, you would be better to check out how to write multiline strings in YAML (https://yaml-multiline.info)
-
+    
 
     
     
