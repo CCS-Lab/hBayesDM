@@ -15,7 +15,7 @@ notes:
 contributors:
 - name: Yoonseo Zoh
   email: zohyos7@gmail.com
-  link: https://zohyos7.github.io
+  link:
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   choice: 'Integer value representing the option chosen on the given trial: 1, 2,

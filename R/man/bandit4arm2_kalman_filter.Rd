@@ -147,7 +147,7 @@ For the 4-Armed Bandit Task (modified), there should be 3 columns of data with t
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 
-\subsection{Contributors}{\href{https://zohyos7.github.io}{Yoonseo Zoh} <\email{zohyos7@gmail.com}>}
+\subsection{Contributors}{\href{None}{Yoonseo Zoh} <\email{zohyos7@gmail.com}>}
 }
 \examples{
 \dontrun{

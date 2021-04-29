@@ -42,7 +42,6 @@ LinkingTo:
 URL: https://github.com/CCS-Lab/hBayesDM
 BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3
-LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
 RoxygenNote: 7.1.1
