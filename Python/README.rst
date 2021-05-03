@@ -8,7 +8,7 @@ decision-making tasks. *hBayesDM* in Python uses `PyStan`_ (Python interface for
 `Stan`_) for Bayesian inference.
 
 .. _PyStan: https://github.com/stan-dev/pystan
-.. _Stan: http://mc-stan.org/
+.. _Stan: https://mc-stan.org/
 
 It supports Python 3.5 or higher versions and requires several packages including:
 `NumPy`_, `SciPy`_, `Pandas`_, `PyStan`_, `Matplotlib`_, and `ArviZ`_.

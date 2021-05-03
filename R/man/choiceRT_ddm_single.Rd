@@ -154,7 +154,7 @@ For the Choice Reaction Time Task, there should be 3 columns of data with the
   sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
-  Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
+  Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 }
