@@ -1,3 +1,9 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Replace 'http' with 'https' in the links in the documentation.
+* Fixed minor errors in the generated documentations.
+
 ## Test environments
 
 * Local macOS 10.16 install, R 4.0.5
