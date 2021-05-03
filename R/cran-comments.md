@@ -2,6 +2,7 @@
 This is a resubmission. In this version I have:
 
 * Replace 'http' with 'https' in the links in the documentation.
+* Fixed URI-related issues in the documentations.
 * Fixed minor errors in the generated documentations.
 
 ## Test environments
