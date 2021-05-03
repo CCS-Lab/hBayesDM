@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION bandit4arm2_kalman_filter
-#' @templateVar CONTRIBUTOR \href{None}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>
 #' @templateVar TASK_NAME 4-Armed Bandit Task (modified)
 #' @templateVar TASK_CODE bandit4arm2
 #' @templateVar TASK_CITE 

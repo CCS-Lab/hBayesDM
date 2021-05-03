@@ -77,7 +77,7 @@ def ts_par7(
 
     
 
-    .. [Daw2011] Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011). Model-Based Influences on Humans' Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. http://doi.org/10.1016/j.neuron.2011.02.027
+    .. [Daw2011] Daw, N. D., Gershman, S. J., Seymour, B., Ben Seymour, Dayan, P., & Dolan, R. J. (2011). Model-Based Influences on Humans' Choices and Striatal Prediction Errors. Neuron, 69(6), 1204-1215. https://doi.org/10.1016/j.neuron.2011.02.027
     
 
     .. codeauthor:: Harhim Park <hrpark12@gmail.com>

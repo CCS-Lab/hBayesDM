@@ -6,21 +6,23 @@ model_name:
   code: kalman_filter
   desc: Kalman Filter
   cite:
-  - Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical
-    substrates for exploratory decisions in humans. Nature, 441(7095), 876-879.
+    - Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical
+      substrates for exploratory decisions in humans. Nature, 441(7095), 876-879.
 model_type:
   code:
   desc: Hierarchical
 notes:
 contributors:
-- name: Yoonseo Zoh
-  email: zohyos7@gmail.com
-  link:
+  - name: Yoonseo Zoh
+    email: zohyos7@gmail.com
+    link: https://ccs-lab.github.io/team/yoonseo-zoh/
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
-  choice: 'Integer value representing the option chosen on the given trial: 1, 2,
-    3, or 4.'
-  outcome: Integer value representing the outcome of the given trial (where reward
+  choice:
+    "Integer value representing the option chosen on the given trial: 1, 2,
+    3, or 4."
+  outcome:
+    Integer value representing the outcome of the given trial (where reward
     == 1, and loss == -1).
 parameters:
   lambda:
@@ -43,5 +45,5 @@ parameters:
     info: [0, 3, 15]
 regressors:
 postpreds:
-- y_pred
+  - y_pred
 additional_args:

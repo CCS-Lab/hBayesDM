@@ -72,7 +72,7 @@ def prl_ewa(
     
 
     
-    .. [Ouden2013] Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100. http://doi.org/10.1016/j.neuron.2013.08.030
+    .. [Ouden2013] Ouden, den, H. E. M., Daw, N. D., Fernandez, G., Elshout, J. A., Rijpkema, M., Hoogman, M., et al. (2013). Dissociable Effects of Dopamine and Serotonin on Reversal Learning. Neuron, 80(4), 1090-1100. https://doi.org/10.1016/j.neuron.2013.08.030
 
     .. codeauthor:: Jaeyeong Yang (for model-based regressors) <jaeyeong.yang1125@gmail.com>
     .. codeauthor:: Harhim Park (for model-based regressors) <hrpark12@gmail.com>

@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION cgt_cm
-#' @templateVar CONTRIBUTOR \href{http://haines-lab.com/}{Nathaniel Haines} <\email{haines.175@@osu.edu}>
+#' @templateVar CONTRIBUTOR \href{https://haines-lab.com/}{Nathaniel Haines} <\email{haines.175@@osu.edu}>
 #' @templateVar TASK_NAME Cambridge Gambling Task
 #' @templateVar TASK_CODE cgt
 #' @templateVar TASK_CITE (Rogers et al., 1999)

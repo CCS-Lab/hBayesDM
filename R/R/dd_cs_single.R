@@ -27,7 +27,7 @@
 #' @include preprocess_funcs.R
 
 #' @references
-#' Ebert, J. E. J., & Prelec, D. (2007). The Fragility of Time: Time-Insensitivity and Valuation of the Near and Far Future. Management Science. http://doi.org/10.1287/mnsc.1060.0671
+#' Ebert, J. E. J., & Prelec, D. (2007). The Fragility of Time: Time-Insensitivity and Valuation of the Near and Far Future. Management Science. https://doi.org/10.1287/mnsc.1060.0671
 #'
 
 
