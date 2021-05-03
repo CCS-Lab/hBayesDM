@@ -147,7 +147,7 @@ For the Cambridge Gambling Task, there should be 7 columns of data with the
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 
-\subsection{Contributors}{\href{http://haines-lab.com/}{Nathaniel Haines} <\email{haines.175@osu.edu}>}
+\subsection{Contributors}{\href{https://haines-lab.com/}{Nathaniel Haines} <\email{haines.175@osu.edu}>}
 }
 \examples{
 \dontrun{

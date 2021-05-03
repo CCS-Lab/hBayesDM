@@ -171,7 +171,7 @@ printFit(output)
 }
 }
 \references{
-Samuelson, P. A. (1937). A Note on Measurement of Utility. The Review of Economic Studies, 4(2), 155. http://doi.org/10.2307/2967612
+Samuelson, P. A. (1937). A Note on Measurement of Utility. The Review of Economic Studies, 4(2), 155. https://doi.org/10.2307/2967612
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:
