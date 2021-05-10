@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION bandit4arm2_kalman_filter
-#' @templateVar CONTRIBUTOR \href{https://zohyos7.github.io}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>
 #' @templateVar TASK_NAME 4-Armed Bandit Task (modified)
 #' @templateVar TASK_CODE bandit4arm2
 #' @templateVar TASK_CITE 
@@ -22,10 +22,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates for exploratory decisions in humans. Nature, 441(7095), 876-879.
 #'
+
 
 bandit4arm2_kalman_filter <- hBayesDM_model(
   task_name       = "bandit4arm2",

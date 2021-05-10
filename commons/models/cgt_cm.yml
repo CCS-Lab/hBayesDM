@@ -1,21 +1,21 @@
 # Task information.
 task_name:
   code: cgt # code for the task
-  desc: Cambridge Gambling Task  # description (title-case)
-  cite:  # A list of citations. They should be APA-formatted.
-  - >
-    Rogers, R. D., Everitt, B. J., Baldacchino, A., Blackshaw, A. J.,
-    Swainson, R., Wynne, K., Baker, N. B., Hunter, J., Carthy, T.,
-    London, M., Deakin, J. F. W., Sahakian, B. J., Robbins, T. W. (1999).
-    Dissociable deficits in the decision-making cognition of chronic
-    amphetamine abusers, opiate abusers, patients with focal damage to
-    prefrontal cortex, and tryptophan-depleted normal volunteers:
-    evidence for monoaminergic mechanisms. Neuropsychopharmacology, 20, 322–339.
+  desc: Cambridge Gambling Task # description (title-case)
+  cite: # A list of citations. They should be APA-formatted.
+    - >
+      Rogers, R. D., Everitt, B. J., Baldacchino, A., Blackshaw, A. J.,
+      Swainson, R., Wynne, K., Baker, N. B., Hunter, J., Carthy, T.,
+      London, M., Deakin, J. F. W., Sahakian, B. J., Robbins, T. W. (1999).
+      Dissociable deficits in the decision-making cognition of chronic
+      amphetamine abusers, opiate abusers, patients with focal damage to
+      prefrontal cortex, and tryptophan-depleted normal volunteers:
+      evidence for monoaminergic mechanisms. Neuropsychopharmacology, 20, 322–339.
 
 # Model information.
 model_name:
-  code: cm  # code for the model
-  desc: Cumulative Model  # description (title-case)
+  code: cm # code for the model
+  desc: Cumulative Model # description (title-case)
   cite: # A list of citations. They should be APA-formatted.
 
 # Model type.
@@ -30,8 +30,8 @@ model_name:
 #   code: 'multipleB'
 #   desc: 'Multiple-block Hierarchical'
 model_type:
-  code:  # code for the model type
-  desc: Hierarchical  # description
+  code: # code for the model type
+  desc: Hierarchical # description
 
 # Data columns that must be included in a input data.
 # For each column, it should be defined as:
@@ -40,13 +40,13 @@ model_type:
 # Note: `subjID` must always be included.
 #       Also, if `model_type` is "multipleB", `block` must be included, too.
 data_columns:
-  subjID: A unique identifier for each subject in the data-set.  # Required
-  gamble_type: 'Integer value representng whether the bets on the current trial were presented in descending (0) or ascending (1) order.'
-  percentage_staked: 'Integer value representing the bet percentage (not proportion) selected on the current trial: 5, 25, 50, 75, or 95.'
-  trial_initial_points: 'Floating point value representing the number of points that the subject has at the start of the current trial (e.g., 100, 150, etc.).'
-  assessment_stage: 'Integer value representing whether the current trial is a practice trial (0) or a test trial (1). Only test trials are used for model fitting.'
-  red_chosen: 'Integer value representing whether the red color was chosen (1) versus the blue color (0).'
-  n_red_boxes: 'Integer value representing the number of red boxes shown on the current trial: 1, 2, 3,..., or 9.'
+  subjID: A unique identifier for each subject in the data-set. # Required
+  gamble_type: "Integer value representng whether the bets on the current trial were presented in descending (0) or ascending (1) order."
+  percentage_staked: "Integer value representing the bet percentage (not proportion) selected on the current trial: 5, 25, 50, 75, or 95."
+  trial_initial_points: "Floating point value representing the number of points that the subject has at the start of the current trial (e.g., 100, 150, etc.)."
+  assessment_stage: "Integer value representing whether the current trial is a practice trial (0) or a test trial (1). Only test trials are used for model fitting."
+  red_chosen: "Integer value representing whether the red color was chosen (1) versus the blue color (0)."
+  n_red_boxes: "Integer value representing the number of red boxes shown on the current trial: 1, 2, 3,..., or 9."
 
 # Model parameters.
 # For each parameter, it should be defined as:
@@ -99,6 +99,6 @@ notes:
 
 # (optional) a list of contributors. To specify who wrote this model codes for hBayesDM.
 contributors:
-- name: Nathaniel Haines
-  email: haines.175@osu.edu
-  link: http://haines-lab.com/
+  - name: Nathaniel Haines
+    email: haines.175@osu.edu
+    link: https://ccs-lab.github.io/team/nate-haines/

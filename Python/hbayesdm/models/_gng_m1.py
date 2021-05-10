@@ -73,7 +73,7 @@ def gng_m1(
     
 
     
-    .. [Guitart-Masip2012] Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., & Dolan, R. J. (2012). Go and no-go learning in reward and punishment: Interactions between affect and effect. Neuroimage, 62(1), 154-166. http://doi.org/10.1016/j.neuroimage.2012.04.024
+    .. [Guitart-Masip2012] Guitart-Masip, M., Huys, Q. J. M., Fuentemilla, L., Dayan, P., Duzel, E., & Dolan, R. J. (2012). Go and no-go learning in reward and punishment: Interactions between affect and effect. Neuroimage, 62(1), 154-166. https://doi.org/10.1016/j.neuroimage.2012.04.024
 
     
 
@@ -113,7 +113,7 @@ def gng_m1(
             The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
             Journal of Machine Learning Research, 15(1), 1593-1623.
 
-        __ http://mc-stan.org/users/documentation/
+        __ https://mc-stan.org/users/documentation/
 
     Parameters
     ----------

@@ -74,7 +74,7 @@ def prl_fictitious_multipleB(
     
 
     
-    .. [Glascher2009] Glascher, J., Hampton, A. N., & O'Doherty, J. P. (2009). Determining a Role for Ventromedial Prefrontal Cortex in Encoding Action-Based Value Signals During Reward-Related Decision Making. Cerebral Cortex, 19(2), 483-495. http://doi.org/10.1093/cercor/bhn098
+    .. [Glascher2009] Glascher, J., Hampton, A. N., & O'Doherty, J. P. (2009). Determining a Role for Ventromedial Prefrontal Cortex in Encoding Action-Based Value Signals During Reward-Related Decision Making. Cerebral Cortex, 19(2), 483-495. https://doi.org/10.1093/cercor/bhn098
 
     .. codeauthor:: Jaeyeong Yang (for model-based regressors) <jaeyeong.yang1125@gmail.com>
     .. codeauthor:: Harhim Park (for model-based regressors) <hrpark12@gmail.com>
@@ -115,7 +115,7 @@ def prl_fictitious_multipleB(
             The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
             Journal of Machine Learning Research, 15(1), 1593-1623.
 
-        __ http://mc-stan.org/users/documentation/
+        __ https://mc-stan.org/users/documentation/
 
     Parameters
     ----------

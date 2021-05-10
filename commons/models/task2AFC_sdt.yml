@@ -95,15 +95,6 @@ additional_args:
 #  desc: Floating point value representing the lower bound (i.e., minimum allowed)
 #    reaction time. Defaults to 0.1 (100 milliseconds).
 
-# (optional) notes on the model. Should be given as a list of notes.
-notes:
-- >
-
-- >
-  If you want to write long notes for the model,
-  you would be better to check out how to write multiline strings in YAML
-  (https://yaml-multiline.info)
-
 # (optional) a list of contributors. To specify who wrote this model codes for hBayesDM.
 contributors:
 - name: Heesun Park

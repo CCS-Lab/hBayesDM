@@ -143,7 +143,7 @@ For the 2-Armed Bandit Task, there should be 3 columns of data with the
   sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
-  Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
+  Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 }
@@ -171,9 +171,9 @@ printFit(output)
 }
 }
 \references{
-Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., et al. (2010). A choice prediction competition: Choices from experience and from description. Journal of Behavioral Decision Making, 23(1), 15-47. http://doi.org/10.1002/bdm.683
+Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., et al. (2010). A choice prediction competition: Choices from experience and from description. Journal of Behavioral Decision Making, 23(1), 15-47. https://doi.org/10.1002/bdm.683
 
-Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions From Experience and the Effect of Rare Events in Risky Choice. Psychological Science, 15(8), 534-539. http://doi.org/10.1111/j.0956-7976.2004.00715.x
+Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions From Experience and the Effect of Rare Events in Risky Choice. Psychological Science, 15(8), 534-539. https://doi.org/10.1111/j.0956-7976.2004.00715.x
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

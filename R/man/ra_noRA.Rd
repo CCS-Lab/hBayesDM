@@ -143,7 +143,7 @@ For the Risk Aversion Task, there should be 5 columns of data with the
   sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
-  Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
+  Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 }
@@ -171,7 +171,7 @@ printFit(output)
 }
 }
 \references{
-Sokol-Hessner, P., Hsu, M., Curley, N. G., Delgado, M. R., Camerer, C. F., Phelps, E. A., & Smith, E. E. (2009). Thinking like a Trader Selectively Reduces Individuals' Loss Aversion. Proceedings of the National Academy of Sciences of the United States of America, 106(13), 5035-5040. http://www.pnas.org/content/106/13/5035
+Sokol-Hessner, P., Hsu, M., Curley, N. G., Delgado, M. R., Camerer, C. F., Phelps, E. A., & Smith, E. E. (2009). Thinking like a Trader Selectively Reduces Individuals' Loss Aversion. Proceedings of the National Academy of Sciences of the United States of America, 106(13), 5035-5040. https://www.pnas.org/content/106/13/5035
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

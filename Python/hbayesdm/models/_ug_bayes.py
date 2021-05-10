@@ -69,7 +69,7 @@ def ug_bayes(
     
 
     
-    .. [Xiang2013] Xiang, T., Lohrenz, T., & Montague, P. R. (2013). Computational Substrates of Norms and Their Violations during Social Exchange. Journal of Neuroscience, 33(3), 1099-1108. http://doi.org/10.1523/JNEUROSCI.1642-12.2013
+    .. [Xiang2013] Xiang, T., Lohrenz, T., & Montague, P. R. (2013). Computational Substrates of Norms and Their Violations during Social Exchange. Journal of Neuroscience, 33(3), 1099-1108. https://doi.org/10.1523/JNEUROSCI.1642-12.2013
 
     
 
@@ -108,7 +108,7 @@ def ug_bayes(
             The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
             Journal of Machine Learning Research, 15(1), 1593-1623.
 
-        __ http://mc-stan.org/users/documentation/
+        __ https://mc-stan.org/users/documentation/
 
     Parameters
     ----------

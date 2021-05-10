@@ -22,10 +22,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
-#' Xiang, T., Lohrenz, T., & Montague, P. R. (2013). Computational Substrates of Norms and Their Violations during Social Exchange. Journal of Neuroscience, 33(3), 1099-1108. http://doi.org/10.1523/JNEUROSCI.1642-12.2013
+#' Xiang, T., Lohrenz, T., & Montague, P. R. (2013). Computational Substrates of Norms and Their Violations during Social Exchange. Journal of Neuroscience, 33(3), 1099-1108. https://doi.org/10.1523/JNEUROSCI.1642-12.2013
 #'
+
 
 ug_bayes <- hBayesDM_model(
   task_name       = "ug",

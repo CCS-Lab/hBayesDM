@@ -143,7 +143,7 @@ For the Norm-Training Ultimatum Game, there should be 3 columns of data with the
   sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
-  Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
+  Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 }
@@ -171,7 +171,7 @@ printFit(output)
 }
 }
 \references{
-Xiang, T., Lohrenz, T., & Montague, P. R. (2013). Computational Substrates of Norms and Their Violations during Social Exchange. Journal of Neuroscience, 33(3), 1099-1108. http://doi.org/10.1523/JNEUROSCI.1642-12.2013
+Xiang, T., Lohrenz, T., & Montague, P. R. (2013). Computational Substrates of Norms and Their Violations during Social Exchange. Journal of Neuroscience, 33(3), 1099-1108. https://doi.org/10.1523/JNEUROSCI.1642-12.2013
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

@@ -75,7 +75,7 @@ def choiceRT_ddm(
         Code for this model is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potential others @ Stan mailing.
 
     
-    .. [Ratcliff1978] Ratcliff, R. (1978). A theory of memory retrieval. Psychological Review, 85(2), 59-108. http://doi.org/10.1037/0033-295X.85.2.59
+    .. [Ratcliff1978] Ratcliff, R. (1978). A theory of memory retrieval. Psychological Review, 85(2), 59-108. https://doi.org/10.1037/0033-295X.85.2.59
 
     
 
@@ -114,7 +114,7 @@ def choiceRT_ddm(
             The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
             Journal of Machine Learning Research, 15(1), 1593-1623.
 
-        __ http://mc-stan.org/users/documentation/
+        __ https://mc-stan.org/users/documentation/
 
     Parameters
     ----------

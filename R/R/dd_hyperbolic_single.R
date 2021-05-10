@@ -25,10 +25,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Mazur, J. E. (1987). An adjustment procedure for studying delayed reinforcement.
 #'
+
 
 dd_hyperbolic_single <- hBayesDM_model(
   task_name       = "dd",

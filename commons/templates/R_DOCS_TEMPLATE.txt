@@ -20,8 +20,6 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' %(notes)s
-#' @references
-#' %(references)s
-#'
+%(notes)s
+%(references)s
 

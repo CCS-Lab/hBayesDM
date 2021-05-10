@@ -154,14 +154,9 @@ For the Choice Reaction Time Task, there should be 3 columns of data with the
   sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
-  Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
+  Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
-}
-\note{
-\strong{Notes:}
-Note that this implementation is NOT the full Drift Diffusion Model as described in Ratcliff (1978). This implementation estimates the drift rate, boundary separation, starting point, and non-decision time; but not the between- and within-trial variances in these parameters.
-Code for this model is based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potential others @ Stan mailing.
 }
 \examples{
 \dontrun{
@@ -187,7 +182,7 @@ printFit(output)
 }
 }
 \references{
-Ratcliff, R. (1978). A theory of memory retrieval. Psychological Review, 85(2), 59-108. http://doi.org/10.1037/0033-295X.85.2.59
+Ratcliff, R. (1978). A theory of memory retrieval. Psychological Review, 85(2), 59-108. https://doi.org/10.1037/0033-295X.85.2.59
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

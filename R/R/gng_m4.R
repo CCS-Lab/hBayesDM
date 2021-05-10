@@ -23,10 +23,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
-#' Cavanagh, J. F., Eisenberg, I., Guitart-Masip, M., Huys, Q., & Frank, M. J. (2013). Frontal Theta Overrides Pavlovian Learning Biases. Journal of Neuroscience, 33(19), 8541-8548. http://doi.org/10.1523/JNEUROSCI.5754-12.2013
+#' Cavanagh, J. F., Eisenberg, I., Guitart-Masip, M., Huys, Q., & Frank, M. J. (2013). Frontal Theta Overrides Pavlovian Learning Biases. Journal of Neuroscience, 33(19), 8541-8548. https://doi.org/10.1523/JNEUROSCI.5754-12.2013
 #'
+
 
 gng_m4 <- hBayesDM_model(
   task_name       = "gng",

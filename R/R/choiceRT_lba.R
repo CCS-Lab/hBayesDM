@@ -82,7 +82,7 @@
 #' over Stan's MCMC sampler. The Stan creators recommend that only advanced users change the default values, as alterations
 #' can profoundly change the sampler's behavior. Refer to Hoffman & Gelman (2014, Journal of Machine Learning Research) for
 #' more information on the functioning of the sampler control parameters. One can also refer to section 58.2 of the
-#' \href{http://mc-stan.org/documentation/}{Stan User's Manual} for a less technical description of these arguments.
+#' \href{https://mc-stan.org/users/documentation/}{Stan User's Manual} for a less technical description of these arguments.
 #'
 #' @keywords internal
 #'

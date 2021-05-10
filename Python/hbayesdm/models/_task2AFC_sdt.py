@@ -64,12 +64,7 @@ def task2AFC_sdt(
     using Signal detection theory model  with the following parameters:
     "d" (discriminability), "c" (decision bias (criteria)).
 
-    .. note::
-        
-
-    .. note::
-        If you want to write long notes for the model, you would be better to check out how to write multiline strings in YAML (https://yaml-multiline.info)
-
+    
 
     
     
@@ -111,7 +106,7 @@ def task2AFC_sdt(
             The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
             Journal of Machine Learning Research, 15(1), 1593-1623.
 
-        __ http://mc-stan.org/users/documentation/
+        __ https://mc-stan.org/users/documentation/
 
     Parameters
     ----------
