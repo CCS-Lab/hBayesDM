@@ -18,9 +18,9 @@ MINOR = 1
 MICRO = 1
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
-IS_RELEASED = True
+IS_RELEASED = False
 IS_DEV = False
-DEV_VERSION = 'a3'
+DEV_VERSION = ''
 if IS_RELEASED:
     pass
 elif IS_DEV:
