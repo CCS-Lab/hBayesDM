@@ -15,7 +15,7 @@ Release](https://www.r-pkg.org/badges/version-last-release/hBayesDM)](https://cr
 **hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks)
 is a user-friendly package that offers hierarchical Bayesian analysis of
 various computational models on an array of decision-making tasks.
-hBayesDM uses [Stan](http://mc-stan.org/) for Bayesian inference.
+hBayesDM uses [Stan](https://mc-stan.org/) for Bayesian inference.
 
 ## Quick Links
 

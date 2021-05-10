@@ -6,9 +6,9 @@ model_name:
   code: m4
   desc: RW (rew/pun) + noise + bias + pi
   cite:
-  - Cavanagh, J. F., Eisenberg, I., Guitart-Masip, M., Huys, Q., & Frank, M. J. (2013).
-    Frontal Theta Overrides Pavlovian Learning Biases. Journal of Neuroscience, 33(19),
-    8541-8548. http://doi.org/10.1523/JNEUROSCI.5754-12.2013
+    - Cavanagh, J. F., Eisenberg, I., Guitart-Masip, M., Huys, Q., & Frank, M. J. (2013).
+      Frontal Theta Overrides Pavlovian Learning Biases. Journal of Neuroscience, 33(19),
+      8541-8548. https://doi.org/10.1523/JNEUROSCI.5754-12.2013
 model_type:
   code:
   desc: Hierarchical
@@ -16,10 +16,12 @@ notes:
 contributors:
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
-  cue: 'Nominal integer representing the cue shown for that trial: 1, 2, 3, or 4.'
-  keyPressed: Binary value representing the subject's response for that trial (where
+  cue: "Nominal integer representing the cue shown for that trial: 1, 2, 3, or 4."
+  keyPressed:
+    Binary value representing the subject's response for that trial (where
     Press == 1; No press == 0).
-  outcome: Ternary value representing the outcome of that trial (where Positive feedback
+  outcome:
+    Ternary value representing the outcome of that trial (where Positive feedback
     == 1; Neutral feedback == 0; Negative feedback == -1).
 parameters:
   xi:
@@ -47,5 +49,5 @@ regressors:
   Wnogo: 2
   SV: 2
 postpreds:
-- y_pred
+  - y_pred
 additional_args:

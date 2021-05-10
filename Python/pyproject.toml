@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hbayesdm"
-version = "1.1.0"
+version = "1.1.1"
 description = "Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks"
 authors = ["hBayesDM developers <hbayesdm-users@googlegroups.com>"]
 license = "GPLv3"
@@ -15,6 +15,10 @@ classifiers = [
   "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3 :: Only"
+]
+include = [
+  {path="hbayesdm/common/extdata/**/*"},
+  {path="hbayesdm/common/stan_files/**/*"}
 ]
 
 [tool.poetry.dependencies]
@@ -44,5 +48,5 @@ url = "https://test.pypi.org/legacy/"
 secondary = true
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry", "setuptools"]
 build-backend = "poetry.core.masonry.api"

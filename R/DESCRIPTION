@@ -1,7 +1,7 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 1.1.0
-Date: 2020-12-18
+Version: 1.1.1
+Date: 2021-05-04
 Author:
     Woo-Young Ahn [aut, cre],
     Nate Haines [aut],
@@ -42,7 +42,6 @@ LinkingTo:
 URL: https://github.com/CCS-Lab/hBayesDM
 BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3
-LazyData: true
 NeedsCompilation: yes
 Encoding: UTF-8
 RoxygenNote: 7.1.1

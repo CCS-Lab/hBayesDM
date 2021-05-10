@@ -143,16 +143,11 @@ For the 2-alternative forced choice task, there should be 3 columns of data with
   sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
-  Algorithm Parameters' of the \href{http://mc-stan.org/users/documentation/}{Stan User's Guide
+  Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 
 \subsection{Contributors}{\href{https://heesunpark26.github.io/}{Heesun Park} <\email{heesunpark26@gmail.com}>}
-}
-\note{
-\strong{Notes:}
-
-If you want to write long notes for the model, you would be better to check out how to write multiline strings in YAML (https://yaml-multiline.info)
 }
 \examples{
 \dontrun{
@@ -176,9 +171,6 @@ plot(output)
 # Show the WAIC and LOOIC model fit estimates
 printFit(output)
 }
-}
-\references{
-
 }
 \seealso{
 We refer users to our in-depth tutorial for an example of using hBayesDM:

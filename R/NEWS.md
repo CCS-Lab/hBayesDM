@@ -1,3 +1,7 @@
+# hBayesDM 1.1.1
+
+* Fix symbolic link errors for stan files and example data.
+
 # hBayesDM 1.1.0
 
 * Added the cumulative model for the Cambridge gambling task: `cgt_cm`.

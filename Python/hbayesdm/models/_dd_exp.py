@@ -70,7 +70,7 @@ def dd_exp(
     
 
     
-    .. [Samuelson1937] Samuelson, P. A. (1937). A Note on Measurement of Utility. The Review of Economic Studies, 4(2), 155. http://doi.org/10.2307/2967612
+    .. [Samuelson1937] Samuelson, P. A. (1937). A Note on Measurement of Utility. The Review of Economic Studies, 4(2), 155. https://doi.org/10.2307/2967612
 
     
 
@@ -112,7 +112,7 @@ def dd_exp(
             The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
             Journal of Machine Learning Research, 15(1), 1593-1623.
 
-        __ http://mc-stan.org/users/documentation/
+        __ https://mc-stan.org/users/documentation/
 
     Parameters
     ----------

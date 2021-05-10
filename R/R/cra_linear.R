@@ -25,10 +25,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Levy, I., Snell, J., Nelson, A. J., Rustichini, A., & Glimcher, P. W. (2010). Neural representation of subjective value under risk and ambiguity. Journal of Neurophysiology, 103(2), 1036-1047.
 #'
+
 
 cra_linear <- hBayesDM_model(
   task_name       = "cra",

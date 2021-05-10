@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import os
-import sys
 import subprocess
-from setuptools import setup, find_packages
+import sys
 from pathlib import Path
+
+from setuptools import find_packages, setup
 
 if sys.version_info[:2] < (3, 5):
     raise RuntimeError("Python version >= 3.5 required.")
@@ -13,11 +14,19 @@ PATH_ROOT = Path(__file__).absolute().parent
 
 
 MAJOR = 1
-MINOR = 0
+MINOR = 1
 MICRO = 1
-ISRELEASED = False
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
-VERSION += '' if ISRELEASED else '.9000'
+
+IS_RELEASED = True
+IS_DEV = False
+DEV_VERSION = 'a3'
+if IS_RELEASED:
+    pass
+elif IS_DEV:
+    VERSION += '.' + DEV_VERSION
+else:
+    VERSION += '.9000'
 
 
 DESC = 'Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks'
@@ -59,7 +68,7 @@ setup(
         'numpy',
         'scipy',
         'pandas',
-        'pystan',
+        'pystan>=2.19.1,<3.0.0',
         'matplotlib',
         'arviz',
     ],

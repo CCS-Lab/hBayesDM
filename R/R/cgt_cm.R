@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION cgt_cm
-#' @templateVar CONTRIBUTOR \href{http://haines-lab.com/}{Nathaniel Haines} <\email{haines.175@@osu.edu}>
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/nate-haines/}{Nathaniel Haines} <\email{haines.175@@osu.edu}>
 #' @templateVar TASK_NAME Cambridge Gambling Task
 #' @templateVar TASK_CODE cgt
 #' @templateVar TASK_CITE (Rogers et al., 1999)
@@ -26,10 +26,11 @@
 #' @export
 #' @include hBayesDM_model.R
 #' @include preprocess_funcs.R
-#' 
+
 #' @references
 #' Rogers, R. D., Everitt, B. J., Baldacchino, A., Blackshaw, A. J., Swainson, R., Wynne, K., Baker, N. B., Hunter, J., Carthy, T., London, M., Deakin, J. F. W., Sahakian, B. J., Robbins, T. W. (1999). Dissociable deficits in the decision-making cognition of chronic amphetamine abusers, opiate abusers, patients with focal damage to prefrontal cortex, and tryptophan-depleted normal volunteers: evidence for monoaminergic mechanisms. Neuropsychopharmacology, 20, 322–339.
 #'
+
 
 cgt_cm <- hBayesDM_model(
   task_name       = "cgt",

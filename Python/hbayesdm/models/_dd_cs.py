@@ -72,7 +72,7 @@ def dd_cs(
     
 
     
-    .. [Ebert2007] Ebert, J. E. J., & Prelec, D. (2007). The Fragility of Time: Time-Insensitivity and Valuation of the Near and Far Future. Management Science. http://doi.org/10.1287/mnsc.1060.0671
+    .. [Ebert2007] Ebert, J. E. J., & Prelec, D. (2007). The Fragility of Time: Time-Insensitivity and Valuation of the Near and Far Future. Management Science. https://doi.org/10.1287/mnsc.1060.0671
 
     
 
@@ -114,7 +114,7 @@ def dd_cs(
             The No-U-Turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo.
             Journal of Machine Learning Research, 15(1), 1593-1623.
 
-        __ http://mc-stan.org/users/documentation/
+        __ https://mc-stan.org/users/documentation/
 
     Parameters
     ----------
