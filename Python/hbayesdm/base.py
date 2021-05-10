@@ -1,20 +1,20 @@
 import multiprocessing
 import os
 import pickle
+import tempfile
 import warnings
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Sequence, Tuple, Union
 
-import numpy as np
-import pandas as pd
-from scipy import stats
-
 import arviz as az
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from pystan import StanModel
 from pystan import __version__ as _pystan_version
+from scipy import stats
 
 __all__ = ['TaskModel']
 
@@ -640,7 +640,12 @@ class TaskModel(metaclass=ABCMeta):
             Compiled StanModel obj to use for sampling & fitting.
         """
         model_path = str(PATH_STAN / (model + '.stan'))
-        cache_file = 'cached-%s-pystan_%s.pkl' % (model, _pystan_version)
+        tempdir = Path(tempfile.gettempdir())
+        uid = os.getuid()
+        cache_file = tempdir / (
+            'cached-hBayesDM_model-%s-pystan_%s_user-%d.pkl' %
+            (model, _pystan_version, uid)
+        )
 
         if os.path.exists(cache_file):
             try:
