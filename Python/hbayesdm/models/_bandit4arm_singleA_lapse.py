@@ -63,9 +63,9 @@ def bandit4arm_singleA_lapse(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """4-Armed Bandit Task - 4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P.
+    """N-Armed Bandit Task - 4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P.
 
-    Hierarchical Bayesian Modeling of the 4-Armed Bandit Task 
+    Hierarchical Bayesian Modeling of the N-Armed Bandit Task 
     using 4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P. [Aylward2018]_ with the following parameters:
     "A" (learning rate), "R" (reward sensitivity), "P" (punishment sensitivity), "xi" (noise).
 
@@ -81,7 +81,7 @@ def bandit4arm_singleA_lapse(
     **tab-delimited** text file, whose rows represent trial-by-trial observations
     and columns represent variables.
 
-    For the 4-Armed Bandit Task, there should be 4 columns of data
+    For the N-Armed Bandit Task, there should be 4 columns of data
     with the labels "subjID", "choice", "gain", "loss". It is not necessary for the columns to be
     in this particular order; however, it is necessary that they be labeled
     correctly and contain the information below:

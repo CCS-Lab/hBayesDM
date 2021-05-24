@@ -1,6 +1,6 @@
 #' @templateVar MODEL_FUNCTION bandit4arm_2par_lapse
 #' @templateVar CONTRIBUTOR 
-#' @templateVar TASK_NAME 4-Armed Bandit Task
+#' @templateVar TASK_NAME N-Armed Bandit Task
 #' @templateVar TASK_CODE bandit4arm
 #' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME 3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise)

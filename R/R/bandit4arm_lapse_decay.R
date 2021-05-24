@@ -1,6 +1,6 @@
 #' @templateVar MODEL_FUNCTION bandit4arm_lapse_decay
 #' @templateVar CONTRIBUTOR 
-#' @templateVar TASK_NAME 4-Armed Bandit Task
+#' @templateVar TASK_NAME N-Armed Bandit Task
 #' @templateVar TASK_CODE bandit4arm
 #' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME 5 Parameter Model, without C (choice perseveration) but with xi (noise). Added decay rate (Niv et al., 2015, J. Neuro).
