@@ -48,5 +48,5 @@ url = "https://test.pypi.org/legacy/"
 secondary = true
 
 [build-system]
-requires = ["poetry", "setuptools"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

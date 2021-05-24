@@ -12,7 +12,10 @@ model_type:
   code:
   desc: Hierarchical
 notes:
-contributors: Cheol Jun Cho
+contributors:
+  - name: Cheol Jun Cho
+    email: cjfwndnsl@gmail.com
+    link: https://github.com/cheoljun95
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   choice: 'Integer value representing the option chosen on the given trial: 1, 2,

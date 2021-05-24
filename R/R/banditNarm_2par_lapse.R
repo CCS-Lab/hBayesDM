@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION banditNarm_2par_lapse
-#' @templateVar CONTRIBUTOR 
+#' @templateVar CONTRIBUTOR \href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@@gmail.com}>
 #' @templateVar TASK_NAME N-Armed Bandit Task
 #' @templateVar TASK_CODE banditNarm
 #' @templateVar TASK_CITE 

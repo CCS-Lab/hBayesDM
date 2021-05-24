@@ -76,7 +76,7 @@ def banditNarm_lapse(
     
     .. [Seymour2012] Seymour, Daw, Roiser, Dayan, & Dolan (2012). Serotonin Selectively Modulates Reward Value in Human Decision-Making. J Neuro, 32(17), 5833-5842.
 
-    
+    .. codeauthor:: Cheol Jun Cho <cjfwndnsl@gmail.com>
 
     User data should contain the behavioral data-set of all subjects of interest for
     the current analysis. When loading from a file, the datafile should be a

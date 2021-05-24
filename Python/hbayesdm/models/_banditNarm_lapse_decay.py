@@ -78,7 +78,7 @@ def banditNarm_lapse_decay(
     
     .. [Aylward2018] Aylward, Valton, Ahn, Bond, Dayan, Roiser, & Robinson (2018) Altered decision-making under uncertainty in unmedicated mood and anxiety disorders. PsyArxiv. 10.31234/osf.io/k5b8m
 
-    
+    .. codeauthor:: Cheol Jun Cho <cjfwndnsl@gmail.com>
 
     User data should contain the behavioral data-set of all subjects of interest for
     the current analysis. When loading from a file, the datafile should be a
@@ -91,7 +91,7 @@ def banditNarm_lapse_decay(
     correctly and contain the information below:
 
     - "subjID": A unique identifier for each subject in the data-set.
-    - "choice": Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.
+    - "choice": Integer value representing the option chosen on the given trial: 1, 2, 3, ... N.
     - "gain": Floating point value representing the amount of currency won on the given trial (e.g. 50, 100).
     - "loss": Floating point value representing the amount of currency lost on the given trial (e.g. 0, -50).
 

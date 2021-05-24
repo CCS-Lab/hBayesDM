@@ -146,6 +146,8 @@ For the N-Armed Bandit Task, there should be 4 columns of data with the
   Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@gmail.com}>}
 }
 \examples{
 \dontrun{

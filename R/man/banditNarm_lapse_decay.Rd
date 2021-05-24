@@ -105,7 +105,7 @@ For the N-Armed Bandit Task, there should be 4 columns of data with the
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
   \item{subjID}{A unique identifier for each subject in the data-set.}
-  \item{choice}{Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.}
+  \item{choice}{Integer value representing the option chosen on the given trial: 1, 2, 3, ... N.}
   \item{gain}{Floating point value representing the amount of currency won on the given trial (e.g. 50, 100).}
   \item{loss}{Floating point value representing the amount of currency lost on the given trial (e.g. 0, -50).}
   
@@ -146,6 +146,8 @@ For the N-Armed Bandit Task, there should be 4 columns of data with the
   Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
+
+\subsection{Contributors}{\href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@gmail.com}>}
 }
 \examples{
 \dontrun{

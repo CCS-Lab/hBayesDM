@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION banditNarm_lapse_decay
-#' @templateVar CONTRIBUTOR 
+#' @templateVar CONTRIBUTOR \href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@@gmail.com}>
 #' @templateVar TASK_NAME N-Armed Bandit Task
 #' @templateVar TASK_CODE banditNarm
 #' @templateVar TASK_CITE 
@@ -13,7 +13,7 @@
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_2 \item{choice}{Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.}
+#' @templateVar DETAILS_DATA_2 \item{choice}{Integer value representing the option chosen on the given trial: 1, 2, 3, ... N.}
 #' @templateVar DETAILS_DATA_3 \item{gain}{Floating point value representing the amount of currency won on the given trial (e.g. 50, 100).}
 #' @templateVar DETAILS_DATA_4 \item{loss}{Floating point value representing the amount of currency lost on the given trial (e.g. 0, -50).}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 0

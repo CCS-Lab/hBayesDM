@@ -74,7 +74,7 @@ def banditNarm_singleA_lapse(
     
     .. [Aylward2018] Aylward, Valton, Ahn, Bond, Dayan, Roiser, & Robinson (2018) Altered decision-making under uncertainty in unmedicated mood and anxiety disorders. PsyArxiv. 10.31234/osf.io/k5b8m
 
-    
+    .. codeauthor:: Cheol Jun Cho <cjfwndnsl@gmail.com>
 
     User data should contain the behavioral data-set of all subjects of interest for
     the current analysis. When loading from a file, the datafile should be a
