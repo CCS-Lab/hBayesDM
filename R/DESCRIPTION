@@ -61,6 +61,7 @@ Collate:
     'bandit4arm_lapse.R'
     'bandit4arm_lapse_decay.R'
     'bandit4arm_singleA_lapse.R'
+    'banditNarm_4par.R'
     'bart_ewmv.R'
     'bart_par4.R'
     'cgt_cm.R'
