@@ -1,7 +1,7 @@
-#' @templateVar MODEL_FUNCTION bandit4arm_lapse_decay
+#' @templateVar MODEL_FUNCTION banditNarm_lapse_decay
 #' @templateVar CONTRIBUTOR 
-#' @templateVar TASK_NAME 4-Armed Bandit Task
-#' @templateVar TASK_CODE bandit4arm
+#' @templateVar TASK_NAME N-Armed Bandit Task
+#' @templateVar TASK_CODE banditNarm
 #' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME 5 Parameter Model, without C (choice perseveration) but with xi (noise). Added decay rate (Niv et al., 2015, J. Neuro).
 #' @templateVar MODEL_CODE lapse_decay
@@ -29,8 +29,8 @@
 #'
 
 
-bandit4arm_lapse_decay <- hBayesDM_model(
-  task_name       = "bandit4arm",
+banditNarm_lapse_decay <- hBayesDM_model(
+  task_name       = "banditNarm",
   model_name      = "lapse_decay",
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
@@ -44,4 +44,4 @@ bandit4arm_lapse_decay <- hBayesDM_model(
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
-  preprocess_func = bandit4arm_preprocess_func)
+  preprocess_func = banditNarm_preprocess_func)

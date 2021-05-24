@@ -1,14 +1,14 @@
-#' @templateVar MODEL_FUNCTION banditNarm_4par
+#' @templateVar MODEL_FUNCTION banditNarm_lapse
 #' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME N-Armed Bandit Task
 #' @templateVar TASK_CODE banditNarm
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME 4 Parameter Model, without C (choice perseveration)
-#' @templateVar MODEL_CODE 4par
+#' @templateVar MODEL_NAME 5 Parameter Model, without C (choice perseveration) but with xi (noise)
+#' @templateVar MODEL_CODE lapse
 #' @templateVar MODEL_CITE (Seymour et al., 2012)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
-#' @templateVar PARAMETERS \code{Arew} (reward learning rate), \code{Apun} (punishment learning rate), \code{R} (reward sensitivity), \code{P} (punishment sensitivity)
+#' @templateVar PARAMETERS \code{Arew} (reward learning rate), \code{Apun} (punishment learning rate), \code{R} (reward sensitivity), \code{P} (punishment sensitivity), \code{xi} (noise)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
@@ -29,16 +29,17 @@
 #'
 
 
-banditNarm_4par <- hBayesDM_model(
+banditNarm_lapse <- hBayesDM_model(
   task_name       = "banditNarm",
-  model_name      = "4par",
+  model_name      = "lapse",
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
     "Arew" = c(0, 0.1, 1),
     "Apun" = c(0, 0.1, 1),
     "R" = c(0, 1, 30),
-    "P" = c(0, 1, 30)
+    "P" = c(0, 1, 30),
+    "xi" = c(0, 0.1, 1)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

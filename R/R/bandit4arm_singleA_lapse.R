@@ -1,6 +1,6 @@
 #' @templateVar MODEL_FUNCTION bandit4arm_singleA_lapse
 #' @templateVar CONTRIBUTOR 
-#' @templateVar TASK_NAME N-Armed Bandit Task
+#' @templateVar TASK_NAME 4-Armed Bandit Task
 #' @templateVar TASK_CODE bandit4arm
 #' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME 4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P.

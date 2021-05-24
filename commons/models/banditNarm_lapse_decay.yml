@@ -1,5 +1,5 @@
 task_name:
-  code: bandit4arm
+  code: banditNarm
   desc: N-Armed Bandit Task
   cite:
 model_name:

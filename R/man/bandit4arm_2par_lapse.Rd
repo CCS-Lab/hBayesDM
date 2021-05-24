@@ -85,11 +85,11 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the N-Armed Bandit Task using 3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise).
+Hierarchical Bayesian Modeling of the 4-Armed Bandit Task using 3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise).
 It has the following parameters: \code{Arew} (reward learning rate), \code{Apun} (punishment learning rate), \code{xi} (noise).
 
 \itemize{
-  \item \strong{Task}: N-Armed Bandit Task 
+  \item \strong{Task}: 4-Armed Bandit Task 
   \item \strong{Model}: 3 Parameter Model, without C (choice perseveration), R (reward sensitivity), and P (punishment sensitivity). But with xi (noise) (Aylward et al., 2018)
 }
 }
@@ -100,7 +100,7 @@ This section describes some of the function arguments in greater detail.
   extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
   subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
   file, whose rows represent trial-by-trial observations and columns represent variables.\cr
-For the N-Armed Bandit Task, there should be 4 columns of data with the
+For the 4-Armed Bandit Task, there should be 4 columns of data with the
   labels "subjID", "choice", "gain", "loss". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{

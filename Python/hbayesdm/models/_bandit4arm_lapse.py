@@ -65,9 +65,9 @@ def bandit4arm_lapse(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """N-Armed Bandit Task - 5 Parameter Model, without C (choice perseveration) but with xi (noise)
+    """4-Armed Bandit Task - 5 Parameter Model, without C (choice perseveration) but with xi (noise)
 
-    Hierarchical Bayesian Modeling of the N-Armed Bandit Task 
+    Hierarchical Bayesian Modeling of the 4-Armed Bandit Task 
     using 5 Parameter Model, without C (choice perseveration) but with xi (noise) [Seymour2012]_ with the following parameters:
     "Arew" (reward learning rate), "Apun" (punishment learning rate), "R" (reward sensitivity), "P" (punishment sensitivity), "xi" (noise).
 
@@ -83,7 +83,7 @@ def bandit4arm_lapse(
     **tab-delimited** text file, whose rows represent trial-by-trial observations
     and columns represent variables.
 
-    For the N-Armed Bandit Task, there should be 4 columns of data
+    For the 4-Armed Bandit Task, there should be 4 columns of data
     with the labels "subjID", "choice", "gain", "loss". It is not necessary for the columns to be
     in this particular order; however, it is necessary that they be labeled
     correctly and contain the information below:

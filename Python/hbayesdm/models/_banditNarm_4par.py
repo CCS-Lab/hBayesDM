@@ -87,7 +87,7 @@ def banditNarm_4par(
     correctly and contain the information below:
 
     - "subjID": A unique identifier for each subject in the data-set.
-    - "choice": Integer value representing the option chosen on the given trial: 1, 2, 3, or 4.
+    - "choice": Integer value representing the option chosen on the given trial: 1, 2, 3, ... N.
     - "gain": Floating point value representing the amount of currency won on the given trial (e.g. 50, 100).
     - "loss": Floating point value representing the amount of currency lost on the given trial (e.g. 0, -50).
 

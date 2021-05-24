@@ -5,15 +5,15 @@ from numpy import Inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
-from hbayesdm.preprocess_funcs import bandit4arm_preprocess_func
+from hbayesdm.preprocess_funcs import banditNarm_preprocess_func
 
-__all__ = ['bandit4arm_lapse_decay']
+__all__ = ['banditNarm_lapse_decay']
 
 
-class Bandit4ArmLapseDecay(TaskModel):
+class BanditnarmLapseDecay(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
-            task_name='bandit4arm',
+            task_name='banditNarm',
             model_name='lapse_decay',
             model_type='',
             data_columns=(
@@ -48,10 +48,10 @@ class Bandit4ArmLapseDecay(TaskModel):
             **kwargs,
         )
 
-    _preprocess_func = bandit4arm_preprocess_func
+    _preprocess_func = banditNarm_preprocess_func
 
 
-def bandit4arm_lapse_decay(
+def banditNarm_lapse_decay(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -67,9 +67,9 @@ def bandit4arm_lapse_decay(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """4-Armed Bandit Task - 5 Parameter Model, without C (choice perseveration) but with xi (noise). Added decay rate (Niv et al., 2015, J. Neuro).
+    """N-Armed Bandit Task - 5 Parameter Model, without C (choice perseveration) but with xi (noise). Added decay rate (Niv et al., 2015, J. Neuro).
 
-    Hierarchical Bayesian Modeling of the 4-Armed Bandit Task 
+    Hierarchical Bayesian Modeling of the N-Armed Bandit Task 
     using 5 Parameter Model, without C (choice perseveration) but with xi (noise). Added decay rate (Niv et al., 2015, J. Neuro). [Aylward2018]_ with the following parameters:
     "Arew" (reward learning rate), "Apun" (punishment learning rate), "R" (reward sensitivity), "P" (punishment sensitivity), "xi" (noise), "d" (decay rate).
 
@@ -85,7 +85,7 @@ def bandit4arm_lapse_decay(
     **tab-delimited** text file, whose rows represent trial-by-trial observations
     and columns represent variables.
 
-    For the 4-Armed Bandit Task, there should be 4 columns of data
+    For the N-Armed Bandit Task, there should be 4 columns of data
     with the labels "subjID", "choice", "gain", "loss". It is not necessary for the columns to be
     in this particular order; however, it is necessary that they be labeled
     correctly and contain the information below:
@@ -193,7 +193,7 @@ def bandit4arm_lapse_decay(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('bandit4arm_lapse_decay').
+        - ``model``: String value that is the name of the model ('banditNarm_lapse_decay').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -208,10 +208,10 @@ def bandit4arm_lapse_decay(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import bandit4arm_lapse_decay
+        from hbayesdm.models import banditNarm_lapse_decay
 
         # Run the model and store results in "output"
-        output = bandit4arm_lapse_decay(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = banditNarm_lapse_decay(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -225,7 +225,7 @@ def bandit4arm_lapse_decay(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return Bandit4ArmLapseDecay(
+    return BanditnarmLapseDecay(
         data=data,
         niter=niter,
         nwarmup=nwarmup,
