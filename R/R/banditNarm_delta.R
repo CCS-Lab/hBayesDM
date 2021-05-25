@@ -1,14 +1,14 @@
-#' @templateVar MODEL_FUNCTION banditNarm_singleA_lapse
+#' @templateVar MODEL_FUNCTION banditNarm_delta
 #' @templateVar CONTRIBUTOR \href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@@gmail.com}>
 #' @templateVar TASK_NAME N-Armed Bandit Task
 #' @templateVar TASK_CODE banditNarm
-#' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME 4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P.
-#' @templateVar MODEL_CODE singleA_lapse
-#' @templateVar MODEL_CITE (Aylward et al., 2018)
+#' @templateVar TASK_CITE (Erev et al., 2010; Hertwig et al., 2004)
+#' @templateVar MODEL_NAME Rescorla-Wagner (Delta) Model
+#' @templateVar MODEL_CODE delta
+#' @templateVar MODEL_CITE 
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
-#' @templateVar PARAMETERS \code{A} (learning rate), \code{R} (reward sensitivity), \code{P} (punishment sensitivity), \code{xi} (noise)
+#' @templateVar PARAMETERS \code{A} (learning rate), \code{tau} (inverse temperature)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
@@ -26,20 +26,20 @@
 #' @include preprocess_funcs.R
 
 #' @references
-#' Aylward, Valton, Ahn, Bond, Dayan, Roiser, & Robinson (2018) Altered decision-making under uncertainty in unmedicated mood and anxiety disorders. PsyArxiv. 10.31234/osf.io/k5b8m
+#' Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., et al. (2010). A choice prediction competition: Choices from experience and from description. Journal of Behavioral Decision Making, 23(1), 15-47. https://doi.org/10.1002/bdm.683
+#'
+#' Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions From Experience and the Effect of Rare Events in Risky Choice. Psychological Science, 15(8), 534-539. https://doi.org/10.1111/j.0956-7976.2004.00715.x
 #'
 
 
-banditNarm_singleA_lapse <- hBayesDM_model(
+banditNarm_delta <- hBayesDM_model(
   task_name       = "banditNarm",
-  model_name      = "singleA_lapse",
+  model_name      = "delta",
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "A" = c(0, 0.1, 1),
-    "R" = c(0, 1, 30),
-    "P" = c(0, 1, 30),
-    "xi" = c(0, 0.1, 1)
+    "A" = c(0, 0.5, 1),
+    "tau" = c(0, 1, 5)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

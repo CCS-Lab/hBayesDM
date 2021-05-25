@@ -9,6 +9,8 @@ from ._bandit4arm_lapse_decay import bandit4arm_lapse_decay
 from ._bandit4arm_singleA_lapse import bandit4arm_singleA_lapse
 from ._banditNarm_2par_lapse import banditNarm_2par_lapse
 from ._banditNarm_4par import banditNarm_4par
+from ._banditNarm_delta import banditNarm_delta
+from ._banditNarm_kalman_filter import banditNarm_kalman_filter
 from ._banditNarm_lapse import banditNarm_lapse
 from ._banditNarm_lapse_decay import banditNarm_lapse_decay
 from ._banditNarm_singleA_lapse import banditNarm_singleA_lapse
@@ -68,6 +70,8 @@ __all__ = [
     'bandit4arm_singleA_lapse',
     'banditNarm_2par_lapse',
     'banditNarm_4par',
+    'banditNarm_delta',
+    'banditNarm_kalman_filter',
     'banditNarm_lapse',
     'banditNarm_lapse_decay',
     'banditNarm_singleA_lapse',

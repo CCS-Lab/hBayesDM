@@ -1,14 +1,14 @@
-#' @templateVar MODEL_FUNCTION banditNarm_singleA_lapse
-#' @templateVar CONTRIBUTOR \href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@@gmail.com}>
-#' @templateVar TASK_NAME N-Armed Bandit Task
+#' @templateVar MODEL_FUNCTION banditNarm_kalman_filter
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>, \href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@@gmail.com}>
+#' @templateVar TASK_NAME N-Armed Bandit Task (modified)
 #' @templateVar TASK_CODE banditNarm
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME 4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P.
-#' @templateVar MODEL_CODE singleA_lapse
-#' @templateVar MODEL_CITE (Aylward et al., 2018)
+#' @templateVar MODEL_NAME Kalman Filter
+#' @templateVar MODEL_CODE kalman_filter
+#' @templateVar MODEL_CITE (Daw et al., 2006)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
-#' @templateVar PARAMETERS \code{A} (learning rate), \code{R} (reward sensitivity), \code{P} (punishment sensitivity), \code{xi} (noise)
+#' @templateVar PARAMETERS \code{lambda} (decay factor), \code{theta} (decay center), \code{beta} (inverse softmax temperature), \code{mu0} (anticipated initial mean of all 4 options), \code{sigma0} (anticipated initial sd (uncertainty factor) of all 4 options), \code{sigmaD} (sd of diffusion noise)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
@@ -26,20 +26,22 @@
 #' @include preprocess_funcs.R
 
 #' @references
-#' Aylward, Valton, Ahn, Bond, Dayan, Roiser, & Robinson (2018) Altered decision-making under uncertainty in unmedicated mood and anxiety disorders. PsyArxiv. 10.31234/osf.io/k5b8m
+#' Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates for exploratory decisions in humans. Nature, 441(7095), 876-879.
 #'
 
 
-banditNarm_singleA_lapse <- hBayesDM_model(
+banditNarm_kalman_filter <- hBayesDM_model(
   task_name       = "banditNarm",
-  model_name      = "singleA_lapse",
+  model_name      = "kalman_filter",
   model_type      = "",
   data_columns    = c("subjID", "choice", "gain", "loss"),
   parameters      = list(
-    "A" = c(0, 0.1, 1),
-    "R" = c(0, 1, 30),
-    "P" = c(0, 1, 30),
-    "xi" = c(0, 0.1, 1)
+    "lambda" = c(0, 0.9, 1),
+    "theta" = c(0, 50, 100),
+    "beta" = c(0, 0.1, 1),
+    "mu0" = c(0, 85, 100),
+    "sigma0" = c(0, 6, 15),
+    "sigmaD" = c(0, 3, 15)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

@@ -43,7 +43,7 @@ class BanditnarmLapseDecay(TaskModel):
                 ('d', 'decay rate'),
             ]),
             additional_args_desc=OrderedDict([
-                
+                ('Narm', 0),
             ]),
             **kwargs,
         )
@@ -186,7 +186,9 @@ def banditNarm_lapse_decay(
         Integer value specifying how many leapfrog steps the MCMC sampler can take
         on each new iteration. See note below.
     **additional_args
-        Not used for this model.
+        For this model, it's possible to set the following model-specific argument to a value that you may prefer.
+
+        - ``Narm``: Number of arms used in Multi-armed Bandit Task If not given (=0), the number of unique choice will be used.
 
     Returns
     -------

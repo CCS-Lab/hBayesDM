@@ -7,14 +7,14 @@ import pandas as pd
 from hbayesdm.base import TaskModel
 from hbayesdm.preprocess_funcs import banditNarm_preprocess_func
 
-__all__ = ['banditNarm_lapse']
+__all__ = ['banditNarm_kalman_filter']
 
 
-class BanditnarmLapse(TaskModel):
+class BanditnarmKalmanFilter(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
             task_name='banditNarm',
-            model_name='lapse',
+            model_name='kalman_filter',
             model_type='',
             data_columns=(
                 'subjID',
@@ -23,22 +23,24 @@ class BanditnarmLapse(TaskModel):
                 'loss',
             ),
             parameters=OrderedDict([
-                ('Arew', (0, 0.1, 1)),
-                ('Apun', (0, 0.1, 1)),
-                ('R', (0, 1, 30)),
-                ('P', (0, 1, 30)),
-                ('xi', (0, 0.1, 1)),
+                ('lambda', (0, 0.9, 1)),
+                ('theta', (0, 50, 100)),
+                ('beta', (0, 0.1, 1)),
+                ('mu0', (0, 85, 100)),
+                ('sigma0', (0, 6, 15)),
+                ('sigmaD', (0, 3, 15)),
             ]),
             regressors=OrderedDict([
                 
             ]),
             postpreds=['y_pred'],
             parameters_desc=OrderedDict([
-                ('Arew', 'reward learning rate'),
-                ('Apun', 'punishment learning rate'),
-                ('R', 'reward sensitivity'),
-                ('P', 'punishment sensitivity'),
-                ('xi', 'noise'),
+                ('lambda', 'decay factor'),
+                ('theta', 'decay center'),
+                ('beta', 'inverse softmax temperature'),
+                ('mu0', 'anticipated initial mean of all 4 options'),
+                ('sigma0', 'anticipated initial sd (uncertainty factor) of all 4 options'),
+                ('sigmaD', 'sd of diffusion noise'),
             ]),
             additional_args_desc=OrderedDict([
                 ('Narm', 0),
@@ -49,7 +51,7 @@ class BanditnarmLapse(TaskModel):
     _preprocess_func = banditNarm_preprocess_func
 
 
-def banditNarm_lapse(
+def banditNarm_kalman_filter(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -65,17 +67,18 @@ def banditNarm_lapse(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """N-Armed Bandit Task - 5 Parameter Model, without C (choice perseveration) but with xi (noise)
+    """N-Armed Bandit Task (modified) - Kalman Filter
 
-    Hierarchical Bayesian Modeling of the N-Armed Bandit Task 
-    using 5 Parameter Model, without C (choice perseveration) but with xi (noise) [Seymour2012]_ with the following parameters:
-    "Arew" (reward learning rate), "Apun" (punishment learning rate), "R" (reward sensitivity), "P" (punishment sensitivity), "xi" (noise).
-
-    
+    Hierarchical Bayesian Modeling of the N-Armed Bandit Task (modified) 
+    using Kalman Filter [Daw2006]_ with the following parameters:
+    "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), "sigmaD" (sd of diffusion noise).
 
     
-    .. [Seymour2012] Seymour, Daw, Roiser, Dayan, & Dolan (2012). Serotonin Selectively Modulates Reward Value in Human Decision-Making. J Neuro, 32(17), 5833-5842.
 
+    
+    .. [Daw2006] Daw, N. D., O'Doherty, J. P., Dayan, P., Seymour, B., & Dolan, R. J. (2006). Cortical substrates for exploratory decisions in humans. Nature, 441(7095), 876-879.
+
+    .. codeauthor:: Yoonseo Zoh <zohyos7@gmail.com>
     .. codeauthor:: Cheol Jun Cho <cjfwndnsl@gmail.com>
 
     User data should contain the behavioral data-set of all subjects of interest for
@@ -83,7 +86,7 @@ def banditNarm_lapse(
     **tab-delimited** text file, whose rows represent trial-by-trial observations
     and columns represent variables.
 
-    For the N-Armed Bandit Task, there should be 4 columns of data
+    For the N-Armed Bandit Task (modified), there should be 4 columns of data
     with the labels "subjID", "choice", "gain", "loss". It is not necessary for the columns to be
     in this particular order; however, it is necessary that they be labeled
     correctly and contain the information below:
@@ -193,7 +196,7 @@ def banditNarm_lapse(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('banditNarm_lapse').
+        - ``model``: String value that is the name of the model ('banditNarm_kalman_filter').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -208,10 +211,10 @@ def banditNarm_lapse(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import banditNarm_lapse
+        from hbayesdm.models import banditNarm_kalman_filter
 
         # Run the model and store results in "output"
-        output = banditNarm_lapse(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = banditNarm_kalman_filter(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -225,7 +228,7 @@ def banditNarm_lapse(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return BanditnarmLapse(
+    return BanditnarmKalmanFilter(
         data=data,
         niter=niter,
         nwarmup=nwarmup,

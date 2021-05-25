@@ -63,6 +63,8 @@ Collate:
     'bandit4arm_singleA_lapse.R'
     'banditNarm_2par_lapse.R'
     'banditNarm_4par.R'
+    'banditNarm_delta.R'
+    'banditNarm_kalman_filter.R'
     'banditNarm_lapse.R'
     'banditNarm_lapse_decay.R'
     'banditNarm_singleA_lapse.R'

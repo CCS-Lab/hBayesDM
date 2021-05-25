@@ -66,7 +66,18 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{For this model, there is no model-specific argument.}
+\item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
+\describe{
+  \item{Narm}{Number of arms used in Multi-armed Bandit Task If not given (=0), the number of unique choice will be used.}
+  
+  
+  
+  
+  
+  
+  
+  
+}}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:

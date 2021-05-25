@@ -147,7 +147,7 @@ bandit4arm_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-banditNarm_preprocess_func <- function(raw_data, general_info) {
+banditNarm_preprocess_func <- function(raw_data, general_info, Narm=0) {
   # Currently class(raw_data) == "data.table"
 
   # Use general_info of raw_data
@@ -157,7 +157,12 @@ banditNarm_preprocess_func <- function(raw_data, general_info) {
   t_max   <- general_info$t_max
 
   # get the number of arms used
-  n_arm   <- length(unique(raw_data$choice))
+  if (Narm == 0){
+    n_arm  <- length(unique(raw_data$choice))
+  }
+  else{
+    n_arm <- Narm
+  }
 
   # Initialize (model-specific) data arrays
   rew    <- array( 0, c(n_subj, t_max))

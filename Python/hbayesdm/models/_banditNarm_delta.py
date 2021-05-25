@@ -7,14 +7,14 @@ import pandas as pd
 from hbayesdm.base import TaskModel
 from hbayesdm.preprocess_funcs import banditNarm_preprocess_func
 
-__all__ = ['banditNarm_lapse']
+__all__ = ['banditNarm_delta']
 
 
-class BanditnarmLapse(TaskModel):
+class BanditnarmDelta(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
             task_name='banditNarm',
-            model_name='lapse',
+            model_name='delta',
             model_type='',
             data_columns=(
                 'subjID',
@@ -23,22 +23,16 @@ class BanditnarmLapse(TaskModel):
                 'loss',
             ),
             parameters=OrderedDict([
-                ('Arew', (0, 0.1, 1)),
-                ('Apun', (0, 0.1, 1)),
-                ('R', (0, 1, 30)),
-                ('P', (0, 1, 30)),
-                ('xi', (0, 0.1, 1)),
+                ('A', (0, 0.5, 1)),
+                ('tau', (0, 1, 5)),
             ]),
             regressors=OrderedDict([
                 
             ]),
             postpreds=['y_pred'],
             parameters_desc=OrderedDict([
-                ('Arew', 'reward learning rate'),
-                ('Apun', 'punishment learning rate'),
-                ('R', 'reward sensitivity'),
-                ('P', 'punishment sensitivity'),
-                ('xi', 'noise'),
+                ('A', 'learning rate'),
+                ('tau', 'inverse temperature'),
             ]),
             additional_args_desc=OrderedDict([
                 ('Narm', 0),
@@ -49,7 +43,7 @@ class BanditnarmLapse(TaskModel):
     _preprocess_func = banditNarm_preprocess_func
 
 
-def banditNarm_lapse(
+def banditNarm_delta(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -65,16 +59,17 @@ def banditNarm_lapse(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """N-Armed Bandit Task - 5 Parameter Model, without C (choice perseveration) but with xi (noise)
+    """N-Armed Bandit Task - Rescorla-Wagner (Delta) Model
 
-    Hierarchical Bayesian Modeling of the N-Armed Bandit Task 
-    using 5 Parameter Model, without C (choice perseveration) but with xi (noise) [Seymour2012]_ with the following parameters:
-    "Arew" (reward learning rate), "Apun" (punishment learning rate), "R" (reward sensitivity), "P" (punishment sensitivity), "xi" (noise).
-
-    
+    Hierarchical Bayesian Modeling of the N-Armed Bandit Task [Erev2010]_, [Hertwig2004]_
+    using Rescorla-Wagner (Delta) Model  with the following parameters:
+    "A" (learning rate), "tau" (inverse temperature).
 
     
-    .. [Seymour2012] Seymour, Daw, Roiser, Dayan, & Dolan (2012). Serotonin Selectively Modulates Reward Value in Human Decision-Making. J Neuro, 32(17), 5833-5842.
+
+    .. [Erev2010] Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., et al. (2010). A choice prediction competition: Choices from experience and from description. Journal of Behavioral Decision Making, 23(1), 15-47. https://doi.org/10.1002/bdm.683
+    .. [Hertwig2004] Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions From Experience and the Effect of Rare Events in Risky Choice. Psychological Science, 15(8), 534-539. https://doi.org/10.1111/j.0956-7976.2004.00715.x
+    
 
     .. codeauthor:: Cheol Jun Cho <cjfwndnsl@gmail.com>
 
@@ -193,7 +188,7 @@ def banditNarm_lapse(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('banditNarm_lapse').
+        - ``model``: String value that is the name of the model ('banditNarm_delta').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -208,10 +203,10 @@ def banditNarm_lapse(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import banditNarm_lapse
+        from hbayesdm.models import banditNarm_delta
 
         # Run the model and store results in "output"
-        output = banditNarm_lapse(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = banditNarm_delta(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -225,7 +220,7 @@ def banditNarm_lapse(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return BanditnarmLapse(
+    return BanditnarmDelta(
         data=data,
         niter=niter,
         nwarmup=nwarmup,

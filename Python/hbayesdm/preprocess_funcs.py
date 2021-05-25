@@ -91,6 +91,8 @@ def banditNarm_preprocess_func(self, raw_data, general_info, additional_args):
 
     # get the number of arms used
     n_arm = len(raw_data['choice'].unique())
+    # Use additional_args if provided
+    n_arm = additional_args.get('Narm', n_arm)
 
     # Initialize (model-specific) data arrays
     rew = np.full((n_subj, t_max), 0, dtype=float)
