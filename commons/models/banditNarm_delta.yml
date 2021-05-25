@@ -1,0 +1,46 @@
+task_name:
+  code: banditNarm
+  desc: N-Armed Bandit Task
+  cite:
+    - "Erev, I., Ert, E., Roth, A. E., Haruvy, E., Herzog, S. M., Hau, R., et al. (2010).
+      A choice prediction competition: Choices from experience and from description.
+      Journal of Behavioral Decision Making, 23(1), 15-47. https://doi.org/10.1002/bdm.683"
+    - Hertwig, R., Barron, G., Weber, E. U., & Erev, I. (2004). Decisions From Experience
+      and the Effect of Rare Events in Risky Choice. Psychological Science, 15(8), 534-539.
+      https://doi.org/10.1111/j.0956-7976.2004.00715.x
+model_name:
+  code: delta
+  desc: Rescorla-Wagner (Delta) Model
+  cite:
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+  - name: Cheol Jun Cho
+    email: cjfwndnsl@gmail.com
+    link: https://github.com/cheoljun95
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  choice: 'Integer value representing the option chosen on the given trial: 1, 2,
+    3, ... N.'
+  gain: Floating point value representing the amount of currency won on the given
+    trial (e.g. 50, 100).
+  loss: Floating point value representing the amount of currency lost on the given
+    trial (e.g. 0, -50).
+parameters:
+  A:
+    desc: learning rate
+    info: [0, 0.5, 1]
+  tau:
+    desc: inverse temperature
+    info: [0, 1, 5]
+regressors:
+postpreds:
+  - y_pred
+additional_args:
+  - code: Narm
+    default: null
+    desc:
+      Number of arms used in Multi-armed Bandit Task If not given,
+      the number of unique choice will be used.

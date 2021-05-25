@@ -7,6 +7,13 @@ from ._bandit4arm_4par import bandit4arm_4par
 from ._bandit4arm_lapse import bandit4arm_lapse
 from ._bandit4arm_lapse_decay import bandit4arm_lapse_decay
 from ._bandit4arm_singleA_lapse import bandit4arm_singleA_lapse
+from ._banditNarm_2par_lapse import banditNarm_2par_lapse
+from ._banditNarm_4par import banditNarm_4par
+from ._banditNarm_delta import banditNarm_delta
+from ._banditNarm_kalman_filter import banditNarm_kalman_filter
+from ._banditNarm_lapse import banditNarm_lapse
+from ._banditNarm_lapse_decay import banditNarm_lapse_decay
+from ._banditNarm_singleA_lapse import banditNarm_singleA_lapse
 from ._bart_ewmv import bart_ewmv
 from ._bart_par4 import bart_par4
 from ._cgt_cm import cgt_cm
@@ -61,6 +68,13 @@ __all__ = [
     'bandit4arm_lapse',
     'bandit4arm_lapse_decay',
     'bandit4arm_singleA_lapse',
+    'banditNarm_2par_lapse',
+    'banditNarm_4par',
+    'banditNarm_delta',
+    'banditNarm_kalman_filter',
+    'banditNarm_lapse',
+    'banditNarm_lapse_decay',
+    'banditNarm_singleA_lapse',
     'bart_ewmv',
     'bart_par4',
     'cgt_cm',
