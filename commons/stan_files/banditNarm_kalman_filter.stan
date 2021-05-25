@@ -14,6 +14,7 @@ transformed data {
   sigmaO = 4;
 }
 
+
 parameters {
   // group-level parameters
   vector[6] mu_pr;

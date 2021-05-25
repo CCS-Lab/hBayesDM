@@ -157,7 +157,7 @@ banditNarm_preprocess_func <- function(raw_data, general_info, Narm=0) {
   t_max   <- general_info$t_max
 
   # get the number of arms used
-  if (Narm == 0){
+  if (is.null(Narm)){
     n_arm  <- length(unique(raw_data$choice))
   }
   else{

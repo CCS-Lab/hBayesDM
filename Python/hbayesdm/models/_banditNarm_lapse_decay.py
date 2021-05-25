@@ -43,7 +43,7 @@ class BanditnarmLapseDecay(TaskModel):
                 ('d', 'decay rate'),
             ]),
             additional_args_desc=OrderedDict([
-                ('Narm', 0),
+                ('Narm', None),
             ]),
             **kwargs,
         )
@@ -188,7 +188,7 @@ def banditNarm_lapse_decay(
     **additional_args
         For this model, it's possible to set the following model-specific argument to a value that you may prefer.
 
-        - ``Narm``: Number of arms used in Multi-armed Bandit Task If not given (=0), the number of unique choice will be used.
+        - ``Narm``: Number of arms used in Multi-armed Bandit Task If not given, the number of unique choice will be used.
 
     Returns
     -------

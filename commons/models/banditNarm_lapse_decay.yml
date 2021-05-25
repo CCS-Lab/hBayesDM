@@ -49,7 +49,7 @@ postpreds:
 - y_pred
 additional_args:
   - code: Narm
-    default: 0
+    default: null
     desc:
-      Number of arms used in Multi-armed Bandit Task If not given (=0),
+      Number of arms used in Multi-armed Bandit Task If not given,
       the number of unique choice will be used.

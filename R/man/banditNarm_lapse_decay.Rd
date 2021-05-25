@@ -68,7 +68,7 @@ on each new iteration. See \bold{Details} below.}
 
 \item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
 \describe{
-  \item{Narm}{Number of arms used in Multi-armed Bandit Task If not given (=0), the number of unique choice will be used.}
+  \item{Narm}{Number of arms used in Multi-armed Bandit Task If not given, the number of unique choice will be used.}
   
   
   
