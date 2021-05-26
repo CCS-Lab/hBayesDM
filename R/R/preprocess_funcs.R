@@ -147,7 +147,7 @@ bandit4arm_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-banditNarm_preprocess_func <- function(raw_data, general_info, Narm=0) {
+banditNarm_preprocess_func <- function(raw_data, general_info, Narm=NULL) {
   # Currently class(raw_data) == "data.table"
 
   # Use general_info of raw_data
