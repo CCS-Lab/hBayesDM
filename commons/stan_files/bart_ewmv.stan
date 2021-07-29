@@ -94,7 +94,9 @@ model {
       n_succ += pumps[j, k] - explosion[j, k];
       n_pump += pumps[j, k];
 
-      p_burst = phi[j] + (1 - exp(-n_pump * eta[j])) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
+      if(n_pump>0){
+        p_burst = phi[j] + (1 - exp(-n_pump * eta[j])) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
+      }
     }
   }
 }
@@ -153,7 +155,9 @@ generated quantities {
         n_succ += pumps[j, k] - explosion[j, k];
         n_pump += pumps[j, k];
 
-        p_burst = phi[j] + (1 - exp(-n_pump * eta[j])) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
+        if(n_pump>0){
+          p_burst = phi[j] + (1 - exp(-n_pump * eta[j])) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
+        }
       }
     }
   }
