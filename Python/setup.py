@@ -26,7 +26,7 @@ if IS_RELEASED:
 elif IS_DEV:
     VERSION += '.' + DEV_VERSION
 else:
-    VERSION += '.9000'
+    VERSION += '.9001'
 
 
 DESC = 'Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks'
