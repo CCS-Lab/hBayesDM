@@ -13,14 +13,12 @@ decision-making tasks. *hBayesDM* in Python uses `PyStan`_ (Python interface for
 It supports Python 3.5 or higher versions and requires several packages including:
 `NumPy`_, `SciPy`_, `Pandas`_, `PyStan`_, `Matplotlib`_, and `ArviZ`_.
 
-.. important::
-
-    The current Python implementation depends on functions of `PyStan`_ 2, not the
-    latest version of `PyStan`_. As the latest PyStan does not support Windows
-    for now, we plan to migrate the backend package for Stan from PyStan to
-    `cmdstanpy`_. Until then, we commend you to try the R version instead or to use
-    the current implementation with PyStan 2.19.1. Sorry for your
-    inconvenience, and please stay tuned for the future updates. Thanks.
+.. IMPORTANT:: The current Python implementation depends on functions of `PyStan`_ 2,
+   not the latest version of `PyStan`_. As the latest PyStan does not support Windows
+   for now, we plan to migrate the backend package for Stan from PyStan to
+   `cmdstanpy`_. Until then, we commend you to try the R version instead or to use
+   the current implementation with PyStan 2.19.1. Sorry for your
+   inconvenience, and please stay tuned for the future updates. Thanks.
 
 .. _NumPy: https://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
@@ -38,18 +36,14 @@ You can install hBayesDM from PyPI with the following line:
 
 .. code:: bash
 
-   pip install 'pystan==2.19.1'  # Use PyStan 2, for now
+   pip install "pystan==2.19.1.1"  # Use PyStan 2, for now
    pip install hbayesdm  # Install using pip
 
-If you want to install from source (by cloning from GitHub):
+If you want to install the development version:
 
 .. code:: bash
 
-   git clone https://github.com/CCS-Lab/hBayesDM.git
-   cd hBayesDM
-   cd Python
-
-   python setup.py install  # Install from source
+   pip install "git+https://github.com/CCS-Lab/hBayesDM.git@develop#egg=hbayesdm&subdirectory=Python"
 
 Citation
 --------
