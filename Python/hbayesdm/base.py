@@ -641,7 +641,12 @@ class TaskModel(metaclass=ABCMeta):
         """
         model_path = str(PATH_STAN / (model + '.stan'))
         tempdir = Path(tempfile.gettempdir())
-        uid = os.getuid()
+
+        if getattr(os, 'getuid', None) is None:
+            uid = 'windows'
+        else:
+            uid = os.getuid()
+
         cache_file = tempdir / (
             'cached-hBayesDM_model-%s-pystan_%s_user-%d.pkl' %
             (model, _pystan_version, uid)
