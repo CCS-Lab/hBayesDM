@@ -482,10 +482,7 @@ hBayesDM_model <- function(task_name,
                              chains  = nchain,
                              iter    = niter,
                              warmup  = nwarmup,
-                             thin    = nthin,
-                             control = list(adapt_delta   = adapt_delta,
-                                            stepsize      = stepsize,
-                                            max_treedepth = max_treedepth))
+                             thin    = nthin)
     }
 
     # Extract from the Stan fit object
