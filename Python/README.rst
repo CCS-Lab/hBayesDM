@@ -13,12 +13,16 @@ decision-making tasks. *hBayesDM* in Python uses `PyStan`_ (Python interface for
 It supports Python 3.5 or higher versions and requires several packages including:
 `NumPy`_, `SciPy`_, `Pandas`_, `PyStan`_, `Matplotlib`_, and `ArviZ`_.
 
-.. WARNING:: The current Python implementation depends on functions of `PyStan`_ 2,
-   not the latest version of `PyStan`_. As the latest PyStan does not support Windows
-   for now, we plan to migrate the backend package for Stan from PyStan to
-   `cmdstanpy`_ in a near future. Until then, we recommend you to try the R version
-   instead or to use the current implementation with PyStan 2.19.1.1. Sorry for your
-   inconvenience, and please stay tuned for the future update.
+.. WARNING:: The current Python implementation depends on `PyStan`_ 2,
+   which is not the latest version (PyStan 3.*).
+   In the matter of fact, the latest version of PyStan has different interfaces
+   from those in PyStan 2, and it does not support Windows for now.
+   In these points, we developers are concerned that it can affect the availability of hBayesDM
+   for Windows users, so instead of updating hBayesDM to use PyStan 3, we plan to use
+   `cmdstanpy`_ for our backend in a near future.
+   Until then, we strongly recommend you to use the R version instead, but
+   you can still use the current Python implementation with PyStan 2.19.1.1.
+   Apologies for the inconvenience, and please stay tuned for the future update.
 
 .. _NumPy: https://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
