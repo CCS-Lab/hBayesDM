@@ -1,8 +1,8 @@
 task_name:
   code: pstRT
   desc: Probabilistic Selection Task (with RT data)
-  cite: 
-  - 'Frank, M. J., Santamaria, A., O''Reilly, R. C., & Willcutt, E. (2007). Testing computational models of dopamine and noradrenaline dysfunction in attention deficit/hyperactivity disorder. Neuropsychopharmacology, 32(7), 1583-1599.'  
+  cite:
+  - 'Frank, M. J., Santamaria, A., O''Reilly, R. C., & Willcutt, E. (2007). Testing computational models of dopamine and noradrenaline dysfunction in attention deficit/hyperactivity disorder. Neuropsychopharmacology, 32(7), 1583-1599.'
   - 'Frank, M. J., Seeberger, L. C., & O''reilly, R. C. (2004). By carrot or by stick: cognitive reinforcement learning in parkinsonism. Science, 306(5703), 1940-1943.'
 model_name:
   code: rlddm6
@@ -26,13 +26,13 @@ parameters:
     info: [0, 1.6, 'Inf']
   bp:
     desc: boundary separation power
-    info: [-0.3, 0.02, 0.3]      
+    info: [-0.3, 0.02, 0.3]
   tau:
     desc: non-decision time
     info: [0, 0.2, 'Inf']
   v:
     desc: drift rate scaling
-    info: ['-Inf', 2.8, 'Inf']    
+    info: ['-Inf', 2.8, 'Inf']
   alpha_pos:
     desc: learning rate for positive prediction error
     info: [0, 0.04, 1]
@@ -41,7 +41,7 @@ parameters:
     info: [0, 0.02, 1]
 regressors:
   Q1: 2  # shape: [N, T]
-  Q2: 2  # shape: [N, T]  
+  Q2: 2  # shape: [N, T]
 postpreds:
 - choice_os
 - RT_os
