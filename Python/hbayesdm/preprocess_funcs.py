@@ -715,7 +715,72 @@ def pst_preprocess_func(self, raw_data, general_info, additional_args):
 
     # Returned data_dict will directly be passed to pystan
     return data_dict
+  
+  
+def pstRT_preprocess_func(self, raw_data, general_info, additional_args):
+    subj_group = iter(general_info['grouped_data'])
 
+    # Use general_info(s) about raw_data
+    n_subj = general_info['n_subj']
+    t_subjs = general_info['t_subjs']
+    t_max = general_info['t_max']
+    
+    # Initialize (model-specific) data arrays
+    i_subjs = np.full((n_subj, t_max), -1, dtype=int)
+    cond = np.full((n_subj, t_max), -1, dtype=int)
+    choice = np.full((n_subj, t_max), -1, dtype=int)
+    RT = np.full((n_subj, t_max), -1, dtype=float)
+    fd = np.full((n_subj, t_max), -1, dtype=int)
+
+    # Write from subj_data to the data arrays
+    for s in range(n_subj):
+        _, subj_data = next(subj_group)
+        t = t_subjs[s]
+        i_subjs[s][:t] = subj_data['iter']
+        cond[s][:t] = subj_data['cond']
+        choice[s][:t] = subj_data['choice']
+        RT[s][:t] = subj_data['rt']
+        fd[s][:t] = subj_data['feedback']
+    
+    # Task conditions and reward probabilities
+    df_prob = raw_data[['cond', 'prob']].drop_duplicates()
+    df_prob = df_prob.sort_values(by=['cond'])
+    n_cond = df_prob.shape[0]
+    prob = df_prob['prob'].to_numpy()
+    
+    # Minimum reaction time
+    minRT = np.full(n_subj, -1, dtype=float)
+
+    # Write minRT
+    subj_group = iter(general_info['grouped_data'])
+    for s in range(n_subj):
+        _, subj_data = next(subj_group)
+        minRT[s] = min(subj_data['rt'])
+
+    # Use additional_args if provided
+    RTbound = additional_args.get('RTbound', 0.1)    
+    initQ = additional_args.get('initQ', 0.5)
+    
+    # Wrap into a dict for pystan
+    data_dict = {
+        'N': n_subj,
+        'T': t_max,
+        'Tsubj': t_subjs,
+        'Isubj': i_subjs,
+        'n_cond': n_cond,
+        'cond': cond,
+        'choice': choice,
+        'RT': RT,
+        'fd': fd,
+        'initQ': initQ,
+        'minRT': minRT,
+        'RTbound': RTbound,
+        'prob': prob
+    }
+
+    # Returned data_dict will directly be passed to pystan
+    return data_dict    
+  
 
 def ra_preprocess_func(self, raw_data, general_info, additional_args):
     # Iterate through grouped_data

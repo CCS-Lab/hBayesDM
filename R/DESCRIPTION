@@ -44,7 +44,7 @@ BugReports: https://github.com/CCS-Lab/hBayesDM/issues
 License: GPL-3
 NeedsCompilation: yes
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 SystemRequirements: GNU make
 Collate:
     'HDIofMCMC.R'
@@ -109,6 +109,9 @@ Collate:
     'prl_fictitious_woa.R'
     'prl_rp.R'
     'prl_rp_multipleB.R'
+    'pstRT_ddm.R'
+    'pstRT_rlddm1.R'
+    'pstRT_rlddm6.R'
     'pst_Q.R'
     'pst_gainloss_Q.R'
     'ra_noLA.R'

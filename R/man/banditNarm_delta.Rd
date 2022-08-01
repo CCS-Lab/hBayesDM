@@ -57,15 +57,6 @@ to \code{FALSE}.}
 size). Defaults to \code{FALSE}.
 If set to \code{TRUE}, it includes: "y_pred"}
 
-\item{adapt_delta}{Floating point value representing the target acceptance probability of a new
-sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.}
-
-\item{stepsize}{Integer value specifying the size of each leapfrog step that the MCMC sampler can
-take on each new iteration. See \bold{Details} below.}
-
-\item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
-on each new iteration. See \bold{Details} below.}
-
 \item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
 \describe{
   \item{Narm}{Number of arms used in Multi-armed Bandit Task If not given, the number of unique choice will be used.}
@@ -147,16 +138,6 @@ For the N-Armed Bandit Task, there should be 4 columns of data with the
 \strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC sampler,
   using only every \code{i == nthin} samples to generate posterior distributions. By default,
   \code{nthin} is equal to 1, meaning that every sample is used to generate the posterior.
-
-\strong{Control Parameters:} \code{adapt_delta}, \code{stepsize}, and \code{max_treedepth} are
-  advanced options that give the user more control over Stan's MCMC sampler. It is recommended
-  that only advanced users change the default values, as alterations can profoundly change the
-  sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
-  Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
-  more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
-  Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
-  and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
-  description of these arguments.
 
 \subsection{Contributors}{\href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@gmail.com}>}
 }
