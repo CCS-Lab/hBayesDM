@@ -56,3 +56,12 @@ additional_args:
 - code: initQ
   default: 0.5
   desc: 'Floating point value representing the model''s initial value of any choice.'
+contributors:
+- name: Hoyoung Doh
+  email: hoyoung.doh@gmail.com
+  link: https://hydoh.github.io/
+- name: Sanghoon Kang
+  email: sanghoon.kang@yale.edu
+- name: Jihyun K. Hur
+  email: jihyun.hur@yale.edu
+  link: https://jihyuncindyhur.github.io/
