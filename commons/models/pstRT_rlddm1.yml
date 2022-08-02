@@ -1,0 +1,51 @@
+task_name:
+  code: pstRT
+  desc: Probabilistic Selection Task (with RT data)
+  cite:
+  - 'Frank, M. J., Santamaria, A., O''Reilly, R. C., & Willcutt, E. (2007). Testing computational models of dopamine and noradrenaline dysfunction in attention deficit/hyperactivity disorder. Neuropsychopharmacology, 32(7), 1583-1599.'
+  - 'Frank, M. J., Seeberger, L. C., & O''reilly, R. C. (2004). By carrot or by stick: cognitive reinforcement learning in parkinsonism. Science, 306(5703), 1940-1943.'
+model_name:
+  code: rlddm1
+  desc: Reinforcement Learning Drift Diffusion Model 1
+  cite:
+  - Pedersen, M. L., Frank, M. J., & Biele, G. (2017). The drift diffusion model as the choice rule in reinforcement learning. Psychonomic bulletin & review, 24(4), 1234-1251.
+model_type:
+  code: ''
+  desc: Hierarchical
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.  # Required
+  cond: Integer value representing the task condition of the given trial (AB == 1, CD == 2, EF == 3).
+  prob: 'Float value representing the probability that a correct response (1) is rewarded in the current task condition.'
+  choice: Integer value representing the option chosen on the given trial (1 or 2).
+  RT: Float value representing the time taken for the response on the given trial.
+  feedback: Integer value representing the outcome of the given trial (where 'correct' == 1, and 'incorrect' == 0).
+parameters:
+  a:
+    desc: boundary separation
+    info: [0, 1.8, 'Inf']
+  tau:
+    desc: non-decision time
+    info: [0, 0.3, 'Inf']
+  v:
+    desc: drift rate scaling
+    info: ['-Inf', 4.5, 'Inf']
+  alpha:
+    desc: learning rate
+    info: [0, 0.02, 1]
+regressors:
+  Q1: 2  # shape: [N, T]
+  Q2: 2  # shape: [N, T]
+postpreds:
+- choice_os
+- RT_os
+- choice_sm
+- RT_sm
+- fd_sm
+additional_args:
+- code: RTbound
+  default: 0.1
+  desc: Floating point value representing the lower bound (i.e., minimum allowed)
+    reaction time. Defaults to 0.1 (100 milliseconds).
+- code: initQ
+  default: 0.5
+  desc: 'Floating point value representing the model''s initial value of any choice.'
