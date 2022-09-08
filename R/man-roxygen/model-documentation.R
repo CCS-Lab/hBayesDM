@@ -39,6 +39,12 @@
 #'   Include trial-level posterior predictive simulations in model output (may greatly increase file
 #'   size). Defaults to \code{FALSE}.
 #'   <%= ifelse(HAS_POSTPREDS, PP_T, PP_F) %>
+#' @param adapt_delta Floating point value representing the target acceptance probability of a new
+#'   sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
+#' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can
+#'   take on each new iteration. See \bold{Details} below.
+#' @param max_treedepth Integer value specifying how many leapfrog steps the MCMC sampler can take
+#'   on each new iteration. See \bold{Details} below.
 #' @param ...
 #'   <% AA_T1 <- "For this model, it's possible to set \\strong{model-specific argument(s)} " %>
 #'   <% AA_T2 <- "as follows: " %>
@@ -115,6 +121,16 @@
 #' \strong{nthin} is a numerical value that specifies the "skipping" behavior of the MCMC sampler,
 #'   using only every \code{i == nthin} samples to generate posterior distributions. By default,
 #'   \code{nthin} is equal to 1, meaning that every sample is used to generate the posterior.
+#'
+#' \strong{Control Parameters:} \code{adapt_delta}, \code{stepsize}, and \code{max_treedepth} are
+#'   advanced options that give the user more control over Stan's MCMC sampler. It is recommended
+#'   that only advanced users change the default values, as alterations can profoundly change the
+#'   sampler's behavior. Refer to 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in
+#'   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
+#'   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
+#'   Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
+#'   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
+#'   description of these arguments.
 #'
 #' <%= ifelse(!is.na(CONTRIBUTOR), paste0("\\subsection{Contributors}{", CONTRIBUTOR, "}"), "") %>
 #'
