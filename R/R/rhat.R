@@ -17,7 +17,7 @@
 #' @export
 
 rhat <- function(fit = NULL, less = NULL) {
-  if (class(fit) != "hBayesDM") {
+  if (!inherits(fit, "hBayesDM")) {
     stop("Error: The 'fit' object is not of class hBayesDM!")
   } else {
     summaryData <- rstan::summary(fit$fit)

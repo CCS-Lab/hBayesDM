@@ -37,7 +37,7 @@ plotInd <- function(obj = NULL,
   # To pass R CMD Checks (serves no other purpose than to create binding)
   ..density.. <- NULL
 
-  if (class(obj) == "hBayesDM") {
+  if (inherits(obj, "hBayesDM")) {
     h1 = rstan::stan_plot(obj$fit, pars, show_density = show_density, ...)
   } else {
     stop(paste0("\n\nThe class of the object (first argument) should be hBayesDM! \n"))
