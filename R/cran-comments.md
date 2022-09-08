@@ -1,7 +1,3 @@
-## Test environments
-
-* Local macOS 12.5 install, R 4.2.1
-
 ## R CMD check results
 
 There were no ERRORs or WARNINGs. 
