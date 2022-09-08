@@ -84,7 +84,9 @@ def pstRT_rlddm6(
     .. [Frank2004] Frank, M. J., Seeberger, L. C., & O'reilly, R. C. (2004). By carrot or by stick: cognitive reinforcement learning in parkinsonism. Science, 306(5703), 1940-1943.
     .. [Pedersen2017] Pedersen, M. L., Frank, M. J., & Biele, G. (2017). The drift diffusion model as the choice rule in reinforcement learning. Psychonomic bulletin & review, 24(4), 1234-1251.
 
-    
+    .. codeauthor:: Hoyoung Doh <hoyoung.doh@gmail.com>
+    .. codeauthor:: Sanghoon Kang <sanghoon.kang@yale.edu>
+    .. codeauthor:: Jihyun K. Hur <jihyun.hur@yale.edu>
 
     User data should contain the behavioral data-set of all subjects of interest for
     the current analysis. When loading from a file, the datafile should be a

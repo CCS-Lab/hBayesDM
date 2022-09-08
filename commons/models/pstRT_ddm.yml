@@ -8,7 +8,7 @@ model_name:
   code: ddm
   desc: Drift Diffusion Model
   cite:
-  - Pedersen, M. L., Frank, M. J., & Biele, G. (2017). The drift diffusion model as the choice rule in reinforcement learning. Psychonomic bulletin & review, 24(4), 1234-1251.
+  - Pedersen, M. L., Frank, M. J., & Biele, G. (2017). The drift diffusion model as the choice rule in reinforcement learning. Psychonomic bulletin & review, 24(4), 1234-1251.  
 model_type:
   code: ''
   desc: Hierarchical
@@ -48,6 +48,7 @@ contributors:
   link: https://hydoh.github.io/
 - name: Sanghoon Kang
   email: sanghoon.kang@yale.edu
+  link:
 - name: Jihyun K. Hur
   email: jihyun.hur@yale.edu
   link: https://jihyuncindyhur.github.io/
