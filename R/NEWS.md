@@ -1,3 +1,9 @@
+# hBayesDM 1.2.0
+
+* Added a drift diffusion model and two reinforcement learning-drift diffision models for the probabilistic selection task: `pstRT_ddm`, `pstRT_rlddm1`, and `pstRT_rlddm6`.
+* Added multiple models for the banditNarm task: `banditNarm_2par_lapse`, `banditNarm_4par`, `banditNarm_delta`, `banditNarm_kalman_filter`, `banditNarm_lapse`, `banditNarm_lapse_decay`, and `banditNarm_singleA_lapse`.
+* Fixed `bart_ewmv` to avoid dividing by zero.
+
 # hBayesDM 1.1.1
 
 * Fix symbolic link errors for stan files and example data.
