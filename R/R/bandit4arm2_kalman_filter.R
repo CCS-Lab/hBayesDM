@@ -8,7 +8,7 @@
 #' @templateVar MODEL_CITE (Daw et al., 2006)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
-#' @templateVar PARAMETERS \code{lambda} (decay factor), \code{theta} (decay center), \code{beta} (inverse softmax temperature), \code{mu0} (anticipated initial mean of all 4 options), \code{sigma0} (anticipated initial sd (uncertainty factor) of all 4 options), \code{sigmaD} (sd of diffusion noise)
+#' @templateVar PARAMETERS \code{lambda} (decay factor), \code{theta} (decay center), \code{beta} (inverse softmax temperature), \code{mu0} (anticipated initial mean of all 4 options), \code{s0} (anticipated initial sd (uncertainty factor) of all 4 options), \code{sD} (sd of diffusion noise)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
@@ -38,8 +38,8 @@ bandit4arm2_kalman_filter <- hBayesDM_model(
     "theta" = c(0, 50, 100),
     "beta" = c(0, 0.1, 1),
     "mu0" = c(0, 85, 100),
-    "sigma0" = c(0, 6, 15),
-    "sigmaD" = c(0, 3, 15)
+    "s0" = c(0, 6, 15),
+    "sD" = c(0, 3, 15)
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

@@ -453,8 +453,8 @@ plot_bandit4arm2_kalman_filter <- function(obj, fontSize = 10, ncols = 6, binSiz
   h2 = plotDist(sample = pars$mu_theta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(theta, " (Decay Center)")))
   h3 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse Temp.)")))
   h4 = plotDist(sample = pars$mu_mu0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(mu0, " (Anticipated Initial Mean)")))
-  h5 = plotDist(sample = pars$mu_sigma0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigma0, " (Anticipated Initial SD (Uncertainty))")))
-  h6 = plotDist(sample = pars$mu_sigmaD, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sigmaD, " (SD of Diffusion Noise)")))
+  h5 = plotDist(sample = pars$mu_s0, fontSize = fontSize, binSize = binSize, xLab = expression(paste(s0, " (Anticipated Initial SD (Uncertainty))")))
+  h6 = plotDist(sample = pars$mu_sD, fontSize = fontSize, binSize = binSize, xLab = expression(paste(sD, " (SD of Diffusion Noise)")))
   h_all = multiplot(h1, h2, h3, h4, h5, h6, cols = ncols)
   return(h_all)
 }

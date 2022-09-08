@@ -9,8 +9,8 @@ data {
 }
 
 transformed data {
-  real sigmaO; // sigma_O = 4
-  sigmaO = 4;
+  real sO; // sigma_O = 4
+  sO = 4;
 }
 
 parameters {
@@ -23,8 +23,8 @@ parameters {
   vector[N] theta_pr;     // decay center
   vector[N] beta_pr;      // inverse softmax temperature
   vector[N] mu0_pr;       // anticipated initial mean of all 4 options
-  vector[N] sigma0_pr; // anticipated initial sd^2 (uncertainty factor) of all 4 options
-  vector[N] sigmaD_pr; // sd^2 of diffusion noise
+  vector[N] s0_pr; // anticipated initial sd^2 (uncertainty factor) of all 4 options
+  vector[N] sD_pr; // sd^2 of diffusion noise
 }
 
 transformed parameters {
@@ -33,8 +33,8 @@ transformed parameters {
   vector<lower=0,upper=100>[N] theta;
   vector<lower=0,upper=1>[N] beta;
   vector<lower=0,upper=100>[N] mu0;
-  vector<lower=0,upper=15>[N] sigma0;
-  vector<lower=0,upper=15>[N] sigmaD;
+  vector<lower=0,upper=15>[N] s0;
+  vector<lower=0,upper=15>[N] sD;
 
   // Matt Trick
   for (i in 1:N) {
@@ -42,8 +42,8 @@ transformed parameters {
     theta[i]  = Phi_approx( mu_pr[2] + sigma[2] * theta_pr[i] ) * 100;
     beta[i]   = Phi_approx( mu_pr[3] + sigma[3] * beta_pr[i] );
     mu0[i]    = Phi_approx( mu_pr[4] + sigma[4] * mu0_pr[i] ) * 100;
-    sigma0[i] = Phi_approx( mu_pr[5] + sigma[5] * sigma0_pr[i] ) * 15;
-    sigmaD[i] = Phi_approx( mu_pr[6] + sigma[6] * sigmaD_pr[i] ) * 15;
+    s0[i] = Phi_approx( mu_pr[5] + sigma[5] * s0_pr[i] ) * 15;
+    sD[i] = Phi_approx( mu_pr[6] + sigma[6] * sD_pr[i] ) * 15;
   }
 }
 
@@ -57,8 +57,8 @@ model {
   theta_pr   ~ normal(0,1);;
   beta_pr    ~ normal(0,1);;
   mu0_pr     ~ normal(0,1);;
-  sigma0_pr ~ normal(0,1);;
-  sigmaD_pr ~ normal(0,1);;
+  s0_pr ~ normal(0,1);;
+  sD_pr ~ normal(0,1);;
 
   // subject loop and trial loop
   for (i in 1:N) {
@@ -68,14 +68,14 @@ model {
     real k;             // learning rate
 
     mu_ev    = rep_vector(mu0[i] ,4);
-    sd_ev_sq = rep_vector(sigma0[i]^2, 4);
+    sd_ev_sq = rep_vector(s0[i]^2, 4);
 
     for (t in 1:(Tsubj[i])) {
       // compute action probabilities
       choice[i,t] ~ categorical_logit( beta[i] * mu_ev );
 
       // learning rate
-      k = sd_ev_sq[choice[i,t]] / ( sd_ev_sq[choice[i,t]] + sigmaO^2 );
+      k = sd_ev_sq[choice[i,t]] / ( sd_ev_sq[choice[i,t]] + sO^2 );
 
       // prediction error
       pe = outcome[i,t] - mu_ev[choice[i,t]];
@@ -91,7 +91,7 @@ model {
       }
       {
         sd_ev_sq *= lambda[i]^2;
-        sd_ev_sq += sigmaD[i]^2;
+        sd_ev_sq += sD[i]^2;
       }
     }
   }
@@ -102,8 +102,8 @@ generated quantities {
   real<lower=0,upper=100> mu_theta;
   real<lower=0,upper=1> mu_beta;
   real<lower=0,upper=100> mu_mu0;
-  real<lower=0,upper=15> mu_sigma0;
-  real<lower=0,upper=15> mu_sigmaD;
+  real<lower=0,upper=15> mu_s0;
+  real<lower=0,upper=15> mu_sD;
   real log_lik[N];
   real y_pred[N,T];
 
@@ -117,8 +117,8 @@ generated quantities {
   mu_theta  = Phi_approx(mu_pr[2]) * 100;
   mu_beta   = Phi_approx(mu_pr[3]);
   mu_mu0    = Phi_approx(mu_pr[4]) * 100;
-  mu_sigma0 = Phi_approx(mu_pr[5]) * 15;
-  mu_sigmaD = Phi_approx(mu_pr[6]) * 15;
+  mu_s0 = Phi_approx(mu_pr[5]) * 15;
+  mu_sD = Phi_approx(mu_pr[6]) * 15;
 
   { // local block
     for (i in 1:N) {
@@ -129,7 +129,7 @@ generated quantities {
 
       log_lik[i] = 0;
       mu_ev    = rep_vector(mu0[i] ,4);
-      sd_ev_sq = rep_vector(sigma0[i]^2, 4);
+      sd_ev_sq = rep_vector(s0[i]^2, 4);
 
 
       for (t in 1:(Tsubj[i])) {
@@ -138,7 +138,7 @@ generated quantities {
         y_pred[i, t]  = categorical_rng(softmax(beta[i] * mu_ev));
 
         // learning rate
-        k = sd_ev_sq[choice[i,t]] / ( sd_ev_sq[choice[i,t]] + sigmaO^2);
+        k = sd_ev_sq[choice[i,t]] / ( sd_ev_sq[choice[i,t]] + sO^2);
 
         // prediction error
         pe = outcome[i,t] - mu_ev[choice[i,t]];
@@ -154,7 +154,7 @@ generated quantities {
         }
         {
           sd_ev_sq *= lambda[i]^2;
-          sd_ev_sq += sigmaD[i]^2;
+          sd_ev_sq += sD[i]^2;
         }
       }
     }

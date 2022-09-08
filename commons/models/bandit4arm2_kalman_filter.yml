@@ -37,10 +37,10 @@ parameters:
   mu0:
     desc: anticipated initial mean of all 4 options
     info: [0, 85, 100]
-  sigma0:
+  s0:
     desc: anticipated initial sd (uncertainty factor) of all 4 options
     info: [0, 6, 15]
-  sigmaD:
+  sD:
     desc: sd of diffusion noise
     info: [0, 3, 15]
 regressors:

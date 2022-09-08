@@ -26,8 +26,8 @@ class Bandit4Arm2KalmanFilter(TaskModel):
                 ('theta', (0, 50, 100)),
                 ('beta', (0, 0.1, 1)),
                 ('mu0', (0, 85, 100)),
-                ('sigma0', (0, 6, 15)),
-                ('sigmaD', (0, 3, 15)),
+                ('s0', (0, 6, 15)),
+                ('sD', (0, 3, 15)),
             ]),
             regressors=OrderedDict([
                 
@@ -38,8 +38,8 @@ class Bandit4Arm2KalmanFilter(TaskModel):
                 ('theta', 'decay center'),
                 ('beta', 'inverse softmax temperature'),
                 ('mu0', 'anticipated initial mean of all 4 options'),
-                ('sigma0', 'anticipated initial sd (uncertainty factor) of all 4 options'),
-                ('sigmaD', 'sd of diffusion noise'),
+                ('s0', 'anticipated initial sd (uncertainty factor) of all 4 options'),
+                ('sD', 'sd of diffusion noise'),
             ]),
             additional_args_desc=OrderedDict([
                 
@@ -70,7 +70,7 @@ def bandit4arm2_kalman_filter(
 
     Hierarchical Bayesian Modeling of the 4-Armed Bandit Task (modified) 
     using Kalman Filter [Daw2006]_ with the following parameters:
-    "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "sigma0" (anticipated initial sd (uncertainty factor) of all 4 options), "sigmaD" (sd of diffusion noise).
+    "lambda" (decay factor), "theta" (decay center), "beta" (inverse softmax temperature), "mu0" (anticipated initial mean of all 4 options), "s0" (anticipated initial sd (uncertainty factor) of all 4 options), "sD" (sd of diffusion noise).
 
     
 
