@@ -14,11 +14,11 @@ PATH_ROOT = Path(__file__).absolute().parent
 
 
 MAJOR = 1
-MINOR = 1
-MICRO = 1
+MINOR = 2
+MICRO = 0
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
-IS_RELEASED = False
+IS_RELEASED = True
 IS_DEV = False
 DEV_VERSION = ''
 if IS_RELEASED:
@@ -26,7 +26,7 @@ if IS_RELEASED:
 elif IS_DEV:
     VERSION += '.' + DEV_VERSION
 else:
-    VERSION += '.9001'
+    VERSION += '.9000'
 
 
 DESC = 'Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks'
