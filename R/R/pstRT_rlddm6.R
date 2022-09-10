@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION pstRT_rlddm6
-#' @templateVar CONTRIBUTOR \href{https://hydoh.github.io/}{Hoyoung Doh} <\email{hoyoung.doh@@gmail.com}>, \href{None}{Sanghoon Kang} <\email{sanghoon.kang@@yale.edu}>, \href{https://jihyuncindyhur.github.io/}{Jihyun K. Hur} <\email{jihyun.hur@@yale.edu}>
+#' @templateVar CONTRIBUTOR \href{https://hydoh.github.io/}{Hoyoung Doh} <\email{hoyoung.doh@@gmail.com}>, \href{https://medicine.yale.edu/lab/goldfarb/profile/sanghoon_kang/}{Sanghoon Kang} <\email{sanghoon.kang@@yale.edu}>, \href{https://jihyuncindyhur.github.io/}{Jihyun K. Hur} <\email{jihyun.hur@@yale.edu}>
 #' @templateVar TASK_NAME Probabilistic Selection Task (with RT data)
 #' @templateVar TASK_CODE pstRT
 #' @templateVar TASK_CITE (Frank et al., 2007; Frank et al., 2004)

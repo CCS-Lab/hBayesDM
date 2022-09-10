@@ -1,3 +1,7 @@
+## Resubmission
+
+All invalid URLs have been fixed.
+
 ## R CMD check results
 
 There were no ERRORs or WARNINGs. 

@@ -147,7 +147,7 @@ For the Probabilistic Selection Task, there should be 4 columns of data with the
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 
-\subsection{Contributors}{\href{https://www.unige.ch/fapse/e3lab/members1/phd-candidates/david-munoz-tord}{David Munoz Tord} <\email{david.munoztord@unige.ch}>}
+\subsection{Contributors}{\href{https://david-munoztord.com/}{David Munoz Tord} <\email{david.munoztord@unige.ch}>}
 }
 \examples{
 \dontrun{

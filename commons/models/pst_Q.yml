@@ -16,7 +16,7 @@ notes:
 contributors:
 - name: David Munoz Tord
   email: david.munoztord@unige.ch
-  link: https://www.unige.ch/fapse/e3lab/members1/phd-candidates/david-munoz-tord
+  link: https://david-munoztord.com/
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   type: Two-digit number indicating which pair of stimuli were presented for that

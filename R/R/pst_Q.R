@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION pst_Q
-#' @templateVar CONTRIBUTOR \href{https://www.unige.ch/fapse/e3lab/members1/phd-candidates/david-munoz-tord}{David Munoz Tord} <\email{david.munoztord@@unige.ch}>
+#' @templateVar CONTRIBUTOR \href{https://david-munoztord.com/}{David Munoz Tord} <\email{david.munoztord@@unige.ch}>
 #' @templateVar TASK_NAME Probabilistic Selection Task
 #' @templateVar TASK_CODE pst
 #' @templateVar TASK_CITE 
