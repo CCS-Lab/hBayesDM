@@ -14,11 +14,11 @@ PATH_ROOT = Path(__file__).absolute().parent
 
 
 MAJOR = 1
-MINOR = 2
-MICRO = 1
+MINOR = 3
+MICRO = 0
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
-IS_RELEASED = True
+IS_RELEASED = False
 IS_DEV = False
 DEV_VERSION = ''
 if IS_RELEASED:

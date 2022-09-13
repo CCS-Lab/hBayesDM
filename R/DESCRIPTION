@@ -1,6 +1,6 @@
 Package: hBayesDM
 Title: Hierarchical Bayesian Modeling of Decision-Making Tasks
-Version: 1.2.1
+Version: 1.3.0.9000
 Date: 2022-09-13
 Author:
     Woo-Young Ahn [aut, cre],
