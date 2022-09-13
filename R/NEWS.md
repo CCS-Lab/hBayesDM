@@ -1,3 +1,7 @@
+# hBayesDM 1.2.1
+
+* Fixed a pkgdown error.
+
 # hBayesDM 1.2.0
 
 * Added a drift diffusion model and two reinforcement learning-drift diffision models for the probabilistic selection task: `pstRT_ddm`, `pstRT_rlddm1`, and `pstRT_rlddm6`.
