@@ -29,3 +29,4 @@
 \description{
 General Purpose Plotting for hBayesDM. This function plots hyper parameters.
 }
+\keyword{internal}
