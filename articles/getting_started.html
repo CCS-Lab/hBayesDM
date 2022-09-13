@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,18 +34,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -56,7 +52,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/CCS-Lab/hBayesDM/">
+  <a href="https://github.com/CCS-Lab/hBayesDM/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -71,194 +67,184 @@
 
       
 
-      </header><script src="getting_started_files/jquery-1.11.3/jquery.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="getting_started_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
-<script src="getting_started_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="getting_started_files/bootstrap-3.3.5/shim/respond.min.js"></script><style>h1 {font-size: 34px;}
-       h1.title {font-size: 38px;}
-       h2 {font-size: 30px;}
-       h3 {font-size: 24px;}
-       h4 {font-size: 18px;}
-       h5 {font-size: 16px;}
-       h6 {font-size: 12px;}
-       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
-       pre:not([class]) { background-color: white }</style>
-<script src="getting_started_files/navigation-1.1/tabsets.js"></script><script src="getting_started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/CCS-Lab/hBayesDM/blob/master/vignettes/getting_started.Rmd"><code>vignettes/getting_started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/CCS-Lab/hBayesDM/blob/HEAD/vignettes/getting_started.Rmd" class="external-link"><code>vignettes/getting_started.Rmd</code></a></small>
       <div class="hidden name"><code>getting_started.Rmd</code></div>
 
     </div>
 
     
     
-<p>hBayesDM (<strong><em>h</em></strong>ierarchical <strong><em>Bayes</em></strong>ian modeling of <strong><em>D</em></strong>ecision-<strong><em>M</em></strong>aking tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. Click <a href="https://cran.r-project.org/web/packages/hBayesDM/hBayesDM.pdf"><strong>here</strong></a> to download its help file (reference manual). Click <a href="https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002"><strong>here</strong></a> to read our paper published in Computational Psychiatry. Click <a href="https://u.osu.edu/ccsl/files/2016/12/hBayesDM_SRP_v1_revised-1qxbg1x.pdf"><strong>here</strong></a> to download a poster we presented at several conferences/meetings. You can find hBayesDM on <a href="https://cran.r-project.org/web/packages/hBayesDM/">CRAN</a> and <a href="https://github.com/CCS-Lab/hBayesDM">GitHub</a>.</p>
-<div id="motivation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#motivation" class="anchor"></a>Motivation</h2>
+<p>hBayesDM (<strong><em>h</em></strong>ierarchical <strong><em>Bayes</em></strong>ian modeling of <strong><em>D</em></strong>ecision-<strong><em>M</em></strong>aking tasks) is a user-friendly R package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. Click <a href="https://cran.r-project.org/web/packages/hBayesDM/hBayesDM.pdf" class="external-link"><strong>here</strong></a> to download its help file (reference manual). Click <a href="https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002" class="external-link"><strong>here</strong></a> to read our paper published in Computational Psychiatry. Click <a href="https://u.osu.edu/ccsl/files/2016/12/hBayesDM_SRP_v1_revised-1qxbg1x.pdf" class="external-link"><strong>here</strong></a> to download a poster we presented at several conferences/meetings. You can find hBayesDM on <a href="https://cran.r-project.org/web/packages/hBayesDM/" class="external-link">CRAN</a> and <a href="https://github.com/CCS-Lab/hBayesDM" class="external-link">GitHub</a>.</p>
+<div class="section level2">
+<h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+</h2>
 <p>Computational modeling provides a quantitative framework for investigating latent neurocognitive processes (e.g., learning rate, reward sensitivity) and interactions among multiple decision-making systems. Parameters of a computational model reflect psychologically meaningful individual differences: thus, getting accurate parameter estimates of a computational model is critical to improving the interpretation of its findings. Hierarchical Bayesian analysis (HBA) is regarded as the gold standard for parameter estimation, especially when the amount of information from each participant is small (see below “Why hierarchical Bayesian analysis?”). However, many researchers interested in HBA often find the approach too technical and challenging to be implemented.</p>
 <p>We introduce a free R package <strong>hBayesDM</strong>, which offers HBA of various computational models on an array of decision-making tasks (see below for a list of tasks and models currently available). <em><strong>Users can perform HBA of various computational models with a single line of coding</strong></em>. Example datasets are also available. With hBayesDM, we hope anyone with minimal knowledge of programming can take advantage of advanced computational modeling and HBA. It is our expectation that hBayesDM will contribute to the dissemination of these computational tools and enable researchers in related fields to easily characterize latent neurocognitive processes within their study populations.</p>
 </div>
-<div id="why-hierarchical-bayesian-analysis-hba" class="section level2">
-<h2 class="hasAnchor">
-<a href="#why-hierarchical-bayesian-analysis-hba" class="anchor"></a>Why hierarchical Bayesian analysis (HBA)?</h2>
+<div class="section level2">
+<h2 id="why-hierarchical-bayesian-analysis-hba">Why hierarchical Bayesian analysis (HBA)?<a class="anchor" aria-label="anchor" href="#why-hierarchical-bayesian-analysis-hba"></a>
+</h2>
 <p><img src="images/HBA_concept.png"></p>
 <p>Most computational models do not have closed form solutions and we need to estimate parameter values. Traditionally parameters are estimated at the individual level with maximum likelihood estimation (MLE): getting point estimates for each individual separately. However, individual MLE estimates are often noisy especially when there is insufficient amount of data. A group-level analysis (e.g., group-level MLE), which estimate a single set of parameters for the whole group of individuals, may generate more reliable estimates but inevitably ignores individual differences.</p>
 <p>HBA and other hierarchical approaches <span class="citation">(e.g., Huys et al., 2011)</span> allow for individual differences while pooling information across individuals. Both individual and group parameter estimates (i.e., posterior distributions) are estimated simultaneously in a mutually constraining fashion. Consequently, individual parameter estimates tend to be more stable and reliable because commonalities among individuals are captured and informed by the group tendencies <span class="citation">(e.g., Ahn et al., 2011)</span>. HBA also finds full posterior distributions instead of point estimates (thus providing rich information about the parameters). HBA also makes it easy to do group comparisons in a Bayesian fashion (e.g., comparing clinical and non-clinical groups, see an example below).</p>
-<p>HBA is a branch of Bayesian statistics and the conceptual framework of Bayesian data analysis is clearly written in <a href="https://sites.google.com/site/doingbayesiandataanalysis/sample-chapter/DoingBayesianDataAnalysisChapter2.pdf">Chapter 2</a> of John Kruschke’s book <span class="citation">(Kruschke, 2014)</span>. In Bayesian statistics, we assume prior beliefs (i.e., prior distributions) for model parameters and update the priors into posterior distributions given the data (e.g., trial-by-trial choices and outcomes) using <a href="https://en.wikipedia.org/wiki/Bayes%27_rule">Bayes’ rule</a>. Note that the prior distributions we use for model parameters are vague (e.g., flat) or weakly informative priors, so they play a minimal role in the posterior distribution.</p>
-<p>For Bayesian updating, we use the Stan software package (<a href="https://mc-stan.org/" class="uri">https://mc-stan.org/</a>), which implements a very efficient Markov Chain Monte Carlo (MCMC) algorithm called Hamiltonian Monte Carlo (HMC). HMC is known to be effective and works well even for large complex models. See Stan reference manual (<a href="https://mc-stan.org/documentation/" class="uri">https://mc-stan.org/documentation/</a>) and Chapter 14 of <span class="citation">Kruschke (2014)</span> for a comprehensive description of HMC and Stan. What is MCMC and why shoud we use it? Remember, we need to update our priors into posterior distributions in order to make inference about model parameters. Simply put, MCMC is a way of approximating a posterior distribution by drawing a large number of samples from it. MCMC algorithms are used when posterior distributions cannot be analytically achieved or using MCMC is more efficient than searching for the whole grid of parameter space (i.e., grid search). To learn more about the basic foundations of MCMC, we recommend Chapter 7 of <span class="citation">Kruschke (2014)</span>.</p>
+<p>HBA is a branch of Bayesian statistics and the conceptual framework of Bayesian data analysis is clearly written in <a href="https://sites.google.com/site/doingbayesiandataanalysis/sample-chapter/DoingBayesianDataAnalysisChapter2.pdf" class="external-link">Chapter 2</a> of John Kruschke’s book <span class="citation">(Kruschke, 2014)</span>. In Bayesian statistics, we assume prior beliefs (i.e., prior distributions) for model parameters and update the priors into posterior distributions given the data (e.g., trial-by-trial choices and outcomes) using <a href="https://en.wikipedia.org/wiki/Bayes%27_rule" class="external-link">Bayes’ rule</a>. Note that the prior distributions we use for model parameters are vague (e.g., flat) or weakly informative priors, so they play a minimal role in the posterior distribution.</p>
+<p>For Bayesian updating, we use the Stan software package (<a href="https://mc-stan.org/" class="external-link uri">https://mc-stan.org/</a>), which implements a very efficient Markov Chain Monte Carlo (MCMC) algorithm called Hamiltonian Monte Carlo (HMC). HMC is known to be effective and works well even for large complex models. See Stan reference manual (<a href="https://mc-stan.org/documentation/" class="external-link uri">https://mc-stan.org/documentation/</a>) and Chapter 14 of <span class="citation">Kruschke (2014)</span> for a comprehensive description of HMC and Stan. What is MCMC and why shoud we use it? Remember, we need to update our priors into posterior distributions in order to make inference about model parameters. Simply put, MCMC is a way of approximating a posterior distribution by drawing a large number of samples from it. MCMC algorithms are used when posterior distributions cannot be analytically achieved or using MCMC is more efficient than searching for the whole grid of parameter space (i.e., grid search). To learn more about the basic foundations of MCMC, we recommend Chapter 7 of <span class="citation">Kruschke (2014)</span>.</p>
 <p>Detailed specification of Bayesian models is not available in text yet (stay tuned for our tutorial paper whose citation is listed below). At the same time, users can go over our Stan codes to check how we implement each computational model (e.g., <code>pathTo_gng_m1 = system.file("stan/gng_m1.stan", package="hBayesDM")</code> ). We made strong efforts to optimize Stan codes through reparameterization (e.g., Matt trick) and vectorization.</p>
 </div>
-<div id="prerequisites" class="section level2">
-<h2 class="hasAnchor">
-<a href="#prerequisites" class="anchor"></a>Prerequisites</h2>
+<div class="section level2">
+<h2 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
+</h2>
 <ul>
-<li>R version 3.4.0 or later is required. R is freely available from <a href="http://www.r-project.org/" class="uri">http://www.r-project.org/</a>.</li>
+<li>R version 3.4.0 or later is required. R is freely available from <a href="http://www.r-project.org/" class="external-link uri">http://www.r-project.org/</a>.</li>
 <li>
-<strong>Latest Stan (RStan 2.18.1 or later)</strong>. Detailed instructions for installing RStan is available in this link: <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/" class="uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/</a>.</li>
-<li>RStudio (<a href="https://www.rstudio.com/products/RStudio/" class="uri">https://www.rstudio.com/products/RStudio/</a>) is not required but strongly recommended.</li>
+<strong>Latest Stan (RStan 2.18.1 or later)</strong>. Detailed instructions for installing RStan is available in this link: <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/" class="external-link uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/</a>.</li>
+<li>RStudio (<a href="https://www.rstudio.com/products/RStudio/" class="external-link uri">https://www.rstudio.com/products/RStudio/</a>) is not required but strongly recommended.</li>
 </ul>
-<p><strong>Note</strong>: Additional R packages (e.g., <a href="https://cran.r-project.org/web/packages/ggplot2/">ggplot2</a>, <a href="https://cran.r-project.org/web/packages/loo/">loo</a>) will be installed (if not installed yet) during the installation of hBayesDM.</p>
+<p><strong>Note</strong>: Additional R packages (e.g., <a href="https://cran.r-project.org/web/packages/ggplot2/" class="external-link">ggplot2</a>, <a href="https://cran.r-project.org/web/packages/loo/" class="external-link">loo</a>) will be installed (if not installed yet) during the installation of hBayesDM.</p>
 </div>
-<div id="tasks-models-implemented-in-hbayesdm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tasks-models-implemented-in-hbayesdm" class="anchor"></a>Tasks &amp; models implemented in hBayesDM</h2>
-<p>See <a href="http://ccs-lab.github.io/hBayesDM/reference/index.html">here</a> for the list of tasks and models implemented in hBayesDM.</p>
+<div class="section level2">
+<h2 id="tasks-models-implemented-in-hbayesdm">Tasks &amp; models implemented in hBayesDM<a class="anchor" aria-label="anchor" href="#tasks-models-implemented-in-hbayesdm"></a>
+</h2>
+<p>See <a href="http://ccs-lab.github.io/hBayesDM/reference/index.html" class="external-link">here</a> for the list of tasks and models implemented in hBayesDM.</p>
 </div>
-<div id="how-to-install-hbayesdm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-install-hbayesdm" class="anchor"></a>How to install hBayesDM</h2>
-<p>There are three ways to install hBayesDM as described below. <em>Make sure to install <a href="https://mc-stan.org/interfaces/rstan">RStan</a> prior to install hBayesDM. And restart R/RStudio after the installation of hBayesDM.</em> Typically RStan can be installed just by typing <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("rstan", dependencies = TRUE)</a></code>. <strong>For Windows, you need to install <a href="https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows" target="_blank">Rtools</a> first to install RStan and install the hBayesDM from CRAN</strong>. For detailed instructions for the installation of rstan, please go to this link: <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started" class="uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started</a>. If you are a Mac user, <a href="https://github.com/stan-dev/rstan/wiki/RStan-Mac-OS-X-Prerequisite-Installation-Instructions#step2_3">make sure Xcode is installed</a>.</p>
-<p>How can you tell if RStan is correctly installed? Check if you can fit the <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#example-1-eight-schools" target="_blank">‘Eight Schools’</a> model without a problem. Check <a href="https://mc-stan.org/interfaces/rstan.html">here</a> or <a href="https://groups.google.com/forum/#!categories/stan-users/installation" target="_blank">here</a> if you experience difficulty installing RStan.</p>
-<div id="method-a-recommended-for-all-users---windowsmaclinux" class="section level3">
-<h3 class="hasAnchor">
-<a href="#method-a-recommended-for-all-users---windowsmaclinux" class="anchor"></a>Method A (recommended for all users - Windows/Mac/Linux)</h3>
+<div class="section level2">
+<h2 id="how-to-install-hbayesdm">How to install hBayesDM<a class="anchor" aria-label="anchor" href="#how-to-install-hbayesdm"></a>
+</h2>
+<p>There are three ways to install hBayesDM as described below. <em>Make sure to install <a href="https://mc-stan.org/interfaces/rstan" class="external-link">RStan</a> prior to install hBayesDM. And restart R/RStudio after the installation of hBayesDM.</em> Typically RStan can be installed just by typing <code>install.packages("rstan", dependencies = TRUE)</code>. <strong>For Windows, you need to install <a href="https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows" target="_blank" class="external-link">Rtools</a> first to install RStan and install the hBayesDM from CRAN</strong>. For detailed instructions for the installation of rstan, please go to this link: <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started" class="external-link uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started</a>. If you are a Mac user, <a href="https://github.com/stan-dev/rstan/wiki/RStan-Mac-OS-X-Prerequisite-Installation-Instructions#step2_3" class="external-link">make sure Xcode is installed</a>.</p>
+<p>How can you tell if RStan is correctly installed? Check if you can fit the <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#example-1-eight-schools" target="_blank" class="external-link">‘Eight Schools’</a> model without a problem. Check <a href="https://mc-stan.org/interfaces/rstan.html" class="external-link">here</a> or <a href="https://groups.google.com/forum/#!categories/stan-users/installation" target="_blank" class="external-link">here</a> if you experience difficulty installing RStan.</p>
+<div class="section level3">
+<h3 id="method-a-recommended-for-all-users---windowsmaclinux">Method A (recommended for all users - Windows/Mac/Linux)<a class="anchor" aria-label="anchor" href="#method-a-recommended-for-all-users---windowsmaclinux"></a>
+</h3>
 <p>Use the following call:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="method-b" class="section level3">
-<h3 class="hasAnchor">
-<a href="#method-b" class="anchor"></a>Method B</h3>
+<div class="section level3">
+<h3 id="method-b">Method B<a class="anchor" aria-label="anchor" href="#method-b"></a>
+</h3>
 <p>Install the package from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## install 'devtools' if required</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## install 'devtools' if required</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="method-c" class="section level3">
-<h3 class="hasAnchor">
-<a href="#method-c" class="anchor"></a>Method C</h3>
+<div class="section level3">
+<h3 id="method-c">Method C<a class="anchor" aria-label="anchor" href="#method-c"></a>
+</h3>
 <ol style="list-style-type: decimal">
-<li>Download a copy from <a href="https://cran.r-project.org/src/contrib/hBayesDM_1.1.0.tar.gz"><strong>here</strong></a> to a directory (e.g., “~/Downloads”).</li>
-<li>Open R(Studio) and set working directory to the downloaded folder. (e.g., <code><a href="https://rdrr.io/r/base/getwd.html">setwd("~/Downloads")</a></code> )</li>
+<li>Download a copy from <a href="https://cran.r-project.org/src/contrib/hBayesDM_1.1.0.tar.gz" class="external-link"><strong>here</strong></a> to a directory (e.g., “~/Downloads”).</li>
+<li>Open R(Studio) and set working directory to the downloaded folder. (e.g., <code>setwd("~/Downloads")</code> )</li>
 <li>Install the package from the downloaded file.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="st">"hBayesDM_1.1.0.tar.gz"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span>, repos<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="st">"hBayesDM_1.1.0.tar.gz"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span>, repos<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="precompiling-stan-models-during-installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#precompiling-stan-models-during-installation" class="anchor"></a>Precompiling Stan models during installation</h3>
+<div class="section level3">
+<h3 id="precompiling-stan-models-during-installation">Precompiling Stan models during installation<a class="anchor" aria-label="anchor" href="#precompiling-stan-models-during-installation"></a>
+</h3>
 <p>If you follow the direction described below, Stan models will be precompiled during installation and models will run immediately when called. This is recommended if you are a frequent hBayesDM user!</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>BUILD_ALL<span class="op">=</span><span class="st">'true'</span><span class="op">)</span>  <span class="co"># Build all the models on installation</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>MAKEFLAGS<span class="op">=</span><span class="st">'-j 4'</span><span class="op">)</span>  <span class="co"># Use 4 cores for compilation (or the number you want)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span><span class="op">)</span>  <span class="co"># Install from CRAN</span>
-<span class="co">## or</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span>  <span class="co"># Install from GitHub</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>BUILD_ALL<span class="op">=</span><span class="st">'true'</span><span class="op">)</span>  <span class="co"># Build all the models on installation</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MAKEFLAGS<span class="op">=</span><span class="st">'-j 4'</span><span class="op">)</span>  <span class="co"># Use 4 cores for compilation (or the number you want)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span><span class="op">)</span>  <span class="co"># Install from CRAN</span></span>
+<span><span class="co">## or</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span>  <span class="co"># Install from GitHub</span></span></code></pre></div>
 <p><strong>We highly recommend you use multiple cores for compiling, since it will take quite a long time to complete.</strong></p>
 </div>
 </div>
-<div id="how-to-use-hbayesdm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-use-hbayesdm" class="anchor"></a>How to use hBayesDM</h2>
+<div class="section level2">
+<h2 id="how-to-use-hbayesdm">How to use hBayesDM<a class="anchor" aria-label="anchor" href="#how-to-use-hbayesdm"></a>
+</h2>
 <p>First, open RStudio (or just R) and load the package:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CCS-Lab/hBayesDM">hBayesDM</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CCS-Lab/hBayesDM" class="external-link">hBayesDM</a></span><span class="op">)</span></span></code></pre></div>
 <p>Four steps of doing HBA with hBayesDM are illustrated below. As an example, four models of the orthogonalized Go/Nogo task (Guitart-Masip et al., 2012; Cavanagh et al., 2013) are fit and compared with the hBayesDM package.</p>
 <p><img src="images/hBayesDM_pipeLine.png"></p>
-<div id="prepare-the-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#prepare-the-data" class="anchor"></a>1) Prepare the data</h3>
+<div class="section level3">
+<h3 id="prepare-the-data">1) Prepare the data<a class="anchor" aria-label="anchor" href="#prepare-the-data"></a>
+</h3>
 <ul>
 <li>For fitting a model with hBayesDM, all subjects’ data should be combined into a single text (*.txt) file. Look at the sample dataset and a help file (e.g., <code><a href="../reference/gng_m1.html">?gng_m1</a></code>) for each task and carefully follow the instructions.</li>
 <li>Subjects’ data must contain variables that are consistent with the column names specified in the help file, though extra variables are in practice allowed.</li>
 <li>It is okay if the number of trials is different across subjects. But there should exist no N/A data. If some trials contain N/A data (e.g., <code>choice=NA</code> in trial#10), remove the trials first.</li>
-<li>Sample data are available <a href="https://u.osu.edu/ccsl/files/2016/03/sampleData_hBayesDM_0.2.0-1d9qdvj.zip"><strong>here</strong></a>, although users can fit a model with sample data without separately downloading them with one of the function arguments. Once the hBayesDM package is installed, sample data can be also retrieved from the package folder. Note that the file name of sample (example) data for a given task is <strong>taskName_exampleData.txt</strong> (e.g., dd_exampleData.txt, igt_exampleData.txt, gng_exampleData.txt, etc.). See each model’s help file (e.g., <code><a href="../reference/gng_m1.html">?gng_m1</a></code>) to check required data columns and their labels.</li>
+<li>Sample data are available <a href="https://u.osu.edu/ccsl/files/2016/03/sampleData_hBayesDM_0.2.0-1d9qdvj.zip" class="external-link"><strong>here</strong></a>, although users can fit a model with sample data without separately downloading them with one of the function arguments. Once the hBayesDM package is installed, sample data can be also retrieved from the package folder. Note that the file name of sample (example) data for a given task is <strong>taskName_exampleData.txt</strong> (e.g., dd_exampleData.txt, igt_exampleData.txt, gng_exampleData.txt, etc.). See each model’s help file (e.g., <code><a href="../reference/gng_m1.html">?gng_m1</a></code>) to check required data columns and their labels.</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dataPath</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/gng_exampleData.txt"</span>, package<span class="op">=</span><span class="st">"hBayesDM"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dataPath</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/gng_exampleData.txt"</span>, package<span class="op">=</span><span class="st">"hBayesDM"</span><span class="op">)</span></span></code></pre></div>
 <p>If you download the sample data to “~/Downloads”, you may specify the path to the data file like this:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dataPath</span> <span class="op">=</span> <span class="st">"~/Downloads/gng_exampleData.txt"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dataPath</span> <span class="op">=</span> <span class="st">"~/Downloads/gng_exampleData.txt"</span></span></code></pre></div>
 </div>
-<div id="fit-candidate-models" class="section level3">
-<h3 class="hasAnchor">
-<a href="#fit-candidate-models" class="anchor"></a>2) Fit candidate models</h3>
+<div class="section level3">
+<h3 id="fit-candidate-models">2) Fit candidate models<a class="anchor" aria-label="anchor" href="#fit-candidate-models"></a>
+</h3>
 <p>Below the <code>gng_m1</code> model is fit with its sample data. The command indicates that three MCMC chains are run and three cores are used for parallel computing. If you enter “example” as an argument for <code>data</code>, hBayesDM will use the sample data for the task. Note that you can save the output to a file (see the <code>saveDir</code> argument) or send an email when fitting is complete (see the <code>email</code> argument). You can also assign your own initial values (see the <code>inits</code> argument; e.g., <code>inits=c(0.1, 0.2, 1.0)</code>):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, nchain<span class="op">=</span><span class="fl">4</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, nchain<span class="op">=</span><span class="fl">4</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p>, which is the same as the command below because the default numbers of total (including warmup) iterations (MCMC samples), warmup iterations, and chains are 2,000, 1,000, and 4 for <code>gng</code> models.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span><span class="st">"example"</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in gng_m1(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</code></pre>
-<pre><code>## 
-## Model name  = gng_m1 
-## Data file   = example 
-## 
-## Details:
-##  # of chains                    = 4 
-##  # of cores used                = 3 
-##  # of MCMC samples (per chain)  = 2000 
-##  # of burn-in samples           = 1000 
-##  # of subjects                  = 10 
-##  # of (max) trials per subject  = 240 
-## 
-## 
-## ****************************************
-## ** Use VB estimates as initial values **
-## ****************************************
-## Chain 1: ------------------------------------------------------------
-## Chain 1: EXPERIMENTAL ALGORITHM:
-## Chain 1:   This procedure has not been thoroughly tested and may be unstable
-## Chain 1:   or buggy. The interface is subject to change.
-## Chain 1: ------------------------------------------------------------
-## Chain 1: 
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001721 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 17.21 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Begin eta adaptation.
-## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)
-## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)
-## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)
-## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)
-## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)
-## Chain 1: Success! Found best value [eta = 1] earlier than expected.
-## Chain 1: 
-## Chain 1: Begin stochastic gradient ascent.
-## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -811.137             1.000            1.000
-## Chain 1:    200         -809.559             0.501            1.000
-## Chain 1:    300         -809.483             0.334            0.002   MEDIAN ELBO CONVERGED
-## Chain 1: 
-## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
-## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 0.95. Resampling is unreliable. Increasing
-## the number of draws or decreasing tol_rel_obj may help.</code></pre>
-<pre><code>## 
-## ************************************
-## **** Model fitting is complete! ****
-## ************************************</code></pre>
-<p>Executing the command will generate messages like below in the R console. It will take approximately 2~3 minutes (with the <code>gng_m1</code> model &amp; “example” data) for the model fitting to complete (with MCMC sampling). Note that you may get warning messages about “numerical problems” or that there are a certain number of “divergent transitions after warmup”. When we check our models with example datasets, warning messages appear mostly at the beginning of the warmup period and there are very few divergent transitions after warmup. In such cases, you can ignore the warnings. Also see Appendix D of the <a href="https://github.com/stan-dev/stan/releases/download/v2.17.0/stan-reference-2.17.0.pdf">Stan Reference Manual</a>.</p>
+<code class="sourceCode R"><span><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span><span class="st">"example"</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in gng_m1(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Model name  = gng_m1 </span></span>
+<span><span class="co">## Data file   = example </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Details:</span></span>
+<span><span class="co">##  # of chains                    = 4 </span></span>
+<span><span class="co">##  # of cores used                = 3 </span></span>
+<span><span class="co">##  # of MCMC samples (per chain)  = 2000 </span></span>
+<span><span class="co">##  # of burn-in samples           = 1000 </span></span>
+<span><span class="co">##  # of subjects                  = 10 </span></span>
+<span><span class="co">##  # of (max) trials per subject  = 240 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## ****************************************</span></span>
+<span><span class="co">## ** Use VB estimates as initial values **</span></span>
+<span><span class="co">## ****************************************</span></span>
+<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
+<span><span class="co">## Chain 1: EXPERIMENTAL ALGORITHM:</span></span>
+<span><span class="co">## Chain 1:   This procedure has not been thoroughly tested and may be unstable</span></span>
+<span><span class="co">## Chain 1:   or buggy. The interface is subject to change.</span></span>
+<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Gradient evaluation took 0.002345 seconds</span></span>
+<span><span class="co">## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 23.45 seconds.</span></span>
+<span><span class="co">## Chain 1: Adjust your expectations accordingly!</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Begin eta adaptation.</span></span>
+<span><span class="co">## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Success! Found best value [eta = 1] earlier than expected.</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Begin stochastic gradient ascent.</span></span>
+<span><span class="co">## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes </span></span>
+<span><span class="co">## Chain 1:    100         -826.328             1.000            1.000</span></span>
+<span><span class="co">## Chain 1:    200         -822.493             0.502            1.000</span></span>
+<span><span class="co">## Chain 1:    300         -817.220             0.337            0.006   MEDIAN ELBO CONVERGED</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Drawing a sample of size 1000 from the approximate posterior... </span></span>
+<span><span class="co">## Chain 1: COMPLETED.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Pareto k diagnostic value is 1.28. Resampling is disabled. Decreasing</span></span>
+<span><span class="co">## tol_rel_obj may help if variational algorithm has terminated prematurely.</span></span>
+<span><span class="co">## Otherwise consider using sampling instead.</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## ************************************</span></span>
+<span><span class="co">## **** Model fitting is complete! ****</span></span>
+<span><span class="co">## ************************************</span></span></code></pre>
+<p>Executing the command will generate messages like below in the R console. It will take approximately 2~3 minutes (with the <code>gng_m1</code> model &amp; “example” data) for the model fitting to complete (with MCMC sampling). Note that you may get warning messages about “numerical problems” or that there are a certain number of “divergent transitions after warmup”. When we check our models with example datasets, warning messages appear mostly at the beginning of the warmup period and there are very few divergent transitions after warmup. In such cases, you can ignore the warnings. Also see Appendix D of the <a href="https://github.com/stan-dev/stan/releases/download/v2.17.0/stan-reference-2.17.0.pdf" class="external-link">Stan Reference Manual</a>.</p>
 <pre><code>Model name  = gng_m1
 Data file   = example
 
@@ -297,7 +283,7 @@ SAMPLING FOR MODEL 'gng_m1' NOW (CHAIN 2).
 <li>
 <code>allIndPars</code>: Summary of individual subjects’ parameters (default: <em>mean</em>). Users can also choose to use <em>median</em> or <em>mode</em> (e.g., <code>output1 = gng_m1("example", indPars="mode")</code> ).</li>
 <li>
-<code>parVals</code>: Posterior samples of all parameters. Extracted by <code><a href="https://mc-stan.org/rstan/reference/stanfit-method-extract.html">rstan::extract(rstan_object, permuted=T)</a></code>. <strong>Note that hyper (group) mean parameters are indicated by <code>mu_PARAMETER</code> (e.g., <code>mu_xi</code>, <code>mu_ep</code>, <code>mu_rho</code>).</strong>
+<code>parVals</code>: Posterior samples of all parameters. Extracted by <code>rstan::extract(rstan_object, permuted=T)</code>. <strong>Note that hyper (group) mean parameters are indicated by <code>mu_PARAMETER</code> (e.g., <code>mu_xi</code>, <code>mu_ep</code>, <code>mu_rho</code>).</strong>
 </li>
 <li>
 <code>fit</code>: RStan object (i.e., <code>fit = stan(file='gng_m1.stan', ...)</code> ).</li>
@@ -329,28 +315,28 @@ sigma[3]       0.12    0.00 0.09    0.01    0.05    0.10    0.16    0.33  2402 1
 ...</code></pre>
 <p><span class="math inline">\(\hat{R}\)</span> (<code>Rhat</code>) is an index of the convergence of the chains. <span class="math inline">\(\hat{R}\)</span> values close to 1.00 would indicate that MCMC chains are converged to stationary target distributions. When we check MCMC performance of our models on sample data, <span class="math inline">\(\hat{R}\)</span> values are 1.00 for most parameters or at most 1.04.</p>
 </div>
-<div id="plot-model-parameters" class="section level3">
-<h3 class="hasAnchor">
-<a href="#plot-model-parameters" class="anchor"></a>3) Plot model parameters</h3>
+<div class="section level3">
+<h3 id="plot-model-parameters">3) Plot model parameters<a class="anchor" aria-label="anchor" href="#plot-model-parameters"></a>
+</h3>
 <p>Make sure to visually diagnose MCMC performance (i.e., visually check whether MCMC samples are well mixed and converged to stationary distributions). For the diagnosis or visualization of hyper (group) parameters, you can use <code>plot.hBayesDM</code> or just <code>plot</code>, which searches for an extension function that contains the class name. The class of any hBayesDM output is <code>hBayesDM</code>:</p>
 <p>Let’s first visually diagnose MCMC performance of hyper parameters with trace plots:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, fontSize<span class="op">=</span><span class="fl">11</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters. Set font size 11.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, fontSize<span class="op">=</span><span class="fl">11</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters. Set font size 11.</span></span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-11-1.png"><!-- --></p>
-<p>The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their <span class="math inline">\(\hat{R}\)</span> values (see <a href="http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains"><strong>here</strong></a> for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples.</p>
+<p>The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their <span class="math inline">\(\hat{R}\)</span> values (see <a href="http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains" class="external-link"><strong>here</strong></a> for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, inc_warmup<span class="op">=</span><span class="cn">T</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters w/ warmup samples</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, inc_warmup<span class="op">=</span><span class="cn">T</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters w/ warmup samples</span></span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-12-1.png"><!-- --></p>
 <p>You can also plot the posterior distributions of the hyper (group) parameters with <code>plot</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">output1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-13-1.png"><!-- --><!--
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
 --></p>
 <p>To visualize individual parameters, you can use our newly updated function called <code>plotInd</code> (based on Stan’s native function <code>stan_plot</code>). For example, to plot each individual’s <span class="math inline">\(\epsilon\)</span> (learning rate) parameter (e.g., individual posterior distributions):</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-14-1.png"><!-- --></p>
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
@@ -361,22 +347,22 @@ output1$allIndPars
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03908386 0.1388138 5.987254
-## 2       2 0.03586524 0.1622996 6.164597
-## 3       3 0.04249456 0.1269264 5.926730
-## 4       4 0.03147466 0.1493957 6.260196
-## 5       5 0.03427523 0.1492973 6.181311
-## 6       6 0.04181055 0.1538620 6.316461
-## 7       7 0.04287837 0.1489530 5.784784
-## 8       8 0.03459497 0.1617835 6.537977
-## 9       9 0.04028602 0.1452830 6.100485
-## 10     10 0.04793120 0.1301122 5.536919
+## 1       1 0.03891289 0.1393013 5.979595
+## 2       2 0.03643321 0.1618031 6.161217
+## 3       3 0.04229519 0.1277903 5.932523
+## 4       4 0.03171312 0.1496180 6.235249
+## 5       5 0.03468035 0.1487384 6.173908
+## 6       6 0.04147494 0.1542175 6.291652
+## 7       7 0.04272941 0.1477917 5.793581
+## 8       8 0.03451715 0.1612832 6.511409
+## 9       9 0.03991015 0.1455360 6.077653
+## 10     10 0.04757106 0.1295258 5.569050
 ```
 -->
 </div>
-<div id="compare-models-and-groups" class="section level3">
-<h3 class="hasAnchor">
-<a href="#compare-models-and-groups" class="anchor"></a>4) Compare models (and groups)</h3>
+<div class="section level3">
+<h3 id="compare-models-and-groups">4) Compare models (and groups)<a class="anchor" aria-label="anchor" href="#compare-models-and-groups"></a>
+</h3>
 <p>To compare models, you first fit all models in the same manner as the example above (e.g., <code>outpu4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)</code> ). Next, we use the command <code>printFit</code>, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see <span class="citation">Vehtari et al. (2015)</span> for the details of LOOIC and WAIC). By default, <code>printFit</code> function uses the LOOIC which is preferable to the WAIC when there are influential observations <span class="citation">(Vehtari et al., 2015)</span>.</p>
 <p>Assuming four models’ outputs are <code>output1</code> (gng_m1), <code>output2</code> (gng_m2), <code>output3</code> (gng_m3), and <code>output4</code> (gng_m4), their model fits can be simultaneously summarized by:</p>
 <pre><code>&gt; printFit(output1, output2, output3, output4)
@@ -385,122 +371,121 @@ output1$allIndPars
 2 gng_m2 1571.129
 3 gng_m3 1573.872
 4 gng_m4 1543.335</code></pre>
-<p>Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="waic")</a></code> or <code><a href="../reference/printFit.html">printFit(output1, output2, output3, output4, ic="both")</a></code>. Use the <code>extract_ic</code> function (e.g., <code><a href="../reference/extract_ic.html">extract_ic(output3)</a></code> ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the <code>extract_ic</code> function can be used only for a single model output.</p>
+<p>Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling <code>printFit(output1, output2, output3, output4, ic="waic")</code> or <code>printFit(output1, output2, output3, output4, ic="both")</code>. Use the <code>extract_ic</code> function (e.g., <code>extract_ic(output3)</code> ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the <code>extract_ic</code> function can be used only for a single model output.</p>
 <p>We also want to remind you that there are multiple ways to compare computational models (e.g., simulation method (absolute model performance), parameter recovery, generalization criterion) and the goodness of fit (e.g., LOOIC or WAIC) is just one of them. Check if predictions from your model (e.g., “posterior predictive check”) can mimic the data (same data or new data) with reasonable accuracy. See <span class="citation">Kruschke (2014)</span> (for posterior predictive check), Guitart-Masip et al. (2012) (for goodness of fit and simulation performance on the orthogonalized Go/Nogo task), and <span class="citation">Busemeyer &amp; Wang (2000)</span> (for generalization criterion) as well as Ahn et al. (2008; 2014) and <span class="citation">Steingroever et al. (2014)</span> (for the combination of multiple model comparison methods).</p>
 <p>To compare two groups in a Bayesian fashion <span class="citation">(e.g., Ahn et al., 2014)</span>, first you need to fit each group with the same model and ideally the same number of MCMC samples. For example,</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_group1</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group1.txt"</span>  <span class="co"># data file for group1</span>
-<span class="va">data_group2</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group2.txt"</span>  <span class="co"># data file for group2</span>
-
-<span class="va">output_group1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group1</span><span class="op">)</span>  <span class="co"># fit group1 data with the gng_m4 model</span>
-<span class="va">output_group2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group2</span><span class="op">)</span>  <span class="co"># fit group2 data with the gng_m4 model</span>
-
-<span class="co">## After model fitting is complete for both groups,</span>
-<span class="co">## evaluate the group difference (e.g., on the 'pi' parameter) by examining the posterior distribution of group mean differences.</span>
-
-<span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2</span>
-<span class="fu"><a href="../reference/HDIofMCMC.html">HDIofMCMC</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI).</span>
-<span class="fu"><a href="../reference/plotHDI.html">plotHDI</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>    <span class="co"># plot the group mean differences</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data_group1</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group1.txt"</span>  <span class="co"># data file for group1</span></span>
+<span><span class="va">data_group2</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group2.txt"</span>  <span class="co"># data file for group2</span></span>
+<span></span>
+<span><span class="va">output_group1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group1</span><span class="op">)</span>  <span class="co"># fit group1 data with the gng_m4 model</span></span>
+<span><span class="va">output_group2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m4.html">gng_m4</a></span><span class="op">(</span><span class="va">data_group2</span><span class="op">)</span>  <span class="co"># fit group2 data with the gng_m4 model</span></span>
+<span></span>
+<span><span class="co">## After model fitting is complete for both groups,</span></span>
+<span><span class="co">## evaluate the group difference (e.g., on the 'pi' parameter) by examining the posterior distribution of group mean differences.</span></span>
+<span></span>
+<span><span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2</span></span>
+<span><span class="fu"><a href="../reference/HDIofMCMC.html">HDIofMCMC</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI).</span></span>
+<span><span class="fu"><a href="../reference/plotHDI.html">plotHDI</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>    <span class="co"># plot the group mean differences</span></span></code></pre></div>
 </div>
-<div id="extracting-trial-by-trial-regressors-for-model-based-fmrieeg-analysis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#extracting-trial-by-trial-regressors-for-model-based-fmrieeg-analysis" class="anchor"></a>5) Extracting trial-by-trial regressors for model-based fMRI/EEG analysis</h3>
+<div class="section level3">
+<h3 id="extracting-trial-by-trial-regressors-for-model-based-fmrieeg-analysis">5) Extracting trial-by-trial regressors for model-based fMRI/EEG analysis<a class="anchor" aria-label="anchor" href="#extracting-trial-by-trial-regressors-for-model-based-fmrieeg-analysis"></a>
+</h3>
 <p>In model-based neuroimaging <span class="citation">(e.g., O’Doherty et al., 2007)</span>, model-based time series of a latent cognitive process are generated by computational models, and then time series data are convolved with a hemodynamic response function and regressed again fMRI or EEG data. This model-based neuroimaging approach has been particularly popular in cognitive neuroscience.</p>
-<p>The biggest challenge for performing model-based fMRI/EEG is to learn how to extract trial-by-trial model-based regressors. The hBayesDM package allows users to easily extract model-based regressors that can be used for model-based fMRI or EEG analysis. The hBayesDM package currently provides the following model-based regressors. With the trial-by-trial regressors, users can easily use their favorite neuroimaging package (e.g., in Statistical Parametric Mapping (SPM; <a href="http://www.fil.ion.ucl.ac.uk/spm/" class="uri">http://www.fil.ion.ucl.ac.uk/spm/</a>) to perform model-based fMRI analysis. See our <a href="https://www.mitpressjournals.org/doi/abs/10.1162/CPSY_a_00002">paper</a> (<strong>Extracting Trial-by-Trial Regressors for Model-Based fMRI/EEG Analysis</strong>) for more details.</p>
+<p>The biggest challenge for performing model-based fMRI/EEG is to learn how to extract trial-by-trial model-based regressors. The hBayesDM package allows users to easily extract model-based regressors that can be used for model-based fMRI or EEG analysis. The hBayesDM package currently provides the following model-based regressors. With the trial-by-trial regressors, users can easily use their favorite neuroimaging package (e.g., in Statistical Parametric Mapping (SPM; <a href="http://www.fil.ion.ucl.ac.uk/spm/" class="external-link uri">http://www.fil.ion.ucl.ac.uk/spm/</a>) to perform model-based fMRI analysis. See our <a href="https://www.mitpressjournals.org/doi/abs/10.1162/CPSY_a_00002" class="external-link">paper</a> (<strong>Extracting Trial-by-Trial Regressors for Model-Based fMRI/EEG Analysis</strong>) for more details.</p>
 <p>As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the follwoing (set the <code>modelRegressor</code> input variable to <code>TRUE</code>. Its default value is <code>FALSE</code>):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## fit example data with the gng_m3 model</span>
-<span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, modelRegressor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in gng_m3(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</code></pre>
-<pre><code>## 
-## Model name  = gng_m3 
-## Data file   = example 
-## 
-## Details:
-##  # of chains                    = 4 
-##  # of cores used                = 3 
-##  # of MCMC samples (per chain)  = 2000 
-##  # of burn-in samples           = 1000 
-##  # of subjects                  = 10 
-##  # of (max) trials per subject  = 240 
-## 
-## **************************************
-## **  Extract model-based regressors  **
-## **************************************
-## 
-## 
-## ****************************************
-## ** Use VB estimates as initial values **
-## ****************************************
-## Chain 1: ------------------------------------------------------------
-## Chain 1: EXPERIMENTAL ALGORITHM:
-## Chain 1:   This procedure has not been thoroughly tested and may be unstable
-## Chain 1:   or buggy. The interface is subject to change.
-## Chain 1: ------------------------------------------------------------
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Rejecting initial value:
-## Chain 1:   Log probability evaluates to log(0), i.e. negative infinity.
-## Chain 1:   Stan can't start sampling from this initial value.
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0.002977 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 29.77 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Begin eta adaptation.
-## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)
-## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)
-## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)
-## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)
-## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)
-## Chain 1: Success! Found best value [eta = 1] earlier than expected.
-## Chain 1: 
-## Chain 1: Begin stochastic gradient ascent.
-## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -820.096             1.000            1.000
-## Chain 1:    200         -820.949             0.501            1.000
-## Chain 1:    300         -818.697             0.335            0.003   MEDIAN ELBO CONVERGED
-## Chain 1: 
-## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
-## Chain 1: COMPLETED.</code></pre>
-<pre><code>## Warning: Pareto k diagnostic value is 1.27. Resampling is disabled. Decreasing
-## tol_rel_obj may help if variational algorithm has terminated prematurely.
-## Otherwise consider using sampling instead.</code></pre>
-<pre><code>## 
-## ************************************
-## **** Model fitting is complete! ****
-## ************************************</code></pre>
+<code class="sourceCode R"><span><span class="co">## fit example data with the gng_m3 model</span></span>
+<span><span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, modelRegressor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in gng_m3(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Model name  = gng_m3 </span></span>
+<span><span class="co">## Data file   = example </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Details:</span></span>
+<span><span class="co">##  # of chains                    = 4 </span></span>
+<span><span class="co">##  # of cores used                = 3 </span></span>
+<span><span class="co">##  # of MCMC samples (per chain)  = 2000 </span></span>
+<span><span class="co">##  # of burn-in samples           = 1000 </span></span>
+<span><span class="co">##  # of subjects                  = 10 </span></span>
+<span><span class="co">##  # of (max) trials per subject  = 240 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## **************************************</span></span>
+<span><span class="co">## **  Extract model-based regressors  **</span></span>
+<span><span class="co">## **************************************</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## ****************************************</span></span>
+<span><span class="co">## ** Use VB estimates as initial values **</span></span>
+<span><span class="co">## ****************************************</span></span>
+<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
+<span><span class="co">## Chain 1: EXPERIMENTAL ALGORITHM:</span></span>
+<span><span class="co">## Chain 1:   This procedure has not been thoroughly tested and may be unstable</span></span>
+<span><span class="co">## Chain 1:   or buggy. The interface is subject to change.</span></span>
+<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Gradient evaluation took 0.004812 seconds</span></span>
+<span><span class="co">## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 48.12 seconds.</span></span>
+<span><span class="co">## Chain 1: Adjust your expectations accordingly!</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Begin eta adaptation.</span></span>
+<span><span class="co">## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)</span></span>
+<span><span class="co">## Chain 1: Success! Found best value [eta = 1] earlier than expected.</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Begin stochastic gradient ascent.</span></span>
+<span><span class="co">## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes </span></span>
+<span><span class="co">## Chain 1:    100        -1033.994             1.000            1.000</span></span>
+<span><span class="co">## Chain 1:    200         -823.427             0.628            1.000</span></span>
+<span><span class="co">## Chain 1:    300         -821.226             0.419            0.256</span></span>
+<span><span class="co">## Chain 1:    400         -817.819             0.316            0.256</span></span>
+<span><span class="co">## Chain 1:    500         -818.770             0.253            0.004   MEDIAN ELBO CONVERGED</span></span>
+<span><span class="co">## Chain 1: </span></span>
+<span><span class="co">## Chain 1: Drawing a sample of size 1000 from the approximate posterior... </span></span>
+<span><span class="co">## Chain 1: COMPLETED.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Pareto k diagnostic value is 1.33. Resampling is disabled. Decreasing</span></span>
+<span><span class="co">## tol_rel_obj may help if variational algorithm has terminated prematurely.</span></span>
+<span><span class="co">## Otherwise consider using sampling instead.</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## ************************************</span></span>
+<span><span class="co">## **** Model fitting is complete! ****</span></span>
+<span><span class="co">## ************************************</span></span></code></pre>
 <p>Once the sampling is completed, all model-based regressors are contained in the <code>modelRegressor</code> list.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## store all subjects' stimulus value (SV) in ‘sv_all’</span>
-<span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span><span class="op">)</span>  <span class="co"># number of rows=# of subjects (=10), number of columns=# of trials (=240)</span></code></pre></div>
-<pre><code>## [1]  10 240</code></pre>
+<code class="sourceCode R"><span><span class="co">## store all subjects' stimulus value (SV) in ‘sv_all’</span></span>
+<span><span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span><span class="op">)</span>  <span class="co"># number of rows=# of subjects (=10), number of columns=# of trials (=240)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1]  10 240</span></span></code></pre>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## visualize SV (Subject #1)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## visualize SV (Subject #1)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-1.png"><!-- --></p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## visualize SV (Subject #5)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## visualize SV (Subject #5)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-20-2.png"><!-- --></p>
 <p>Similarly, users can extract and visualize other model-based regressors. <strong>W(Go)</strong>, <strong>W(NoGo)</strong>, <strong>Q(Go)</strong>, <strong>Q(NoGo)</strong> are stored in <code>Wgo</code>, <code>Wnogo</code>, <code>Qgo</code>, and <code>Qnogo</code>, respectively.</p>
 </div>
-<div id="variational-inference-for-approximate-posterior-sampling" class="section level3">
-<h3 class="hasAnchor">
-<a href="#variational-inference-for-approximate-posterior-sampling" class="anchor"></a>6) Variational inference for approximate posterior sampling</h3>
+<div class="section level3">
+<h3 id="variational-inference-for-approximate-posterior-sampling">6) Variational inference for approximate posterior sampling<a class="anchor" aria-label="anchor" href="#variational-inference-for-approximate-posterior-sampling"></a>
+</h3>
 <p>To use Stan’s variational algorithm for approximate posterior sampling in hBayesDM, users just need to set <code>vb=TRUE</code> (default = <code>FALSE</code>). It takes very little time (especially with precompiled models) to do variational inference - try it yourself for any model!! But variational inference should be used only to get a rough estimate. It is recommended that users use MCMC for final inferences.</p>
 <p>For example, to run <code>gng_m1</code> using variational inference:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## fit example data with the gng_m3 model</span>
-<span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, vb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>Note that input arguments for MCMC sampling (e.g., <code>nchain</code>, <code>niter</code>, <code>nthin</code>, <code>nwarmup</code>) are not specified here. <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-vb.html">?rstan::vb</a></code> for more details.</p>
+<code class="sourceCode R"><span><span class="co">## fit example data with the gng_m3 model</span></span>
+<span><span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, vb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Note that input arguments for MCMC sampling (e.g., <code>nchain</code>, <code>niter</code>, <code>nthin</code>, <code>nwarmup</code>) are not specified here. <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-vb.html" class="external-link">?rstan::vb</a></code> for more details.</p>
 </div>
-<div id="posterior-predictive-checks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#posterior-predictive-checks" class="anchor"></a>7) Posterior predictive checks</h3>
+<div class="section level3">
+<h3 id="posterior-predictive-checks">7) Posterior predictive checks<a class="anchor" aria-label="anchor" href="#posterior-predictive-checks"></a>
+</h3>
 <p>Simply put, <em>posterior predictive checks</em> refer to when a fitted model is used to generate simulated data and check if simulated data are similar to the actual data. Posterior predictive checks are useful in assessing if a model generates valid predictions.</p>
 <p>From v0.5.0, users can run posterior predictive checks on all models except drift-diffusion models in hBayesDM. Simulated data from posterior predictive checks are contained in <code>hBayesDM_OUTPUT$parVals$y_pred</code>. In a future release, we will include a function/command that can conveniently summarize and plot posterior predictive checks. In the mean time, users can program their own codes like the following:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co">## fit example data with the gng_m3 model and run posterior predictive checks</span></span>
@@ -536,9 +521,9 @@ output1$allIndPars
 <p><img src="images/PPC.png"></p>
 </div>
 </div>
-<div id="to-do-list" class="section level2">
-<h2 class="hasAnchor">
-<a href="#to-do-list" class="anchor"></a>To-do list</h2>
+<div class="section level2">
+<h2 id="to-do-list">To-do list<a class="anchor" aria-label="anchor" href="#to-do-list"></a>
+</h2>
 <p>We are planning to add more tasks/models. We plan to include the following tasks and/or models in the near future. If you have any requests for a specific task or a model, please let us know.</p>
 <ul>
 <li>Hierarchical Gaussian Filtering <span class="citation">(Mathys et al., 2011)</span>.</li>
@@ -548,10 +533,10 @@ output1$allIndPars
 <li>Allowing users to extract model-based regressors <span class="citation">(O’Doherty et al., 2007)</span> from more tasks.</li>
 </ul>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
-<p>If you used hBayesDM or some of its codes for your research, please cite <a href="https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002">this paper</a>:</p>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you used hBayesDM or some of its codes for your research, please cite <a href="https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002" class="external-link">this paper</a>:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb35-1"><a href="#cb35-1"></a><span class="va">@article</span>{<span class="ot">hBayesDM</span>,</span>
 <span id="cb35-2"><a href="#cb35-2"></a>  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},</span>
 <span id="cb35-3"><a href="#cb35-3"></a>  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},</span>
@@ -563,40 +548,40 @@ output1$allIndPars
 <span id="cb35-9"><a href="#cb35-9"></a>  <span class="dt">url</span> = {doi:10.1162/CPSY_a_00002},</span>
 <span id="cb35-10"><a href="#cb35-10"></a>}</span></code></pre></div>
 </div>
-<div id="papers-citing-hbayesdm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#papers-citing-hbayesdm" class="anchor"></a>Papers citing hBayesDM</h2>
+<div class="section level2">
+<h2 id="papers-citing-hbayesdm">Papers citing hBayesDM<a class="anchor" aria-label="anchor" href="#papers-citing-hbayesdm"></a>
+</h2>
 <p>Here is a selected list of papers being we know that used or cited hBayesDM (from Google Scholar). Let us know if you used hBayesDM for your papers!</p>
 <ul>
-<li><a href="https://scholar.google.co.kr/scholar?oi=bibs&amp;hl=en&amp;cites=14115085235970942065&amp;as_sdt=5">Papers citing hBayesDM (Google Scholar)</a></li>
+<li><a href="https://scholar.google.co.kr/scholar?oi=bibs&amp;hl=en&amp;cites=14115085235970942065&amp;as_sdt=5" class="external-link">Papers citing hBayesDM (Google Scholar)</a></li>
 </ul>
 </div>
-<div id="suggested-reading" class="section level2">
-<h2 class="hasAnchor">
-<a href="#suggested-reading" class="anchor"></a>Suggested reading</h2>
+<div class="section level2">
+<h2 id="suggested-reading">Suggested reading<a class="anchor" aria-label="anchor" href="#suggested-reading"></a>
+</h2>
 <p>You can refer to other helpful review papers or books <span class="citation">(Busemeyer &amp; Diederich, 2010; Daw, 2011; Lee, 2011; Lee &amp; Wagenmakers, 2014; Shiffrin et al., 2008)</span> to know more about HBA or computational modeling in general.</p>
 </div>
-<div id="other-useful-links" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-useful-links" class="anchor"></a>Other Useful Links</h2>
+<div class="section level2">
+<h2 id="other-useful-links">Other Useful Links<a class="anchor" aria-label="anchor" href="#other-useful-links"></a>
+</h2>
 <ol style="list-style-type: decimal">
-<li>“Modelling behavioural data” by Quentin Huys, available in <a href="https://www.quentinhuys.com/teaching.html" class="uri">https://www.quentinhuys.com/teaching.html</a>.</li>
-<li>Introductory tutorial on reinforcment learning by Jill O’Reilly and Hanneke den Ouden, available in <a href="http://hannekedenouden.ruhosting.nl/RLtutorial/Instructions.html" class="uri">http://hannekedenouden.ruhosting.nl/RLtutorial/Instructions.html</a>.</li>
-<li>VBA Toolbox: A flexible modeling (MATLAB) toolbox using Variational Bayes (<a href="http://mbb-team.github.io/VBA-toolbox/" class="uri">http://mbb-team.github.io/VBA-toolbox/</a>).</li>
-<li>TAPAS: A collection of algorithms and software tools written in MATLAB. Developed by the Translational Neuromodeling Unit (TNU) at Zurich (<a href="http://www.translationalneuromodeling.org/tapas/" class="uri">http://www.translationalneuromodeling.org/tapas/</a>).</li>
-<li>Bayesian analysis toolbox for delay discounting data, available in <a href="http://www.inferencelab.com/delay-discounting-analysis/" class="uri">http://www.inferencelab.com/delay-discounting-analysis/</a>.</li>
-<li>rtdists: Response time distributions in R, available in <a href="https://github.com/rtdists/rtdists/" class="uri">https://github.com/rtdists/rtdists/</a>.</li>
-<li>RWiener: Wiener process distribution functions, available in <a href="https://cran.r-project.org/web/packages/RWiener/index.html" class="uri">https://cran.r-project.org/web/packages/RWiener/index.html</a>.</li>
+<li>“Modelling behavioural data” by Quentin Huys, available in <a href="https://www.quentinhuys.com/teaching.html" class="external-link uri">https://www.quentinhuys.com/teaching.html</a>.</li>
+<li>Introductory tutorial on reinforcment learning by Jill O’Reilly and Hanneke den Ouden, available in <a href="http://hannekedenouden.ruhosting.nl/RLtutorial/Instructions.html" class="external-link uri">http://hannekedenouden.ruhosting.nl/RLtutorial/Instructions.html</a>.</li>
+<li>VBA Toolbox: A flexible modeling (MATLAB) toolbox using Variational Bayes (<a href="http://mbb-team.github.io/VBA-toolbox/" class="external-link uri">http://mbb-team.github.io/VBA-toolbox/</a>).</li>
+<li>TAPAS: A collection of algorithms and software tools written in MATLAB. Developed by the Translational Neuromodeling Unit (TNU) at Zurich (<a href="http://www.translationalneuromodeling.org/tapas/" class="external-link uri">http://www.translationalneuromodeling.org/tapas/</a>).</li>
+<li>Bayesian analysis toolbox for delay discounting data, available in <a href="http://www.inferencelab.com/delay-discounting-analysis/" class="external-link uri">http://www.inferencelab.com/delay-discounting-analysis/</a>.</li>
+<li>rtdists: Response time distributions in R, available in <a href="https://github.com/rtdists/rtdists/" class="external-link uri">https://github.com/rtdists/rtdists/</a>.</li>
+<li>RWiener: Wiener process distribution functions, available in <a href="https://cran.r-project.org/web/packages/RWiener/index.html" class="external-link uri">https://cran.r-project.org/web/packages/RWiener/index.html</a>.</li>
 </ol>
 </div>
-<div id="acknoledgement" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknoledgement" class="anchor"></a>Acknoledgement</h2>
+<div class="section level2">
+<h2 id="acknoledgement">Acknoledgement<a class="anchor" aria-label="anchor" href="#acknoledgement"></a>
+</h2>
 <p>This work was supported in part by the National Institute on Drug Abuse (NIDA) under award number R01DA021421 (PI: Jasmin Vassileva).</p>
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <!-- See here to learn how to cite references:
 http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
 
@@ -667,11 +652,13 @@ http://stackoverflow.com/questions/23957278/how-to-add-table-of-contents-in-rmar
 
 
       <footer><div class="copyright">
-  <p>Developed by Woo-Young Ahn, Nate Haines, Lei Zhang.</p>
+  <p></p>
+<p>Developed by Woo-Young Ahn, Nate Haines, Lei Zhang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -679,6 +666,8 @@ http://stackoverflow.com/questions/23957278/how-to-add-table-of-contents-in-rmar
 
   
 
+
+  
 
   </body>
 </html>
