@@ -14,6 +14,7 @@ reference:
   - starts_with("peer_")
   - starts_with("prl_")
   - starts_with("pst_")
+  - starts_with("pstRT_")
   - starts_with("ra_")
   - starts_with("rdt_")
   - starts_with("task2AFC_")

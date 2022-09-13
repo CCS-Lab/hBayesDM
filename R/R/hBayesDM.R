@@ -63,6 +63,8 @@
 #' @seealso
 #' For tutorials and further readings, visit : \url{http://rpubs.com/CCSL/hBayesDM}.
 #'
+#' @keywords internal
+#'
 #' @references
 #' Please cite as:
 #' Ahn, W.-Y., Haines, N., & Zhang, L. (2017). Revealing neuro-computational mechanisms of reinforcement learning and decision-making with the hBayesDM package. \emph{Computational Psychiatry}. 1, 24-57. https://doi.org/10.1162/CPSY_a_00002

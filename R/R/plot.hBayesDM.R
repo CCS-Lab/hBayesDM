@@ -1,5 +1,7 @@
 #' General Purpose Plotting for hBayesDM. This function plots hyper parameters.
 #'
+#' @keywords internal
+#'
 #' @param x Model output of class hBayesDM
 #' @param type Character value that specifies the plot type. Options are: "dist", "trace", or "simple". Defaults to "dist".
 #' @param ncols Integer value specifying how many plots there should be per row. Defaults to the number of parameters.
