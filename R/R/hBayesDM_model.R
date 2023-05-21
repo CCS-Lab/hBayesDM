@@ -141,7 +141,10 @@ hBayesDM_model <- function(task_name,
       stop("** Posterior predictions are not yet available for this model. **\n")
     }
 
-    if (is.null(data) || is.na(data) || data == "") {
+    if (is.null(data) || data == "") {
+    # PEP: rm <|| is.na(data)> from if above per: 
+    # https://stackoverflow.com/questions/72848442/
+    #   r-warning-lengthx-2-1-in-coercion-to-logical1
       stop("Invalid input for the 'data' value. ",
            "You should pass a data.frame, or a filepath for a data file,",
            "\"example\" for an example dataset, ",
