@@ -26,7 +26,7 @@ functions {
     return pdf;
   }
 
-  real lba_cdf(real t, real b, real A, real v, real s) {
+  real lba_lcdf(real t, real b, real A, real v, real s) {
     //CDF of the LBA model
     real b_A_tv;
     real b_tv;
@@ -35,20 +35,24 @@ functions {
     real term_2;
     real term_3;
     real term_4;
-    real cdf;
+    real lcdf;
 
-    b_A_tv = b - A - t * v;
+    b_A_tv = (b - A - t * v);
     b_tv   = b - t * v;
     ts     = t * s;
 
-    term_1 = b_A_tv/A * Phi(b_A_tv/ts);
-    term_2 = b_tv/A   * Phi(b_tv/ts);
-    term_3 = ts/A     * exp(normal_lpdf(b_A_tv/ts | 0, 1));
-    term_4 = ts/A     * exp(normal_lpdf(b_tv/ts | 0, 1));
+    real log_A = log(A);
+    real log_ts_m_A = log(ts) - log_A;
 
-    cdf = 1 + term_1 - term_2 + term_3 - term_4;
+    term_1 = (log(b_A_tv) - log_A) + std_normal_lcdf(b_A_tv/ts);
+    term_2 = (log(b_tv) - log_A)   + std_normal_lcdf(b_tv/ts);
+    term_3 = log_ts_m_A     + std_normal_lpdf(b_A_tv/ts);
+    term_4 = log_ts_m_A     + std_normal_lpdf(b_tv/ts);
 
-    return cdf;
+    lcdf = log1p_exp(log_sum_exp(log_diff_exp(term_1, term_2),
+                                  log_diff_exp(term_3, term_4)));
+
+    return lcdf;
 
   }
 
@@ -72,7 +76,7 @@ functions {
           if (RT[2, i] == j) {
             pdf = lba_pdf(t, b, A, v[j], s);
           } else {
-            cdf *= (1-lba_cdf(t | b, A, v[j], s));
+            cdf *= (1-exp(lba_lcdf(t | b, A, v[j], s)));
           }
         }
         prob_neg = 1;
