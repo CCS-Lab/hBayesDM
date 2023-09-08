@@ -1,3 +1,4 @@
 hBayesDM*.tar.gz
 hBayesDM.Rcheck/
 docs/
+!inst/include/stan_meta_header.hpp
