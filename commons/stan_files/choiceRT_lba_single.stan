@@ -72,7 +72,7 @@ functions {
           if (RT[2, i] == j) {
             pdf = lba_pdf(t, b, A, v[j], s);
           } else {
-            cdf *= (1-lba_cdf_fun(t | b, A, v[j], s));
+            cdf *= (1-lba_cdf_fun(t, b, A, v[j], s));
           }
         }
         prob_neg = 1;
