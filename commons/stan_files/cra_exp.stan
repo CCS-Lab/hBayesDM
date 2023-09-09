@@ -1,4 +1,4 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 /**
  * Choice under Risk and Ambiguity Task
@@ -18,13 +18,13 @@ functions {
 data {
   int<lower=1> N;                     // Number of subjects
   int<lower=1> T;                     // Max number of trials across subjects
-  int<lower=1,upper=T> Tsubj[N];      // Number of trials/block for each subject
+  array[N] int<lower=1,upper=T> Tsubj;      // Number of trials/block for each subject
 
-  int<lower=0,upper=1> choice[N, T];  // The options subjects choose (0: fixed / 1: variable)
-  real<lower=0,upper=1> prob[N, T];   // The objective probability of the variable lottery
-  real<lower=0,upper=1> ambig[N, T];  // The ambiguity level of the variable lottery (0 for risky lottery)
-  real<lower=0> reward_var[N, T];     // The amount of reward values on variable lotteries (risky and ambiguity conditions)
-  real<lower=0> reward_fix[N, T];     // The amount of reward values on fixed lotteries (reference)
+  array[N, T] int<lower=0,upper=1> choice;  // The options subjects choose (0: fixed / 1: variable)
+  array[N, T] real<lower=0,upper=1> prob;   // The objective probability of the variable lottery
+  array[N, T] real<lower=0,upper=1> ambig;  // The ambiguity level of the variable lottery (0 for risky lottery)
+  array[N, T] real<lower=0> reward_var;     // The amount of reward values on variable lotteries (risky and ambiguity conditions)
+  array[N, T] real<lower=0> reward_fix;     // The amount of reward values on fixed lotteries (reference)
 }
 
 // Declare all parameters as vectors for vectorizing
@@ -82,16 +82,16 @@ generated quantities {
   real<lower=0>         mu_gamma;
 
   // For log likelihood calculation for each subject
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Model regressors
-  real sv[N, T];
-  real sv_fix[N, T];
-  real sv_var[N, T];
-  real<lower=0,upper=1> p_var[N, T];
+  array[N, T] real sv;
+  array[N, T] real sv_fix;
+  array[N, T] real sv_var;
+  array[N, T] real<lower=0,upper=1> p_var;
 
   // Set all posterior predictions to -1 (avoids NULL values)
   for (i in 1:N) {

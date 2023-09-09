@@ -1,12 +1,12 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=1, upper=4> cue[N, T];
-  int<lower=-1, upper=1> pressed[N, T];
-  real outcome[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int<lower=1, upper=4> cue;
+  array[N, T] int<lower=-1, upper=1> pressed;
+  array[N, T] real outcome;
 }
 
 transformed data {
@@ -121,15 +121,15 @@ generated quantities {
   real mu_pi;
   real<lower=0> mu_rhoRew;
   real<lower=0> mu_rhoPun;
-  real log_lik[N];
-  real Qgo[N, T];
-  real Qnogo[N, T];
-  real Wgo[N, T];
-  real Wnogo[N, T];
-  real SV[N, T];
+  array[N] real log_lik;
+  array[N, T] real Qgo;
+  array[N, T] real Qnogo;
+  array[N, T] real Wgo;
+  array[N, T] real Wnogo;
+  array[N, T] real SV;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

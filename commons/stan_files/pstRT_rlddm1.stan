@@ -41,16 +41,16 @@ functions{
 data {
   int<lower=1> N;                         // Number of subjects
   int<lower=1> T;                         // Maximum number of trials
-  int<lower=1> Tsubj[N];                  // Number of trials for each subject
+  array[N] int<lower=1> Tsubj;                  // Number of trials for each subject
   int<lower=1> n_cond;                    // Number of task conditions
-  int<lower=-1, upper=n_cond> cond[N, T]; // Task condition  (NA: -1)
-  int<lower=-1, upper=2> choice[N, T];    // Response (NA: -1)
-  real RT[N, T];                          // Response time
-  real fd[N, T];                          // Feedback
+  array[N, T] int<lower=-1, upper=n_cond> cond; // Task condition  (NA: -1)
+  array[N, T] int<lower=-1, upper=2> choice;    // Response (NA: -1)
+  array[N, T] real RT;                          // Response time
+  array[N, T] real fd;                          // Feedback
   real initQ;                             // Initial Q value
-  real minRT[N];                          // Minimum RT for each subject of the observed data
+  array[N] real minRT;                          // Minimum RT for each subject of the observed data
   real RTbound;                           // Lower bound or RT across all subjects (e.g., 0.1 second)
-  real prob[n_cond];                      // Reward probability for each task condition (for posterior predictive check)
+  array[n_cond] real prob;                      // Reward probability for each task condition (for posterior predictive check)
 }
 
 transformed data {
@@ -133,7 +133,7 @@ generated quantities {
   real<lower=0, upper=1> mu_alpha;
 
   // For log likelihood
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For model regressors
   matrix[N, T] Q1;
