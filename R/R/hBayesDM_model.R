@@ -141,17 +141,11 @@ hBayesDM_model <- function(task_name,
       stop("** Posterior predictions are not yet available for this model. **\n")
     }
 
-    if (is.null(data) || is.na(data) || data == "") {
-      stop("Invalid input for the 'data' value. ",
-           "You should pass a data.frame, or a filepath for a data file,",
-           "\"example\" for an example dataset, ",
-           "or \"choose\" to choose it in a prompt.")
-
-    } else if ("data.frame" %in% class(data)) {
+    if (is.data.frame(data)) {
       # Use the given data object
       raw_data <- data.table::as.data.table(data)
 
-    } else if ("character" %in% class(data)) {
+    } else if (length(data) == 1 && is.character(data)) {
       # Set
       if (data == "example") {
         example_data <-
@@ -183,7 +177,7 @@ hBayesDM_model <- function(task_name,
 
     } else {
       stop("Invalid input for the 'data' value. ",
-           "You should pass a data.frame, or a filepath for a data file,",
+           "You should pass a data.frame, or a filepath for a TSV file,",
            "\"example\" for an example dataset, ",
            "or \"choose\" to choose it in a prompt.")
     }
@@ -485,7 +479,7 @@ hBayesDM_model <- function(task_name,
                              thin    = nthin,
                              control = list(adapt_delta   = adapt_delta,
                                             stepsize      = stepsize,
-                                            max_treedepth = max_treedepth))                             
+                                            max_treedepth = max_treedepth))
     }
 
     # Extract from the Stan fit object
