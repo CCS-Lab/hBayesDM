@@ -28,6 +28,7 @@ Depends:
     methods
 Imports:
     rstan (>= 2.18.1),
+    cmdstanr (>= 0.4.0),
     loo (>= 2.0),
     grid,
     parallel,

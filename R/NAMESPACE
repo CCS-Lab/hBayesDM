@@ -99,6 +99,7 @@ importFrom(rstan,stan_model)
 importFrom(rstan,stan_plot)
 importFrom(rstan,summary)
 importFrom(rstan,traceplot)
+importFrom(cmdstanr, cmdstan_model) # EH added
 importFrom(rstan,vb)
 importFrom(stats,complete.cases)
 importFrom(stats,density)

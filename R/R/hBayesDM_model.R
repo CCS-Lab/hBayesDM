@@ -10,7 +10,7 @@
 #' @include settings.R
 #' @include stanmodels.R
 #' @importFrom utils head
-#' @importFrom stats complete.cases qnorm median
+#' @importFrom stats complete.cases qnorm medianㄱㄱㄱㄱㅣㅣㅣ
 #' @importFrom data.table fread
 #' @importFrom parallel detectCores
 #' @importFrom rstan stan_model vb sampling extract
@@ -364,11 +364,11 @@ hBayesDM_model <- function(task_name,
         model_path <- system.file("stan_files", paste0(model, ".stan"),
                                   package="hBayesDM")
         # stanmodel_arg <- rstan::stan_model(model_path) # EH commented out
-        stanmodel_arg <- cmdstan::cmdstan_model(model_path) # EH added
+        stanmodel_arg <- cmdstanr::cmdstan_model(model_path) # EH added
       }
     } else if (is.character(stanmodel_arg)) {
       # stanmodel_arg <- rstan::stan_model(stanmodel_arg) # EH commented out
-      stanmodel_arg <- cmdstan::cmdstan_model(stanmodel_arg) # EH added
+      stanmodel_arg <- cmdstanr::cmdstan_model(stanmodel_arg) # EH added
     }
 
     # Initial values for the parameters
