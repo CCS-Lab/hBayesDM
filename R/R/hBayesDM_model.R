@@ -101,7 +101,7 @@
 #'   e.g. \code{"subjid"}, within the code of the preprocess function.\cr
 #'
 #' @return A specific hBayesDM model function.
-
+#'
 hBayesDM_model <- function(task_name,
                            model_name,
                            model_type = "",
@@ -363,10 +363,12 @@ hBayesDM_model <- function(task_name,
       } else {
         model_path <- system.file("stan_files", paste0(model, ".stan"),
                                   package="hBayesDM")
-        stanmodel_arg <- rstan::stan_model(model_path)
+        # stanmodel_arg <- rstan::stan_model(model_path) # EH commented out
+        stanmodel_arg <- cmdstan::cmdstan_model(model_path) # EH added
       }
     } else if (is.character(stanmodel_arg)) {
-      stanmodel_arg <- rstan::stan_model(stanmodel_arg)
+      # stanmodel_arg <- rstan::stan_model(stanmodel_arg) # EH commented out
+      stanmodel_arg <- cmdstan::cmdstan_model(stanmodel_arg) # EH added
     }
 
     # Initial values for the parameters
@@ -386,8 +388,10 @@ hBayesDM_model <- function(task_name,
         cat("****************************************\n")
 
         make_gen_init_from_vb <- function() {
-          fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list)
-          m_vb <- colMeans(as.data.frame(fit_vb))
+          # fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list) # EH commented out
+          # m_vb <- colMeans(as.data.frame(fit_vb)) # EH commented out
+          fit_vb <- stanmodel_arg$variational(data = data_list) # EH added
+          m_vb <- colMeans(as_draws_df(fit_vb$draws())) # EH added
 
           function() {
             ret <- list(
@@ -464,26 +468,42 @@ hBayesDM_model <- function(task_name,
 
     # Fit the Stan model
     if (vb) {
-      fit <- rstan::vb(object = stanmodel_arg,
-                       data   = data_list,
-                       pars   = pars,
-                       init   = gen_init)
+      # fit <- rstan::vb(object = stanmodel_arg, # EH commented out
+      #                  data   = data_list,
+      #                  pars   = pars,
+      #                  init   = gen_init)
+      fit <- stanmodel_arg$variational(data = data_list, # EH added
+                                       variables = pars,
+                                       init = gen_init)
+
     } else {
-      fit <- rstan::sampling(object  = stanmodel_arg,
-                             data    = data_list,
-                             pars    = pars,
-                             init    = gen_init,
-                             chains  = nchain,
-                             iter    = niter,
-                             warmup  = nwarmup,
-                             thin    = nthin,
-                             control = list(adapt_delta   = adapt_delta,
-                                            stepsize      = stepsize,
-                                            max_treedepth = max_treedepth))
+      # fit <- rstan::sampling(object  = stanmodel_arg, # EH commented out
+      #                        data    = data_list,
+      #                        pars    = pars,
+      #                        init    = gen_init,
+      #                        chains  = nchain,
+      #                        iter    = niter,
+      #                        warmup  = nwarmup,
+      #                        thin    = nthin,
+      #                        control = list(adapt_delta   = adapt_delta,
+      #                                       stepsize      = stepsize,
+      #                                       max_treedepth = max_treedepth))
+      fit <- stanmodel_arg$sample(data = data_list, # EH added
+                                  variables = pars,
+                                  init = gen_init,
+                                  chains = nchain,
+                                  iter_warmup = nwarmup,
+                                  iter_sampling = niter - nwarmup,
+                                  thin = nthin,
+                                  adapt_delta = adapt_delta,
+                                  stepsize = stepsize,
+                                  max_treedepth = max_treedepth,
+                                  parallel_chains = ncore)
     }
 
     # Extract from the Stan fit object
-    parVals <- rstan::extract(fit, permuted = TRUE)
+    # parVals <- rstan::extract(fit, permuted = TRUE) # EH commented out
+    parVals <- as_draws_df(fit$draws()) # EH added
 
     # Trial-level posterior predictive simulations
     if (inc_postpred) {

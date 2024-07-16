@@ -3,9 +3,9 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int choice[N, T];
-  real outcome[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int choice;
+  array[N, T] real outcome;
 }
 transformed data {
   vector[4] initV;
@@ -81,10 +81,10 @@ generated quantities {
   real<lower=0, upper=10> mu_lambda;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

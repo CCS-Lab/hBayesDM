@@ -1,16 +1,14 @@
-#include /pre/license.stan
-
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=-1, upper=2> choice[N, T];
-  real<lower=0, upper=1> opt1hprob[N, T];
-  real<lower=0, upper=1> opt2hprob[N, T];
-  real opt1hval[N, T];
-  real opt1lval[N, T];
-  real opt2hval[N, T];
-  real opt2lval[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int<lower=-1, upper=2> choice;
+  array[N, T] real<lower=0, upper=1> opt1hprob;
+  array[N, T] real<lower=0, upper=1> opt2hprob;
+  array[N, T] real opt1hval;
+  array[N, T] real opt1lval;
+  array[N, T] real opt2hval;
+  array[N, T] real opt2lval;
 }
 transformed data {
 }
@@ -69,20 +67,20 @@ model {
         if (opt1lval[i,t]>= 0) {
           U_opt[1]  = w_prob[1]*(opt1hval[i,t]^rho[i]) + w_prob[2]*(opt1lval[i,t]^rho[i]);
         } else {
-          U_opt[1] = w_prob[1]*(opt1hval[i,t]^rho[i]) - w_prob[2]*(fabs(opt1lval[i,t])^rho[i])*lambda[i];
+          U_opt[1] = w_prob[1]*(opt1hval[i,t]^rho[i]) - w_prob[2]*(abs(opt1lval[i,t])^rho[i])*lambda[i];
         }
       } else {
-        U_opt[1] = -w_prob[1]*(fabs(opt1hval[i,t])^rho[i])*lambda[i] - w_prob[2]*(fabs(opt1lval[i,t])^rho[i])*lambda[i];
+        U_opt[1] = -w_prob[1]*(abs(opt1hval[i,t])^rho[i])*lambda[i] - w_prob[2]*(abs(opt1lval[i,t])^rho[i])*lambda[i];
         }
 
       if (opt2hval[i,t] > 0) {
         if (opt2lval[i,t] >= 0) {
           U_opt[2]  = w_prob[3]*(opt2hval[i,t]^rho[i]) + w_prob[4]*(opt2lval[i,t]^rho[i]);
         } else {
-          U_opt[2] = w_prob[3]*(opt2hval[i,t]^rho[i]) - w_prob[4]*(fabs(opt2lval[i,t])^rho[i])*lambda[i];
+          U_opt[2] = w_prob[3]*(opt2hval[i,t]^rho[i]) - w_prob[4]*(abs(opt2lval[i,t])^rho[i])*lambda[i];
         }
       } else {
-        U_opt[2] = -w_prob[3]*(fabs(opt2hval[i,t])^rho[i])*lambda[i] -w_prob[4]*(fabs(opt2lval[i,t])^rho[i])*lambda[i];
+        U_opt[2] = -w_prob[3]*(abs(opt2hval[i,t])^rho[i])*lambda[i] -w_prob[4]*(abs(opt2lval[i,t])^rho[i])*lambda[i];
         }
       // compute action probabilities
       choice[i, t] ~ categorical_logit(U_opt*beta[i]);
@@ -95,9 +93,9 @@ generated quantities {
   real<lower = 0, upper = 2> mu_rho;
   real<lower = 0, upper = 5> mu_lambda;
   real<lower = 0, upper = 1> mu_beta;
-  real log_lik[N];
+  array[N] real log_lik;
   // For posterior predictive check
-  real y_pred[N,T];
+  array[N, T] real y_pred;
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {
     for (t in 1:T) {
@@ -127,20 +125,20 @@ generated quantities {
         if (opt1lval[i,t]>= 0) {
           U_opt[1]  = w_prob[1]*(opt1hval[i,t]^rho[i]) + w_prob[2]*(opt1lval[i,t]^rho[i]);
         } else {
-          U_opt[1] = w_prob[1]*(opt1hval[i,t]^rho[i]) - w_prob[2]*(fabs(opt1lval[i,t])^rho[i])*lambda[i];
+          U_opt[1] = w_prob[1]*(opt1hval[i,t]^rho[i]) - w_prob[2]*(abs(opt1lval[i,t])^rho[i])*lambda[i];
         }
       } else {
-        U_opt[1] = -w_prob[1]*(fabs(opt1hval[i,t])^rho[i])*lambda[i] - w_prob[2]*(fabs(opt1lval[i,t])^rho[i])*lambda[i];
+        U_opt[1] = -w_prob[1]*(abs(opt1hval[i,t])^rho[i])*lambda[i] - w_prob[2]*(abs(opt1lval[i,t])^rho[i])*lambda[i];
         }
 
       if (opt2hval[i,t] > 0) {
         if (opt2lval[i,t] >= 0) {
           U_opt[2]  = w_prob[3]*(opt2hval[i,t]^rho[i]) + w_prob[4]*(opt2lval[i,t]^rho[i]);
         } else {
-          U_opt[2] = w_prob[3]*(opt2hval[i,t]^rho[i]) - w_prob[4]*(fabs(opt2lval[i,t])^rho[i])*lambda[i];
+          U_opt[2] = w_prob[3]*(opt2hval[i,t]^rho[i]) - w_prob[4]*(abs(opt2lval[i,t])^rho[i])*lambda[i];
         }
       } else {
-        U_opt[2] = -w_prob[3]*(fabs(opt2hval[i,t])^rho[i])*lambda[i] -w_prob[4]*(fabs(opt2lval[i,t])^rho[i])*lambda[i];
+        U_opt[2] = -w_prob[3]*(abs(opt2hval[i,t])^rho[i])*lambda[i] -w_prob[4]*(abs(opt2lval[i,t])^rho[i])*lambda[i];
         }
 
       // compute action probabilities

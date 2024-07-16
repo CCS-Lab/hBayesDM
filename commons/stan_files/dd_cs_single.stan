@@ -2,11 +2,11 @@
 
 data {
   int<lower=1> Tsubj;
-  real<lower=0> delay_later[Tsubj];
-  real<lower=0> amount_later[Tsubj];
-  real<lower=0> delay_sooner[Tsubj];
-  real<lower=0> amount_sooner[Tsubj];
-  int<lower=-1, upper=1> choice[Tsubj]; // 0 for instant reward, 1 for delayed reward
+  array[Tsubj] real<lower=0> delay_later;
+  array[Tsubj] real<lower=0> amount_later;
+  array[Tsubj] real<lower=0> delay_sooner;
+  array[Tsubj] real<lower=0> amount_sooner;
+  array[Tsubj] int<lower=-1, upper=1> choice; // 0 for instant reward, 1 for delayed reward
 }
 
 transformed data {
@@ -19,8 +19,8 @@ parameters {
 }
 
 transformed parameters {
-  real ev_later[Tsubj];
-  real ev_sooner[Tsubj];
+  array[Tsubj] real ev_later;
+  array[Tsubj] real ev_sooner;
 
   for (t in 1:Tsubj) {
     ev_later[t] = amount_later[t] * exp(-1* (pow(r * delay_later[t], s)));
@@ -45,7 +45,7 @@ generated quantities {
   real log_lik;
 
   // For posterior predictive check
-  real y_pred[Tsubj];
+  array[Tsubj] real y_pred;
 
   logR = log(r);
 

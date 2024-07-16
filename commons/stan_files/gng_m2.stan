@@ -3,10 +3,10 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=1, upper=4> cue[N, T];
-  int<lower=-1, upper=1> pressed[N, T];
-  real outcome[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int<lower=1, upper=4> cue;
+  array[N, T] int<lower=-1, upper=1> pressed;
+  array[N, T] real outcome;
 }
 
 transformed data {
@@ -92,14 +92,14 @@ generated quantities {
   real<lower=0, upper=1> mu_ep;
   real mu_b;
   real<lower=0> mu_rho;
-  real log_lik[N];
-  real Qgo[N, T];
-  real Qnogo[N, T];
-  real Wgo[N, T];
-  real Wnogo[N, T];
+  array[N] real log_lik;
+  array[N, T] real Qgo;
+  array[N, T] real Qnogo;
+  array[N, T] real Wgo;
+  array[N, T] real Wnogo;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

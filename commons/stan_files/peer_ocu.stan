@@ -3,14 +3,14 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=0, upper=3> condition[N, T]; // 0: solo, 1: ss, 2: mix, 3: rr
-  real<lower=0, upper=1> p_gamble[N, T];
-  real safe_Hpayoff[N, T];
-  real safe_Lpayoff[N, T];
-  real risky_Hpayoff[N, T];
-  real risky_Lpayoff[N, T];
-  int<lower=-1, upper=1> choice[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int<lower=0, upper=3> condition; // 0: solo, 1: ss, 2: mix, 3: rr
+  array[N, T] real<lower=0, upper=1> p_gamble;
+  array[N, T] real safe_Hpayoff;
+  array[N, T] real safe_Lpayoff;
+  array[N, T] real risky_Hpayoff;
+  array[N, T] real risky_Lpayoff;
+  array[N, T] int<lower=-1, upper=1> choice;
 }
 
 transformed data {
@@ -71,10 +71,10 @@ generated quantities {
   real mu_ocu;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

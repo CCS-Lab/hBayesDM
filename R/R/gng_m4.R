@@ -1,8 +1,8 @@
 #' @templateVar MODEL_FUNCTION gng_m4
-#' @templateVar CONTRIBUTOR 
+#' @templateVar CONTRIBUTOR
 #' @templateVar TASK_NAME Orthogonalized Go/Nogo Task
 #' @templateVar TASK_CODE gng
-#' @templateVar TASK_CITE 
+#' @templateVar TASK_CITE
 #' @templateVar MODEL_NAME RW (rew/pun) + noise + bias + pi
 #' @templateVar MODEL_CODE m4
 #' @templateVar MODEL_CITE (Cavanagh et al., 2013)
@@ -17,7 +17,7 @@
 #' @templateVar DETAILS_DATA_3 \item{keyPressed}{Binary value representing the subject's response for that trial (where Press == 1; No press == 0).}
 #' @templateVar DETAILS_DATA_4 \item{outcome}{Ternary value representing the outcome of that trial (where Positive feedback == 1; Neutral feedback == 0; Negative feedback == -1).}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 0
-#' 
+#'
 #' @template model-documentation
 #'
 #' @export

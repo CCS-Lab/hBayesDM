@@ -9,10 +9,10 @@
 data {
   int<lower=1> N;                       // Number of subjects
   int<lower=1> T;                       // Maximum number of trials across subjects
-  int<lower=1, upper=T> Tsubj[N];       // Number of trials/blocks for each subject
+  array[N] int<lower=1, upper=T> Tsubj;       // Number of trials/blocks for each subject
 
-  int<lower=-1, upper=2> choice[N, T];  // The choices subjects made
-  real outcome[N, T];                   // The outcome
+  array[N, T] int<lower=-1, upper=2> choice;  // The choices subjects made
+  array[N, T] real outcome;                   // The outcome
 }
 
 transformed data {
@@ -97,19 +97,19 @@ generated quantities {
   real<lower=0, upper=10> mu_beta;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For model regressors
   //real mr_ev[N, T, 2];   // Expected value
-  real ev_c[N, T];    // Expected value of the chosen option
-  real ev_nc[N, T];   // Expected value of the non-chosen option
+  array[N, T] real ev_c;    // Expected value of the chosen option
+  array[N, T] real ev_nc;   // Expected value of the non-chosen option
 
   //real mr_ew[N, T, 2];   // Experience weight
-  real ew_c[N, T];    // Experience weight of the chosen option
-  real ew_nc[N, T];   // Experience weight of the non-chosen option
+  array[N, T] real ew_c;    // Experience weight of the chosen option
+  array[N, T] real ew_nc;   // Experience weight of the non-chosen option
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions, model regressors to 0 (avoids NULL values)
   for (i in 1:N) {
