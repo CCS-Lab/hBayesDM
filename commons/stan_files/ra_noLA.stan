@@ -3,11 +3,11 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  real<lower=0> gain[N, T];
-  real<lower=0> loss[N, T];  // absolute loss amount
-  real cert[N, T];
-  int<lower=-1, upper=1> gamble[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] real<lower=0> gain;
+  array[N, T] real<lower=0> loss;  // absolute loss amount
+  array[N, T] real cert;
+  array[N, T] int<lower=-1, upper=1> gamble;
 }
 
 transformed data {
@@ -57,10 +57,10 @@ generated quantities {
   real<lower=0, upper=2> mu_rho;
   real<lower=0, upper=30> mu_tau;
 
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

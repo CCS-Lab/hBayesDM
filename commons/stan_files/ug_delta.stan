@@ -3,9 +3,9 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  real offer[N, T];
-  int<lower=-1, upper=1> accept[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] real offer;
+  array[N, T] int<lower=-1, upper=1> accept;
 }
 
 transformed data {
@@ -25,9 +25,9 @@ parameters {
 
 transformed parameters {
   // Transform subject-level raw parameters
-  real<lower=0, upper=20> alpha[N];
-  real<lower=0, upper=10> tau[N];
-  real<lower=0, upper=1> ep[N];
+  array[N] real<lower=0, upper=20> alpha;
+  array[N] real<lower=0, upper=10> tau;
+  array[N] real<lower=0, upper=1> ep;
 
   for (i in 1:N) {
     alpha[i] = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr[i]) * 20;
@@ -79,10 +79,10 @@ generated quantities {
   real<lower=0, upper=1> mu_ep;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

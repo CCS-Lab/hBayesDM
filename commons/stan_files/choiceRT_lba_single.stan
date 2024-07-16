@@ -72,7 +72,7 @@ functions {
           if (RT[2, i] == j) {
             pdf = lba_pdf(t, b, A, v[j], s);
           } else {
-            cdf *= (1-lba_cdf(t, b, A, v[j], s));
+            cdf *= (1-lba_cdf(t | b, A, v[j], s));
           }
         }
         prob_neg = 1;
@@ -101,9 +101,9 @@ functions {
     vector[num_elements(v)] drift;
     int max_iter;
     int iter;
-    real start[num_elements(v)];
-    real ttf[num_elements(v)];
-    int resp[num_elements(v)];
+    array[num_elements(v)] real start;
+    array[num_elements(v)] real ttf;
+    array[num_elements(v)] int resp;
     real rt;
     vector[2] pred;
     real b;
@@ -143,7 +143,7 @@ functions {
       //if one is negative get the positive drift
       resp = sort_indices_asc(ttf);
       {
-        real temp_ttf[num_elements(v)];
+        array[num_elements(v)] real temp_ttf;
         temp_ttf = sort_asc(ttf);
         ttf = temp_ttf;
       }
@@ -164,16 +164,16 @@ functions {
 data {
   int N_choice;
   int N_cond;
-  int tr_cond[N_cond];
+  array[N_cond] int tr_cond;
   int max_tr;
-  matrix[2, max_tr] RT[N_cond];
+  array[N_cond] matrix[2, max_tr] RT;
 }
 
 parameters {
   real<lower=0> d;
   real<lower=0> A;
   real<lower=0> tau;
-  vector<lower=0>[N_choice] v[N_cond];
+  array[N_cond] vector<lower=0>[N_choice] v;
 }
 transformed parameters {
   real s;
@@ -209,7 +209,7 @@ generated quantities {
   real log_lik;
 
   // For posterior predictive check
-  matrix[2, max_tr] y_pred[N_cond];
+  array[N_cond] matrix[2, max_tr] y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (j in 1:N_cond) {

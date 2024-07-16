@@ -3,9 +3,9 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=1,upper=4> choice[N,T];
-  real<lower=1,upper=100> outcome[N,T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int<lower=1,upper=4> choice;
+  array[N, T] real<lower=1,upper=100> outcome;
 }
 
 transformed data {
@@ -104,8 +104,8 @@ generated quantities {
   real<lower=0,upper=100> mu_mu0;
   real<lower=0,upper=15> mu_s0;
   real<lower=0,upper=15> mu_sD;
-  real log_lik[N];
-  real y_pred[N,T];
+  array[N] real log_lik;
+  array[N, T] real y_pred;
 
   for (i in 1:N) {
     for (t in 1:T) {

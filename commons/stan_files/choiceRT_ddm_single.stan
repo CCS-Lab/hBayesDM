@@ -4,8 +4,8 @@
 data {
   int<lower=0> Nu; // of upper boundary responses
   int<lower=0> Nl; // of lower boundary responses
-  real RTu[Nu];    // upper boundary response times
-  real RTl[Nl];    // lower boundary response times
+  array[Nu] real RTu;    // upper boundary response times
+  array[Nl] real RTl;    // lower boundary response times
   real minRT;      // minimum RT of the observed data
   real RTbound;    // lower bound or RT (e.g., 0.1 second)
 }

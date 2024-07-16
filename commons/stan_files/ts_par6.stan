@@ -3,10 +3,10 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=1, upper=2> level1_choice[N,T];  // 1: left, 2: right
-  int<lower=1, upper=4> level2_choice[N,T];  // 1-4: 1/2: commonly associated with level1=1, 3/4: commonly associated with level1=2
-  int<lower=0, upper=1> reward[N,T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int<lower=1, upper=2> level1_choice;  // 1: left, 2: right
+  array[N, T] int<lower=1, upper=4> level2_choice;  // 1-4: 1/2: commonly associated with level1=1, 3/4: commonly associated with level1=2
+  array[N, T] int<lower=0, upper=1> reward;
   real<lower=0, upper=1> trans_prob;
 }
 transformed data {
@@ -123,11 +123,11 @@ generated quantities {
   real<lower=0,upper=1> mu_w;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred_step1[N,T];
-  real y_pred_step2[N,T];
+  array[N, T] real y_pred_step1;
+  array[N, T] real y_pred_step2;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

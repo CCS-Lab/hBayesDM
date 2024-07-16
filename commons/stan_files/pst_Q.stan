@@ -3,12 +3,12 @@
 data {
   int<lower=1> N;             // Number of subjects
   int<lower=1> T;             // Maximum # of trials
-  int<lower=1> Tsubj[N];      // # of trials for acquisition phase
+  array[N] int<lower=1> Tsubj;      // # of trials for acquisition phase
 
-  int<lower=-1,upper=6> option1[N, T];
-  int<lower=-1,upper=6> option2[N, T];
-  int<lower=-1,upper=1> choice[N, T];
-  real reward[N, T];
+  array[N,T] int<lower=-1,upper=6> option1;
+  array[N,T] int<lower=-1,upper=6> option2;
+  array[N,T] int<lower=-1,upper=1> choice;
+  array[N,T] real reward;
 }
 
 transformed data {
@@ -31,7 +31,7 @@ transformed parameters {
   vector<lower=0,upper=1>[N] alpha;
   vector<lower=0,upper=10>[N] beta;
 
-  alpha      = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr);
+  alpha     = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr);
   beta      = Phi_approx(mu_pr[2] + sigma[2] * beta_pr) * 10;
 }
 
@@ -73,7 +73,7 @@ generated quantities {
   real<lower=0,upper=10> mu_beta;
 
   // For log-likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   mu_alpha     = Phi_approx(mu_pr[1]);
   mu_beta      = Phi_approx(mu_pr[2]) * 10;

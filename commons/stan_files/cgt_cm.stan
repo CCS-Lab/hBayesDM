@@ -2,14 +2,14 @@ data {
   int<lower=1> N;                        // Number of subjects
   int<lower=1> T;                        // Max trials per subject
   int<lower=1> B;                        // Number of bet options
-  int<lower=1,upper=T> Tsubj[N];         // number of trials/subject
-  int<lower=0,upper=2> col_chosen[N,T];  // chosen color index
-  int<lower=0,upper=B> bet_chosen[N,T];  // chosen bet indexs
+  array[N] int<lower=1,upper=T> Tsubj;         // number of trials/subject
+  array[N, T] int<lower=0,upper=2> col_chosen;  // chosen color index
+  array[N, T] int<lower=0,upper=B> bet_chosen;  // chosen bet indexs
   vector[B] bet_delay;                   // vector of bet delays
-  real gain[N,T,B];                      // gain: (capital + capital * bet_prop)
-  real loss[N,T,B];                      // loss: (capital - capital * bet_prop)
-  real prop_red[N,T];                    // proportion of red boxes
-  real prop_chosen[N,T];                 // proportion of chosen boxes
+  array[N, T, B] real gain;                      // gain: (capital + capital * bet_prop)
+  array[N, T, B] real loss;                      // loss: (capital - capital * bet_prop)
+  array[N, T] real prop_red;                    // proportion of red boxes
+  array[N, T] real prop_chosen;                 // proportion of chosen boxes
 }
 
 parameters {
@@ -100,10 +100,10 @@ generated quantities {
   real<lower=0>         mu_beta;
 
   // Define log likelihood vector
-  real log_lik[N];
-  real y_hat_col[N,T];
-  real y_hat_bet[N,T];
-  real bet_utils[N,T,B];
+  array[N] real log_lik;
+  array[N, T] real y_hat_col;
+  array[N, T] real y_hat_bet;
+  array[N, T, B] real bet_utils;
 
   for (j in 1:N) {
     for (k in 1:T) {

@@ -3,11 +3,13 @@
 data {
   int<lower=1> N;                                       // number of subjects
   int<lower=1> T;                                       // max trial
-  int<lower=40, upper=T> Tsubj[N];                      // number of max trials per subject
+  array[N] int<lower=40, upper=T> Tsubj;                      // number of max trials per subject
 
-  int<lower=0, upper=4> choice[N, 4, T];                // subject's deck choice within a trial (1, 2, 3 and 4)
-  int<lower=-1, upper=1> outcome[N, T];                 // whether subject's choice is correct or not within a trial (1 and 0)
-  matrix<lower=0, upper=1>[1, 3] choice_match_att[N, T]; // indicates which dimension the chosen card matches to within a trial
+  array[N, 4, T] int<lower=0, upper=4> choice;                // subject's deck choice within a trial (1, 2, 3 and 4)
+  array[N, T] int<lower=-1, upper=1> outcome;                 // whether subject's choice is correct or not within a trial (1 and 0)
+  array[N, T] matrix<lower=0, upper=1>[1, 3] choice_match_att; // indicates which dimension the chosen card matches to within a trial
+  
+  // not sure how to revise this line 13 for cmdstan... by Young
   matrix<lower=0, upper=1>[3, 4] deck_match_rule[T];     // indicates which dimension(color, form, number) each of the 4 decks matches to within a trial
 }
 
@@ -106,10 +108,10 @@ generated quantities {
   real<lower=0, upper=5> mu_d;
 
   // for log-likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // for posterior predictive check
-  int y_pred[N, 4, T];
+  array[N, 4, T] int y_pred;
 
   // initiate the variable to avoid NULL values
   for (i in 1:N) {

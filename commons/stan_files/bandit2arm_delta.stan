@@ -3,9 +3,9 @@
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  int<lower=-1, upper=2> choice[N, T];
-  real outcome[N, T];  // no lower and upper bounds
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] int<lower=-1, upper=2> choice;
+  array[N, T] real outcome;  // no lower and upper bounds
 }
 transformed data {
   vector[2] initV;  // initial values for EV
@@ -65,10 +65,10 @@ generated quantities {
   real<lower=0, upper=5> mu_tau;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {
