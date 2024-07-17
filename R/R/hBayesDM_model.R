@@ -370,6 +370,13 @@ hBayesDM_model <- function(task_name,
       # stanmodel_arg <- rstan::stan_model(stanmodel_arg) # EH commented out
       stanmodel_arg <- cmdstanr::cmdstan_model(stanmodel_arg) # EH added
     }
+    ### EH added from here ###
+    if (inherits(stanmodel_arg, "cmdstan_model")) {
+      print("ALL IS WELL")
+    } else {
+      print(stan_model_arg)
+    }
+    ### EH added to here ###
 
     # Initial values for the parameters
     gen_init <- NULL
