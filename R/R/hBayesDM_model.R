@@ -497,14 +497,14 @@ hBayesDM_model <- function(task_name,
       #                                       stepsize      = stepsize,
       #                                       max_treedepth = max_treedepth))
       fit <- stanmodel_arg$sample(data = data_list, # EH added
-                                  variables = pars,
+                                  # variables = pars,
                                   init = gen_init,
                                   chains = nchain,
                                   iter_warmup = nwarmup,
                                   iter_sampling = niter - nwarmup,
                                   thin = nthin,
                                   adapt_delta = adapt_delta,
-                                  stepsize = stepsize,
+                                  step_size = stepsize,
                                   max_treedepth = max_treedepth,
                                   parallel_chains = ncore)
     }
