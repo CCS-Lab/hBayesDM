@@ -481,7 +481,7 @@ hBayesDM_model <- function(task_name,
       #                  pars   = pars,
       #                  init   = gen_init)
       fit <- stanmodel_arg$variational(data = data_list, # EH added
-                                       variables = pars,
+                                       # variables = pars,
                                        init = gen_init)
 
     } else {
@@ -535,7 +535,9 @@ hBayesDM_model <- function(task_name,
       allIndPars[n_subj, ] <- mapply(function(x) measure_indPars(parVals[[x]]), which_indPars)
     } else {
       for (i in 1:n_subj) {
-        allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), which_indPars)
+        # allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][i]), which_indPars) # EH commented out
+        which_indPars_subj <- paste0(which_indPars, "[", i, "]") # EH added
+        allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]]), which_indPars_subj) # EH added 
       }
     }
     allIndPars <- cbind(subjs, allIndPars)
