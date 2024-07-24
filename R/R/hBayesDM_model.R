@@ -358,12 +358,10 @@ hBayesDM_model <- function(task_name,
 
     # Designate the Stan model
     if (is.null(stanmodel_arg)) {
-      ### EH commented out from here ###
       if (FLAG_BUILD_ALL) {
         stanmodel_arg <- stanmodels[[model]]
         message("Using pre-built stanmodel")
       } else {
-      ### EH commented out to here ###
       model_path <- system.file("stan_files", paste0(model, ".stan"),
                                 package="hBayesDM")
       message("Model path: ", model_path)
@@ -377,6 +375,7 @@ hBayesDM_model <- function(task_name,
       message("Model path provided as string: ", stanmodel_arg)
       set_cmdstan_path()
       stanmodel_arg <- cmdstanr::cmdstan_model(stanmodel_arg) # EH added
+      }
     }
 
     # Initial values for the parameters
