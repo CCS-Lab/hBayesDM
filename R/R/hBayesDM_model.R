@@ -362,20 +362,18 @@ hBayesDM_model <- function(task_name,
         stanmodel_arg <- stanmodels[[model]]
         message("Using pre-built stanmodel")
       } else {
-      model_path <- system.file("stan_files", paste0(model, ".stan"),
-                                package="hBayesDM")
-      message("Model path: ", model_path)
-      # stanmodel_arg <- rstan::stan_model(model_path) # EH commented out
-      set_cmdstan_path()
-      stanmodel_arg <- cmdstanr::cmdstan_model(model_path) # EH added
-      message("Model compiled using cmdstan_model")
-      # } # EH commented out
+        model_path <- system.file("stan_files", paste0(model, ".stan"), package="hBayesDM")
+        message("Model path: ", model_path)
+        # stanmodel_arg <- rstan::stan_model(model_path) # EH commented out
+        set_cmdstan_path()
+        stanmodel_arg <- cmdstanr::cmdstan_model(model_path) # EH added
+        message("Model compiled using cmdstan_model")
+      }
     } else if (is.character(stanmodel_arg)) {
       # stanmodel_arg <- rstan::stan_model(stanmodel_arg) # EH commented out
       message("Model path provided as string: ", stanmodel_arg)
       set_cmdstan_path()
       stanmodel_arg <- cmdstanr::cmdstan_model(stanmodel_arg) # EH added
-      }
     }
 
     # Initial values for the parameters
