@@ -359,10 +359,10 @@ hBayesDM_model <- function(task_name,
     # Designate the Stan model
     if (is.null(stanmodel_arg)) {
       ### EH commented out from here ###
-      # if (FLAG_BUILD_ALL) {
-      #   stanmodel_arg <- stanmodels[[model]]
-      #   message("Using pre-built stanmodel")
-      # } else {
+      if (FLAG_BUILD_ALL) {
+        stanmodel_arg <- stanmodels[[model]]
+        message("Using pre-built stanmodel")
+      } else {
       ### EH commented out to here ###
       model_path <- system.file("stan_files", paste0(model, ".stan"),
                                 package="hBayesDM")
@@ -496,6 +496,19 @@ hBayesDM_model <- function(task_name,
       #                        control = list(adapt_delta   = adapt_delta,
       #                                       stepsize      = stepsize,
       #                                       max_treedepth = max_treedepth))
+      if (gen_init == "random"){
+        fit <- stanmodel_arg$sample(data = data_list, # EH added
+                                    # variables = pars,
+                                    # init = gen_init,
+                                    chains = nchain,
+                                    iter_warmup = nwarmup,
+                                    iter_sampling = niter - nwarmup,
+                                    thin = nthin,
+                                    adapt_delta = adapt_delta,
+                                    step_size = stepsize,
+                                    max_treedepth = max_treedepth,
+                                    parallel_chains = ncore)
+      } else{
       fit <- stanmodel_arg$sample(data = data_list, # EH added
                                   # variables = pars,
                                   init = gen_init,
