@@ -520,6 +520,7 @@ hBayesDM_model <- function(task_name,
                                   step_size = stepsize,
                                   max_treedepth = max_treedepth,
                                   parallel_chains = ncore)
+      }
     }
 
     # Extract from the Stan fit object
