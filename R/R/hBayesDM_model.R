@@ -493,7 +493,7 @@ hBayesDM_model <- function(task_name,
       #                        control = list(adapt_delta   = adapt_delta,
       #                                       stepsize      = stepsize,
       #                                       max_treedepth = max_treedepth))
-      if (gen_init == "random"){
+      if (is.character(gen_init)){ # when gen_init is "random"
         fit <- stanmodel_arg$sample(data = data_list, # EH added
                                     # variables = pars,
                                     # init = gen_init,
