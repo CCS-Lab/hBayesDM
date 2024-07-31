@@ -52,7 +52,7 @@ plotInd <- function(obj = NULL,
   }
   selected <- unlist(lapply(pars, select_parameter, parNames))
   
-  h1 = mcmc_areas(obj$fit$draws(), pars = selected, prob = prob, prob_outer = prob_outer) #JY edited 
+  h1 = mcmc_areas(obj$fit$draws(), pars = selected, prob = prob, prob_outer = prob_outer, ...) #JY edited 
   
   #   if (inherits(obj, "hBayesDM")) {
   #     h1 = rstan::stan_plot(obj$fit, pars, show_density = show_density, ...)
