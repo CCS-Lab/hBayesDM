@@ -20,43 +20,44 @@ plot.hBayesDM <- function(x        = NULL,   # hBayesDM model output object
                           fontSize = NULL,   # Defaults to 10
                           binSize  = NULL,   # Defaults to 30
                           ...) {
-
+  
   # Show a warning message if variational inference was used
   `%notin%` <- Negate(`%in%`)  # define %notin% --> opposite of %in%
-  summaryData <- rstan::summary(x$fit)
-  if ("Rhat" %notin% colnames(summaryData[["summary"]])) {   # if 'Rhat' does not exist
+  summaryData <- x$fit$summary() # rstan::summary(x$fit)  #JY edited
+  if ("rhat" %notin% colnames(summaryData)) {   # if 'rhat' does not exist # if ("Rhat" %notin% colnames(summaryData[["summary"]])) {   # if 'Rhat' does not exist # JY edited
     cat("\n************************************************************************\n")
     cat("Variational inference was used to approximate posterior distributions!!\n")
     cat("For final inferences, we strongly recommend using MCMC sampling.\n")
     cat("************************************************************************\n")
   }
-
+  
   # Find the number of parameters for the model (lba can have multiple drift rates)
   if (grepl(pattern = "lba", x = x$model)) {
     numPars <- 4
   } else {
     numPars <- dim(x$allIndPars)[2] - 1
   }
-
+  
   # Find names of parameters for model
-  parNames <- names(x$parVals)[1:numPars]
-
+  parNames <- paste0("mu_", colnames(x$allIndPars)[-1]) # names(x$parVals)[1:numPars] # JY edited
+  draws <- x$fit$draws() # JY added
+  
   if (type == "dist") {
     # Source functions containing model plotting functions
     source(file = system.file("plotting", "plot_functions.R", package = "hBayesDM"),
            local = T)
-
+    
     # Calling function for respective model
     eval(parse(text = paste0("plot_", x$model, "(obj = x",
                              ", fontSize = ", fontSize,
                              ", ncols = ", ncols,
                              ", binSize = ", binSize, ")")))
     invisible()
-
+    
   } else if (type == "trace") {
-    rstan::traceplot(x$fit, pars = paste0(parNames), ncol = ncols, ...)
-
+    mcmc_trace(draws, pars = parNames, facet_args = list(ncol = ncols), ...) # rstan::traceplot(x$fit, pars = paste0(parNames), ncol = ncols, ...) # JY edited
+    
   } else if (type == "simple") {
-    rstan::plot(x$fit, pars = paste0(parNames), ...)
+    mcmc_intervals(draws, pars = parNames, ...) # rstan::plot(x$fit, pars = paste0(parNames), ...) # JY edited
   }
 }
