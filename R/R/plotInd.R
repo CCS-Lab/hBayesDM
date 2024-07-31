@@ -30,7 +30,10 @@
 
 plotInd <- function(obj = NULL,
                     pars,
-                    show_density = T, ...) {
+                    # show_density = T, 
+                    prob = 0.80, # JY added (default setting of stan_plot: ci_level = 80%)
+                    prob_outer = 0.95, # JY added (default setting of stan_plot: outer_level = 95%)
+                    ...) {
   # uses 'stan_plot' from the rstan pacakge
   # class of the object --> should be 'hBayesDM'
   
@@ -49,7 +52,7 @@ plotInd <- function(obj = NULL,
   }
   selected <- unlist(lapply(pars, select_parameter, parNames))
   
-  h1 = mcmc_areas(obj$fit$draws(), pars = selected) #JY edited 
+  h1 = mcmc_areas(obj$fit$draws(), pars = selected, prob = prob, prob_outer = prob_outer) #JY edited 
   
   #   if (inherits(obj, "hBayesDM")) {
   #     h1 = rstan::stan_plot(obj$fit, pars, show_density = show_density, ...)
