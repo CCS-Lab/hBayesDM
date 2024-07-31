@@ -33,14 +33,29 @@ plotInd <- function(obj = NULL,
                     show_density = T, ...) {
   # uses 'stan_plot' from the rstan pacakge
   # class of the object --> should be 'hBayesDM'
-
+  
   # To pass R CMD Checks (serves no other purpose than to create binding)
   ..density.. <- NULL
-
-  if (inherits(obj, "hBayesDM")) {
-    h1 = rstan::stan_plot(obj$fit, pars, show_density = show_density, ...)
-  } else {
-    stop(paste0("\n\nThe class of the object (first argument) should be hBayesDM! \n"))
+  
+  parNames <- names(obj$parVals) #JY added 
+  
+  select_parameter <- function(pars, parNames) { #JY added 
+    if (grepl("\\[", pars)){ 
+      c(pars)}
+    
+    else{
+      c(parNames[grepl(paste0("^", pars), parNames) & !grepl(paste0("^", pars, "_pr"), parNames)])
+    } 
   }
+  selected <- unlist(lapply(pars, select_parameter, parNames))
+  
+  h1 = mcmc_areas(obj$fit$draws(), pars = selected) #JY edited 
+  
+  #   if (inherits(obj, "hBayesDM")) {
+  #     h1 = rstan::stan_plot(obj$fit, pars, show_density = show_density, ...)
+  #   } else {
+  #     stop(paste0("\n\nThe class of the object (first argument) should be hBayesDM! \n"))
+  #   }
+  
   return(h1)
 }
