@@ -35,7 +35,7 @@ plotInd <- function(obj = NULL,
   # class of the object --> should be 'hBayesDM'
   
   # To pass R CMD Checks (serves no other purpose than to create binding)
-  ..density.. <- NULL
+  # ..density.. <- NULL # JY edited (mcmc_acrea doesn't need this line)
   
   parNames <- names(obj$parVals) #JY added 
   
