@@ -518,7 +518,31 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
 
 
 def hgf_binary_binary_preprocess_func(self, raw_data, general_info, additional_args):
-    return {} # TODO
+    # Extract from raw_data
+    subjIDs = raw_data["subjID"]
+    trialNums = raw_data["trialNum"]
+    inputs = raw_data["inputs"]
+    responses = raw_data["responses"]
+
+    N = len(set(subjIDs))
+    L = 3  # TODO: L >= 3
+    T = max(trialNums)
+    data_length = len(raw_data)
+
+    # Wrap into a dict for pystan
+    data_list = {
+        "N": N,
+        "T": T,
+        "L": L,
+        "data_length": data_length,
+        "subject_ids": subjIDs,
+        "valid_trials": trialNums, # TODO: remove NaN if needed
+        "inputs": inputs,
+        "responses": responses,
+    }
+
+    # Returned data_dict will directly be passed to pystan
+    return data_list
 
 
 def igt_preprocess_func(self, raw_data, general_info, additional_args):

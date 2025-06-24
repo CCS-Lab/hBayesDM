@@ -499,7 +499,31 @@ gng_preprocess_func <- function(raw_data, general_info) {
 }
 
 hgf_binary_binary_preprocess_func <- function(raw_data, general_info) {
-  return(list()) # TODO
+  # Extract from raw_data
+  subjIDs   <- raw_data$subjID
+  trialNums <- raw_data$trialNum
+  inputs    <- raw_data$inputs
+  responses <- raw_data$responses
+
+  N <- length(unique(subjIDs))
+  L <- 3 # TODO: L >= 3
+  T <- max(trialNums)
+  data_length <- nrow(raw_data)
+
+  # Wrap into a list for Stan
+  data_list <- list(
+    N=N,
+    T=T,
+    L=L,
+    data_length=data_length,
+    subject_ids=subjIDs,
+    valid_trials=trialNums, # TODO: remove NaN if needed
+    inputs=inputs,
+    responses=responses
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
 }
 
 igt_preprocess_func <- function(raw_data, general_info, payscale = 100) {
