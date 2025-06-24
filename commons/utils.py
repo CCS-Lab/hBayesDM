@@ -28,3 +28,6 @@ def preprocess_func_prefix(info):
     if model_type_code:
         preprocess_func_prefix.append(model_type_code)
     return '_'.join(preprocess_func_prefix)
+
+def extract_or_empty_string(info, key, subkey):
+    return info[key][subkey] if info[key][subkey] is not None else ""

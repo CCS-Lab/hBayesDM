@@ -18,7 +18,7 @@ try:
 except ImportError:
     from yaml import Dumper, Loader
 
-from utils import model_info, preprocess_func_prefix
+from utils import model_info, preprocess_func_prefix, extract_or_empty_string
 
 def represent_none(self, _):
     return self.represent_scalar('tag:yaml.org,2002:null', '')
@@ -207,13 +207,13 @@ def generate_docs(info):
 
     docs = docs_template % dict(
         model_function=model_function,
-        task_name=info['task_name']['desc'],
-        task_code=info['task_name']['code'],
+        task_name=extract_or_empty_string(info, 'task_name', 'desc'),
+        task_code=extract_or_empty_string(info, 'task_name', 'code'),
         task_parencite=task_parencite,
-        model_name=info['model_name']['desc'],
-        model_code=info['model_name']['code'],
+        model_name=extract_or_empty_string(info, 'model_name', 'desc'),
+        model_code=extract_or_empty_string(info, 'model_name', 'code'),
         model_parencite=model_parencite,
-        model_type=info['model_type']['desc'],
+        model_type=extract_or_empty_string(info, 'model_type', 'desc'),
         notes=notes,
         contributor=contributors,
         data_columns=data_columns,
@@ -278,8 +278,8 @@ def generate_code(info):
 
     code = code_template % dict(
         model_function=model_function,
-        task_code=info['task_name']['code'],
-        model_code=info['model_name']['code'],
+        task_code=extract_or_empty_string(info, 'task_name', 'code'),
+        model_code=extract_or_empty_string(info, 'model_name', 'code'),
         model_type=model_type_code,
         data_columns=data_columns,
         parameters=parameters,
