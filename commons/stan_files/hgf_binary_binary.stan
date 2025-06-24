@@ -90,10 +90,10 @@ parameters {
   matrix<lower=0, upper=x_sigma_upper>[N, L-1] x_sigma;
 
   // Group level
-  real logit_kappa_mu;
-  real logit_omega_mu;
-  real logit_theta_mu;
-  real logit_zeta_mu;
+  real logit_mu_kappa;
+  real logit_mu_omega;
+  real logit_mu_theta;
+  real logit_mu_zeta;
 
   real<lower=0, upper=logit_parameter_sigma_upper> logit_kappa_sigma;
   real<lower=0, upper=logit_parameter_sigma_upper> logit_omega_sigma;
@@ -109,23 +109,23 @@ parameters {
 
 transformed parameters {
   // non-centered parameterization
-  vector[N] logit_kappa = logit_kappa_mu + logit_kappa_sigma * logit_kappa_raw;
-  vector[N] logit_omega = logit_omega_mu + logit_omega_sigma * logit_omega_raw;
-  vector[N] logit_theta = logit_theta_mu + logit_theta_sigma * logit_theta_raw;
-  vector[N] logit_zeta = logit_zeta_mu + logit_zeta_sigma * logit_zeta_raw;
+  vector[N] logit_kappa = logit_mu_kappa + logit_kappa_sigma * logit_kappa_raw;
+  vector[N] logit_omega = logit_mu_omega + logit_omega_sigma * logit_omega_raw;
+  vector[N] logit_theta = logit_mu_theta + logit_theta_sigma * logit_theta_raw;
+  vector[N] logit_zeta = logit_mu_zeta + logit_zeta_sigma * logit_zeta_raw;
 
   // Perception model
   vector[N] kappa;
   vector[N] omega;
   vector[N] theta;
 
-  real<lower=0, upper=kappa_upper> kappa_mu = inv_logit_with_bounds(logit_kappa_mu, 0, kappa_upper);
+  real<lower=0, upper=kappa_upper> mu_kappa = inv_logit_with_bounds(logit_mu_kappa, 0, kappa_upper);
   kappa = inv_logit_with_bounds_vector(logit_kappa, 0, kappa_upper);
 
-  real<lower=-omega_bounds, upper=omega_bounds> omega_mu = inv_logit_with_bounds(logit_omega_mu, -omega_bounds, omega_bounds);
+  real<lower=-omega_bounds, upper=omega_bounds> mu_omega = inv_logit_with_bounds(logit_mu_omega, -omega_bounds, omega_bounds);
   omega = inv_logit_with_bounds_vector(logit_omega, -omega_bounds, omega_bounds);
 
-  real<lower=0, upper=theta_upper> theta_mu = inv_logit_with_bounds(logit_theta_mu, 0, theta_upper);
+  real<lower=0, upper=theta_upper> mu_theta = inv_logit_with_bounds(logit_mu_theta, 0, theta_upper);
   theta = inv_logit_with_bounds_vector(logit_theta, 0, theta_upper);
 
   // Gaussian random walk with non-centered parameterization
@@ -147,8 +147,8 @@ transformed parameters {
   }
 
   // Response model
-  real<lower=0, upper=zeta_upper> zeta_mu;
-  zeta_mu = inv_logit_with_bounds(logit_zeta_mu, 0, zeta_upper);
+  real<lower=0, upper=zeta_upper> mu_zeta;
+  mu_zeta = inv_logit_with_bounds(logit_mu_zeta, 0, zeta_upper);
   vector[N] zeta;
   zeta = inv_logit_with_bounds_vector(logit_zeta, 0, zeta_upper);
 }
@@ -159,10 +159,10 @@ model {
   to_vector(x_sigma)    ~ normal(x_sigma_upper/2, 1);
 
   // Group level
-  logit_kappa_mu        ~ normal(0, 1);
-  logit_omega_mu        ~ normal(0, 1);
-  logit_theta_mu        ~ normal(0, 1);
-  logit_zeta_mu         ~ normal(0, 1);
+  logit_mu_kappa        ~ normal(0, 1);
+  logit_mu_omega        ~ normal(0, 1);
+  logit_mu_theta        ~ normal(0, 1);
+  logit_mu_zeta         ~ normal(0, 1);
 
   logit_kappa_sigma     ~ normal(logit_parameter_sigma_upper/2, 1);
   logit_omega_sigma     ~ normal(logit_parameter_sigma_upper/2, 1);
