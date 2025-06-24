@@ -517,6 +517,10 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
     return data_dict
 
 
+def hgf_binary_binary_preprocess_func(self, raw_data, general_info, additional_args):
+    return {} # TODO
+
+
 def igt_preprocess_func(self, raw_data, general_info, additional_args):
     # Iterate through grouped_data
     subj_group = iter(general_info['grouped_data'])

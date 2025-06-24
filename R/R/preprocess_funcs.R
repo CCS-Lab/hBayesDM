@@ -498,6 +498,10 @@ gng_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
+hgf_binary_binary_preprocess_func <- function(raw_data, general_info) {
+  return(list()) # TODO
+}
+
 igt_preprocess_func <- function(raw_data, general_info, payscale = 100) {
   # Currently class(raw_data) == "data.table"
 
