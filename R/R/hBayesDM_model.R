@@ -151,6 +151,8 @@ hBayesDM_model <- function(task_name = "",
         model_meta <- c()
         if (task_name != "") {
           model_meta <- c(model_meta, task_name)
+        } else {
+          model_meta <- c(model_meta, model_name)
         }
         if (model_type != "") {
           model_meta <- c(model_meta, model_type)

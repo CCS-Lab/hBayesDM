@@ -20,11 +20,14 @@ def model_info(info):
 # Prefix to preprocess_func
 def preprocess_func_prefix(info):
     task_name_code = info.get('task_name', {}).get('code')
+    model_name_code = info.get('model_name', {}).get('code')
     model_type_code = info.get('model_type', {}).get('code')
 
     preprocess_func_prefix = []
     if task_name_code:
         preprocess_func_prefix.append(task_name_code)
+    else:
+        preprocess_func_prefix.append(model_name_code)
     if model_type_code:
         preprocess_func_prefix.append(model_type_code)
     return '_'.join(preprocess_func_prefix)
