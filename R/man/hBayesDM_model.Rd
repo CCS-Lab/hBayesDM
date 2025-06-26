@@ -5,7 +5,7 @@
 \title{hBayesDM Model Base Function}
 \usage{
 hBayesDM_model(
-  task_name,
+  task_name = "",
   model_name,
   model_type = "",
   data_columns,
