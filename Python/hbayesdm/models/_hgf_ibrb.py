@@ -5,16 +5,16 @@ from numpy import Inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
-from hbayesdm.preprocess_funcs import hgf_binary_binary_preprocess_func
+from hbayesdm.preprocess_funcs import hgf_ibrb_preprocess_func
 
-__all__ = ['hgf_binary_binary']
+__all__ = ['hgf_ibrb']
 
 
-class HgfBinaryBinary(TaskModel):
+class HgfIbrb(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
             task_name='',
-            model_name='hgf_binary_binary',
+            model_name='hgf_ibrb',
             model_type='',
             data_columns=(
                 'subjID',
@@ -49,10 +49,10 @@ class HgfBinaryBinary(TaskModel):
             **kwargs,
         )
 
-    _preprocess_func = hgf_binary_binary_preprocess_func
+    _preprocess_func = hgf_ibrb_preprocess_func
 
 
-def hgf_binary_binary(
+def hgf_ibrb(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -68,10 +68,10 @@ def hgf_binary_binary(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """ - Hierarchical Bayesian Hierarchical Gaussian Filter for binary inputs and binary responses
+    """ - Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses
 
     Hierarchical Bayesian Modeling of the  
-    using Hierarchical Bayesian Hierarchical Gaussian Filter for binary inputs and binary responses [Mathys_C2011]_, [Mathys_CD2014]_ with the following parameters:
+    using Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses [Mathys_C2011]_, [Mathys_CD2014]_ with the following parameters:
     "kappa" (phasic volatility for coupling with higher level (for each levels from 2 to L-1)), "omega" (tonic volatility (for each levels from 2 to L-1)), "vartheta" (constant volatility (at the highest level L)), "zeta" (tendency to choose the response that corresponds with one\'s current belief).
 
     
@@ -202,7 +202,7 @@ def hgf_binary_binary(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('hgf_binary_binary').
+        - ``model``: String value that is the name of the model ('hgf_ibrb').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -217,10 +217,10 @@ def hgf_binary_binary(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import hgf_binary_binary
+        from hbayesdm.models import hgf_ibrb
 
         # Run the model and store results in "output"
-        output = hgf_binary_binary(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = hgf_ibrb(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -234,7 +234,7 @@ def hgf_binary_binary(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return HgfBinaryBinary(
+    return HgfIbrb(
         data=data,
         niter=niter,
         nwarmup=nwarmup,

@@ -3,8 +3,8 @@ task_name:
   desc:
   cite:
 model_name:
-  code: hgf_binary_binary
-  desc: Hierarchical Bayesian Hierarchical Gaussian Filter for binary inputs and binary responses
+  code: hgf_ibrb
+  desc: Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses
   cite:
   - "Mathys C, Daunizeau J, Friston KJ and Stephan KE (2011) A Bayesian foundation for individual learning under uncertainty. 
     Front. Hum. Neurosci. 5:39. https://doi.org/10.3389/fnhum.2011.00039"

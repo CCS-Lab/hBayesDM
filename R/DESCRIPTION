@@ -90,7 +90,7 @@ Collate:
     'gng_m3.R'
     'gng_m4.R'
     'hBayesDM.R'
-    'hgf_binary_binary.R'
+    'hgf_ibrb.R'
     'igt_orl.R'
     'igt_pvl_decay.R'
     'igt_pvl_delta.R'

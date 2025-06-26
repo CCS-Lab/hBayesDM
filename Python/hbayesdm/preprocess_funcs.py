@@ -517,7 +517,7 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
     return data_dict
 
 
-def hgf_binary_binary_preprocess_func(self, raw_data, general_info, additional_args):
+def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
     # Extract from raw_data
     subjIDs = raw_data["subjID"]
     trialNums = raw_data["trialNum"]

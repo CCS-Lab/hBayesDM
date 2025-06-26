@@ -1,10 +1,10 @@
-#' @templateVar MODEL_FUNCTION hgf_binary_binary
+#' @templateVar MODEL_FUNCTION hgf_ibrb
 #' @templateVar CONTRIBUTOR \href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@@gmail.com}>
 #' @templateVar TASK_NAME 
 #' @templateVar TASK_CODE 
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME Hierarchical Bayesian Hierarchical Gaussian Filter for binary inputs and binary responses
-#' @templateVar MODEL_CODE hgf_binary_binary
+#' @templateVar MODEL_NAME Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses
+#' @templateVar MODEL_CODE hgf_ibrb
 #' @templateVar MODEL_CITE (Mathys C, 2011; Mathys CD et al., 2014)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "trialNum", "inputs", "responses"
@@ -37,9 +37,9 @@
 #'
 
 
-hgf_binary_binary <- hBayesDM_model(
+hgf_ibrb <- hBayesDM_model(
   task_name       = "",
-  model_name      = "hgf_binary_binary",
+  model_name      = "hgf_ibrb",
   model_type      = "",
   data_columns    = c("subjID", "trialNum", "inputs", "responses"),
   parameters      = list(
@@ -50,4 +50,4 @@ hgf_binary_binary <- hBayesDM_model(
   ),
   regressors      = NULL,
   postpreds       = NULL,
-  preprocess_func = hgf_binary_binary_preprocess_func)
+  preprocess_func = hgf_ibrb_preprocess_func)

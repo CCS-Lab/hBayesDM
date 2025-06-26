@@ -1,10 +1,10 @@
 import pytest
 
-from hbayesdm.models import hgf_binary_binary
+from hbayesdm.models import hgf_ibrb
 
 
-def test_hgf_binary_binary():
-    _ = hgf_binary_binary(
+def test_hgf_ibrb():
+    _ = hgf_ibrb(
         data="example", niter=10, nwarmup=5, nchain=1, ncore=1)
 
 
