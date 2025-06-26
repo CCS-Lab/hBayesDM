@@ -17,6 +17,7 @@ try:
 except ImportError:
     from yaml import Loader, Dumper
 
+from utils import model_info, preprocess_func_prefix
 
 def represent_none(self, _):
     return self.represent_scalar('tag:yaml.org,2002:null', '')
@@ -109,7 +110,6 @@ def message_additional_args(additional_args):
     else:
         return 'Not used for this model.'
 
-
 def main(info_fn):
     # Check if file exists
     if not info_fn.exists():
@@ -119,25 +119,13 @@ def main(info_fn):
     # Load model information
     with open(info_fn, 'r') as f:
         info = ordered_load(f, Loader=Loader)
-
-    # Model full name (Snake-case)
-    model_function = [info['task_name']['code'], info['model_name']['code']]
-    if info['model_type']['code']:
-        model_function.append(info['model_type']['code'])
-    model_function = '_'.join(model_function)
+    
+    model_function, task_name_code, _, model_type_code = model_info(info)
 
     # Model class name (Pascal-case)
     class_name = model_function.title().replace('_', '')
 
-    # Prefix to preprocess_func
-    prefix_preprocess_func = info['task_name']['code']
-    if info['model_type']['code']:
-        prefix_preprocess_func += '_' + info['model_type']['code']
-
-    # Model type code
-    model_type_code = info['model_type'].get('code')
-    if model_type_code is None:
-        model_type_code = ''
+    prefix_preprocess_func = preprocess_func_prefix(info)
 
     # Preprocess citations
     def shortify(cite: str) -> str:
@@ -157,12 +145,16 @@ def main(info_fn):
             (shortify(cite), cite) for cite in info['model_name']['cite'])
     else:
         model_cite = {}
+    
+    task_name_desc = info.get('task_name', {}).get('desc')
+    model_name_desc = info.get('model_name', {}).get('desc')
+    model_type_desc = info.get('model_type', {}).get('desc')
 
     # Read template for docstring
     with open(TEMPLATE_DOCS, 'r') as f:
         docstring_template = f.read().format(
             model_function=model_function,
-            task_name=info['task_name']['desc'],
+            task_name=task_name_desc if task_name_desc is not None else "",
             task_cite_short=format_list(
                 task_cite,
                 fmt='[{}]_',
@@ -171,7 +163,7 @@ def main(info_fn):
                 task_cite,
                 fmt='.. [{}] {}',
                 sep='\n    '),
-            model_name=info['model_name']['desc'],
+            model_name=model_name_desc if model_name_desc is not None else "",
             model_cite_short=format_list(
                 model_cite,
                 fmt='[{}]_',
@@ -181,7 +173,7 @@ def main(info_fn):
                             if k not in task_cite),
                 fmt='.. [{}] {}',
                 sep='\n    '),
-            model_type=info['model_type']['desc'],
+            model_type=model_type_desc if model_type_desc is not None else "",
             notes=format_list(
                 info.get('notes') if info.get('notes') else [],
                 fmt='.. note::\n        {}',
@@ -221,7 +213,7 @@ def main(info_fn):
             model_function=model_function,
             class_name=class_name,
             prefix_preprocess_func=prefix_preprocess_func,
-            task_name=info['task_name']['code'],
+            task_name=task_name_code if task_name_code is not None else "",
             model_name=info['model_name']['code'],
             model_type=model_type_code,
             data_columns=format_list(
@@ -284,13 +276,7 @@ def generate_init(info_fns):
         with open(info_fn, 'r') as f:
             info = ordered_load(f, Loader=Loader)
 
-        # Model full name (Snake-case)
-        model_function = [info['task_name']['code'],
-                          info['model_name']['code']]
-        if info['model_type']['code']:
-            model_function.append(info['model_type']['code'])
-        model_function = '_'.join(model_function)
-
+        model_function, _, _, _ = model_info(info)
         mfs.append(model_function)
 
     lines = []

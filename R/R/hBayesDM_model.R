@@ -102,7 +102,7 @@
 #'
 #' @return A specific hBayesDM model function.
 
-hBayesDM_model <- function(task_name,
+hBayesDM_model <- function(task_name = "",
                            model_name,
                            model_type = "",
                            data_columns,
@@ -148,10 +148,20 @@ hBayesDM_model <- function(task_name,
     } else if (length(data) == 1 && is.character(data)) {
       # Set
       if (data == "example") {
-        example_data <-
-          ifelse(model_type == "",
-                 paste0(task_name, "_", "exampleData.txt"),
-                 paste0(task_name, "_", model_type, "_", "exampleData.txt"))
+        model_meta <- c()
+        if (task_name != "") {
+          model_meta <- c(model_meta, task_name)
+        } else {
+          model_meta <- c(model_meta, model_name)
+        }
+        if (model_type != "") {
+          model_meta <- c(model_meta, model_type)
+        }
+        if (length(model_meta) == 0) {
+          stop("invalid model configuration")
+        }
+        example_data <- paste0(paste(model_meta, collapse = "_"), "_exampleData.txt")
+
         datafile <- system.file("extdata", example_data, package = "hBayesDM")
 
         if (!file.exists(datafile)) {
@@ -282,11 +292,20 @@ hBayesDM_model <- function(task_name,
     }
 
     # Full name of model
-    if (model_type == "") {
-      model <- paste0(task_name, "_", model_name)
-    } else {
-      model <- paste0(task_name, "_", model_name, "_", model_type)
+    model_meta <- c()
+    if (task_name != "") {
+      model_meta <- c(model_meta, task_name)
     }
+    if (model_name != "") {
+      model_meta <- c(model_meta, model_name)
+    }
+    if (model_type != "") {
+      model_meta <- c(model_meta, model_type)
+    }
+    if (length(model_meta) == 0) {
+      stop("invalid model configuration")
+    }
+    model <- paste(model_meta, collapse = "_")
 
     # Set number of cores for parallel computing
     if (ncore <= 1) {
