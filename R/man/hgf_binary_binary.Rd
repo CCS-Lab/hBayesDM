@@ -66,7 +66,18 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
-\item{...}{For this model, there is no model-specific argument.}
+\item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
+\describe{
+  \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
+  \item{kappa_upper}{Upper bound for kappa parameters. Defaults to 2}
+  \item{omega_upper}{Upper bound for omega parameters. Defaults to 5}
+  \item{omega_lower}{Lower bound for omega parameters. Defaults to -5}
+  \item{theta_upper}{Upper bound for theta parameter. Defaults to 2}
+  \item{zeta_upper}{Upper bound for zeta parameter. Defaults to 3}
+  
+  
+  
+}}
 }
 \value{
 A class "hBayesDM" object \code{modelData} with the following components:

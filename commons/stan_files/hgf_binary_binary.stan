@@ -31,6 +31,12 @@ data {
   array[data_length] int<lower=1, upper=T> valid_trials; // valid trial numbers for each subject. (must be in ascending order)
   array[data_length] int<lower=0, upper=1> inputs;       // u. trial-by-trial binary sensory input (0 = orange, 1 = blue)
   array[data_length] int<lower=0, upper=1> responses;    // y. trial-by-trial binary response (0 = orange, 1 = blue)
+
+  real kappa_upper;
+  real omega_upper;
+  real omega_lower;
+  real theta_upper;
+  real zeta_upper;
 }
 
 transformed data {
@@ -78,10 +84,6 @@ transformed data {
   }
   real logit_parameter_sigma_upper = 3.0;
   real x_sigma_upper = 10.0;
-  real kappa_upper = 2.0;
-  real omega_bounds = 5.0;
-  real theta_upper = 2.0;
-  real zeta_upper = 3.0;
 }
 
 parameters {
@@ -122,7 +124,7 @@ transformed parameters {
 
   // Perception model
   vector<lower=0, upper=kappa_upper>[L-2] mu_kappa;
-  vector<lower=-omega_bounds, upper=omega_bounds>[L-2] mu_omega;
+  vector<lower=omega_lower, upper=omega_upper>[L-2] mu_omega;
   real<lower=0, upper=theta_upper> mu_theta;
   
   matrix[N, L-2] kappa;
@@ -130,12 +132,12 @@ transformed parameters {
   vector[N] theta;
 
   mu_kappa = inv_logit_with_bounds_vector(logit_mu_kappa, 0, kappa_upper);
-  mu_omega = inv_logit_with_bounds_vector(logit_mu_omega, -omega_bounds, omega_bounds);
+  mu_omega = inv_logit_with_bounds_vector(logit_mu_omega, omega_lower, omega_upper);
   mu_theta = inv_logit_with_bounds(logit_mu_theta, 0, theta_upper);
   for (n in 1:N) {
     for (l in 1:(L-2)) {
       kappa[n, l] = inv_logit_with_bounds(logit_kappa[n, l], 0, kappa_upper);
-      omega[n, l] = inv_logit_with_bounds(logit_omega[n, l], -omega_bounds, omega_bounds);
+      omega[n, l] = inv_logit_with_bounds(logit_omega[n, l], omega_lower, omega_upper);
     }
   }
   theta = inv_logit_with_bounds_vector(logit_theta, 0, theta_upper);

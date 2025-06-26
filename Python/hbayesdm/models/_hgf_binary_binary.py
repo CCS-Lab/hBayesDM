@@ -23,10 +23,10 @@ class HgfBinaryBinary(TaskModel):
                 'responses',
             ),
             parameters=OrderedDict([
-                ('kappa', (0, 0, 2)),
-                ('omega', (-5, 0, 5)),
-                ('vartheta', (0, 1, 2)),
-                ('zeta', (0, 1, 3)),
+                ('kappa', (0, 0, Inf)),
+                ('omega', (-Inf, 0, Inf)),
+                ('vartheta', (0, 1, Inf)),
+                ('zeta', (0, 1, Inf)),
             ]),
             regressors=OrderedDict([
                 
@@ -40,6 +40,11 @@ class HgfBinaryBinary(TaskModel):
             ]),
             additional_args_desc=OrderedDict([
                 ('L', 3),
+                ('kappa_upper', 2),
+                ('omega_upper', 5),
+                ('omega_lower', -5),
+                ('theta_upper', 2),
+                ('zeta_upper', 3),
             ]),
             **kwargs,
         )
@@ -186,6 +191,11 @@ def hgf_binary_binary(
         For this model, it's possible to set the following model-specific argument to a value that you may prefer.
 
         - ``L``: Total level of hierarchy. Defaults to minimum level of 3
+        - ``kappa_upper``: Upper bound for kappa parameters. Defaults to 2
+        - ``omega_upper``: Upper bound for omega parameters. Defaults to 5
+        - ``omega_lower``: Lower bound for omega parameters. Defaults to -5
+        - ``theta_upper``: Upper bound for theta parameter. Defaults to 2
+        - ``zeta_upper``: Upper bound for zeta parameter. Defaults to 3
 
     Returns
     -------

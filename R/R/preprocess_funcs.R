@@ -498,7 +498,7 @@ gng_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-hgf_binary_binary_preprocess_func <- function(raw_data, general_info, L = 3) {
+hgf_binary_binary_preprocess_func <- function(raw_data, general_info, L = 3, kappa_upper = 2.0, omega_upper = 5.0, omega_lower = 5.0, theta_upper = 2.0, zeta_upper = 3.0) {
   # Extract from raw_data
   subjIDs   <- raw_data$subjID
   trialNums <- raw_data$trialNum
@@ -518,7 +518,12 @@ hgf_binary_binary_preprocess_func <- function(raw_data, general_info, L = 3) {
     subject_ids=subjIDs,
     valid_trials=trialNums, # TODO: remove NaN if needed
     inputs=inputs,
-    responses=responses
+    responses=responses,
+    kappa_upper=kappa_upper,
+    omega_upper=omega_upper,
+    omega_lower=omega_lower,
+    theta_upper=theta_upper,
+    zeta_upper=zeta_upper
   )
 
   # Returned data_list will directly be passed to Stan

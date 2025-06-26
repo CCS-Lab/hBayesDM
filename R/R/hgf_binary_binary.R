@@ -16,8 +16,13 @@
 #' @templateVar DETAILS_DATA_2 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
 #' @templateVar DETAILS_DATA_3 \item{inputs}{Integer value representing the input on that trial: 0 or 1.}
 #' @templateVar DETAILS_DATA_4 \item{responses}{Integer value representing the subject's action chosen on that trial: 0 or 1.}
-#' @templateVar LENGTH_ADDITIONAL_ARGS 1
+#' @templateVar LENGTH_ADDITIONAL_ARGS 6
 #' @templateVar ADDITIONAL_ARGS_1 \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
+#' @templateVar ADDITIONAL_ARGS_2 \item{kappa_upper}{Upper bound for kappa parameters. Defaults to 2}
+#' @templateVar ADDITIONAL_ARGS_3 \item{omega_upper}{Upper bound for omega parameters. Defaults to 5}
+#' @templateVar ADDITIONAL_ARGS_4 \item{omega_lower}{Lower bound for omega parameters. Defaults to -5}
+#' @templateVar ADDITIONAL_ARGS_5 \item{theta_upper}{Upper bound for theta parameter. Defaults to 2}
+#' @templateVar ADDITIONAL_ARGS_6 \item{zeta_upper}{Upper bound for zeta parameter. Defaults to 3}
 #'
 #' @template model-documentation
 #'
@@ -38,10 +43,10 @@ hgf_binary_binary <- hBayesDM_model(
   model_type      = "",
   data_columns    = c("subjID", "trialNum", "inputs", "responses"),
   parameters      = list(
-    "kappa" = c(0, 0, 2),
-    "omega" = c(-5, 0, 5),
-    "vartheta" = c(0, 1, 2),
-    "zeta" = c(0, 1, 3)
+    "kappa" = c(0, 0, Inf),
+    "omega" = c(-Inf, 0, Inf),
+    "vartheta" = c(0, 1, Inf),
+    "zeta" = c(0, 1, Inf)
   ),
   regressors      = NULL,
   postpreds       = NULL,

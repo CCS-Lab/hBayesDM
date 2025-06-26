@@ -26,19 +26,34 @@ data_columns:
 parameters:
   kappa:
     desc: phasic volatility for coupling with higher level (for each levels from 2 to L-1)
-    info: [0, 0, 2]
+    info: [0, 0, Inf]
   omega:
     desc: tonic volatility (for each levels from 2 to L-1)
-    info: [-5, 0, 5]
+    info: [-Inf, 0, Inf]
   vartheta:
     desc: constant volatility (at the highest level L)
-    info: [0, 1, 2]
+    info: [0, 1, Inf]
   zeta:
     desc: tendency to choose the response that corresponds with one\'s current belief
-    info: [0, 1, 3]
+    info: [0, 1, Inf]
 regressors:
 postpreds:
 additional_args:
 - code: L
   default: 3
   desc: "Total level of hierarchy. Defaults to minimum level of 3"
+- code: kappa_upper
+  default: 2
+  desc: "Upper bound for kappa parameters. Defaults to 2"
+- code: omega_upper
+  default: 5
+  desc: "Upper bound for omega parameters. Defaults to 5"
+- code: omega_lower
+  default: -5
+  desc: "Lower bound for omega parameters. Defaults to -5"
+- code: theta_upper
+  default: 2
+  desc: "Upper bound for theta parameter. Defaults to 2"
+- code: zeta_upper
+  default: 3
+  desc: "Upper bound for zeta parameter. Defaults to 3"

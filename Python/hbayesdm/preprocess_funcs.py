@@ -539,6 +539,11 @@ def hgf_binary_binary_preprocess_func(self, raw_data, general_info, additional_a
         "valid_trials": trialNums, # TODO: remove NaN if needed
         "inputs": inputs,
         "responses": responses,
+        "kappa_upper": additional_args.get('kappa_upper', 2),
+        "omega_upper": additional_args.get('omega_upper', 5),
+        "omega_lower": additional_args.get('omega_lower', -5),
+        "theta_upper": additional_args.get('theta_upper', 2),
+        "zeta_upper": additional_args.get('zeta_upper', 3),
     }
 
     # Returned data_dict will directly be passed to pystan
