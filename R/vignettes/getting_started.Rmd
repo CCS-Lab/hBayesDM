@@ -37,7 +37,7 @@ HBA and other hierarchical approaches [e.g., @huys2011disentangling] allow for i
 
 HBA is a branch of Bayesian statistics and the conceptual framework of Bayesian data analysis is clearly written in [Chapter 2](https://sites.google.com/site/doingbayesiandataanalysis/sample-chapter/DoingBayesianDataAnalysisChapter2.pdf) of John Kruschke's book [@kruschke2014doing]. In Bayesian statistics, we assume prior beliefs (i.e., prior distributions) for model parameters and update the priors into posterior distributions given the data (e.g., trial-by-trial choices and outcomes) using [Bayes' rule](https://en.wikipedia.org/wiki/Bayes%27_rule). Note that the prior distributions we use for model parameters are vague (e.g., flat) or weakly informative priors, so they play a minimal role in the posterior distribution.
 
-For Bayesian updating, we use the Stan software package (<https://mc-stan.org/>), which implements a very efficient Markov Chain Monte Carlo (MCMC) algorithm called Hamiltonian Monte Carlo (HMC). HMC is known to be effective and works well even for large complex models. See Stan reference manual (<https://mc-stan.org/documentation/>) and Chapter 14 of @kruschke2014doing for a comprehensive description of HMC and Stan. What is MCMC and why shoud we use it? Remember, we need to update our priors into posterior distributions in order to make inference about model parameters. Simply put, MCMC is a way of approximating a posterior distribution by drawing a large number of samples from it. MCMC algorithms are used when posterior distributions cannot be analytically achieved or using MCMC is more efficient than searching for the whole grid of parameter space (i.e., grid search). To learn more about the basic foundations of MCMC, we recommend Chapter 7 of @kruschke2014doing.
+For Bayesian updating, we use the Stan software package (<https://mc-stan.org/>), which implements a very efficient Markov Chain Monte Carlo (MCMC) algorithm called Hamiltonian Monte Carlo (HMC). HMC is known to be effective and works well even for large complex models. See Stan reference manual (<https://mc-stan.org/documentation/>) and Chapter 14 of @kruschke2014doing for a comprehensive description of HMC and Stan. What is MCMC and why should we use it? Remember, we need to update our priors into posterior distributions in order to make inference about model parameters. Simply put, MCMC is a way of approximating a posterior distribution by drawing a large number of samples from it. MCMC algorithms are used when posterior distributions cannot be analytically achieved or using MCMC is more efficient than searching for the whole grid of parameter space (i.e., grid search). To learn more about the basic foundations of MCMC, we recommend Chapter 7 of @kruschke2014doing.
 
 
 Detailed specification of Bayesian models is not available in text yet (stay tuned for our tutorial paper whose citation is listed below). At the same time, users can go over our Stan codes to check how we implement each computational model (e.g., `pathTo_gng_m1 = system.file("stan/gng_m1.stan", package="hBayesDM")` ). We made strong efforts to optimize Stan codes through reparameterization (e.g., Matt trick) and vectorization.
@@ -45,7 +45,7 @@ Detailed specification of Bayesian models is not available in text yet (stay tun
 
 ## Prerequisites
 * R version 3.4.0 or later is required. R is freely available from <http://www.r-project.org/>.
-* **Latest Stan (RStan 2.18.1 or later)**. Detailed instructions for installing RStan is available in this link: <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/>.
+* **Latest Stan (RStan 2.18.1 or later)**. Detailed instructions for installing RStan are available in this link: <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/>.
 * RStudio (<https://www.rstudio.com/products/RStudio/>) is not required but strongly recommended.
 
 **Note**: Additional R packages (e.g., [ggplot2](https://cran.r-project.org/web/packages/ggplot2/), [loo](https://cran.r-project.org/web/packages/loo/)) will be installed (if not installed yet) during the installation of hBayesDM.
@@ -121,7 +121,7 @@ Four steps of doing HBA with hBayesDM are illustrated below. As an example, four
 
 ### 1) Prepare the data
 
-* For fitting a model with hBayesDM, all subjects' data should be combined into a single text (*.txt) file. Look at the sample dataset and a help file (e.g., `?gng_m1`) for each task and carefully follow the instructions.
+* For fitting a model with hBayesDM, all subjects' data should be combined into a single text file (*.txt). Look at the sample dataset and a help file (e.g., `?gng_m1`) for each task and carefully follow the instructions.
 * Subjects’ data must contain variables that are consistent with the column names specified in the help file, though extra variables are in practice allowed.
 * It is okay if the number of trials is different across subjects. But there should exist no N/A data. If some trials contain N/A data (e.g., `choice=NA` in trial#10), remove the trials first.
 * Sample data are available [**here**](https://u.osu.edu/ccsl/files/2016/03/sampleData_hBayesDM_0.2.0-1d9qdvj.zip), although users can fit a model with sample data without separately downloading them with one of the function arguments. Once the hBayesDM package is installed, sample data can be also retrieved from the package folder. Note that the file name of sample (example) data for a given task is **taskName_exampleData.txt** (e.g., dd_exampleData.txt, igt_exampleData.txt, gng_exampleData.txt, etc.). See each model's help file (e.g., `?gng_m1`) to check required data columns and their labels.
@@ -137,7 +137,7 @@ dataPath = "~/Downloads/gng_exampleData.txt"
 
 ### 2) Fit candidate models
 
-Below the `gng_m1` model is fit with its sample data. The command indicates that three MCMC chains are run and three cores are used for parallel computing. If you enter "example" as an argument for `data`, hBayesDM will use the sample data for the task. Note that you can save the output to a file (see the `saveDir` argument) or send an email when fitting is complete (see the `email` argument). You can also assign your own initial values (see the `inits` argument; e.g., `inits=c(0.1, 0.2, 1.0)`):
+Below the `gng_m1` model is fitted with its sample data. The command indicates that four MCMC chains are run and four cores are used for parallel computing. If you enter "example" as an argument for `data`, hBayesDM will use the sample data for the task. Note that you can save the output to a file (see the `saveDir` argument) or send an email when fitting is complete (see the `email` argument). You can also assign your own initial values (see the `inits` argument; e.g., `inits=c(0.1, 0.2, 1.0)`):
 ```{r eval=FALSE}
 output1 = gng_m1(data="example", niter=2000, nwarmup=1000, nchain=4, ncore=4)
 ```
@@ -221,7 +221,7 @@ When model fitting is complete, you see this message and data are stored into `o
 > output1$fit
 Inference for Stan model: gng_m1.
 4 chains, each with iter=2000; warmup=1000; thin=1;
-post-warmup draws per chain=4000, total post-warmup draws=4000.
+post-warmup draws per chain=1000, total post-warmup draws=4000.
 
                mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat
 mu_xi          0.03    0.00 0.02    0.00    0.02    0.03    0.05    0.08  2316 1.00
@@ -278,7 +278,7 @@ output1$allIndPars
 
 ### 4) Compare models (and groups)
 
-To compare models, you first fit all models in the same manner as the example above (e.g., `outpu4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)` ). Next, we use the command `printFit`, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see @vehtari2015e for the details of LOOIC and WAIC). By default, `printFit` function uses the LOOIC which is preferable to the WAIC when there are influential observations [@vehtari2015e].
+To compare models, you first fit all models in the same manner as the example above (e.g., `output4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)` ). Next, we use the command `printFit`, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see @vehtari2015e for the details of LOOIC and WAIC). By default, `printFit` function uses the LOOIC which is preferable to the WAIC when there are influential observations [@vehtari2015e].
 
 Assuming four models' outputs are `output1` (gng_m1), `output2` (gng_m2), `output3` (gng_m3), and `output4` (gng_m4), their model fits can be simultaneously summarized by:
 
@@ -322,7 +322,7 @@ The biggest challenge for performing model-based fMRI/EEG is to learn how to ext
 The hBayesDM package currently provides the following model-based regressors. With the trial-by-trial regressors, users can easily use their favorite neuroimaging package (e.g., in Statistical Parametric Mapping (SPM; http://www.fil.ion.ucl.ac.uk/spm/) to perform model-based fMRI analysis. See our [paper](https://www.mitpressjournals.org/doi/abs/10.1162/CPSY_a_00002) (**Extracting Trial-by-Trial Regressors for Model-Based fMRI/EEG Analysis**) for more details.
 
 
-As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the follwoing (set the `modelRegressor` input variable to `TRUE`. Its default value is `FALSE`):
+As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the following (set the `modelRegressor` input variable to `TRUE`. Its default value is `FALSE`):
 
 ```{r echo=FALSE}
 #load("~/Dropbox/Public/modelRegressorSaved_m3.RData")
@@ -368,7 +368,7 @@ Similarly, users can extract and visualize other model-based regressors. **W(Go)
 
 To use Stan's variational algorithm for approximate posterior sampling in hBayesDM, users just need to set `vb=TRUE` (default = `FALSE`). It takes very little time (especially with precompiled models) to do variational inference -  try it yourself for any model!! But variational inference should be used only to get a rough estimate. It is recommended that users use MCMC for final inferences.
 
-For example, to run `gng_m1` using variational inference:
+For example, to run `gng_m3` using variational inference:
 
 ```{r eval=FALSE}
 ## fit example data with the gng_m3 model
@@ -452,7 +452,7 @@ paper][paper]:
 
 ## Papers citing hBayesDM
 
-Here is a selected list of papers being we know that used or cited hBayesDM (from Google Scholar). Let us know if you used hBayesDM for your papers!
+Here is a selected list of papers that we know that used or cited hBayesDM (from Google Scholar). Let us know if you used hBayesDM for your papers!
 
 - [Papers citing hBayesDM (Google Scholar)][paper-citing-hbayesdm]
 
@@ -466,14 +466,14 @@ You can refer to other helpful review papers or books [@lee2014bayesian; @daw201
 ## Other Useful Links
 
 1. "Modelling behavioural data" by Quentin Huys, available in <https://www.quentinhuys.com/teaching.html>.
-2. Introductory tutorial on reinforcment learning by Jill O'Reilly and Hanneke den Ouden, available in <http://hannekedenouden.ruhosting.nl/RLtutorial/Instructions.html>.
+2. Introductory tutorial on reinforcement learning by Jill O'Reilly and Hanneke den Ouden, available in <http://hannekedenouden.ruhosting.nl/RLtutorial/Instructions.html>.
 3. VBA Toolbox: A flexible modeling (MATLAB) toolbox using Variational Bayes (<http://mbb-team.github.io/VBA-toolbox/>).
 4. TAPAS: A collection of algorithms and software tools written in MATLAB. Developed by the Translational Neuromodeling Unit (TNU) at Zurich (<http://www.translationalneuromodeling.org/tapas/>).
 5. Bayesian analysis toolbox for delay discounting data, available in <http://www.inferencelab.com/delay-discounting-analysis/>.
 6. rtdists: Response time distributions in R, available in <https://github.com/rtdists/rtdists/>.
 7. RWiener: Wiener process distribution functions, available in <https://cran.r-project.org/web/packages/RWiener/index.html>.
 
-## Acknoledgement
+## Acknowledgement
 
 This work was supported in part by the National Institute on Drug Abuse (NIDA) under award number R01DA021421 (PI: Jasmin Vassileva).
 
