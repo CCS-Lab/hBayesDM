@@ -498,7 +498,7 @@ gng_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-hgf_binary_binary_preprocess_func <- function(raw_data, general_info) {
+hgf_binary_binary_preprocess_func <- function(raw_data, general_info, L = 3) {
   # Extract from raw_data
   subjIDs   <- raw_data$subjID
   trialNums <- raw_data$trialNum
@@ -506,7 +506,6 @@ hgf_binary_binary_preprocess_func <- function(raw_data, general_info) {
   responses <- raw_data$responses
 
   N <- length(unique(subjIDs))
-  L <- 3 # TODO: L >= 3
   T <- max(trialNums)
   data_length <- nrow(raw_data)
 

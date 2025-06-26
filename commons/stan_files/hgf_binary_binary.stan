@@ -24,7 +24,7 @@ functions {
 data {
   int<lower=1> N; // number of subjects
   int<lower=1> T; // maximum number of trials for each subject
-  int<lower=3> L; // level of hierarchy // TODO: make the code accept more than level 3
+  int<lower=3> L; // level of hierarchy
 
   int<lower=1> data_length;                              // sum of all the valid trials for all the subjects
   array[data_length] int<lower=0> subject_ids;           // subject id for each trial
@@ -90,59 +90,79 @@ parameters {
   matrix<lower=0, upper=x_sigma_upper>[N, L-1] x_sigma;
 
   // Group level
-  real logit_mu_kappa;
-  real logit_mu_omega;
+  vector[L-2] logit_mu_kappa;
+  vector[L-2] logit_mu_omega;
   real logit_mu_theta;
   real logit_mu_zeta;
 
-  real<lower=0, upper=logit_parameter_sigma_upper> logit_kappa_sigma;
-  real<lower=0, upper=logit_parameter_sigma_upper> logit_omega_sigma;
+  vector<lower=0, upper=logit_parameter_sigma_upper>[L-2] logit_kappa_sigma;
+  vector<lower=0, upper=logit_parameter_sigma_upper>[L-2] logit_omega_sigma;
   real<lower=0, upper=logit_parameter_sigma_upper> logit_theta_sigma;
   real<lower=0, upper=logit_parameter_sigma_upper> logit_zeta_sigma;
 
   // Individual level
-  vector[N] logit_kappa_raw;
-  vector[N] logit_omega_raw;
+  matrix[N, L-2] logit_kappa_raw;
+  matrix[N, L-2] logit_omega_raw;
   vector[N] logit_theta_raw;
   vector[N] logit_zeta_raw;
 }
 
 transformed parameters {
   // non-centered parameterization
-  vector[N] logit_kappa = logit_mu_kappa + logit_kappa_sigma * logit_kappa_raw;
-  vector[N] logit_omega = logit_mu_omega + logit_omega_sigma * logit_omega_raw;
+  matrix[N, L-2] logit_kappa;
+  matrix[N, L-2] logit_omega;
+  for (n in 1:N) {
+    for (l in 1:(L-2)) {
+      logit_kappa[n, l] = logit_mu_kappa[l] + logit_kappa_sigma[l] * logit_kappa_raw[n, l];
+      logit_omega[n, l] = logit_mu_omega[l] + logit_omega_sigma[l] * logit_omega_raw[n, l];
+    }
+  }
   vector[N] logit_theta = logit_mu_theta + logit_theta_sigma * logit_theta_raw;
   vector[N] logit_zeta = logit_mu_zeta + logit_zeta_sigma * logit_zeta_raw;
 
   // Perception model
-  vector[N] kappa;
-  vector[N] omega;
+  vector<lower=0, upper=kappa_upper>[L-2] mu_kappa;
+  vector<lower=-omega_bounds, upper=omega_bounds>[L-2] mu_omega;
+  real<lower=0, upper=theta_upper> mu_theta;
+  
+  matrix[N, L-2] kappa;
+  matrix[N, L-2] omega;
   vector[N] theta;
 
-  real<lower=0, upper=kappa_upper> mu_kappa = inv_logit_with_bounds(logit_mu_kappa, 0, kappa_upper);
-  kappa = inv_logit_with_bounds_vector(logit_kappa, 0, kappa_upper);
-
-  real<lower=-omega_bounds, upper=omega_bounds> mu_omega = inv_logit_with_bounds(logit_mu_omega, -omega_bounds, omega_bounds);
-  omega = inv_logit_with_bounds_vector(logit_omega, -omega_bounds, omega_bounds);
-
-  real<lower=0, upper=theta_upper> mu_theta = inv_logit_with_bounds(logit_mu_theta, 0, theta_upper);
+  mu_kappa = inv_logit_with_bounds_vector(logit_mu_kappa, 0, kappa_upper);
+  mu_omega = inv_logit_with_bounds_vector(logit_mu_omega, -omega_bounds, omega_bounds);
+  mu_theta = inv_logit_with_bounds(logit_mu_theta, 0, theta_upper);
+  for (n in 1:N) {
+    for (l in 1:(L-2)) {
+      kappa[n, l] = inv_logit_with_bounds(logit_kappa[n, l], 0, kappa_upper);
+      omega[n, l] = inv_logit_with_bounds(logit_omega[n, l], -omega_bounds, omega_bounds);
+    }
+  }
   theta = inv_logit_with_bounds_vector(logit_theta, 0, theta_upper);
 
   // Gaussian random walk with non-centered parameterization
-  matrix[N, T] x2;
-  matrix[N, T] x3;
+  matrix[N, T] x_raw[L - 1];
   for (n in 1:N) {
     int cur_x_temp_trial = prev_trials[n];
-    x2[n, 1] = x_sigma[n, 2-1] * x_temp[cur_x_temp_trial+1, 2-1];
-    x3[n, 1] = x_sigma[n, 3-1] * x_temp[cur_x_temp_trial+1, 3-1];
+    // top level
+    x_raw[L-1][n, 1] = x_sigma[n, 3-1] * x_temp[cur_x_temp_trial+1, 3-1];
     for (t in 2:n_trials[n]) {
-      x3[n, t] = x3[n, t-1] + sqrt(theta[n]) * time_variance[n, t] * x_temp[cur_x_temp_trial+t, 3-1];
-      real sigma = softplus((kappa[n] * x3[n, t] + omega[n])); 
-      x2[n, t] = x2[n, t-1] + sigma * time_variance[n, t] * x_temp[cur_x_temp_trial+t, 2-1];
+      x_raw[L-1][n, t] = x_raw[L-1][n, t-1] + sqrt(theta[n]) * time_variance[n, t] * x_temp[cur_x_temp_trial+t, 3-1];
     }  
     for (t in n_trials[n]+1:T) {
-      x2[n, t] = NaN;
-      x3[n, t] = NaN;
+      x_raw[L-1][n, t] = NaN;
+    }
+    // lower levels
+    for (l_rev in 1:(L-2)) {
+      int l = (L-1) - l_rev;
+      x_raw[l][n, 1] = x_sigma[n, 2-1] * x_temp[cur_x_temp_trial+1, 2-1];
+      for (t in 2:n_trials[n]) {
+        real sigma = softplus((kappa[n, l] * x_raw[l+1][n, t] + omega[n, l])); 
+        x_raw[l][n, t] = x_raw[l][n, t-1] + sigma * time_variance[n, t] * x_temp[cur_x_temp_trial+t, 2-1];
+      }  
+      for (t in n_trials[n]+1:T) {
+        x_raw[l][n, t] = NaN;
+      }
     }
   }
 
@@ -170,18 +190,18 @@ model {
   logit_zeta_sigma      ~ normal(logit_parameter_sigma_upper/2, 1);
 
   // Individual level
-  logit_kappa_raw       ~ normal(0, 1);
-  logit_omega_raw       ~ normal(0, 1);
-  logit_theta_raw       ~ normal(0, 1);
-  logit_zeta_raw        ~ normal(0, 1);
+  to_vector(logit_kappa_raw) ~ normal(0, 1);
+  to_vector(logit_omega_raw) ~ normal(0, 1);
+  logit_theta_raw            ~ normal(0, 1);
+  logit_zeta_raw             ~ normal(0, 1);
 
   for (n in 1:N) {
     int max_T = n_trials[n];
     // Perception model
-    inputs_matrix[n, 1:max_T] ~ bernoulli_logit(x2[n, 1:max_T]);
+    inputs_matrix[n, 1:max_T] ~ bernoulli_logit(x_raw[2-1][n, 1:max_T]);
 
     // Response model
-    vector[max_T-1] p = to_vector(inv_logit(zeta[n] * x2[n, 1:(max_T-1)]));
+    vector[max_T-1] p = to_vector(inv_logit(zeta[n] * x_raw[2-1][n, 1:(max_T-1)]));
     responses_matrix[n, 2:max_T] ~ bernoulli(p);
   }
 }
@@ -197,8 +217,9 @@ generated quantities {
     for (t in 1:n_trials[n]) {
       int trial_index = valid_trials_matrix[n, t];
       x[n, trial_index, 1] = inputs_matrix[n, t];
-      x[n, trial_index, 2] = x2[n, t];
-      x[n, trial_index, 3] = x3[n, t];
+      for (l in 1:(L - 1)) {
+        x[n, trial_index, l+1] = x_raw[l][n, t];
+      }
     }
   }
 }

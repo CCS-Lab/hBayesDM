@@ -16,8 +16,9 @@
 #' @templateVar DETAILS_DATA_2 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
 #' @templateVar DETAILS_DATA_3 \item{inputs}{Integer value representing the input on that trial: 0 or 1.}
 #' @templateVar DETAILS_DATA_4 \item{responses}{Integer value representing the subject's action chosen on that trial: 0 or 1.}
-#' @templateVar LENGTH_ADDITIONAL_ARGS 0
-#' 
+#' @templateVar LENGTH_ADDITIONAL_ARGS 1
+#' @templateVar ADDITIONAL_ARGS_1 \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
+#'
 #' @template model-documentation
 #'
 #' @export

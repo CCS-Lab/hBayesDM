@@ -39,7 +39,7 @@ class HgfBinaryBinary(TaskModel):
                 ('zeta', 'tendency to choose the response that corresponds with one\'s current belief'),
             ]),
             additional_args_desc=OrderedDict([
-                
+                ('L', 3),
             ]),
             **kwargs,
         )
@@ -183,7 +183,9 @@ def hgf_binary_binary(
         Integer value specifying how many leapfrog steps the MCMC sampler can take
         on each new iteration. See note below.
     **additional_args
-        Not used for this model.
+        For this model, it's possible to set the following model-specific argument to a value that you may prefer.
+
+        - ``L``: Total level of hierarchy. Defaults to minimum level of 3
 
     Returns
     -------

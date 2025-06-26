@@ -525,7 +525,7 @@ def hgf_binary_binary_preprocess_func(self, raw_data, general_info, additional_a
     responses = raw_data["responses"]
 
     N = len(set(subjIDs))
-    L = 3  # TODO: L >= 3
+    L = additional_args.get('L', 3)
     T = max(trialNums)
     data_length = len(raw_data)
 
