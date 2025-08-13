@@ -41,6 +41,9 @@ banditNarm_4par <- hBayesDM_model(
     "R" = c(0, 1, 30),
     "P" = c(0, 1, 30)
   ),
+  additional_args = list(
+    'Narm': None
+  ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = banditNarm_preprocess_func)

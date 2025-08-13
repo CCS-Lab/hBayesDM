@@ -38,6 +38,7 @@ ug_bayes <- hBayesDM_model(
     "beta" = c(0, 0.5, 10),
     "tau" = c(0, 1, 10)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = ug_preprocess_func)

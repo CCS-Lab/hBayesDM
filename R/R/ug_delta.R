@@ -38,6 +38,7 @@ ug_delta <- hBayesDM_model(
     "tau" = c(0, 1, 10),
     "ep" = c(0, 0.5, 1)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = ug_preprocess_func)

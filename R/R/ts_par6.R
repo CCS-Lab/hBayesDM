@@ -45,6 +45,9 @@ ts_par6 <- hBayesDM_model(
     "pi" = c(0, 1, 5),
     "w" = c(0, 0.5, 1)
   ),
+  additional_args = list(
+    'trans_prob': 0.7
+  ),
   regressors      = NULL,
   postpreds       = c("y_pred_step1", "y_pred_step2"),
   preprocess_func = ts_preprocess_func)

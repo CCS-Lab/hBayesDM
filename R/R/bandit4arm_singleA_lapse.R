@@ -40,6 +40,7 @@ bandit4arm_singleA_lapse <- hBayesDM_model(
     "P" = c(0, 1, 30),
     "xi" = c(0, 0.1, 1)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = bandit4arm_preprocess_func)

@@ -39,6 +39,7 @@ prl_rp_multipleB <- hBayesDM_model(
     "Arew" = c(0, 0.1, 1),
     "beta" = c(0, 1, 10)
   ),
+  additional_args = NULL,
   regressors      = list(
     "ev_c" = 3,
     "ev_nc" = 3,

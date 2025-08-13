@@ -41,6 +41,7 @@ gng_m3 <- hBayesDM_model(
     "pi" = c(-Inf, 0, Inf),
     "rho" = c(0, exp(2), Inf)
   ),
+  additional_args = NULL,
   regressors      = list(
     "Qgo" = 2,
     "Qnogo" = 2,

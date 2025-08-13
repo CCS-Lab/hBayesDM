@@ -41,6 +41,7 @@ dd_cs <- hBayesDM_model(
     "s" = c(0, 1, 10),
     "beta" = c(0, 1, 5)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = dd_preprocess_func)

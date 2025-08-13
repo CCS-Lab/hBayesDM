@@ -43,6 +43,9 @@ banditNarm_kalman_filter <- hBayesDM_model(
     "s0" = c(0, 6, 15),
     "sD" = c(0, 3, 15)
   ),
+  additional_args = list(
+    'Narm': None
+  ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = banditNarm_preprocess_func)

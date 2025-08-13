@@ -43,6 +43,9 @@ igt_pvl_decay <- hBayesDM_model(
     "cons" = c(0, 1, 5),
     "lambda" = c(0, 1, 10)
   ),
+  additional_args = list(
+    'payscale': 100
+  ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = igt_preprocess_func)

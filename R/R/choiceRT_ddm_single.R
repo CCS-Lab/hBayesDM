@@ -45,6 +45,9 @@ choiceRT_ddm_single <- hBayesDM_model(
     "delta" = c(-Inf, 0, Inf),
     "tau" = c(0, 0.15, 1)
   ),
+  additional_args = list(
+    'RTbound': 0.1
+  ),
   regressors      = NULL,
   postpreds       = NULL,
   preprocess_func = choiceRT_single_preprocess_func)

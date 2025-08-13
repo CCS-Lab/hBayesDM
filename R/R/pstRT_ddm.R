@@ -46,6 +46,9 @@ pstRT_ddm <- hBayesDM_model(
     "d2" = c(-Inf, 0.4, Inf),
     "d3" = c(-Inf, 0.3, Inf)
   ),
+  additional_args = list(
+    'RTbound': 0.1
+  ),
   regressors      = NULL,
   postpreds       = c("choice_os", "RT_os"),
   preprocess_func = pstRT_preprocess_func)

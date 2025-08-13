@@ -254,6 +254,14 @@ def generate_code(info):
     else:
         parameters = 'NULL'
 
+    # Additional Args
+    _additional_args = info.get('additional_args', {})
+    if _additional_args and len(_additional_args) > 0:
+        additional_args = ',\n    '.join([f"'{arg['code']}': {arg['default']}" for arg in _additional_args])
+        additional_args = 'list(\n    ' + additional_args + '\n  )'
+    else:
+        additional_args = 'NULL'
+
     # Regressors
     _regs = info.get('regressors', {})
     if _regs and len(_regs) > 0:
@@ -283,6 +291,7 @@ def generate_code(info):
         model_type=model_type_code,
         data_columns=data_columns,
         parameters=parameters,
+        additional_args=additional_args,
         regressors=regressors,
         postpreds=postpreds,
         preprocess_func=preprocess_func,

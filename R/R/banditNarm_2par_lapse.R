@@ -40,6 +40,9 @@ banditNarm_2par_lapse <- hBayesDM_model(
     "Apun" = c(0, 0.1, 1),
     "xi" = c(0, 0.1, 1)
   ),
+  additional_args = list(
+    'Narm': None
+  ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = banditNarm_preprocess_func)

@@ -48,6 +48,10 @@ pstRT_rlddm1 <- hBayesDM_model(
     "v" = c(-Inf, 4.5, Inf),
     "alpha" = c(0, 0.02, 1)
   ),
+  additional_args = list(
+    'RTbound': 0.1,
+    'initQ': 0.5
+  ),
   regressors      = list(
     "Q1" = 2,
     "Q2" = 2

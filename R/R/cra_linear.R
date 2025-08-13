@@ -41,6 +41,7 @@ cra_linear <- hBayesDM_model(
     "beta" = c(-Inf, 0, Inf),
     "gamma" = c(0, 1, Inf)
   ),
+  additional_args = NULL,
   regressors      = list(
     "sv" = 2,
     "sv_fix" = 2,

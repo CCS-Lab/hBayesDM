@@ -37,6 +37,7 @@ prl_fictitious_woa <- hBayesDM_model(
     "eta" = c(0, 0.5, 1),
     "beta" = c(0, 1, 10)
   ),
+  additional_args = NULL,
   regressors      = list(
     "ev_c" = 2,
     "ev_nc" = 2,
