@@ -42,7 +42,7 @@ banditNarm_delta <- hBayesDM_model(
     "tau" = c(0, 1, 5)
   ),
   additional_args = list(
-    'Narm': None
+    'Narm': NULL
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
