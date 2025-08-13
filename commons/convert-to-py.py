@@ -241,8 +241,8 @@ def main(info_fn):
             additional_args_desc=format_list_of_dict(
                 info.get('additional_args') if info.get('additional_args') else
                 [],
-                'code', 'default',
-                fmt="('{}', {}),",
+                'code', "desc",
+                fmt="('{}', '{}'),",
                 sep='\n                '),
         )
 

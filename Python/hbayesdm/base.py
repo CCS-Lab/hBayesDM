@@ -40,7 +40,7 @@ class TaskModel(metaclass=ABCMeta):
                  regressors: 'OrderedDict[str, int]',
                  postpreds: Sequence[str],
                  parameters_desc: 'OrderedDict[str, str]',
-                 additional_args_desc: 'OrderedDict[str, float]',
+                 additional_args_desc: 'OrderedDict[str, str]',
                  **kwargs):
         # Assign attributes
         self.__task_name = task_name
@@ -95,7 +95,7 @@ class TaskModel(metaclass=ABCMeta):
         return self.__parameters_desc
 
     @property
-    def additional_args_desc(self) -> 'OrderedDict[str, float]':
+    def additional_args_desc(self) -> 'OrderedDict[str, str]':
         return self.__additional_args_desc
 
     @property
@@ -610,11 +610,11 @@ class TaskModel(metaclass=ABCMeta):
         else:  # (self.model_type == 'single')
             print(' # of trials (for this subject) =', general_info['t_max'])
 
-        # Models with additional arguments
-        if self.additional_args_desc:
-            for arg, default_value in self.additional_args_desc.items():
-                print(' `{}` is set to                '.format(arg)[:31],
-                      '= {}'.format(additional_args.get(arg, default_value)))
+        # TODO: Models with additional arguments
+        # if self.additional_args_desc:
+        #     for arg, default_value in self.additional_args_desc.items():
+        #         print(' `{}` is set to                '.format(arg)[:31],
+        #               '= {}'.format(additional_args.get(arg, default_value)))
 
         # When extracting model-based regressors
         if model_regressor:

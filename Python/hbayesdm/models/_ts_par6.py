@@ -43,7 +43,7 @@ class TsPar6(TaskModel):
                 ('w', 'model-based weight'),
             ]),
             additional_args_desc=OrderedDict([
-                ('trans_prob', 0.7),
+                ('trans_prob', 'Common state transition probability from Stage (Level) 1 to Stage (Level) 2. Defaults to 0.7.'),
             ]),
             **kwargs,
         )

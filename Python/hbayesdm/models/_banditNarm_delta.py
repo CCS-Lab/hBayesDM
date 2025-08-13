@@ -35,7 +35,7 @@ class BanditnarmDelta(TaskModel):
                 ('tau', 'inverse temperature'),
             ]),
             additional_args_desc=OrderedDict([
-                ('Narm', None),
+                ('Narm', 'Number of arms used in Multi-armed Bandit Task If not given, the number of unique choice will be used.'),
             ]),
             **kwargs,
         )

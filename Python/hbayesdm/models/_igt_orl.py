@@ -41,7 +41,7 @@ class IgtOrl(TaskModel):
                 ('betaP', 'perseverance weight'),
             ]),
             additional_args_desc=OrderedDict([
-                ('payscale', 100),
+                ('payscale', 'Raw payoffs within data are divided by this number. Used for scaling data. Defaults to 100.'),
             ]),
             **kwargs,
         )
