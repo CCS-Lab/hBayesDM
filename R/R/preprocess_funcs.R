@@ -147,7 +147,7 @@ bandit4arm_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-banditNarm_preprocess_func <- function(raw_data, general_info, Narm=NULL) {
+banditNarm_preprocess_func <- function(raw_data, general_info, Narm) {
   # Currently class(raw_data) == "data.table"
 
   # Use general_info of raw_data
@@ -232,7 +232,7 @@ bart_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-choiceRT_preprocess_func <- function(raw_data, general_info, RTbound = 0.1) {
+choiceRT_preprocess_func <- function(raw_data, general_info, RTbound) {
   # Use raw_data as a data.frame
   raw_data <- as.data.frame(raw_data)
 
@@ -277,7 +277,7 @@ choiceRT_preprocess_func <- function(raw_data, general_info, RTbound = 0.1) {
   return(data_list)
 }
 
-choiceRT_single_preprocess_func <- function(raw_data, general_info, RTbound = 0.1) {
+choiceRT_single_preprocess_func <- function(raw_data, general_info, RTbound) {
   # Currently class(raw_data) == "data.table"
 
   # Data.tables for upper and lower boundary responses
@@ -498,7 +498,7 @@ gng_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-igt_preprocess_func <- function(raw_data, general_info, payscale = 100) {
+igt_preprocess_func <- function(raw_data, general_info, payscale) {
   # Currently class(raw_data) == "data.table"
 
   # Use general_info of raw_data
@@ -711,7 +711,7 @@ pst_preprocess_func <- function(raw_data, general_info) {
 }
 
 # Make a function
-pstRT_preprocess_func <- function(raw_data, general_info, RTbound = 0.1, initQ = 0.5) {
+pstRT_preprocess_func <- function(raw_data, general_info, RTbound, initQ) {
   # Use raw_data as a data.frame
   raw_data <- as.data.frame(raw_data)
 
@@ -899,7 +899,7 @@ task2AFC_preprocess_func <- function(raw_data, general_info) {
   return(data_list)
 }
 
-ts_preprocess_func <- function(raw_data, general_info, trans_prob = 0.7) {
+ts_preprocess_func <- function(raw_data, general_info, trans_prob) {
   # Currently class(raw_data) == "data.table"
 
   # Use general_info of raw_data
