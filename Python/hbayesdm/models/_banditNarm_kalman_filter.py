@@ -42,6 +42,9 @@ class BanditnarmKalmanFilter(TaskModel):
                 ('s0', 'anticipated initial sd (uncertainty factor) of all 4 options'),
                 ('sD', 'sd of diffusion noise'),
             ]),
+            additional_args=OrderedDict([
+                ('Narm', None),
+            ]),
             additional_args_desc=OrderedDict([
                 ('Narm', 'Number of arms used in Multi-armed Bandit Task If not given, the number of unique choice will be used.'),
             ]),

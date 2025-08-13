@@ -39,6 +39,9 @@ class PrlFictitiousRpWoa(TaskModel):
                 ('eta_neg', 'learning rate, -PE'),
                 ('beta', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

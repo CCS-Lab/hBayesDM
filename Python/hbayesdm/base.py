@@ -40,6 +40,7 @@ class TaskModel(metaclass=ABCMeta):
                  regressors: 'OrderedDict[str, int]',
                  postpreds: Sequence[str],
                  parameters_desc: 'OrderedDict[str, str]',
+                 additional_args: 'OrderedDict[str, Any]',
                  additional_args_desc: 'OrderedDict[str, str]',
                  **kwargs):
         # Assign attributes
@@ -51,6 +52,7 @@ class TaskModel(metaclass=ABCMeta):
         self.__regressors = regressors
         self.__postpreds = postpreds
         self.__parameters_desc = parameters_desc
+        self.__additional_args = additional_args
         self.__additional_args_desc = additional_args_desc
 
         # Handle special case (dd_single)
@@ -93,6 +95,10 @@ class TaskModel(metaclass=ABCMeta):
     @property
     def parameters_desc(self) -> 'OrderedDict[str, str]':
         return self.__parameters_desc
+
+    @property
+    def additional_args(self) -> 'OrderedDict[str, Any]':
+        return self.__additional_args
 
     @property
     def additional_args_desc(self) -> 'OrderedDict[str, str]':
@@ -150,6 +156,10 @@ class TaskModel(metaclass=ABCMeta):
         self._check_missing_values(raw_data, insensitive_data_columns)
 
         general_info = self._prepare_general_info(raw_data)
+        # set default values if not specified
+        for key, value in self.__additional_args.items():
+            if key not in additional_args:
+                additional_args[key] = value
 
         data_dict = self._preprocess_func(
             raw_data, general_info, additional_args)
@@ -610,11 +620,11 @@ class TaskModel(metaclass=ABCMeta):
         else:  # (self.model_type == 'single')
             print(' # of trials (for this subject) =', general_info['t_max'])
 
-        # TODO: Models with additional arguments
-        # if self.additional_args_desc:
-        #     for arg, default_value in self.additional_args_desc.items():
-        #         print(' `{}` is set to                '.format(arg)[:31],
-        #               '= {}'.format(additional_args.get(arg, default_value)))
+        # Models with additional arguments
+        if additional_args:
+            for arg, default_value in additional_args.items():
+                print(' `{}` is set to                '.format(arg)[:31],
+                      '= {}'.format(additional_args.get(arg, default_value)))
 
         # When extracting model-based regressors
         if model_regressor:

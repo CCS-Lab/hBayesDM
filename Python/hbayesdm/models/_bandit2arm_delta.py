@@ -33,6 +33,9 @@ class Bandit2ArmDelta(TaskModel):
                 ('A', 'learning rate'),
                 ('tau', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

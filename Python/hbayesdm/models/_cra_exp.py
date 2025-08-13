@@ -41,6 +41,9 @@ class CraExp(TaskModel):
                 ('beta', 'ambiguity attitude'),
                 ('gamma', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

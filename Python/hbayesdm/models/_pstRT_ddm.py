@@ -40,6 +40,9 @@ class PstrtDdm(TaskModel):
                 ('d2', 'drift rate scaling'),
                 ('d3', 'drift rate scaling'),
             ]),
+            additional_args=OrderedDict([
+                ('RTbound', 0.1),
+            ]),
             additional_args_desc=OrderedDict([
                 ('RTbound', 'Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).'),
             ]),

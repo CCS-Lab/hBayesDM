@@ -35,6 +35,9 @@ class RaNola(TaskModel):
                 ('rho', 'risk aversion'),
                 ('tau', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

@@ -46,6 +46,9 @@ class GngM4(TaskModel):
                 ('rhoRew', 'reward sensitivity'),
                 ('rhoPun', 'punishment sensitivity'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

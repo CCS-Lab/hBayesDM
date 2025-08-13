@@ -38,6 +38,9 @@ class DdCsSingle(TaskModel):
                 ('s', 'impatience'),
                 ('beta', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

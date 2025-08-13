@@ -37,6 +37,9 @@ class AltGamma(TaskModel):
                 ('beta', 'inverse temperature'),
                 ('gamma', 'risk preference'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

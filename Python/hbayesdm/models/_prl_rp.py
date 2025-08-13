@@ -37,6 +37,9 @@ class PrlRp(TaskModel):
                 ('Arew', 'reward learning rate'),
                 ('beta', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

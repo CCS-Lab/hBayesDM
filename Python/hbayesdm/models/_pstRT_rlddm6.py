@@ -46,6 +46,10 @@ class PstrtRlddm6(TaskModel):
                 ('alpha_pos', 'learning rate for positive prediction error'),
                 ('alpha_neg', 'learning rate for negative prediction error'),
             ]),
+            additional_args=OrderedDict([
+                ('RTbound', 0.1),
+                ('initQ', 0.5),
+            ]),
             additional_args_desc=OrderedDict([
                 ('RTbound', 'Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).'),
                 ('initQ', 'Floating point value representing the model's initial value of any choice.'),

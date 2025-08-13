@@ -33,6 +33,9 @@ class Task2AfcSdt(TaskModel):
                 ('d', 'discriminability'),
                 ('c', 'decision bias (criteria)'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),
