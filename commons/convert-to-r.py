@@ -275,7 +275,7 @@ def generate_code(info):
                     return str(x)
                 return f"c({', '.join(to_r_literal(x) for x in val)})"
             return val
-        additional_args = ',\n    '.join([f"'{arg['code']}': {format_default(arg['default'])}" for arg in _additional_args])
+        additional_args = ',\n    '.join([f"'{arg['code']}' = {format_default(arg['default'])}" for arg in _additional_args])
         additional_args = 'list(\n    ' + additional_args + '\n  )'
     else:
         additional_args = 'NULL'

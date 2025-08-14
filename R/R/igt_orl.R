@@ -45,7 +45,7 @@ igt_orl <- hBayesDM_model(
     "betaP" = c(-Inf, 1, Inf)
   ),
   additional_args = list(
-    'payscale': 100
+    'payscale' = 100
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

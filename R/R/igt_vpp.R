@@ -48,7 +48,7 @@ igt_vpp <- hBayesDM_model(
     "w" = c(0, 0.5, 1)
   ),
   additional_args = list(
-    'payscale': 100
+    'payscale' = 100
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

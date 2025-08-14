@@ -46,7 +46,7 @@ choiceRT_ddm_single <- hBayesDM_model(
     "tau" = c(0, 0.15, 1)
   ),
   additional_args = list(
-    'RTbound': 0.1
+    'RTbound' = 0.1
   ),
   regressors      = NULL,
   postpreds       = NULL,

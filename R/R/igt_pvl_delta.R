@@ -44,7 +44,7 @@ igt_pvl_delta <- hBayesDM_model(
     "lambda" = c(0, 1, 10)
   ),
   additional_args = list(
-    'payscale': 100
+    'payscale' = 100
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

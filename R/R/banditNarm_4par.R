@@ -42,7 +42,7 @@ banditNarm_4par <- hBayesDM_model(
     "P" = c(0, 1, 30)
   ),
   additional_args = list(
-    'Narm': NULL
+    'Narm' = NULL
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),

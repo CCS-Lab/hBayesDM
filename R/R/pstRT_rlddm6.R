@@ -52,8 +52,8 @@ pstRT_rlddm6 <- hBayesDM_model(
     "alpha_neg" = c(0, 0.02, 1)
   ),
   additional_args = list(
-    'RTbound': 0.1,
-    'initQ': 0.5
+    'RTbound' = 0.1,
+    'initQ' = 0.5
   ),
   regressors      = list(
     "Q1" = 2,

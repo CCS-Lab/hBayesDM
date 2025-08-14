@@ -43,7 +43,7 @@ banditNarm_lapse <- hBayesDM_model(
     "xi" = c(0, 0.1, 1)
   ),
   additional_args = list(
-    'Narm': NULL
+    'Narm' = NULL
   ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
