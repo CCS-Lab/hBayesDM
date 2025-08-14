@@ -10,6 +10,7 @@ hBayesDM_model(
   model_type = "",
   data_columns,
   parameters,
+  additional_args = NULL,
   regressors = NULL,
   postpreds = "y_pred",
   stanmodel_arg = NULL,

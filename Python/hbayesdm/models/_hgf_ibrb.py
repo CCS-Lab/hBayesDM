@@ -19,13 +19,12 @@ class HgfIbrb(TaskModel):
             data_columns=(
                 'subjID',
                 'trialNum',
-                'inputs',
-                'responses',
+                'u',
+                'y',
             ),
             parameters=OrderedDict([
                 ('kappa', (0, 0, Inf)),
                 ('omega', (-Inf, 0, Inf)),
-                ('vartheta', (0, 1, Inf)),
                 ('zeta', (0, 1, Inf)),
             ]),
             regressors=OrderedDict([
@@ -33,18 +32,33 @@ class HgfIbrb(TaskModel):
             ]),
             postpreds=[],
             parameters_desc=OrderedDict([
-                ('kappa', 'phasic volatility for coupling with higher level (for each levels from 2 to L-1)'),
-                ('omega', 'tonic volatility (for each levels from 2 to L-1)'),
-                ('vartheta', 'constant volatility (at the highest level L)'),
+                ('kappa', 'phasic volatility for coupling with higher level for each level (2 ~ L-1)'),
+                ('omega', 'tonic volatility for each level (2 ~ L)'),
                 ('zeta', 'tendency to choose the response that corresponds with one\'s current belief'),
             ]),
-            additional_args_desc=OrderedDict([
+            additional_args=OrderedDict([
                 ('L', 3),
-                ('kappa_upper', 2),
-                ('omega_upper', 5),
-                ('omega_lower', -5),
-                ('theta_upper', 2),
+                ('input_first', False),
+                ('mu0', [0.5, 1.0]),
+                ('sigma0', [0.1, 1.0]),
+                ('kappa_lower', [0]),
+                ('kappa_upper', [3]),
+                ('omega_lower', [-5, -5]),
+                ('omega_upper', [5, 5]),
+                ('zeta_lower', 0),
                 ('zeta_upper', 3),
+            ]),
+            additional_args_desc=OrderedDict([
+                ('L', 'Total level of hierarchy. Defaults to minimum level of 3'),
+                ('input_first', 'TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]'),
+                ('mu0', 'prior belief for each level before starting the experiment'),
+                ('sigma0', 'prior uncertainty for each level before starting the experiment'),
+                ('kappa_lower', 'Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].'),
+                ('kappa_upper', 'Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].'),
+                ('omega_lower', 'Lower bounds for omega for each level (2 ~ L). Defaults to [-5. -5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].'),
+                ('omega_upper', 'Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].'),
+                ('zeta_lower', 'Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.'),
+                ('zeta_upper', 'Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper.'),
             ]),
             **kwargs,
         )
@@ -72,7 +86,7 @@ def hgf_ibrb(
 
     Hierarchical Bayesian Modeling of the  
     using Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses [Mathys_C2011]_, [Mathys_CD2014]_ with the following parameters:
-    "kappa" (phasic volatility for coupling with higher level (for each levels from 2 to L-1)), "omega" (tonic volatility (for each levels from 2 to L-1)), "vartheta" (constant volatility (at the highest level L)), "zeta" (tendency to choose the response that corresponds with one\'s current belief).
+    "kappa" (phasic volatility for coupling with higher level for each level (2 ~ L-1)), "omega" (tonic volatility for each level (2 ~ L)), "zeta" (tendency to choose the response that corresponds with one\'s current belief).
 
     
 
@@ -88,14 +102,14 @@ def hgf_ibrb(
     and columns represent variables.
 
     For the , there should be 4 columns of data
-    with the labels "subjID", "trialNum", "inputs", "responses". It is not necessary for the columns to be
+    with the labels "subjID", "trialNum", "u", "y". It is not necessary for the columns to be
     in this particular order; however, it is necessary that they be labeled
     correctly and contain the information below:
 
     - "subjID": A unique identifier for each subject in the data-set.
     - "trialNum": Nominal integer representing the trial number: 1, 2, ...
-    - "inputs": Integer value representing the input on that trial: 0 or 1.
-    - "responses": Integer value representing the subject's action chosen on that trial: 0 or 1.
+    - "u": Integer value representing the input on that trial: 0 or 1.
+    - "y": Integer value representing the subject's choice on that trial: 0 or 1.
 
     .. note::
         User data may contain other columns of data (e.g. ``ReactionTime``,
@@ -125,7 +139,7 @@ def hgf_ibrb(
     data
         Data to be modeled. It should be given as a Pandas DataFrame object,
         a filepath for a data file, or ``"example"`` for example data.
-        Data columns should be labeled as: "subjID", "trialNum", "inputs", "responses".
+        Data columns should be labeled as: "subjID", "trialNum", "u", "y".
     niter
         Number of iterations, including warm-up. Defaults to 4000.
     nwarmup
@@ -191,11 +205,15 @@ def hgf_ibrb(
         For this model, it's possible to set the following model-specific argument to a value that you may prefer.
 
         - ``L``: Total level of hierarchy. Defaults to minimum level of 3
-        - ``kappa_upper``: Upper bound for kappa parameters. Defaults to 2
-        - ``omega_upper``: Upper bound for omega parameters. Defaults to 5
-        - ``omega_lower``: Lower bound for omega parameters. Defaults to -5
-        - ``theta_upper``: Upper bound for theta parameter. Defaults to 2
-        - ``zeta_upper``: Upper bound for zeta parameter. Defaults to 3
+        - ``input_first``: TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]
+        - ``mu0``: prior belief for each level before starting the experiment
+        - ``sigma0``: prior uncertainty for each level before starting the experiment
+        - ``kappa_lower``: Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].
+        - ``kappa_upper``: Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].
+        - ``omega_lower``: Lower bounds for omega for each level (2 ~ L). Defaults to [-5. -5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].
+        - ``omega_upper``: Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].
+        - ``zeta_lower``: Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.
+        - ``zeta_upper``: Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper.
 
     Returns
     -------

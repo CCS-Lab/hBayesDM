@@ -3,225 +3,250 @@
 // Hierarchical Gaussian Filter from Mathys et al. (2011) https://doi.org/10.3389/fnhum.2011.00039
 
 functions {
-  // x ∈ (-inf, +inf) => y ∈ (a, b)
   real inv_logit_with_bounds(real x, real a, real b) {
     return a + (b - a) * inv_logit(x);
   }
 
-  vector inv_logit_with_bounds_vector(vector x, real a, real b) {
+  vector inv_logit_vector_with_bounds(vector x, real a, real b) {
     return a + (b - a) * inv_logit(x);
   }
 
-  real softplus(real z) {
-    if (z > 20) {
-      return z; // avoid overflow in exp(z)
-    } else {
-      return log1p_exp(z); // numerically stable version of log(1 + exp(z))
-    }
+  int equal_with_threshold(real a, real b) {
+    return abs(a - b) < 1e-12;
   }
 }
 
 data {
-  int<lower=1> N; // number of subjects
-  int<lower=1> T; // maximum number of trials for each subject
-  int<lower=3> L; // level of hierarchy
+  int<lower=1> N;                    // subjects
+  int<lower=1> T;                    // trials
+  int<lower=3> L;                    // maximum level of hierarchy
+  int<lower=-1,upper=1> u[N,T];      // inputs
+  int<lower=-1,upper=1> y[N,T];      // responses (choices that subject made)
+  int<lower=0, upper=1> input_first; // whether u[t] is observed before or after y[t]
 
-  int<lower=1> data_length;                              // sum of all the valid trials for all the subjects
-  array[data_length] int<lower=0> subject_ids;           // subject id for each trial
-  array[data_length] int<lower=1, upper=T> valid_trials; // valid trial numbers for each subject. (must be in ascending order)
-  array[data_length] int<lower=0, upper=1> inputs;       // u. trial-by-trial binary sensory input (0 = orange, 1 = blue)
-  array[data_length] int<lower=0, upper=1> responses;    // y. trial-by-trial binary response (0 = orange, 1 = blue)
+  // starting point of belief and uncertainty on the first trial
+  array[L-1] real mu0;
+  array[L-1] real sigma0;
 
-  real kappa_upper;
-  real omega_upper;
-  real omega_lower;
-  real theta_upper;
-  real zeta_upper;
+  // boundaries of parameters for each level
+  array[L-2] real<lower=0> kappa_lower;
+  array[L-2] real<lower=0> kappa_upper;
+  array[L-1] real omega_lower;
+  array[L-1] real omega_upper;
+  real<lower=0> zeta_lower;
+  real<lower=0> zeta_upper;
 }
 
 transformed data {
-  array[N] int<lower=1, upper=T> n_trials;               // total number of valid trials for each subject
-  array[N] int<lower=0, upper=data_length> prev_trials;  // total number of trials for previous subjects in the raw data (for flattened x states)
-  array[N, T] int<lower=0, upper=T> valid_trials_matrix; // only use 1 ~ valid_T[n] for each subject
-  array[N, T] int<lower=0, upper=1> inputs_matrix;       // only use 1 ~ valid_T[n] for each subject
-  array[N, T] int<lower=0, upper=1> responses_matrix;    // only use 1 ~ valid_T[n] for each subject
-  matrix[N, T] time_variance;                            // only use 2 ~ valid_T[n] for each subject
-  real NaN = -1e9;
+  array[L] real mu_base;
+  mu_base[1] = 0;
+  mu_base[2:L] = mu0;
+  array[L] real sigma_base;
+  sigma_base[1] = 0;
+  sigma_base[2:L] = sigma0;
 
-  for (n in 1:N) {
-    n_trials[n] = 0;
-    prev_trials[n] = 0;
-    for (t in 1:T) {
-      valid_trials_matrix[n, t] = 0;
-      inputs_matrix[n, t] = 0;
-      responses_matrix[n, t] = 0;
-      time_variance[n, t] = NaN;
+  // differentiate free kappa and fixed kappa
+  int<lower=0, upper=L-1> n_free_kappa = 0;
+  array[L-2] int<lower=0, upper=L-2> free_kappa_idx = rep_array(0,L-2);
+  int<lower=0, upper=L-1> n_fixed_kappa = 0;
+  array[L-2] int<lower=0, upper=L-2> fixed_kappa_idx = rep_array(0,L-2);
+  for (l in 1:(L-2)) {
+    if (equal_with_threshold(kappa_lower[l], kappa_upper[l])) {
+      n_fixed_kappa += 1;
+      fixed_kappa_idx[n_fixed_kappa] = l;
+    } else {
+      n_free_kappa += 1;
+      free_kappa_idx[n_free_kappa] = l;
     }
   }
 
-  for (i in 1:data_length) {
-    int subject_id = subject_ids[i];
-    n_trials[subject_id] += 1;
-    int trial_idx = n_trials[subject_id];
-    valid_trials_matrix[subject_id, trial_idx] = valid_trials[i];
-    inputs_matrix[subject_id, trial_idx] = inputs[i];
-    responses_matrix[subject_id, trial_idx] = responses[i];
-  }
-
-  for (n in 2:N) {
-    prev_trials[n] += prev_trials[n-1] + n_trials[n-1];
-  }
-
-  for (n in 1:N) {
-    for (t in 2:T) {
-      int cur = valid_trials_matrix[n, t];
-      int prev = valid_trials_matrix[n, t - 1];
-      int interval = cur - prev;
-      if (interval > 0) {
-        time_variance[n, t] = sqrt(interval);
-      }
+  // differentiate free omega and fixed omega
+  int<lower=0, upper=L-1> n_free_omega = 0;
+  array[L-1] int<lower=0, upper=L-1> free_omega_idx = rep_array(0,L-1);
+  int<lower=0, upper=L-1> n_fixed_omega = 0;
+  array[L-1] int<lower=0, upper=L-1> fixed_omega_idx = rep_array(0,L-1);
+  for (l in 1:(L-1)) {
+    if (equal_with_threshold(omega_lower[l], omega_upper[l])) {
+      n_fixed_omega += 1;
+      fixed_omega_idx[n_fixed_omega] = l;
+    } else {
+      n_free_omega += 1;
+      free_omega_idx[n_free_omega] = l;
     }
   }
-  real logit_parameter_sigma_upper = 3.0;
-  real x_sigma_upper = 10.0;
+
+  // check whether zeta is fixed
+  int<lower=0, upper=1> n_free_zeta = 1;
+  if (equal_with_threshold(zeta_lower, zeta_upper)) {
+    n_free_zeta = 0;
+  }
 }
 
 parameters {
-  // States
-  matrix<lower=-2, upper=2>[data_length, L-1] x_temp;
-  matrix<lower=0, upper=x_sigma_upper>[N, L-1] x_sigma;
+  // group-level raw parameters
+  vector[n_free_kappa] mu_kappa_raw;
+  vector[n_free_omega] mu_omega_raw;
+  vector[n_free_zeta] mu_zeta_raw;
 
-  // Group level
-  vector[L-2] logit_mu_kappa;
-  vector[L-2] logit_mu_omega;
-  real logit_mu_theta;
-  real logit_mu_zeta;
+  vector[n_free_kappa] sigma_kappa_raw;
+  vector[n_free_omega] sigma_omega_raw;
+  vector[n_free_zeta] sigma_zeta_raw;
 
-  vector<lower=0, upper=logit_parameter_sigma_upper>[L-2] logit_kappa_sigma;
-  vector<lower=0, upper=logit_parameter_sigma_upper>[L-2] logit_omega_sigma;
-  real<lower=0, upper=logit_parameter_sigma_upper> logit_theta_sigma;
-  real<lower=0, upper=logit_parameter_sigma_upper> logit_zeta_sigma;
-
-  // Individual level
-  matrix[N, L-2] logit_kappa_raw;
-  matrix[N, L-2] logit_omega_raw;
-  vector[N] logit_theta_raw;
-  vector[N] logit_zeta_raw;
+  // subject-level raw parameters
+  matrix[N,n_free_kappa] kappa_raw;
+  matrix[N,n_free_omega] omega_raw;
+  matrix[N,n_free_zeta] zeta_raw;
 }
 
 transformed parameters {
-  // non-centered parameterization
-  matrix[N, L-2] logit_kappa;
-  matrix[N, L-2] logit_omega;
-  for (n in 1:N) {
-    for (l in 1:(L-2)) {
-      logit_kappa[n, l] = logit_mu_kappa[l] + logit_kappa_sigma[l] * logit_kappa_raw[n, l];
-      logit_omega[n, l] = logit_mu_omega[l] + logit_omega_sigma[l] * logit_omega_raw[n, l];
-    }
-  }
-  vector[N] logit_theta = logit_mu_theta + logit_theta_sigma * logit_theta_raw;
-  vector[N] logit_zeta = logit_mu_zeta + logit_zeta_sigma * logit_zeta_raw;
-
-  // Perception model
-  vector<lower=0, upper=kappa_upper>[L-2] mu_kappa;
-  vector<lower=omega_lower, upper=omega_upper>[L-2] mu_omega;
-  real<lower=0, upper=theta_upper> mu_theta;
-  
-  matrix[N, L-2] kappa;
-  matrix[N, L-2] omega;
-  vector[N] theta;
-
-  mu_kappa = inv_logit_with_bounds_vector(logit_mu_kappa, 0, kappa_upper);
-  mu_omega = inv_logit_with_bounds_vector(logit_mu_omega, omega_lower, omega_upper);
-  mu_theta = inv_logit_with_bounds(logit_mu_theta, 0, theta_upper);
-  for (n in 1:N) {
-    for (l in 1:(L-2)) {
-      kappa[n, l] = inv_logit_with_bounds(logit_kappa[n, l], 0, kappa_upper);
-      omega[n, l] = inv_logit_with_bounds(logit_omega[n, l], omega_lower, omega_upper);
-    }
-  }
-  theta = inv_logit_with_bounds_vector(logit_theta, 0, theta_upper);
-
-  // Gaussian random walk with non-centered parameterization
-  matrix[N, T] x_raw[L - 1];
-  for (n in 1:N) {
-    int cur_x_temp_trial = prev_trials[n];
-    // top level
-    x_raw[L-1][n, 1] = x_sigma[n, 3-1] * x_temp[cur_x_temp_trial+1, 3-1];
-    for (t in 2:n_trials[n]) {
-      x_raw[L-1][n, t] = x_raw[L-1][n, t-1] + sqrt(theta[n]) * time_variance[n, t] * x_temp[cur_x_temp_trial+t, 3-1];
-    }  
-    for (t in n_trials[n]+1:T) {
-      x_raw[L-1][n, t] = NaN;
-    }
-    // lower levels
-    for (l_rev in 1:(L-2)) {
-      int l = (L-1) - l_rev;
-      x_raw[l][n, 1] = x_sigma[n, 2-1] * x_temp[cur_x_temp_trial+1, 2-1];
-      for (t in 2:n_trials[n]) {
-        real sigma = softplus((kappa[n, l] * x_raw[l+1][n, t] + omega[n, l])); 
-        x_raw[l][n, t] = x_raw[l][n, t-1] + sigma * time_variance[n, t] * x_temp[cur_x_temp_trial+t, 2-1];
-      }  
-      for (t in n_trials[n]+1:T) {
-        x_raw[l][n, t] = NaN;
-      }
-    }
-  }
-
-  // Response model
-  real<lower=0, upper=zeta_upper> mu_zeta;
-  mu_zeta = inv_logit_with_bounds(logit_mu_zeta, 0, zeta_upper);
+  // subject-level parameters
+  matrix[N,L-2] kappa;
+  matrix[N,L-1] omega;
   vector[N] zeta;
-  zeta = inv_logit_with_bounds_vector(logit_zeta, 0, zeta_upper);
+
+  // Rebuild parameters with sampled values and fixed values & Non-centered parameterization
+  for (i in 1:n_free_kappa) {
+    int l = free_kappa_idx[i];
+    vector[N] logit_kappa = mu_kappa_raw[i] + sigma_kappa_raw[i] * kappa_raw[,i];
+    kappa[,l] = inv_logit_vector_with_bounds(logit_kappa, kappa_lower[l], kappa_upper[l]);
+  }
+  for (i in 1:n_fixed_kappa) {
+    int l = fixed_kappa_idx[i];
+    kappa[,l] = rep_vector(kappa_lower[l], N);
+  }
+
+  for (i in 1:n_free_omega) {
+    int l = free_omega_idx[i];
+    vector[N] logit_omega = mu_omega_raw[i] + sigma_omega_raw[i] * omega_raw[,i];
+    omega[,l] = inv_logit_vector_with_bounds(logit_omega, omega_lower[l], omega_upper[l]);
+  }
+  for (i in 1:n_fixed_omega) {
+    int l = fixed_omega_idx[i];
+    omega[,l] = rep_vector(omega_lower[l], N);
+  }
+
+  if (n_free_zeta == 1) {
+    vector[N] logit_zeta = mu_zeta_raw[1] + sigma_zeta_raw[1] * zeta_raw[,1];
+    zeta = inv_logit_vector_with_bounds(logit_zeta, zeta_lower, zeta_upper);
+  } else {
+    zeta = rep_vector(zeta_lower, N);
+  }
 }
 
 model {
-  // State
-  to_vector(x_temp)     ~ normal(0, 1);
-  to_vector(x_sigma)    ~ normal(x_sigma_upper/2, 1);
+  // prior : hyperparameters
+  mu_kappa_raw ~ normal(0,1);
+  mu_omega_raw ~ normal(0,1);
+  mu_zeta_raw  ~ normal(0,1);
 
-  // Group level
-  logit_mu_kappa        ~ normal(0, 1);
-  logit_mu_omega        ~ normal(0, 1);
-  logit_mu_theta        ~ normal(0, 1);
-  logit_mu_zeta         ~ normal(0, 1);
+  sigma_kappa_raw ~ cauchy(0,2);
+  sigma_omega_raw ~ cauchy(0,2);
+  sigma_zeta_raw ~ cauchy(0,2);
 
-  logit_kappa_sigma     ~ normal(logit_parameter_sigma_upper/2, 1);
-  logit_omega_sigma     ~ normal(logit_parameter_sigma_upper/2, 1);
-  logit_theta_sigma     ~ normal(logit_parameter_sigma_upper/2, 1);
-  logit_zeta_sigma      ~ normal(logit_parameter_sigma_upper/2, 1);
+  // prior : individual parameters
+  to_vector(kappa_raw) ~ normal(0,1);
+  to_vector(omega_raw) ~ normal(0,1);
+  to_vector(zeta_raw)  ~ normal(0,1);
+  
+  // Subject loop
+  for (i in 1:N) {
+    array[L] real mu = mu_base;                // prediction (2 ~ L)
+    array[L] real sigma = sigma_base;          // upcertainty of prediction (2 ~ L)
+    array[L] real mu_hat = rep_array(0, L);    // prior prediction (1 ~ L)
+    array[L] real sigma_hat = rep_array(0, L); // prior upcertainty of prediction (1 ~ L)
+    real m = -1;                               // predictive probability that the next response will be 1 (0~1)
+    int time_interval = 0;                     // interval between valid trials
 
-  // Individual level
-  to_vector(logit_kappa_raw) ~ normal(0, 1);
-  to_vector(logit_omega_raw) ~ normal(0, 1);
-  logit_theta_raw            ~ normal(0, 1);
-  logit_zeta_raw             ~ normal(0, 1);
+    // Trial loop
+    for (t in 1:T) {
+      time_interval += 1;
+      // Check if trial is valid
+      if (u[i,t] == -1 || y[i,t] == -1) {
+        continue;
+      }
+      // Perception model
+      // Update prior predictions
+      for (l in 2:L) {
+        mu_hat[l] = mu[l];
+      }
+      // Prediction
+      mu_hat[1] = inv_logit(mu_hat[2]);
 
-  for (n in 1:N) {
-    int max_T = n_trials[n];
-    // Perception model
-    inputs_matrix[n, 1:max_T] ~ bernoulli_logit(x_raw[2-1][n, 1:max_T]);
+      // Update prior upcertainty
+      sigma_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
+      for (l in 2:(L-1)) {
+        real ka = kappa[i,l-1];
+        real om = omega[i,l-1];
+        sigma_hat[l] = sigma[l] + time_interval * exp(ka * mu[l+1] + om);
+      }
+      sigma_hat[L] = sigma[L] + time_interval * exp(omega[i,L-1]);
+  
+      // Level 2
+      real mu_prev = mu_hat[2];
+      real pe = u[i,t] - mu_hat[1];                         // prediction error
+      sigma[2] = 1.0 / ((1.0/sigma_hat[2]) + sigma_hat[1]); // learning rate
+      mu[2] = mu_prev + sigma[2] * pe;                      // posterior prediction
 
-    // Response model
-    vector[max_T-1] p = to_vector(inv_logit(zeta[n] * x_raw[2-1][n, 1:(max_T-1)]));
-    responses_matrix[n, 2:max_T] ~ bernoulli(p);
+      // Level 3 ~ L
+      for (l in 3:L) {
+        real ka = kappa[i,(l-1)-1];
+        real om = omega[i,(l-1)-1];
+        real mu_lower = mu[l-1];
+        mu_prev = mu_hat[l];
+        real mu_prev_lower = mu_hat[l-1];
+        real sigma_lower = sigma[l-1];
+        real sigma_prev_lower = sigma_hat[l-1];
+
+        real v = time_interval * exp(ka * mu_prev + om); // volatility
+        real w = v / sigma_prev_lower;                   // weighting factor (level: l-1)
+        real vpe = ((sigma_lower + pow(mu_lower - mu_prev_lower, 2)) / sigma_prev_lower) - 1; // prediction error
+        real r = 2*w - 1;                                // relative difference of environmental and informational uncertainty (level: l-1)
+        sigma[l] = 1.0/((1.0/sigma_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
+        real lr = 0.5 * sigma[l] * ka * w;               // learning rate
+        real pwpe = lr * vpe;                            // precision-weighted prediction error
+        mu[l] = mu_prev + pwpe;                          // posterior prediction
+      }
+
+      // Response model (unit-square sigmoid)
+      if (input_first) {
+        // make choice based on current input
+        y[i,t] ~ bernoulli_logit(zeta[i] * logit(mu_hat[1]));
+      } else if (m >= 0) {
+        // make choice based on previous valid input
+        y[i,t] ~ bernoulli_logit(zeta[i] * logit(m));
+      }
+      m = mu_hat[1];
+      time_interval = 0;
+    }
   }
 }
 
 generated quantities {
-  array[N, T, L] real x;
-  for (n in 1:N) {
-    for (t in 1:T) {
-      for (l in 1:L) {
-        x[n, t, l] = NaN;
-      }
-    }
-    for (t in 1:n_trials[n]) {
-      int trial_index = valid_trials_matrix[n, t];
-      x[n, trial_index, 1] = inputs_matrix[n, t];
-      for (l in 1:(L - 1)) {
-        x[n, trial_index, l+1] = x_raw[l][n, t];
-      }
-    }
+  vector[L-2] mu_kappa;
+  vector[L-1] mu_omega;
+  real<lower=0> mu_zeta;
+
+  for (i in 1:n_free_kappa) {
+    int l = free_kappa_idx[i];
+    mu_kappa[l] = inv_logit_with_bounds(mu_kappa_raw[i], kappa_lower[l], kappa_upper[l]);
+  }
+  for (i in 1:n_fixed_kappa) {
+    int l = fixed_kappa_idx[i];
+    mu_kappa[l] = kappa_lower[l];
+  }
+
+  for (i in 1:n_free_omega) {
+    int l = free_omega_idx[i];
+    mu_omega[l] = inv_logit_with_bounds(mu_omega_raw[i], omega_lower[l], omega_upper[l]);
+  }
+  for (i in 1:n_fixed_omega) {
+    int l = fixed_omega_idx[i];
+    mu_omega[l] = omega_lower[l];
+  }
+
+  if (n_free_zeta == 1) {
+    mu_zeta = inv_logit_with_bounds(mu_zeta_raw[1], zeta_lower, zeta_upper);
+  } else {
+    mu_zeta = zeta_lower;
   }
 }

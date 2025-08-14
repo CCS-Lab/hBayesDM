@@ -7,22 +7,26 @@
 #' @templateVar MODEL_CODE hgf_ibrb
 #' @templateVar MODEL_CITE (Mathys C, 2011; Mathys CD et al., 2014)
 #' @templateVar MODEL_TYPE Hierarchical
-#' @templateVar DATA_COLUMNS "subjID", "trialNum", "inputs", "responses"
-#' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level (for each levels from 2 to L-1)), \code{omega} (tonic volatility (for each levels from 2 to L-1)), \code{vartheta} (constant volatility (at the highest level L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief)
+#' @templateVar DATA_COLUMNS "subjID", "trialNum", "u", "y"
+#' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS 
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
-#' @templateVar DETAILS_DATA_3 \item{inputs}{Integer value representing the input on that trial: 0 or 1.}
-#' @templateVar DETAILS_DATA_4 \item{responses}{Integer value representing the subject's action chosen on that trial: 0 or 1.}
-#' @templateVar LENGTH_ADDITIONAL_ARGS 6
+#' @templateVar DETAILS_DATA_3 \item{u}{Integer value representing the input on that trial: 0 or 1.}
+#' @templateVar DETAILS_DATA_4 \item{y}{Integer value representing the subject's choice on that trial: 0 or 1.}
+#' @templateVar LENGTH_ADDITIONAL_ARGS 10
 #' @templateVar ADDITIONAL_ARGS_1 \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
-#' @templateVar ADDITIONAL_ARGS_2 \item{kappa_upper}{Upper bound for kappa parameters. Defaults to 2}
-#' @templateVar ADDITIONAL_ARGS_3 \item{omega_upper}{Upper bound for omega parameters. Defaults to 5}
-#' @templateVar ADDITIONAL_ARGS_4 \item{omega_lower}{Lower bound for omega parameters. Defaults to -5}
-#' @templateVar ADDITIONAL_ARGS_5 \item{theta_upper}{Upper bound for theta parameter. Defaults to 2}
-#' @templateVar ADDITIONAL_ARGS_6 \item{zeta_upper}{Upper bound for zeta parameter. Defaults to 3}
+#' @templateVar ADDITIONAL_ARGS_2 \item{input_first}{TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]}
+#' @templateVar ADDITIONAL_ARGS_3 \item{mu0}{prior belief for each level before starting the experiment}
+#' @templateVar ADDITIONAL_ARGS_4 \item{sigma0}{prior uncertainty for each level before starting the experiment}
+#' @templateVar ADDITIONAL_ARGS_5 \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_6 \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_7 \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-5. -5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_8 \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_9 \item{zeta_lower}{Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.}
+#' @templateVar ADDITIONAL_ARGS_10 \item{zeta_upper}{Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper.}
 #'
 #' @template model-documentation
 #'
@@ -41,12 +45,23 @@ hgf_ibrb <- hBayesDM_model(
   task_name       = "",
   model_name      = "hgf_ibrb",
   model_type      = "",
-  data_columns    = c("subjID", "trialNum", "inputs", "responses"),
+  data_columns    = c("subjID", "trialNum", "u", "y"),
   parameters      = list(
     "kappa" = c(0, 0, Inf),
     "omega" = c(-Inf, 0, Inf),
-    "vartheta" = c(0, 1, Inf),
     "zeta" = c(0, 1, Inf)
+  ),
+  additional_args = list(
+    'L' = 3,
+    'input_first' = FALSE,
+    'mu0' = c(0.5, 1.0),
+    'sigma0' = c(0.1, 1.0),
+    'kappa_lower' = c(0),
+    'kappa_upper' = c(3),
+    'omega_lower' = c(-5, -5),
+    'omega_upper' = c(5, 5),
+    'zeta_lower' = 0,
+    'zeta_upper' = 3
   ),
   regressors      = NULL,
   postpreds       = NULL,

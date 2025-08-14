@@ -21,18 +21,15 @@ contributors:
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   trialNum: "Nominal integer representing the trial number: 1, 2, ..."
-  inputs: "Integer value representing the input on that trial: 0 or 1."
-  responses: "Integer value representing the subject's action chosen on that trial: 0 or 1."
+  u: "Integer value representing the input on that trial: 0 or 1."
+  y: "Integer value representing the subject's choice on that trial: 0 or 1."
 parameters:
   kappa:
-    desc: phasic volatility for coupling with higher level (for each levels from 2 to L-1)
+    desc: phasic volatility for coupling with higher level for each level (2 ~ L-1)
     info: [0, 0, Inf]
   omega:
-    desc: tonic volatility (for each levels from 2 to L-1)
+    desc: tonic volatility for each level (2 ~ L)
     info: [-Inf, 0, Inf]
-  vartheta:
-    desc: constant volatility (at the highest level L)
-    info: [0, 1, Inf]
   zeta:
     desc: tendency to choose the response that corresponds with one\'s current belief
     info: [0, 1, Inf]
@@ -42,18 +39,30 @@ additional_args:
 - code: L
   default: 3
   desc: "Total level of hierarchy. Defaults to minimum level of 3"
+- code: input_first
+  default: FALSE
+  desc: "TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]"
+- code: mu0
+  default: [0.5, 1.0]
+  desc: "prior belief for each level before starting the experiment"
+- code: sigma0
+  default: [0.1, 1.0]
+  desc: "prior uncertainty for each level before starting the experiment"
+- code: kappa_lower
+  default: [0]
+  desc: "Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l]."
 - code: kappa_upper
-  default: 2
-  desc: "Upper bound for kappa parameters. Defaults to 2"
-- code: omega_upper
-  default: 5
-  desc: "Upper bound for omega parameters. Defaults to 5"
+  default: [3]
+  desc: "Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l]."
 - code: omega_lower
-  default: -5
-  desc: "Lower bound for omega parameters. Defaults to -5"
-- code: theta_upper
-  default: 2
-  desc: "Upper bound for theta parameter. Defaults to 2"
+  default: [-5, -5]
+  desc: "Lower bounds for omega for each level (2 ~ L). Defaults to [-5. -5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l]."
+- code: omega_upper
+  default: [5, 5]
+  desc: "Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l]."
+- code: zeta_lower
+  default: 0
+  desc: "Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper."
 - code: zeta_upper
   default: 3
-  desc: "Upper bound for zeta parameter. Defaults to 3"
+  desc: "Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper."

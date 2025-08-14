@@ -27,7 +27,7 @@ hgf_ibrb(
 a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
 \code{"choose"} to choose data with an interactive window.
 Columns in the dataset must include:
-"subjID", "trialNum", "inputs", "responses". See \bold{Details} below for more information.}
+"subjID", "trialNum", "u", "y". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
 
@@ -69,14 +69,14 @@ on each new iteration. See \bold{Details} below.}
 \item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
 \describe{
   \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
-  \item{kappa_upper}{Upper bound for kappa parameters. Defaults to 2}
-  \item{omega_upper}{Upper bound for omega parameters. Defaults to 5}
-  \item{omega_lower}{Lower bound for omega parameters. Defaults to -5}
-  \item{theta_upper}{Upper bound for theta parameter. Defaults to 2}
-  \item{zeta_upper}{Upper bound for zeta parameter. Defaults to 3}
-  
-  
-  
+  \item{input_first}{TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]}
+  \item{mu0}{prior belief for each level before starting the experiment}
+  \item{sigma0}{prior uncertainty for each level before starting the experiment}
+  \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+  \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+  \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-5. -5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+  \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+  \item{zeta_lower}{Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.}
 }}
 }
 \value{
@@ -97,7 +97,7 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 \description{
 Hierarchical Bayesian Modeling of the NA using Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses.
-It has the following parameters: \code{kappa} (phasic volatility for coupling with higher level (for each levels from 2 to L-1)), \code{omega} (tonic volatility (for each levels from 2 to L-1)), \code{vartheta} (constant volatility (at the highest level L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief).
+It has the following parameters: \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief).
 
 \itemize{
   \item \strong{Task}: NA 
@@ -112,13 +112,13 @@ This section describes some of the function arguments in greater detail.
   subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
   file, whose rows represent trial-by-trial observations and columns represent variables.\cr
 For the NA, there should be 4 columns of data with the
-  labels "subjID", "trialNum", "inputs", "responses". It is not necessary for the columns to be in this particular order,
+  labels "subjID", "trialNum", "u", "y". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
   \item{subjID}{A unique identifier for each subject in the data-set.}
   \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
-  \item{inputs}{Integer value representing the input on that trial: 0 or 1.}
-  \item{responses}{Integer value representing the subject's action chosen on that trial: 0 or 1.}
+  \item{u}{Integer value representing the input on that trial: 0 or 1.}
+  \item{y}{Integer value representing the subject's choice on that trial: 0 or 1.}
   
   
   
