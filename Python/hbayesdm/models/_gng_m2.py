@@ -41,6 +41,9 @@ class GngM2(TaskModel):
                 ('b', 'action bias'),
                 ('rho', 'effective size'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

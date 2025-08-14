@@ -20,7 +20,7 @@
 #' @templateVar DETAILS_DATA_6 \item{feedback}{Integer value representing the outcome of the given trial (where 'correct' == 1, and 'incorrect' == 0).}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 2
 #' @templateVar ADDITIONAL_ARGS_1 \item{RTbound}{Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).}
-#' @templateVar ADDITIONAL_ARGS_2 \item{initQ}{Floating point value representing the model's initial value of any choice.}
+#' @templateVar ADDITIONAL_ARGS_2 \item{initQ}{Floating point value representing the model\'s initial value of any choice.}
 #'
 #' @template model-documentation
 #'
@@ -47,6 +47,10 @@ pstRT_rlddm1 <- hBayesDM_model(
     "tau" = c(0, 0.3, Inf),
     "v" = c(-Inf, 4.5, Inf),
     "alpha" = c(0, 0.02, 1)
+  ),
+  additional_args = list(
+    'RTbound' = 0.1,
+    'initQ' = 0.5
   ),
   regressors      = list(
     "Q1" = 2,

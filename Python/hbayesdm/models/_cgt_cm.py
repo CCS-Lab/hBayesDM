@@ -45,6 +45,9 @@ class CgtCm(TaskModel):
                 ('beta', 'discounting rate'),
                 ('gamma', 'choice sensitivity'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

@@ -107,6 +107,7 @@ hBayesDM_model <- function(task_name = "",
                            model_type = "",
                            data_columns,
                            parameters,
+                           additional_args = NULL,
                            regressors = NULL,
                            postpreds = "y_pred",
                            stanmodel_arg = NULL,
@@ -271,7 +272,18 @@ hBayesDM_model <- function(task_name = "",
     #########################################################
 
     # Preprocess the raw data to pass to Stan
-    data_list <- preprocess_func(raw_data, general_info, ...)
+    if (additional_args == NULL) {
+      data_list <- preprocess_func(raw_data, general_info, ...)
+    } else {
+      args <- list(...)
+      # set default values if not specified in args
+      for (nm in names(additional_args)) {
+        if (!nm %in% names(args)) {
+          args[[nm]] <- additional_args[[nm]]
+        }
+      }
+      data_list <- do.call(preprocess_func, c(list(raw_data, general_info), args))
+    }
 
     # The parameters of interest for Stan
     pars <- character()

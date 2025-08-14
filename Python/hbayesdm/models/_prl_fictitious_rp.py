@@ -41,6 +41,9 @@ class PrlFictitiousRp(TaskModel):
                 ('alpha', 'indecision point'),
                 ('beta', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

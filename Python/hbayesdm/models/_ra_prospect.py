@@ -37,6 +37,9 @@ class RaProspect(TaskModel):
                 ('lambda', 'loss aversion'),
                 ('tau', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

@@ -41,6 +41,7 @@ prl_fictitious_rp <- hBayesDM_model(
     "alpha" = c(-Inf, 0, Inf),
     "beta" = c(0, 1, 10)
   ),
+  additional_args = NULL,
   regressors      = list(
     "ev_c" = 2,
     "ev_nc" = 2,

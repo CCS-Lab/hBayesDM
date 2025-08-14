@@ -44,6 +44,9 @@ class GngM3(TaskModel):
                 ('pi', 'Pavlovian bias'),
                 ('rho', 'effective size'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

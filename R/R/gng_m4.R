@@ -42,6 +42,7 @@ gng_m4 <- hBayesDM_model(
     "rhoRew" = c(0, exp(2), Inf),
     "rhoPun" = c(0, exp(2), Inf)
   ),
+  additional_args = NULL,
   regressors      = list(
     "Qgo" = 2,
     "Qnogo" = 2,

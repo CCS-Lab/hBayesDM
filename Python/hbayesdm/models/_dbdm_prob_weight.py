@@ -42,6 +42,9 @@ class DbdmProbWeight(TaskModel):
                 ('lambda', 'loss aversion parameter'),
                 ('beta', 'inverse softmax temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

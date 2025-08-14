@@ -42,6 +42,7 @@ bandit4arm_lapse_decay <- hBayesDM_model(
     "xi" = c(0, 0.1, 1),
     "d" = c(0, 0.1, 1)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = bandit4arm_preprocess_func)

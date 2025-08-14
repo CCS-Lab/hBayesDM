@@ -34,6 +34,7 @@ task2AFC_sdt <- hBayesDM_model(
     "d" = c(-Inf, 0, Inf),
     "c" = c(-Inf, 0, Inf)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = task2AFC_preprocess_func)

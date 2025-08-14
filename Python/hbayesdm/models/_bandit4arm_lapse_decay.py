@@ -42,6 +42,9 @@ class Bandit4ArmLapseDecay(TaskModel):
                 ('xi', 'noise'),
                 ('d', 'decay rate'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

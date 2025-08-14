@@ -38,6 +38,9 @@ class PrlEwa(TaskModel):
                 ('rho', 'experience decay factor'),
                 ('beta', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

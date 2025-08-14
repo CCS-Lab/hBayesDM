@@ -39,6 +39,9 @@ class GngM1(TaskModel):
                 ('ep', 'learning rate'),
                 ('rho', 'effective size'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

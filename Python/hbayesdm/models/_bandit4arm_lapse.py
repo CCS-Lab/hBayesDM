@@ -40,6 +40,9 @@ class Bandit4ArmLapse(TaskModel):
                 ('P', 'punishment sensitivity'),
                 ('xi', 'noise'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

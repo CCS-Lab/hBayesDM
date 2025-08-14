@@ -41,9 +41,13 @@ class PstrtRlddm1(TaskModel):
                 ('v', 'drift rate scaling'),
                 ('alpha', 'learning rate'),
             ]),
-            additional_args_desc=OrderedDict([
+            additional_args=OrderedDict([
                 ('RTbound', 0.1),
                 ('initQ', 0.5),
+            ]),
+            additional_args_desc=OrderedDict([
+                ('RTbound', 'Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).'),
+                ('initQ', 'Floating point value representing the model\'s initial value of any choice.'),
             ]),
             **kwargs,
         )
@@ -194,7 +198,7 @@ def pstRT_rlddm1(
         For this model, it's possible to set the following model-specific argument to a value that you may prefer.
 
         - ``RTbound``: Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).
-        - ``initQ``: Floating point value representing the model's initial value of any choice.
+        - ``initQ``: Floating point value representing the model\'s initial value of any choice.
 
     Returns
     -------

@@ -40,6 +40,7 @@ dd_exp <- hBayesDM_model(
     "r" = c(0, 0.1, 1),
     "beta" = c(0, 1, 5)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = dd_preprocess_func)

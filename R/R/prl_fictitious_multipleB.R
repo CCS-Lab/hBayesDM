@@ -39,6 +39,7 @@ prl_fictitious_multipleB <- hBayesDM_model(
     "alpha" = c(-Inf, 0, Inf),
     "beta" = c(0, 1, 10)
   ),
+  additional_args = NULL,
   regressors      = list(
     "ev_c" = 3,
     "ev_nc" = 3,

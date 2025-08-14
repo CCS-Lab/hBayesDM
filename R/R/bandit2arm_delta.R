@@ -39,6 +39,7 @@ bandit2arm_delta <- hBayesDM_model(
     "A" = c(0, 0.5, 1),
     "tau" = c(0, 1, 5)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = bandit2arm_preprocess_func)

@@ -39,6 +39,9 @@ class BartEwmv(TaskModel):
                 ('tau', 'inverse temperature'),
                 ('lambda', 'loss aversion'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),
