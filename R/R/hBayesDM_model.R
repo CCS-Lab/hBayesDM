@@ -272,7 +272,7 @@ hBayesDM_model <- function(task_name = "",
     #########################################################
 
     # Preprocess the raw data to pass to Stan
-    if (additional_args == NULL) {
+    if (is.null(additional_args)) {
       data_list <- preprocess_func(raw_data, general_info, ...)
     } else {
       args <- list(...)
