@@ -521,31 +521,50 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
 
 def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
     # Extract from raw_data
-    subjIDs = raw_data["subjID"]
+    subjIDs = raw_data["subjid"]
     trialNums = raw_data["trialNum"]
-    inputs = raw_data["inputs"]
-    responses = raw_data["responses"]
+    raw_u = raw_data["u"]
+    raw_y = raw_data["y"]
 
-    N = len(set(subjIDs))
-    L = additional_args.get('L', 3)
-    T = max(trialNums)
-    data_length = len(raw_data)
+    # Use general_info(s) about raw_data
+    subjs = general_info['subjs']
+    n_subj = general_info['n_subj']
+    t_max = general_info['t_max']
+
+    # Initialize (model-specific) data arrays
+    u = np.full((n_subj, t_max), -1, dtype=int)
+    y = np.full((n_subj, t_max), -1, dtype=int)
+
+    # Write from raw_data to the data arrays
+    subjs_in_order = list(dict.fromkeys(subjs))
+    id_map = {str(s): idx for idx, s in enumerate(subjs_in_order)}
+    data_length = len(subjIDs)
+    for i in range(data_length):
+        n = id_map[str(subjIDs[i])]
+        t = int(trialNums[i]) - 1
+        if raw_u[i] in (0, 1):
+            u[n, t] = int(raw_u[i])
+        if raw_y[i] in (0, 1):
+            y[n, t] = int(raw_y[i])
 
     # Wrap into a dict for pystan
     data_list = {
-        "N": N,
-        "T": T,
-        "L": L,
-        "data_length": data_length,
-        "subject_ids": subjIDs,
-        "valid_trials": trialNums, # TODO: remove NaN if needed
-        "inputs": inputs,
-        "responses": responses,
-        "kappa_upper": additional_args.get('kappa_upper', 2),
-        "omega_upper": additional_args.get('omega_upper', 5),
-        "omega_lower": additional_args.get('omega_lower', -5),
-        "theta_upper": additional_args.get('theta_upper', 2),
-        "zeta_upper": additional_args.get('zeta_upper', 3),
+        "N": n_subj,
+        "T": t_max,
+        "L": additional_args.get('L'),
+        "u": u,
+        "y": y,
+        "input_first": additional_args.get('input_first'),
+
+        "mu0": additional_args.get('mu0'),
+        "sigma0": additional_args.get('sigma0'),
+
+        "kappa_lower": additional_args.get('kappa_lower'),
+        "kappa_upper": additional_args.get('kappa_upper'),
+        "omega_lower": additional_args.get('omega_lower'),
+        "omega_upper": additional_args.get('omega_upper'),
+        "zeta_lower": additional_args.get('zeta_lower'),
+        "zeta_upper": additional_args.get('zeta_upper'),
     }
 
     # Returned data_dict will directly be passed to pystan
