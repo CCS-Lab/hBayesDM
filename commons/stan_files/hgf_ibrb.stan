@@ -219,6 +219,77 @@ model {
 }
 
 generated quantities {
+  real log_lik = 0;
+  
+  // Subject loop
+  for (i in 1:N) {
+    array[L] real mu = mu_base;                // prediction (2 ~ L)
+    array[L] real sigma = sigma_base;          // upcertainty of prediction (2 ~ L)
+    array[L] real mu_hat = rep_array(0, L);    // prior prediction (1 ~ L)
+    array[L] real sigma_hat = rep_array(0, L); // prior upcertainty of prediction (1 ~ L)
+    real m = -1;                               // predictive probability that the next response will be 1 (0~1)
+
+    // Trial loop
+    for (t in 1:T) {
+      // Filter invalid trials
+      if (u[i,t] == -1 || y[i,t] == -1) {
+        continue;
+      }
+      // Perception model
+      // Update prior predictions
+      for (l in 2:L) {
+        mu_hat[l] = mu[l];
+      }
+      // Prediction
+      mu_hat[1] = inv_logit(mu_hat[2]);
+
+      // Update prior upcertainty
+      sigma_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
+      for (l in 2:(L-1)) {
+        real ka = kappa[i,l-1];
+        real om = omega[i,l-1];
+        sigma_hat[l] = sigma[l] + exp(ka * mu[l+1] + om);
+      }
+      sigma_hat[L] = sigma[L] + exp(omega[i,L-1]);
+  
+      // Level 2
+      real mu_prev = mu_hat[2];
+      real pe = u[i,t] - mu_hat[1];                         // prediction error
+      sigma[2] = 1.0 / ((1.0/sigma_hat[2]) + sigma_hat[1]); // learning rate
+      mu[2] = mu_prev + sigma[2] * pe;                      // posterior prediction
+
+      // Level 3 ~ L
+      for (l in 3:L) {
+        real ka = kappa[i,(l-1)-1];
+        real om = omega[i,(l-1)-1];
+        real mu_lower = mu[l-1];
+        mu_prev = mu_hat[l];
+        real mu_prev_lower = mu_hat[l-1];
+        real sigma_lower = sigma[l-1];
+        real sigma_prev_lower = sigma_hat[l-1];
+
+        real v = exp(ka * mu_prev + om);                 // volatility
+        real w = v / sigma_prev_lower;                   // weighting factor (level: l-1)
+        real vpe = ((sigma_lower + pow(mu_lower - mu_prev_lower, 2)) / sigma_prev_lower) - 1; // prediction error
+        real r = 2*w - 1;                                // relative difference of environmental and informational uncertainty (level: l-1)
+        sigma[l] = 1.0/((1.0/sigma_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
+        real lr = 0.5 * sigma[l] * ka * w;               // learning rate
+        real pwpe = lr * vpe;                            // precision-weighted prediction error
+        mu[l] = mu_prev + pwpe;                          // posterior prediction
+      }
+
+      // Response model (unit-square sigmoid)
+      if (input_first) {
+        // make choice based on current input
+        log_lik += bernoulli_logit_lpmf(y[i,t] | zeta[i] * logit(mu_hat[1]));
+      } else if (m >= 0) {
+        // make choice based on previous valid input
+        log_lik += bernoulli_logit_lpmf(y[i,t] | zeta[i] * logit(m));
+      }
+      m = mu_hat[1];
+    }
+  }
+
   vector[L-2] mu_kappa;
   vector[L-1] mu_omega;
   real<lower=0> mu_zeta;
