@@ -88,9 +88,9 @@ parameters {
   vector[n_free_omega] mu_omega_raw;
   vector[n_free_zeta] mu_zeta_raw;
 
-  vector[n_free_kappa] sigma_kappa_raw;
-  vector[n_free_omega] sigma_omega_raw;
-  vector[n_free_zeta] sigma_zeta_raw;
+  vector<lower=0>[n_free_kappa] sigma_kappa_raw;
+  vector<lower=0>[n_free_omega] sigma_omega_raw;
+  vector<lower=0>[n_free_zeta] sigma_zeta_raw;
 
   // subject-level raw parameters
   matrix[N,n_free_kappa] kappa_raw;
@@ -134,19 +134,19 @@ transformed parameters {
 }
 
 model {
-  // prior : hyperparameters
+  // Hyperparameters
   mu_kappa_raw ~ normal(0,1);
   mu_omega_raw ~ normal(0,1);
   mu_zeta_raw  ~ normal(0,1);
 
-  sigma_kappa_raw ~ cauchy(0,2);
-  sigma_omega_raw ~ cauchy(0,2);
-  sigma_zeta_raw ~ cauchy(0,2);
+  sigma_kappa_raw ~ normal(0,1);
+  sigma_omega_raw ~ normal(0,1);
+  sigma_zeta_raw ~ normal(0,1);
 
   // prior : individual parameters
-  to_vector(kappa_raw) ~ normal(0,1);
-  to_vector(omega_raw) ~ normal(0,1);
-  to_vector(zeta_raw)  ~ normal(0,1);
+  to_vector(kappa_raw) ~ normal(0,10);
+  to_vector(omega_raw) ~ normal(0,10);
+  to_vector(zeta_raw)  ~ normal(0,10);
   
   // Subject loop
   for (i in 1:N) {
@@ -155,12 +155,10 @@ model {
     array[L] real mu_hat = rep_array(0, L);    // prior prediction (1 ~ L)
     array[L] real sigma_hat = rep_array(0, L); // prior upcertainty of prediction (1 ~ L)
     real m = -1;                               // predictive probability that the next response will be 1 (0~1)
-    int time_interval = 0;                     // interval between valid trials
 
     // Trial loop
     for (t in 1:T) {
-      time_interval += 1;
-      // Check if trial is valid
+      // Filter invalid trials
       if (u[i,t] == -1 || y[i,t] == -1) {
         continue;
       }
@@ -177,9 +175,9 @@ model {
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sigma_hat[l] = sigma[l] + time_interval * exp(ka * mu[l+1] + om);
+        sigma_hat[l] = sigma[l] + exp(ka * mu[l+1] + om);
       }
-      sigma_hat[L] = sigma[L] + time_interval * exp(omega[i,L-1]);
+      sigma_hat[L] = sigma[L] + exp(omega[i,L-1]);
   
       // Level 2
       real mu_prev = mu_hat[2];
@@ -197,7 +195,7 @@ model {
         real sigma_lower = sigma[l-1];
         real sigma_prev_lower = sigma_hat[l-1];
 
-        real v = time_interval * exp(ka * mu_prev + om); // volatility
+        real v = exp(ka * mu_prev + om);                 // volatility
         real w = v / sigma_prev_lower;                   // weighting factor (level: l-1)
         real vpe = ((sigma_lower + pow(mu_lower - mu_prev_lower, 2)) / sigma_prev_lower) - 1; // prediction error
         real r = 2*w - 1;                                // relative difference of environmental and informational uncertainty (level: l-1)
@@ -216,7 +214,6 @@ model {
         y[i,t] ~ bernoulli_logit(zeta[i] * logit(m));
       }
       m = mu_hat[1];
-      time_interval = 0;
     }
   }
 }
