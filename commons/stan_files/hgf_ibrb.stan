@@ -80,25 +80,30 @@ transformed data {
   if (equal_with_threshold(zeta_lower, zeta_upper)) {
     n_free_zeta = 0;
   }
+  int n_free_parameters = n_free_kappa+n_free_omega+n_free_zeta;
 }
 
 parameters {
   // group-level raw parameters
-  vector[n_free_kappa] mu_kappa_raw;
-  vector[n_free_omega] mu_omega_raw;
-  vector[n_free_zeta] mu_zeta_raw;
-
-  vector<lower=0>[n_free_kappa] sigma_kappa_raw;
-  vector<lower=0>[n_free_omega] sigma_omega_raw;
-  vector<lower=0>[n_free_zeta] sigma_zeta_raw;
+  vector[n_free_parameters] mu_pr;
+  vector<lower=0>[n_free_parameters] sigma;
 
   // subject-level raw parameters
-  matrix[N,n_free_kappa] kappa_raw;
-  matrix[N,n_free_omega] omega_raw;
-  matrix[N,n_free_zeta] zeta_raw;
+  matrix[N,n_free_kappa] kappa_pr;
+  matrix[N,n_free_omega] omega_pr;
+  matrix[N,n_free_zeta] zeta_pr;
 }
 
 transformed parameters {
+  // group-level parameters
+  vector[n_free_kappa] mu_kappa_pr = mu_pr[1:n_free_kappa];
+  vector[n_free_omega] mu_omega_pr = mu_pr[1+n_free_kappa:n_free_kappa+n_free_omega];
+  vector[n_free_zeta] mu_zeta_pr = mu_pr[1+n_free_parameters-n_free_zeta:n_free_parameters];
+
+  vector<lower=0>[n_free_kappa] sigma_kappa_pr = sigma[1:n_free_kappa];
+  vector<lower=0>[n_free_omega] sigma_omega_pr = sigma[1+n_free_kappa:n_free_kappa+n_free_omega];
+  vector<lower=0>[n_free_zeta] sigma_zeta_pr = sigma[1+n_free_parameters-n_free_zeta:n_free_parameters];
+
   // subject-level parameters
   matrix[N,L-2] kappa;
   matrix[N,L-1] omega;
@@ -107,7 +112,7 @@ transformed parameters {
   // Rebuild parameters with sampled values and fixed values & Non-centered parameterization
   for (i in 1:n_free_kappa) {
     int l = free_kappa_idx[i];
-    vector[N] logit_kappa = mu_kappa_raw[i] + sigma_kappa_raw[i] * kappa_raw[,i];
+    vector[N] logit_kappa = mu_kappa_pr[i] + sigma_kappa_pr[i] * kappa_pr[,i];
     kappa[,l] = inv_logit_vector_with_bounds(logit_kappa, kappa_lower[l], kappa_upper[l]);
   }
   for (i in 1:n_fixed_kappa) {
@@ -117,7 +122,7 @@ transformed parameters {
 
   for (i in 1:n_free_omega) {
     int l = free_omega_idx[i];
-    vector[N] logit_omega = mu_omega_raw[i] + sigma_omega_raw[i] * omega_raw[,i];
+    vector[N] logit_omega = mu_omega_pr[i] + sigma_omega_pr[i] * omega_pr[,i];
     omega[,l] = inv_logit_vector_with_bounds(logit_omega, omega_lower[l], omega_upper[l]);
   }
   for (i in 1:n_fixed_omega) {
@@ -126,7 +131,7 @@ transformed parameters {
   }
 
   if (n_free_zeta == 1) {
-    vector[N] logit_zeta = mu_zeta_raw[1] + sigma_zeta_raw[1] * zeta_raw[,1];
+    vector[N] logit_zeta = mu_zeta_pr[1] + sigma_zeta_pr[1] * zeta_pr[,1];
     zeta = inv_logit_vector_with_bounds(logit_zeta, zeta_lower, zeta_upper);
   } else {
     zeta = rep_vector(zeta_lower, N);
@@ -135,26 +140,21 @@ transformed parameters {
 
 model {
   // Hyperparameters
-  mu_kappa_raw ~ normal(0,1);
-  mu_omega_raw ~ normal(0,1);
-  mu_zeta_raw  ~ normal(0,1);
+  mu_pr ~ normal(0,1);
+  sigma ~ normal(0,1);
 
-  sigma_kappa_raw ~ normal(0,1);
-  sigma_omega_raw ~ normal(0,1);
-  sigma_zeta_raw ~ normal(0,1);
-
-  // prior : individual parameters
-  to_vector(kappa_raw) ~ normal(0,10);
-  to_vector(omega_raw) ~ normal(0,10);
-  to_vector(zeta_raw)  ~ normal(0,10);
+  // individual parameters
+  to_vector(kappa_pr) ~ normal(0,10);
+  to_vector(omega_pr) ~ normal(0,10);
+  to_vector(zeta_pr)  ~ normal(0,10);
   
   // Subject loop
   for (i in 1:N) {
-    array[L] real mu = mu_base;                // prediction (2 ~ L)
-    array[L] real sigma = sigma_base;          // upcertainty of prediction (2 ~ L)
-    array[L] real mu_hat = rep_array(0, L);    // prior prediction (1 ~ L)
-    array[L] real sigma_hat = rep_array(0, L); // prior upcertainty of prediction (1 ~ L)
-    real m = -1;                               // predictive probability that the next response will be 1 (0~1)
+    array[L] real mu = mu_base;             // prediction (2 ~ L)
+    array[L] real sa = sigma_base;          // uncertainty of prediction (2 ~ L)
+    array[L] real mu_hat = rep_array(0, L); // prior prediction (1 ~ L)
+    array[L] real sa_hat = rep_array(0, L); // prior uncertainty of prediction (1 ~ L)
+    real m = -1;                            // predictive probability that the next response will be 1 (0~1)
 
     // Trial loop
     for (t in 1:T) {
@@ -170,20 +170,20 @@ model {
       // Prediction
       mu_hat[1] = inv_logit(mu_hat[2]);
 
-      // Update prior upcertainty
-      sigma_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
+      // Update prior uncertainty
+      sa_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sigma_hat[l] = sigma[l] + exp(ka * mu[l+1] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[l+1] + om);
       }
-      sigma_hat[L] = sigma[L] + exp(omega[i,L-1]);
+      sa_hat[L] = sa[L] + exp(omega[i,L-1]);
   
       // Level 2
       real mu_prev = mu_hat[2];
-      real pe = u[i,t] - mu_hat[1];                         // prediction error
-      sigma[2] = 1.0 / ((1.0/sigma_hat[2]) + sigma_hat[1]); // learning rate
-      mu[2] = mu_prev + sigma[2] * pe;                      // posterior prediction
+      real pe = u[i,t] - mu_hat[1];                // prediction error
+      sa[2] = 1.0 / ((1.0/sa_hat[2]) + sa_hat[1]); // learning rate
+      mu[2] = mu_prev + sa[2] * pe;                // posterior prediction
 
       // Level 3 ~ L
       for (l in 3:L) {
@@ -192,17 +192,17 @@ model {
         real mu_lower = mu[l-1];
         mu_prev = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
-        real sigma_lower = sigma[l-1];
-        real sigma_prev_lower = sigma_hat[l-1];
+        real sa_lower = sa[l-1];
+        real sa_prev_lower = sa_hat[l-1];
 
-        real v = exp(ka * mu_prev + om);                 // volatility
-        real w = v / sigma_prev_lower;                   // weighting factor (level: l-1)
-        real vpe = ((sigma_lower + pow(mu_lower - mu_prev_lower, 2)) / sigma_prev_lower) - 1; // prediction error
-        real r = 2*w - 1;                                // relative difference of environmental and informational uncertainty (level: l-1)
-        sigma[l] = 1.0/((1.0/sigma_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
-        real lr = 0.5 * sigma[l] * ka * w;               // learning rate
-        real pwpe = lr * vpe;                            // precision-weighted prediction error
-        mu[l] = mu_prev + pwpe;                          // posterior prediction
+        real v = exp(ka * mu_prev + om);              // volatility
+        real w = v / sa_prev_lower;                   // weighting factor (level: l-1)
+        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
+        real r = 2*w - 1;                             // relative difference of environmental and informational uncertainty (level: l-1)
+        sa[l] = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
+        real lr = 0.5 * sa[l] * ka * w;               // learning rate
+        real pwpe = lr * vpe;                         // precision-weighted prediction error
+        mu[l] = mu_prev + pwpe;                       // posterior prediction
       }
 
       // Response model (unit-square sigmoid)
@@ -223,11 +223,11 @@ generated quantities {
   
   // Subject loop
   for (i in 1:N) {
-    array[L] real mu = mu_base;                // prediction (2 ~ L)
-    array[L] real sigma = sigma_base;          // upcertainty of prediction (2 ~ L)
-    array[L] real mu_hat = rep_array(0, L);    // prior prediction (1 ~ L)
-    array[L] real sigma_hat = rep_array(0, L); // prior upcertainty of prediction (1 ~ L)
-    real m = -1;                               // predictive probability that the next response will be 1 (0~1)
+    array[L] real mu = mu_base;             // prediction (2 ~ L)
+    array[L] real sa = sigma_base;          // uncertainty of prediction (2 ~ L)
+    array[L] real mu_hat = rep_array(0, L); // prior prediction (1 ~ L)
+    array[L] real sa_hat = rep_array(0, L); // prior uncertainty of prediction (1 ~ L)
+    real m = -1;                            // predictive probability that the next response will be 1 (0~1)
 
     // Trial loop
     for (t in 1:T) {
@@ -243,20 +243,20 @@ generated quantities {
       // Prediction
       mu_hat[1] = inv_logit(mu_hat[2]);
 
-      // Update prior upcertainty
-      sigma_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
+      // Update prior uncertainty
+      sa_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sigma_hat[l] = sigma[l] + exp(ka * mu[l+1] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[l+1] + om);
       }
-      sigma_hat[L] = sigma[L] + exp(omega[i,L-1]);
+      sa_hat[L] = sa[L] + exp(omega[i,L-1]);
   
       // Level 2
       real mu_prev = mu_hat[2];
-      real pe = u[i,t] - mu_hat[1];                         // prediction error
-      sigma[2] = 1.0 / ((1.0/sigma_hat[2]) + sigma_hat[1]); // learning rate
-      mu[2] = mu_prev + sigma[2] * pe;                      // posterior prediction
+      real pe = u[i,t] - mu_hat[1];                // prediction error
+      sa[2] = 1.0 / ((1.0/sa_hat[2]) + sa_hat[1]); // learning rate
+      mu[2] = mu_prev + sa[2] * pe;                // posterior prediction
 
       // Level 3 ~ L
       for (l in 3:L) {
@@ -265,17 +265,17 @@ generated quantities {
         real mu_lower = mu[l-1];
         mu_prev = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
-        real sigma_lower = sigma[l-1];
-        real sigma_prev_lower = sigma_hat[l-1];
+        real sa_lower = sa[l-1];
+        real sa_prev_lower = sa_hat[l-1];
 
-        real v = exp(ka * mu_prev + om);                 // volatility
-        real w = v / sigma_prev_lower;                   // weighting factor (level: l-1)
-        real vpe = ((sigma_lower + pow(mu_lower - mu_prev_lower, 2)) / sigma_prev_lower) - 1; // prediction error
-        real r = 2*w - 1;                                // relative difference of environmental and informational uncertainty (level: l-1)
-        sigma[l] = 1.0/((1.0/sigma_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
-        real lr = 0.5 * sigma[l] * ka * w;               // learning rate
-        real pwpe = lr * vpe;                            // precision-weighted prediction error
-        mu[l] = mu_prev + pwpe;                          // posterior prediction
+        real v = exp(ka * mu_prev + om);              // volatility
+        real w = v / sa_prev_lower;                   // weighting factor (level: l-1)
+        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
+        real r = 2*w - 1;                             // relative difference of environmental and informational uncertainty (level: l-1)
+        sa[l] = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
+        real lr = 0.5 * sa[l] * ka * w;               // learning rate
+        real pwpe = lr * vpe;                         // precision-weighted prediction error
+        mu[l] = mu_prev + pwpe;                       // posterior prediction
       }
 
       // Response model (unit-square sigmoid)
@@ -296,7 +296,7 @@ generated quantities {
 
   for (i in 1:n_free_kappa) {
     int l = free_kappa_idx[i];
-    mu_kappa[l] = inv_logit_with_bounds(mu_kappa_raw[i], kappa_lower[l], kappa_upper[l]);
+    mu_kappa[l] = inv_logit_with_bounds(mu_kappa_pr[i], kappa_lower[l], kappa_upper[l]);
   }
   for (i in 1:n_fixed_kappa) {
     int l = fixed_kappa_idx[i];
@@ -305,7 +305,7 @@ generated quantities {
 
   for (i in 1:n_free_omega) {
     int l = free_omega_idx[i];
-    mu_omega[l] = inv_logit_with_bounds(mu_omega_raw[i], omega_lower[l], omega_upper[l]);
+    mu_omega[l] = inv_logit_with_bounds(mu_omega_pr[i], omega_lower[l], omega_upper[l]);
   }
   for (i in 1:n_fixed_omega) {
     int l = fixed_omega_idx[i];
@@ -313,7 +313,7 @@ generated quantities {
   }
 
   if (n_free_zeta == 1) {
-    mu_zeta = inv_logit_with_bounds(mu_zeta_raw[1], zeta_lower, zeta_upper);
+    mu_zeta = inv_logit_with_bounds(mu_zeta_pr[1], zeta_lower, zeta_upper);
   } else {
     mu_zeta = zeta_lower;
   }
