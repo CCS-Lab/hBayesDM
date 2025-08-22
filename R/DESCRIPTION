@@ -91,6 +91,7 @@ Collate:
     'gng_m4.R'
     'hBayesDM.R'
     'hgf_ibrb.R'
+    'hgf_ibrb_single.R'
     'igt_orl.R'
     'igt_pvl_decay.R'
     'igt_pvl_delta.R'

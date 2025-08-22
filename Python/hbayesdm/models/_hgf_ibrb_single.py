@@ -5,19 +5,18 @@ from numpy import Inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
-from hbayesdm.preprocess_funcs import hgf_ibrb_preprocess_func
+from hbayesdm.preprocess_funcs import hgf_ibrb_single_preprocess_func
 
-__all__ = ['hgf_ibrb']
+__all__ = ['hgf_ibrb_single']
 
 
-class HgfIbrb(TaskModel):
+class HgfIbrbSingle(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
             task_name='',
             model_name='hgf_ibrb',
-            model_type='',
+            model_type='single',
             data_columns=(
-                'subjID',
                 'trialNum',
                 'u',
                 'y',
@@ -63,10 +62,10 @@ class HgfIbrb(TaskModel):
             **kwargs,
         )
 
-    _preprocess_func = hgf_ibrb_preprocess_func
+    _preprocess_func = hgf_ibrb_single_preprocess_func
 
 
-def hgf_ibrb(
+def hgf_ibrb_single(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -82,10 +81,10 @@ def hgf_ibrb(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """ - Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses
+    """ - Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses
 
-    Hierarchical Bayesian Modeling of the  
-    using Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses [Mathys_C2011]_, [Mathys_CD2014]_ with the following parameters:
+    Individual Bayesian Modeling of the  
+    using Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses [Mathys_C2011]_, [Mathys_CD2014]_ with the following parameters:
     "kappa" (phasic volatility for coupling with higher level for each level (2 ~ L-1)), "omega" (tonic volatility for each level (2 ~ L)), "zeta" (tendency to choose the response that corresponds with one\'s current belief).
 
     
@@ -101,12 +100,11 @@ def hgf_ibrb(
     **tab-delimited** text file, whose rows represent trial-by-trial observations
     and columns represent variables.
 
-    For the , there should be 4 columns of data
-    with the labels "subjID", "trialNum", "u", "y". It is not necessary for the columns to be
+    For the , there should be 3 columns of data
+    with the labels "trialNum", "u", "y". It is not necessary for the columns to be
     in this particular order; however, it is necessary that they be labeled
     correctly and contain the information below:
 
-    - "subjID": A unique identifier for each subject in the data-set.
     - "trialNum": Nominal integer representing the trial number: 1, 2, ...
     - "u": Integer value representing the input on that trial: 0 or 1.
     - "y": Integer value representing the subject's choice on that trial: 0 or 1.
@@ -139,7 +137,7 @@ def hgf_ibrb(
     data
         Data to be modeled. It should be given as a Pandas DataFrame object,
         a filepath for a data file, or ``"example"`` for example data.
-        Data columns should be labeled as: "subjID", "trialNum", "u", "y".
+        Data columns should be labeled as: "trialNum", "u", "y".
     niter
         Number of iterations, including warm-up. Defaults to 4000.
     nwarmup
@@ -220,7 +218,7 @@ def hgf_ibrb(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('hgf_ibrb').
+        - ``model``: String value that is the name of the model ('hgf_ibrb_single').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -235,10 +233,10 @@ def hgf_ibrb(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import hgf_ibrb
+        from hbayesdm.models import hgf_ibrb_single
 
         # Run the model and store results in "output"
-        output = hgf_ibrb(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = hgf_ibrb_single(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -252,7 +250,7 @@ def hgf_ibrb(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return HgfIbrb(
+    return HgfIbrbSingle(
         data=data,
         niter=niter,
         nwarmup=nwarmup,

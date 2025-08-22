@@ -515,8 +515,8 @@ hgf_ibrb_preprocess_func <- function(raw_data, general_info,
   t_max  <- general_info$t_max
 
   # Initialize (model-specific) data arrays
-  u           <- array(-1, c(n_subj, t_max))
-  y           <- array(-1, c(n_subj, t_max))
+  u <- array(-1, c(n_subj, t_max))
+  y <- array(-1, c(n_subj, t_max))
 
   # Write from raw_data to the data arrays
   id_map <- setNames(seq_along(unique(subjs)), unique(subjs))
@@ -535,6 +535,55 @@ hgf_ibrb_preprocess_func <- function(raw_data, general_info,
   # Wrap into a list for Stan
   data_list <- list(
     N=n_subj,
+    T=t_max,
+    L=L,
+    u=u,
+    y=y,
+    input_first=input_first,
+
+    mu0=mu0,
+    sigma0=sigma0,
+
+    kappa_lower=as.array(kappa_lower),
+    kappa_upper=as.array(kappa_upper),
+    omega_lower=as.array(omega_lower),
+    omega_upper=as.array(omega_upper),
+    zeta_lower=zeta_lower,
+    zeta_upper=zeta_upper
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
+}
+
+hgf_ibrb_single_preprocess_func <- function(raw_data, general_info,
+                                            L, input_first, mu0, sigma0,
+                                            kappa_lower, kappa_upper,
+                                            omega_lower, omega_upper,
+                                            zeta_lower, zeta_upper) {
+  # Extract from raw_data
+  trialNums <- raw_data$trialnum
+  raw_u     <- raw_data$u
+  raw_y     <- raw_data$y
+
+  # Initialize (model-specific) data arrays
+  t_max <- max(trialNums)
+  u <- array(-1, t_max)
+  y <- array(-1, t_max)
+
+  # Write from raw_data to the data arrays
+  for (i in 1:length(trialNums)) {
+    t <- trialNums[i]
+    if (raw_u[i] %in% c(0, 1)) {
+      u[t] <- raw_u[i]
+    }
+    if (raw_y[i] %in% c(0, 1)) {
+      y[t] <- raw_y[i]
+    }
+  }
+
+  # Wrap into a list for Stan
+  data_list <- list(
     T=t_max,
     L=L,
     u=u,

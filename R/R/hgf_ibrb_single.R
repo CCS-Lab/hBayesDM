@@ -1,21 +1,20 @@
-#' @templateVar MODEL_FUNCTION hgf_ibrb
+#' @templateVar MODEL_FUNCTION hgf_ibrb_single
 #' @templateVar CONTRIBUTOR \href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@@gmail.com}>
 #' @templateVar TASK_NAME 
 #' @templateVar TASK_CODE 
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses
+#' @templateVar MODEL_NAME Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses
 #' @templateVar MODEL_CODE hgf_ibrb
 #' @templateVar MODEL_CITE (Mathys C, 2011; Mathys CD et al., 2014)
-#' @templateVar MODEL_TYPE Hierarchical
-#' @templateVar DATA_COLUMNS "subjID", "trialNum", "u", "y"
+#' @templateVar MODEL_TYPE Individual
+#' @templateVar DATA_COLUMNS "trialNum", "u", "y"
 #' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS 
-#' @templateVar LENGTH_DATA_COLUMNS 4
-#' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
-#' @templateVar DETAILS_DATA_2 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
-#' @templateVar DETAILS_DATA_3 \item{u}{Integer value representing the input on that trial: 0 or 1.}
-#' @templateVar DETAILS_DATA_4 \item{y}{Integer value representing the subject's choice on that trial: 0 or 1.}
+#' @templateVar LENGTH_DATA_COLUMNS 3
+#' @templateVar DETAILS_DATA_1 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
+#' @templateVar DETAILS_DATA_2 \item{u}{Integer value representing the input on that trial: 0 or 1.}
+#' @templateVar DETAILS_DATA_3 \item{y}{Integer value representing the subject's choice on that trial: 0 or 1.}
 #' @templateVar LENGTH_ADDITIONAL_ARGS 10
 #' @templateVar ADDITIONAL_ARGS_1 \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
 #' @templateVar ADDITIONAL_ARGS_2 \item{input_first}{TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]}
@@ -41,11 +40,11 @@
 #'
 
 
-hgf_ibrb <- hBayesDM_model(
+hgf_ibrb_single <- hBayesDM_model(
   task_name       = "",
   model_name      = "hgf_ibrb",
-  model_type      = "",
-  data_columns    = c("subjID", "trialNum", "u", "y"),
+  model_type      = "single",
+  data_columns    = c("trialNum", "u", "y"),
   parameters      = list(
     "kappa" = c(0, 0, Inf),
     "omega" = c(-Inf, 0, Inf),
@@ -65,4 +64,4 @@ hgf_ibrb <- hBayesDM_model(
   ),
   regressors      = NULL,
   postpreds       = NULL,
-  preprocess_func = hgf_ibrb_preprocess_func)
+  preprocess_func = hgf_ibrb_single_preprocess_func)
