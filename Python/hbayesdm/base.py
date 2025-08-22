@@ -424,6 +424,10 @@ class TaskModel(metaclass=ABCMeta):
             pars += ['mu_' + p for p in self.parameters]
             pars += ['sigma']
         pars += self.parameters_desc
+        if self.model_name == "dd" and self.model_type == 'single':
+            pars += ['log' + self.parameters[0].upper()]
+        if self.model_name == "hgf_ibrb" and self.model_type == 'single':
+            pars += ['logit_' + p for p in self.parameters]
         pars += ['log_lik']
         if model_regressor:
             pars += self.regressors

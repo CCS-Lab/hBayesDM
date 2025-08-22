@@ -2,7 +2,7 @@
 % Please edit documentation in R/hgf_ibrb.R
 \name{hgf_ibrb}
 \alias{hgf_ibrb}
-\title{Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses}
+\title{Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses}
 \usage{
 hgf_ibrb(
   data = NULL,
@@ -74,7 +74,7 @@ on each new iteration. See \bold{Details} below.}
   \item{sigma0}{prior uncertainty for each level before starting the experiment}
   \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
   \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
-  \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-5. -5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+  \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
   \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
   \item{zeta_lower}{Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.}
 }}
@@ -96,12 +96,12 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the NA using Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses.
-It has the following parameters: \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief).
+Hierarchical Bayesian Modeling of the NA using Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses.
+It has the following parameters: \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief).
 
 \itemize{
   \item \strong{Task}: NA 
-  \item \strong{Model}: Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses (Mathys C, 2011; Mathys CD et al., 2014)
+  \item \strong{Model}: Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses (Mathys C, 2011; Mathys CD et al., 2014)
 }
 }
 \details{

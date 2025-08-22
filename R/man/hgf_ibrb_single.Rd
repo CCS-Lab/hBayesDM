@@ -2,7 +2,7 @@
 % Please edit documentation in R/hgf_ibrb_single.R
 \name{hgf_ibrb_single}
 \alias{hgf_ibrb_single}
-\title{Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses}
+\title{Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses}
 \usage{
 hgf_ibrb_single(
   data = NULL,
@@ -27,7 +27,7 @@ hgf_ibrb_single(
 a filepath for a tab-seperated txt file, \code{"example"} to use example data, or
 \code{"choose"} to choose data with an interactive window.
 Columns in the dataset must include:
-"subjID", "trialNum", "u", "y". See \bold{Details} below for more information.}
+"trialNum", "u", "y". See \bold{Details} below for more information.}
 
 \item{niter}{Number of iterations, including warm-up. Defaults to 4000.}
 
@@ -74,7 +74,7 @@ on each new iteration. See \bold{Details} below.}
   \item{sigma0}{prior uncertainty for each level before starting the experiment}
   \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
   \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
-  \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-5. -5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+  \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
   \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
   \item{zeta_lower}{Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.}
 }}
@@ -96,12 +96,12 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 }
 \description{
-Individual Bayesian Modeling of the NA using Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses.
-It has the following parameters: \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief).
+Individual Bayesian Modeling of the NA using Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses.
+It has the following parameters: \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief).
 
 \itemize{
   \item \strong{Task}: NA 
-  \item \strong{Model}: Hierarchical Bayesian version of the Hierarchical Gaussian Filter for binary inputs and binary responses (Mathys C, 2011; Mathys CD et al., 2014)
+  \item \strong{Model}: Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses (Mathys C, 2011; Mathys CD et al., 2014)
 }
 }
 \details{
@@ -111,14 +111,14 @@ This section describes some of the function arguments in greater detail.
   extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
   subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
   file, whose rows represent trial-by-trial observations and columns represent variables.\cr
-For the NA, there should be 4 columns of data with the
-  labels "subjID", "trialNum", "u", "y". It is not necessary for the columns to be in this particular order,
+For the NA, there should be 3 columns of data with the
+  labels "trialNum", "u", "y". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
-  \item{subjID}{A unique identifier for each subject in the data-set.}
   \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
   \item{u}{Integer value representing the input on that trial: 0 or 1.}
   \item{y}{Integer value representing the subject's choice on that trial: 0 or 1.}
+  
   
   
   
