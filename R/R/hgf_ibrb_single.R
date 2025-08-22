@@ -8,7 +8,7 @@
 #' @templateVar MODEL_CITE (Mathys C, 2011; Mathys CD et al., 2014)
 #' @templateVar MODEL_TYPE Individual
 #' @templateVar DATA_COLUMNS "trialNum", "u", "y"
-#' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (tendency to choose the response that corresponds with one\'s current belief)
+#' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS 
 #' @templateVar LENGTH_DATA_COLUMNS 3

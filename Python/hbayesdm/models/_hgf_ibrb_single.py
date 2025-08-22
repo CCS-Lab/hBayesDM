@@ -33,7 +33,7 @@ class HgfIbrbSingle(TaskModel):
             parameters_desc=OrderedDict([
                 ('kappa', 'phasic volatility for coupling with higher level for each level (2 ~ L-1)'),
                 ('omega', 'tonic volatility for each level (2 ~ L)'),
-                ('zeta', 'tendency to choose the response that corresponds with one\'s current belief'),
+                ('zeta', 'inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief'),
             ]),
             additional_args=OrderedDict([
                 ('L', 3),
@@ -85,7 +85,7 @@ def hgf_ibrb_single(
 
     Individual Bayesian Modeling of the  
     using Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses [Mathys_C2011]_, [Mathys_CD2014]_ with the following parameters:
-    "kappa" (phasic volatility for coupling with higher level for each level (2 ~ L-1)), "omega" (tonic volatility for each level (2 ~ L)), "zeta" (tendency to choose the response that corresponds with one\'s current belief).
+    "kappa" (phasic volatility for coupling with higher level for each level (2 ~ L-1)), "omega" (tonic volatility for each level (2 ~ L)), "zeta" (inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief).
 
     
 
