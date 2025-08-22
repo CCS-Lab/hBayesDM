@@ -522,7 +522,7 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
 def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
     # Extract from raw_data
     subjIDs = raw_data["subjid"]
-    trialNums = raw_data["trialNum"]
+    trialNums = raw_data["trialnum"]
     raw_u = raw_data["u"]
     raw_y = raw_data["y"]
 
@@ -573,7 +573,7 @@ def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
 
 def hgf_ibrb_single_preprocess_func(self, raw_data, general_info, additional_args):
     # Extract from raw_data
-    trial_nums = raw_data["trialNum"]
+    trial_nums = raw_data["trialnum"]
     raw_u = raw_data["u"]
     raw_y = raw_data["y"]
 
