@@ -295,6 +295,9 @@ hBayesDM_model <- function(task_name = "",
       log_parameter1 <- paste0("log", toupper(names(parameters)[1]))
       pars <- c(pars, log_parameter1)
     }
+    if ((model_name == "hgf_ibrb") && (model_type == "single")) {
+      pars <- c(pars, paste0("logit_", names(parameters)))
+    }
     pars <- c(pars, "log_lik")
     if (modelRegressor) {
       pars <- c(pars, names(regressors))
