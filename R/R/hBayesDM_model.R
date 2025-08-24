@@ -543,10 +543,12 @@ hBayesDM_model <- function(task_name = "",
         d <- dim(a)
         v <- if (is.null(d)) {
           a
+        } else if (length(d) == 1) {
+          as.vector(a)
         } else if (length(d) == 2) {
-          rowMeans(a)
+          colMeans(a)
         } else if (length(d) == 3) {
-          apply(a, 1, mean)
+          drop(apply(a, c(2, 3), mean))
         } else {
           stop("Unexpected parameter shape")
         }
