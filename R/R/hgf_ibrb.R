@@ -57,11 +57,11 @@ hgf_ibrb <- hBayesDM_model(
     'mu0' = c(0.5, 1.0),
     'sigma0' = c(0.1, 1.0),
     'kappa_lower' = c(0),
-    'kappa_upper' = c(3),
+    'kappa_upper' = c(2),
     'omega_lower' = c(-10, -15),
-    'omega_upper' = c(5, 5),
+    'omega_upper' = c(0, 0),
     'zeta_lower' = 0,
-    'zeta_upper' = 3
+    'zeta_upper' = 2
   ),
   regressors      = NULL,
   postpreds       = NULL,
