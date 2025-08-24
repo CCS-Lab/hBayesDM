@@ -94,22 +94,30 @@ transformed parameters {
   real<lower=zeta_lower, upper=zeta_upper> zeta;
 
   // Rebuild parameters with sampled values and fixed values
-  for (i in 1:n_free_kappa) {
-    int l = free_kappa_idx[i];
-    kappa[l] = inv_logit_with_bounds(logit_kappa[i], kappa_lower[l], kappa_upper[l]);
+  if (n_free_kappa > 0) {
+    for (i in 1:n_free_kappa) {
+      int l = free_kappa_idx[i];
+      kappa[l] = inv_logit_with_bounds(logit_kappa[i], kappa_lower[l], kappa_upper[l]);
+    }
   }
-  for (i in 1:n_fixed_kappa) {
-    int l = fixed_kappa_idx[i];
-    kappa[l] = kappa_lower[l];
+  if (n_fixed_kappa > 0) {
+    for (i in 1:n_fixed_kappa) {
+      int l = fixed_kappa_idx[i];
+      kappa[l] = kappa_lower[l];
+    }
   }
 
-  for (i in 1:n_free_omega) {
-    int l = free_omega_idx[i];
-    omega[l] = inv_logit_with_bounds(logit_omega[i], omega_lower[l], omega_upper[l]);
+  if (n_free_omega > 0) {
+    for (i in 1:n_free_omega) {
+      int l = free_omega_idx[i];
+      omega[l] = inv_logit_with_bounds(logit_omega[i], omega_lower[l], omega_upper[l]);
+    }
   }
-  for (i in 1:n_fixed_omega) {
-    int l = fixed_omega_idx[i];
-    omega[l] = omega_lower[l];
+  if (n_fixed_omega > 0) {
+    for (i in 1:n_fixed_omega) {
+      int l = fixed_omega_idx[i];
+      omega[l] = omega_lower[l];
+    }
   }
 
   if (n_free_zeta == 1) {
