@@ -25,7 +25,7 @@ data {
   int<lower=0, upper=1> input_first; // whether u[t] is observed before or after y[t]
 
   // starting point of belief and uncertainty on the first trial
-  real<lower=0> mu0[L-1];
+  real mu0[L-1];
   real<lower=0> sigma0[L-1];
 
   // boundaries of parameters for each level
@@ -38,7 +38,7 @@ data {
 }
 
 transformed data {
-  real<lower=0> mu_base[L];
+  real mu_base[L];
   real<lower=0> sigma_base[L];
 
   int<lower=0, upper=L-1> n_free_kappa = 0;
