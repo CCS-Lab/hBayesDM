@@ -107,9 +107,9 @@ transformed parameters {
   vector[n_free_omega] mu_omega_pr = mu_pr[1+n_free_kappa:n_free_kappa+n_free_omega];
   vector[n_free_zeta] mu_zeta_pr = mu_pr[1+n_free_parameters-n_free_zeta:n_free_parameters];
 
-  vector<lower=0>[n_free_kappa] sigma_kappa_pr = sigma[1:n_free_kappa];
-  vector<lower=0>[n_free_omega] sigma_omega_pr = sigma[1+n_free_kappa:n_free_kappa+n_free_omega];
-  vector<lower=0>[n_free_zeta] sigma_zeta_pr = sigma[1+n_free_parameters-n_free_zeta:n_free_parameters];
+  vector<lower=0>[n_free_kappa] kappa_sigma_pr = sigma[1:n_free_kappa];
+  vector<lower=0>[n_free_omega] omega_sigma_pr = sigma[1+n_free_kappa:n_free_kappa+n_free_omega];
+  vector<lower=0>[n_free_zeta] zeta_sigma_pr = sigma[1+n_free_parameters-n_free_zeta:n_free_parameters];
 
   // subject-level parameters
   matrix[N,L-2] kappa;
@@ -119,7 +119,7 @@ transformed parameters {
   // Rebuild parameters with sampled values and fixed values & Non-centered parameterization
   for (i in 1:n_free_kappa) {
     int l = free_kappa_idx[i];
-    vector[N] logit_kappa = mu_kappa_pr[i] + sigma_kappa_pr[i] * kappa_pr[,i];
+    vector[N] logit_kappa = mu_kappa_pr[i] + kappa_sigma_pr[i] * kappa_pr[,i];
     kappa[,l] = inv_logit_vector_with_bounds(logit_kappa, kappa_lower[l], kappa_upper[l]);
   }
   for (i in 1:n_fixed_kappa) {
@@ -129,7 +129,7 @@ transformed parameters {
 
   for (i in 1:n_free_omega) {
     int l = free_omega_idx[i];
-    vector[N] logit_omega = mu_omega_pr[i] + sigma_omega_pr[i] * omega_pr[,i];
+    vector[N] logit_omega = mu_omega_pr[i] + omega_sigma_pr[i] * omega_pr[,i];
     omega[,l] = inv_logit_vector_with_bounds(logit_omega, omega_lower[l], omega_upper[l]);
   }
   for (i in 1:n_fixed_omega) {
@@ -138,7 +138,7 @@ transformed parameters {
   }
 
   if (n_free_zeta == 1) {
-    vector[N] logit_zeta = mu_zeta_pr[1] + sigma_zeta_pr[1] * zeta_pr[,1];
+    vector[N] logit_zeta = mu_zeta_pr[1] + zeta_sigma_pr[1] * zeta_pr[,1];
     zeta = inv_logit_vector_with_bounds(logit_zeta, zeta_lower, zeta_upper);
   } else {
     zeta = rep_vector(zeta_lower, N);
