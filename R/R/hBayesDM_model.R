@@ -538,10 +538,36 @@ hBayesDM_model <- function(task_name = "",
     # Measure all individual parameters (per subject)
     allIndPars <- as.data.frame(array(NA, c(n_subj, length(which_indPars))))
     if (model_type == "single") {
-      allIndPars[n_subj, ] <- mapply(function(x) measure_indPars(parVals[[x]]), which_indPars)
+      allIndPars[n_subj, ] <- mapply(function(x) {
+        a <- parVals[[x]]
+        d <- dim(a)
+        v <- if (is.null(d)) {
+          a
+        } else if (length(d) == 2) {
+          rowMeans(a)
+        } else if (length(d) == 3) {
+          apply(a, 1, mean)
+        } else {
+          stop("Unexpected parameter shape")
+        }
+        measure_indPars(v)
+      }, which_indPars)
     } else {
       for (i in 1:n_subj) {
-        allIndPars[i, ] <- mapply(function(x) measure_indPars(parVals[[x]][, i]), which_indPars)
+        allIndPars[i, ] <- mapply(function(x) {
+          a <- parVals[[x]]
+          d <- dim(a)
+          v <- if (is.null(d)) {
+            a
+          } else if (length(d) == 2) {
+            a[, i]
+          } else if (length(d) == 3) {
+            apply(a[, i, , drop = FALSE], 1, mean)
+          } else {
+            stop("Unexpected parameter shape")
+          }
+          measure_indPars(v)
+        }, which_indPars)
       }
     }
     allIndPars <- cbind(subjs, allIndPars)
