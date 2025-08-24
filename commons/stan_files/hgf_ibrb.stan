@@ -96,9 +96,9 @@ parameters {
   vector<lower=0>[n_free_parameters] sigma;
 
   // subject-level raw parameters
-  matrix[N,n_free_kappa] kappa_pr;
-  matrix[N,n_free_omega] omega_pr;
-  matrix[N,n_free_zeta] zeta_pr;
+  vector[N * n_free_kappa] kappa_pr;
+  vector[N * n_free_omega] omega_pr;
+  vector[N * n_free_zeta] zeta_pr;
 }
 
 transformed parameters {
@@ -120,7 +120,7 @@ transformed parameters {
   if (n_free_kappa > 0) {
     for (i in 1:n_free_kappa) {
       int l = free_kappa_idx[i];
-      vector[N] logit_kappa = mu_kappa_pr[i] + kappa_sigma_pr[i] * kappa_pr[,i];
+      vector[N] logit_kappa = mu_kappa_pr[i] + kappa_sigma_pr[i] * segment(kappa_pr, 1+(i-1)*N, N);
       kappa[,l] = inv_logit_vector_with_bounds(logit_kappa, kappa_lower[l], kappa_upper[l]);
     }
   }
@@ -134,7 +134,7 @@ transformed parameters {
   if (n_free_omega > 0) {
     for (i in 1:n_free_omega) {
       int l = free_omega_idx[i];
-      vector[N] logit_omega = mu_omega_pr[i] + omega_sigma_pr[i] * omega_pr[,i];
+      vector[N] logit_omega = mu_omega_pr[i] + omega_sigma_pr[i] * segment(omega_pr, 1+(i-1)*N, N);
       omega[,l] = inv_logit_vector_with_bounds(logit_omega, omega_lower[l], omega_upper[l]);
     }
   }
@@ -146,7 +146,7 @@ transformed parameters {
   }
 
   if (n_free_zeta == 1) {
-    vector[N] logit_zeta = mu_zeta_pr[1] + zeta_sigma_pr[1] * zeta_pr[,1];
+    vector[N] logit_zeta = mu_zeta_pr[1] + zeta_sigma_pr[1] * segment(zeta_pr, 1, N);
     zeta = inv_logit_vector_with_bounds(logit_zeta, zeta_lower, zeta_upper);
   } else {
     zeta = rep_vector(zeta_lower, N);
@@ -159,9 +159,9 @@ model {
   sigma ~ normal(0,1);
 
   // individual parameters
-  to_vector(kappa_pr) ~ normal(0,10);
-  to_vector(omega_pr) ~ normal(0,10);
-  to_vector(zeta_pr)  ~ normal(0,10);
+  kappa_pr ~ normal(0,10);
+  omega_pr ~ normal(0,10);
+  zeta_pr ~ normal(0,10);
   
   // Subject loop
   for (i in 1:N) {
