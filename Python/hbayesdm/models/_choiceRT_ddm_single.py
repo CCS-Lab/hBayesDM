@@ -37,8 +37,11 @@ class ChoicertDdmSingle(TaskModel):
                 ('delta', 'drift rate'),
                 ('tau', 'non-decision time'),
             ]),
-            additional_args_desc=OrderedDict([
+            additional_args=OrderedDict([
                 ('RTbound', 0.1),
+            ]),
+            additional_args_desc=OrderedDict([
+                ('RTbound', 'Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).'),
             ]),
             **kwargs,
         )

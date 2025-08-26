@@ -48,7 +48,7 @@ additional_args:
     reaction time. Defaults to 0.1 (100 milliseconds).
 - code: initQ
   default: 0.5
-  desc: 'Floating point value representing the model''s initial value of any choice.'
+  desc: "Floating point value representing the model\\'s initial value of any choice."
 contributors:
 - name: Hoyoung Doh
   email: hoyoung.doh@gmail.com

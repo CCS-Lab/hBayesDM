@@ -47,6 +47,9 @@ class RdtHappiness(TaskModel):
                 ('gam', 'forgetting factor'),
                 ('sig', 'standard deviation of error'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

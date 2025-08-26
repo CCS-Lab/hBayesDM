@@ -41,6 +41,9 @@ class Bandit4Arm2KalmanFilter(TaskModel):
                 ('s0', 'anticipated initial sd (uncertainty factor) of all 4 options'),
                 ('sD', 'sd of diffusion noise'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

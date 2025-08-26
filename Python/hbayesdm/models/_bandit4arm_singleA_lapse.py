@@ -38,6 +38,9 @@ class Bandit4ArmSingleaLapse(TaskModel):
                 ('P', 'punishment sensitivity'),
                 ('xi', 'noise'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

@@ -35,6 +35,9 @@ class UgDelta(TaskModel):
                 ('tau', 'inverse temperature'),
                 ('ep', 'norm adaptation rate'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

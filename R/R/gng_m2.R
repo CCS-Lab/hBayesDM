@@ -40,6 +40,7 @@ gng_m2 <- hBayesDM_model(
     "b" = c(-Inf, 0, Inf),
     "rho" = c(0, exp(2), Inf)
   ),
+  additional_args = NULL,
   regressors      = list(
     "Qgo" = 2,
     "Qnogo" = 2,

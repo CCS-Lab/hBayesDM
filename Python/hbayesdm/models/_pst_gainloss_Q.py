@@ -36,6 +36,9 @@ class PstGainlossQ(TaskModel):
                 ('alpha_neg', 'learning rate for negative feedbacks'),
                 ('beta', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

@@ -36,6 +36,9 @@ class DdHyperbolicSingle(TaskModel):
                 ('k', 'discounting rate'),
                 ('beta', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

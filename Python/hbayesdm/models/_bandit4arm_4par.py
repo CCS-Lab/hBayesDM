@@ -38,6 +38,9 @@ class Bandit4Arm4Par(TaskModel):
                 ('R', 'reward sensitivity'),
                 ('P', 'punishment sensitivity'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

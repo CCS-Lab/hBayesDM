@@ -36,6 +36,9 @@ class Bandit4Arm2ParLapse(TaskModel):
                 ('Apun', 'punishment learning rate'),
                 ('xi', 'noise'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

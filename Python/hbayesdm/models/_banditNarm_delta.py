@@ -34,8 +34,11 @@ class BanditnarmDelta(TaskModel):
                 ('A', 'learning rate'),
                 ('tau', 'inverse temperature'),
             ]),
-            additional_args_desc=OrderedDict([
+            additional_args=OrderedDict([
                 ('Narm', None),
+            ]),
+            additional_args_desc=OrderedDict([
+                ('Narm', 'Number of arms used in Multi-armed Bandit Task If not given, the number of unique choice will be used.'),
             ]),
             **kwargs,
         )

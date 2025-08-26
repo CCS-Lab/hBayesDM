@@ -41,6 +41,7 @@ bandit4arm2_kalman_filter <- hBayesDM_model(
     "s0" = c(0, 6, 15),
     "sD" = c(0, 3, 15)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = bandit4arm2_preprocess_func)

@@ -43,6 +43,7 @@ peer_ocu <- hBayesDM_model(
     "tau" = c(0, 1, Inf),
     "ocu" = c(-Inf, 0, Inf)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = peer_preprocess_func)

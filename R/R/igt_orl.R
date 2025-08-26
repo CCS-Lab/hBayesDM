@@ -44,6 +44,9 @@ igt_orl <- hBayesDM_model(
     "betaF" = c(-Inf, 0.1, Inf),
     "betaP" = c(-Inf, 1, Inf)
   ),
+  additional_args = list(
+    'payscale' = 100
+  ),
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = igt_preprocess_func)

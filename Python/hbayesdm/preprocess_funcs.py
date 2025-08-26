@@ -92,7 +92,9 @@ def banditNarm_preprocess_func(self, raw_data, general_info, additional_args):
     # get the number of arms used
     n_arm = len(raw_data['choice'].unique())
     # Use additional_args if provided
-    n_arm = additional_args.get('Narm', n_arm)
+    n_arm_arg = additional_args.get('Narm', n_arm)
+    if n_arm_arg is not None:
+        n_arm = n_arm_arg
 
     # Initialize (model-specific) data arrays
     rew = np.full((n_subj, t_max), 0, dtype=float)
@@ -758,7 +760,7 @@ def pstRT_preprocess_func(self, raw_data, general_info, additional_args):
         minRT[s] = min(subj_data['rt'])
 
     # Use additional_args if provided
-    RTbound = additional_args.get('RTbound', 0.1)    
+    RTbound = additional_args.get('RTbound', 0.1)
     initQ = additional_args.get('initQ', 0.5)
     
     # Wrap into a dict for pystan

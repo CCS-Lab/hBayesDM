@@ -29,6 +29,9 @@ class {class_name}(TaskModel):
             parameters_desc=OrderedDict([
                 {parameters_desc}
             ]),
+            additional_args=OrderedDict([
+                {additional_args}
+            ]),
             additional_args_desc=OrderedDict([
                 {additional_args_desc}
             ]),

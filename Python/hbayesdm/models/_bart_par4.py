@@ -37,6 +37,9 @@ class BartPar4(TaskModel):
                 ('gam', 'risk-taking parameter'),
                 ('tau', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

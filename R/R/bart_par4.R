@@ -39,6 +39,7 @@ bart_par4 <- hBayesDM_model(
     "gam" = c(0, 1, Inf),
     "tau" = c(0, 1, Inf)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = bart_preprocess_func)

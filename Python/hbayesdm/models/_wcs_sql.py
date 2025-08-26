@@ -35,6 +35,9 @@ class WcsSql(TaskModel):
                 ('p', 'punishment sensitivity'),
                 ('d', 'decision consistency or inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

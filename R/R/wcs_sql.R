@@ -38,6 +38,7 @@ wcs_sql <- hBayesDM_model(
     "p" = c(0, 0.1, 1),
     "d" = c(0, 1, 5)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = wcs_preprocess_func)

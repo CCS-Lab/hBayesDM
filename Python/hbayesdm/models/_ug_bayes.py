@@ -35,6 +35,9 @@ class UgBayes(TaskModel):
                 ('beta', 'guilt'),
                 ('tau', 'inverse temperature'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),

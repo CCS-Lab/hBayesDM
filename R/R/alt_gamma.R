@@ -40,6 +40,7 @@ alt_gamma <- hBayesDM_model(
     "beta" = c(0, 1, 20),
     "gamma" = c(0, 1, 10)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = alt_preprocess_func)

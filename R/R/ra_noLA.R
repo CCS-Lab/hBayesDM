@@ -39,6 +39,7 @@ ra_noLA <- hBayesDM_model(
     "rho" = c(0, 1, 2),
     "tau" = c(0, 1, 30)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = ra_preprocess_func)

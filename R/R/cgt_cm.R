@@ -44,6 +44,7 @@ cgt_cm <- hBayesDM_model(
     "beta" = c(0, 1, Inf),
     "gamma" = c(0, 1, Inf)
   ),
+  additional_args = NULL,
   regressors      = list(
     "y_hat_col" = 2,
     "y_hat_bet" = 2,

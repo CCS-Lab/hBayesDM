@@ -48,6 +48,7 @@ dbdm_prob_weight <- hBayesDM_model(
     "lambda" = c(0, 2.5, 5),
     "beta" = c(0, 0.2, 1)
   ),
+  additional_args = NULL,
   regressors      = NULL,
   postpreds       = c("y_pred"),
   preprocess_func = dbdm_preprocess_func)

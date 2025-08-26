@@ -40,6 +40,9 @@ class PeerOcu(TaskModel):
                 ('tau', 'inverse temperature'),
                 ('ocu', 'other-conferred utility'),
             ]),
+            additional_args=OrderedDict([
+                
+            ]),
             additional_args_desc=OrderedDict([
                 
             ]),
