@@ -69,7 +69,7 @@ on each new iteration. See \bold{Details} below.}
 \item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
 \describe{
   \item{RTbound}{Floating point value representing the lower bound (i.e., minimum allowed) reaction time. Defaults to 0.1 (100 milliseconds).}
-  \item{initQ}{Floating point value representing the model's initial value of any choice.}
+  \item{initQ}{Floating point value representing the model\'s initial value of any choice.}
   
   
   

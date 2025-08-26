@@ -5,11 +5,12 @@
 \title{hBayesDM Model Base Function}
 \usage{
 hBayesDM_model(
-  task_name,
+  task_name = "",
   model_name,
   model_type = "",
   data_columns,
   parameters,
+  additional_args = NULL,
   regressors = NULL,
   postpreds = "y_pred",
   stanmodel_arg = NULL,

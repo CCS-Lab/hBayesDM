@@ -251,11 +251,13 @@ class TaskModel(metaclass=ABCMeta):
 
         elif isinstance(data, str):
             if data == "example":
-                if self.model_type == '':
-                    filename = '%s_exampleData.txt' % self.task_name
+                filename = "exampleData.txt"
+                if len(self.model_type) > 0:
+                    filename = f"{self.model_type}_{filename}"
+                if len(self.task_name) > 0:
+                    filename = f"{self.task_name}_{filename}"
                 else:
-                    filename = '%s_%s_exampleData.txt' % (
-                        self.task_name, self.model_type)
+                    filename = f"{self.model_name}_{filename}"
 
                 example_data = PATH_EXTDATA / filename
                 if not example_data.exists():
@@ -422,6 +424,10 @@ class TaskModel(metaclass=ABCMeta):
             pars += ['mu_' + p for p in self.parameters]
             pars += ['sigma']
         pars += self.parameters_desc
+        if self.model_name == "dd" and self.model_type == 'single':
+            pars += ['log' + self.parameters[0].upper()]
+        if self.model_name == "hgf_ibrb" and self.model_type == 'single':
+            pars += ['logit_' + p for p in self.parameters]
         pars += ['log_lik']
         if model_regressor:
             pars += self.regressors
@@ -541,11 +547,14 @@ class TaskModel(metaclass=ABCMeta):
         model
             Full name of the model.
         """
-        if self.model_type == '':
-            return '%s_%s' % (self.task_name, self.model_name)
-        else:
-            return '%s_%s_%s' % (
-                self.task_name, self.model_name, self.model_type)
+        model_meta = []
+        if (self.task_name != ""):
+            model_meta.append(self.task_name)
+        if (self.model_name != ""):
+            model_meta.append(self.model_name)
+        if (self.model_type != ""):
+            model_meta.append(self.model_type)
+        return "_".join(model_meta)
 
     def _set_number_of_cores(self, ncore: int) -> int:
         """Set number of cores for parallel computing.

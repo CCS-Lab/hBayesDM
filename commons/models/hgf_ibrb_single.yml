@@ -1,0 +1,67 @@
+task_name:
+  code:
+  desc:
+  cite:
+model_name:
+  code: hgf_ibrb
+  desc: Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses
+  cite:
+  - "Mathys C, Daunizeau J, Friston KJ and Stephan KE (2011) A Bayesian foundation for individual learning under uncertainty. 
+    Front. Hum. Neurosci. 5:39. https://doi.org/10.3389/fnhum.2011.00039"
+  - "Mathys CD, Lomakina EI, Daunizeau J, Iglesias S, Brodersen KH, Friston KJ and Stephan KE (2014) 
+    Uncertainty in perception and the Hierarchical Gaussian Filter. Front. Hum. Neurosci. 8:825. https://doi.org/10.3389/fnhum.2014.00825"
+model_type:
+  code: single
+  desc: Individual
+notes:
+contributors:
+- name: Jinwoo Jeong
+  email: jwjeong96@gmail.com
+  link: https://github.com/bugoverdose
+data_columns:
+  trialNum: "Nominal integer representing the trial number: 1, 2, ..."
+  u: "Integer value representing the input on that trial: 0 or 1."
+  y: "Integer value representing the subject's choice on that trial: 0 or 1."
+parameters:
+  kappa:
+    desc: phasic volatility for coupling with higher level for each level (2 ~ L-1)
+    info: [0, 0, Inf]
+  omega:
+    desc: tonic volatility for each level (2 ~ L)
+    info: [-Inf, 0, Inf]
+  zeta:
+    desc: inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief
+    info: [0, 1, Inf]
+regressors:
+postpreds:
+additional_args:
+- code: L
+  default: 3
+  desc: "Total level of hierarchy. Defaults to minimum level of 3"
+- code: input_first
+  default: FALSE
+  desc: "TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]"
+- code: mu0
+  default: [0.5, 1.0]
+  desc: "prior belief for each level before starting the experiment"
+- code: sigma0
+  default: [0.1, 1.0]
+  desc: "prior uncertainty for each level before starting the experiment"
+- code: kappa_lower
+  default: [0]
+  desc: "Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l]."
+- code: kappa_upper
+  default: [3]
+  desc: "Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l]."
+- code: omega_lower
+  default: [-10, -15]
+  desc: "Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l]."
+- code: omega_upper
+  default: [5, 5]
+  desc: "Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l]."
+- code: zeta_lower
+  default: 0
+  desc: "Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper."
+- code: zeta_upper
+  default: 3
+  desc: "Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper."

@@ -519,6 +519,100 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
     return data_dict
 
 
+def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
+    # Extract from raw_data
+    subjIDs = raw_data["subjid"]
+    trialNums = raw_data["trialnum"]
+    raw_u = raw_data["u"]
+    raw_y = raw_data["y"]
+
+    # Use general_info(s) about raw_data
+    subjs = general_info['subjs']
+    n_subj = general_info['n_subj']
+    t_max = general_info['t_max']
+
+    # Initialize (model-specific) data arrays
+    u = np.full((n_subj, t_max), -1, dtype=int)
+    y = np.full((n_subj, t_max), -1, dtype=int)
+
+    # Write from raw_data to the data arrays
+    subjs_in_order = list(dict.fromkeys(subjs))
+    id_map = {str(s): idx for idx, s in enumerate(subjs_in_order)}
+    data_length = len(subjIDs)
+    for i in range(data_length):
+        n = id_map[str(subjIDs[i])]
+        t = int(trialNums[i]) - 1
+        if raw_u[i] in (0, 1):
+            u[n, t] = int(raw_u[i])
+        if raw_y[i] in (0, 1):
+            y[n, t] = int(raw_y[i])
+
+    # Wrap into a dict for pystan
+    data_list = {
+        "N": n_subj,
+        "T": t_max,
+        "L": additional_args.get('L'),
+        "u": u,
+        "y": y,
+        "input_first": additional_args.get('input_first'),
+
+        "mu0": additional_args.get('mu0'),
+        "sigma0": additional_args.get('sigma0'),
+
+        "kappa_lower": additional_args.get('kappa_lower'),
+        "kappa_upper": additional_args.get('kappa_upper'),
+        "omega_lower": additional_args.get('omega_lower'),
+        "omega_upper": additional_args.get('omega_upper'),
+        "zeta_lower": additional_args.get('zeta_lower'),
+        "zeta_upper": additional_args.get('zeta_upper'),
+    }
+
+    # Returned data_dict will directly be passed to pystan
+    return data_list
+
+
+def hgf_ibrb_single_preprocess_func(self, raw_data, general_info, additional_args):
+    # Extract from raw_data
+    trial_nums = raw_data["trialnum"]
+    raw_u = raw_data["u"]
+    raw_y = raw_data["y"]
+
+    # Initialize (model-specific) data arrays
+    t_max = max(trial_nums)
+    u = np.full(t_max, -1, dtype=int)
+    y = np.full(t_max, -1, dtype=int)
+
+    # Write from raw_data to the data arrays
+    for i in range(len(trial_nums)):
+        t = trial_nums[i] - 1
+        if raw_u[t] in (0, 1):
+            u[t] = int(raw_u[i])
+        if raw_y[t] in (0, 1):
+            y[t] = int(raw_y[i])
+
+    # Wrap into a dict for pystan
+    data_list = {
+        "T": t_max,
+        "L": additional_args.get('L'),
+        "u": u,
+        "y": y,
+        "input_first": additional_args.get('input_first'),
+
+        "mu0": additional_args.get('mu0'),
+        "sigma0": additional_args.get('sigma0'),
+
+        "kappa_lower": additional_args.get('kappa_lower'),
+        "kappa_upper": additional_args.get('kappa_upper'),
+        "omega_lower": additional_args.get('omega_lower'),
+        "omega_upper": additional_args.get('omega_upper'),
+        "zeta_lower": additional_args.get('zeta_lower'),
+        "zeta_upper": additional_args.get('zeta_upper'),
+    }
+
+    # Returned data_dict will directly be passed to pystan
+    return data_list
+
+
 def igt_preprocess_func(self, raw_data, general_info, additional_args):
     # Iterate through grouped_data
     subj_group = iter(general_info['grouped_data'])

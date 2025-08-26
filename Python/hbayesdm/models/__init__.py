@@ -31,6 +31,8 @@ from ._gng_m1 import gng_m1
 from ._gng_m2 import gng_m2
 from ._gng_m3 import gng_m3
 from ._gng_m4 import gng_m4
+from ._hgf_ibrb import hgf_ibrb
+from ._hgf_ibrb_single import hgf_ibrb_single
 from ._igt_orl import igt_orl
 from ._igt_pvl_decay import igt_pvl_decay
 from ._igt_pvl_delta import igt_pvl_delta
@@ -95,6 +97,8 @@ __all__ = [
     'gng_m2',
     'gng_m3',
     'gng_m4',
+    'hgf_ibrb',
+    'hgf_ibrb_single',
     'igt_orl',
     'igt_pvl_decay',
     'igt_pvl_delta',
