@@ -554,7 +554,7 @@ def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
         "L": additional_args.get('L'),
         "u": u,
         "y": y,
-        "input_first": additional_args.get('input_first'),
+        "input_first": 1 if additional_args.get('input_first') else 0,
 
         "mu0": additional_args.get('mu0'),
         "sigma0": additional_args.get('sigma0'),
@@ -596,7 +596,7 @@ def hgf_ibrb_single_preprocess_func(self, raw_data, general_info, additional_arg
         "L": additional_args.get('L'),
         "u": u,
         "y": y,
-        "input_first": additional_args.get('input_first'),
+        "input_first": 1 if additional_args.get('input_first') else 0,
 
         "mu0": additional_args.get('mu0'),
         "sigma0": additional_args.get('sigma0'),

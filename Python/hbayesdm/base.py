@@ -8,6 +8,7 @@ from collections import OrderedDict
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Sequence, Tuple, Union
 
+import re
 import arviz as az
 import matplotlib.pyplot as plt
 import numpy as np
@@ -467,21 +468,32 @@ class TaskModel(metaclass=ABCMeta):
                 RuntimeWarning, stacklevel=1)
             return 'random'
 
-        len_param = len(self.parameters)
-        dict_vb = dict(zip(fit['mean_par_names'], fit['mean_pars']))
+        dict_vb_raw = dict(zip(fit['mean_par_names'], fit['mean_pars']))
+        dict_vb = {}
+        tmp = {}
+        for param_name, v in dict_vb_raw.items():
+            m = re.match(r"^([a-zA-Z_]\w*)\[(\d+)\]$", param_name)
+            if m:
+                base, idx = m.group(1), int(m.group(2))
+                tmp.setdefault(base, {})[idx] = v # handle parameter[i] cases
+            else:
+                dict_vb[param_name] = v # scalar
+        for base, idx_vals in tmp.items():
+            length = max(idx_vals)
+            vec = np.zeros(length, dtype=float)
+            for i in range(length):
+                vec[i] = idx_vals.get(i+1, np.nan)
+            dict_vb[base] = vec # parameter[i] into parameter vector
 
         dict_init = {}
         if self.model_type == 'single':
             for p in self.parameters:
                 dict_init[p] = dict_vb[p]
         else:
-            dict_init['mu_pr'] = \
-                [dict_vb['mu_pr[%d]' % (i + 1)] for i in range(len_param)]
-            dict_init['sigma'] = \
-                [dict_vb['sigma[%d]' % (i + 1)] for i in range(len_param)]
+            dict_init['mu_pr'] = dict_vb["mu_pr"]
+            dict_init['sigma'] = dict_vb["sigma"]
             for p in self.parameters:
-                dict_init['%s_pr' % p] = \
-                    [dict_vb['%s_pr[%d]' % (p, i + 1)] for i in range(n_subj)]
+                dict_init[f"{p}_pr"] = dict_vb[f"{p}_pr"]
 
         def gen_init():
             return dict_init
@@ -819,15 +831,33 @@ class TaskModel(metaclass=ABCMeta):
 
         # Measure all individual parameters
         if self.model_type == 'single':
-            return pd.DataFrame(
-                {p: measure(par_vals[p]) for p in which_pars},
-                index=subjs
-            )
+            cols = {}
+            for p in which_pars:
+                a = np.asarray(par_vals[p])
+                if a.ndim == 1:
+                    col = {p: measure(a)}
+                else:
+                    flat = a.reshape(a.shape[0], -1)
+                    col = {f"{p}[{i+1}]": measure(flat[:, i]) for i in range(flat.shape[1])}
+                cols.update(col)
+            return pd.DataFrame([cols], index=subjs)
         else:
-            return pd.DataFrame(
-                {p: list(map(measure, par_vals[p].T)) for p in which_pars},
-                index=subjs
-            )
+            N = len(subjs)
+            cols = {}
+            for p in which_pars:
+                a = np.asarray(par_vals[p])
+                if a.ndim == 1:
+                    cols[p] = np.repeat(measure(a), N) # single parameter (scalar)
+                elif a.ndim == 2:
+                    cols[p] = measure(a, axis=0) # single parameter for each subject (vector)
+                elif a.ndim == 3:
+                    vals = measure(a, axis=0)
+                    K = vals.shape[1]
+                    for j in range(K):
+                        cols[f"{p}[{j+1}]"] = vals[:, j] # multiple parameters for each subject (matrix)
+                else:
+                    raise ValueError(f"Unexpected ndim for {p}: {a.ndim}")
+            return pd.DataFrame(cols, index=subjs)
 
     def _extract_model_regressor(
             self, measure: Callable, par_vals: OrderedDict) -> Dict:
