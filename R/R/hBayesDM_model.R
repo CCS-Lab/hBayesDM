@@ -536,44 +536,55 @@ hBayesDM_model <- function(task_name = "",
     }
 
     # Measure all individual parameters (per subject)
-    allIndPars <- as.data.frame(array(NA, c(n_subj, length(which_indPars))))
-    if (model_type == "single") {
-      allIndPars[n_subj, ] <- mapply(function(x) {
-        a <- parVals[[x]]
-        d <- dim(a)
-        v <- if (is.null(d)) {
-          a
-        } else if (length(d) == 1) {
-          as.vector(a)
+    compute_individual_params <- function(x, i = NULL) {
+      a <- parVals[[x]]
+      d <- dim(a)
+      if (model_type == "single") {
+        if (is.null(d) || length(d) == 1) {
+          val <- measure_indPars(a) # real typed parameter
+          names(val) <- x
+          return(val)
         } else if (length(d) == 2) {
-          colMeans(a)
-        } else if (length(d) == 3) {
-          drop(apply(a, c(2, 3), mean))
-        } else {
-          stop("Unexpected parameter shape")
+          param_cnt <- ncol(a)
+          if (param_cnt == 0) return(numeric(0))
+          val <- apply(a, 2, measure_indPars) # vector typed parameter (multiple parameters for single subject)
+          names(val) <- paste0(x, "[", seq_along(val), "]")
+          return(val)
         }
-        measure_indPars(v)
-      }, which_indPars)
-    } else {
-      for (i in 1:n_subj) {
-        allIndPars[i, ] <- mapply(function(x) {
-          a <- parVals[[x]]
-          d <- dim(a)
-          v <- if (is.null(d)) {
-            a
-          } else if (length(d) == 2) {
-            a[, i]
-          } else if (length(d) == 3) {
-            apply(a[, i, , drop = FALSE], 1, mean)
-          } else {
-            stop("Unexpected parameter shape")
-          }
-          measure_indPars(v)
-        }, which_indPars)
+      } else {
+        stopifnot(!is.null(i))
+        if (length(d) == 2) {
+          param_cnt <- d[2]
+          if (param_cnt == 0) return(numeric(0))
+          val <- measure_indPars(a[, i]) # vector typed parameter (one for each subject)
+          names(val) <- x
+          return(val)
+        } else if (length(d) == 3) {
+          param_cnt <- d[3]
+          if (param_cnt == 0) return(numeric(0))
+          slice <- a[, i, , drop = TRUE]
+          if (is.null(dim(slice))) slice <- cbind(slice)
+          vals <- apply(slice, 2L, measure_indPars)
+          names(vals) <- paste0(x, "[", seq_along(vals), "]")
+          return(vals)
+        }
       }
+      stop(sprintf("Unexpected shape for %s", x))
     }
-    allIndPars <- cbind(subjs, allIndPars)
-    colnames(allIndPars) <- c("subjID", which_indPars)
+
+    if (model_type == "single") {
+      first_row_param <- unlist(lapply(which_indPars, compute_individual_params), use.names = TRUE)
+      allIndPars <- as.data.frame(t(first_row_param), check.names = FALSE)
+      allIndPars <- cbind(subjID = subjs[1], allIndPars, row.names = NULL)
+    } else {
+      first_subj_params <- unlist(lapply(which_indPars, function(x) compute_individual_params(x, i = 1)), use.names = TRUE)
+      rows <- lapply(seq_len(n_subj), function(i) {
+        unlist(lapply(which_indPars, function(x) compute_individual_params(x, i = i)), use.names = TRUE)
+      })
+      mat <- do.call(rbind, rows)
+      colnames(mat) <- names(first_subj_params)
+      allIndPars <- cbind(subjID = subjs, as.data.frame(mat, check.names = FALSE), row.names = NULL)
+    }
 
     # Model regressors (for model-based neuroimaging, etc.)
     if (modelRegressor) {
