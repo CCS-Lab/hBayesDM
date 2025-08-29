@@ -9,6 +9,7 @@ reference:
   - starts_with("cra_")
   - starts_with("dbdm_")
   - starts_with("dd_")
+  - starts_with("hgf_")
   - starts_with("gng_")
   - starts_with("igt_")
   - starts_with("peer_")
