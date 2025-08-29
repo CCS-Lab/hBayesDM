@@ -18,6 +18,12 @@ contributors:
 - name: Jinwoo Jeong
   email: jwjeong96@gmail.com
   link: https://github.com/bugoverdose
+- name: Juha Lee
+  email: juhajulia44@gmail.com
+  link: https://github.com/juhajulia
+- name: Yusom Jo
+  email: yaun2288@snu.ac.kr
+  link: https://github.com/0150362
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   trialNum: "Nominal integer representing the trial number: 1, 2, ..."

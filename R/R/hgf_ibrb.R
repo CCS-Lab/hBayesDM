@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION hgf_ibrb
-#' @templateVar CONTRIBUTOR \href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@@gmail.com}>
+#' @templateVar CONTRIBUTOR \href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@@gmail.com}>, \href{https://github.com/juhajulia}{Juha Lee} <\email{juhajulia44@@gmail.com}>, \href{https://github.com/0150362}{Yusom Jo} <\email{yaun2288@@snu.ac.kr}>
 #' @templateVar TASK_NAME 
 #' @templateVar TASK_CODE 
 #' @templateVar TASK_CITE 

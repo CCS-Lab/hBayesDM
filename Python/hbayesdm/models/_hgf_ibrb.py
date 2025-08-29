@@ -95,6 +95,8 @@ def hgf_ibrb(
     .. [Mathys_CD2014] Mathys CD, Lomakina EI, Daunizeau J, Iglesias S, Brodersen KH, Friston KJ and Stephan KE (2014) Uncertainty in perception and the Hierarchical Gaussian Filter. Front. Hum. Neurosci. 8:825. https://doi.org/10.3389/fnhum.2014.00825
 
     .. codeauthor:: Jinwoo Jeong <jwjeong96@gmail.com>
+    .. codeauthor:: Juha Lee <juhajulia44@gmail.com>
+    .. codeauthor:: Yusom Jo <yaun2288@snu.ac.kr>
 
     User data should contain the behavioral data-set of all subjects of interest for
     the current analysis. When loading from a file, the datafile should be a
