@@ -29,7 +29,7 @@ We introduce a free R package **hBayesDM**, which offers HBA of various computat
 
 ## Why hierarchical Bayesian analysis (HBA)?
 
-![](images/HBA_concept.png)
+![](images/getting_started/HBA_concept.png)
 
 Most computational models do not have closed form solutions and we need to estimate parameter values. Traditionally parameters are estimated at the individual level with maximum likelihood estimation (MLE): getting point estimates for each individual separately. However, individual MLE estimates are often noisy especially when there is insufficient amount of data. A group-level analysis (e.g., group-level MLE), which estimate a single set of parameters for the whole group of individuals, may generate more reliable estimates but inevitably ignores individual differences.
 
@@ -116,7 +116,7 @@ library(hBayesDM)
 Four steps of doing HBA with hBayesDM are illustrated below. As an example, four models of the orthogonalized Go/Nogo task (Guitart-Masip et al., 2012; Cavanagh et al., 2013) are fit and compared with the hBayesDM package.
 
 
-![](images/hBayesDM_pipeLine.png)
+![](images/getting_started/hBayesDM_pipeLine.png)
 
 
 ### 1) Prepare the data
@@ -418,13 +418,12 @@ axis(side=2, at = c(0,1) )
 legend("bottomleft", legend=c("True", "PPC"), col=c("black", "red"), lty=1:2)
 ```
 
-![](images/PPC.png)
+![](images/getting_started/PPC.png)
 
 ## To-do list
 
 We are planning to add more tasks/models. We plan to include the following tasks and/or models in the near future. If you have any requests for a specific task or a model, please let us know.
 
-* Hierarchical Gaussian Filtering [@mathys2011bayesian].
 * More sequential sampling models (e.g., drift diffusion models with different drift rates for multiple conditions).
 * Models for the passive avoidance learning task [@newman1986passive; @Newman1985].
 * Models for the Stop Signal Task (SST)
