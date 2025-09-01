@@ -54,11 +54,11 @@ class HgfIbrb(TaskModel):
                 ('mu0', 'prior belief for each level before starting the experiment'),
                 ('sigma0', 'prior uncertainty for each level before starting the experiment'),
                 ('kappa_lower', 'Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].'),
-                ('kappa_upper', 'Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].'),
+                ('kappa_upper', 'Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].'),
                 ('omega_lower', 'Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].'),
-                ('omega_upper', 'Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].'),
+                ('omega_upper', 'Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].'),
                 ('zeta_lower', 'Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.'),
-                ('zeta_upper', 'Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper.'),
+                ('zeta_upper', 'Upper bound for zeta. Defaults to 2. Parameter value is fixed if zeta_lower == zeta_upper.'),
             ]),
             **kwargs,
         )
@@ -211,11 +211,11 @@ def hgf_ibrb(
         - ``mu0``: prior belief for each level before starting the experiment
         - ``sigma0``: prior uncertainty for each level before starting the experiment
         - ``kappa_lower``: Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].
-        - ``kappa_upper``: Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].
+        - ``kappa_upper``: Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].
         - ``omega_lower``: Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].
-        - ``omega_upper``: Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].
+        - ``omega_upper``: Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].
         - ``zeta_lower``: Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.
-        - ``zeta_upper``: Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper.
+        - ``zeta_upper``: Upper bound for zeta. Defaults to 2. Parameter value is fixed if zeta_lower == zeta_upper.
 
     Returns
     -------
