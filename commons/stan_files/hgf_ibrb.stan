@@ -103,18 +103,31 @@ parameters {
 
 transformed parameters {
   // group-level parameters
-  vector[n_free_kappa] mu_kappa_pr = segment(mu_pr, 1, n_free_kappa);
-  vector[n_free_omega] mu_omega_pr = segment(mu_pr, 1+n_free_kappa, n_free_omega);
-  vector[n_free_zeta] mu_zeta_pr = segment(mu_pr, 1+n_free_parameters-n_free_zeta, n_free_zeta);
-
-  vector<lower=0>[n_free_kappa] kappa_sigma_pr = segment(sigma, 1, n_free_kappa);
-  vector<lower=0>[n_free_omega] omega_sigma_pr = segment(sigma, 1+n_free_kappa, n_free_omega);
-  vector<lower=0>[n_free_zeta] zeta_sigma_pr = segment(sigma, 1+n_free_parameters-n_free_zeta, n_free_zeta);
+  vector[n_free_kappa] mu_kappa_pr;
+  vector[n_free_omega] mu_omega_pr;
+  vector[n_free_zeta] mu_zeta_pr;
+  
+  vector<lower=0>[n_free_kappa] kappa_sigma_pr;
+  vector<lower=0>[n_free_omega] omega_sigma_pr;
+  vector<lower=0>[n_free_zeta] zeta_sigma_pr;
 
   // subject-level parameters
   matrix[N,L-2] kappa;
   matrix[N,L-1] omega;
   vector[N] zeta;
+
+  if (n_free_kappa > 0) {
+    mu_kappa_pr = segment(mu_pr, 1, n_free_kappa);
+    kappa_sigma_pr = segment(sigma, 1, n_free_kappa);
+  }
+  if (n_free_omega > 0) {
+    mu_omega_pr = segment(mu_pr, 1+n_free_kappa, n_free_omega);
+    omega_sigma_pr = segment(sigma, 1+n_free_kappa, n_free_omega);
+  }
+  if (n_free_zeta == 1) {
+    mu_zeta_pr = segment(mu_pr, 1+n_free_kappa+n_free_omega, n_free_zeta);
+    zeta_sigma_pr = segment(sigma, 1+n_free_kappa+n_free_omega, n_free_zeta);
+  }
 
   // Rebuild parameters with sampled values and fixed values & Non-centered parameterization
   if (n_free_kappa > 0) {
