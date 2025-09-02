@@ -29,8 +29,8 @@ By [**Jinwoo Jeong**](https://github.com/bugoverdose),
 **Hierarchical Gaussian Filter (HGF)** is a computational model designed to explain how individuals learn in uncertain and changing environments [@mathys2011bayesian].
 Currently, [TAPAS](https://github.com/ComputationalPsychiatry) is the most widely used tool for applying HGF to behavioral data.
 By offering various combinations of perceptual and observation models,
-[TAPAS HGF Toolbox](https://github.com/ComputationalPsychiatry/hgf-toolbox) enabled a computationally efficient way to apply different HGF models.
-Other methods such as [PyHGF](https://github.com/ComputationalPsychiatry/pyhgf) have also been developed for analyzing HGF.
+[TAPAS HGF Toolbox](https://github.com/ComputationalPsychiatry/hgf-toolbox) enabled a computationally efficient way to apply different HGF models
+(also see [PyHGF](https://github.com/ComputationalPsychiatry/pyhgf), a Python-library, which supports generalized HGF models).
 
 Here, we show how we implemented HGF in the hBayesDM `1.3.0` [@ahn2017hbayesdm].
 Two new HGF models are included in the package:
