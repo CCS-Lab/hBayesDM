@@ -19,7 +19,7 @@ pkgdown:
 bibliography: bibtex/hBayesDM_bib_short.bib
 ---
 
-By [**Jinwoo Jeong**](https://www.linkedin.com/in/jinwoo-jeong-ab284420b),
+By [**Jinwoo Jeong**](https://github.com/bugoverdose),
 [**Juha Lee**](https://github.com/juhajulia),
 [**Yusom Jo**](https://github.com/0150362),
 [**Woo-Young Ahn**](https://ccs-lab.github.io/team/young-ahn/) | September 2, 2025
@@ -88,7 +88,7 @@ knitr::include_graphics("images/hgf_tutorial/hgf_gaussian_random_walk.png")
 ```
 
 For instance, let's assume a 3-level HGF with binary inputs and binary responses.
-A HGF model with 3 levels has three hidden states for each level: x₁, x₂, x₃.
+An HGF model with 3 levels has three hidden states for each level: x₁, x₂, x₃.
 And each state represents a different aspect of the environment.
 
 - **Level 1 (x₁)** is the lowest level, representing the immediate observation or perceptual state.
@@ -133,7 +133,7 @@ x_L^{(k)} &\sim N\bigl(x_L^{(k-1)} \text{, } \exp(\omega_L )\bigr)
 Formally, it scales the effect of the higher-level value on the variance of the lower-level random walk.
 In a perception model with binary inputs and $L$ hierarchical levels, κ is defined for levels 2 through $L-1$.
 
-κ must be non-negative, and it has been suggested that an upper bounds at or below 2 is sensible [@mathys2014hgf].
+κ must be non-negative, and it has been suggested that an upper bound at or below 2 is sensible [@mathys2014hgf].
 
 - When κ is too small, the lower level is almost decoupled from the higher one. 
 Even if the higher-level state signals increased volatility, the learning rate at the lower level hardly changes. 
@@ -181,7 +181,7 @@ The parameter ζ (zeta) controls the steepness of the unit-square sigmoid, regul
 # 3. Tutorial on `hgf_ibrb` and `hgf_ibrb_single`
 
 This section explains how we can actually run [`hgf_ibrb`](../reference/hgf_ibrb.html) and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html).
-The examples are based on `RStan`, but both functions are also implemented in `PyStan` and the same features are implemented.
+The examples are based on `RStan`, but both functions are also implemented in `PyStan` and provide the same features.
 
 ## 3.1. Setup
 
@@ -207,8 +207,8 @@ Now, we will share various ways we can fit [`hgf_ibrb`](../reference/hgf_ibrb.ht
 and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) on the example data.
 
 Below is the simplest way to run [`hgf_ibrb`](../reference/hgf_ibrb.html) on a dataset with multiple participants.
-Below command initiates a MCMC procedure of 4 MCMC chains,
-each consisting of 5 burn-in (warm up) iterations followed by 5 sampling iterations.
+The command below initiates an MCMC procedure of 4 MCMC chains,
+each consisting of 5 burn-in (warm-up) iterations followed by 5 sampling iterations.
 
 ```{r, eval = FALSE}
 fit <- hgf_ibrb(data = "example", niter = 10, nwarmup = 5, nchain = 4)
@@ -245,7 +245,7 @@ print(fit$allIndPars)
 ```
 <!-- $ -->
 
-To apply HGF on a single participant data,
+To apply HGF to single-participant data,
 [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) can be used using exactly the same format
 with the same arguments.
 
@@ -256,9 +256,9 @@ print(fit$allIndPars)
 ```
 <!-- $ -->
 
-## 3.3. `input_first' option
+## 3.3. `input_first` option
 
-`input_first' option is to help researchers apply HGF without changing their data format.
+`input_first` option is to help researchers apply HGF without changing their data format.
 
 - input_first=TRUE: for each row, participant observed the value of input `u` before choosing `y`
 - input_first=FALSE: for each row, participant observed the value of input `u` after choosing `y` (default)
@@ -270,7 +270,7 @@ fit <- hgf_ibrb(data = "example", niter = 10, nwarmup = 5, nchain = 4, input_fir
 ## 3.4. Parameter boundaries
 
 Parameter boundaries can be set for each parameter.
-For example, the if you want to set parameter boundaries for a 3-level HGF model as:
+For example, if you want to set parameter boundaries for a 3-level HGF model as:
 
 \begin{align*}
 0 \leq &\text{ }\kappa \leq 1 \\
@@ -293,7 +293,7 @@ fit <- hgf_ibrb(
 )
 ```
 
-## 3.5. Fixating parameter values
+## 3.5. Fixing parameter values
 
 As TAPAS provides a way to fixate a certain parameter to a certain value,
 [`hgf_ibrb`](../reference/hgf_ibrb.html) and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) also provide similar feature.
@@ -331,7 +331,7 @@ fit <- hgf_ibrb(data = "example", omega_lower = c(-6.0, -4.0), omega_upper = c(-
 The default and the minimum value is `L=3` because it is the most widely used and most interpretable.
 
 Note that the number of parameters is automatically chosen based on the level of hierarchy.
-For example, below code will fail because the default arguments for each parameters can only be used for `L=3`.
+For example, the code below will fail because the default arguments for each parameter can only be used for `L=3`.
 
 ```{r, eval = FALSE}
 fit <- hgf_ibrb(data = "example", niter = 10, nwarmup = 5, nchain = 4, L=4)
@@ -370,7 +370,7 @@ This procedure involves generating synthetic datasets from known parameter value
 
 In order to simulate binary inputs, the contingency schedule from [Section 1](#example-task) was used to create 400 trials of inputs.
 To simulate binary responses, `tapas_simModel` function from TAPAS HGF Toolbox was applied to the simulated inputs, assuming 3-level HGF with binary responses.
-A total of 30 participant behavioral data was generated using randomly chosen parameter combinations:
+A total of 30 participants' behavioral datasets were generated using randomly chosen parameter combinations:
 
 \begin{align*}
 \kappa &= 1.0 \\
@@ -379,13 +379,13 @@ A total of 30 participant behavioral data was generated using randomly chosen pa
 0.03 \leq &\text{ }\zeta \leq 4.0
 \end{align*}
 
-Note that the κ is fixed to 1, following many of the previous works with similar context [@tecilla2023modulation; @hein2021state].
+Note that κ is fixed to 1, following many of the previous works with similar context [@tecilla2023modulation; @hein2021state].
 
 ## 4.2. Recovery with TAPAS
 
 In order to check whether the simulated data had reasonable parameter ranges that HGF models can recover, 
 `tapas_fitModel` function from TAPAS HGF Toolbox was applied to check parameter recovery.
-`tapas_hgf_binary' and `tapas_unitsq_sgm' models were applied using the following prior settings:
+`tapas_hgf_binary` and `tapas_unitsq_sgm` models were applied using the following prior settings:
 
 \begin{align*}
 \mu_{0,2} &= 0, \quad \mu_{0,3} = 1 \\
@@ -405,7 +405,7 @@ knitr::include_graphics("images/hgf_tutorial/tapas_recovery.png")
 
 ## 4.3. Recovery with `hgf_ibrb_single`
 
-For each subject data, [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) was applied in a loop with settings as below.
+For each subject's data, [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) was applied in a loop with settings as below.
 
 ```{r hgf_ibrb_single, eval=FALSE}
 fit <- hgf_ibrb_single(data = subject_data,
@@ -429,7 +429,7 @@ knitr::include_graphics("images/hgf_tutorial/individual_recovery.png")
 ```
 
 Figure 5 shows that both ω₂ and ζ were recovered pretty well (ω₂: r = 0.90, p < 2.51e-11;  ζ: r = 0.95, p < 7.81e-16).
-In constrast, ω₃ showed almost no recovery with values more scattered compared to TAPAS,
+In contrast, ω₃ showed almost no recovery with values more scattered compared to TAPAS,
 but was slightly better than TAPAS considering that the results from TAPAS had a negative correlation (r = 0.03, p = 0.892).
 
 ```{r fig_tapas_individual_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 6. TAPAS vs hgf_ibrb_single"}
@@ -437,7 +437,7 @@ knitr::include_graphics("images/hgf_tutorial/tapas_individual_recovery.png")
 ```
 
 Figure 6 shows that ω₂ and ζ recovery results for `hBayesDM` and TAPAS are positively correlated and have very similar patterns.
-In contrast recovery results for ω₃ showed completely different pattern, but it is not meaningful considering that 
+In contrast, recovery results for ω₃ showed a completely different pattern, but it is not meaningful considering that 
 they have both failed to recover meaningful parameter values.
 
 Overall, these results indicate that even when each subject is fit independently, `hBayesDM` can be used in much the same way as TAPAS,
@@ -445,7 +445,7 @@ while also leveraging the advantages of MCMC sampling such as obtaining posterio
 
 ## 4.4. Recovery with `hgf_ibrb`
 
-For hierarchical Bayesian analysis, [`hgf_ibrb`](../reference/hgf_ibrb.html) was applied to the 30 participants data as below:
+For hierarchical Bayesian analysis, [`hgf_ibrb`](../reference/hgf_ibrb.html) was applied to the data from 30 participant as below:
 
 ```{r hgf_ibrb, eval=FALSE}
 output <- hgf_ibrb(
@@ -479,7 +479,7 @@ knitr::include_graphics("images/hgf_tutorial/tapas_hierarchical_recovery.png")
 ```
 
 Figure 8 shows that ω₂ and ζ recovery results for `hBayesDM` and TAPAS matched very closely,
-with positive correlations almost near 1.
+with positive correlations close to 1.
 Once again, recovery results for ω₃ showed completely different pattern with negative correlation,
 but it is not meaningful considering that TAPAS has failed to recover meaningful parameter values.
 
@@ -505,8 +505,7 @@ The default setting is `vb`, therefore `hBayesDM` will try to fit the model with
 and then use the VB estimation as initial values for MCMC sampling. 
 If this VB estimation fails, `hBayesDM` defaults to using random initial values instead.
 
-Since the `vb` option has the issue of failing stochastically, consider using the `random` option as below
-or specifying the initial parameter values.
+Since the `vb` option has the issue of failing stochastically, consider using the `random` option or specifying the initial parameter values.
 
 ```{r init2, eval = FALSE}
 fit <- hgf_ibrb(data = "example", inits = "random")
@@ -515,11 +514,11 @@ fit <- hgf_ibrb(data = "example", inits = "random")
 ## 5.2. Poor recovery of ω₃
 
 During the parameter recovery at [Section 4](#parameter-recovery), both TAPAS and `hBayesDM` have failed to recover ω₃.
-Many previous research have also reported unreliable parameter estimation for ω₃ [@reed2020paranoia; @hein2021state; @tecilla2023modulation].
-To our knowledge, there has been no systematic analysis on the causes nor the potential solutions for this problem.
+Many previous studies have also reported unreliable parameter estimation for ω₃ [@reed2020paranoia; @hein2021state; @tecilla2023modulation].
+To our knowledge, there has been no systematic analysis of the causes or the potential solutions.
 Therefore, we tried various input designs and parameter settings to investigate under what conditions ω₃ can produce detectable behavioral differences.
 
-The main issue with the data used in [Section 4](#parameter-recovery) was that the individual difference in ω₃ 
+The main issue with the data used in [Section 4](#parameter-recovery) was that the individual differences in ω₃ 
 didn't produce any meaningful differences in the responses between the participants.
 Thus, we conducted parameter recovery analyses multiple times using various input designs and different ranges of ω₃ (-6.4 < ω₃ < -0.8) while fixing all other parameters.
 Most promising results were found when we simply added more volatility to the environment using the contingency schedule shown in Figure 10.
@@ -532,7 +531,7 @@ The overall task design is similar to the Contingency Schedule from [Section 1](
 The total number of trials is 400 and switches between stable and volatile phases.
 The main difference is that number of trials for each stable and volatile phase is 50 trials each,
 half the number of trials used in the previous design.
-This leads to twice the number of shifts between stable and volatile phases compared to the previous design
+This leads to twice the number of shifts between stable and volatile phases compared to the previous design.
 
 ```{r fig_om3_individual_recovery, echo=FALSE, out.width="40%", fig.show="hold", fig.cap="Figure 11. Parameter recovery"}
 knitr::include_graphics("images/hgf_tutorial/om3_individual_recovery.png")
@@ -544,9 +543,9 @@ we can see that the results have improved compared to the results from the previ
 This indicates that adding enough volatility to the environment itself is a necessary step for
 capturing the individual differences in parameters at high levels such as ω₃.
 
-## 5.3. Estimating parameters at high level
+## 5.3. Estimating parameters at high levels
 
-Many research has reported issues in estimating parameters at level 3 or above such as ω₃ [@reed2020paranoia; @hein2021state; @tecilla2023modulation].
+Many studies have reported issues in estimating parameters at level 3 or above such as ω₃ [@reed2020paranoia; @hein2021state; @tecilla2023modulation].
 Below are some tips to mitigate such issues.
 
 - **Task design**: As mentioned in the [previous section](#poor-recovery-of-ω₃),
@@ -556,7 +555,7 @@ Below are some tips to mitigate such issues.
   would be the best way to check the task design.
 
 - **Parameter Boundaries**: Setting appropriate parameter boundaries is a crucial part of applying HGF.
-  For instance, If ω₃ is too low, then exp(ω₃) becomes very small (e.g., ω₃ = -8, exp(ω₃) ≈ 0.000335),
+  For instance, if ω₃ is too low, then exp(ω₃) becomes very small (e.g., ω₃ = -8, exp(ω₃) ≈ 0.000335),
   which means that level-3 updating has almost no influence on the agent's behavior.
 
 # References
