@@ -1,21 +1,27 @@
+name: Documentation
 on:
   push:
     branches:
       - master
 
-name: Documentation
+permissions:
+  contents: write
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest
+    runs-on: macos-latest
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
-      - uses: r-lib/actions/setup-pandoc@v1
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Query dependencies
         run: |
@@ -27,10 +33,10 @@ jobs:
 
       - name: Cache R packages
         if: runner.os != 'Windows'
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/.github/R-version') }}-1-${{ hashFiles('**/.github/depends.Rds') }}
 
       - name: Install dependencies
         run: |
