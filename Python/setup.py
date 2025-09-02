@@ -18,7 +18,7 @@ MINOR = 3
 MICRO = 0
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
-IS_RELEASED = False
+IS_RELEASED = True
 IS_DEV = False
 DEV_VERSION = ''
 if IS_RELEASED:
