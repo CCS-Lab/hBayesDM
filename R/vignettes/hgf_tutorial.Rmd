@@ -380,7 +380,7 @@ fit <- hgf_ibrb(
 In order to ensure that the estimated parameters genuinely reflect the underlying generative process,
 parameter recovery analysis was conducted to validate parameter identifiability and estimation reliability.
 This procedure involves generating synthetic datasets from known parameter values and then
-re-estimating those parameters using the same model [@ahn2011model, @heathcote2015goodpractices, @wilson2019tenrules].
+re-estimating those parameters using the same model [@ahn2011model; @heathcote2015goodpractices; @wilson2019tenrules].
 
 ## 4.1. Simulation
 
@@ -511,7 +511,7 @@ which is an advantage of using MCMC for parameter estimation.
 Overall, we conclude hBayesDM provides a user-friendly way of fitting HGF models whose parameter estimates will be compatible with those from TAPAS.
 In many cases, [`hgf_ibrb`](../reference/hgf_ibrb.html) should be preferred over [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html)
 as hierarchical modeling framework further improves parameter recovery compared to individual-level fits,
-presumably due to the benefits of shrinkage [@ahn2011model, @kruschke2014doing].
+presumably due to the benefits of shrinkage [@ahn2011model; @kruschke2014doing].
 
 # 5. Appendix
 
