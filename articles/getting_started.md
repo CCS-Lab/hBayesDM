@@ -185,8 +185,8 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001316 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 13.16 seconds.
+## Chain 1: Gradient evaluation took 0.000612 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 6.12 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -220,29 +220,28 @@ output1 = gng_m1("example", ncore=4)
 ## ************************************
 ## **** Model fitting is complete! ****
 ## ************************************
-## in 4: 1000 transitions using 10 leapfrog steps per transition would take 24.54 seconds.
+## in 4: 1000 transitions using 10 leapfrog steps per transition would take 5.25 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
 ## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 33.802 seconds (Warm-up)
-## Chain 3:                17.751 seconds (Sampling)
-## Chain 3:                51.553 seconds (Total)
+## Chain 3:  Elapsed Time: 24.949 seconds (Warm-up)
+## Chain 3:                14.873 seconds (Sampling)
+## Chain 3:                39.822 seconds (Total)
 ## Chain 3: 
-## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
 ## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 39.548 seconds (Warm-up)
-## Chain 2:                36.326 seconds (Sampling)
-## Chain 2:                75.874 seconds (Total)
+## Chain 2:  Elapsed Time: 27.021 seconds (Warm-up)
+## Chain 2:                24.1 seconds (Sampling)
+## Chain 2:                51.121 seconds (Total)
 ## Chain 2: 
+## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
 ## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
 ## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
 ## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
@@ -252,29 +251,25 @@ output1 = gng_m1("example", ncore=4)
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 28.777 seconds (Warm-up)
-## Chain 4:                15.73 seconds (Sampling)
-## Chain 4:                44.507 seconds (Total)
+## Chain 4:  Elapsed Time: 21.318 seconds (Warm-up)
+## Chain 4:                12.665 seconds (Sampling)
+## Chain 4:                33.983 seconds (Total)
 ## Chain 4: 
-## mup)
-## Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## )
 ## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
 ## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
 ## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
 ## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 ## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 32.928 seconds (Warm-up)
-## Chain 1:                17.535 seconds (Sampling)
-## Chain 1:                50.463 seconds (Total)
+## Chain 1:  Elapsed Time: 24.282 seconds (Warm-up)
+## Chain 1:                14.59 seconds (Sampling)
+## Chain 1:                38.872 seconds (Total)
 ## Chain 1:
 ```
 
@@ -371,7 +366,7 @@ Let's first visually diagnose MCMC performance of hyper parameters with trace pl
 plot(output1, type="trace", fontSize=11)   # traceplot of hyper parameters. Set font size 11.
 ```
 
-![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpDWkiEx/fileec5f4ba6ed/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpnVvF0L/filedb13ef48fa9/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their $\hat{R}$ values (see [**here**](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples.
 
@@ -379,7 +374,7 @@ The trace plots indicate that MCMC samples are indeed well mixed and converged, 
 plot(output1, type="trace", inc_warmup=T)   # traceplot of hyper parameters w/ warmup samples
 ```
 
-![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpDWkiEx/fileec5f4ba6ed/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpnVvF0L/filedb13ef48fa9/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 You can also plot the posterior distributions of the hyper (group) parameters with `plot`:
 
@@ -397,7 +392,7 @@ plot(output1)
 ## [90mgenerated.[39m
 ```
 
-![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpDWkiEx/fileec5f4ba6ed/articles/getting_started_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpnVvF0L/filedb13ef48fa9/articles/getting_started_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 <!--
 $\epsilon_i \sim \text{Normal}(0.05, 0.01)$
 $\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
@@ -410,7 +405,7 @@ To visualize individual parameters, you can use our newly updated function calle
 plotInd(output1, "ep")
 ```
 
-![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpDWkiEx/fileec5f4ba6ed/articles/getting_started_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpnVvF0L/filedb13ef48fa9/articles/getting_started_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 <!--
 Their posterior means are also stored in `OUTPUT_object$allIndPars`:
@@ -527,8 +522,8 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: 
 ## Chain 1: 
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.005846 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 58.46 seconds.
+## Chain 1: Gradient evaluation took 0.001251 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 12.51 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -573,16 +568,16 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## ************************************
 ## **** Model fitting is complete! ****
 ## ************************************
-## in 4: 1000 transitions using 10 leapfrog steps per transition would take 20.25 seconds.
+## in 4: 1000 transitions using 10 leapfrog steps per transition would take 47.09 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
 ## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 61.032 seconds (Warm-up)
-## Chain 1:                31.099 seconds (Sampling)
-## Chain 1:                92.131 seconds (Total)
+## Chain 1:  Elapsed Time: 43.974 seconds (Warm-up)
+## Chain 1:                22.87 seconds (Sampling)
+## Chain 1:                66.844 seconds (Total)
 ## Chain 1: 
 ## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
 ## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
@@ -596,11 +591,11 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 53.677 seconds (Warm-up)
-## Chain 4:                22.069 seconds (Sampling)
-## Chain 4:                75.746 seconds (Total)
+## Chain 4:  Elapsed Time: 35.394 seconds (Warm-up)
+## Chain 4:                18.983 seconds (Sampling)
+## Chain 4:                54.377 seconds (Total)
 ## Chain 4: 
-##  Iteration:  800 / 2000 [ 40%]  (Warmup)
+## : Iteration:  800 / 2000 [ 40%]  (Warmup)
 ## Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
 ## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
 ## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
@@ -622,15 +617,15 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 50.775 seconds (Warm-up)
-## Chain 2:                26.011 seconds (Sampling)
-## Chain 2:                76.786 seconds (Total)
+## Chain 2:  Elapsed Time: 32.872 seconds (Warm-up)
+## Chain 2:                22.515 seconds (Sampling)
+## Chain 2:                55.387 seconds (Total)
 ## Chain 2: 
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 51.191 seconds (Warm-up)
-## Chain 3:                25.888 seconds (Sampling)
-## Chain 3:                77.079 seconds (Total)
+## Chain 3:  Elapsed Time: 33.091 seconds (Warm-up)
+## Chain 3:                23.078 seconds (Sampling)
+## Chain 3:                56.169 seconds (Total)
 ## Chain 3: 
 ## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
@@ -656,14 +651,14 @@ dim(output3$modelRegressor$SV)  # number of rows=# of subjects (=10), number of 
 plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")
 ```
 
-![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpDWkiEx/fileec5f4ba6ed/articles/getting_started_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpnVvF0L/filedb13ef48fa9/articles/getting_started_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 ``` r
 ## visualize SV (Subject #5)
 plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")
 ```
 
-![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpDWkiEx/fileec5f4ba6ed/articles/getting_started_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
+![](/private/var/folders/x7/ch5v91h56_zbvbd1y2f600dm0000gn/T/RtmpnVvF0L/filedb13ef48fa9/articles/getting_started_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
 
 Similarly, users can extract and visualize other model-based regressors. **W(Go)**, **W(NoGo)**, **Q(Go)**, **Q(NoGo)** are stored in `Wgo`, `Wnogo`, `Qgo`, and `Qnogo`, respectively.
 
