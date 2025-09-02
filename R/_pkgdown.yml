@@ -35,8 +35,10 @@ reference:
   - rhat
 
 articles:
-- title: Getting started
-  contents: getting_started
+- title: Tutorial
+  contents: 
+    - getting_started
+    - hgf_tutorial
 
 toc:
   depth: 1

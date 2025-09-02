@@ -59,16 +59,16 @@ additional_args:
   desc: "Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l]."
 - code: kappa_upper
   default: [2]
-  desc: "Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l]."
+  desc: "Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l]."
 - code: omega_lower
   default: [-10, -15]
   desc: "Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l]."
 - code: omega_upper
   default: [0, 0]
-  desc: "Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l]."
+  desc: "Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l]."
 - code: zeta_lower
   default: 0
   desc: "Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper."
 - code: zeta_upper
   default: 2
-  desc: "Upper bound for zeta. Defaults to 3. Parameter value is fixed if zeta_lower == zeta_upper."
+  desc: "Upper bound for zeta. Defaults to 2. Parameter value is fixed if zeta_lower == zeta_upper."
