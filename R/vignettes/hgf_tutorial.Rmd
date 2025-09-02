@@ -95,7 +95,7 @@ knitr::include_graphics("images/hgf_tutorial/hgf_gaussian_random_walk.png")
 ```
 
 For instance, let's assume a 3-level HGF with binary inputs and binary responses.
-An HGF model with 3 levels has three hidden states for each level: x₁, x₂, x₃.
+An HGF model with 3 levels has three (hidden) states for each level: x₁, x₂, x₃.
 And each state represents a different aspect of the environment.
 
 - **Level 1 (x₁)** is the lowest level, representing the immediate observation or perceptual state.
@@ -209,6 +209,11 @@ If you want to apply HGF on your own data, make sure that your file has the `.cs
 - `u` : input on that trial (0 or 1)
 - `y` : subject's choice on that trial (0 or 1)
 
+For example, the task design in [Section 1](#example-task) provides two colored options: blue coded as 1 and orange coded as 0.
+In this case, a participant (`subjID = 1`) can choose the blue option (`y = 1`) at the first trial (`trialNum = 1`)
+when the correct choice was actually the orange option (`u = 1`).
+No other information (e.g., `feedback` column indicating whether the subject got the reward or not) is needed in the HGF model.
+
 ## 3.2. Fitting with default settings
 
 Now, we will share various ways we can fit [`hgf_ibrb`](../reference/hgf_ibrb.html)
@@ -219,18 +224,20 @@ The command below initiates an MCMC procedure of 4 MCMC chains,
 each consisting of 5 burn-in (warm-up) iterations followed by 5 sampling iterations.
 
 ```{r, eval = FALSE}
-fit <- hgf_ibrb(data = "example", niter = 10, nwarmup = 5, nchain = 4)
+fit <- hgf_ibrb(data = "example", niter = 1000, nwarmup = 500, nchain = 4)
 ```
 
-The above command is the same as the commands below
-because a default value is set for each argument when not specified.
-You should be responsible for setting the appropriate arguments prior to applying HGF on your own dataset.
+The above command is the same as the commands below because unspecified arguments fall back to their default values.
+By default, [`hgf_ibrb`](../reference/hgf_ibrb.html) fits a 3-level HGF model (`L = 3`).
+The `kappa_lower` and `kappa_upper` arguments are one-element vectors that bound κ₂,
+whereas `omega_lower` and `omega_upper` are two-element vectors that bound ω₂ and ω₃.
+In contrast, `zeta_lower` and `zeta_upper` are scalars, since there is only a single ζ regardless of the hierarchy depth.
 
 ```{r, eval = FALSE}
 fit <- hgf_ibrb(
   data = "example",
-  niter = 10, 
-  nwarmup = 5, 
+  niter = 1000,
+  nwarmup = 500,
   nchain = 4,
   L = 3,
   input_first = FALSE,
@@ -256,7 +263,7 @@ print(fit$allIndPars)
 To apply HGF to a single participant's data, you can use [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) like below.
 
 ```{r, eval = FALSE}
-fit <- hgf_ibrb_single(data = "example", niter = 10, nwarmup = 5, nchain = 4)
+fit <- hgf_ibrb_single(data = "example", niter = 1000, nwarmup = 500, nchain = 4)
 print(summary(fit))
 print(fit$allIndPars)
 ```
@@ -270,8 +277,10 @@ The `input_first` option is to help researchers apply HGF without changing their
 - input_first=FALSE: for each row, participant observed the value of input `u` after choosing `y` (default)
 
 ```{r, eval = FALSE}
-fit <- hgf_ibrb(data = "example", niter = 10, nwarmup = 5, nchain = 4, input_first=TRUE)
+fit <- hgf_ibrb(data = "example", niter = 1000, nwarmup = 500, nchain = 4, input_first=TRUE)
 ```
+
+Similar features are also implemented in the observation models in TAPAS as the `predorpost` configuration.
 
 ## 3.4. Parameter boundaries
 
@@ -279,10 +288,10 @@ Parameter boundaries can be set for each parameter.
 For example, if you want to set parameter boundaries for a 3-level HGF model as:
 
 \begin{align*}
-0 \leq &\text{ }\kappa \leq 1 \\
--10 \leq &\text{ }\omega_{2} \leq 2 \\
--15 \leq &\text{ }\omega_{3} \leq 3 \\
-0 \leq &\text{ }\zeta \leq 4
+0 < &\text{ }\kappa < 1 \\
+-10 < &\text{ }\omega_{2} < 2 \\
+-15 < &\text{ }\omega_{3} < 3 \\
+0 < &\text{ }\zeta < 4
 \end{align*}
 
 Then, you set the arguments below:
@@ -337,10 +346,10 @@ fit <- hgf_ibrb(data = "example", omega_lower = c(-6.0, -4.0), omega_upper = c(-
 The default and the minimum value is `L=3` because it is the most widely used and most interpretable.
 
 Note that the number of parameters is automatically chosen based on the level of hierarchy.
-For example, the code below will fail because the default arguments for each parameter can only be used for `L=3`.
+For example, the code below will fail because the default arguments for each parameter can only be used for `L = 3`.
 
 ```{r, eval = FALSE}
-fit <- hgf_ibrb(data = "example", niter = 10, nwarmup = 5, nchain = 4, L=4)
+fit <- hgf_ibrb(data = "example", niter = 1000, nwarmup = 500, nchain = 4, L = 4)
 ```
 
 Below is an example of fitting a 4-level HGF model.
@@ -351,8 +360,8 @@ and initial-state vectors for levels 2-4.
 ```{r, eval = FALSE}
 fit <- hgf_ibrb(
   data = "example",
-  niter = 10,
-  nwarmup = 5,
+  niter = 1000,
+  nwarmup = 500,
   nchain = 4,
   L = 4,
   kappa_lower = c(0.0, 0.0),
@@ -370,7 +379,8 @@ fit <- hgf_ibrb(
 
 In order to ensure that the estimated parameters genuinely reflect the underlying generative process,
 parameter recovery analysis was conducted to validate parameter identifiability and estimation reliability.
-This procedure involves generating synthetic datasets from known parameter values and then re-estimating those parameters using the same model.
+This procedure involves generating synthetic datasets from known parameter values and then
+re-estimating those parameters using the same model [@ahn2011model, @heathcote2015goodpractices, @wilson2019tenrules].
 
 ## 4.1. Simulation
 
@@ -501,14 +511,14 @@ which is an advantage of using MCMC for parameter estimation.
 Overall, we conclude hBayesDM provides a user-friendly way of fitting HGF models whose parameter estimates will be compatible with those from TAPAS.
 In many cases, [`hgf_ibrb`](../reference/hgf_ibrb.html) should be preferred over [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html)
 as hierarchical modeling framework further improves parameter recovery compared to individual-level fits,
-presumably due to the benefits of shrinkage.
+presumably due to the benefits of shrinkage [@ahn2011model, @kruschke2014doing].
 
 # 5. Appendix
 
 ## 5.1. Specifying initial values
 
 `hBayesDM` provides various options for setting the initial values (`inits`) of the parameters.
-The default setting is `vb`, therefore `hBayesDM` will try to fit the model with `vb`
+The default setting is `vb`, therefore `hBayesDM` will try to fit the model with [vb](https://mc-stan.org/rstan/reference/stanmodel-method-vb.html)
 and then use the VB estimation as initial values for MCMC sampling. 
 If this VB estimation fails, `hBayesDM` defaults to using random initial values instead.
 
