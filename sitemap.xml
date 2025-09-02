@@ -1,252 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/getting_started.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/HDIofMCMC.html</loc>
-  </url>
-  <url>
-    <loc>/reference/alt_delta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/alt_gamma.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bandit2arm_delta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bandit4arm2_kalman_filter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bandit4arm_2par_lapse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bandit4arm_4par.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bandit4arm_lapse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bandit4arm_lapse_decay.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bandit4arm_singleA_lapse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/banditNarm_2par_lapse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/banditNarm_4par.html</loc>
-  </url>
-  <url>
-    <loc>/reference/banditNarm_delta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/banditNarm_kalman_filter.html</loc>
-  </url>
-  <url>
-    <loc>/reference/banditNarm_lapse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/banditNarm_lapse_decay.html</loc>
-  </url>
-  <url>
-    <loc>/reference/banditNarm_singleA_lapse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bart_ewmv.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bart_par4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cgt_cm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/choiceRT_ddm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/choiceRT_ddm_single.html</loc>
-  </url>
-  <url>
-    <loc>/reference/choiceRT_lba.html</loc>
-  </url>
-  <url>
-    <loc>/reference/choiceRT_lba_single.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cra_exp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cra_linear.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dbdm_prob_weight.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dd_cs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dd_cs_single.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dd_exp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dd_hyperbolic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/dd_hyperbolic_single.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimate_mode.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extract_ic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gng_m1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gng_m2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gng_m3.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gng_m4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hBayesDM-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hBayesDM_model.html</loc>
-  </url>
-  <url>
-    <loc>/reference/igt_orl.html</loc>
-  </url>
-  <url>
-    <loc>/reference/igt_pvl_decay.html</loc>
-  </url>
-  <url>
-    <loc>/reference/igt_pvl_delta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/igt_vpp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/multiplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/peer_ocu.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.hBayesDM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotDist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotHDI.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotInd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/printFit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_ewa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_fictitious.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_fictitious_multipleB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_fictitious_rp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_fictitious_rp_woa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_fictitious_woa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_rp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prl_rp_multipleB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pstRT_ddm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pstRT_rlddm1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pstRT_rlddm6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pst_Q.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pst_gainloss_Q.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ra_noLA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ra_noRA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ra_prospect.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rdt_happiness.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rhat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/task2AFC_sdt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ts_par4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ts_par6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ts_par7.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ug_bayes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ug_delta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/wcs_sql.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/getting_started.html</loc></url>
+<url><loc>/articles/hgf_tutorial.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/HDIofMCMC.html</loc></url>
+<url><loc>/reference/alt_delta.html</loc></url>
+<url><loc>/reference/alt_gamma.html</loc></url>
+<url><loc>/reference/bandit2arm_delta.html</loc></url>
+<url><loc>/reference/bandit4arm2_kalman_filter.html</loc></url>
+<url><loc>/reference/bandit4arm_2par_lapse.html</loc></url>
+<url><loc>/reference/bandit4arm_4par.html</loc></url>
+<url><loc>/reference/bandit4arm_lapse.html</loc></url>
+<url><loc>/reference/bandit4arm_lapse_decay.html</loc></url>
+<url><loc>/reference/bandit4arm_singleA_lapse.html</loc></url>
+<url><loc>/reference/banditNarm_2par_lapse.html</loc></url>
+<url><loc>/reference/banditNarm_4par.html</loc></url>
+<url><loc>/reference/banditNarm_delta.html</loc></url>
+<url><loc>/reference/banditNarm_kalman_filter.html</loc></url>
+<url><loc>/reference/banditNarm_lapse.html</loc></url>
+<url><loc>/reference/banditNarm_lapse_decay.html</loc></url>
+<url><loc>/reference/banditNarm_singleA_lapse.html</loc></url>
+<url><loc>/reference/bart_ewmv.html</loc></url>
+<url><loc>/reference/bart_par4.html</loc></url>
+<url><loc>/reference/cgt_cm.html</loc></url>
+<url><loc>/reference/choiceRT_ddm.html</loc></url>
+<url><loc>/reference/choiceRT_ddm_single.html</loc></url>
+<url><loc>/reference/choiceRT_lba.html</loc></url>
+<url><loc>/reference/choiceRT_lba_single.html</loc></url>
+<url><loc>/reference/cra_exp.html</loc></url>
+<url><loc>/reference/cra_linear.html</loc></url>
+<url><loc>/reference/dbdm_prob_weight.html</loc></url>
+<url><loc>/reference/dd_cs.html</loc></url>
+<url><loc>/reference/dd_cs_single.html</loc></url>
+<url><loc>/reference/dd_exp.html</loc></url>
+<url><loc>/reference/dd_hyperbolic.html</loc></url>
+<url><loc>/reference/dd_hyperbolic_single.html</loc></url>
+<url><loc>/reference/estimate_mode.html</loc></url>
+<url><loc>/reference/extract_ic.html</loc></url>
+<url><loc>/reference/gng_m1.html</loc></url>
+<url><loc>/reference/gng_m2.html</loc></url>
+<url><loc>/reference/gng_m3.html</loc></url>
+<url><loc>/reference/gng_m4.html</loc></url>
+<url><loc>/reference/hBayesDM-package.html</loc></url>
+<url><loc>/reference/hBayesDM_model.html</loc></url>
+<url><loc>/reference/hgf_ibrb.html</loc></url>
+<url><loc>/reference/hgf_ibrb_single.html</loc></url>
+<url><loc>/reference/igt_orl.html</loc></url>
+<url><loc>/reference/igt_pvl_decay.html</loc></url>
+<url><loc>/reference/igt_pvl_delta.html</loc></url>
+<url><loc>/reference/igt_vpp.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/multiplot.html</loc></url>
+<url><loc>/reference/peer_ocu.html</loc></url>
+<url><loc>/reference/plot.hBayesDM.html</loc></url>
+<url><loc>/reference/plotDist.html</loc></url>
+<url><loc>/reference/plotHDI.html</loc></url>
+<url><loc>/reference/plotInd.html</loc></url>
+<url><loc>/reference/printFit.html</loc></url>
+<url><loc>/reference/prl_ewa.html</loc></url>
+<url><loc>/reference/prl_fictitious.html</loc></url>
+<url><loc>/reference/prl_fictitious_multipleB.html</loc></url>
+<url><loc>/reference/prl_fictitious_rp.html</loc></url>
+<url><loc>/reference/prl_fictitious_rp_woa.html</loc></url>
+<url><loc>/reference/prl_fictitious_woa.html</loc></url>
+<url><loc>/reference/prl_rp.html</loc></url>
+<url><loc>/reference/prl_rp_multipleB.html</loc></url>
+<url><loc>/reference/pstRT_ddm.html</loc></url>
+<url><loc>/reference/pstRT_rlddm1.html</loc></url>
+<url><loc>/reference/pstRT_rlddm6.html</loc></url>
+<url><loc>/reference/pst_Q.html</loc></url>
+<url><loc>/reference/pst_gainloss_Q.html</loc></url>
+<url><loc>/reference/ra_noLA.html</loc></url>
+<url><loc>/reference/ra_noRA.html</loc></url>
+<url><loc>/reference/ra_prospect.html</loc></url>
+<url><loc>/reference/rdt_happiness.html</loc></url>
+<url><loc>/reference/rhat.html</loc></url>
+<url><loc>/reference/task2AFC_sdt.html</loc></url>
+<url><loc>/reference/ts_par4.html</loc></url>
+<url><loc>/reference/ts_par6.html</loc></url>
+<url><loc>/reference/ts_par7.html</loc></url>
+<url><loc>/reference/ug_bayes.html</loc></url>
+<url><loc>/reference/ug_delta.html</loc></url>
+<url><loc>/reference/wcs_sql.html</loc></url>
 </urlset>
+
