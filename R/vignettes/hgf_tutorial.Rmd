@@ -27,7 +27,7 @@ By [**Jinwoo Jeong**](https://www.linkedin.com/in/jinwoo-jeong-ab284420b),
 <br />
 
 **Hierarchical Gaussian Filter (HGF)** is a cognitive model designed to explain how individuals learn in uncertain and changing environments [@mathys2011bayesian].
-Originally, [TAPAS](https://www.tnu.ethz.ch/de/software/tapas) was the only available tool for applying HGF to behavioral data.
+Currently, [TAPAS](https://www.tnu.ethz.ch/de/software/tapas) is the most widely used tool for applying HGF to behavioral data.
 By offering various combinations of perceptual and observation models, TAPAS HGF Toolbox enabled computationally efficient way to apply different HGF models.
 
 Over the years, many researchers have requested adding HGF to hBayesDM.
@@ -289,7 +289,7 @@ fit <- hgf_ibrb(
   omega_lower = c(-10, -15),
   omega_upper = c(2, 3),
   zeta_lower  = 0,
-  zeta_upper  = 4,
+  zeta_upper  = 4
 )
 ```
 
