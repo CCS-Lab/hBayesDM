@@ -1,17 +1,17 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  real<lower=0> gain[N, T];
-  real<lower=0> loss[N, T];  // absolute loss amount
-  real cert[N, T];
-  int<lower=-1, upper=1> type[N, T];
-  int<lower=-1, upper=1> gamble[N, T];
-  real outcome[N, T];
-  real happy[N, T];
-  real RT_happy[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] real<lower=0> gain;
+  array[N, T] real<lower=0> loss;  // absolute loss amount
+  array[N, T] real cert;
+  array[N, T] int<lower=-1, upper=1> type;
+  array[N, T] int<lower=-1, upper=1> gamble;
+  array[N, T] real outcome;
+  array[N, T] real happy;
+  array[N, T] real RT_happy;
 }
 transformed data {
 }
@@ -91,10 +91,10 @@ generated quantities {
   real<lower=0, upper=1> mu_gam;
   real<lower=0> mu_sig;
 
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

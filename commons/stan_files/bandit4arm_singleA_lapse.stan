@@ -1,14 +1,14 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 // Seymour et al 2012 J neuro model, w/o C (chioce perseveration) but with xi (lapse rate). Single learning rate both for R and P.
 // Aylward et al., 2018, PsyArXiv
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  real rew[N, T];
-  real los[N, T];
-  int choice[N, T];
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] real rew;
+  array[N, T] real los;
+  array[N, T] int choice;
 }
 
 transformed data {
@@ -107,10 +107,10 @@ generated quantities {
   real<lower=0, upper=1> mu_xi;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, T];
+  array[N, T] real y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {

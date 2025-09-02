@@ -1,10 +1,10 @@
 // Hierarchical Signal Detection Theory
 data {
   int<lower=1> N;
-  int<lower=0> h[N];
-  int<lower=0> f[N];
-  int<lower=0> signal[N];
-  int<lower=0> noise[N];
+  array[N] int<lower=0> h;
+  array[N] int<lower=0> f;
+  array[N] int<lower=0> signal;
+  array[N] int<lower=0> noise;
 }
 
 parameters {
@@ -23,8 +23,8 @@ transformed parameters {
   vector[N] d;
   vector[N] c;
 
-  real<lower=0,upper=1> thetah[N];
-  real<lower=0,upper=1> thetaf[N];
+  array[N] real<lower=0,upper=1> thetah;
+  array[N] real<lower=0,upper=1> thetaf;
 
   for (i in 1:N){
     d[i] = mu_pr[1] + sigma[1] * d_pr[i];
@@ -54,10 +54,10 @@ generated quantities{
   real mu_d;
   real mu_c;
 
-  real log_lik[N, 2];
+  array[N, 2] real log_lik;
 
   // For posterior predictive check
-  real y_pred[N, 2];
+  array[N, 2] real y_pred;
 
   //set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N){
