@@ -26,15 +26,20 @@ By [**Jinwoo Jeong**](https://github.com/bugoverdose),
 
 <br />
 
-**Hierarchical Gaussian Filter (HGF)** is a cognitive model designed to explain how individuals learn in uncertain and changing environments [@mathys2011bayesian].
-Currently, [TAPAS](https://www.tnu.ethz.ch/de/software/tapas) is the most widely used tool for applying HGF to behavioral data.
-By offering various combinations of perceptual and observation models, TAPAS HGF Toolbox enabled a computationally efficient way to apply different HGF models.
+**Hierarchical Gaussian Filter (HGF)** is a computational model designed to explain how individuals learn in uncertain and changing environments [@mathys2011bayesian].
+Currently, [TAPAS](https://github.com/ComputationalPsychiatry) is the most widely used tool for applying HGF to behavioral data.
+By offering various combinations of perceptual and observation models,
+[TAPAS HGF Toolbox](https://github.com/ComputationalPsychiatry/hgf-toolbox) enabled a computationally efficient way to apply different HGF models.
+Other methods such as [PyHGF](https://github.com/ComputationalPsychiatry/pyhgf) have also been developed for analyzing HGF.
 
-Over the years, many researchers have requested adding HGF to hBayesDM.
-To address such requests, hBayesDM `1.3.0` introduces two functions:
-[`hgf_ibrb`](../reference/hgf_ibrb.html) and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html).
+Here, we show how we implemented HGF in the hBayesDM `1.3.0` [@ahn2017hbayesdm].
+Two new HGF models are included in the package:
+[`hgf_ibrb`](../reference/hgf_ibrb.html) (for hierarchical Bayesian analysis)
+and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) (for individual Bayesian analysis).
+`ibrb` refers to input = binary & response = binary.
 Although these functions are currently limited to behavioral data with binary inputs and binary responses,
-they provide a straightforward way to apply MCMC and hierarchical Bayesian analysis to HGF models, which are features not supported in TAPAS.
+they provide a straightforward way to apply MCMC and (hierarchical) Bayesian analysis to HGF models,
+which are currently unavailable in TAPAS.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -43,47 +48,49 @@ knitr::opts_chunk$set(fig.align = "center")
 
 # 1. Example Task
 
-Let us consider a simple probabilistic reversal learning task where HGF can be applied.
+Let’s consider a probabilistic reversal learning task where HGF can be applied.
 
-On each trial, participants are presented with two colored options—blue(1) and orange(0)—and must choose one.
-On any given trial, one of the two options is the correct choice, and participants receive a reward if they select it.
-Across the experiment, the probability that blue is the correct option changes over time.
-The participant's overall objective is to maximize the cumulative reward.
+On each trial, participants are presented with two colored options—blue(1) and orange(0)—and choose one of the options. 
+Reward contingency changes over trials (see Figure 1) and participants are instructed to maximize the cumulative reward.
 
-```{r fig_contingency_schedule, echo=FALSE, out.width="70%", fig.cap="Figure 1. Contingency Schedule. The vertical axis shows the actual reward probability of the blue option p(reward|blue), while the horizontal axis shows the trial number. Since the orange option is simply the alternative, p(reward|orange) is always one minus the value for blue."}
+```{r fig_contingency_schedule, echo=FALSE, out.width="70%", fig.cap="Figure 1. Reward contingency schedule. The y-axis shows the actual reward probability of the blue option p(reward|blue), while the x-axis shows the trial number. Note that p(reward|orange) = 1 - p(reward|blue)."}
 knitr::include_graphics("images/hgf_tutorial/contingency_schedule.png")
 ```
 
 The figure above illustrates a contingency schedule for a restless two-armed bandit task.
 The schedule spans 400 trials, alternating between stable and volatile phases.
 
-- Stable phases (100 trials each): reward probabilities remain fixed. For example, choosing the blue option yields a reward with a probability of 0.8 throughout the first stable block.
-- Volatile phases (100 trials each): reward probabilities switch between 0.2 and 0.8 after a random number of trials (6, 10, 14, or 20), making the environment unpredictable.
+- Stable phases (100 trials each): reward probabilities remain fixed. For example, choosing the blue option yields a reward with a probability of 80% throughout the first stable block.
+- Volatile phases (100 trials each): reward probabilities switch between 20% and 80% after a random number of trials (6, 10, 14, or 20), making the environment unpredictable.
 
 Probabilistic learning tasks like this are well suited for HGF analysis because the environment changes over time, requiring participants to continuously track shifting reward contingencies.
 
 # 2. Understanding HGF
 
-One way to approach probabilistic learning tasks is to assume a “true” hidden quantity for each trial, such as the actual probability of receiving a reward from the chosen option.
-This hidden state changes over time according to the contingency schedule, but the agent cannot observe it directly.
-Instead, the agent only observes inputs (whether the chosen option led to a reward) and tries to update its beliefs about the hidden state across trials.
-In this sense, the task represents a learning problem under uncertainty: how an agent can keep track of a changing, probabilistic world using only noisy feedback.
+In this section, we briefly explain HGF (please see Mathys et al., 2011, 2014 for more details). 
+One way to approach probabilistic learning tasks is to assume a “true” hidden quantity for each trial, 
+such as the actual probability of receiving a reward from the chosen option. 
+This hidden state changes over time according to the contingency schedule, 
+but the agent cannot observe it directly. 
+Instead, the agent tries to update its beliefs about the hidden state across trials based on inputs and observed feedback 
+(whether the chosen option led to a reward or not). 
+In this sense, the task represents a learning problem under uncertainty: 
+how an agent can keep track of a changing, probabilistic world based on noisy feedback.
 
-Note that there can be various sources of uncertainty:
-**stochasticity** (the reward is probabilistic at each trial),
+Note that there exist multiple sources of uncertainty: **stochasticity** (the reward is probabilistic on each trial),
 **volatility** (the reward contingency changes over time),
 and even **volatility of volatility** (the degree of environmental change itself may vary over time).
-Successful task performance therefore depends on the optimal processing of these sources of uncertainty in learning,
-and the pattern of such processing can be characterized by the values of the parameters in HGF.
-
-For specific details on HGF, check the original papers [@mathys2011bayesian; @mathys2014hgf].
+Successful performance on such a task therefore depends on the optimal processing of these sources of uncertainty in learning,
+and the pattern of such processing can be characterized by the parameter values in HGF.
 
 ## 2.1. Model Structure
 
-As the name suggests, the Hierarchical Gaussian Filter consists of multiple levels of hidden states, each organized in a hierarchy and evolving in Gaussian random walks.
-Theoretically, the number of hierarchy levels has no upper bound, but in practice it is not set too high due to diminishing explanatory gains and limited interpretability as a cognitive model.
+As the name suggests, the Hierarchical Gaussian Filter consists of multiple levels of hidden states,
+each of which are organized in a hierarchy and evolving in Gaussian random walks.
+Theoretically, the number of hierarchy levels has no upper bound,
+but in practice it is not set too high due to diminishing explanatory gains and limited interpretability as a cognitive model.
 
-```{r fig_hgf_gaussian_random_walk, echo=FALSE, out.width="70%", fig.cap="Figure 2. Overview of the Hierarchical Gaussian Filter (Mathys et al. 2014)"}
+```{r fig_hgf_gaussian_random_walk, echo=FALSE, out.width="70%", fig.cap="Figure 2. Overview of the Hierarchical Gaussian Filter (adopted from Mathys et al. 2014)"}
 knitr::include_graphics("images/hgf_tutorial/hgf_gaussian_random_walk.png")
 ```
 
@@ -154,9 +161,9 @@ require setting the appropriate range for each level of ω parameters for effici
 - When ω is too low, the random walk variance is small by default.
   The agent assumes stability, so updates are slow and conservative.
   Even with repeated prediction errors, beliefs change only gradually, reflecting a tendency to cling to prior expectations.
-- When ω is too high, the random walk variance is bigger by default.
-  The agent assumes that changes are common, so it updates beliefs quickly, even in stable environments.
-  This can capture individuals who are highly responsive or prone to “jumping to conclusions.”
+- When ω is too high, the random walk variance is very large by default.
+  The agent assumes that environmental changes are common, so it updates beliefs quickly, even in a stable environment.
+  This can capture individuals' characteristics who are highly responsive or prone to “jumping to conclusions.”
 
 ## 2.3. Response model
 
@@ -181,7 +188,8 @@ The parameter ζ (zeta) controls the steepness of the unit-square sigmoid, regul
 # 3. Tutorial on `hgf_ibrb` and `hgf_ibrb_single`
 
 This section explains how we can actually run [`hgf_ibrb`](../reference/hgf_ibrb.html) and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html).
-The examples are based on `RStan`, but both functions are also implemented in `PyStan` and provide the same features.
+The examples are based on the R version of the `hBayesDM` package,
+but both functions are also implemented in the Python version of the `hBayesDM` package.
 
 ## 3.1. Setup
 
@@ -194,7 +202,7 @@ Check the [Getting Started](.//getting_started.html) page to set up `hBayesDM`.
 For simple tests, `hBayesDM` has example data for both [`hgf_ibrb`](../reference/hgf_ibrb.html)
 and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html).
 
-If you want to apply HGF on your own data, make sure that your file has `.csv` or `.tsv` format and contains these four columns.
+If you want to apply HGF on your own data, make sure that your file has the `.csv` or `.tsv` format and contains these four columns.
 
 - `subjID` : unique subject identifier (integer or string)
 - `trialNum` : trial index (1, 2, 3, …)
@@ -245,9 +253,7 @@ print(fit$allIndPars)
 ```
 <!-- $ -->
 
-To apply HGF to single-participant data,
-[`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) can be used using exactly the same format
-with the same arguments.
+To apply HGF to a single participant's data, you can use [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) like below.
 
 ```{r, eval = FALSE}
 fit <- hgf_ibrb_single(data = "example", niter = 10, nwarmup = 5, nchain = 4)
@@ -258,7 +264,7 @@ print(fit$allIndPars)
 
 ## 3.3. `input_first` option
 
-`input_first` option is to help researchers apply HGF without changing their data format.
+The `input_first` option is to help researchers apply HGF without changing their data format.
 
 - input_first=TRUE: for each row, participant observed the value of input `u` before choosing `y`
 - input_first=FALSE: for each row, participant observed the value of input `u` after choosing `y` (default)
@@ -295,11 +301,11 @@ fit <- hgf_ibrb(
 
 ## 3.5. Fixing parameter values
 
-As TAPAS provides a way to fixate a certain parameter to a certain value,
-[`hgf_ibrb`](../reference/hgf_ibrb.html) and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) also provide similar feature.
-To fixate a parameter, simply set the lower bound and upper bound to the same value. Below are some examples.
+As TAPAS provides a way to fixate a certain parameter to a fixed value,
+[`hgf_ibrb`](../reference/hgf_ibrb.html) and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) also provide a similar feature.
+To set a parameter as a constant, simply set the lower bound and upper bound to the same value. Below are some examples.
 
-The command below fixates κ value to 1, while other parameters are estimated with default boundaries.
+The command below fixates κ value to 1, while other parameters are set as free parameters with their default boundaries.
 ```{r, eval = FALSE}
 fit <- hgf_ibrb(data = "example", kappa_lower = c(1.0), kappa_upper = c(1.0))
 ```
@@ -309,7 +315,7 @@ The command below fixates ω₂ to -4, while ω₃ is still estimated with the g
 fit <- hgf_ibrb(data = "example", omega_lower = c(-4.0, -10.0), omega_upper = c(-4.0, -2.0))
 ```
 
-In contrast, the command below fixates ω₃ to -4, while ω₂ is still estimated with the given boundaries (-9 < ω₂ < -1).
+In contrast, the command below fixates ω₃ to -4, while ω₂ is still to be estimated with the given boundaries (-9 < ω₂ < -1).
 ```{r, eval = FALSE}
 fit <- hgf_ibrb(data = "example", omega_lower = c(-9.0, -4.0), omega_upper = c(-1.0, -4.0))
 ```
@@ -319,7 +325,7 @@ The command below fixates ζ value to 1, while other parameters are estimated wi
 fit <- hgf_ibrb(data = "example", zeta_lower = 1.0, zeta_upper = 1.0)
 ```
 
-Of course, you can fixate multiple parameters at the same time as below:
+Of course, you can fixate multiple parameters at the same time as shown below:
 ```{r, eval = FALSE}
 fit <- hgf_ibrb(data = "example", kappa_lower = c(1.0), kappa_upper = c(1.0), zeta_lower = 1.0, zeta_upper = 1.0)
 fit <- hgf_ibrb(data = "example", omega_lower = c(-6.0, -4.0), omega_upper = c(-6.0, -4.0))
@@ -363,7 +369,7 @@ fit <- hgf_ibrb(
 # 4. Parameter Recovery
 
 In order to ensure that the estimated parameters genuinely reflect the underlying generative process,
-parameter recovery analysis was conducted to validate model identifiability and estimation reliability.
+parameter recovery analysis was conducted to validate parameter identifiability and estimation reliability.
 This procedure involves generating synthetic datasets from known parameter values and then re-estimating those parameters using the same model.
 
 ## 4.1. Simulation
@@ -394,18 +400,18 @@ In order to check whether the simulated data had reasonable parameter ranges tha
 \omega_{3} &\sim N(-6, 4^2)
 \end{align*}
 
-Figure 4 shows that both ω₂ and ζ were recovered almost perfectly (ω₂: r = 0.99, p < 1.63e-23; ζ: r = 0.99, p < 8.9e-26), 
+Figure 4 shows that both ω₂ and ζ were recovered extremely well (ω₂: r = 0.99, p < 1.63e-23; ζ: r = 0.99, p < 8.9e-26), 
 indicating that these parameters can be reliably estimated at the individual level.
-In contrast, ω₃ exhibited almost no recovery (r = -0.09, p = 0.633),
+In contrast, ω₃ exhibited exhibited poor parameter recovery (r = -0.09, p = 0.633),
 with all the estimated values presumably stuck in a local minima near -6.
 
-```{r fig_tapas_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 4. Parameter recovery in TAPAS. Each panel plots true parameter value - posterior means for ω₂, ω₃, and ζ."}
+```{r fig_tapas_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 4. Parameter recovery with TAPAS. Posterior means of the estimated parameters."}
 knitr::include_graphics("images/hgf_tutorial/tapas_recovery.png")
 ```
 
 ## 4.3. Recovery with `hgf_ibrb_single`
 
-For each subject's data, [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) was applied in a loop with settings as below.
+For each subject's data, [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) was applied in a loop with settings like below.
 
 ```{r hgf_ibrb_single, eval=FALSE}
 fit <- hgf_ibrb_single(data = subject_data,
@@ -424,28 +430,30 @@ fit <- hgf_ibrb_single(data = subject_data,
 )
 ```
 
-```{r fig_individual_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 5. Parameter recovery (hgf_ibrb_single)"}
+```{r fig_individual_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 5. Parameter recovery with hBayesDM (hgf_ibrb_single, individual Bayesian analysis)"}
 knitr::include_graphics("images/hgf_tutorial/individual_recovery.png")
 ```
 
 Figure 5 shows that both ω₂ and ζ were recovered pretty well (ω₂: r = 0.90, p < 2.51e-11;  ζ: r = 0.95, p < 7.81e-16).
-In contrast, ω₃ showed almost no recovery with values more scattered compared to TAPAS,
-but was slightly better than TAPAS considering that the results from TAPAS had a negative correlation (r = 0.03, p = 0.892).
+In contrast, ω₃ showed poor parameter recovery (r = 0.03, p = 0.892).
 
 ```{r fig_tapas_individual_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 6. TAPAS vs hgf_ibrb_single"}
 knitr::include_graphics("images/hgf_tutorial/tapas_individual_recovery.png")
 ```
 
-Figure 6 shows that ω₂ and ζ recovery results for `hBayesDM` and TAPAS are positively correlated and have very similar patterns.
-In contrast, recovery results for ω₃ showed a completely different pattern, but it is not meaningful considering that 
-they have both failed to recover meaningful parameter values.
+In Figure 6, we compared TAPAS and `hBayesDM` (individual-level) parameter estimates.
+The figure shows that ω₂ and ζ parameter estimates of `hBayesDM` and TAPAS are highly correlated with each other.
+In contrast, ω₃ estimates are not, but the comparison may be meaningless considering
+that both approches failed to show good parameter recovery of ω₃.
 
-Overall, these results indicate that even when each subject is fit independently, `hBayesDM` can be used in much the same way as TAPAS,
-while also leveraging the advantages of MCMC sampling such as obtaining posterior distributions of each parameter rather than just point estimates.
+Overall, these results suggest that we can use `hBayesDM` for individual level analysis,
+which yields similar parameter estimates from using TAPAS.
+At the same time, `hBayesDM` yields posterior distributions instead of points estimates,
+which provide additional information about the parameters. 
 
 ## 4.4. Recovery with `hgf_ibrb`
 
-For hierarchical Bayesian analysis, [`hgf_ibrb`](../reference/hgf_ibrb.html) was applied to the data from 30 participant as below:
+For hierarchical Bayesian analysis, we applied [`hgf_ibrb`](../reference/hgf_ibrb.html) to the data from 30 participants like below:
 
 ```{r hgf_ibrb, eval=FALSE}
 output <- hgf_ibrb(
@@ -465,11 +473,11 @@ output <- hgf_ibrb(
 )
 ```
 
-```{r fig_hierarchical_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 7. Parameter recovery (hgf_ibrb)"}
+```{r fig_hierarchical_recovery, echo=FALSE, out.width="90%", fig.cap="Figure 7. Parameter recovery with hBayesDM (hgf_ibrb, hierarchical Bayesian analysis)"}
 knitr::include_graphics("images/hgf_tutorial/hierarchical_recovery.png")
 ```
 
-Figure 7 shows that both ω₂ and ζ showed near-perfect recovery (ω₂: r = 0.99, p < 1.27e-26; ζ: r = 0.95, p < 2.62e-16),
+Figure 7 shows that both ω₂ and ζ showed excellent parameter recovery (ω₂: r = 0.99, p < 1.27e-26; ζ: r = 0.95, p < 2.62e-16),
 with better correlation compared to `hgf_ibrb_single`.
 Unfortunately, ω₃ still showed poor recovery (r = 0.06, p = 0.767),
 but was slightly better than TAPAS considering that the results from TAPAS had a negative correlation.
@@ -478,34 +486,35 @@ but was slightly better than TAPAS considering that the results from TAPAS had a
 knitr::include_graphics("images/hgf_tutorial/tapas_hierarchical_recovery.png")
 ```
 
-Figure 8 shows that ω₂ and ζ recovery results for `hBayesDM` and TAPAS matched very closely,
-with positive correlations close to 1.
-Once again, recovery results for ω₃ showed completely different pattern with negative correlation,
-but it is not meaningful considering that TAPAS has failed to recover meaningful parameter values.
+In Figure 8, we compared TAPAS and hBayesDM (hierarchical Bayesian) parameter estimates.
+Figure 8 shows that ω₂ and ζ parameter estimates of hBayesDM and TAPAS are highly correlated with each other.
+Once again, ω₃ estimates of the two appraoches are not correlated with each other.
 
 ```{r fig_hierarchical_analysis, echo=FALSE, out.width="80%", fig.cap="Figure 9. Parameter recovery"}
 knitr::include_graphics("images/hgf_tutorial/hierarchical_recovery_mu_posterior.png")
 knitr::include_graphics("images/hgf_tutorial/hierarchical_recovery_sigma_posterior.png")
 ```
 
-Figure 9 shows the posterior distributions for group-level parameters for ω₂, ω₃, and ζ, which is only available in [`hgf_ibrb`](../reference/hgf_ibrb.html),
-allowing us to examine not only the central tendency of these parameters at the group level (μ) 
-but also the variability across individuals (σ), thereby capturing both population-wide effects and inter-individual differences.
+Figure 9 shows the posterior distributions for group-level parameters (group means and SDs) for ω₂, ω₃, and ζ,
+which is an advantage of using MCMC for parameter estimation. 
 
-Overall, we can say that `hBayesDM` can be used for fitting HGF models in much the same way as TAPAS, while additionally enabling hierarchical Bayesian analysis.
-Moreover, these results suggest that [`hgf_ibrb`](../reference/hgf_ibrb.html) should be preferred over [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html)
-as hierarchical modeling framework further improves parameter recovery compared to individual-level fits, presumably due to the benefits of shrinkage.
+Overall, we conclude hBayesDM provides a user-friendly way of fitting HGF models whose parameter estimates will be compatible with those from TAPAS.
+In many cases, [`hgf_ibrb`](../reference/hgf_ibrb.html) should be preferred over [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html)
+as hierarchical modeling framework further improves parameter recovery compared to individual-level fits,
+presumably due to the benefits of shrinkage.
 
 # 5. Appendix
 
 ## 5.1. Specifying initial values
 
-`hBayesDM` provides various options for the initial values (`inits`) of the parameters.
+`hBayesDM` provides various options for setting the initial values (`inits`) of the parameters.
 The default setting is `vb`, therefore `hBayesDM` will try to fit the model with `vb`
 and then use the VB estimation as initial values for MCMC sampling. 
 If this VB estimation fails, `hBayesDM` defaults to using random initial values instead.
 
-Since the `vb` option has the issue of failing stochastically, consider using the `random` option or specifying the initial parameter values.
+Since the `vb` option has the issue of failing stochastically,
+consider using the `random` option or specifying the initial parameter values,
+like other models implemented in hBayesDM.
 
 ```{r init2, eval = FALSE}
 fit <- hgf_ibrb(data = "example", inits = "random")
@@ -513,10 +522,11 @@ fit <- hgf_ibrb(data = "example", inits = "random")
 
 ## 5.2. Poor recovery of ω₃
 
-During the parameter recovery at [Section 4](#parameter-recovery), both TAPAS and `hBayesDM` have failed to recover ω₃.
-Many previous studies have also reported unreliable parameter estimation for ω₃ [@reed2020paranoia; @hein2021state; @tecilla2023modulation].
+In [Section 4](#parameter-recovery), we showed that both TAPAS and hBayesDM have failed to recover ω₃ properly. 
+In fact, several previous studies have also reported unreliable parameter estimation for ω₃ [@reed2020paranoia; @hein2021state; @tecilla2023modulation].
 To our knowledge, there has been no systematic analysis of the causes or the potential solutions.
-Therefore, we tried various input designs and parameter settings to investigate under what conditions ω₃ can produce detectable behavioral differences.
+Therefore, we tried various input designs and parameter settings to investigate under what conditions 
+we can achieve decent parameter recovery and ω₃ can produce detectable behavioral differences.
 
 The main issue with the data used in [Section 4](#parameter-recovery) was that the individual differences in ω₃ 
 didn't produce any meaningful differences in the responses between the participants.
@@ -527,7 +537,7 @@ Most promising results were found when we simply added more volatility to the en
 knitr::include_graphics("images/hgf_tutorial/contingency_schedule_om3.png")
 ```
 
-The overall task design is similar to the Contingency Schedule from [Section 1](#example-task).
+The overall task design is similar to the Contingency Schedule reported in [Section 1](#example-task).
 The total number of trials is 400 and switches between stable and volatile phases.
 The main difference is that number of trials for each stable and volatile phase is 50 trials each,
 half the number of trials used in the previous design.
@@ -537,9 +547,9 @@ This leads to twice the number of shifts between stable and volatile phases comp
 knitr::include_graphics("images/hgf_tutorial/om3_individual_recovery.png")
 ```
 
-Figure 11 shows the result of parameter recovery on ω₃ using [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html).
+Figure 11 shows the result of parameter recovery of ω₃ using [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html).
 Although the results are not perfect,
-we can see that the results have improved compared to the results from the previous design (Figure 5).
+we can see that the parameter recovery results have improved compared to the results from the previous design (Figure 5).
 This indicates that adding enough volatility to the environment itself is a necessary step for
 capturing the individual differences in parameters at high levels such as ω₃.
 
