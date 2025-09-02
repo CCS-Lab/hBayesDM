@@ -233,7 +233,7 @@ fit <- hgf_ibrb(
   omega_lower = c(-10, -15), 
   omega_upper = c(0, 0),
   zeta_lower  = 0,
-  zeta_upper  = 2,
+  zeta_upper  = 2
 )
 ```
 
