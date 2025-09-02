@@ -1,7 +1,7 @@
 # hBayesDM 1.3.0
 
 * Added a Hierarchical Gaussian Filter model for binary inputs and binary responses: `hgf_ibrb` for hierarchical Bayesian analysis and `hgf_ibrb_single` for individual Bayesian analysis.
-* Added new article: [Hierarchical Bayesian Analysis on Hierarchical Gaussian Filter](https://ccs-lab.github.io/hBayesDM/articles//hgf_tutorial.html)
+* Added new article: [Hierarchical Bayesian Analysis on Hierarchical Gaussian Filter](https://ccs-lab.github.io/hBayesDM/articles/hgf_tutorial.html)
 
 # hBayesDM 1.2.1
 
