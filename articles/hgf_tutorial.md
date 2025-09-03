@@ -221,7 +221,7 @@ and [`hgf_ibrb_single`](../reference/hgf_ibrb_single.html) on the example data.
 
 Below is the simplest way to run [`hgf_ibrb`](../reference/hgf_ibrb.html) on a dataset with multiple participants.
 The command below initiates an MCMC procedure of 4 MCMC chains,
-each consisting of 5 burn-in (warm-up) iterations followed by 5 sampling iterations.
+each consisting of 500 burn-in (warm-up) iterations followed by 500 sampling iterations.
 
 
 ``` r

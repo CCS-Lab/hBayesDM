@@ -353,8 +353,8 @@ reward or not) is needed in the HGF model.</p>
 on the example data.</p>
 <p>Below is the simplest way to run <a href="../reference/hgf_ibrb.html"><code>hgf_ibrb</code></a> on a dataset
 with multiple participants. The command below initiates an MCMC
-procedure of 4 MCMC chains, each consisting of 5 burn-in (warm-up)
-iterations followed by 5 sampling iterations.</p>
+procedure of 4 MCMC chains, each consisting of 500 burn-in (warm-up)
+iterations followed by 500 sampling iterations.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hgf_ibrb.html">hgf_ibrb</a></span><span class="op">(</span>data <span class="op">=</span> <span class="st">"example"</span>, niter <span class="op">=</span> <span class="fl">1000</span>, nwarmup <span class="op">=</span> <span class="fl">500</span>, nchain <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p>The above command is the same as the commands below because
