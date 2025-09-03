@@ -73,9 +73,9 @@ on each new iteration. See \bold{Details} below.}
   \item{mu0}{prior belief for each level before starting the experiment}
   \item{sigma0}{prior uncertainty for each level before starting the experiment}
   \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
-  \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+  \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
   \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
-  \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+  \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
   \item{zeta_lower}{Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.}
 }}
 }
@@ -158,7 +158,7 @@ For the NA, there should be 4 columns of data with the
   and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
   description of these arguments.
 
-\subsection{Contributors}{\href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@gmail.com}>}
+\subsection{Contributors}{\href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@gmail.com}>, \href{https://github.com/juhajulia}{Juha Lee} <\email{juhajulia44@gmail.com}>, \href{https://github.com/0150362}{Yusom Jo} <\email{yaun2288@snu.ac.kr}>}
 }
 \examples{
 \dontrun{
