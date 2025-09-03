@@ -510,3 +510,84 @@ plot_cgt_cm <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
   h_all = multiplot(h1, h2, h3, h4, h5, cols = ncols)
   return(h_all)
 }
+
+plot_hgf_ibrb <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars <- obj$parVals
+  mu_kappa <- pars$mu_kappa
+  mu_omega <- pars$mu_omega
+  mu_zeta  <- pars$mu_zeta
+  plots <- list()
+  k <- 1
+  if (!is.null(mu_kappa) && ncol(mu_kappa) > 0) {
+    for (i in seq_len(ncol(mu_kappa))) {
+      plots[[k]] <- plotDist(
+        sample   = mu_kappa[, i],
+        fontSize = fontSize,
+        binSize  = binSize,
+        xLab     = bquote(kappa[.(i+1)] ~ "(phasic volatility)")
+      )
+      k <- k + 1
+    }
+  }
+  if (!is.null(mu_omega) && ncol(mu_omega) > 0) {
+    for (i in seq_len(ncol(mu_omega))) {
+      plots[[k]] <- plotDist(
+        sample   = mu_omega[, i],
+        fontSize = fontSize,
+        binSize  = binSize,
+        xLab     = bquote(omega[.(i+1)] ~ "(tonic volatility)")
+      )
+      k <- k + 1
+    }
+  }
+  if (!is.null(mu_zeta) && length(mu_zeta) > 0) {
+    plots[[k]] <- plotDist(
+      sample   = mu_zeta,
+      fontSize = fontSize,
+      binSize  = binSize,
+      xLab     = expression(zeta ~ "(inv. decision noise)")
+    )
+    k <- k + 1
+  }
+  h_all <- do.call(multiplot, c(plots, list(cols = ncols)))
+  return(h_all)
+}
+
+plot_hgf_ibrb_single <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars <- obj$parVals
+  plots <- list()
+  k <- 1
+  if (!is.null(pars$kappa) && ncol(pars$kappa) > 0) {
+    for (i in seq_len(ncol(pars$kappa))) {
+      plots[[k]] <- plotDist(
+        sample   = pars$kappa[, i],
+        fontSize = fontSize,
+        binSize  = binSize,
+        xLab     = bquote(kappa[.(i+1)] ~ "(phasic volatility)")
+      )
+      k <- k + 1
+    }
+  }
+  if (!is.null(pars$omega) && ncol(pars$omega) > 0) {
+    for (i in seq_len(ncol(pars$omega))) {
+      plots[[k]] <- plotDist(
+        sample   = pars$omega[, i],
+        fontSize = fontSize,
+        binSize  = binSize,
+        xLab     = bquote(omega[.(i+1)] ~ "(tonic volatility)")
+      )
+      k <- k + 1
+    }
+  }
+  if (!is.null(pars$zeta) && length(pars$zeta) > 0) {
+    plots[[k]] <- plotDist(
+      sample   = pars$zeta,
+      fontSize = fontSize,
+      binSize  = binSize,
+      xLab     = expression(zeta ~ "(inv. decision noise)")
+    )
+    k <- k + 1
+  }
+  h_all <- do.call(multiplot, c(plots, list(cols = ncols)))
+  return(h_all)
+}
