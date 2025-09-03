@@ -23,7 +23,7 @@ Model: Hierarchical Bayesian version of the Hierarchical Gaussian Filter model f
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -176,13 +176,13 @@ on each new iteration. See <b>Details</b> below.</p></dd>
 <dd><p>Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].</p></dd>
 
   <dt>kappa_upper</dt>
-<dd><p>Upper bounds for kappa for each level (2 ~ L-1). Defaults to [3]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].</p></dd>
+<dd><p>Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].</p></dd>
 
   <dt>omega_lower</dt>
 <dd><p>Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].</p></dd>
 
   <dt>omega_upper</dt>
-<dd><p>Upper bounds for omega for each level (2 ~ L). Defaults to [5, 5]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].</p></dd>
+<dd><p>Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].</p></dd>
 
   <dt>zeta_lower</dt>
 <dd><p>Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.</p></dd>
@@ -275,7 +275,7 @@ For the NA, there should be 4 columns of data with the
   description of these arguments.</p>
 <div class="section">
 <h3 id="contributors">Contributors<a class="anchor" aria-label="anchor" href="#contributors"></a></h3>
-<p><a href="https://github.com/bugoverdose" class="external-link">Jinwoo Jeong</a> &lt;<a href="mailto:jwjeong96@gmail.com">jwjeong96@gmail.com</a>&gt;</p>
+<p><a href="https://github.com/bugoverdose" class="external-link">Jinwoo Jeong</a> &lt;<a href="mailto:jwjeong96@gmail.com">jwjeong96@gmail.com</a>&gt;, <a href="https://github.com/juhajulia" class="external-link">Juha Lee</a> &lt;<a href="mailto:juhajulia44@gmail.com">juhajulia44@gmail.com</a>&gt;, <a href="https://github.com/0150362" class="external-link">Yusom Jo</a> &lt;<a href="mailto:yaun2288@snu.ac.kr">yaun2288@snu.ac.kr</a>&gt;</p>
 </div>
 
     </div>
