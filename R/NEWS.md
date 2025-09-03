@@ -1,3 +1,7 @@
+# hBayesDM 1.3.1
+
+* Add plot functions for Hierarchical Gaussian Filter models: `plot_hgf_ibrb`, `plot_hgf_ibrb_single`.
+
 # hBayesDM 1.3.0
 
 * Added a Hierarchical Gaussian Filter model for binary inputs and binary responses: `hgf_ibrb` for hierarchical Bayesian analysis and `hgf_ibrb_single` for individual Bayesian analysis.

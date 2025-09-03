@@ -15,7 +15,7 @@ PATH_ROOT = Path(__file__).absolute().parent
 
 MAJOR = 1
 MINOR = 3
-MICRO = 0
+MICRO = 1
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
 IS_RELEASED = True
