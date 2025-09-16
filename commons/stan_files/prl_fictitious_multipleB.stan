@@ -1,4 +1,4 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 /**
  * Probabilistic Reversal Learning (PRL) Task
@@ -10,13 +10,13 @@ data {
   int<lower=1> N;                          // Number of subjects
 
   int<lower=1> B;                          // Max number of blocks across subjects
-  int<lower=1> Bsubj[N];                   // Number of blocks for each subject
+  array[N] int<lower=1> Bsubj;                   // Number of blocks for each subject
 
   int<lower=0> T;                          // Max number of trials across subjects
-  int<lower=0, upper=T> Tsubj[N, B];       // Number of trials/block for each subject
+  array[N, B] int<lower=0, upper=T> Tsubj;       // Number of trials/block for each subject
 
-  int<lower=-1, upper=2> choice[N, B, T];  // Choice for each subject-block-trial
-  real outcome[N, B, T];                   // Outcome (reward/loss) for each subject-block-trial
+  array[N, B, T] int<lower=-1, upper=2> choice;  // Choice for each subject-block-trial
+  array[N, B, T] real outcome;                   // Outcome (reward/loss) for each subject-block-trial
 }
 
 transformed data {
@@ -101,18 +101,18 @@ generated quantities {
   real<lower=0, upper=10> mu_beta;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For model regressors
-  real ev_c[N, B, T];           // Expected value of the chosen option
-  real ev_nc[N, B, T];          // Expected value of the non-chosen option
+  array[N, B, T] real ev_c;           // Expected value of the chosen option
+  array[N, B, T] real ev_nc;          // Expected value of the non-chosen option
 
-  real pe_c[N, B, T];           //Prediction error of the chosen option
-  real pe_nc[N, B, T];          //Prediction error of the non-chosen option
-  real dv[N, B, T];             //Decision value = PE_chosen - PE_non-chosen
+  array[N, B, T] real pe_c;           //Prediction error of the chosen option
+  array[N, B, T] real pe_nc;          //Prediction error of the non-chosen option
+  array[N, B, T] real dv;             //Decision value = PE_chosen - PE_non-chosen
 
   // For posterior predictive check
-  real y_pred[N, B, T];
+  array[N, B, T] real y_pred;
 
   // Set all posterior predictions, model regressors to 0 (avoids NULL values)
   for (i in 1:N) {

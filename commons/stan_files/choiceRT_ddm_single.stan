@@ -1,11 +1,11 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 // based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potentially others @ Stan mailing lists
 data {
   int<lower=0> Nu; // of upper boundary responses
   int<lower=0> Nl; // of lower boundary responses
-  real RTu[Nu];    // upper boundary response times
-  real RTl[Nl];    // lower boundary response times
+  array[Nu] real RTu;    // upper boundary response times
+  array[Nl] real RTl;    // lower boundary response times
   real minRT;      // minimum RT of the observed data
   real RTbound;    // lower bound or RT (e.g., 0.1 second)
 }

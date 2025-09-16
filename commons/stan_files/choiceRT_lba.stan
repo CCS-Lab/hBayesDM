@@ -1,4 +1,4 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 // The model published in Annis, J., Miller, B. J., & Palmeri, T. J. (2016).
 // Bayesian inference with Stan: A tutorial on adding custom distributions. Behavior research methods, 1-24.
@@ -17,16 +17,16 @@ functions {
     b_tv_ts   = (b - t * v_pdf)/(t * s);
 
     term_1b = v_pdf * Phi(b_A_tv_ts);
-    term_2b = s * exp(normal_lpdf(fabs(b_A_tv_ts) | 0, 1));
+    term_2b = s * exp(normal_lpdf(abs(b_A_tv_ts) | 0, 1));
     term_3b = v_pdf * Phi(b_tv_ts);
-    term_4b = s * exp(normal_lpdf(fabs(b_tv_ts) | 0, 1));
+    term_4b = s * exp(normal_lpdf(abs(b_tv_ts) | 0, 1));
 
     pdf = (1/A) * (-term_1b + term_2b + term_3b - term_4b);
 
     return pdf;
   }
 
-  real lba_cdf(real t, real b, real A, real v_cdf, real s) {
+  real lba_cdf_fun(real t, real b, real A, real v_cdf, real s) {
     //CDF of the LBA model
     real b_A_tv;
     real b_tv;
@@ -43,8 +43,8 @@ functions {
 
     term_1a = b_A_tv/A * Phi(b_A_tv/ts);
     term_2a = b_tv/A   * Phi(b_tv/ts);
-    term_3a = ts/A     * exp(normal_lpdf(fabs(b_A_tv/ts) | 0, 1));
-    term_4a = ts/A     * exp(normal_lpdf(fabs(b_tv/ts) | 0, 1));
+    term_3a = ts/A     * exp(normal_lpdf(abs(b_A_tv/ts) | 0, 1));
+    term_4a = ts/A     * exp(normal_lpdf(abs(b_tv/ts) | 0, 1));
 
     cdf = 1 + term_1a - term_2a + term_3a - term_4a;
 
@@ -70,7 +70,7 @@ functions {
           if (RT[2, i] == j) {
             pdf = lba_pdf(t, b, A, v[j], s);
           } else {
-            cdf *= lba_cdf(t, b, A, v[j], s);
+            cdf *= lba_cdf_fun(t, b, A, v[j], s);
           }
         }
         prob_neg = 1;
@@ -99,9 +99,9 @@ functions {
     vector[num_elements(v)] drift;
     int max_iter;
     int iter;
-    real start[num_elements(v)];
-    real ttf[num_elements(v)];
-    int resp[num_elements(v)];
+    array[num_elements(v)] real start;
+    array[num_elements(v)] real ttf;
+    array[num_elements(v)] int resp;
     real rt;
     vector[2] pred;
     real b;
@@ -141,7 +141,7 @@ functions {
       //if one is negative get the positive drift
       resp          = sort_indices_asc(ttf);
       {
-        real temp_ttf[num_elements(v)];
+        array[num_elements(v)] real temp_ttf;
         temp_ttf    = sort_asc(ttf);
         ttf         = temp_ttf;
       }
@@ -164,8 +164,8 @@ data {
   int Max_tr;
   int N_choices;
   int N_cond;
-  int N_tr_cond[N, N_cond];
-  matrix[2, Max_tr] RT[N, N_cond];
+  array[N, N_cond] int N_tr_cond;
+  array[N, N_cond] matrix[2, Max_tr] RT;
 
 }
 
@@ -174,19 +174,19 @@ parameters {
   real<lower=0> mu_d;
   real<lower=0> mu_A;
   real<lower=0> mu_tau;
-  vector<lower=0>[N_choices] mu_v[N_cond];
+  array[N_cond] vector<lower=0>[N_choices] mu_v;
 
   // Hyperparameter sigmas
   real<lower=0> sigma_d;
   real<lower=0> sigma_A;
   real<lower=0> sigma_tau;
-  vector<lower=0>[N_choices] sigma_v[N_cond];
+  array[N_cond] vector<lower=0>[N_choices] sigma_v;
 
   // Individual parameters
-  real<lower=0> d[N];
-  real<lower=0> A[N];
-  real<lower=0> tau[N];
-  vector<lower=0>[N_choices] v[N, N_cond];
+  array[N] real<lower=0> d;
+  array[N] real<lower=0> A;
+  array[N] real<lower=0> tau;
+  array[N, N_cond] vector<lower=0>[N_choices] v;
 }
 transformed parameters {
   // s is set to 1 to make model identifiable
@@ -240,10 +240,10 @@ generated quantities {
   int n_trials;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For posterior predictive check
-  matrix[2, Max_tr] y_pred[N, N_cond];
+  array[N, N_cond] matrix[2, Max_tr] y_pred;
 
   // Set all posterior predictions to 0 (avoids NULL values)
   for (i in 1:N) {
