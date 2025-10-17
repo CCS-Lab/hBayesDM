@@ -676,10 +676,10 @@ class TaskModel(metaclass=ABCMeta):
         if getattr(os, 'getuid', None) is None:
             uid = 'windows'
         else:
-            uid = os.getuid()
+            uid = str(os.getuid())
 
         cache_file = tempdir / (
-            'cached-hBayesDM_model-%s-pystan_%s_user-%d.pkl' %
+            'cached-hBayesDM_model-%s-pystan_%s_user-%s.pkl' %
             (model, _pystan_version, uid)
         )
 
