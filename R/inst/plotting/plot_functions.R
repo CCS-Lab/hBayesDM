@@ -405,6 +405,14 @@ plot_cra_exp <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
   return(h_all)
 }
 
+plot_pst_Q <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_alpha, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(alpha, " (Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLim = c(0,10), xLab = expression(paste(beta, " (Inverse Temp.)")))
+  h_all = multiplot(h1, h2, cols = ncols)
+  return(h_all)
+}
+
 plot_pst_gainloss_Q <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
   pars = obj$parVals
   h1 = plotDist(sample = pars$mu_alpha_pos, fontSize = fontSize, binSize = binSize, xLim = c(0,2), xLab = expression(paste(alpha[pos], " (+Learning Rate)")))

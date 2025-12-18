@@ -31,24 +31,23 @@ transformed parameters {
   vector<lower=0,upper=1>[N] alpha;
   vector<lower=0,upper=10>[N] beta;
 
-  alpha      = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr);
-  beta      = Phi_approx(mu_pr[2] + sigma[2] * beta_pr) * 10;
+  alpha = Phi_approx(mu_pr[1] + sigma[1] * alpha_pr);
+  beta  = Phi_approx(mu_pr[2] + sigma[2] * beta_pr) * 10;
 }
 
 model {
   // Priors for group-level parameters
-  mu_pr    ~ normal(0, 1);
+  mu_pr ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // Priors for subject-level parameters
   alpha_pr ~ normal(0, 1);
-  beta_pr      ~ normal(0, 1);
+  beta_pr  ~ normal(0, 1);
 
   for (i in 1:N) {
     int co;         // Chosen option
     real delta;     // Difference between two options
     real pe;        // Prediction error
-    //real alpha;
     vector[6] ev;   // Expected values
 
     ev = initial_values;
@@ -71,19 +70,18 @@ generated quantities {
   // For group-level parameters
   real<lower=0,upper=1>  mu_alpha;
   real<lower=0,upper=10> mu_beta;
+  real pe[N, T]; // Prediction error
 
   // For log-likelihood calculation
   real log_lik[N];
 
-  mu_alpha     = Phi_approx(mu_pr[1]);
-  mu_beta      = Phi_approx(mu_pr[2]) * 10;
+  mu_alpha = Phi_approx(mu_pr[1]);
+  mu_beta  = Phi_approx(mu_pr[2]) * 10;
 
   {
     for (i in 1:N) {
       int co;         // Chosen option
       real delta;     // Difference between two options
-      real pe;        // Prediction error
-      //real alpha;
       vector[6] ev;   // Expected values
 
       ev = initial_values;
@@ -97,8 +95,8 @@ generated quantities {
         delta = ev[option1[i, t]] - ev[option2[i, t]];
         log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i] * delta);
 
-        pe = reward[i, t] - ev[co];
-        ev[co] += alpha[i] * pe;
+        pe[i, t] = reward[i, t] - ev[co];
+        ev[co] += alpha[i] * pe[i, t];
       }
     }
   }
