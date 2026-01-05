@@ -211,7 +211,7 @@ If you want to apply HGF on your own data, make sure that your file has the `.cs
 
 For example, the task design in [Section 1](#example-task) provides two colored options: blue coded as 1 and orange coded as 0.
 In this case, a participant (`subjID = 1`) can choose the blue option (`y = 1`) at the first trial (`trialNum = 1`)
-when the correct choice was actually the orange option (`u = 1`).
+when the correct choice was actually the orange option (`u = 0`).
 No other information (e.g., `feedback` column indicating whether the subject got the reward or not) is needed in the HGF model.
 
 ## 3.2. Fitting with default settings
