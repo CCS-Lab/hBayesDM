@@ -1,4 +1,4 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 /**
  * Probabilistic Reversal Learning (PRL) Task
@@ -10,13 +10,13 @@ data {
   int<lower=1> N;                          // Number of subjects
 
   int<lower=1> B;                          // Maximum number of blocks across subjects
-  int<lower=1> Bsubj[N];                   // Number of blocks for each subject
+  array[N] int<lower=1> Bsubj;                   // Number of blocks for each subject
 
   int<lower=0> T;                          // Maximum number of trials across subjects
-  int<lower=0, upper=T> Tsubj[N, B];       // Number of trials/blocks for each subject
+  array[N, B] int<lower=0, upper=T> Tsubj;       // Number of trials/blocks for each subject
 
-  int<lower=-1, upper=2> choice[N, B, T];  // The choices subjects made
-  real outcome[N, B, T];                   // The outcome
+  array[N, B, T] int<lower=-1, upper=2> choice;  // The choices subjects made
+  array[N, B, T] real outcome;                   // The outcome
 }
 
 transformed data {
@@ -93,15 +93,15 @@ generated quantities {
   real<lower=0, upper=10> mu_beta;
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // For model regressors
-  real ev_c[N, B, T];   // Expected value of the chosen option
-  real ev_nc[N, B, T];  // Expected value of the non-chosen option
-  real pe[N, B, T];     // Prediction error
+  array[N, B, T] real ev_c;   // Expected value of the chosen option
+  array[N, B, T] real ev_nc;  // Expected value of the non-chosen option
+  array[N, B, T] real pe;     // Prediction error
 
   // For posterior predictive check
-  real y_pred[N, B, T];
+  array[N, B, T] real y_pred;
 
   // Initialize all the variables to avoid NULL values
   for (i in 1:N) {

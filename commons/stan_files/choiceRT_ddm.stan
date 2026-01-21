@@ -1,15 +1,15 @@
-#include /pre/license.stan
+#include /include/license.stan
 
 // based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potentially others @ Stan mailing lists
 data {
   int<lower=1> N;      // Number of subjects
   int<lower=0> Nu_max; // Max (across subjects) number of upper boundary responses
   int<lower=0> Nl_max; // Max (across subjects) number of lower boundary responses
-  int<lower=0> Nu[N];  // Number of upper boundary responses for each subj
-  int<lower=0> Nl[N];  // Number of lower boundary responses for each subj
-  real RTu[N, Nu_max];  // upper boundary response times
-  real RTl[N, Nl_max];  // lower boundary response times
-  real minRT[N];       // minimum RT for each subject of the observed data
+  array[N] int<lower=0> Nu;  // Number of upper boundary responses for each subj
+  array[N] int<lower=0> Nl;  // Number of lower boundary responses for each subj
+  array[N, Nu_max] real RTu;  // upper boundary response times
+  array[N, Nl_max] real RTl;  // lower boundary response times
+  array[N] real minRT;       // minimum RT for each subject of the observed data
   real RTbound;        // lower bound or RT across all subjects (e.g., 0.1 second)
 }
 
@@ -79,7 +79,7 @@ generated quantities {
   real<lower=RTbound, upper=max(minRT)> mu_tau; // nondecision time
 
   // For log likelihood calculation
-  real log_lik[N];
+  array[N] real log_lik;
 
   // Assign group level parameter values
   mu_alpha = exp(mu_pr[1]);
