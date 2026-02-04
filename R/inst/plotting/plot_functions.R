@@ -605,7 +605,7 @@ plot_hgf_ibrb_single <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
         binSize  = binSize,
         xLab     = expression(zeta ~ "(inv. decision noise)")
       )
-      k <- k + 1 
+      k <- k + 1
     }
   }
   h_all <- do.call(multiplot, c(plots, list(cols = ncols)))
