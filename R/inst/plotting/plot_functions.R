@@ -585,7 +585,7 @@ plot_hgf_ibrb_single <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
   if (!is.null(omega) && ncol(omega) > 0) {
     for (i in seq_len(ncol(omega))) {
       sample_all <- omega[,i]
-      if (length(unique(sample_all)) >1) {
+      if (length(unique(sample_all)) > 1) {
         plots[[k]] <- plotDist(
           sample   = omega[, i],
           fontSize = fontSize,
