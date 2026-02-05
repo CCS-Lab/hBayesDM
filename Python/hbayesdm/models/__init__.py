@@ -44,6 +44,7 @@ from ._prl_fictitious_multipleB import prl_fictitious_multipleB
 from ._prl_fictitious_rp import prl_fictitious_rp
 from ._prl_fictitious_rp_woa import prl_fictitious_rp_woa
 from ._prl_fictitious_woa import prl_fictitious_woa
+from ._prl_fictitious_woa_multipleB import prl_fictitious_woa_multipleB
 from ._prl_rp import prl_rp
 from ._prl_rp_multipleB import prl_rp_multipleB
 from ._pstRT_ddm import pstRT_ddm
@@ -110,6 +111,7 @@ __all__ = [
     'prl_fictitious_rp',
     'prl_fictitious_rp_woa',
     'prl_fictitious_woa',
+    'prl_fictitious_woa_multipleB',
     'prl_rp',
     'prl_rp_multipleB',
     'pstRT_ddm',

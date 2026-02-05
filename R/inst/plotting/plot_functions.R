@@ -178,7 +178,7 @@ plot_prl_fictitious_rp_woa <- function(obj, fontSize = 10, ncols = 3, binSize = 
   return(h_all)
 }
 
-plot_prl_fictitious_woa <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+plot_prl_fictitious_woa <- plot_prl_fictitious_woa_multipleB <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
   pars = obj$parVals
   h1 = plotDist(sample = pars$mu_eta, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(eta, " (Learning Rate)")))
   h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse Temp.)")))
