@@ -70,10 +70,25 @@ generated quantities {
   // For group-level parameters
   real<lower=0,upper=1>  mu_alpha;
   real<lower=0,upper=10> mu_beta;
-  real pe[N, T]; // Prediction error
+  
+  real pe[N, T]; // prediction error
 
   // For log-likelihood calculation
   real log_lik[N];
+
+  // predicted probability of choosing option1
+  real<lower=0,upper=1> p_pred[N, T];
+
+  // For posterior predictive check
+  real<lower=0,upper=1> y_pred[N, T];
+
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      p_pred[i, t] = 0.5;
+      y_pred[i, t] = 0;
+    }
+  }
 
   mu_alpha = Phi_approx(mu_pr[1]);
   mu_beta  = Phi_approx(mu_pr[2]) * 10;
@@ -95,10 +110,13 @@ generated quantities {
         delta = ev[option1[i, t]] - ev[option2[i, t]];
         log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i] * delta);
 
+        // generate posterior prediction for current trial
+        p_pred[i, t] = inv_logit(beta[i] * delta);
+        y_pred[i, t] = bernoulli_rng(p_pred[i, t]);
+
         pe[i, t] = reward[i, t] - ev[co];
         ev[co] += alpha[i] * pe[i, t];
       }
     }
   }
 }
-

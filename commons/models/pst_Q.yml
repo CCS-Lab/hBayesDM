@@ -38,5 +38,6 @@ parameters:
     info: [0, 1, 10]
 regressors:
 postpreds:
+- p_pred
 - y_pred
 additional_args:
