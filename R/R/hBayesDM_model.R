@@ -298,7 +298,7 @@ hBayesDM_model <- function(task_name = "",
     if ((model_name == "hgf_ibrb") && (model_type == "single")) {
       pars <- c(pars, paste0("logit_", names(parameters)))
     }
-    if ((task_name == "pst") && (model_name == "Q" || model_name == "gainloss_Q")) {
+    if (task_name == "pst") {
       pars <- c(pars, "pe")
     }
     pars <- c(pars, "log_lik")
