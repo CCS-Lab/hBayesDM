@@ -23,6 +23,7 @@ contributors:
   link: https://github.com/juhajulia
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
+  block: "A unique identifier for each of the multiple blocks within each subject: 1, 2, ..."
   trialNum: "Nominal integer representing the trial number: 1, 2, ..."
   u: "Integer value representing the input on that trial: 0 or 1."
   y: "Integer value representing the subject's choice on that trial: 0 or 1."

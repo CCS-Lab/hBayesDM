@@ -64,6 +64,8 @@ transformed data {
   int<lower=0, upper=1> n_free_zeta = 1;
 
   int n_free_parameters;
+  real mu1_min = 0.001;
+  real mu1_max = 0.999;
 
   // differentiate free mu0 and fixed mu0
   for (l in 1:(L-1)) {
@@ -241,6 +243,7 @@ model {
         }
         // Prediction
         mu_hat[1] = inv_logit(mu_hat[2]);
+        mu_hat[1] = fmin(mu1_max, fmax(mu1_min, mu_hat[1]));
 
         // Update prior uncertainty
         sa_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
@@ -269,13 +272,19 @@ model {
 
           real v = exp(ka * mu_prev_ + om); // volatility
           real w = v / sa_prev_lower;       // weighting factor (level: l-1)
-          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
-          real r = 2*w - 1;                 // relative difference of environmental and informational uncertainty (level: l-1)
-          real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
-          real lr = 0.5 * sa_ * ka * w;     // learning rate
+        
+          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // volatility prediction error
+          real lr = 0.5 * (1.0/sa_hat[l]) * ka * w; // learning rate
           real pwpe = lr * vpe;             // precision-weighted prediction error
+
+          real vv = exp(ka *mu [l-1] +om);
+          real pimhat = 1.0 / (sa_prev_lower +vv);
+          real ww = vv * pimhat;
+          real rr = (vv - sa_prev_lower) * pimhat;
+          real dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
+
           mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
-          sa[l] = sa_;
+          sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
         }
 
         // Response model (unit-square sigmoid)
@@ -324,6 +333,7 @@ generated quantities {
         }
         // Prediction
         mu_hat[1] = inv_logit(mu_hat[2]);
+        mu_hat[1] = fmin(mu1_max, fmax(mu1_min, mu_hat[1]));
 
         // Update prior uncertainty
         sa_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
@@ -352,13 +362,19 @@ generated quantities {
 
           real v = exp(ka * mu_prev_ + om);// volatility
           real w = v / sa_prev_lower;      // weighting factor (level: l-1)
-          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
-          real r = 2*w - 1;                // relative difference of environmental and informational uncertainty (level: l-1)
-          real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
-          real lr = 0.5 * sa_ * ka * w;    // learning rate
-          real pwpe = lr * vpe;            // precision-weighted prediction error
-          mu[l-1] = mu_prev_ + pwpe;       // posterior prediction
-          sa[l] = sa_;
+
+          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // volatility prediction error
+          real lr = 0.5 * (1.0/sa_hat[l]) * ka * w; // learning rate
+          real pwpe = lr * vpe;             // precision-weighted prediction error
+
+          real vv = exp(ka *mu [l-1] +om);
+          real pimhat = 1.0 / (sa_prev_lower +vv);
+          real ww = vv * pimhat;
+          real rr = (vv - sa_prev_lower) * pimhat;
+          real dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
+
+          mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
+          sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
         }
 
         // Response model (unit-square sigmoid)
