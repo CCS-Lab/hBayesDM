@@ -16,17 +16,18 @@
 #' @templateVar DETAILS_DATA_2 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
 #' @templateVar DETAILS_DATA_3 \item{u}{Integer value representing the input on that trial: 0 or 1.}
 #' @templateVar DETAILS_DATA_4 \item{y}{Integer value representing the subject's choice on that trial: 0 or 1.}
-#' @templateVar LENGTH_ADDITIONAL_ARGS 10
+#' @templateVar LENGTH_ADDITIONAL_ARGS 11
 #' @templateVar ADDITIONAL_ARGS_1 \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
 #' @templateVar ADDITIONAL_ARGS_2 \item{input_first}{TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]}
-#' @templateVar ADDITIONAL_ARGS_3 \item{mu0}{prior belief for each level before starting the experiment}
-#' @templateVar ADDITIONAL_ARGS_4 \item{sigma0}{prior uncertainty for each level before starting the experiment}
-#' @templateVar ADDITIONAL_ARGS_5 \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
-#' @templateVar ADDITIONAL_ARGS_6 \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
-#' @templateVar ADDITIONAL_ARGS_7 \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
-#' @templateVar ADDITIONAL_ARGS_8 \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
-#' @templateVar ADDITIONAL_ARGS_9 \item{zeta_lower}{Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.}
-#' @templateVar ADDITIONAL_ARGS_10 \item{zeta_upper}{Upper bound for zeta. Defaults to 2. Parameter value is fixed if zeta_lower == zeta_upper.}
+#' @templateVar ADDITIONAL_ARGS_3 \item{mu0_lower}{Lower bounds for prior belief for each level (2 ~ L) before starting the experiment. Defaults to [0.5, 1.0]. Parameter value is fixed for level l if mu0_lower[l] == mu0_upper[l].}
+#' @templateVar ADDITIONAL_ARGS_4 \item{mu0_upper}{Upper bounds for prior belief for each level (2 ~ L) before starting the experiment. Defaults to [0.5, 1.0]. Parameter value is fixed for level l if mu0_lower[l] == mu0_upper[l].}
+#' @templateVar ADDITIONAL_ARGS_5 \item{sigma0}{prior uncertainty for each level before starting the experiment}
+#' @templateVar ADDITIONAL_ARGS_6 \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_7 \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_8 \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_9 \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_10 \item{zeta_lower}{Upper bound for zeta. Defaults to 0 and can not be negative. Parameter value is fixed if zeta_lower == zeta_upper.}
+#' @templateVar ADDITIONAL_ARGS_11 \item{zeta_upper}{Upper bound for zeta. Defaults to 2. Parameter value is fixed if zeta_lower == zeta_upper.}
 #'
 #' @template model-documentation
 #'
@@ -54,7 +55,8 @@ hgf_ibrb <- hBayesDM_model(
   additional_args = list(
     'L' = 3,
     'input_first' = FALSE,
-    'mu0' = c(0.5, 1.0),
+    'mu0_lower' = c(0.5, 1.0),
+    'mu0_upper' = c(0.5, 1.0),
     'sigma0' = c(0.1, 1.0),
     'kappa_lower' = c(0),
     'kappa_upper' = c(2),

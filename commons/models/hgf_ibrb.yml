@@ -48,9 +48,12 @@ additional_args:
 - code: input_first
   default: FALSE
   desc: "TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]"
-- code: mu0
+- code: mu0_lower
   default: [0.5, 1.0]
-  desc: "prior belief for each level before starting the experiment"
+  desc: "Lower bounds for prior belief for each level (2 ~ L) before starting the experiment. Defaults to [0.5, 1.0]. Parameter value is fixed for level l if mu0_lower[l] == mu0_upper[l]."
+- code: mu0_upper
+  default: [0.5, 1.0]
+  desc: "Upper bounds for prior belief for each level (2 ~ L) before starting the experiment. Defaults to [0.5, 1.0]. Parameter value is fixed for level l if mu0_lower[l] == mu0_upper[l]."
 - code: sigma0
   default: [0.1, 1.0]
   desc: "prior uncertainty for each level before starting the experiment"

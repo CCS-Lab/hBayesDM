@@ -25,7 +25,8 @@ data {
   int<lower=0, upper=1> input_first; // whether u[t] is observed before or after y[t]
 
   // starting point of belief and uncertainty on the first trial
-  real mu0[L-1];
+  real mu0_lower[L-1];
+  real mu0_upper[L-1];
   real<lower=0> sigma0[L-1];
 
   // boundaries of parameters for each level
@@ -38,8 +39,11 @@ data {
 }
 
 transformed data {
-  real mu_base[L];
   real<lower=0> sigma_base[L];
+  int<lower=0, upper=L-1> n_free_mu0 = 0;
+  int<lower=0, upper=L-1> free_mu0_idx[L-1] = rep_array(0,L-1);
+  int<lower=0, upper=L-1> n_fixed_mu0 = 0;
+  int<lower=0, upper=L-1> fixed_mu0_idx[L-1] = rep_array(0,L-1);
 
   int<lower=0, upper=L-1> n_free_kappa = 0;
   int<lower=0, upper=L-2> free_kappa_idx[L-2] = rep_array(0,L-2);
@@ -55,8 +59,16 @@ transformed data {
 
   int n_free_parameters;
 
-  mu_base[1] = 0;
-  mu_base[2:L] = mu0;
+  // differentiate free mu0 and fixed mu0
+  for (l in 1:(L-1)) {
+    if (equal_with_threshold(mu0_lower[l], mu0_upper[l])) {
+      n_fixed_mu0 += 1;
+      fixed_mu0_idx[n_fixed_mu0] = l;
+    } else {
+      n_free_mu0 += 1;
+      free_mu0_idx[n_free_mu0] = l;
+    }
+  }
   sigma_base[1] = 0;
   sigma_base[2:L] = sigma0;
 
@@ -87,7 +99,7 @@ transformed data {
     n_free_zeta = 0;
   }
 
-  n_free_parameters = n_free_kappa+n_free_omega+n_free_zeta;
+  n_free_parameters = n_free_mu0+n_free_kappa+n_free_omega+n_free_zeta;
 }
 
 parameters {
@@ -96,6 +108,7 @@ parameters {
   vector<lower=0>[n_free_parameters] sigma;
 
   // subject-level raw parameters
+  vector[N * n_free_mu0] mu_0_pr;
   vector[N * n_free_kappa] kappa_pr;
   vector[N * n_free_omega] omega_pr;
   vector[N * n_free_zeta] zeta_pr;
@@ -103,33 +116,54 @@ parameters {
 
 transformed parameters {
   // group-level parameters
+  vector[n_free_mu0] mu_mu_0_pr;
   vector[n_free_kappa] mu_kappa_pr;
   vector[n_free_omega] mu_omega_pr;
   vector[n_free_zeta] mu_zeta_pr;
   
+  vector<lower=0>[n_free_mu0] mu0_sigma_pr;
   vector<lower=0>[n_free_kappa] kappa_sigma_pr;
   vector<lower=0>[n_free_omega] omega_sigma_pr;
   vector<lower=0>[n_free_zeta] zeta_sigma_pr;
 
   // subject-level parameters
+  matrix[N,L-1] mu0;
   matrix[N,L-2] kappa;
   matrix[N,L-1] omega;
   vector[N] zeta;
 
+  if (n_free_mu0 > 0) {
+    mu_mu_0_pr = segment(mu_pr, 1, n_free_mu0);
+    mu0_sigma_pr = segment(sigma, 1, n_free_mu0);
+  }
   if (n_free_kappa > 0) {
-    mu_kappa_pr = segment(mu_pr, 1, n_free_kappa);
-    kappa_sigma_pr = segment(sigma, 1, n_free_kappa);
+    mu_kappa_pr = segment(mu_pr, 1+n_free_mu0, n_free_kappa);
+    kappa_sigma_pr = segment(sigma, 1+n_free_mu0, n_free_kappa);
   }
   if (n_free_omega > 0) {
-    mu_omega_pr = segment(mu_pr, 1+n_free_kappa, n_free_omega);
-    omega_sigma_pr = segment(sigma, 1+n_free_kappa, n_free_omega);
+    mu_omega_pr = segment(mu_pr, 1+n_free_mu0+n_free_kappa, n_free_omega);
+    omega_sigma_pr = segment(sigma, 1+n_free_mu0+n_free_kappa, n_free_omega);
   }
   if (n_free_zeta == 1) {
-    mu_zeta_pr = segment(mu_pr, 1+n_free_kappa+n_free_omega, n_free_zeta);
-    zeta_sigma_pr = segment(sigma, 1+n_free_kappa+n_free_omega, n_free_zeta);
+    mu_zeta_pr = segment(mu_pr, 1+n_free_mu0+n_free_kappa+n_free_omega, n_free_zeta);
+    zeta_sigma_pr = segment(sigma, 1+n_free_mu0+n_free_kappa+n_free_omega, n_free_zeta);
   }
 
   // Rebuild parameters with sampled values and fixed values & Non-centered parameterization
+  if (n_free_mu0 > 0) {
+    for (i in 1:n_free_mu0) {
+      int l = free_mu0_idx[i];
+      vector[N] logit_mu0 = mu_mu_0_pr[i] + mu0_sigma_pr[i] * segment(mu_0_pr, 1+(i-1)*N, N);
+      mu0[,l] = inv_logit_vector_with_bounds(logit_mu0, mu0_lower[l], mu0_upper[l]);
+    }
+  }
+  if (n_fixed_mu0 > 0) {
+    for (i in 1:n_fixed_mu0) {
+      int l = fixed_mu0_idx[i];
+      mu0[,l] = rep_vector(mu0_lower[l], N);
+    }
+  }
+
   if (n_free_kappa > 0) {
     for (i in 1:n_free_kappa) {
       int l = free_kappa_idx[i];
@@ -172,13 +206,14 @@ model {
   sigma ~ normal(0,1);
 
   // individual parameters
+  mu_0_pr ~ normal(0,1);
   kappa_pr ~ normal(0,10);
   omega_pr ~ normal(0,10);
   zeta_pr ~ normal(0,10);
   
   // Subject loop
   for (i in 1:N) {
-    real mu[L] = mu_base;               // prediction (2 ~ L)
+    row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
     real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
     real mu_hat[L] = rep_array(0.0, L); // prior prediction (1 ~ L)
     real sa_hat[L] = rep_array(0.0, L); // prior uncertainty of prediction (1 ~ L)
@@ -195,7 +230,7 @@ model {
       // Perception model
       // Update prior predictions
       for (l in 2:L) {
-        mu_hat[l] = mu[l];
+        mu_hat[l] = mu[l-1];
       }
       // Prediction
       mu_hat[1] = inv_logit(mu_hat[2]);
@@ -205,7 +240,7 @@ model {
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sa_hat[l] = sa[l] + exp(ka * mu[l+1] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[l] + om);
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
   
@@ -213,13 +248,13 @@ model {
       mu_prev = mu_hat[2];
       pe = u[i,t] - mu_hat[1];                     // prediction error
       sa[2] = 1.0 / ((1.0/sa_hat[2]) + sa_hat[1]); // learning rate
-      mu[2] = mu_prev + sa[2] * pe;                // posterior prediction
+      mu[2-1] = mu_prev + sa[2] * pe;              // posterior prediction
 
       // Level 3 ~ L
       for (l in 3:L) {
         real ka = kappa[i,(l-1)-1];
         real om = omega[i,(l-1)-1];
-        real mu_lower = mu[l-1];
+        real mu_lower = mu[l-1-1];
         real mu_prev_ = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
         real sa_lower = sa[l-1];
@@ -232,7 +267,7 @@ model {
         real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
         real lr = 0.5 * sa_ * ka * w;     // learning rate
         real pwpe = lr * vpe;             // precision-weighted prediction error
-        mu[l] = mu_prev_ + pwpe;          // posterior prediction
+        mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
         sa[l] = sa_;
       }
 
@@ -252,13 +287,14 @@ model {
 generated quantities {
   real log_lik = 0;
 
+  vector[L-1] mu_mu_0;
   vector[L-2] mu_kappa;
   vector[L-1] mu_omega;
   real<lower=0> mu_zeta;
   
     // Subject loop
   for (i in 1:N) {
-    real mu[L] = mu_base;               // prediction (2 ~ L)
+    row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
     real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
     real mu_hat[L] = rep_array(0.0, L); // prior prediction (1 ~ L)
     real sa_hat[L] = rep_array(0.0, L); // prior uncertainty of prediction (1 ~ L)
@@ -275,7 +311,7 @@ generated quantities {
       // Perception model
       // Update prior predictions
       for (l in 2:L) {
-        mu_hat[l] = mu[l];
+        mu_hat[l] = mu[l-1];
       }
       // Prediction
       mu_hat[1] = inv_logit(mu_hat[2]);
@@ -285,7 +321,7 @@ generated quantities {
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sa_hat[l] = sa[l] + exp(ka * mu[l+1] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[l+1-1] + om);
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
   
@@ -293,13 +329,13 @@ generated quantities {
       mu_prev = mu_hat[2];
       pe = u[i,t] - mu_hat[1];                     // prediction error
       sa[2] = 1.0 / ((1.0/sa_hat[2]) + sa_hat[1]); // learning rate
-      mu[2] = mu_prev + sa[2] * pe;                // posterior prediction
+      mu[2-1] = mu_prev + sa[2] * pe;              // posterior prediction
 
       // Level 3 ~ L
       for (l in 3:L) {
         real ka = kappa[i,(l-1)-1];
         real om = omega[i,(l-1)-1];
-        real mu_lower = mu[l-1];
+        real mu_lower = mu[l-1-1];
         real mu_prev_ = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
         real sa_lower = sa[l-1];
@@ -312,7 +348,7 @@ generated quantities {
         real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
         real lr = 0.5 * sa_ * ka * w;    // learning rate
         real pwpe = lr * vpe;            // precision-weighted prediction error
-        mu[l] = mu_prev_ + pwpe;         // posterior prediction
+        mu[l-1] = mu_prev_ + pwpe;       // posterior prediction
         sa[l] = sa_;
       }
 
@@ -326,6 +362,15 @@ generated quantities {
       }
       m = mu_hat[1];
     }
+  }
+
+  for (i in 1:n_free_mu0) {
+    int l = free_mu0_idx[i];
+    mu_mu_0[l] = inv_logit_with_bounds(mu_mu_0_pr[i], mu0_lower[l], mu0_upper[l]);
+  }
+  for (i in 1:n_fixed_mu0) {
+    int l = fixed_mu0_idx[i];
+    mu_mu_0[l] = mu0_lower[l];
   }
 
   for (i in 1:n_free_kappa) {

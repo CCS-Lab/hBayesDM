@@ -499,7 +499,7 @@ gng_preprocess_func <- function(raw_data, general_info) {
 }
 
 hgf_ibrb_preprocess_func <- function(raw_data, general_info,
-                                     L, input_first, mu0, sigma0,
+                                     L, input_first, mu0_lower, mu0_upper, sigma0,
                                      kappa_lower, kappa_upper,
                                      omega_lower, omega_upper,
                                      zeta_lower, zeta_upper) {
@@ -541,7 +541,8 @@ hgf_ibrb_preprocess_func <- function(raw_data, general_info,
     y=y,
     input_first=input_first,
 
-    mu0=mu0,
+    mu0_lower=as.array(mu0_lower),
+    mu0_upper=as.array(mu0_upper),
     sigma0=sigma0,
 
     kappa_lower=as.array(kappa_lower),
