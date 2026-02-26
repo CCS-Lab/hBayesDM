@@ -36,9 +36,6 @@ parameters:
   omega:
     desc: tonic volatility for each level (2 ~ L)
     info: [-Inf, 0, Inf]
-  zeta:
-    desc: inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief
-    info: [0, 1, Inf]
 regressors:
 postpreds:
 additional_args:
