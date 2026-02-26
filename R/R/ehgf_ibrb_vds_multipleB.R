@@ -1,0 +1,69 @@
+#' @templateVar MODEL_FUNCTION ehgf_ibrb_vds_multipleB
+#' @templateVar CONTRIBUTOR \href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@@gmail.com}>, \href{https://github.com/juhajulia}{Juha Lee} <\email{juhajulia44@@gmail.com}>
+#' @templateVar TASK_NAME 
+#' @templateVar TASK_CODE 
+#' @templateVar TASK_CITE 
+#' @templateVar MODEL_NAME Hierarchical Bayesian version of the Empirical Hierarchical Gaussian Filter model with volatility-dependent stochasticity for binary inputs and binary responses
+#' @templateVar MODEL_CODE ehgf_ibrb_vds
+#' @templateVar MODEL_CITE (Ivanova et al., 2025; Mathys C, 2011; Mathys CD et al., 2014)
+#' @templateVar MODEL_TYPE Multiple-Block Hierarchical
+#' @templateVar DATA_COLUMNS "subjID", "block", "trialNum", "u", "y"
+#' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief)
+#' @templateVar REGRESSORS 
+#' @templateVar POSTPREDS 
+#' @templateVar LENGTH_DATA_COLUMNS 5
+#' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
+#' @templateVar DETAILS_DATA_2 \item{block}{A unique identifier for each of the multiple blocks within each subject: 1, 2, ...}
+#' @templateVar DETAILS_DATA_3 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}
+#' @templateVar DETAILS_DATA_4 \item{u}{Integer value representing the input on that trial: 0 or 1.}
+#' @templateVar DETAILS_DATA_5 \item{y}{Integer value representing the subject's choice on that trial: 0 or 1.}
+#' @templateVar LENGTH_ADDITIONAL_ARGS 9
+#' @templateVar ADDITIONAL_ARGS_1 \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
+#' @templateVar ADDITIONAL_ARGS_2 \item{input_first}{TRUE if participant observed u[t] before choosing y[t], FALSE if participant observed u[t] after choosing y[t]}
+#' @templateVar ADDITIONAL_ARGS_3 \item{mu0_lower}{Lower bounds for prior belief for each level (2 ~ L) before starting the experiment. Defaults to [0.5, 1.0]. Parameter value is fixed for level l if mu0_lower[l] == mu0_upper[l].}
+#' @templateVar ADDITIONAL_ARGS_4 \item{mu0_upper}{Upper bounds for prior belief for each level (2 ~ L) before starting the experiment. Defaults to [0.5, 1.0]. Parameter value is fixed for level l if mu0_lower[l] == mu0_upper[l].}
+#' @templateVar ADDITIONAL_ARGS_5 \item{sigma0}{prior uncertainty for each level before starting the experiment}
+#' @templateVar ADDITIONAL_ARGS_6 \item{kappa_lower}{Lower bounds for kappa for each level (2 ~ L-1). Defaults to [0] and can not be negative. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_7 \item{kappa_upper}{Upper bounds for kappa for each level (2 ~ L-1). Defaults to [2]. Parameter value is fixed for level l if kappa_upper[l] == kappa_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_8 \item{omega_lower}{Lower bounds for omega for each level (2 ~ L). Defaults to [-10. -15]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+#' @templateVar ADDITIONAL_ARGS_9 \item{omega_upper}{Upper bounds for omega for each level (2 ~ L). Defaults to [0, 0]. Parameter value is fixed for level l if omega_upper[l] == omega_lower[l].}
+#'
+#' @template model-documentation
+#'
+#' @export
+#' @include hBayesDM_model.R
+#' @include preprocess_funcs.R
+
+#' @references
+#' Ivanova, M., Germanova, K., Petelin, D.S. et al (2025). Frequency-specific changes in prefrontal activity associated with maladaptive belief updating in volatile environments in euthymic bipolar disorder. Transl Psychiatry 15:13 . https://doi.org/10.1038/s41398-025-03225-6
+#'
+#' Mathys C, Daunizeau J, Friston KJ and Stephan KE (2011). A Bayesian foundation for individual learning under uncertainty. Front. Hum. Neurosci. 5:39. https://doi.org/10.3389/fnhum.2011.00039
+#'
+#' Mathys CD, Lomakina EI, Daunizeau J, Iglesias S, Brodersen KH, Friston KJ and Stephan KE (2014). Uncertainty in perception and the Hierarchical Gaussian Filter. Front. Hum. Neurosci. 8:825. https://doi.org/10.3389/fnhum.2014.00825
+#'
+
+
+ehgf_ibrb_vds_multipleB <- hBayesDM_model(
+  task_name       = "",
+  model_name      = "ehgf_ibrb_vds",
+  model_type      = "multipleB",
+  data_columns    = c("subjID", "block", "trialNum", "u", "y"),
+  parameters      = list(
+    "kappa" = c(0, 0, Inf),
+    "omega" = c(-Inf, 0, Inf),
+    "zeta" = c(0, 1, Inf)
+  ),
+  additional_args = list(
+    'L' = 3,
+    'input_first' = FALSE,
+    'mu0_lower' = c(0.5, 1.0),
+    'mu0_upper' = c(0.5, 1.0),
+    'sigma0' = c(0.1, 1.0),
+    'kappa_lower' = c(0),
+    'kappa_upper' = c(2),
+    'omega_lower' = c(-10, -15),
+    'omega_upper' = c(0, 0)
+  ),
+  regressors      = NULL,
+  postpreds       = NULL,
+  preprocess_func = ehgf_ibrb_vds_multipleB_preprocess_func)
