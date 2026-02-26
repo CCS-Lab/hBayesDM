@@ -673,6 +673,132 @@ hgf_ibrb_single_preprocess_func <- function(raw_data, general_info,
   return(data_list)
 }
 
+ehgf_ibrb_preprocess_func <- function(raw_data, general_info,
+                                     L, input_first, mu0_lower, mu0_upper, sigma0,
+                                     kappa_lower, kappa_upper,
+                                     omega_lower, omega_upper,
+                                     zeta_lower, zeta_upper) {
+  # Extract from raw_data
+  subjIDs   <- raw_data$subjid
+  trialNums <- raw_data$trialnum
+  raw_u     <- raw_data$u
+  raw_y     <- raw_data$y
+
+  # Use general_info of raw_data
+  subjs  <- general_info$subjs
+  n_subj <- general_info$n_subj
+  t_max  <- general_info$t_max
+
+  # Initialize (model-specific) data arrays
+  u <- array(-1, c(n_subj, t_max))
+  y <- array(-1, c(n_subj, t_max))
+
+  # Write from raw_data to the data arrays
+  id_map <- setNames(seq_along(unique(subjs)), unique(subjs))
+  data_length <- nrow(raw_data)
+  for (i in 1:data_length) {
+    n <- id_map[[ as.character(subjIDs[i]) ]]
+    t <- trialNums[i]
+    if (raw_u[i] %in% c(0, 1)) {
+      u[n,t] <- raw_u[i]
+    }
+    if (raw_y[i] %in% c(0, 1)) {
+      y[n,t] <- raw_y[i]
+    }
+  }
+
+  # Wrap into a list for Stan
+  data_list <- list(
+    N=n_subj,
+    T=t_max,
+    L=L,
+    u=u,
+    y=y,
+    input_first=input_first,
+
+    mu0_lower=as.array(mu0_lower),
+    mu0_upper=as.array(mu0_upper),
+    sigma0=sigma0,
+
+    kappa_lower=as.array(kappa_lower),
+    kappa_upper=as.array(kappa_upper),
+    omega_lower=as.array(omega_lower),
+    omega_upper=as.array(omega_upper),
+    zeta_lower=zeta_lower,
+    zeta_upper=zeta_upper
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
+}
+
+ehgf_ibrb_multipleB_preprocess_func <- function(raw_data, general_info,
+                                               L, input_first, mu0_lower, mu0_upper, sigma0,
+                                               kappa_lower, kappa_upper,
+                                               omega_lower, omega_upper,
+                                               zeta_lower, zeta_upper) {
+  # Extract from raw_data
+  subjIDs   <- raw_data$subjid
+  blocks    <- raw_data$block
+  trialNums <- raw_data$trialnum
+  raw_u     <- raw_data$u
+  raw_y     <- raw_data$y
+
+  # Use general_info of raw_data
+  subjs  <- general_info$subjs
+  n_subj <- general_info$n_subj
+  b_subjs <- general_info$b_subjs
+  b_max   <- general_info$b_max
+  t_subjs <- general_info$t_subjs
+  t_max  <- general_info$t_max
+
+  # Initialize (model-specific) data arrays
+  u <- array(-1, c(n_subj, b_max, t_max))
+  y <- array(-1, c(n_subj, b_max, t_max))
+
+  # Write from raw_data to the data arrays
+  id_map <- setNames(seq_along(unique(subjs)), unique(subjs))
+  data_length <- nrow(raw_data)
+  for (i in 1:data_length) {
+    n <- id_map[[ as.character(subjIDs[i]) ]]
+    b <- blocks[i]
+    t <- trialNums[i]
+    if (raw_u[i] %in% c(0, 1)) {
+      u[n,b,t] <- raw_u[i]
+    }
+    if (raw_y[i] %in% c(0, 1)) {
+      y[n,b,t] <- raw_y[i]
+    }
+  }
+
+  # Wrap into a list for Stan
+  data_list <- list(
+    N=n_subj,
+    L=L,
+    B=b_max,
+    Bsubj=b_subjs,
+    T=t_max,
+    Tsubj=t_subjs,
+    u=u,
+    y=y,
+    input_first=input_first,
+
+    mu0_lower=as.array(mu0_lower),
+    mu0_upper=as.array(mu0_upper),
+    sigma0=sigma0,
+
+    kappa_lower=as.array(kappa_lower),
+    kappa_upper=as.array(kappa_upper),
+    omega_lower=as.array(omega_lower),
+    omega_upper=as.array(omega_upper),
+    zeta_lower=zeta_lower,
+    zeta_upper=zeta_upper
+  )
+
+  # Returned data_list will directly be passed to Stan
+  return(data_list)
+}
+
 igt_preprocess_func <- function(raw_data, general_info, payscale) {
   # Currently class(raw_data) == "data.table"
 
