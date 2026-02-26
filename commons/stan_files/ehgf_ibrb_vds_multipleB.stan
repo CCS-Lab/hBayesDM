@@ -107,14 +107,14 @@ parameters {
   vector<lower=0>[n_free_parameters] sigma;
 
   // subject-level raw parameters
-  vector[N * n_free_mu0] mu_0_pr;
+  vector[N * n_free_mu0] mu0_pr;
   vector[N * n_free_kappa] kappa_pr;
   vector[N * n_free_omega] omega_pr;
 }
 
 transformed parameters {
   // group-level parameters
-  vector[n_free_mu0] mu_mu_0_pr;
+  vector[n_free_mu0] mu_mu0_pr;
   vector[n_free_kappa] mu_kappa_pr;
   vector[n_free_omega] mu_omega_pr;
   
@@ -128,7 +128,7 @@ transformed parameters {
   matrix[N,L-1] omega;
 
   if (n_free_mu0 > 0) {
-    mu_mu_0_pr = segment(mu_pr, 1, n_free_mu0);
+    mu_mu0_pr = segment(mu_pr, 1, n_free_mu0);
     mu0_sigma_pr = segment(sigma, 1, n_free_mu0);
   }
   if (n_free_kappa > 0) {
@@ -144,7 +144,7 @@ transformed parameters {
   if (n_free_mu0 > 0) {
     for (i in 1:n_free_mu0) {
       int l = free_mu0_idx[i];
-      vector[N] logit_mu0 = mu_mu_0_pr[i] + mu0_sigma_pr[i] * segment(mu_0_pr, 1+(i-1)*N, N);
+      vector[N] logit_mu0 = mu_mu0_pr[i] + mu0_sigma_pr[i] * segment(mu0_pr, 1+(i-1)*N, N);
       mu0[,l] = inv_logit_vector_with_bounds(logit_mu0, mu0_lower[l], mu0_upper[l]);
     }
   }
@@ -190,7 +190,7 @@ model {
   sigma ~ normal(0,1);
 
   // individual parameters
-  mu_0_pr ~ normal(0,1);
+  mu0_pr ~ normal(0,1);
   kappa_pr ~ normal(0,10);
   omega_pr ~ normal(0,10);
   
@@ -280,7 +280,7 @@ model {
 generated quantities {
   real log_lik = 0;
 
-  vector[L-1] mu_mu_0;
+  vector[L-1] mu_mu0;
   vector[L-2] mu_kappa;
   vector[L-1] mu_omega;
   
@@ -368,11 +368,11 @@ generated quantities {
 
   for (i in 1:n_free_mu0) {
     int l = free_mu0_idx[i];
-    mu_mu_0[l] = inv_logit_with_bounds(mu_mu_0_pr[i], mu0_lower[l], mu0_upper[l]);
+    mu_mu0[l] = inv_logit_with_bounds(mu_mu0_pr[i], mu0_lower[l], mu0_upper[l]);
   }
   for (i in 1:n_fixed_mu0) {
     int l = fixed_mu0_idx[i];
-    mu_mu_0[l] = mu0_lower[l];
+    mu_mu0[l] = mu0_lower[l];
   }
 
   for (i in 1:n_free_kappa) {

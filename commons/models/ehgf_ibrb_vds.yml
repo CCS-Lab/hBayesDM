@@ -36,6 +36,9 @@ parameters:
   omega:
     desc: tonic volatility for each level (2 ~ L)
     info: [-Inf, 0, Inf]
+  mu0: 
+    desc: prior belief for each level (2 ~ L)
+    info: [0, 0.5, 1.0]
 regressors:
 postpreds:
 additional_args:

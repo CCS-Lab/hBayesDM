@@ -8,7 +8,7 @@
 #' @templateVar MODEL_CITE (Ivanova et al., 2025; Mathys C, 2011; Mathys CD et al., 2014)
 #' @templateVar MODEL_TYPE Multiple-Block Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "block", "trialNum", "u", "y"
-#' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L))
+#' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{mu0} (prior belief for each level (2 ~ L))
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS 
 #' @templateVar LENGTH_DATA_COLUMNS 5
@@ -50,7 +50,8 @@ ehgf_ibrb_vds_multipleB <- hBayesDM_model(
   data_columns    = c("subjID", "block", "trialNum", "u", "y"),
   parameters      = list(
     "kappa" = c(0, 0, Inf),
-    "omega" = c(-Inf, 0, Inf)
+    "omega" = c(-Inf, 0, Inf),
+    "mu0" = c(0, 0.5, 1.0)
   ),
   additional_args = list(
     'L' = 3,
