@@ -1,6 +1,7 @@
 #include /pre/license.stan
 
-// Hierarchical Gaussian Filter from Mathys et al. (2011) https://doi.org/10.3389/fnhum.2011.00039
+// A variant of Hierarchical Gaussian Filter (Mathys et al., 2011. https://doi.org/10.3389/fnhum.2011.00039)
+// Empirical Hierarchical Gaussian Filter model (eHGF from TAPAS HGF Tool. https://github.com/translationalneuromodeling/tapas)
 
 functions {
   real inv_logit_with_bounds(real x, real a, real b) {
