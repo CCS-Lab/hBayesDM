@@ -214,7 +214,7 @@ model {
   sigma ~ normal(0,1);
 
   // individual parameters
-  mu0_pr ~ normal(0,1);
+  mu0_pr ~ normal(0,10);
   kappa_pr ~ normal(0,10);
   omega_pr ~ normal(0,10);
   zeta_pr ~ normal(0,10);
@@ -269,21 +269,22 @@ model {
           real mu_prev_lower = mu_hat[l-1];
           real sa_lower = sa[l-1];
           real sa_prev_lower = sa_hat[l-1];
+          real vv, pimhat, ww, rr, dd;
 
           real v = exp(ka * mu_prev_ + om); // volatility
           real w = v / sa_prev_lower;       // weighting factor (level: l-1)
         
           real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // volatility prediction error
-          real lr = 0.5 * (1.0/sa_hat[l]) * ka * w; // learning rate
+          real lr = 0.5 * sa_hat[l] * ka * w; // learning rate
           real pwpe = lr * vpe;             // precision-weighted prediction error
-
-          real vv = exp(ka *mu [l-1] +om);
-          real pimhat = 1.0 / (sa_prev_lower +vv);
-          real ww = vv * pimhat;
-          real rr = (vv - sa_prev_lower) * pimhat;
-          real dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
-
           mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
+
+          vv = exp(ka * mu[l-1] +om);
+          pimhat = 1.0 / (sa_prev_lower +vv);
+          ww = vv * pimhat;
+          rr = (vv - sa_prev_lower) * pimhat;
+          dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
+
           sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
         }
 
@@ -359,21 +360,22 @@ generated quantities {
           real mu_prev_lower = mu_hat[l-1];
           real sa_lower = sa[l-1];
           real sa_prev_lower = sa_hat[l-1];
+          real vv, pimhat, ww, rr, dd;
 
           real v = exp(ka * mu_prev_ + om);// volatility
           real w = v / sa_prev_lower;      // weighting factor (level: l-1)
 
           real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // volatility prediction error
-          real lr = 0.5 * (1.0/sa_hat[l]) * ka * w; // learning rate
+          real lr = 0.5 * sa_hat[l] * ka * w; // learning rate
           real pwpe = lr * vpe;             // precision-weighted prediction error
-
-          real vv = exp(ka *mu [l-1] +om);
-          real pimhat = 1.0 / (sa_prev_lower +vv);
-          real ww = vv * pimhat;
-          real rr = (vv - sa_prev_lower) * pimhat;
-          real dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
-
           mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
+
+          vv = exp(ka * mu[l-1] +om);
+          pimhat = 1.0 / (sa_prev_lower +vv);
+          ww = vv * pimhat;
+          rr = (vv - sa_prev_lower) * pimhat;
+          dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
+
           sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
         }
 

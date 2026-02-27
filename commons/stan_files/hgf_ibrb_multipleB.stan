@@ -212,7 +212,7 @@ model {
   sigma ~ normal(0,1);
 
   // individual parameters
-  mu0_pr ~ normal(0,1);
+  mu0_pr ~ normal(0,10);
   kappa_pr ~ normal(0,10);
   omega_pr ~ normal(0,10);
   zeta_pr ~ normal(0,10);
