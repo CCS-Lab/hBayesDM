@@ -253,7 +253,7 @@ model {
     
         // Level 2
         mu_prev = mu_hat[2];
-        pe = u[i,bIdx,t] - mu_hat[1];                     // prediction error
+        pe = u[i,bIdx,t] - mu_hat[1];                // prediction error
         sa[2] = 1.0 / ((1.0/sa_hat[2]) + sa_hat[1]); // learning rate
         mu[2-1] = mu_prev + sa[2] * pe;              // posterior prediction
 
@@ -265,11 +265,10 @@ model {
           real mu_prev_ = mu_hat[l];
           real mu_prev_lower = mu_hat[l-1];
           real sa_lower = sa[l-1];
-          real sa_prev_lower = sa_hat[l-1];
 
           real v = exp(ka * mu_prev_ + om); // volatility
-          real w = v / sa_prev_lower;       // weighting factor (level: l-1)
-          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
+          real w = v / sa_hat[l-1];         // weighting factor (level: l-1)
+          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_hat[l-1]) - 1; // prediction error
           real r = 2*w - 1;                 // relative difference of environmental and informational uncertainty (level: l-1)
           real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
           real lr = 0.5 * sa_ * ka * w;     // learning rate
@@ -348,11 +347,10 @@ generated quantities {
           real mu_prev_ = mu_hat[l];
           real mu_prev_lower = mu_hat[l-1];
           real sa_lower = sa[l-1];
-          real sa_prev_lower = sa_hat[l-1];
 
           real v = exp(ka * mu_prev_ + om);// volatility
-          real w = v / sa_prev_lower;      // weighting factor (level: l-1)
-          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
+          real w = v / sa_hat[l-1];        // weighting factor (level: l-1)
+          real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_hat[l-1]) - 1; // prediction error
           real r = 2*w - 1;                // relative difference of environmental and informational uncertainty (level: l-1)
           real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
           real lr = 0.5 * sa_ * ka * w;    // learning rate

@@ -193,9 +193,9 @@ model {
   for (i in 1:N) {
     row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
     real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
+    real sa_prev[L];                    // uncertainty of prediction from previous trial (2 ~ L)
     real mu_hat[L] = rep_array(0.0, L); // prior prediction (1 ~ L)
     real sa_hat[L] = rep_array(0.0, L); // prior uncertainty of prediction (1 ~ L)
-    real eta = -1;                      // predictive probability that the next response will be 1 (0~1)
 
     // Trial loop
     for (t in 1:T) {
@@ -219,10 +219,20 @@ model {
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sa_hat[l] = sa[l] + exp(ka * mu[l] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[(l+1)-1] + om);
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
   
+      // Response model (volatility-dependent stochasticity)
+      if (!input_first) {
+        // make choice based on previous valid input or inital prior belief
+        real zeta = exp(-mu_hat[3]);
+        real eta = zeta * mu_hat[2];
+        y[i,t] ~ bernoulli_logit(eta);
+      }
+
+      sa_prev = sa;
+
       // Level 2
       mu_prev = mu_hat[2];
       pe = u[i,t] - mu_hat[1];                     // prediction error
@@ -233,26 +243,26 @@ model {
       for (l in 3:L) {
         real ka = kappa[i,(l-1)-1];
         real om = omega[i,(l-1)-1];
-        real mu_lower = mu[l-1-1];
+        real mu_lower = mu[(l-1)-1];
         real mu_prev_ = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
         real sa_lower = sa[l-1];
-        real sa_prev_lower = sa_hat[l-1];
+        real sa_prev_lower = sa_prev[l-1];
         real vv, pimhat, ww, rr, dd;
 
         real v = exp(ka * mu_prev_ + om); // volatility
-        real w = v / sa_prev_lower;       // weighting factor (level: l-1)
+        real w = v / sa_hat[l-1];         // weighting factor (level: l-1)
 
-        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // volatility prediction error
+        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_hat[l-1]) - 1.0; // volatility prediction error
         real lr = 0.5 * sa_hat[l] * ka * w; // learning rate
         real pwpe = lr * vpe;             // precision-weighted prediction error
         mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
 
-        vv = exp(ka * mu[l-1] +om);
-        pimhat = 1.0 / (sa_prev_lower +vv);
+        vv = exp(ka * mu[l-1] + om);
+        pimhat = 1.0 / (sa_prev_lower + vv);
         ww = vv * pimhat;
         rr = (vv - sa_prev_lower) * pimhat;
-        dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
+        dd = (sa_lower + square(mu_lower - mu_prev_lower)) * pimhat - 1.0;
 
         sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
       }
@@ -260,13 +270,10 @@ model {
       // Response model (volatility-dependent stochasticity)
       if (input_first) {
         // make choice based on current input
-        eta = exp(-mu_hat[3]) * mu_hat[2]; // zeta = exp(-mu_hat[3])
-        y[i,t] ~ bernoulli_logit(eta);
-      } else if (eta >= 0) {
-        // make choice based on previous valid input
+        real zeta = exp(-mu[3-1]);
+        real eta = zeta * mu[2-1];
         y[i,t] ~ bernoulli_logit(eta);
       }
-      eta = exp(-mu_hat[3]) * mu_hat[2];
     }
   }
 }
@@ -278,13 +285,13 @@ generated quantities {
   vector[L-2] mu_kappa;
   vector[L-1] mu_omega;
   
-    // Subject loop
+  // Subject loop
   for (i in 1:N) {
     row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
     real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
+    real sa_prev[L];                    // uncertainty of prediction from previous trial (2 ~ L)
     real mu_hat[L] = rep_array(0.0, L); // prior prediction (1 ~ L)
     real sa_hat[L] = rep_array(0.0, L); // prior uncertainty of prediction (1 ~ L)
-    real eta = -1;                      // predictive probability that the next response will be 1 (0~1)
 
     // Trial loop
     for (t in 1:T) {
@@ -308,10 +315,20 @@ generated quantities {
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sa_hat[l] = sa[l] + exp(ka * mu[l+1-1] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[(l+1)-1] + om);
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
   
+      // Response model (volatility-dependent stochasticity)
+      if (!input_first) {
+        // make choice based on previous valid input or inital prior belief
+        real zeta = exp(-mu_hat[3]);
+        real eta = zeta * mu_hat[2];
+        log_lik += bernoulli_logit_lpmf(y[i,t] | eta);
+      }
+
+      sa_prev = sa;
+
       // Level 2
       mu_prev = mu_hat[2];
       pe = u[i,t] - mu_hat[1];                     // prediction error
@@ -322,26 +339,26 @@ generated quantities {
       for (l in 3:L) {
         real ka = kappa[i,(l-1)-1];
         real om = omega[i,(l-1)-1];
-        real mu_lower = mu[l-1-1];
+        real mu_lower = mu[(l-1)-1];
         real mu_prev_ = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
         real sa_lower = sa[l-1];
-        real sa_prev_lower = sa_hat[l-1];
+        real sa_prev_lower = sa_prev[l-1];
         real vv, pimhat, ww, rr, dd;
 
-        real v = exp(ka * mu_prev_ + om);// volatility
-        real w = v / sa_prev_lower;      // weighting factor (level: l-1)
+        real v = exp(ka * mu_prev_ + om); // volatility
+        real w = v / sa_hat[l-1];         // weighting factor (level: l-1)
 
-        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // volatility prediction error
+        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_hat[l-1]) - 1.0; // volatility prediction error
         real lr = 0.5 * sa_hat[l] * ka * w; // learning rate
         real pwpe = lr * vpe;             // precision-weighted prediction error
         mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
 
-        vv = exp(ka * mu[l-1] +om);
-        pimhat = 1.0 / (sa_prev_lower +vv);
+        vv = exp(ka * mu[l-1] + om);
+        pimhat = 1.0 / (sa_prev_lower + vv);
         ww = vv * pimhat;
         rr = (vv - sa_prev_lower) * pimhat;
-        dd = (sa_lower + square(mu_lower - mu_prev_lower)) *pimhat - 1;
+        dd = (sa_lower + square(mu_lower - mu_prev_lower)) * pimhat - 1.0;
 
         sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
       }
@@ -349,13 +366,10 @@ generated quantities {
       // Response model (volatility-dependent stochasticity)
       if (input_first) {
         // make choice based on current input
-        eta = exp(-mu_hat[3]) * mu_hat[2]; // zeta = exp(-mu_hat[3])
-        log_lik += bernoulli_logit_lpmf(y[i,t] | eta);
-      } else if (eta >= 0) {
-        // make choice based on previous valid input
+        real zeta = exp(-mu[3-1]);
+        real eta = zeta * mu[2-1];
         log_lik += bernoulli_logit_lpmf(y[i,t] | eta);
       }
-      eta = exp(-mu_hat[3]) * mu_hat[2];
     }
   }
 
