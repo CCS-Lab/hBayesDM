@@ -10,7 +10,7 @@
 #' @templateVar DATA_COLUMNS "subjID", "type", "choice", "reward"
 #' @templateVar PARAMETERS \code{alpha} (learning rate), \code{beta} (inverse temperature)
 #' @templateVar REGRESSORS 
-#' @templateVar POSTPREDS "y_pred"
+#' @templateVar POSTPREDS "p_pred", "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{type}{Two-digit number indicating which pair of stimuli were presented for that trial, e.g. 12, 34, or 56. The digit on the left (tens-digit) indicates the presented stimulus for option1, while the digit on the right (ones-digit) indicates that for option2. Code for each stimulus type (1~6) is defined as for 80\% (type 1), 20\% (type 2), 70\% (type 3), 30\% (type 4), 60\% (type 5), 40\% (type 6). The modeling will still work even if different probabilities are used for the stimuli; however, the total number of stimuli should be less than or equal to 6.}
@@ -40,5 +40,5 @@ pst_Q <- hBayesDM_model(
   ),
   additional_args = NULL,
   regressors      = NULL,
-  postpreds       = c("y_pred"),
+  postpreds       = c("p_pred", "y_pred"),
   preprocess_func = pst_preprocess_func)

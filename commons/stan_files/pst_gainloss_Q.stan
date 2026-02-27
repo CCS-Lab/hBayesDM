@@ -40,7 +40,7 @@ transformed parameters {
 
 model {
   // Priors for group-level parameters
-  mu_pr    ~ normal(0, 1);
+  mu_pr ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
   // Priors for subject-level parameters
@@ -77,9 +77,20 @@ generated quantities {
   real<lower=0,upper=1>  mu_alpha_pos;
   real<lower=0,upper=1>  mu_alpha_neg;
   real<lower=0,upper=10> mu_beta;
+  real pe[N, T]; // Prediction error
 
   // For log-likelihood calculation
   real log_lik[N];
+
+  // For posterior predictive check
+  real<lower=0,upper=1> y_pred[N, T];
+
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      y_pred[i, t] = 0;
+    }
+  }
 
   mu_alpha_pos = Phi_approx(mu_pr[1]);
   mu_alpha_neg = Phi_approx(mu_pr[2]);
@@ -89,7 +100,6 @@ generated quantities {
     for (i in 1:N) {
       int co;         // Chosen option
       real delta;     // Difference between two options
-      real pe;        // Prediction error
       real alpha;
       vector[6] ev;   // Expected values
 
@@ -104,11 +114,13 @@ generated quantities {
         delta = ev[option1[i, t]] - ev[option2[i, t]];
         log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i] * delta);
 
-        pe = reward[i, t] - ev[co];
-        alpha = (pe >= 0) ? alpha_pos[i] : alpha_neg[i];
-        ev[co] += alpha * pe;
+        // generate posterior prediction for current trial
+        y_pred[i, t] = bernoulli_rng(inv_logit(beta[i] * delta););
+
+        pe[i, t] = reward[i, t] - ev[co];
+        alpha = (pe[i, t] >= 0) ? alpha_pos[i] : alpha_neg[i];
+        ev[co] += alpha * pe[i, t];
       }
     }
   }
 }
-

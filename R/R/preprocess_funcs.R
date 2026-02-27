@@ -789,6 +789,10 @@ pst_preprocess_func <- function(raw_data, general_info) {
   option2 <- array(-1, c(n_subj, t_max))
   choice  <- array(-1, c(n_subj, t_max))
   reward  <- array(-1, c(n_subj, t_max))
+  has_trial <- "trialnum" %in% names(raw_data)
+  if (has_trial) {
+    trial_gap <- array(0, c(n_subj, t_max))
+  }
 
   # Write from raw_data to the data arrays
   for (i in 1:n_subj) {
@@ -800,6 +804,12 @@ pst_preprocess_func <- function(raw_data, general_info) {
     option2[i, 1:t] <- DT_subj$type %% 10
     choice[i, 1:t]  <- DT_subj$choice
     reward[i, 1:t]  <- DT_subj$reward
+    if (has_trial) {
+      if (any(diff(DT_subj$trialnum) <= 0)) {
+        stop(sprintf("Subject %s: trial indices must be strictly increasing", subj))
+      }
+      trial_gap[i, 1:t] <- c(0, diff(DT_subj$trialnum) - 1)
+    }
   }
 
   # Wrap into a list for Stan
@@ -812,7 +822,9 @@ pst_preprocess_func <- function(raw_data, general_info) {
     choice  = choice,
     reward  = reward
   )
-
+  if (has_trial) {
+    data_list$trial_gap <- trial_gap
+  }
   # Returned data_list will directly be passed to Stan
   return(data_list)
 }
