@@ -82,6 +82,16 @@ generated quantities {
   // For log-likelihood calculation
   real log_lik[N];
 
+  // For posterior predictive check
+  real<lower=0,upper=1> y_pred[N, T];
+
+  // Set all posterior predictions to 0 (avoids NULL values)
+  for (i in 1:N) {
+    for (t in 1:T) {
+      y_pred[i, t] = 0;
+    }
+  }
+
   mu_alpha_pos = Phi_approx(mu_pr[1]);
   mu_alpha_neg = Phi_approx(mu_pr[2]);
   mu_beta      = Phi_approx(mu_pr[3]) * 10;
@@ -103,6 +113,9 @@ generated quantities {
         // Luce choice rule
         delta = ev[option1[i, t]] - ev[option2[i, t]];
         log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i] * delta);
+
+        // generate posterior prediction for current trial
+        y_pred[i, t] = bernoulli_rng(inv_logit(beta[i] * delta););
 
         pe[i, t] = reward[i, t] - ev[co];
         alpha = (pe[i, t] >= 0) ? alpha_pos[i] : alpha_neg[i];
