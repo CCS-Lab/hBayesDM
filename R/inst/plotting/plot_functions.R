@@ -511,7 +511,7 @@ plot_cgt_cm <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
   return(h_all)
 }
 
-plot_hgf_ibrb <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+plot_hgf_ibrb <- plot_hgf_ibrb_multipleB <- plot_ehgf_ibrb <- plot_ehgf_ibrb_multipleB <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
   pars <- obj$parVals
   mu_kappa <- pars$mu_kappa
   mu_omega <- pars$mu_omega
@@ -587,6 +587,59 @@ plot_hgf_ibrb_single <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
       xLab     = expression(zeta ~ "(inv. decision noise)")
     )
     k <- k + 1
+  }
+  h_all <- do.call(multiplot, c(plots, list(cols = ncols)))
+  return(h_all)
+}
+
+plot_ehgf_ibrb_vds <- plot_ehgf_ibrb_vds_multipleB <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+  pars <- obj$parVals
+  mu_mu0 <- pars$mu_mu0
+  mu_kappa <- pars$mu_kappa
+  mu_omega <- pars$mu_omega
+  plots <- list()
+  k <- 1
+  if (!is.null(mu_mu0) && ncol(mu_mu0) > 0) {
+    for (i in seq_len(ncol(mu_mu0))) {
+      sample_all <- mu_mu0[,i]
+      if (length(unique(sample_all)) > 1) {
+        plots[[k]] <- plotDist(
+          sample   = mu_mu0[, i],
+          fontSize = fontSize,
+          binSize  = binSize,
+          xLab     = bquote(mu[.(i+1)] ~ "(prior belief)")
+        )
+        k <- k + 1
+      }
+    }
+  }  
+  if (!is.null(mu_kappa) && ncol(mu_kappa) > 0) {
+    for (i in seq_len(ncol(mu_kappa))) {
+      sample_all <- mu_kappa[,i]
+      if (length(unique(sample_all)) >1) {
+        plots[[k]] <- plotDist(
+          sample   = mu_kappa[, i],
+          fontSize = fontSize,
+          binSize  = binSize,
+          xLab     = bquote(kappa[.(i+1)] ~ "(level" ~ .(i+1) ~"-" ~.(i+2)~"coupling)")
+        )
+        k <- k + 1
+      }
+    }
+  }
+  if (!is.null(mu_omega) && ncol(mu_omega) > 0) {
+    for (i in seq_len(ncol(mu_omega))) {
+      sample_all <-mu_omega[,i]
+      if (length(unique(sample_all))>1) {
+        plots[[k]] <- plotDist(
+          sample   = mu_omega[, i],
+          fontSize = fontSize,
+          binSize  = binSize,
+          xLab     = bquote(omega[.(i+1)] ~ "(tonic volatility)")
+        )
+        k <- k + 1
+      }
+    }
   }
   h_all <- do.call(multiplot, c(plots, list(cols = ncols)))
   return(h_all)
