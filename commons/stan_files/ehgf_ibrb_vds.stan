@@ -70,7 +70,9 @@ transformed data {
     }
   }
   sigma_base[1] = 0;
-  sigma_base[2:L] = sigma0;
+  for (l in 2:L) {
+    sigma_base[l] = sigma0[l-1];
+  }
 
   // differentiate free kappa and fixed kappa
   for (l in 1:(L-2)) {
@@ -223,14 +225,6 @@ model {
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
   
-      // Response model (volatility-dependent stochasticity)
-      if (!input_first) {
-        // make choice based on previous valid input or inital prior belief
-        real zeta = exp(-mu_hat[3]);
-        real eta = zeta * mu_hat[2];
-        y[i,t] ~ bernoulli_logit(eta);
-      }
-
       sa_prev = sa;
 
       // Level 2
@@ -268,7 +262,12 @@ model {
       }
 
       // Response model (volatility-dependent stochasticity)
-      if (input_first) {
+      if (!input_first) {
+        // make choice based on previous valid input or inital prior belief
+        real zeta = exp(-mu_hat[3]);
+        real eta = zeta * mu_hat[2];
+        y[i,t] ~ bernoulli_logit(eta);
+      } else {
         // make choice based on current input
         real zeta = exp(-mu[3-1]);
         real eta = zeta * mu[2-1];
@@ -318,14 +317,6 @@ generated quantities {
         sa_hat[l] = sa[l] + exp(ka * mu[(l+1)-1] + om);
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
-  
-      // Response model (volatility-dependent stochasticity)
-      if (!input_first) {
-        // make choice based on previous valid input or inital prior belief
-        real zeta = exp(-mu_hat[3]);
-        real eta = zeta * mu_hat[2];
-        log_lik += bernoulli_logit_lpmf(y[i,t] | eta);
-      }
 
       sa_prev = sa;
 
@@ -364,7 +355,12 @@ generated quantities {
       }
 
       // Response model (volatility-dependent stochasticity)
-      if (input_first) {
+      if (!input_first) {
+        // make choice based on previous valid input or inital prior belief
+        real zeta = exp(-mu_hat[3]);
+        real eta = zeta * mu_hat[2];
+        log_lik += bernoulli_logit_lpmf(y[i,t] | eta);
+      } else {
         // make choice based on current input
         real zeta = exp(-mu[3-1]);
         real eta = zeta * mu[2-1];

@@ -76,7 +76,9 @@ transformed data {
     }
   }
   sigma_base[1] = 0;
-  sigma_base[2:L] = sigma0;
+  for (l in 2:L) {
+    sigma_base[l] = sigma0[l-1];
+  }
 
   // differentiate free kappa and fixed kappa
   for (l in 1:(L-2)) {
