@@ -50,7 +50,7 @@ ehgf_ibrb_vds <- hBayesDM_model(
   parameters      = list(
     "kappa" = c(0, 0, Inf),
     "omega" = c(-Inf, 0, Inf),
-    "mu0" = c(0, 0.5, 1.0)
+    "mu0" = c(-Inf, 0, Inf)
   ),
   additional_args = list(
     'L' = 3,

@@ -38,7 +38,7 @@ parameters:
     info: [-Inf, 0, Inf]
   mu0: 
     desc: prior belief for each level (2 ~ L)
-    info: [0, 0.5, 1.0]
+    info: [-Inf, 0, Inf]
 regressors:
 postpreds:
 additional_args:

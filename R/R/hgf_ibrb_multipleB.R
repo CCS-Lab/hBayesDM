@@ -52,7 +52,7 @@ hgf_ibrb_multipleB <- hBayesDM_model(
     "kappa" = c(0, 0, Inf),
     "omega" = c(-Inf, 0, Inf),
     "zeta" = c(0, 1, Inf),
-    "mu0" = c(0, 0.5, 1.0)
+    "mu0" = c(-Inf, 0, Inf)
   ),
   additional_args = list(
     'L' = 3,
