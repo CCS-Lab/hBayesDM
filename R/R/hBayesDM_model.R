@@ -458,21 +458,10 @@ hBayesDM_model <- function(task_name = "",
       if (inits[1] == "fixed") {
         # plausible values of each parameter
         inits <- unlist(lapply(parameters, "[", 2))
-      } else if (is.null(names(inits))) {
-        # unnamed list of init values
-        if (length(inits) != length(parameters)) {
-          stop("** Length of 'inits' must be ", length(parameters), " ",
-              "(= the number of parameters of this model). ",
-              "Please check again. **\n")
-        }
-      } else {
-        # named list of init values for each parameters
-        missing_params <- setdiff(names(parameters), names(inits))
-        if (length(missing_params) > 0) {
-          stop("** 'inits' must contain all parameter names. Missing: ",
-              paste(missing_params, collapse = ", "),
-              " **\n")
-        }
+      } else if (length(inits) != length(parameters)) {
+        stop("** Length of 'inits' must be ", length(parameters), " ",
+             "(= the number of parameters of this model). ",
+             "Please check again. **\n")
       }
 
       if (model_type == "single") {
@@ -483,54 +472,22 @@ hBayesDM_model <- function(task_name = "",
         }
       } else {
         gen_init <- function() {
-          if (is.null(names(inits))) {
-            primes <- numeric(length(parameters))
-            for (i in 1:length(parameters)) {
-              lb <- parameters[[i]][1]   # lower bound
-              ub <- parameters[[i]][3]   # upper bound
-              if (is.infinite(lb)) {
-                primes[i] <- inits[i]                             # (-Inf, Inf)
-              } else if (is.infinite(ub)) {
-                primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
-              } else {
-                primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
-              }
+          primes <- numeric(length(parameters))
+          for (i in 1:length(parameters)) {
+            lb <- parameters[[i]][1]   # lower bound
+            ub <- parameters[[i]][3]   # upper bound
+            if (is.infinite(lb)) {
+              primes[i] <- inits[i]                             # (-Inf, Inf)
+            } else if (is.infinite(ub)) {
+              primes[i] <- log(inits[i] - lb)                   # (  lb, Inf)
+            } else {
+              primes[i] <- qnorm((inits[i] - lb) / (ub - lb))   # (  lb,  ub)
             }
-            target_params <- names(parameters)
-          } else {
-            # named list of init values for each parameters
-            param_names <- names(parameters)
-            param_idx <- c()
-            init_vals <- c()
-            for (param in names(inits)) {
-              init_vals_per_param <- inits[[param]]
-              k <- length(init_vals_per_param)
-              if (k == 0) next
-              idx <- match(param, param_names)
-              if (is.na(idx)) {
-                stop("** Unknown parameter name: ", param, " in inits **\n")
-              }
-              param_idx <- c(param_idx, rep(idx, k))
-              init_vals <- c(init_vals, init_vals_per_param)
-            }
-            primes <- numeric(length(init_vals))
-            for (i in seq_along(param_idx)) {
-              lb <- parameters[[param_idx[i]]][1]  # lower bound
-              ub <- parameters[[param_idx[i]]][3]  # upper bound
-              if (is.infinite(lb)) {
-                primes[i] <- init_vals[i]                           # (-Inf, Inf)
-              } else if (is.infinite(ub)) {
-                primes[i] <- log(init_vals[i] - lb)                 # (  lb, Inf)
-              } else {
-                primes[i] <- qnorm((init_vals[i] - lb) / (ub - lb)) # (  lb,  ub)
-              }
-            }
-            target_params <- param_names[sort(unique(param_idx))]
           }
           group_level             <- list(mu_pr = primes,
                                           sigma = rep(1.0, length(primes)))
           individual_level        <- lapply(primes, function(x) rep(x, n_subj))
-          names(individual_level) <- paste0(target_params, "_pr")
+          names(individual_level) <- paste0(names(parameters), "_pr")
           return(c(group_level, individual_level))
         }
       }
