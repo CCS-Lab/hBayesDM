@@ -210,14 +210,14 @@ transformed parameters {
 
 model {
   // Hyperparameters
-  mu_pr ~ normal(0,1);
-  sigma ~ normal(0,1);
+  mu_pr ~ normal(0,0.5);
+  sigma ~ normal(0,0.5);
 
   // individual parameters
-  mu0_pr ~ normal(0,10);
-  kappa_pr ~ normal(0,10);
-  omega_pr ~ normal(0,10);
-  zeta_pr ~ normal(0,10);
+  mu0_pr ~ normal(0,1);
+  kappa_pr ~ normal(0,1);
+  omega_pr ~ normal(0,1);
+  zeta_pr ~ normal(0,1);
   
   // Subject loop
   for (i in 1:N) {

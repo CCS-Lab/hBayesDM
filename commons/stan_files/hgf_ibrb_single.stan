@@ -131,9 +131,9 @@ transformed parameters {
 
 model {
   // Priors
-  to_vector(logit_kappa) ~ normal(0,10);
-  to_vector(logit_omega) ~ normal(0,10);
-  to_vector(logit_zeta)  ~ normal(0,10);
+  to_vector(logit_kappa) ~ normal(0,1);
+  to_vector(logit_omega) ~ normal(0,1);
+  to_vector(logit_zeta)  ~ normal(0,1);
 
   {
     real mu[L] = mu_base;               // prediction (2 ~ L)
