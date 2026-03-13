@@ -294,7 +294,7 @@ model {
 }
 
 generated quantities {
-  real log_lik = 0;
+  real log_lik[N];
 
   vector[L-1] mu_mu0;
   vector[L-2] mu_kappa;
@@ -303,6 +303,7 @@ generated quantities {
   
   // Subject loop
   for (i in 1:N) {
+    log_lik[i] = 0;
     for (bIdx in 1:Bsubj[i]) {
       row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
       real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
@@ -364,10 +365,10 @@ generated quantities {
         // Response model (unit-square sigmoid)
         if (input_first) {
           // make choice based on current input
-          log_lik += bernoulli_logit_lpmf(y[i,bIdx,t] | zeta[i] * logit(mu_hat[1]));
+          log_lik[i] += bernoulli_logit_lpmf(y[i,bIdx,t] | zeta[i] * logit(mu_hat[1]));
         } else if (m >= 0) {
           // make choice based on previous valid input
-          log_lik += bernoulli_logit_lpmf(y[i,bIdx,t] | zeta[i] * logit(m));
+          log_lik[i] += bernoulli_logit_lpmf(y[i,bIdx,t] | zeta[i] * logit(m));
         }
         m = mu_hat[1];
       }

@@ -287,7 +287,7 @@ model {
 }
 
 generated quantities {
-  real log_lik = 0;
+  real log_lik[N];
 
   vector[L-1] mu_mu0;
   vector[L-2] mu_kappa;
@@ -295,6 +295,7 @@ generated quantities {
 
   // Subject loop
   for (i in 1:N) {
+    log_lik[i] = 0;
     for (bIdx in 1:Bsubj[i]) {
       row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
       real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
@@ -369,12 +370,12 @@ generated quantities {
           // make choice based on previous valid input or inital prior belief
           real zeta = exp(-mu_hat[3]);
           real eta = zeta * mu_hat[2];
-          log_lik += bernoulli_logit_lpmf(y[i,bIdx,t] | eta);
+          log_lik[i] += bernoulli_logit_lpmf(y[i,bIdx,t] | eta);
         } else {
           // make choice based on current input
           real zeta = exp(-mu[3-1]);
           real eta = zeta * mu[2-1];
-          log_lik += bernoulli_logit_lpmf(y[i,bIdx,t] | eta);
+          log_lik[i] += bernoulli_logit_lpmf(y[i,bIdx,t] | eta);
         }
       }
     }

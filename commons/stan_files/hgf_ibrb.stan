@@ -287,7 +287,7 @@ model {
 }
 
 generated quantities {
-  real log_lik = 0;
+  real log_lik[N];
 
   vector[L-1] mu_mu0;
   vector[L-2] mu_kappa;
@@ -301,6 +301,7 @@ generated quantities {
     real mu_hat[L] = rep_array(0.0, L); // prior prediction (1 ~ L)
     real sa_hat[L] = rep_array(0.0, L); // prior uncertainty of prediction (1 ~ L)
     real m = -1;                        // predictive probability that the next response will be 1 (0~1)
+    log_lik[i] = 0;
 
     // Trial loop
     for (t in 1:T) {
@@ -357,10 +358,10 @@ generated quantities {
       // Response model (unit-square sigmoid)
       if (input_first) {
         // make choice based on current input
-        log_lik += bernoulli_logit_lpmf(y[i,t] | zeta[i] * logit(mu_hat[1]));
+        log_lik[i] += bernoulli_logit_lpmf(y[i,t] | zeta[i] * logit(mu_hat[1]));
       } else if (m >= 0) {
         // make choice based on previous valid input
-        log_lik += bernoulli_logit_lpmf(y[i,t] | zeta[i] * logit(m));
+        log_lik[i] += bernoulli_logit_lpmf(y[i,t] | zeta[i] * logit(m));
       }
       m = mu_hat[1];
     }
