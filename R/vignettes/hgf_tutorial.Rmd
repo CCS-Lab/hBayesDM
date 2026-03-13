@@ -241,7 +241,8 @@ fit <- hgf_ibrb(
   nchain = 4,
   L = 3,
   input_first = FALSE,
-  mu0 = c(0.5, 1.0),
+  mu0_lower = c(0.5, 1.0),
+  mu0_upper = c(0.5, 1.0),
   sigma0 = c(0.1, 1.0),
   kappa_lower = c(0),  
   kappa_upper = c(2),
@@ -368,7 +369,8 @@ fit <- hgf_ibrb(
   kappa_upper = c(3.0, 3.0),
   omega_lower = c(-9.0, -10.0, -12.0),
   omega_upper = c(-1.0,  -2.0,  -3.0),
-  mu0    = c(0.0, 1.0, 1.0),
+  mu0_lower = c(0.0, 1.0, 1.0),
+  mu0_upper = c(0.0, 1.0, 1.0),
   sigma0 = c(0.1, 1.0, 1.0),
   zeta_lower  = 0.03,
   zeta_upper  = 5.0
@@ -435,7 +437,8 @@ fit <- hgf_ibrb_single(data = subject_data,
                        omega_upper = c(-1.0, -2.0),
                        zeta_lower  = 0.03,
                        zeta_upper  = 4.0,
-                       mu0 = c(0.0, 1.0),
+                       mu0_lower   = c(0.0, 1.0),
+                       mu0_upper   = c(0.0, 1.0),
                        inits = "random"
 )
 ```
@@ -478,7 +481,8 @@ output <- hgf_ibrb(
   omega_upper = c(-1.0, -2.0),
   zeta_lower  = 0.03,
   zeta_upper  = 4.0,
-  mu0   = c(0.0, 1.0),
+  mu0_lower   = c(0.0, 1.0),
+  mu0_upper   = c(0.0, 1.0),
   inits = "random"
 )
 ```

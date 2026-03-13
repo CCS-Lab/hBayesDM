@@ -1,6 +1,7 @@
 #include /pre/license.stan
 
-// Hierarchical Gaussian Filter from Mathys et al. (2011) https://doi.org/10.3389/fnhum.2011.00039
+// A variant of Hierarchical Gaussian Filter (Mathys et al., 2011. https://doi.org/10.3389/fnhum.2011.00039)
+// Empirical Hierarchical Gaussian Filter model (eHGF from TAPAS HGF Tool. https://github.com/translationalneuromodeling/tapas)
 
 functions {
   real inv_logit_with_bounds(real x, real a, real b) {
@@ -58,6 +59,8 @@ transformed data {
   int<lower=0, upper=1> n_free_zeta = 1;
 
   int n_free_parameters;
+  real mu1_min = 0.001;
+  real mu1_max = 0.999;
 
   // differentiate free mu0 and fixed mu0
   for (l in 1:(L-1)) {
@@ -212,11 +215,12 @@ model {
   kappa_pr ~ normal(0,1);
   omega_pr ~ normal(0,1);
   zeta_pr ~ normal(0,1);
-
+  
   // Subject loop
   for (i in 1:N) {
     row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
     real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
+    real sa_prev[L];                    // uncertainty of prediction from previous trial (2 ~ L)
     real mu_hat[L] = rep_array(0.0, L); // prior prediction (1 ~ L)
     real sa_hat[L] = rep_array(0.0, L); // prior uncertainty of prediction (1 ~ L)
     real m = -1;                        // predictive probability that the next response will be 1 (0~1)
@@ -236,16 +240,19 @@ model {
       }
       // Prediction
       mu_hat[1] = inv_logit(mu_hat[2]);
+      mu_hat[1] = fmin(mu1_max, fmax(mu1_min, mu_hat[1]));
 
       // Update prior uncertainty
       sa_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sa_hat[l] = sa[l] + exp(ka * mu[l] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[(l+1)-1] + om);
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
-  
+
+      sa_prev = sa;
+
       // Level 2
       mu_prev = mu_hat[2];
       pe = u[i,t] - mu_hat[1];                     // prediction error
@@ -256,21 +263,28 @@ model {
       for (l in 3:L) {
         real ka = kappa[i,(l-1)-1];
         real om = omega[i,(l-1)-1];
-        real mu_lower = mu[l-1-1];
+        real mu_lower = mu[(l-1)-1];
         real mu_prev_ = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
         real sa_lower = sa[l-1];
-        real sa_prev_lower = sa_hat[l-1];
+        real sa_prev_lower = sa_prev[l-1];
+        real vv, pimhat, ww, rr, dd;
 
         real v = exp(ka * mu_prev_ + om); // volatility
-        real w = v / sa_prev_lower;       // weighting factor (level: l-1)
-        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
-        real r = 2*w - 1;                 // relative difference of environmental and informational uncertainty (level: l-1)
-        real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
-        real lr = 0.5 * sa_ * ka * w;     // learning rate
+        real w = v / sa_hat[l-1];         // weighting factor (level: l-1)
+
+        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_hat[l-1]) - 1.0; // volatility prediction error
+        real lr = 0.5 * sa_hat[l] * ka * w; // learning rate
         real pwpe = lr * vpe;             // precision-weighted prediction error
         mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
-        sa[l] = sa_;
+
+        vv = exp(ka * mu[l-1] + om);
+        pimhat = 1.0 / (sa_prev_lower + vv);
+        ww = vv * pimhat;
+        rr = (vv - sa_prev_lower) * pimhat;
+        dd = (sa_lower + square(mu_lower - mu_prev_lower)) * pimhat - 1.0;
+
+        sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
       }
 
       // Response model (unit-square sigmoid)
@@ -293,11 +307,12 @@ generated quantities {
   vector[L-2] mu_kappa;
   vector[L-1] mu_omega;
   real<lower=0> mu_zeta;
-  
-    // Subject loop
+
+  // Subject loop
   for (i in 1:N) {
     row_vector[L-1] mu = mu0[i];        // prediction (2 ~ L)
     real sa[L] = sigma_base;            // uncertainty of prediction (2 ~ L)
+    real sa_prev[L];                    // uncertainty of prediction from previous trial (2 ~ L)
     real mu_hat[L] = rep_array(0.0, L); // prior prediction (1 ~ L)
     real sa_hat[L] = rep_array(0.0, L); // prior uncertainty of prediction (1 ~ L)
     real m = -1;                        // predictive probability that the next response will be 1 (0~1)
@@ -318,16 +333,19 @@ generated quantities {
       }
       // Prediction
       mu_hat[1] = inv_logit(mu_hat[2]);
+      mu_hat[1] = fmin(mu1_max, fmax(mu1_min, mu_hat[1]));
 
       // Update prior uncertainty
       sa_hat[1] = mu_hat[1] * (1 - mu_hat[1]);
       for (l in 2:(L-1)) {
         real ka = kappa[i,l-1];
         real om = omega[i,l-1];
-        sa_hat[l] = sa[l] + exp(ka * mu[l+1-1] + om);
+        sa_hat[l] = sa[l] + exp(ka * mu[(l+1)-1] + om);
       }
       sa_hat[L] = sa[L] + exp(omega[i,L-1]);
-  
+
+      sa_prev = sa;
+
       // Level 2
       mu_prev = mu_hat[2];
       pe = u[i,t] - mu_hat[1];                     // prediction error
@@ -338,21 +356,28 @@ generated quantities {
       for (l in 3:L) {
         real ka = kappa[i,(l-1)-1];
         real om = omega[i,(l-1)-1];
-        real mu_lower = mu[l-1-1];
+        real mu_lower = mu[(l-1)-1];
         real mu_prev_ = mu_hat[l];
         real mu_prev_lower = mu_hat[l-1];
         real sa_lower = sa[l-1];
-        real sa_prev_lower = sa_hat[l-1];
+        real sa_prev_lower = sa_prev[l-1];
+        real vv, pimhat, ww, rr, dd;
 
-        real v = exp(ka * mu_prev_ + om);// volatility
-        real w = v / sa_prev_lower;      // weighting factor (level: l-1)
-        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_prev_lower) - 1; // prediction error
-        real r = 2*w - 1;                // relative difference of environmental and informational uncertainty (level: l-1)
-        real sa_ = 1.0/((1.0/sa_hat[l]) + 0.5 * pow(ka, 2) * w * (w + (r * vpe)));
-        real lr = 0.5 * sa_ * ka * w;    // learning rate
-        real pwpe = lr * vpe;            // precision-weighted prediction error
-        mu[l-1] = mu_prev_ + pwpe;       // posterior prediction
-        sa[l] = sa_;
+        real v = exp(ka * mu_prev_ + om); // volatility
+        real w = v / sa_hat[l-1];         // weighting factor (level: l-1)
+
+        real vpe = ((sa_lower + pow(mu_lower - mu_prev_lower, 2)) / sa_hat[l-1]) - 1.0; // volatility prediction error
+        real lr = 0.5 * sa_hat[l] * ka * w; // learning rate
+        real pwpe = lr * vpe;             // precision-weighted prediction error
+        mu[l-1] = mu_prev_ + pwpe;        // posterior prediction
+
+        vv = exp(ka * mu[l-1] + om);
+        pimhat = 1.0 / (sa_prev_lower + vv);
+        ww = vv * pimhat;
+        rr = (vv - sa_prev_lower) * pimhat;
+        dd = (sa_lower + square(mu_lower - mu_prev_lower)) * pimhat - 1.0;
+
+        sa[l] = 1.0/((1.0/sa_hat[l]) + fmax(0.0, 0.5 * square(ka) * ww * (ww + rr * dd)));
       }
 
       // Response model (unit-square sigmoid)

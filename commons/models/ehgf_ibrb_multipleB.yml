@@ -3,16 +3,16 @@ task_name:
   desc:
   cite:
 model_name:
-  code: hgf_ibrb
-  desc: Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses
+  code: ehgf_ibrb
+  desc: Hierarchical Bayesian version of the Empirical Hierarchical Gaussian Filter model for binary inputs and binary responses
   cite:
   - "Mathys C, Daunizeau J, Friston KJ and Stephan KE (2011) A Bayesian foundation for individual learning under uncertainty. 
     Front. Hum. Neurosci. 5:39. https://doi.org/10.3389/fnhum.2011.00039"
   - "Mathys CD, Lomakina EI, Daunizeau J, Iglesias S, Brodersen KH, Friston KJ and Stephan KE (2014) 
     Uncertainty in perception and the Hierarchical Gaussian Filter. Front. Hum. Neurosci. 8:825. https://doi.org/10.3389/fnhum.2014.00825"
 model_type:
-  code:
-  desc: Hierarchical
+  code: multipleB
+  desc: Multiple-Block Hierarchical
 notes:
 contributors:
 - name: Jinwoo Jeong
@@ -21,11 +21,9 @@ contributors:
 - name: Juha Lee
   email: juhajulia44@gmail.com
   link: https://github.com/juhajulia
-- name: Yusom Jo
-  email: yaun2288@snu.ac.kr
-  link: https://github.com/0150362
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
+  block: "A unique identifier for each of the multiple blocks within each subject: 1, 2, ..."
   trialNum: "Nominal integer representing the trial number: 1, 2, ..."
   u: "Integer value representing the input on that trial: 0 or 1."
   y: "Integer value representing the subject's choice on that trial: 0 or 1."

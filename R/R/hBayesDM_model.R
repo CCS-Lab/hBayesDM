@@ -128,6 +128,7 @@ hBayesDM_model <- function(task_name = "",
            adapt_delta    = 0.95,
            stepsize       = 1,
            max_treedepth  = 10,
+           seed           = 42, 
            ...) {
 
     ############### Stop checks ###############
@@ -454,6 +455,8 @@ hBayesDM_model <- function(task_name = "",
       cat("** Use random values as initial values **\n")
       cat("*****************************************\n")
       gen_init <- "random"
+    } else if (inits == 0) {
+      gen_init <- 0
     } else {
       if (inits[1] == "fixed") {
         # plausible values of each parameter
@@ -511,6 +514,7 @@ hBayesDM_model <- function(task_name = "",
                              iter    = niter,
                              warmup  = nwarmup,
                              thin    = nthin,
+                             seed    = seed,
                              control = list(adapt_delta   = adapt_delta,
                                             stepsize      = stepsize,
                                             max_treedepth = max_treedepth))
