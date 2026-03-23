@@ -110,6 +110,8 @@ Collate:
     'prl_fictitious_rp_woa.R'
     'prl_fictitious_woa.R'
     'prl_fictitious_woa_multipleB.R'
+    'prl_fictitious_cnc.R'
+    'prl_fictitious_cnc_multipleB.R'
     'prl_rp.R'
     'prl_rp_multipleB.R'
     'pstRT_ddm.R'
