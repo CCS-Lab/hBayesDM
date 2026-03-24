@@ -178,11 +178,20 @@ plot_prl_fictitious_rp_woa <- function(obj, fontSize = 10, ncols = 3, binSize = 
   return(h_all)
 }
 
-plot_prl_fictitious_woa <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
+plot_prl_fictitious_woa <- plot_prl_fictitious_woa_multipleB <- function(obj, fontSize = 10, ncols = 2, binSize = 30) {
   pars = obj$parVals
   h1 = plotDist(sample = pars$mu_eta, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(eta, " (Learning Rate)")))
   h2 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse Temp.)")))
   h_all = multiplot(h1, h2, cols = ncols)
+  return(h_all)
+}
+
+plot_prl_fictitious_cnc <- plot_prl_fictitious_cnc_multipleB <- function(obj, fontSize = 10, ncols = 3, binSize = 30) {
+  pars = obj$parVals
+  h1 = plotDist(sample = pars$mu_eta_c, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(eta_c, " (Chosen. Learning Rate)")))
+  h2 = plotDist(sample = pars$mu_eta_nc, fontSize = fontSize, binSize = binSize, xLim = c(0,1), xLab = expression(paste(eta_nc, " (Not-Chosen. Learning Rate)")))
+  h3 = plotDist(sample = pars$mu_beta, fontSize = fontSize, binSize = binSize, xLab = expression(paste(beta, " (Inverse Temp.)")))
+  h_all = multiplot(h1, h2, h3, cols = ncols)
   return(h_all)
 }
 
