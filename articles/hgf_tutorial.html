@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0.9000</span>
       </span>
     </div>
 
@@ -386,14 +386,14 @@ there is only a single ζ regardless of the hierarchy depth.</p>
 the fitted results.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">allIndPars</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">all_ind_pars</span><span class="op">)</span></span></code></pre></div>
 <!-- $ -->
 <p>To apply HGF to a single participant’s data, you can use <a href="../reference/hgf_ibrb_single.html"><code>hgf_ibrb_single</code></a>
 like below.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hgf_ibrb_single.html">hgf_ibrb_single</a></span><span class="op">(</span>data <span class="op">=</span> <span class="st">"example"</span>, niter <span class="op">=</span> <span class="fl">1000</span>, nwarmup <span class="op">=</span> <span class="fl">500</span>, nchain <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">allIndPars</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">all_ind_pars</span><span class="op">)</span></span></code></pre></div>
 <!-- $ -->
 </div>
 <div class="section level3">
@@ -677,10 +677,10 @@ shrinkage <span class="citation">(Ahn et al., 2011; Kruschke,
 <p><code>hBayesDM</code> provides various options for setting the
 initial values (<code>inits</code>) of the parameters. The default
 setting is <code>vb</code>, therefore <code>hBayesDM</code> will try to
-fit the model with <a href="https://mc-stan.org/rstan/reference/stanmodel-method-vb.html" class="external-link">vb</a>
-and then use the VB estimation as initial values for MCMC sampling. If
-this VB estimation fails, <code>hBayesDM</code> defaults to using random
-initial values instead.</p>
+fit the model with <a href="https://mc-stan.org/cmdstanr/reference/model-method-variational.html" class="external-link">variational
+inference</a> and then use the VB estimates as initial values for MCMC
+sampling. If this VB estimation fails, <code>hBayesDM</code> defaults to
+using random initial values instead.</p>
 <p>Since the <code>vb</code> option has the issue of failing
 stochastically, consider using the <code>random</code> option or
 specifying the initial parameter values, like other models implemented
@@ -740,12 +740,12 @@ or above such as ω₃ <span class="citation">(Hein et al., 2021; Reed et
 al., 2020; Tecilla et al., 2023)</span>. Below are some tips to mitigate
 such issues.</p>
 <ul>
-<li><p><strong>Task design</strong>: As mentioned in the <a href="#poor-recovery-of-%CF%89%E2%82%83">previous section</a>, the researcher must
-carefully design their experiment and check whether their task can
-appropriately capture the individual differences in the parameters of
-interest. Simulating experiment data and running parameter recovery
-before actually conducting the experiment would be the best way to check
-the task design.</p></li>
+<li><p><strong>Task design</strong>: As mentioned in the <a href="#poor-recovery-of-%CF%89%E2%82%83">previous section</a>, the
+researcher must carefully design their experiment and check whether
+their task can appropriately capture the individual differences in the
+parameters of interest. Simulating experiment data and running parameter
+recovery before actually conducting the experiment would be the best way
+to check the task design.</p></li>
 <li><p><strong>Parameter Boundaries</strong>: Setting appropriate
 parameter boundaries is a crucial part of applying HGF. For instance, if
 ω₃ is too low, then exp(ω₃) becomes very small (e.g., ω₃ = -8, exp(ω₃) ≈

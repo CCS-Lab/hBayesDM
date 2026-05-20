@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0.9000</span>
       </span>
     </div>
 
@@ -166,28 +166,28 @@ efficient than searching for the whole grid of parameter space (i.e.,
 grid search). To learn more about the basic foundations of MCMC, we
 recommend Chapter 7 of <span class="citation">Kruschke
 (2014)</span>.</p>
-<p>Detailed specification of Bayesian models is not available in text
-yet (stay tuned for our tutorial paper whose citation is listed below).
-At the same time, users can go over our Stan codes to check how we
-implement each computational model (e.g.,
-<code>pathTo_gng_m1 = system.file("stan/gng_m1.stan", package="hBayesDM")</code>
-). We made strong efforts to optimize Stan codes through
-reparameterization (e.g., Matt trick) and vectorization.</p>
+<p>Users can read our Stan source files to see how each model is
+implemented (e.g.,
+<code>pathTo_gng_m1 = system.file("stan_files/gng_m1.stan", package="hBayesDM")</code>).
+We made strong efforts to optimize Stan codes through reparameterization
+(e.g., Matt trick) and vectorization.</p>
 </div>
 <div class="section level2">
 <h2 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
 </h2>
 <ul>
-<li>R version 3.4.0 or later is required. R is freely available from <a href="http://www.r-project.org/" class="external-link uri">http://www.r-project.org/</a>.</li>
 <li>
-<strong>Latest Stan (RStan 2.18.1 or later)</strong>. Detailed
-instructions for installing RStan are available in this link: <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/" class="external-link uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/</a>.</li>
-<li>RStudio (<a href="https://www.rstudio.com/products/RStudio/" class="external-link uri">https://www.rstudio.com/products/RStudio/</a>) is not
-required but strongly recommended.</li>
+<strong>R ≥ 4.4</strong> (<a href="https://www.r-project.org/" class="external-link">cran.r-project.org</a>).</li>
+<li>
+<strong>CmdStan</strong>, installed via <a href="https://mc-stan.org/cmdstanr/" class="external-link"><strong>cmdstanr</strong></a>.
+hBayesDM uses cmdstanr (not rstan) to compile and run Stan models.
+CmdStan ships as a system dependency rather than a CRAN package —
+install it once with <code><a href="https://mc-stan.org/cmdstanr/reference/install_cmdstan.html" class="external-link">cmdstanr::install_cmdstan()</a></code>.</li>
+<li>RStudio is optional but recommended.</li>
 </ul>
-<p><strong>Note</strong>: Additional R packages (e.g., <a href="https://cran.r-project.org/web/packages/ggplot2/" class="external-link">ggplot2</a>, <a href="https://cran.r-project.org/web/packages/loo/" class="external-link">loo</a>) will be
-installed (if not installed yet) during the installation of
-hBayesDM.</p>
+<p>Additional CRAN packages (<code>ggplot2</code>, <code>loo</code>,
+<code>bayesplot</code>, <code>posterior</code>, …) install automatically
+with hBayesDM.</p>
 </div>
 <div class="section level2">
 <h2 id="tasks-models-implemented-in-hbayesdm">Tasks &amp; models implemented in hBayesDM<a class="anchor" aria-label="anchor" href="#tasks-models-implemented-in-hbayesdm"></a>
@@ -198,75 +198,47 @@ for the list of tasks and models implemented in hBayesDM.</p>
 <div class="section level2">
 <h2 id="how-to-install-hbayesdm">How to install hBayesDM<a class="anchor" aria-label="anchor" href="#how-to-install-hbayesdm"></a>
 </h2>
-<p>There are three ways to install hBayesDM as described below. <em>Make
-sure to install <a href="https://mc-stan.org/interfaces/rstan" class="external-link">RStan</a>
-prior to install hBayesDM. And restart R/RStudio after the installation
-of hBayesDM.</em> Typically RStan can be installed just by typing
-<code>install.packages("rstan", dependencies = TRUE)</code>. <strong>For
-Windows, you need to install
-<a href="https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows" target="_blank" class="external-link">Rtools</a>
-first to install RStan and install the hBayesDM from CRAN</strong>. For
-detailed instructions for the installation of rstan, please go to this
-link: <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started" class="external-link uri">https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started</a>.
-If you are a Mac user, <a href="https://github.com/stan-dev/rstan/wiki/RStan-Mac-OS-X-Prerequisite-Installation-Instructions#step2_3" class="external-link">make
-sure Xcode is installed</a>.</p>
-<p>How can you tell if RStan is correctly installed? Check if you can
-fit the
-<a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#example-1-eight-schools" target="_blank" class="external-link">‘Eight
-Schools’</a> model without a problem. Check <a href="https://mc-stan.org/interfaces/rstan.html" class="external-link">here</a> or
-<a href="https://groups.google.com/forum/#!categories/stan-users/installation" target="_blank" class="external-link">here</a>
-if you experience difficulty installing RStan.</p>
 <div class="section level3">
-<h3 id="method-a-recommended-for-all-users---windowsmaclinux">Method A (recommended for all users - Windows/Mac/Linux)<a class="anchor" aria-label="anchor" href="#method-a-recommended-for-all-users---windowsmaclinux"></a>
+<h3 id="install-cmdstanr-and-cmdstan">1. Install cmdstanr and CmdStan<a class="anchor" aria-label="anchor" href="#install-cmdstanr-and-cmdstan"></a>
 </h3>
-<p>Use the following call:</p>
+<p>cmdstanr is hosted on the Stan r-universe rather than CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="method-b">Method B<a class="anchor" aria-label="anchor" href="#method-b"></a>
-</h3>
-<p>Install the package from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## install 'devtools' if required</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="method-c">Method C<a class="anchor" aria-label="anchor" href="#method-c"></a>
-</h3>
-<ol style="list-style-type: decimal">
-<li>Download a copy from <a href="https://cran.r-project.org/src/contrib/hBayesDM_1.1.0.tar.gz" class="external-link"><strong>here</strong></a>
-to a directory (e.g., “~/Downloads”).</li>
-<li>Open R(Studio) and set working directory to the downloaded folder.
-(e.g., <code>setwd("~/Downloads")</code> )</li>
-<li>Install the package from the downloaded file.</li>
-</ol>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span>pkgs<span class="op">=</span><span class="st">"hBayesDM_1.1.0.tar.gz"</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span>, repos<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="precompiling-stan-models-during-installation">Precompiling Stan models during installation<a class="anchor" aria-label="anchor" href="#precompiling-stan-models-during-installation"></a>
-</h3>
-<p>If you follow the direction described below, Stan models will be
-precompiled during installation and models will run immediately when
-called. This is recommended if you are a frequent hBayesDM user!</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>BUILD_ALL<span class="op">=</span><span class="st">'true'</span><span class="op">)</span>  <span class="co"># Build all the models on installation</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MAKEFLAGS<span class="op">=</span><span class="st">'-j 4'</span><span class="op">)</span>  <span class="co"># Use 4 cores for compilation (or the number you want)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
+<span>  <span class="st">"cmdstanr"</span>,</span>
+<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://stan-dev.r-universe.dev"</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"repos"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span><span class="op">)</span>  <span class="co"># Install from CRAN</span></span>
-<span><span class="co">## or</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir<span class="op">=</span><span class="st">"R"</span><span class="op">)</span>  <span class="co"># Install from GitHub</span></span></code></pre></div>
-<p><strong>We highly recommend you use multiple cores for compiling,
-since it will take quite a long time to complete.</strong></p>
+<span><span class="co"># One-time CmdStan toolchain install (~5 min)</span></span>
+<span><span class="fu">cmdstanr</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/cmdstanr/reference/install_cmdstan.html" class="external-link">install_cmdstan</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Verify the toolchain works by fitting any Stan model — for example,
+<code>cmdstanr::cmdstanr_example("schools")</code> runs a small “Eight
+Schools” fit without hBayesDM.</p>
+</div>
+<div class="section level3">
+<h3 id="install-hbayesdm">2. Install hBayesDM<a class="anchor" aria-label="anchor" href="#install-hbayesdm"></a>
+</h3>
+<p>From CRAN:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hBayesDM"</span><span class="op">)</span></span></code></pre></div>
+<p>From GitHub:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"CCS-Lab/hBayesDM"</span>, subdir <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="first-fit-compile-cost">First-fit compile cost<a class="anchor" aria-label="anchor" href="#first-fit-compile-cost"></a>
+</h3>
+<p>Stan models compile on first use (~30 s per model) and cmdstanr
+caches the compiled binary alongside the <code>.stan</code> file.
+Subsequent fits of the same model reuse the cached binary and start
+sampling immediately.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="how-to-use-hbayesdm">How to use hBayesDM<a class="anchor" aria-label="anchor" href="#how-to-use-hbayesdm"></a>
 </h2>
 <p>First, open RStudio (or just R) and load the package:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CCS-Lab/hBayesDM" class="external-link">hBayesDM</a></span><span class="op">)</span></span></code></pre></div>
 <p>Four steps of doing HBA with hBayesDM are illustrated below. As an
 example, four models of the orthogonalized Go/Nogo task (Guitart-Masip
@@ -297,32 +269,27 @@ dd_exampleData.txt, igt_exampleData.txt, gng_exampleData.txt, etc.). See
 each model’s help file (e.g., <code><a href="../reference/gng_m1.html">?gng_m1</a></code>) to check required
 data columns and their labels.</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataPath</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/gng_exampleData.txt"</span>, package<span class="op">=</span><span class="st">"hBayesDM"</span><span class="op">)</span></span></code></pre></div>
 <p>If you download the sample data to “~/Downloads”, you may specify the
 path to the data file like this:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataPath</span> <span class="op">=</span> <span class="st">"~/Downloads/gng_exampleData.txt"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fit-candidate-models">2) Fit candidate models<a class="anchor" aria-label="anchor" href="#fit-candidate-models"></a>
 </h3>
-<p>Below the <code>gng_m1</code> model is fitted with its sample data.
-The command indicates that four MCMC chains are run and four cores are
-used for parallel computing. If you enter “example” as an argument for
-<code>data</code>, hBayesDM will use the sample data for the task. Note
-that you can save the output to a file (see the <code>saveDir</code>
-argument) or send an email when fitting is complete (see the
-<code>email</code> argument). You can also assign your own initial
-values (see the <code>inits</code> argument; e.g.,
-<code>inits=c(0.1, 0.2, 1.0)</code>):</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Below the <code>gng_m1</code> model is fit on its example data. The
+command runs four MCMC chains across four cores. If you pass
+<code>"example"</code> as <code>data</code>, hBayesDM loads the bundled
+example file for that task. You can also assign your own initial values
+via the <code>inits</code> argument (e.g.,
+<code>inits = c(0.1, 0.2, 1.0)</code>).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, nchain<span class="op">=</span><span class="fl">4</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p>, which is the same as the command below because the default numbers
-of total (including warmup) iterations (MCMC samples), warmup
-iterations, and chains are 2,000, 1,000, and 4 for <code>gng</code>
-models.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Equivalent shorter form (the defaults are 2000 / 1000 / 4 chains for
+<code>gng</code> models):</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">output1</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m1.html">gng_m1</a></span><span class="op">(</span><span class="st">"example"</span>, ncore<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in gng_m1(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span>
@@ -341,107 +308,45 @@ models.</p>
 <span><span class="co">## ****************************************</span></span>
 <span><span class="co">## ** Use VB estimates as initial values **</span></span>
 <span><span class="co">## ****************************************</span></span>
-<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
-<span><span class="co">## Chain 1: EXPERIMENTAL ALGORITHM:</span></span>
-<span><span class="co">## Chain 1:   This procedure has not been thoroughly tested and may be unstable</span></span>
-<span><span class="co">## Chain 1:   or buggy. The interface is subject to change.</span></span>
-<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Gradient evaluation took 0.00209 seconds</span></span>
-<span><span class="co">## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 20.9 seconds.</span></span>
-<span><span class="co">## Chain 1: Adjust your expectations accordingly!</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Begin eta adaptation.</span></span>
-<span><span class="co">## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Success! Found best value [eta = 1] earlier than expected.</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Begin stochastic gradient ascent.</span></span>
-<span><span class="co">## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes </span></span>
-<span><span class="co">## Chain 1:    100         -821.396             1.000            1.000</span></span>
-<span><span class="co">## Chain 1:    200         -819.389             0.501            1.000</span></span>
-<span><span class="co">## Chain 1:    300         -808.559             0.339            0.013</span></span>
-<span><span class="co">## Chain 1:    400         -814.634             0.256            0.013</span></span>
-<span><span class="co">## Chain 1:    500         -808.382             0.206            0.008   MEDIAN ELBO CONVERGED</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Drawing a sample of size 1000 from the approximate posterior... </span></span>
-<span><span class="co">## Chain 1: COMPLETED.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Pareto k diagnostic value is 0.99. Resampling is unreliable.</span></span>
-<span><span class="co">## Increasing the number of draws or decreasing tol_rel_obj may help.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## ------------------------------------------------------------ </span></span>
+<span><span class="co">## EXPERIMENTAL ALGORITHM: </span></span>
+<span><span class="co">##   This procedure has not been thoroughly tested and may be unstable </span></span>
+<span><span class="co">##   or buggy. The interface is subject to change. </span></span>
+<span><span class="co">## ------------------------------------------------------------ </span></span>
+<span><span class="co">## Gradient evaluation took 0.000601 seconds </span></span>
+<span><span class="co">## 1000 transitions using 10 leapfrog steps per transition would take 6.01 seconds. </span></span>
+<span><span class="co">## Adjust your expectations accordingly! </span></span>
+<span><span class="co">## Begin eta adaptation. </span></span>
+<span><span class="co">## Iteration:   1 / 250 [  0%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration:  50 / 250 [ 20%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration: 100 / 250 [ 40%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration: 150 / 250 [ 60%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration: 200 / 250 [ 80%]  (Adaptation) </span></span>
+<span><span class="co">## Success! Found best value [eta = 1] earlier than expected. </span></span>
+<span><span class="co">## Begin stochastic gradient ascent. </span></span>
+<span><span class="co">##   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes  </span></span>
+<span><span class="co">##    100         -846.796             1.000            1.000 </span></span>
+<span><span class="co">##    200         -815.045             0.519            1.000 </span></span>
+<span><span class="co">##    300         -809.962             0.348            0.039 </span></span>
+<span><span class="co">##    400         -809.490             0.261            0.039 </span></span>
+<span><span class="co">##    500         -810.612             0.209            0.006   MEDIAN ELBO CONVERGED </span></span>
+<span><span class="co">## Drawing a sample of size 1000 from the approximate posterior...  </span></span>
+<span><span class="co">## COMPLETED. </span></span>
+<span><span class="co">## Finished in  3.4 seconds.</span></span>
+<span><span class="co">## </span></span>
 <span><span class="co">## ************************************</span></span>
 <span><span class="co">## **** Model fitting is complete! ****</span></span>
-<span><span class="co">## ************************************</span></span>
-<span><span class="co">## in 4: 1000 transitions using 10 leapfrog steps per transition would take 16.94 seconds.</span></span>
-<span><span class="co">## Chain 4: Adjust your expectations accordingly!</span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
-<span><span class="co">## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: </span></span>
-<span><span class="co">## Chain 3:  Elapsed Time: 26.572 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 3:                15.964 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 3:                42.536 seconds (Total)</span></span>
-<span><span class="co">## Chain 3: </span></span>
-<span><span class="co">## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
-<span><span class="co">## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: </span></span>
-<span><span class="co">## Chain 2:  Elapsed Time: 28.192 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 2:                25.641 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 2:                53.833 seconds (Total)</span></span>
-<span><span class="co">## Chain 2: </span></span>
-<span><span class="co">## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## Chain 4:  Elapsed Time: 22.442 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 4:                13.556 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 4:                35.998 seconds (Total)</span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## g)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1:  Elapsed Time: 25.991 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 1:                15.557 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 1:                41.548 seconds (Total)</span></span>
-<span><span class="co">## Chain 1:</span></span></code></pre>
-<p>Executing the command will generate messages like below in the R
-console. It will take approximately 2~3 minutes (with the
-<code>gng_m1</code> model &amp; “example” data) for the model fitting to
-complete (with MCMC sampling). Note that you may get warning messages
-about “numerical problems” or that there are a certain number of
-“divergent transitions after warmup”. When we check our models with
-example datasets, warning messages appear mostly at the beginning of the
-warmup period and there are very few divergent transitions after warmup.
-In such cases, you can ignore the warnings. Also see Appendix D of the
-<a href="https://github.com/stan-dev/stan/releases/download/v2.17.0/stan-reference-2.17.0.pdf" class="external-link">Stan
-Reference Manual</a>.</p>
-<pre><code>Model name  = gng_m1
-Data file   = example
+<span><span class="co">## ************************************</span></span></code></pre>
+<p>On first use cmdstanr compiles the Stan model (~30 s); subsequent
+fits of the same model reuse the cached binary. Sampling for
+<code>gng_m1</code> on the example data then takes 2–3 minutes.
+Occasional “numerical problems” warnings during warmup or a small number
+of “divergent transitions after warmup” can usually be ignored — see
+Stan’s <a href="https://mc-stan.org/misc/warnings.html" class="external-link">Runtime warnings
+and convergence problems</a> for guidance on when to act on them.</p>
+<p>The hBayesDM console output looks like:</p>
+<pre><code>Model  = gng_m1
+Data   = example
 
 Details:
  # of chains                    = 4
@@ -451,60 +356,46 @@ Details:
  # of subjects                  = 10
  # of (max) trials per subject  = 240
 
-****************************************
-** Use VB estimates as initial values **
-****************************************
+Running MCMC with 4 parallel chains...
 
-
-***********************************
-**  Loading a precompiled model  **
-***********************************
-starting worker pid=75130 on localhost:11950 at 08:25:48.905
-starting worker pid=75138 on localhost:11950 at 08:25:49.101
-
-SAMPLING FOR MODEL 'gng_m1' NOW (CHAIN 1).
-
-Chain 1, Iteration:    1 / 2000 [  0%]  (Warmup)
-SAMPLING FOR MODEL 'gng_m1' NOW (CHAIN 2).
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup)
 ...</code></pre>
-<p>When model fitting is complete, you see this message and data are
-stored into <code>output1</code>.</p>
+<p>When fitting is complete:</p>
 <pre><code>************************************
 **** Model fitting is complete! ****
 ************************************</code></pre>
-<p><code>output1</code>, a hBayesDM object, is a list with 4 elements
-(class: “hBayesDM”):</p>
+<p><code>output1</code> is an object of class <code>hBayesDM</code> with
+these fields:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>model</code>: Name of the fitted model (i.e.,
-<code>output1$model</code> is ‘gng_m1’).</li>
+<code>model</code>: Name of the fitted model
+(<code>output1$model</code> is <code>"gng_m1"</code>).</li>
 <li>
-<code>allIndPars</code>: Summary of individual subjects’ parameters
-(default: <em>mean</em>). Users can also choose to use <em>median</em>
-or <em>mode</em> (e.g.,
-<code>output1 = gng_m1("example", indPars="mode")</code> ).</li>
+<code>all_ind_pars</code>: Per-subject parameter summaries (default:
+<em>mean</em>). Use <code>ind_pars = "median"</code> or
+<code>ind_pars = "mode"</code> to change the summary statistic.</li>
 <li>
-<code>parVals</code>: Posterior samples of all parameters. Extracted
-by <code>rstan::extract(rstan_object, permuted=T)</code>. <strong>Note
-that hyper (group) mean parameters are indicated by
-<code>mu_PARAMETER</code> (e.g., <code>mu_xi</code>, <code>mu_ep</code>,
+<code>par_vals</code>: Posterior draws as a named list, extracted
+via <code><a href="https://mc-stan.org/posterior/reference/draws_of.html" class="external-link">posterior::draws_of()</a></code>. <strong>Hyper-parameters are
+prefixed <code>mu_</code> (e.g., <code>mu_xi</code>, <code>mu_ep</code>,
 <code>mu_rho</code>).</strong>
 </li>
 <li>
-<code>fit</code>: RStan object (i.e.,
-<code>fit = stan(file='gng_m1.stan', ...)</code> ).</li>
+<code>fit</code>: A <code>CmdStanMCMC</code> object (or
+<code>CmdStanVB</code> when <code>vb = TRUE</code>) from cmdstanr. Use
+<code>output1$fit$summary()</code>, <code>output1$fit$draws()</code>,
+<code>output1$fit$diagnostic_summary()</code>, etc. — see <a href="https://mc-stan.org/cmdstanr/reference/CmdStanMCMC.html" class="external-link"><code>?cmdstanr::CmdStanMCMC</code></a>.</li>
 <li>
-<code>rawdata</code>: Raw trial-by-trial data used for modeling. Raw
-data are provided in the output to allow users to easily access data and
-compare trial-by-trial model-based regressors (e.g., prediction errors)
-with choice data.</li>
+<code>raw_data</code>: Raw trial-by-trial data used for modeling.
+Provided so users can easily compare trial-by-trial model-based
+regressors (e.g., prediction errors) against the choice data.</li>
 <li>
-<code>modelRegressor</code> (optional): Trial-by-trial model-based
-regressors such as prediction errors, the values of the chosen option,
-etc. For each model, we pre-select appropriate model-based
-regressors.</li>
+<code>model_regressor</code> (optional): Trial-by-trial model-based
+regressors such as prediction errors and chosen-option values. Each
+model ships with a pre-selected set.</li>
 </ol>
-<pre><code>&gt; output1$allIndPars
+<pre><code>&gt; output1$all_ind_pars
            xi        ep      rho subjID
 1  0.03688558 0.1397615 5.902901      1
 2  0.02934812 0.1653435 6.066120      2
@@ -512,90 +403,82 @@ regressors.</li>
 4  0.02103926 0.1499842 6.185020      4
 5  0.02620808 0.1498962 6.081908      5
 ...</code></pre>
-<pre><code>&gt; output1$fit
-Inference for Stan model: gng_m1.
-4 chains, each with iter=2000; warmup=1000; thin=1;
-post-warmup draws per chain=1000, total post-warmup draws=4000.
-
-               mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat
-mu_xi          0.03    0.00 0.02    0.00    0.02    0.03    0.05    0.08  2316 1.00
-mu_ep          0.15    0.00 0.02    0.11    0.13    0.15    0.16    0.19  4402 1.00
-mu_rho         5.97    0.01 0.72    4.76    5.45    5.89    6.40    7.61  3821 1.00
-sigma[1]       0.54    0.06 1.02    0.02    0.18    0.35    0.61    1.99   318 1.01
-sigma[2]       0.12    0.00 0.08    0.01    0.05    0.10    0.16    0.31  2620 1.00
-sigma[3]       0.12    0.00 0.09    0.01    0.05    0.10    0.16    0.33  2402 1.00
-...</code></pre>
+<p>Use <code>output1$fit$summary()</code> to get a posterior summary
+table:</p>
+<pre><code>&gt; output1$fit$summary(c("mu_xi", "mu_ep", "mu_rho"))
+# A tibble: 3 × 10
+  variable  mean median    sd   mad    q5   q95  rhat ess_bulk ess_tail
+  &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1 mu_xi     0.03   0.03  0.02  0.02  0.00  0.07  1.00     2316     2780
+2 mu_ep     0.15   0.15  0.02  0.02  0.11  0.19  1.00     4402     3120
+3 mu_rho    5.97   5.89  0.72  0.71  4.76  7.61  1.00     3821     3055</code></pre>
+<p>Or call <code>rhat(output1)</code> for an hBayesDM-friendly Rhat
+data.frame (see Section 3 below).</p>
 <p><span class="math inline">\(\hat{R}\)</span> (<code>Rhat</code>) is
-an index of the convergence of the chains. <span class="math inline">\(\hat{R}\)</span> values close to 1.00 would
-indicate that MCMC chains are converged to stationary target
-distributions. When we check MCMC performance of our models on sample
-data, <span class="math inline">\(\hat{R}\)</span> values are 1.00 for
-most parameters or at most 1.04.</p>
+an index of MCMC convergence. Values close to 1.00 indicate that the
+chains have converged to a stationary target distribution. On hBayesDM
+example data, most parameters reach <span class="math inline">\(\hat{R}
+\le 1.01\)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="plot-model-parameters">3) Plot model parameters<a class="anchor" aria-label="anchor" href="#plot-model-parameters"></a>
 </h3>
-<p>Make sure to visually diagnose MCMC performance (i.e., visually check
-whether MCMC samples are well mixed and converged to stationary
-distributions). For the diagnosis or visualization of hyper (group)
-parameters, you can use <code>plot.hBayesDM</code> or just
-<code>plot</code>, which searches for an extension function that
-contains the class name. The class of any hBayesDM output is
-<code>hBayesDM</code>:</p>
-<p>Let’s first visually diagnose MCMC performance of hyper parameters
-with trace plots:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, fontSize<span class="op">=</span><span class="fl">11</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters. Set font size 11.</span></span></code></pre></div>
+<p>Always visually diagnose MCMC performance (well-mixed, stationary
+chains) before interpreting parameter estimates. For hyper-parameters,
+use <code>plot.hBayesDM</code> (or just <code>plot</code> — S3 dispatch
+picks it up since the result inherits from <code>hBayesDM</code>).
+Plotting is backed by <a href="https://mc-stan.org/bayesplot/" class="external-link">bayesplot</a>.</p>
+<p>Trace plots of the hyper-parameters:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span><span class="op">)</span>   <span class="co"># traceplot via bayesplot::mcmc_trace</span></span></code></pre></div>
+<p><img src="getting_started_files/figure-html/unnamed-chunk-10-1.png"><!-- --></p>
+<p>Well-mixed traces look like “fuzzy caterpillars” and confirm what the
+<span class="math inline">\(\hat{R}\)</span> values suggest (see <a href="http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains" class="external-link">this
+StackExchange thread</a> for why mixing matters). Trace plots show
+post-warmup draws only.</p>
+<p>For posterior interval / density plots of the hyper-parameters:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"simple"</span><span class="op">)</span>  <span class="co"># bayesplot::mcmc_intervals</span></span></code></pre></div>
 <p><img src="getting_started_files/figure-html/unnamed-chunk-11-1.png"><!-- --></p>
-<p>The trace plots indicate that MCMC samples are indeed well mixed and
-converged, which is consistent with their <span class="math inline">\(\hat{R}\)</span> values (see <a href="http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains" class="external-link"><strong>here</strong></a>
-for some discussion on why we care about mixing). Note that the plots
-above exclude burn-in samples. If you want, you can include burn-in
-(warmup) MCMC samples.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span>, type<span class="op">=</span><span class="st">"trace"</span>, inc_warmup<span class="op">=</span><span class="cn">T</span><span class="op">)</span>   <span class="co"># traceplot of hyper parameters w/ warmup samples</span></span></code></pre></div>
-<p><img src="getting_started_files/figure-html/unnamed-chunk-12-1.png"><!-- --></p>
-<p>You can also plot the posterior distributions of the hyper (group)
-parameters with <code>plot</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output1</span><span class="op">)</span>                 <span class="co"># type="dist" — per-model density plots</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(density)` instead.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">hBayesDM</span> package.</span></span>
 <span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/CCS-Lab/hBayesDM/issues&gt;</span>.</span></span>
-<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">## <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
 <span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
 <span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
-<p><img src="getting_started_files/figure-html/unnamed-chunk-13-1.png"><!-- --><!--
-$\epsilon_i \sim \text{Normal}(0.05, 0.01)$
-$\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
---></p>
-<p>To visualize individual parameters, you can use our newly updated
-function called <code>plotInd</code> (based on Stan’s native function
-<code>stan_plot</code>). For example, to plot each individual’s <span class="math inline">\(\epsilon\)</span> (learning rate) parameter (e.g.,
-individual posterior distributions):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotInd.html">plotInd</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting_started_files/figure-html/unnamed-chunk-14-1.png"><!-- --></p>
+<p><img src="getting_started_files/figure-html/unnamed-chunk-11-2.png"><!-- --></p>
+<p>To inspect individual subjects, use <code><a href="../reference/plot_ind.html">plot_ind()</a></code> (built on
+<code><a href="https://mc-stan.org/bayesplot/reference/MCMC-intervals.html" class="external-link">bayesplot::mcmc_areas</a></code> / <code>mcmc_intervals</code>). For
+example, each subject’s <span class="math inline">\(\epsilon\)</span>
+(learning rate) posterior:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_ind.html">plot_ind</a></span><span class="op">(</span><span class="va">output1</span>, <span class="st">"ep"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting_started_files/figure-html/unnamed-chunk-12-1.png"><!-- --></p>
+<p>You can also call <code>rhat(output1)</code> to get a data.frame of
+Rhat values, or <code>rhat(output1, less = 1.05)</code> to get a
+<code>TRUE</code>/<code>FALSE</code> summary check.</p>
 <!--
-Their posterior means are also stored in `OUTPUT_object$allIndPars`:
+Their posterior means are also stored in `OUTPUT_object$all_ind_pars`:
 
 ``` r
-output1$allIndPars
+output1$all_ind_pars
 ```
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03936406 0.1390464 5.984567
-## 2       2 0.03619497 0.1610141 6.165139
-## 3       3 0.04313709 0.1280674 5.941669
-## 4       4 0.03132933 0.1495030 6.237969
-## 5       5 0.03477564 0.1495460 6.181487
-## 6       6 0.04173183 0.1539655 6.306257
-## 7       7 0.04324623 0.1483298 5.799157
-## 8       8 0.03465968 0.1603248 6.530577
-## 9       9 0.04022475 0.1454805 6.075577
-## 10     10 0.04777279 0.1309865 5.541290
+## 1       1 0.03897796 0.1397173 5.966414
+## 2       2 0.03557815 0.1617626 6.149581
+## 3       3 0.04238519 0.1280776 5.925848
+## 4       4 0.03145392 0.1492270 6.231363
+## 5       5 0.03443664 0.1495206 6.158726
+## 6       6 0.04086663 0.1540498 6.284718
+## 7       7 0.04289236 0.1491891 5.778701
+## 8       8 0.03409124 0.1606623 6.529559
+## 9       9 0.03956299 0.1457318 6.053287
+## 10     10 0.04735283 0.1311994 5.539021
 ```
 -->
 </div>
@@ -605,18 +488,19 @@ output1$allIndPars
 <p>To compare models, you first fit all models in the same manner as the
 example above (e.g.,
 <code>output4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)</code>
-). Next, we use the command <code>printFit</code>, which is a convenient
-way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely
-Applicable Information Criterion (WAIC) of all models we consider (see
-<span class="citation">Vehtari et al. (2015)</span> for the details of
-LOOIC and WAIC). By default, <code>printFit</code> function uses the
-LOOIC which is preferable to the WAIC when there are influential
-observations <span class="citation">(Vehtari et al., 2015)</span>.</p>
+). Next, we use the command <code>print_fit</code>, which is a
+convenient way to summarize Leave-One-Out Information Criterion (LOOIC)
+or Widely Applicable Information Criterion (WAIC) of all models we
+consider (see <span class="citation">Vehtari et al. (2015)</span> for
+the details of LOOIC and WAIC). By default, <code>print_fit</code>
+function uses the LOOIC which is preferable to the WAIC when there are
+influential observations <span class="citation">(Vehtari et al.,
+2015)</span>.</p>
 <p>Assuming four models’ outputs are <code>output1</code> (gng_m1),
 <code>output2</code> (gng_m2), <code>output3</code> (gng_m3), and
 <code>output4</code> (gng_m4), their model fits can be simultaneously
 summarized by:</p>
-<pre><code>&gt; printFit(output1, output2, output3, output4)
+<pre><code>&gt; print_fit(output1, output2, output3, output4)
    Model    LOOIC
 1 gng_m1 1588.843
 2 gng_m2 1571.129
@@ -625,8 +509,8 @@ summarized by:</p>
 <p>Note that the lower LOOIC is, the better its model-fit is. Thus,
 model#4 has the best LOOIC compared to other models. Users can print
 WAIC or both by calling
-<code>printFit(output1, output2, output3, output4, ic="waic")</code> or
-<code>printFit(output1, output2, output3, output4, ic="both")</code>.
+<code>print_fit(output1, output2, output3, output4, ic="waic")</code> or
+<code>print_fit(output1, output2, output3, output4, ic="both")</code>.
 Use the <code>extract_ic</code> function (e.g.,
 <code>extract_ic(output3)</code> ) if you want more detailed information
 including standard errors and expected log pointwise predictive density
@@ -646,7 +530,7 @@ of multiple model comparison methods).</p>
 <p>To compare two groups in a Bayesian fashion <span class="citation">(e.g., Ahn et al., 2014)</span>, first you need to fit
 each group with the same model and ideally the same number of MCMC
 samples. For example,</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_group1</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group1.txt"</span>  <span class="co"># data file for group1</span></span>
 <span><span class="va">data_group2</span> <span class="op">=</span> <span class="st">"~/Project_folder/gng_data_group2.txt"</span>  <span class="co"># data file for group2</span></span>
 <span></span>
@@ -656,9 +540,9 @@ samples. For example,</p>
 <span><span class="co">## After model fitting is complete for both groups,</span></span>
 <span><span class="co">## evaluate the group difference (e.g., on the 'pi' parameter) by examining the posterior distribution of group mean differences.</span></span>
 <span></span>
-<span><span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">parVals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2</span></span>
-<span><span class="fu"><a href="../reference/HDIofMCMC.html">HDIofMCMC</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI).</span></span>
-<span><span class="fu"><a href="../reference/plotHDI.html">plotHDI</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>    <span class="co"># plot the group mean differences</span></span></code></pre></div>
+<span><span class="va">diffDist</span> <span class="op">=</span> <span class="va">output_group1</span><span class="op">$</span><span class="va">par_vals</span><span class="op">$</span><span class="va">mu_pi</span> <span class="op">-</span> <span class="va">output_group2</span><span class="op">$</span><span class="va">par_vals</span><span class="op">$</span><span class="va">mu_pi</span>  <span class="co"># group1 - group2</span></span>
+<span><span class="fu"><a href="../reference/hdi.html">hdi</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>  <span class="co"># Compute the 95% Highest Density Interval (HDI).</span></span>
+<span><span class="fu"><a href="../reference/plot_hdi.html">plot_hdi</a></span><span class="op">(</span> <span class="va">diffDist</span> <span class="op">)</span>    <span class="co"># plot the group mean differences</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="extracting-trial-by-trial-regressors-for-model-based-fmrieeg-analysis">5) Extracting trial-by-trial regressors for model-based fMRI/EEG
@@ -682,12 +566,12 @@ model-based fMRI analysis. See our <a href="https://www.mitpressjournals.org/doi
 Analysis</strong>) for more details.</p>
 <p>As an example, if you would like to extract trial-by-trial stimulus
 values (i.e., expected value of stimulus on each trial), first fit a
-model like the following (set the <code>modelRegressor</code> input
+model like the following (set the <code>model_regressor</code> input
 variable to <code>TRUE</code>. Its default value is
 <code>FALSE</code>):</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## fit example data with the gng_m3 model</span></span>
-<span><span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, modelRegressor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, niter<span class="op">=</span><span class="fl">2000</span>, nwarmup<span class="op">=</span><span class="fl">1000</span>, model_regressor<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in gng_m3(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Model name  = gng_m3 </span></span>
@@ -709,131 +593,51 @@ variable to <code>TRUE</code>. Its default value is
 <span><span class="co">## ****************************************</span></span>
 <span><span class="co">## ** Use VB estimates as initial values **</span></span>
 <span><span class="co">## ****************************************</span></span>
-<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
-<span><span class="co">## Chain 1: EXPERIMENTAL ALGORITHM:</span></span>
-<span><span class="co">## Chain 1:   This procedure has not been thoroughly tested and may be unstable</span></span>
-<span><span class="co">## Chain 1:   or buggy. The interface is subject to change.</span></span>
-<span><span class="co">## Chain 1: ------------------------------------------------------------</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Gradient evaluation took 0.001481 seconds</span></span>
-<span><span class="co">## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 14.81 seconds.</span></span>
-<span><span class="co">## Chain 1: Adjust your expectations accordingly!</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Begin eta adaptation.</span></span>
-<span><span class="co">## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Iteration: 250 / 250 [100%]  (Adaptation)</span></span>
-<span><span class="co">## Chain 1: Success! Found best value [eta = 0.1].</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Begin stochastic gradient ascent.</span></span>
-<span><span class="co">## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes </span></span>
-<span><span class="co">## Chain 1:    100        -1564.077             1.000            1.000</span></span>
-<span><span class="co">## Chain 1:    200        -1207.862             0.647            1.000</span></span>
-<span><span class="co">## Chain 1:    300        -1018.511             0.494            0.295</span></span>
-<span><span class="co">## Chain 1:    400         -914.924             0.399            0.295</span></span>
-<span><span class="co">## Chain 1:    500         -874.324             0.328            0.186</span></span>
-<span><span class="co">## Chain 1:    600         -859.858             0.276            0.186</span></span>
-<span><span class="co">## Chain 1:    700         -847.864             0.239            0.113</span></span>
-<span><span class="co">## Chain 1:    800         -836.977             0.211            0.113</span></span>
-<span><span class="co">## Chain 1:    900         -833.079             0.188            0.046</span></span>
-<span><span class="co">## Chain 1:   1000         -827.820             0.170            0.046</span></span>
-<span><span class="co">## Chain 1:   1100         -825.730             0.070            0.017</span></span>
-<span><span class="co">## Chain 1:   1200         -821.894             0.041            0.014</span></span>
-<span><span class="co">## Chain 1:   1300         -820.386             0.022            0.013</span></span>
-<span><span class="co">## Chain 1:   1400         -820.266             0.011            0.006   MEDIAN ELBO CONVERGED</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1: Drawing a sample of size 1000 from the approximate posterior... </span></span>
-<span><span class="co">## Chain 1: COMPLETED.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Pareto k diagnostic value is 1.44. Resampling is disabled. Decreasing</span></span>
-<span><span class="co">## tol_rel_obj may help if variational algorithm has terminated prematurely.</span></span>
-<span><span class="co">## Otherwise consider using sampling instead.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## ------------------------------------------------------------ </span></span>
+<span><span class="co">## EXPERIMENTAL ALGORITHM: </span></span>
+<span><span class="co">##   This procedure has not been thoroughly tested and may be unstable </span></span>
+<span><span class="co">##   or buggy. The interface is subject to change. </span></span>
+<span><span class="co">## ------------------------------------------------------------ </span></span>
+<span><span class="co">## Gradient evaluation took 0.000695 seconds </span></span>
+<span><span class="co">## 1000 transitions using 10 leapfrog steps per transition would take 6.95 seconds. </span></span>
+<span><span class="co">## Adjust your expectations accordingly! </span></span>
+<span><span class="co">## Begin eta adaptation. </span></span>
+<span><span class="co">## Iteration:   1 / 250 [  0%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration:  50 / 250 [ 20%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration: 100 / 250 [ 40%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration: 150 / 250 [ 60%]  (Adaptation) </span></span>
+<span><span class="co">## Iteration: 200 / 250 [ 80%]  (Adaptation) </span></span>
+<span><span class="co">## Success! Found best value [eta = 1] earlier than expected. </span></span>
+<span><span class="co">## Begin stochastic gradient ascent. </span></span>
+<span><span class="co">##   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes  </span></span>
+<span><span class="co">##    100         -829.292             1.000            1.000 </span></span>
+<span><span class="co">##    200         -817.856             0.507            1.000 </span></span>
+<span><span class="co">##    300         -818.345             0.338            0.014 </span></span>
+<span><span class="co">##    400         -816.956             0.254            0.014 </span></span>
+<span><span class="co">##    500         -816.838             0.203            0.002   MEDIAN ELBO CONVERGED </span></span>
+<span><span class="co">## Drawing a sample of size 1000 from the approximate posterior...  </span></span>
+<span><span class="co">## COMPLETED. </span></span>
+<span><span class="co">## Finished in  4.1 seconds.</span></span>
+<span><span class="co">## </span></span>
 <span><span class="co">## ************************************</span></span>
 <span><span class="co">## **** Model fitting is complete! ****</span></span>
-<span><span class="co">## ************************************</span></span>
-<span><span class="co">## in 4: 1000 transitions using 10 leapfrog steps per transition would take 50.78 seconds.</span></span>
-<span><span class="co">## Chain 4: Adjust your expectations accordingly!</span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span></span>
-<span><span class="co">## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 1:  Elapsed Time: 42.035 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 1:                28.483 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 1:                70.518 seconds (Total)</span></span>
-<span><span class="co">## Chain 1: </span></span>
-<span><span class="co">## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## Chain 4:  Elapsed Time: 38.329 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 4:                18.656 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 4:                56.985 seconds (Total)</span></span>
-<span><span class="co">## Chain 4: </span></span>
-<span><span class="co">## Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
-<span><span class="co">## Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
-<span><span class="co">## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 2: </span></span>
-<span><span class="co">## Chain 2:  Elapsed Time: 33.552 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 2:                20.771 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 2:                54.323 seconds (Total)</span></span>
-<span><span class="co">## Chain 2: </span></span>
-<span><span class="co">## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span></span>
-<span><span class="co">## Chain 3: </span></span>
-<span><span class="co">## Chain 3:  Elapsed Time: 33.776 seconds (Warm-up)</span></span>
-<span><span class="co">## Chain 3:                20.867 seconds (Sampling)</span></span>
-<span><span class="co">## Chain 3:                54.643 seconds (Total)</span></span>
-<span><span class="co">## Chain 3: </span></span>
-<span><span class="co">## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span></span>
-<span><span class="co">## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span></span></code></pre>
+<span><span class="co">## ************************************</span></span></code></pre>
 <p>Once the sampling is completed, all model-based regressors are
-contained in the <code>modelRegressor</code> list.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+contained in the <code>model_regressor</code> list.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## store all subjects' stimulus value (SV) in ‘sv_all’</span></span>
-<span><span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span></span>
+<span><span class="va">sv_all</span> <span class="op">=</span> <span class="va">output3</span><span class="op">$</span><span class="va">model_regressor</span><span class="op">$</span><span class="va">SV</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">output3</span><span class="op">$</span><span class="va">modelRegressor</span><span class="op">$</span><span class="va">SV</span><span class="op">)</span>  <span class="co"># number of rows=# of subjects (=10), number of columns=# of trials (=240)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">output3</span><span class="op">$</span><span class="va">model_regressor</span><span class="op">$</span><span class="va">SV</span><span class="op">)</span>  <span class="co"># number of rows=# of subjects (=10), number of columns=# of trials (=240)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1]  10 240</span></span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## visualize SV (Subject #1)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #1)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting_started_files/figure-html/unnamed-chunk-20-1.png"><!-- --></p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<p><img src="getting_started_files/figure-html/unnamed-chunk-18-1.png"><!-- --></p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## visualize SV (Subject #5)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sv_all</span><span class="op">[</span><span class="fl">5</span>, <span class="op">]</span>, type<span class="op">=</span><span class="st">"l"</span>, xlab<span class="op">=</span><span class="st">"Trial"</span>, ylab<span class="op">=</span><span class="st">"Stimulus Value (subject #5)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting_started_files/figure-html/unnamed-chunk-20-2.png"><!-- --></p>
+<p><img src="getting_started_files/figure-html/unnamed-chunk-18-2.png"><!-- --></p>
 <p>Similarly, users can extract and visualize other model-based
 regressors. <strong>W(Go)</strong>, <strong>W(NoGo)</strong>,
 <strong>Q(Go)</strong>, <strong>Q(NoGo)</strong> are stored in
@@ -843,22 +647,20 @@ regressors. <strong>W(Go)</strong>, <strong>W(NoGo)</strong>,
 <div class="section level3">
 <h3 id="variational-inference-for-approximate-posterior-sampling">6) Variational inference for approximate posterior sampling<a class="anchor" aria-label="anchor" href="#variational-inference-for-approximate-posterior-sampling"></a>
 </h3>
-<p>To use Stan’s variational algorithm for approximate posterior
-sampling in hBayesDM, users just need to set <code>vb=TRUE</code>
-(default = <code>FALSE</code>). It takes very little time (especially
-with precompiled models) to do variational inference - try it yourself
-for any model!! But variational inference should be used only to get a
-rough estimate. It is recommended that users use MCMC for final
-inferences.</p>
-<p>For example, to run <code>gng_m3</code> using variational
-inference:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## fit example data with the gng_m3 model</span></span>
-<span><span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, vb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Note that input arguments for MCMC sampling (e.g.,
-<code>nchain</code>, <code>niter</code>, <code>nthin</code>,
-<code>nwarmup</code>) are not specified here. <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-vb.html" class="external-link">?rstan::vb</a></code>
-for more details.</p>
+<p>Set <code>vb = TRUE</code> (default <code>FALSE</code>) to use Stan’s
+variational algorithm —
+<code>cmdstanr::CmdStanModel$variational()</code> under the hood — for
+approximate posterior sampling. VB completes in seconds and is useful
+for quick exploration, but final inferences should use MCMC.</p>
+<p>To run <code>gng_m3</code> with VB:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">output3</span> <span class="op">=</span> <span class="fu"><a href="../reference/gng_m3.html">gng_m3</a></span><span class="op">(</span>data<span class="op">=</span><span class="st">"example"</span>, vb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>MCMC arguments (<code>nchain</code>, <code>niter</code>,
+<code>nthin</code>, <code>nwarmup</code>) don’t apply when
+<code>vb = TRUE</code>. The returned <code>fit</code> is a
+<code>CmdStanVB</code> object instead of <code>CmdStanMCMC</code>. See
+<a href="https://mc-stan.org/cmdstanr/reference/model-method-variational.html" class="external-link"><code>?cmdstanr::CmdStanModel$variational</code></a>
+for the underlying Stan options.</p>
 </div>
 <div class="section level3">
 <h3 id="posterior-predictive-checks">7) Posterior predictive checks<a class="anchor" aria-label="anchor" href="#posterior-predictive-checks"></a>
@@ -870,40 +672,40 @@ useful in assessing if a model generates valid predictions.</p>
 <p>From v0.5.0, users can run posterior predictive checks on all models
 except drift-diffusion models in hBayesDM. Simulated data from posterior
 predictive checks are contained in
-<code>hBayesDM_OUTPUT$parVals$y_pred</code>. In a future release, we
+<code>hBayesDM_OUTPUT$par_vals$y_pred</code>. In a future release, we
 will include a function/command that can conveniently summarize and plot
 posterior predictive checks. In the mean time, users can program their
 own codes like the following:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="do">## fit example data with the gng_m3 model and run posterior predictive checks</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">gng_m3</span>(<span class="at">data=</span><span class="st">"example"</span>, <span class="at">niter=</span><span class="dv">2000</span>, <span class="at">nwarmup=</span><span class="dv">1000</span>, <span class="at">nchain=</span><span class="dv">4</span>, <span class="at">ncore=</span><span class="dv">4</span>, <span class="at">inc_postpred =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="do">## dimension of x$parVals$y_pred</span></span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="fu">dim</span>(x<span class="sc">$</span>parVals<span class="sc">$</span>y_pred)   <span class="co"># y_pred --&gt; 4000 (MCMC samples) x 10 (subjects) x 240 (trials)</span></span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">4000</span>  <span class="dv">10</span>  <span class="dv">240</span></span>
-<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>y_pred_mean <span class="ot">=</span> <span class="fu">apply</span>(x<span class="sc">$</span>parVals<span class="sc">$</span>y_pred, <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), mean)  <span class="co"># average of 4000 MCMC samples</span></span>
-<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a><span class="fu">dim</span>(y_pred_mean)  <span class="co"># y_pred_mean --&gt; 10 (subjects) x 240 (trials)</span></span>
-<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>[<span class="dv">1</span>]  <span class="dv">10</span> <span class="dv">240</span></span>
-<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a></span>
-<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a>numSubjs <span class="ot">=</span> <span class="fu">dim</span>(x<span class="sc">$</span>allIndPars)[<span class="dv">1</span>]  <span class="co"># number of subjects</span></span>
-<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a></span>
-<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>subjList <span class="ot">=</span> <span class="fu">unique</span>(x<span class="sc">$</span>rawdata<span class="sc">$</span>subjID)  <span class="co"># list of subject IDs</span></span>
-<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a>maxT <span class="ot">=</span> <span class="fu">max</span>(<span class="fu">table</span>(x<span class="sc">$</span>rawdata<span class="sc">$</span>subjID))  <span class="co"># maximum number of trials</span></span>
-<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a>true_y <span class="ot">=</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(numSubjs, maxT)) <span class="co"># true data (`true_y`)</span></span>
-<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a></span>
-<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a><span class="do">## true data for each subject</span></span>
-<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>numSubjs) {</span>
-<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a>  tmpID <span class="ot">=</span> subjList[i]</span>
-<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a>  tmpData <span class="ot">=</span> <span class="fu">subset</span>(x<span class="sc">$</span>rawdata, subjID <span class="sc">==</span> tmpID)</span>
-<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a>  true_y[i, ] <span class="ot">=</span> tmpData<span class="sc">$</span>keyPressed  <span class="co"># only for data with a 'choice' column</span></span>
-<span id="cb35-24"><a href="#cb35-24" tabindex="-1"></a>}</span>
-<span id="cb35-25"><a href="#cb35-25" tabindex="-1"></a></span>
-<span id="cb35-26"><a href="#cb35-26" tabindex="-1"></a><span class="do">## Subject #1</span></span>
-<span id="cb35-27"><a href="#cb35-27" tabindex="-1"></a><span class="fu">plot</span>(true_y[<span class="dv">1</span>, ], <span class="at">type=</span><span class="st">"l"</span>, <span class="at">xlab=</span><span class="st">"Trial"</span>, <span class="at">ylab=</span><span class="st">"Choice (0 or 1)"</span>, <span class="at">yaxt=</span><span class="st">"n"</span>)</span>
-<span id="cb35-28"><a href="#cb35-28" tabindex="-1"></a><span class="fu">lines</span>(y_pred_mean[<span class="dv">1</span>,], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
-<span id="cb35-29"><a href="#cb35-29" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side=</span><span class="dv">2</span>, <span class="at">at =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>) )</span>
-<span id="cb35-30"><a href="#cb35-30" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"True"</span>, <span class="st">"PPC"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>), <span class="at">lty=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="do">## fit example data with the gng_m3 model and run posterior predictive checks</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">gng_m3</span>(<span class="at">data=</span><span class="st">"example"</span>, <span class="at">niter=</span><span class="dv">2000</span>, <span class="at">nwarmup=</span><span class="dv">1000</span>, <span class="at">nchain=</span><span class="dv">4</span>, <span class="at">ncore=</span><span class="dv">4</span>, <span class="at">inc_postpred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="do">## dimension of x$par_vals$y_pred</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a><span class="fu">dim</span>(x<span class="sc">$</span>par_vals<span class="sc">$</span>y_pred)   <span class="co"># y_pred --&gt; 4000 (MCMC samples) x 10 (subjects) x 240 (trials)</span></span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">4000</span>  <span class="dv">10</span>  <span class="dv">240</span></span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>y_pred_mean <span class="ot">=</span> <span class="fu">apply</span>(x<span class="sc">$</span>par_vals<span class="sc">$</span>y_pred, <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), mean)  <span class="co"># average of 4000 MCMC samples</span></span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a><span class="fu">dim</span>(y_pred_mean)  <span class="co"># y_pred_mean --&gt; 10 (subjects) x 240 (trials)</span></span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>[<span class="dv">1</span>]  <span class="dv">10</span> <span class="dv">240</span></span>
+<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>numSubjs <span class="ot">=</span> <span class="fu">dim</span>(x<span class="sc">$</span>all_ind_pars)[<span class="dv">1</span>]  <span class="co"># number of subjects</span></span>
+<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a>subjList <span class="ot">=</span> <span class="fu">unique</span>(x<span class="sc">$</span>raw_data<span class="sc">$</span>subjID)  <span class="co"># list of subject IDs</span></span>
+<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a>maxT <span class="ot">=</span> <span class="fu">max</span>(<span class="fu">table</span>(x<span class="sc">$</span>raw_data<span class="sc">$</span>subjID))  <span class="co"># maximum number of trials</span></span>
+<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a>true_y <span class="ot">=</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(numSubjs, maxT)) <span class="co"># true data (`true_y`)</span></span>
+<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a><span class="do">## true data for each subject</span></span>
+<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>numSubjs) {</span>
+<span id="cb30-21"><a href="#cb30-21" tabindex="-1"></a>  tmpID <span class="ot">=</span> subjList[i]</span>
+<span id="cb30-22"><a href="#cb30-22" tabindex="-1"></a>  tmpData <span class="ot">=</span> <span class="fu">subset</span>(x<span class="sc">$</span>raw_data, subjID <span class="sc">==</span> tmpID)</span>
+<span id="cb30-23"><a href="#cb30-23" tabindex="-1"></a>  true_y[i, ] <span class="ot">=</span> tmpData<span class="sc">$</span>keyPressed  <span class="co"># only for data with a 'choice' column</span></span>
+<span id="cb30-24"><a href="#cb30-24" tabindex="-1"></a>}</span>
+<span id="cb30-25"><a href="#cb30-25" tabindex="-1"></a></span>
+<span id="cb30-26"><a href="#cb30-26" tabindex="-1"></a><span class="do">## Subject #1</span></span>
+<span id="cb30-27"><a href="#cb30-27" tabindex="-1"></a><span class="fu">plot</span>(true_y[<span class="dv">1</span>, ], <span class="at">type=</span><span class="st">"l"</span>, <span class="at">xlab=</span><span class="st">"Trial"</span>, <span class="at">ylab=</span><span class="st">"Choice (0 or 1)"</span>, <span class="at">yaxt=</span><span class="st">"n"</span>)</span>
+<span id="cb30-28"><a href="#cb30-28" tabindex="-1"></a><span class="fu">lines</span>(y_pred_mean[<span class="dv">1</span>,], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb30-29"><a href="#cb30-29" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side=</span><span class="dv">2</span>, <span class="at">at =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>) )</span>
+<span id="cb30-30"><a href="#cb30-30" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"True"</span>, <span class="st">"PPC"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>), <span class="at">lty=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="images/getting_started/PPC.png"></p>
 </div>
 </div>
@@ -928,16 +730,16 @@ different drift rates for multiple conditions).</li>
 <p>If you used hBayesDM or some of its codes for your research, please
 cite <a href="https://www.mitpressjournals.org/doi/full/10.1162/CPSY_a_00002" class="external-link">this
 paper</a>:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">hBayesDM</span>,</span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},</span>
-<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},</span>
-<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>  <span class="dt">journal</span> = {Computational Psychiatry},</span>
-<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>  <span class="dt">year</span> = {2017},</span>
-<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>  <span class="dt">volume</span> = {1},</span>
-<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>  <span class="dt">pages</span> = {24--57},</span>
-<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>  <span class="dt">publisher</span> = {MIT Press},</span>
-<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a>  <span class="dt">url</span> = {doi:10.1162/CPSY_a_00002},</span>
-<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">hBayesDM</span>,</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="dt">title</span> = {Revealing Neurocomputational Mechanisms of Reinforcement Learning and Decision-Making With the {hBayesDM} Package},</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="dt">author</span> = {Ahn, Woo-Young and Haines, Nathaniel and Zhang, Lei},</span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>  <span class="dt">journal</span> = {Computational Psychiatry},</span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="dt">year</span> = {2017},</span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>  <span class="dt">volume</span> = {1},</span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>  <span class="dt">pages</span> = {24--57},</span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>  <span class="dt">publisher</span> = {MIT Press},</span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>  <span class="dt">url</span> = {doi:10.1162/CPSY_a_00002},</span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="papers-citing-hbayesdm">Papers citing hBayesDM<a class="anchor" aria-label="anchor" href="#papers-citing-hbayesdm"></a>

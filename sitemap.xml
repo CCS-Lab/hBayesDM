@@ -6,7 +6,6 @@
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
-<url><loc>/reference/HDIofMCMC.html</loc></url>
 <url><loc>/reference/alt_delta.html</loc></url>
 <url><loc>/reference/alt_gamma.html</loc></url>
 <url><loc>/reference/bandit2arm_delta.html</loc></url>
@@ -38,6 +37,11 @@
 <url><loc>/reference/dd_exp.html</loc></url>
 <url><loc>/reference/dd_hyperbolic.html</loc></url>
 <url><loc>/reference/dd_hyperbolic_single.html</loc></url>
+<url><loc>/reference/dot-hbayesdm_compile.html</loc></url>
+<url><loc>/reference/dot-hbayesdm_extract.html</loc></url>
+<url><loc>/reference/dot-hbayesdm_fit.html</loc></url>
+<url><loc>/reference/dot-hbayesdm_resolve_inits.html</loc></url>
+<url><loc>/reference/dot-hbayesdm_stan_file.html</loc></url>
 <url><loc>/reference/estimate_mode.html</loc></url>
 <url><loc>/reference/extract_ic.html</loc></url>
 <url><loc>/reference/gng_m1.html</loc></url>
@@ -46,6 +50,8 @@
 <url><loc>/reference/gng_m4.html</loc></url>
 <url><loc>/reference/hBayesDM-package.html</loc></url>
 <url><loc>/reference/hBayesDM_model.html</loc></url>
+<url><loc>/reference/hbayesdm-cmdstan.html</loc></url>
+<url><loc>/reference/hdi.html</loc></url>
 <url><loc>/reference/hgf_ibrb.html</loc></url>
 <url><loc>/reference/hgf_ibrb_single.html</loc></url>
 <url><loc>/reference/igt_orl.html</loc></url>
@@ -56,10 +62,10 @@
 <url><loc>/reference/multiplot.html</loc></url>
 <url><loc>/reference/peer_ocu.html</loc></url>
 <url><loc>/reference/plot.hBayesDM.html</loc></url>
-<url><loc>/reference/plotDist.html</loc></url>
-<url><loc>/reference/plotHDI.html</loc></url>
-<url><loc>/reference/plotInd.html</loc></url>
-<url><loc>/reference/printFit.html</loc></url>
+<url><loc>/reference/plot_dist.html</loc></url>
+<url><loc>/reference/plot_hdi.html</loc></url>
+<url><loc>/reference/plot_ind.html</loc></url>
+<url><loc>/reference/print_fit.html</loc></url>
 <url><loc>/reference/prl_ewa.html</loc></url>
 <url><loc>/reference/prl_fictitious.html</loc></url>
 <url><loc>/reference/prl_fictitious_multipleB.html</loc></url>

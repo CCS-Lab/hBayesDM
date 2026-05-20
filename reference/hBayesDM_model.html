@@ -18,7 +18,7 @@ Contributor: Jethro Lee"><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0.9000</span>
       </span>
     </div>
 
@@ -113,9 +113,9 @@ this model, <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-stanmodel-arg">stanmodel_arg<a class="anchor" aria-label="anchor" href="#arg-stanmodel-arg"></a></dt>
-<dd><p>Leave as <code>NULL</code> (default) for completed models. Else should either be a
-character value (specifying the name of a Stan file) OR a <code>stanmodel</code> object (returned as
-a result of running <code><a href="https://mc-stan.org/rstan/reference/stan_model.html" class="external-link">stan_model</a></code>).</p></dd>
+<dd><p>Leave as <code>NULL</code> (default) for completed models. Else should be either a
+character value (the path to a Stan file) or a pre-compiled <code><a href="https://mc-stan.org/cmdstanr/reference/CmdStanModel.html" class="external-link">cmdstanr::CmdStanModel</a></code>
+object.</p></dd>
 
 
 <dt id="arg-preprocess-func">preprocess_func<a class="anchor" aria-label="anchor" href="#arg-preprocess-func"></a></dt>
@@ -167,7 +167,7 @@ Should return a list object <code>data_list</code>, which will then directly be 
   written in the specific model R file.<br>
 Arguments for this function are:</p><dl><dt><code>raw_data</code></dt>
 <dd><p>A data.table that holds the raw user data, which was read by using
-    <code><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">fread</a></code>.</p></dd>
+    <code><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">fread</a></code>.</p></dd>
 
   <dt><code>general_info</code></dt>
 <dd><p>A list that holds the general informations about the raw data, i.e.

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0.9000</span>
       </span>
     </div>
 
@@ -85,12 +85,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/CCS-Lab/hBayesDM" class="external-link">hBayesDM</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="bandit2arm_delta.html">bandit2arm_delta</a></span><span class="op">(</span><span class="st">"example"</span>, niter <span class="op">=</span> <span class="fl">2000</span>, nwarmup <span class="op">=</span> <span class="fl">1000</span>, nchain <span class="op">=</span> <span class="fl">4</span>, ncore <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># To show the LOOIC model fit estimates (a detailed report; c)</span></span></span>
 <span class="r-in"><span><span class="fu">extract_ic</span><span class="op">(</span><span class="va">output</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># To show the WAIC model fit estimates</span></span></span>
 <span class="r-in"><span><span class="fu">extract_ic</span><span class="op">(</span><span class="va">output</span>, ic <span class="op">=</span> <span class="st">"waic"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

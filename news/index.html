@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0.9000</span>
       </span>
     </div>
 
@@ -50,6 +50,51 @@
       <small>Source: <a href="https://github.com/CCS-Lab/hBayesDM/blob/develop/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.0.0" id="hbayesdm-200-in-development">hBayesDM 2.0.0 (in development)<a class="anchor" aria-label="anchor" href="#hbayesdm-200-in-development"></a></h2>
+<p>Major refactor; <strong>breaking changes</strong>.</p>
+<div class="section level3">
+<h3 id="backend-swap-rstan--cmdstanr-2-0-0">Backend swap: rstan → cmdstanr<a class="anchor" aria-label="anchor" href="#backend-swap-rstan--cmdstanr-2-0-0"></a></h3>
+<ul><li>The Stan backend is now <a href="https://mc-stan.org/users/interfaces/cmdstan" class="external-link"><strong>CmdStan</strong></a> via <a href="https://mc-stan.org/cmdstanr/" class="external-link"><strong>cmdstanr</strong></a>, replacing rstan. CmdStan is a system dependency, not a CRAN package — install it once with <code><a href="https://mc-stan.org/cmdstanr/reference/install_cmdstan.html" class="external-link">cmdstanr::install_cmdstan()</a></code> after installing cmdstanr from the Stan r-universe (see README).</li>
+<li>The <code>fit</code> slot on the result object is now a <strong><code>CmdStanMCMC</code></strong> object (or <strong><code>CmdStanVB</code></strong> when <code>vb = TRUE</code>), no longer a <code>rstan::stanfit</code>. Methods that used to apply directly (e.g. <code>rstan::extract(fit)</code>) need to be replaced with the cmdstanr / posterior equivalents — <code>fit$draws()</code>, <code>fit$summary()</code>, <code>posterior::as_draws_*()</code>, etc.</li>
+<li>Stan files have been canonicalized to the modern syntax (<code>array[N, T] real x</code> instead of <code>real x[N, T]</code>; <code>abs</code> replacing <code>fabs</code>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="tooling-and-prerequisites-2-0-0">Tooling and prerequisites<a class="anchor" aria-label="anchor" href="#tooling-and-prerequisites-2-0-0"></a></h3>
+<ul><li>
+<strong>R ≥ 4.4</strong> is now required.</li>
+<li>hBayesDM no longer compiles Stan models at install time. Each model compiles on first use (~30 s) and cmdstanr caches the binary for subsequent fits. The <code>BUILD_ALL</code> install-time flag is gone.</li>
+<li>
+<code>LinkingTo: rstan, StanHeaders, ...</code> and the C++ machinery they entailed have been removed from the package.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="api-changes-2-0-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-2-0-0"></a></h3>
+<ul><li>
+<code><a href="../reference/rhat.html">rhat()</a></code> — internally uses <code><a href="https://mc-stan.org/posterior/reference/rhat.html" class="external-link">posterior::rhat</a></code> via <code>fit$summary()</code> (a workaround for a name-collision bug between <code><a href="../reference/rhat.html">hBayesDM::rhat</a></code> and the string <code>"rhat"</code> looked up by <code>cmdstanr::CmdStanFit$summary()</code>).</li>
+<li>
+<code><a href="../reference/extract_ic.html">extract_ic()</a></code> — now extracts <code>log_lik</code> from <code>fit$draws()</code> via <code><a href="https://mc-stan.org/posterior/reference/draws_array.html" class="external-link">posterior::as_draws_array()</a></code>. The <code>ic = "looic" | "waic" | "both"</code> API is unchanged.</li>
+<li>
+<code><a href="../reference/plot.hBayesDM.html">plot.hBayesDM()</a></code> and <code><a href="../reference/plot_ind.html">plot_ind()</a></code> — now plot via <strong>bayesplot</strong> (<code>mcmc_trace</code>, <code>mcmc_intervals</code>, <code>mcmc_areas</code>) instead of <code>rstan::stan_plot</code>.</li>
+<li>
+<strong>Breaking — snake_case sweep.</strong> The R public API is now fully snake_case, matching modern R style (tidyverse / Google guides) and the Python package character-for-character. User-visible renames:
+<ul><li>Functions: <code>printFit</code> → <code>print_fit</code>, <code>plotHDI</code> → <code>plot_hdi</code>, <code>plotInd</code> → <code>plot_ind</code>, <code>plotDist</code> → <code>plot_dist</code>, <code>HDIofMCMC</code> → <code>hdi</code>.</li>
+<li>Arguments: <code>modelRegressor</code> → <code>model_regressor</code>, <code>indPars</code> → <code>ind_pars</code>, <code>credMass</code> → <code>ci_prob</code> (on <code><a href="../reference/hdi.html">hdi()</a></code> and <code><a href="../reference/plot_hdi.html">plot_hdi()</a></code>), <code>fontSize</code> → <code>font_size</code>, <code>xLab</code> → <code>x_lab</code>, <code>yLab</code> → <code>y_lab</code>, <code>xLim</code> → <code>x_lim</code>, <code>binSize</code> → <code>bin_size</code>, <code>sampleVec</code> → <code>sample_vec</code>, <code>roundTo</code> → <code>round_to</code>, <code>Title</code> → <code>title</code>.</li>
+<li>Result-object slots: <code>$allIndPars</code> → <code>$all_ind_pars</code>, <code>$parVals</code> → <code>$par_vals</code>, <code>$modelRegressor</code> → <code>$model_regressor</code>, <code>$rawdata</code> → <code>$raw_data</code>. (<code>$model</code> and <code>$fit</code> unchanged.)</li>
+</ul></li>
+<li>
+<strong>HDI default credible mass.</strong> <code><a href="../reference/hdi.html">hdi()</a></code> and <code><a href="../reference/plot_hdi.html">plot_hdi()</a></code> default <code>ci_prob = 0.95</code> (unchanged on the R side). The Python package now also defaults to <code>0.95</code> (previously <code>0.94</code>, inherited from arviz) so the two languages produce matching HDI bands out of the box.</li>
+<li>
+<code>additional_args</code> plumbing fixed: model wrappers that declared a <code>NULL</code> default (e.g. <code>banditNarm_2par_lapse</code> <code>Narm</code>, <code>pstRT_ddm</code> <code>initQ</code>) were silently dropping it because <code>args[[nm]] &lt;- NULL</code> removes a list element in R; now uses <code>args[nm] &lt;- list(NULL)</code> to preserve the entry.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="migration-notes-2-0-0">Migration notes<a class="anchor" aria-label="anchor" href="#migration-notes-2-0-0"></a></h3>
+<p>If you have downstream code that calls <code>rstan::extract(output$fit)</code>, replace it with one of:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">posterior</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/posterior/reference/draws_df.html" class="external-link">as_draws_df</a></span><span class="op">(</span><span class="va">output</span><span class="op">$</span><span class="va">fit</span><span class="op">$</span><span class="fu">draws</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>   <span class="co"># tidy data.frame</span></span>
+<span><span class="fu">posterior</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/posterior/reference/draws_rvars.html" class="external-link">as_draws_rvars</a></span><span class="op">(</span><span class="va">output</span><span class="op">$</span><span class="va">fit</span><span class="op">$</span><span class="fu">draws</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">output</span><span class="op">$</span><span class="va">par_vals</span><span class="op">[[</span><span class="st">"mu_k"</span><span class="op">]</span><span class="op">]</span>                     <span class="co"># already-extracted samples</span></span></code></pre></div>
+</div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.3.1" id="hbayesdm-131">hBayesDM 1.3.1<a class="anchor" aria-label="anchor" href="#hbayesdm-131"></a></h2>
 <ul><li>Add plot functions for Hierarchical Gaussian Filter models: <code>plot_hgf_ibrb</code>, <code>plot_hgf_ibrb_single</code>.</li>

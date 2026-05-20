@@ -40,15 +40,16 @@ HBA is a branch of Bayesian statistics and the conceptual framework of Bayesian 
 For Bayesian updating, we use the Stan software package (<https://mc-stan.org/>), which implements a very efficient Markov Chain Monte Carlo (MCMC) algorithm called Hamiltonian Monte Carlo (HMC). HMC is known to be effective and works well even for large complex models. See Stan reference manual (<https://mc-stan.org/documentation/>) and Chapter 14 of @kruschke2014doing for a comprehensive description of HMC and Stan. What is MCMC and why should we use it? Remember, we need to update our priors into posterior distributions in order to make inference about model parameters. Simply put, MCMC is a way of approximating a posterior distribution by drawing a large number of samples from it. MCMC algorithms are used when posterior distributions cannot be analytically achieved or using MCMC is more efficient than searching for the whole grid of parameter space (i.e., grid search). To learn more about the basic foundations of MCMC, we recommend Chapter 7 of @kruschke2014doing.
 
 
-Detailed specification of Bayesian models is not available in text yet (stay tuned for our tutorial paper whose citation is listed below). At the same time, users can go over our Stan codes to check how we implement each computational model (e.g., `pathTo_gng_m1 = system.file("stan/gng_m1.stan", package="hBayesDM")` ). We made strong efforts to optimize Stan codes through reparameterization (e.g., Matt trick) and vectorization.
+Users can read our Stan source files to see how each model is implemented (e.g., `pathTo_gng_m1 = system.file("stan_files/gng_m1.stan", package="hBayesDM")`). We made strong efforts to optimize Stan codes through reparameterization (e.g., Matt trick) and vectorization.
 
 
 ## Prerequisites
-* R version 3.4.0 or later is required. R is freely available from <http://www.r-project.org/>.
-* **Latest Stan (RStan 2.18.1 or later)**. Detailed instructions for installing RStan are available in this link: <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started/>.
-* RStudio (<https://www.rstudio.com/products/RStudio/>) is not required but strongly recommended.
 
-**Note**: Additional R packages (e.g., [ggplot2](https://cran.r-project.org/web/packages/ggplot2/), [loo](https://cran.r-project.org/web/packages/loo/)) will be installed (if not installed yet) during the installation of hBayesDM.
+* **R ≥ 4.4** ([cran.r-project.org](https://www.r-project.org/)).
+* **CmdStan**, installed via [**cmdstanr**](https://mc-stan.org/cmdstanr/). hBayesDM uses cmdstanr (not rstan) to compile and run Stan models. CmdStan ships as a system dependency rather than a CRAN package — install it once with `cmdstanr::install_cmdstan()`.
+* RStudio is optional but recommended.
+
+Additional CRAN packages (`ggplot2`, `loo`, `bayesplot`, `posterior`, ...) install automatically with hBayesDM.
 
 
 ## Tasks & models implemented in hBayesDM
@@ -60,53 +61,47 @@ See [here][list-tasks-models] for the list of tasks and models implemented in hB
 
 ## How to install hBayesDM
 
-There are three ways to install hBayesDM as described below. _Make sure to install [RStan](https://mc-stan.org/interfaces/rstan) prior to install hBayesDM. And restart R/RStudio after the installation of hBayesDM._ Typically RStan can be installed just by typing `install.packages("rstan", dependencies = TRUE)`. **For Windows, you need to install <a href="https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows" target="_blank">Rtools</a> first to install RStan and install the hBayesDM from CRAN**. For detailed instructions for the installation of rstan, please go to this link: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started. If you are a Mac user, [make sure Xcode is installed](https://github.com/stan-dev/rstan/wiki/RStan-Mac-OS-X-Prerequisite-Installation-Instructions#step2_3).
+### 1. Install cmdstanr and CmdStan
 
-How can you tell if RStan is correctly installed? Check if you can fit the <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started#example-1-eight-schools" target="_blank">'Eight Schools'</a> model without a problem. Check [here](https://mc-stan.org/interfaces/rstan.html) or <a href="https://groups.google.com/forum/#!categories/stan-users/installation" target="_blank">here</a> if you experience difficulty installing RStan.
-
-### Method A (recommended for all users - Windows/Mac/Linux)
-
-Use the following call:
-
-``` r
-install.packages("hBayesDM", dependencies=TRUE)
-```
-
-### Method B
-
-Install the package from GitHub:
-
-``` r
-## install 'devtools' if required
-if (!require(devtools)) install.packages("devtools")
-devtools::install_github("CCS-Lab/hBayesDM", subdir="R")
-```
-
-### Method C
-
-1. Download a copy from [**here**](https://cran.r-project.org/src/contrib/hBayesDM_1.1.0.tar.gz) to a directory (e.g., "~/Downloads").
-2. Open R(Studio) and set working directory to the downloaded folder. (e.g., `setwd("~/Downloads")` )
-3. Install the package from the downloaded file.
+cmdstanr is hosted on the Stan r-universe rather than CRAN:
 
 
 ``` r
-install.packages(pkgs="hBayesDM_1.1.0.tar.gz", dependencies=TRUE, repos=NULL)
+install.packages(
+  "cmdstanr",
+  repos = c("https://stan-dev.r-universe.dev", getOption("repos"))
+)
+
+# One-time CmdStan toolchain install (~5 min)
+cmdstanr::install_cmdstan()
 ```
 
-### Precompiling Stan models during installation
-If you follow the direction described below, Stan models will be precompiled during installation and models will run immediately when called. This is recommended if you are a frequent hBayesDM user!
+Verify the toolchain works by fitting any Stan model — for example,
+`cmdstanr::cmdstanr_example("schools")` runs a small "Eight Schools" fit
+without hBayesDM.
+
+### 2. Install hBayesDM
+
+From CRAN:
 
 
 ``` r
-Sys.setenv(BUILD_ALL='true')  # Build all the models on installation
-Sys.setenv(MAKEFLAGS='-j 4')  # Use 4 cores for compilation (or the number you want)
-
-install.packages("hBayesDM")  # Install from CRAN
-## or
-devtools::install_github("CCS-Lab/hBayesDM", subdir="R")  # Install from GitHub
+install.packages("hBayesDM")
 ```
 
-**We highly recommend you use multiple cores for compiling, since it will take quite a long time to complete.**
+From GitHub:
+
+
+``` r
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("CCS-Lab/hBayesDM", subdir = "R")
+```
+
+### First-fit compile cost
+
+Stan models compile on first use (~30 s per model) and cmdstanr caches the
+compiled binary alongside the `.stan` file. Subsequent fits of the same model
+reuse the cached binary and start sampling immediately.
 
 
 ## How to use hBayesDM
@@ -144,12 +139,15 @@ dataPath = "~/Downloads/gng_exampleData.txt"
 
 ### 2) Fit candidate models
 
-Below the `gng_m1` model is fitted with its sample data. The command indicates that four MCMC chains are run and four cores are used for parallel computing. If you enter "example" as an argument for `data`, hBayesDM will use the sample data for the task. Note that you can save the output to a file (see the `saveDir` argument) or send an email when fitting is complete (see the `email` argument). You can also assign your own initial values (see the `inits` argument; e.g., `inits=c(0.1, 0.2, 1.0)`):
+Below the `gng_m1` model is fit on its example data. The command runs four MCMC chains across four cores. If you pass `"example"` as `data`, hBayesDM loads the bundled example file for that task. You can also assign your own initial values via the `inits` argument (e.g., `inits = c(0.1, 0.2, 1.0)`).
+
 
 ``` r
 output1 = gng_m1(data="example", niter=2000, nwarmup=1000, nchain=4, ncore=4)
 ```
-, which is the same as the command below because the default numbers of total (including warmup) iterations (MCMC samples), warmup iterations, and chains are 2,000, 1,000, and 4 for `gng` models.
+
+Equivalent shorter form (the defaults are 2000 / 1000 / 4 chains for `gng` models):
+
 
 ``` r
 output1 = gng_m1("example", ncore=4)
@@ -177,108 +175,45 @@ output1 = gng_m1("example", ncore=4)
 ## ****************************************
 ## ** Use VB estimates as initial values **
 ## ****************************************
-## Chain 1: ------------------------------------------------------------
-## Chain 1: EXPERIMENTAL ALGORITHM:
-## Chain 1:   This procedure has not been thoroughly tested and may be unstable
-## Chain 1:   or buggy. The interface is subject to change.
-## Chain 1: ------------------------------------------------------------
-## Chain 1: 
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0.00209 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 20.9 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Begin eta adaptation.
-## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)
-## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)
-## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)
-## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)
-## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)
-## Chain 1: Success! Found best value [eta = 1] earlier than expected.
-## Chain 1: 
-## Chain 1: Begin stochastic gradient ascent.
-## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100         -821.396             1.000            1.000
-## Chain 1:    200         -819.389             0.501            1.000
-## Chain 1:    300         -808.559             0.339            0.013
-## Chain 1:    400         -814.634             0.256            0.013
-## Chain 1:    500         -808.382             0.206            0.008   MEDIAN ELBO CONVERGED
-## Chain 1: 
-## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
-## Chain 1: COMPLETED.
-```
-
-```
-## Warning: Pareto k diagnostic value is 0.99. Resampling is unreliable.
-## Increasing the number of draws or decreasing tol_rel_obj may help.
-```
-
-```
+## ------------------------------------------------------------ 
+## EXPERIMENTAL ALGORITHM: 
+##   This procedure has not been thoroughly tested and may be unstable 
+##   or buggy. The interface is subject to change. 
+## ------------------------------------------------------------ 
+## Gradient evaluation took 0.000601 seconds 
+## 1000 transitions using 10 leapfrog steps per transition would take 6.01 seconds. 
+## Adjust your expectations accordingly! 
+## Begin eta adaptation. 
+## Iteration:   1 / 250 [  0%]  (Adaptation) 
+## Iteration:  50 / 250 [ 20%]  (Adaptation) 
+## Iteration: 100 / 250 [ 40%]  (Adaptation) 
+## Iteration: 150 / 250 [ 60%]  (Adaptation) 
+## Iteration: 200 / 250 [ 80%]  (Adaptation) 
+## Success! Found best value [eta = 1] earlier than expected. 
+## Begin stochastic gradient ascent. 
+##   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes  
+##    100         -846.796             1.000            1.000 
+##    200         -815.045             0.519            1.000 
+##    300         -809.962             0.348            0.039 
+##    400         -809.490             0.261            0.039 
+##    500         -810.612             0.209            0.006   MEDIAN ELBO CONVERGED 
+## Drawing a sample of size 1000 from the approximate posterior...  
+## COMPLETED. 
+## Finished in  3.4 seconds.
 ## 
 ## ************************************
 ## **** Model fitting is complete! ****
 ## ************************************
-## in 4: 1000 transitions using 10 leapfrog steps per transition would take 16.94 seconds.
-## Chain 4: Adjust your expectations accordingly!
-## Chain 4: 
-## Chain 4: 
-## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
-## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 3: 
-## Chain 3:  Elapsed Time: 26.572 seconds (Warm-up)
-## Chain 3:                15.964 seconds (Sampling)
-## Chain 3:                42.536 seconds (Total)
-## Chain 3: 
-## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 2: 
-## Chain 2:  Elapsed Time: 28.192 seconds (Warm-up)
-## Chain 2:                25.641 seconds (Sampling)
-## Chain 2:                53.833 seconds (Total)
-## Chain 2: 
-## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 4: 
-## Chain 4:  Elapsed Time: 22.442 seconds (Warm-up)
-## Chain 4:                13.556 seconds (Sampling)
-## Chain 4:                35.998 seconds (Total)
-## Chain 4: 
-## g)
-## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 25.991 seconds (Warm-up)
-## Chain 1:                15.557 seconds (Sampling)
-## Chain 1:                41.548 seconds (Total)
-## Chain 1:
 ```
 
 
-Executing the command will generate messages like below in the R console. It will take approximately 2~3 minutes (with the `gng_m1` model & "example" data) for the model fitting to complete (with MCMC sampling). Note that you may get warning messages about "numerical problems" or that there are a certain number of "divergent transitions after warmup". When we check our models with example datasets, warning messages appear mostly at the beginning of the warmup period and there are very few divergent transitions after warmup. In such cases, you can ignore the warnings. Also see Appendix D of the [Stan Reference Manual](https://github.com/stan-dev/stan/releases/download/v2.17.0/stan-reference-2.17.0.pdf).
+On first use cmdstanr compiles the Stan model (~30 s); subsequent fits of the same model reuse the cached binary. Sampling for `gng_m1` on the example data then takes 2–3 minutes. Occasional "numerical problems" warnings during warmup or a small number of "divergent transitions after warmup" can usually be ignored — see Stan's [Runtime warnings and convergence problems](https://mc-stan.org/misc/warnings.html) for guidance on when to act on them.
+
+The hBayesDM console output looks like:
 
 ```
-Model name  = gng_m1
-Data file   = example
+Model  = gng_m1
+Data   = example
 
 Details:
  # of chains                    = 4
@@ -288,25 +223,15 @@ Details:
  # of subjects                  = 10
  # of (max) trials per subject  = 240
 
-****************************************
-** Use VB estimates as initial values **
-****************************************
+Running MCMC with 4 parallel chains...
 
-
-***********************************
-**  Loading a precompiled model  **
-***********************************
-starting worker pid=75130 on localhost:11950 at 08:25:48.905
-starting worker pid=75138 on localhost:11950 at 08:25:49.101
-
-SAMPLING FOR MODEL 'gng_m1' NOW (CHAIN 1).
-
-Chain 1, Iteration:    1 / 2000 [  0%]  (Warmup)
-SAMPLING FOR MODEL 'gng_m1' NOW (CHAIN 2).
+Chain 1 Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2 Iteration:    1 / 2000 [  0%]  (Warmup)
 ...
 ```
 
-When model fitting is complete, you see this message and data are stored into `output1`.
+When fitting is complete:
+
 ```
 ************************************
 **** Model fitting is complete! ****
@@ -314,17 +239,17 @@ When model fitting is complete, you see this message and data are stored into `o
 ```
 
 
-`output1`, a hBayesDM object, is a list with 4 elements (class: "hBayesDM"):
+`output1` is an object of class `hBayesDM` with these fields:
 
-1. `model`: Name of the fitted model (i.e., `output1$model` is 'gng_m1').
-2. `allIndPars`: Summary of individual subjects' parameters (default: _mean_). Users can also choose to use _median_ or _mode_ (e.g., `output1 = gng_m1("example", indPars="mode")` ).
-3. `parVals`: Posterior samples of all parameters. Extracted by `rstan::extract(rstan_object, permuted=T)`. **Note that hyper (group) mean parameters are indicated by `mu_PARAMETER` (e.g., `mu_xi`, `mu_ep`, `mu_rho`).**
-4. `fit`: RStan object (i.e., `fit = stan(file='gng_m1.stan', ...)` ).
-5. `rawdata`: Raw trial-by-trial data used for modeling. Raw data are provided in the output to allow users to easily access data and compare trial-by-trial model-based regressors (e.g., prediction errors) with choice data.
-6. `modelRegressor` (optional): Trial-by-trial model-based regressors such as prediction errors, the values of the chosen option, etc. For each model, we pre-select appropriate model-based regressors.
+1. `model`: Name of the fitted model (`output1$model` is `"gng_m1"`).
+2. `all_ind_pars`: Per-subject parameter summaries (default: _mean_). Use `ind_pars = "median"` or `ind_pars = "mode"` to change the summary statistic.
+3. `par_vals`: Posterior draws as a named list, extracted via `posterior::draws_of()`. **Hyper-parameters are prefixed `mu_` (e.g., `mu_xi`, `mu_ep`, `mu_rho`).**
+4. `fit`: A `CmdStanMCMC` object (or `CmdStanVB` when `vb = TRUE`) from cmdstanr. Use `output1$fit$summary()`, `output1$fit$draws()`, `output1$fit$diagnostic_summary()`, etc. — see [`?cmdstanr::CmdStanMCMC`](https://mc-stan.org/cmdstanr/reference/CmdStanMCMC.html).
+5. `raw_data`: Raw trial-by-trial data used for modeling. Provided so users can easily compare trial-by-trial model-based regressors (e.g., prediction errors) against the choice data.
+6. `model_regressor` (optional): Trial-by-trial model-based regressors such as prediction errors and chosen-option values. Each model ships with a pre-selected set.
 
 ```
-> output1$allIndPars
+> output1$all_ind_pars
            xi        ep      rho subjID
 1  0.03688558 0.1397615 5.902901      1
 2  0.02934812 0.1653435 6.066120      2
@@ -334,52 +259,50 @@ When model fitting is complete, you see this message and data are stored into `o
 ...
 ```
 
-```
-> output1$fit
-Inference for Stan model: gng_m1.
-4 chains, each with iter=2000; warmup=1000; thin=1;
-post-warmup draws per chain=1000, total post-warmup draws=4000.
+Use `output1$fit$summary()` to get a posterior summary table:
 
-               mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat
-mu_xi          0.03    0.00 0.02    0.00    0.02    0.03    0.05    0.08  2316 1.00
-mu_ep          0.15    0.00 0.02    0.11    0.13    0.15    0.16    0.19  4402 1.00
-mu_rho         5.97    0.01 0.72    4.76    5.45    5.89    6.40    7.61  3821 1.00
-sigma[1]       0.54    0.06 1.02    0.02    0.18    0.35    0.61    1.99   318 1.01
-sigma[2]       0.12    0.00 0.08    0.01    0.05    0.10    0.16    0.31  2620 1.00
-sigma[3]       0.12    0.00 0.09    0.01    0.05    0.10    0.16    0.33  2402 1.00
-...
+```
+> output1$fit$summary(c("mu_xi", "mu_ep", "mu_rho"))
+# A tibble: 3 × 10
+  variable  mean median    sd   mad    q5   q95  rhat ess_bulk ess_tail
+  <chr>    <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>    <dbl>    <dbl>
+1 mu_xi     0.03   0.03  0.02  0.02  0.00  0.07  1.00     2316     2780
+2 mu_ep     0.15   0.15  0.02  0.02  0.11  0.19  1.00     4402     3120
+3 mu_rho    5.97   5.89  0.72  0.71  4.76  7.61  1.00     3821     3055
 ```
 
+Or call `rhat(output1)` for an hBayesDM-friendly Rhat data.frame (see Section 3 below).
 
-$\hat{R}$ (`Rhat`) is an index of the convergence of the chains. $\hat{R}$ values close to 1.00 would indicate that MCMC chains are converged to stationary target distributions. When we check MCMC performance of our models on sample data, $\hat{R}$ values are 1.00 for most parameters or at most 1.04.
+$\hat{R}$ (`Rhat`) is an index of MCMC convergence. Values close to 1.00 indicate that the chains have converged to a stationary target distribution. On hBayesDM example data, most parameters reach $\hat{R} \le 1.01$.
 
 
 
 ### 3) Plot model parameters
 
-Make sure to visually diagnose MCMC performance (i.e., visually check whether MCMC samples are well mixed and converged to stationary distributions). For the diagnosis or visualization of hyper (group) parameters, you can use `plot.hBayesDM` or just `plot`, which searches for an extension function that contains the class name. The class of any hBayesDM output is `hBayesDM`:
+Always visually diagnose MCMC performance (well-mixed, stationary chains) before interpreting parameter estimates. For hyper-parameters, use `plot.hBayesDM` (or just `plot` — S3 dispatch picks it up since the result inherits from `hBayesDM`). Plotting is backed by [bayesplot](https://mc-stan.org/bayesplot/).
 
-Let's first visually diagnose MCMC performance of hyper parameters with trace plots:
+Trace plots of the hyper-parameters:
 
 
 ``` r
-plot(output1, type="trace", fontSize=11)   # traceplot of hyper parameters. Set font size 11.
+plot(output1, type="trace")   # traceplot via bayesplot::mcmc_trace
 ```
 
-![](/private/var/folders/bp/kmfmhnl95kx1c8x321z7twbw0000gn/T/Rtmp1KQ0He/file13552d1a2580/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
-The trace plots indicate that MCMC samples are indeed well mixed and converged, which is consistent with their $\hat{R}$ values (see [**here**](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for some discussion on why we care about mixing). Note that the plots above exclude burn-in samples. If you want, you can include burn-in (warmup) MCMC samples.
+Well-mixed traces look like "fuzzy caterpillars" and confirm what the $\hat{R}$ values suggest (see [this StackExchange thread](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for why mixing matters). Trace plots show post-warmup draws only.
+
+For posterior interval / density plots of the hyper-parameters:
+
 
 ``` r
-plot(output1, type="trace", inc_warmup=T)   # traceplot of hyper parameters w/ warmup samples
+plot(output1, type="simple")  # bayesplot::mcmc_intervals
 ```
 
-![](/private/var/folders/bp/kmfmhnl95kx1c8x321z7twbw0000gn/T/Rtmp1KQ0He/file13552d1a2580/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
-
-You can also plot the posterior distributions of the hyper (group) parameters with `plot`:
+![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 ``` r
-plot(output1)
+plot(output1)                 # type="dist" — per-model density plots
 ```
 
 ```
@@ -387,57 +310,55 @@ plot(output1)
 ## [36mℹ[39m Please use `after_stat(density)` instead.
 ## [36mℹ[39m The deprecated feature was likely used in the [34mhBayesDM[39m package.
 ##   Please report the issue at [3m[34m<https://github.com/CCS-Lab/hBayesDM/issues>[39m[23m.
-## [90mThis warning is displayed once every 8 hours.[39m
+## [90mThis warning is displayed once per session.[39m
 ## [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was[39m
 ## [90mgenerated.[39m
 ```
 
-![](/private/var/folders/bp/kmfmhnl95kx1c8x321z7twbw0000gn/T/Rtmp1KQ0He/file13552d1a2580/articles/getting_started_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
-<!--
-$\epsilon_i \sim \text{Normal}(0.05, 0.01)$
-$\rho_{Rew_i} \sim \text{Normal}(0.05, 0.01)$
--->
+![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-11-2.png)<!-- -->
 
-To visualize individual parameters, you can use our newly updated function called `plotInd` (based on Stan's native function `stan_plot`). For example, to plot each individual's $\epsilon$ (learning rate) parameter (e.g., individual posterior distributions):
+To inspect individual subjects, use `plot_ind()` (built on `bayesplot::mcmc_areas` / `mcmc_intervals`). For example, each subject's $\epsilon$ (learning rate) posterior:
 
 
 ``` r
-plotInd(output1, "ep")
+plot_ind(output1, "ep")
 ```
 
-![](/private/var/folders/bp/kmfmhnl95kx1c8x321z7twbw0000gn/T/Rtmp1KQ0He/file13552d1a2580/articles/getting_started_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+
+You can also call `rhat(output1)` to get a data.frame of Rhat values, or `rhat(output1, less = 1.05)` to get a `TRUE`/`FALSE` summary check.
 
 <!--
-Their posterior means are also stored in `OUTPUT_object$allIndPars`:
+Their posterior means are also stored in `OUTPUT_object$all_ind_pars`:
 
 ``` r
-output1$allIndPars
+output1$all_ind_pars
 ```
 
 ```
 ##    subjID         xi        ep      rho
-## 1       1 0.03936406 0.1390464 5.984567
-## 2       2 0.03619497 0.1610141 6.165139
-## 3       3 0.04313709 0.1280674 5.941669
-## 4       4 0.03132933 0.1495030 6.237969
-## 5       5 0.03477564 0.1495460 6.181487
-## 6       6 0.04173183 0.1539655 6.306257
-## 7       7 0.04324623 0.1483298 5.799157
-## 8       8 0.03465968 0.1603248 6.530577
-## 9       9 0.04022475 0.1454805 6.075577
-## 10     10 0.04777279 0.1309865 5.541290
+## 1       1 0.03897796 0.1397173 5.966414
+## 2       2 0.03557815 0.1617626 6.149581
+## 3       3 0.04238519 0.1280776 5.925848
+## 4       4 0.03145392 0.1492270 6.231363
+## 5       5 0.03443664 0.1495206 6.158726
+## 6       6 0.04086663 0.1540498 6.284718
+## 7       7 0.04289236 0.1491891 5.778701
+## 8       8 0.03409124 0.1606623 6.529559
+## 9       9 0.03956299 0.1457318 6.053287
+## 10     10 0.04735283 0.1311994 5.539021
 ```
 -->
 
 
 ### 4) Compare models (and groups)
 
-To compare models, you first fit all models in the same manner as the example above (e.g., `output4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)` ). Next, we use the command `printFit`, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see @vehtari2015e for the details of LOOIC and WAIC). By default, `printFit` function uses the LOOIC which is preferable to the WAIC when there are influential observations [@vehtari2015e].
+To compare models, you first fit all models in the same manner as the example above (e.g., `output4 = gng_m4("example", niter=2000, nwarmup=1000, nchain=4, ncore=4)` ). Next, we use the command `print_fit`, which is a convenient way to summarize Leave-One-Out Information Criterion (LOOIC) or Widely Applicable Information Criterion (WAIC) of all models we consider (see @vehtari2015e for the details of LOOIC and WAIC). By default, `print_fit` function uses the LOOIC which is preferable to the WAIC when there are influential observations [@vehtari2015e].
 
 Assuming four models' outputs are `output1` (gng_m1), `output2` (gng_m2), `output3` (gng_m3), and `output4` (gng_m4), their model fits can be simultaneously summarized by:
 
 ```
-> printFit(output1, output2, output3, output4)
+> print_fit(output1, output2, output3, output4)
    Model    LOOIC
 1 gng_m1 1588.843
 2 gng_m2 1571.129
@@ -445,7 +366,7 @@ Assuming four models' outputs are `output1` (gng_m1), `output2` (gng_m2), `outpu
 4 gng_m4 1543.335
 ```
 
-Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling `printFit(output1, output2, output3, output4, ic="waic")` or `printFit(output1, output2, output3, output4, ic="both")`. Use the `extract_ic` function (e.g., `extract_ic(output3)` ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the `extract_ic` function can be used only for a single model output.
+Note that the lower LOOIC is, the better its model-fit is. Thus, model#4 has the best LOOIC compared to other models. Users can print WAIC or both by calling `print_fit(output1, output2, output3, output4, ic="waic")` or `print_fit(output1, output2, output3, output4, ic="both")`. Use the `extract_ic` function (e.g., `extract_ic(output3)` ) if you want more detailed information including standard errors and expected log pointwise predictive density (elpd). Note that the `extract_ic` function can be used only for a single model output.
 
 We also want to remind you that there are multiple ways to compare computational models (e.g., simulation method (absolute model performance), parameter recovery, generalization criterion) and the goodness of fit (e.g., LOOIC or WAIC) is just one of them. Check if predictions from your model (e.g., "posterior predictive check") can mimic the data (same data or new data) with reasonable accuracy. See @kruschke2014doing (for posterior predictive check), Guitart-Masip et al. (2012) (for goodness of fit and simulation performance on the orthogonalized Go/Nogo task), and @Busemeyer2000a (for generalization criterion) as well as Ahn et al. (2008; 2014) and @steingroever2014absolute (for the combination of multiple model comparison methods).
 
@@ -462,9 +383,9 @@ output_group2 = gng_m4(data_group2)  # fit group2 data with the gng_m4 model
 ## After model fitting is complete for both groups,
 ## evaluate the group difference (e.g., on the 'pi' parameter) by examining the posterior distribution of group mean differences.
 
-diffDist = output_group1$parVals$mu_pi - output_group2$parVals$mu_pi  # group1 - group2
-HDIofMCMC( diffDist )  # Compute the 95% Highest Density Interval (HDI).
-plotHDI( diffDist )    # plot the group mean differences
+diffDist = output_group1$par_vals$mu_pi - output_group2$par_vals$mu_pi  # group1 - group2
+hdi( diffDist )  # Compute the 95% Highest Density Interval (HDI).
+plot_hdi( diffDist )    # plot the group mean differences
 ```
 
 
@@ -477,7 +398,7 @@ The biggest challenge for performing model-based fMRI/EEG is to learn how to ext
 The hBayesDM package currently provides the following model-based regressors. With the trial-by-trial regressors, users can easily use their favorite neuroimaging package (e.g., in Statistical Parametric Mapping (SPM; http://www.fil.ion.ucl.ac.uk/spm/) to perform model-based fMRI analysis. See our [paper](https://www.mitpressjournals.org/doi/abs/10.1162/CPSY_a_00002) (**Extracting Trial-by-Trial Regressors for Model-Based fMRI/EEG Analysis**) for more details.
 
 
-As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the following (set the `modelRegressor` input variable to `TRUE`. Its default value is `FALSE`):
+As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the following (set the `model_regressor` input variable to `TRUE`. Its default value is `FALSE`):
 
 
 
@@ -485,7 +406,7 @@ As an example, if you would like to extract trial-by-trial stimulus values (i.e.
 
 ``` r
 ## fit example data with the gng_m3 model
-output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
+output3 = gng_m3(data="example", niter=2000, nwarmup=1000, model_regressor=TRUE)
 ```
 
 
@@ -514,132 +435,46 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, modelRegressor=TRUE)
 ## ****************************************
 ## ** Use VB estimates as initial values **
 ## ****************************************
-## Chain 1: ------------------------------------------------------------
-## Chain 1: EXPERIMENTAL ALGORITHM:
-## Chain 1:   This procedure has not been thoroughly tested and may be unstable
-## Chain 1:   or buggy. The interface is subject to change.
-## Chain 1: ------------------------------------------------------------
-## Chain 1: 
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001481 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 14.81 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Begin eta adaptation.
-## Chain 1: Iteration:   1 / 250 [  0%]  (Adaptation)
-## Chain 1: Iteration:  50 / 250 [ 20%]  (Adaptation)
-## Chain 1: Iteration: 100 / 250 [ 40%]  (Adaptation)
-## Chain 1: Iteration: 150 / 250 [ 60%]  (Adaptation)
-## Chain 1: Iteration: 200 / 250 [ 80%]  (Adaptation)
-## Chain 1: Iteration: 250 / 250 [100%]  (Adaptation)
-## Chain 1: Success! Found best value [eta = 0.1].
-## Chain 1: 
-## Chain 1: Begin stochastic gradient ascent.
-## Chain 1:   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes 
-## Chain 1:    100        -1564.077             1.000            1.000
-## Chain 1:    200        -1207.862             0.647            1.000
-## Chain 1:    300        -1018.511             0.494            0.295
-## Chain 1:    400         -914.924             0.399            0.295
-## Chain 1:    500         -874.324             0.328            0.186
-## Chain 1:    600         -859.858             0.276            0.186
-## Chain 1:    700         -847.864             0.239            0.113
-## Chain 1:    800         -836.977             0.211            0.113
-## Chain 1:    900         -833.079             0.188            0.046
-## Chain 1:   1000         -827.820             0.170            0.046
-## Chain 1:   1100         -825.730             0.070            0.017
-## Chain 1:   1200         -821.894             0.041            0.014
-## Chain 1:   1300         -820.386             0.022            0.013
-## Chain 1:   1400         -820.266             0.011            0.006   MEDIAN ELBO CONVERGED
-## Chain 1: 
-## Chain 1: Drawing a sample of size 1000 from the approximate posterior... 
-## Chain 1: COMPLETED.
-```
-
-```
-## Warning: Pareto k diagnostic value is 1.44. Resampling is disabled. Decreasing
-## tol_rel_obj may help if variational algorithm has terminated prematurely.
-## Otherwise consider using sampling instead.
-```
-
-```
+## ------------------------------------------------------------ 
+## EXPERIMENTAL ALGORITHM: 
+##   This procedure has not been thoroughly tested and may be unstable 
+##   or buggy. The interface is subject to change. 
+## ------------------------------------------------------------ 
+## Gradient evaluation took 0.000695 seconds 
+## 1000 transitions using 10 leapfrog steps per transition would take 6.95 seconds. 
+## Adjust your expectations accordingly! 
+## Begin eta adaptation. 
+## Iteration:   1 / 250 [  0%]  (Adaptation) 
+## Iteration:  50 / 250 [ 20%]  (Adaptation) 
+## Iteration: 100 / 250 [ 40%]  (Adaptation) 
+## Iteration: 150 / 250 [ 60%]  (Adaptation) 
+## Iteration: 200 / 250 [ 80%]  (Adaptation) 
+## Success! Found best value [eta = 1] earlier than expected. 
+## Begin stochastic gradient ascent. 
+##   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes  
+##    100         -829.292             1.000            1.000 
+##    200         -817.856             0.507            1.000 
+##    300         -818.345             0.338            0.014 
+##    400         -816.956             0.254            0.014 
+##    500         -816.838             0.203            0.002   MEDIAN ELBO CONVERGED 
+## Drawing a sample of size 1000 from the approximate posterior...  
+## COMPLETED. 
+## Finished in  4.1 seconds.
 ## 
 ## ************************************
 ## **** Model fitting is complete! ****
 ## ************************************
-## in 4: 1000 transitions using 10 leapfrog steps per transition would take 50.78 seconds.
-## Chain 4: Adjust your expectations accordingly!
-## Chain 4: 
-## Chain 4: 
-## Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
-## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 42.035 seconds (Warm-up)
-## Chain 1:                28.483 seconds (Sampling)
-## Chain 1:                70.518 seconds (Total)
-## Chain 1: 
-## Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 4: 
-## Chain 4:  Elapsed Time: 38.329 seconds (Warm-up)
-## Chain 4:                18.656 seconds (Sampling)
-## Chain 4:                56.985 seconds (Total)
-## Chain 4: 
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 2: 
-## Chain 2:  Elapsed Time: 33.552 seconds (Warm-up)
-## Chain 2:                20.771 seconds (Sampling)
-## Chain 2:                54.323 seconds (Total)
-## Chain 2: 
-## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 3: 
-## Chain 3:  Elapsed Time: 33.776 seconds (Warm-up)
-## Chain 3:                20.867 seconds (Sampling)
-## Chain 3:                54.643 seconds (Total)
-## Chain 3: 
-## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ```
 
 
-Once the sampling is completed, all model-based regressors are contained in the `modelRegressor` list.
+Once the sampling is completed, all model-based regressors are contained in the `model_regressor` list.
 
 
 ``` r
 ## store all subjects' stimulus value (SV) in ‘sv_all’
-sv_all = output3$modelRegressor$SV
+sv_all = output3$model_regressor$SV
 
-dim(output3$modelRegressor$SV)  # number of rows=# of subjects (=10), number of columns=# of trials (=240)
+dim(output3$model_regressor$SV)  # number of rows=# of subjects (=10), number of columns=# of trials (=240)
 ```
 
 ```
@@ -651,31 +486,30 @@ dim(output3$modelRegressor$SV)  # number of rows=# of subjects (=10), number of 
 plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")
 ```
 
-![](/private/var/folders/bp/kmfmhnl95kx1c8x321z7twbw0000gn/T/Rtmp1KQ0He/file13552d1a2580/articles/getting_started_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 ``` r
 ## visualize SV (Subject #5)
 plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")
 ```
 
-![](/private/var/folders/bp/kmfmhnl95kx1c8x321z7twbw0000gn/T/Rtmp1KQ0He/file13552d1a2580/articles/getting_started_files/figure-html/unnamed-chunk-20-2.png)<!-- -->
+![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-18-2.png)<!-- -->
 
 Similarly, users can extract and visualize other model-based regressors. **W(Go)**, **W(NoGo)**, **Q(Go)**, **Q(NoGo)** are stored in `Wgo`, `Wnogo`, `Qgo`, and `Qnogo`, respectively.
 
 
 ### 6) Variational inference for approximate posterior sampling
 
-To use Stan's variational algorithm for approximate posterior sampling in hBayesDM, users just need to set `vb=TRUE` (default = `FALSE`). It takes very little time (especially with precompiled models) to do variational inference -  try it yourself for any model!! But variational inference should be used only to get a rough estimate. It is recommended that users use MCMC for final inferences.
+Set `vb = TRUE` (default `FALSE`) to use Stan's variational algorithm — `cmdstanr::CmdStanModel$variational()` under the hood — for approximate posterior sampling. VB completes in seconds and is useful for quick exploration, but final inferences should use MCMC.
 
-For example, to run `gng_m3` using variational inference:
+To run `gng_m3` with VB:
 
 
 ``` r
-## fit example data with the gng_m3 model
 output3 = gng_m3(data="example", vb = TRUE)
 ```
 
-Note that input arguments for MCMC sampling (e.g., `nchain`, `niter`, `nthin`, `nwarmup`) are not specified here. `?rstan::vb` for more details.
+MCMC arguments (`nchain`, `niter`, `nthin`, `nwarmup`) don't apply when `vb = TRUE`. The returned `fit` is a `CmdStanVB` object instead of `CmdStanMCMC`. See [`?cmdstanr::CmdStanModel$variational`](https://mc-stan.org/cmdstanr/reference/model-method-variational.html) for the underlying Stan options.
 
 
 
@@ -683,32 +517,32 @@ Note that input arguments for MCMC sampling (e.g., `nchain`, `niter`, `nthin`, `
 
 Simply put, _posterior predictive checks_ refer to when a fitted model is used to generate simulated data and check if simulated data are similar to the actual data. Posterior predictive checks are useful in assessing if a model generates valid predictions.
 
-From v0.5.0, users can run posterior predictive checks on all models except drift-diffusion models in hBayesDM. Simulated data from posterior predictive checks are contained in `hBayesDM_OUTPUT$parVals$y_pred`. In a future release, we will include a function/command that can conveniently summarize and plot posterior predictive checks. In the mean time, users can program their own codes like the following:
+From v0.5.0, users can run posterior predictive checks on all models except drift-diffusion models in hBayesDM. Simulated data from posterior predictive checks are contained in `hBayesDM_OUTPUT$par_vals$y_pred`. In a future release, we will include a function/command that can conveniently summarize and plot posterior predictive checks. In the mean time, users can program their own codes like the following:
 
 
 ``` r
 ## fit example data with the gng_m3 model and run posterior predictive checks
 x = gng_m3(data="example", niter=2000, nwarmup=1000, nchain=4, ncore=4, inc_postpred = TRUE)
 
-## dimension of x$parVals$y_pred
-dim(x$parVals$y_pred)   # y_pred --> 4000 (MCMC samples) x 10 (subjects) x 240 (trials)
+## dimension of x$par_vals$y_pred
+dim(x$par_vals$y_pred)   # y_pred --> 4000 (MCMC samples) x 10 (subjects) x 240 (trials)
 [1] 4000  10  240
 
-y_pred_mean = apply(x$parVals$y_pred, c(2,3), mean)  # average of 4000 MCMC samples
+y_pred_mean = apply(x$par_vals$y_pred, c(2,3), mean)  # average of 4000 MCMC samples
 
 dim(y_pred_mean)  # y_pred_mean --> 10 (subjects) x 240 (trials)
 [1]  10 240
 
-numSubjs = dim(x$allIndPars)[1]  # number of subjects
+numSubjs = dim(x$all_ind_pars)[1]  # number of subjects
 
-subjList = unique(x$rawdata$subjID)  # list of subject IDs
-maxT = max(table(x$rawdata$subjID))  # maximum number of trials
+subjList = unique(x$raw_data$subjID)  # list of subject IDs
+maxT = max(table(x$raw_data$subjID))  # maximum number of trials
 true_y = array(NA, c(numSubjs, maxT)) # true data (`true_y`)
 
 ## true data for each subject
 for (i in 1:numSubjs) {
   tmpID = subjList[i]
-  tmpData = subset(x$rawdata, subjID == tmpID)
+  tmpData = subset(x$raw_data, subjID == tmpID)
   true_y[i, ] = tmpData$keyPressed  # only for data with a 'choice' column
 }
 

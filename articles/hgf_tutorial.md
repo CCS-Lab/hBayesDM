@@ -259,7 +259,7 @@ Below are some of the simple ways to print the overall statistics of the fitted 
 
 ``` r
 print(summary(fit))
-print(fit$allIndPars)
+print(fit$all_ind_pars)
 ```
 <!-- $ -->
 
@@ -269,7 +269,7 @@ To apply HGF to a single participant's data, you can use [`hgf_ibrb_single`](../
 ``` r
 fit <- hgf_ibrb_single(data = "example", niter = 1000, nwarmup = 500, nchain = 4)
 print(summary(fit))
-print(fit$allIndPars)
+print(fit$all_ind_pars)
 ```
 <!-- $ -->
 
@@ -541,8 +541,8 @@ presumably due to the benefits of shrinkage [@ahn2011model; @kruschke2014doing].
 ## 5.1. Specifying initial values
 
 `hBayesDM` provides various options for setting the initial values (`inits`) of the parameters.
-The default setting is `vb`, therefore `hBayesDM` will try to fit the model with [vb](https://mc-stan.org/rstan/reference/stanmodel-method-vb.html)
-and then use the VB estimation as initial values for MCMC sampling. 
+The default setting is `vb`, therefore `hBayesDM` will try to fit the model with [variational inference](https://mc-stan.org/cmdstanr/reference/model-method-variational.html)
+and then use the VB estimates as initial values for MCMC sampling.
 If this VB estimation fails, `hBayesDM` defaults to using random initial values instead.
 
 Since the `vb` option has the issue of failing stochastically,

@@ -23,7 +23,7 @@ Model: 4 Parameter Model, without C (choice perseveration) (Seymour et al., 2012
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hBayesDM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0.9000</span>
       </span>
     </div>
 
@@ -73,13 +73,14 @@ It has the following parameters: <code>Arew</code> (reward learning rate), <code
 <span>  ncore <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  nthin <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  inits <span class="op">=</span> <span class="st">"vb"</span>,</span>
-<span>  indPars <span class="op">=</span> <span class="st">"mean"</span>,</span>
-<span>  modelRegressor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ind_pars <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  model_regressor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  vb <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  inc_postpred <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  adapt_delta <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  stepsize <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  max_treedepth <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">42</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -123,12 +124,12 @@ high.</p></dd>
 Possible options are "vb" (default), "fixed", "random", or your own initial values.</p></dd>
 
 
-<dt id="arg-indpars">indPars<a class="anchor" aria-label="anchor" href="#arg-indpars"></a></dt>
+<dt id="arg-ind-pars">ind_pars<a class="anchor" aria-label="anchor" href="#arg-ind-pars"></a></dt>
 <dd><p>Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".</p></dd>
 
 
-<dt id="arg-modelregressor">modelRegressor<a class="anchor" aria-label="anchor" href="#arg-modelregressor"></a></dt>
+<dt id="arg-model-regressor">model_regressor<a class="anchor" aria-label="anchor" href="#arg-model-regressor"></a></dt>
 <dd><p>Whether to export model-based regressors (<code>TRUE</code> or <code>FALSE</code>).
 Not available for this model.</p></dd>
 
@@ -159,6 +160,11 @@ take on each new iteration. See <b>Details</b> below.</p></dd>
 on each new iteration. See <b>Details</b> below.</p></dd>
 
 
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>Integer seed used for MCMC sampling and (when applicable) variational inference, to
+make results reproducible. Defaults to <code>42</code>.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>For this model, it's possible to set <strong>model-specific argument(s)</strong> as follows:</p><dl><dt>Narm</dt>
 <dd><p>Number of arms used in Multi-armed Bandit Task If not given, the number of unique choice will be used.</p></dd>
@@ -177,28 +183,27 @@ on each new iteration. See <b>Details</b> below.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A class "hBayesDM" object <code>modelData</code> with the following components:</p><dl><dt>model</dt>
-<dd><p>Character value that is the name of the model (\code"banditNarm_4par").</p></dd>
+    <p>A class "hBayesDM" object <code>model_data</code> with the following components:</p><dl><dt>model</dt>
+<dd><p>Character value that is the name of the model (<code>"banditNarm_4par"</code>).</p></dd>
 
-  <dt>allIndPars</dt>
+  <dt>all_ind_pars</dt>
 <dd><p>Data.frame containing the summarized parameter values (as specified by
-    <code>indPars</code>) for each subject.</p></dd>
+    <code>ind_pars</code>) for each subject.</p></dd>
 
-  <dt>parVals</dt>
+  <dt>par_vals</dt>
 <dd><p>List object containing the posterior samples over different parameters.</p></dd>
 
   <dt>fit</dt>
-<dd><p>A class <code><a href="https://mc-stan.org/rstan/reference/stanfit-class.html" class="external-link">stanfit</a></code> object that contains the fitted Stan
-    model.</p></dd>
+<dd><p>A <code>CmdStanMCMC</code> object (or <code>CmdStanVB</code> when <code>vb = TRUE</code>)
+    produced by <span class="pkg">cmdstanr</span>. Use <code>fit$draws()</code>, <code>fit$summary()</code>, etc. to
+    interact with the posterior; see <span class="pkg">cmdstanr</span> documentation for details.</p></dd>
 
-  <dt>rawdata</dt>
+  <dt>raw_data</dt>
 <dd><p>Data.frame containing the raw data used to fit the model, as specified by
     the user.</p></dd>
 
 
 
-  <dt>modelRegressor</dt>
-<dd><p>List object containing the extracted model-based regressors.</p></dd>
 
 
 </dl></div>
@@ -255,8 +260,12 @@ For the N-Armed Bandit Task, there should be 4 columns of data with the
   Hamiltonian Monte Carlo (Hoffman &amp; Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
   Algorithm Parameters' of the <a href="https://mc-stan.org/users/documentation/" class="external-link">Stan User's Guide
-  and Reference Manual</a>, or to the help page for <code><a href="https://mc-stan.org/rstan/reference/stan.html" class="external-link">stan</a></code> for a less technical
-  description of these arguments.</p>
+  and Reference Manual</a>, or to the help pages for <code><a href="https://mc-stan.org/cmdstanr/reference/model-method-sample.html" class="external-link">cmdstanr::sample()</a></code> for a less
+  technical description of these arguments.</p>
+<p><strong>First-fit compile cost:</strong> hBayesDM 2.0 compiles each Stan model on first use via
+  <span class="pkg">cmdstanr</span> (no install-time precompile). Expect a one-time ~30s wait per model;
+  subsequent fits reuse the cached binary.</p>
+
 <div class="section">
 <h3 id="contributors">Contributors<a class="anchor" aria-label="anchor" href="#contributors"></a></h3>
 <p><a href="https://github.com/cheoljun95" class="external-link">Cheol Jun Cho</a> &lt;<a href="mailto:cjfwndnsl@gmail.com">cjfwndnsl@gmail.com</a>&gt;</p>
@@ -294,7 +303,7 @@ For the N-Armed Bandit Task, there should be 4 columns of data with the
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">output</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Show the WAIC and LOOIC model fit estimates</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="printFit.html">printFit</a></span><span class="op">(</span><span class="va">output</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="print_fit.html">print_fit</a></span><span class="op">(</span><span class="va">output</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
