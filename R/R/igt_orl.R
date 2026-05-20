@@ -9,7 +9,6 @@
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
 #' @templateVar PARAMETERS \code{Arew} (reward learning rate), \code{Apun} (punishment learning rate), \code{K} (perseverance decay), \code{betaF} (outcome frequency weight), \code{betaP} (perseverance weight)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

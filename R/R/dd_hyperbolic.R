@@ -1,15 +1,12 @@
 #' @templateVar MODEL_FUNCTION dd_hyperbolic
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Delay Discounting Task
 #' @templateVar TASK_CODE dd
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Hyperbolic Model
 #' @templateVar MODEL_CODE hyperbolic
 #' @templateVar MODEL_CITE (Mazur, 1987)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"
 #' @templateVar PARAMETERS \code{k} (discounting rate), \code{beta} (inverse temperature)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 6
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

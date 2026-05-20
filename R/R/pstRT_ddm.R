@@ -9,7 +9,6 @@
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "cond", "choice", "RT"
 #' @templateVar PARAMETERS \code{a} (boundary separation), \code{tau} (non-decision time), \code{d1} (drift rate scaling), \code{d2} (drift rate scaling), \code{d3} (drift rate scaling)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "choice_os", "RT_os"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

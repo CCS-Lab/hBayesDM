@@ -4,50 +4,51 @@ hBayesDM
 This is the Python version of *hBayesDM* (hierarchical Bayesian modeling of
 Decision-Making tasks), a user-friendly package that offers hierarchical
 Bayesian analysis of various computational models on an array of
-decision-making tasks. *hBayesDM* in Python uses `PyStan`_ (Python interface for
-`Stan`_) for Bayesian inference.
+decision-making tasks. *hBayesDM* in Python uses `cmdstanpy`_ (the Python
+interface to `CmdStan`_) for Bayesian inference.
 
-.. _PyStan: https://github.com/stan-dev/pystan
+.. _cmdstanpy: https://mc-stan.org/cmdstanpy/
+.. _CmdStan: https://mc-stan.org/users/interfaces/cmdstan
 .. _Stan: https://mc-stan.org/
 
-It supports Python 3.5 or higher versions and requires several packages including:
-`NumPy`_, `SciPy`_, `Pandas`_, `PyStan`_, `Matplotlib`_, and `ArviZ`_.
-
-.. WARNING:: The current Python implementation depends on `PyStan`_ 2,
-   which is not the latest version (PyStan 3.*).
-   In the matter of fact, the latest version of PyStan has different interfaces
-   from those in PyStan 2, and it does not support Windows for now.
-   In these points, we developers are concerned that it can affect the availability of hBayesDM
-   for Windows users, so instead of updating hBayesDM to use PyStan 3, we plan to use
-   `cmdstanpy`_ for our backend in a near future.
-   Until then, we strongly recommend you to use the R version instead, but
-   you can still use the current Python implementation with PyStan 2.19.1.1.
-   Apologies for the inconvenience, and please stay tuned for the future update.
+Requires **Python ≥ 3.13** and depends on `NumPy`_, `SciPy`_, `Pandas`_,
+`cmdstanpy`_, `Matplotlib`_, and `ArviZ`_ (≥ 1.0).
 
 .. _NumPy: https://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
 .. _Pandas: https://pandas.pydata.org/
 .. _Matplotlib: https://matplotlib.org/
-.. _ArviZ: https://arviz-devs.github.io/arviz/
-.. _cmdstanpy: https://github.com/stan-dev/cmdstanpy
+.. _ArviZ: https://python.arviz.org/
 
 - **Documentation**: http://hbayesdm.readthedocs.io/
 
 Installation
 ------------
 
-You can install hBayesDM from PyPI with the following line:
+Install hBayesDM and its Python dependencies, then install CmdStan itself:
 
 .. code:: bash
 
-   pip install "pystan==2.19.1.1"  # Use PyStan 2, for now
-   pip install hbayesdm  # Install using pip
+   pip install hbayesdm
+   python -c "import cmdstanpy; cmdstanpy.install_cmdstan()"
 
-If you want to install the development version:
+Or, if you use `uv`_:
+
+.. code:: bash
+
+   uv add hbayesdm
+   uv run python -c "import cmdstanpy; cmdstanpy.install_cmdstan()"
+
+.. _uv: https://docs.astral.sh/uv/
+
+For the development version:
 
 .. code:: bash
 
    pip install "git+https://github.com/CCS-Lab/hBayesDM.git@develop#egg=hbayesdm&subdirectory=Python"
+
+Each Stan model compiles on first use (~30 s) and cmdstanpy caches the
+binary alongside the ``.stan`` file for subsequent fits.
 
 Citation
 --------

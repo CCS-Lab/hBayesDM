@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -24,7 +24,7 @@ class PrlFictitiousMultipleb(TaskModel):
             ),
             parameters=OrderedDict([
                 ('eta', (0, 0.5, 1)),
-                ('alpha', (-Inf, 0, Inf)),
+                ('alpha', (-inf, 0, inf)),
                 ('beta', (0, 1, 10)),
             ]),
             regressors=OrderedDict([

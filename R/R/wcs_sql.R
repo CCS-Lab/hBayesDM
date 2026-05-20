@@ -2,14 +2,12 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/dayeong-min/}{Dayeong Min} <\email{mindy2801@@snu.ac.kr}>
 #' @templateVar TASK_NAME Wisconsin Card Sorting Task
 #' @templateVar TASK_CODE wcs
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Sequential Learning Model
 #' @templateVar MODEL_CODE sql
 #' @templateVar MODEL_CITE (Bishara et al., 2010)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
 #' @templateVar PARAMETERS \code{r} (reward sensitivity), \code{p} (punishment sensitivity), \code{d} (decision consistency or inverse temperature)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

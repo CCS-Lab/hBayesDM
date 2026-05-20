@@ -16,38 +16,38 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      CMDSTAN_VERSION: "2.36.0"
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          use-public-rspm: true
-
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "../.github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), "../.github/R-version")
-        shell: Rscript {0}
-        working-directory: ./R
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.4'
+          use-public-rspm: true
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: ./R
+          extra-packages: |
+            any::pkgdown
+            stan-dev/cmdstanr
+          needs: website
+
+      - name: Cache CmdStan
+        id: cmdstan-cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('**/.github/R-version') }}-1-${{ hashFiles('**/.github/depends.Rds') }}
+          path: ~/.cmdstan
+          key: cmdstan-${{ runner.os }}-${{ env.CMDSTAN_VERSION }}
 
-      - name: Install dependencies
+      - name: Install CmdStan
+        if: steps.cmdstan-cache.outputs.cache-hit != 'true'
         run: |
-          install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown", type = "binary", quiet = TRUE)
+          cmdstanr::install_cmdstan(version = Sys.getenv("CMDSTAN_VERSION"), cores = 2)
         shell: Rscript {0}
-        working-directory: ./R
 
       - name: Install package
         run: R CMD INSTALL .

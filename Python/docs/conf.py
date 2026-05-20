@@ -21,7 +21,7 @@ import hbayesdm  # noqa: E402
 # -- Project information -----------------------------------------------------
 
 project = 'hBayesDM'
-copyright = '2019, hBayesDM developers'
+copyright = '2026, hBayesDM developers'
 author = 'hBayesDM developers'
 
 

@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -22,9 +22,9 @@ class HgfIbrbSingle(TaskModel):
                 'y',
             ),
             parameters=OrderedDict([
-                ('kappa', (0, 0, Inf)),
-                ('omega', (-Inf, 0, Inf)),
-                ('zeta', (0, 1, Inf)),
+                ('kappa', (0, 0, inf)),
+                ('omega', (-inf, 0, inf)),
+                ('zeta', (0, 1, inf)),
             ]),
             regressors=OrderedDict([
                 

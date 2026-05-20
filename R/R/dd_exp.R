@@ -1,15 +1,12 @@
 #' @templateVar MODEL_FUNCTION dd_exp
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Delay Discounting Task
 #' @templateVar TASK_CODE dd
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Exponential Model
 #' @templateVar MODEL_CODE exp
 #' @templateVar MODEL_CITE (Samuelson, 1937)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "delay_later", "amount_later", "delay_sooner", "amount_sooner", "choice"
 #' @templateVar PARAMETERS \code{r} (exponential discounting rate), \code{beta} (inverse temperature)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 6
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

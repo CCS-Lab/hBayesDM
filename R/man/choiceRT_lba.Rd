@@ -12,14 +12,15 @@ choiceRT_lba(
   ncore = 2,
   nthin = 1,
   inits = "random",
-  indPars = "mean",
+  ind_pars = "mean",
   saveDir = NULL,
-  modelRegressor = FALSE,
+  model_regressor = FALSE,
   vb = FALSE,
   inc_postpred = FALSE,
   adapt_delta = 0.95,
   stepsize = 1,
-  max_treedepth = 10
+  max_treedepth = 10,
+  seed = 42
 )
 }
 \arguments{
@@ -37,11 +38,11 @@ choiceRT_lba(
 
 \item{inits}{Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.}
 
-\item{indPars}{Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".}
+\item{ind_pars}{Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".}
 
-\item{saveDir}{Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.}
+\item{saveDir}{Path to directory where .RData file of model output (\code{model_data}) can be saved. Leave blank if not interested.}
 
-\item{modelRegressor}{Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.}
+\item{model_regressor}{Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.}
 
@@ -52,17 +53,20 @@ choiceRT_lba(
 \item{stepsize}{Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
 
 \item{max_treedepth}{Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.}
+
+\item{seed}{Integer seed for MCMC sampling, to make results reproducible. Defaults to \code{42}.}
 }
 \value{
-\code{modelData}  A class \code{'hBayesDM'} object with the following components:
+\code{model_data}  A class \code{'hBayesDM'} object with the following components:
 \describe{
  \item{\code{model}}{Character string with the name of the model (\code{"choiceRT_lba"}).}
- \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter
-   values (as specified by \code{'indPars'}) for each subject.}
- \item{\code{parVals}}{A \code{'list'} where each element contains posterior samples
+ \item{\code{all_ind_pars}}{\code{'data.frame'} containing the summarized parameter
+   values (as specified by \code{'ind_pars'}) for each subject.}
+ \item{\code{par_vals}}{A \code{'list'} where each element contains posterior samples
    over different model parameters. }
- \item{\code{fit}}{A class \code{'stanfit'} object containing the fitted model.}
- \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
+ \item{\code{fit}}{A \code{CmdStanMCMC} object (or \code{CmdStanVB} when \code{vb = TRUE})
+   produced by \pkg{cmdstanr} containing the fitted model.}
+ \item{\code{raw_data}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 }
 }
 \description{
@@ -131,7 +135,7 @@ rhat(output)
 plot(output)
 
 # Show the WAIC and LOOIC model fit estimates
-printFit(output)
+print_fit(output)
 }
 }
 \references{

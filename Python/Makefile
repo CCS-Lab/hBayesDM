@@ -1,23 +1,23 @@
-PIPENV_PATH = $(shell which pipenv)
+.PHONY: init test test-user-facing test-all lint docs clean
 
 init:
-ifeq (, $(PIPENV_PATH))
-	pip install pipenv
-endif
-	pipenv install --dev --skip-lock
+	uv sync --all-groups
+	uv run python -c "import cmdstanpy; cmdstanpy.install_cmdstan()"
 
-test:
-	pipenv run py.test tests
+test: test-user-facing
 
-test-travis:
-	pipenv run py.test tests --doctest-modules
+test-user-facing:
+	uv run pytest tests/test_user_facing.py -v
+
+test-all:
+	uv run pytest tests --reruns 2
 
 lint:
-	pipenv run flake8 adopy --format=pylint --statistics --exit-zero
-	pipenv run pylint adopy --rcfile=setup.cfg --exit-zero
+	uv run ruff check hbayesdm
+	uv run ruff format --check hbayesdm
 
-docs-travis:
-	pipenv run travis-sphinx build
-	pipenv run travis-sphinx deploy
+docs:
+	uv run sphinx-build -W docs docs/_build/html
 
-.PHONY: init test test-travis lint docs-travis
+clean:
+	rm -rf docs/_build .pytest_cache **/__pycache__

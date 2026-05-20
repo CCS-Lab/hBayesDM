@@ -1,15 +1,12 @@
 #' @templateVar MODEL_FUNCTION ug_delta
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Norm-Training Ultimatum Game
 #' @templateVar TASK_CODE ug
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Rescorla-Wagner (Delta) Model
 #' @templateVar MODEL_CODE delta
 #' @templateVar MODEL_CITE (Gu et al., 2015)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "offer", "accept"
 #' @templateVar PARAMETERS \code{alpha} (envy), \code{tau} (inverse temperature), \code{ep} (norm adaptation rate)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

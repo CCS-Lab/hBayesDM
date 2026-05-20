@@ -17,28 +17,29 @@
 #' @param ncore Integer value specifying how many CPUs to run the MCMC sampling on. Defaults to 1.
 #' @param nthin Every \code{i == nthin} sample will be used to generate the posterior distribution. Defaults to 1. A higher number can be used when auto-correlation within the MCMC sampling is high.
 #' @param inits Character value specifying how the initial values should be generated. Options are "fixed" or "random" or your own initial values.
-#' @param indPars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
-#' @param saveDir Path to directory where .RData file of model output (\code{modelData}) can be saved. Leave blank if not interested.
-#' @param modelRegressor Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.
+#' @param ind_pars Character value specifying how to summarize individual parameters. Current options are: "mean", "median", or "mode".
+#' @param saveDir Path to directory where .RData file of model output (\code{model_data}) can be saved. Leave blank if not interested.
+#' @param model_regressor Exporting model-based regressors? TRUE or FALSE. Currently not available for this model.
 #' @param vb             Use variational inference to approximately draw from a posterior distribution. Defaults to FALSE.
 #' @param inc_postpred Include trial-level posterior predictive simulations in model output (may greatly increase file size). Defaults to FALSE.
 #' @param adapt_delta Floating point number representing the target acceptance probability of a new sample in the MCMC chain. Must be between 0 and 1. See \bold{Details} below.
 #' @param stepsize Integer value specifying the size of each leapfrog step that the MCMC sampler can take on each new iteration. See \bold{Details} below.
 #' @param max_treedepth Integer value specifying how many leapfrog steps that the MCMC sampler can take on each new iteration. See \bold{Details} below.
+#' @param seed Integer seed for MCMC sampling, to make results reproducible. Defaults to \code{42}.
 #'
-#' @return \code{modelData}  A class \code{'hBayesDM'} object with the following components:
+#' @return \code{model_data}  A class \code{'hBayesDM'} object with the following components:
 #' \describe{
 #'  \item{\code{model}}{Character string with the name of the model (\code{"choiceRT_lba_single"}).}
-#'  \item{\code{allIndPars}}{\code{'data.frame'} containing the summarized parameter
-#'    values (as specified by \code{'indPars'}) for each subject.}
-#'  \item{\code{parVals}}{A \code{'list'} where each element contains posterior samples
+#'  \item{\code{all_ind_pars}}{\code{'data.frame'} containing the summarized parameter
+#'    values (as specified by \code{'ind_pars'}) for each subject.}
+#'  \item{\code{par_vals}}{A \code{'list'} where each element contains posterior samples
 #'    over different model parameters. }
-#'  \item{\code{fit}}{A class \code{'stanfit'} object containing the fitted model.}
-#'  \item{\code{rawdata}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
+#'  \item{\code{fit}}{A \code{CmdStanMCMC} object (or \code{CmdStanVB} when \code{vb = TRUE})
+#'    produced by \pkg{cmdstanr} containing the fitted model.}
+#'  \item{\code{raw_data}}{\code{"data.frame"} containing the raw data used to fit the model, as specified by the user.}
 #' }
 #'
 #' @include settings.R
-#' @importFrom rstan vb sampling stan_model rstan_options extract
 #' @importFrom parallel detectCores
 #' @importFrom stats median qnorm density
 #' @importFrom utils read.table
@@ -114,7 +115,7 @@
 #' plot(output)
 #'
 #' # Show the WAIC and LOOIC model fit estimates
-#' printFit(output)
+#' print_fit(output)
 #' }
 
 choiceRT_lba_single <- function(data           = "choose",
@@ -124,17 +125,18 @@ choiceRT_lba_single <- function(data           = "choose",
                                 ncore          = 2,
                                 nthin          = 1,
                                 inits          = "random",
-                                indPars        = "mean",
+                                ind_pars        = "mean",
                                 saveDir        = NULL,
-                                modelRegressor = FALSE,
+                                model_regressor = FALSE,
                                 vb             = FALSE,
                                 inc_postpred   = FALSE,
                                 adapt_delta    = 0.95,
                                 stepsize       = 1,
-                                max_treedepth  = 10) {
+                                max_treedepth  = 10,
+                                seed           = 42) {
 
   # Path to .stan model file
-  if (modelRegressor) { # model regressors (for model-based neuroimaging, etc.)
+  if (model_regressor) { # model regressors (for model-based neuroimaging, etc.)
     stop("** Model-based regressors are not available for this model **\n")
   }
 
@@ -150,13 +152,13 @@ choiceRT_lba_single <- function(data           = "choose",
 
   # Load data
   if (file.exists(data)) {
-    rawdata <- read.table(data, header = T)
+    raw_data <- read.table(data, header = T)
   } else {
     stop("** The data file does not exist. Please check it again. **\n  e.g., data = '/MyFolder/SubFolder/dataFile.txt', ... **\n")
   }
 
   # Individual Subjects
-  subjID <- unique(rawdata[,"subjID"])  # list of subjects x blocks
+  subjID <- unique(raw_data[,"subjID"])  # list of subjects x blocks
   numSubjs <- length(subjID)  # number of subjects
 
   # Specify the number of parameters and parameters of interest
@@ -194,22 +196,22 @@ choiceRT_lba_single <- function(data           = "choose",
   ################################################################################
 
   # Setting number trial/subject
-  Tsubj = dim(rawdata)[1]
+  Tsubj = dim(raw_data)[1]
 
   # Information for user continued
   cat(" # of (max) trials of this subject = ", Tsubj, "\n\n")
 
   # Number of different choices
-  N_choice <- length(unique(rawdata$choice))
+  N_choice <- length(unique(raw_data$choice))
 
   # Number of different conditions (e.g. speed/accuracy)
-  N_cond <- length(unique(rawdata$condition))
+  N_cond <- length(unique(raw_data$condition))
 
   # To store number of trials/condition for given subject
   tr_cond <- array(NA, dim = c(N_cond))
   # Loop through conditions
   for (j in 1:N_cond) {
-    tr_cond[j] <- sum(rawdata$condition == j)
+    tr_cond[j] <- sum(raw_data$condition == j)
   }
   # Max trials across conditions
   max_tr <- max(tr_cond)
@@ -221,7 +223,7 @@ choiceRT_lba_single <- function(data           = "choose",
   for (cond in 1:N_cond) {
     for (choice in 1:N_choice) {
       # Subset current data
-      tmp <- subset(rawdata, rawdata$condition == cond & rawdata$choice == choice)
+      tmp <- subset(raw_data, raw_data$condition == cond & raw_data$choice == choice)
       # trials for current subject/condition pair
       tmp_trials <- tr_cond[cond]
       # Store reaction time + choice
@@ -275,68 +277,53 @@ choiceRT_lba_single <- function(data           = "choose",
     options(mc.cores = 1)
   }
 
-  cat("***********************************\n")
-  cat("**  Loading a precompiled model  **\n")
-  cat("***********************************\n")
+  fit_result <- .hbayesdm_fit(
+    model_name    = modelName,
+    data_list     = dataList,
+    pars          = POI,
+    gen_init      = genInitList,
+    vb            = vb,
+    nchain        = nchain,
+    niter         = niter,
+    nwarmup       = nwarmup,
+    nthin         = nthin,
+    adapt_delta   = adapt_delta,
+    stepsize      = stepsize,
+    max_treedepth = max_treedepth,
+    ncore         = ncore,
+    seed          = seed,
+    inc_postpred  = inc_postpred,
+    postpreds     = "y_pred"
+  )
+  fit <- fit_result$fit
+  par_vals <- fit_result$par_vals
 
-  # Fit the Stan model
-  if (FLAG_BUILD_ALL) {
-    m = stanmodels$choiceRT_lba_single
-  } else {
-    model_path <- system.file("stan_files", paste0(modelName, ".stan"),
-                              package="hBayesDM")
-    m <- rstan::stan_model(model_path)
-  }
+  d   <- par_vals$d
+  A   <- par_vals$A
+  v   <- par_vals$v
+  tau <- par_vals$tau
 
-  if (vb) {   # if variational Bayesian
-    fit = rstan::vb(m,
-                    data   = dataList,
-                    pars   = POI,
-                    init   = genInitList)
-  } else {
-    fit = rstan::sampling(m,
-                          data   = dataList,
-                          pars   = POI,
-                          warmup = nwarmup,
-                          init   = genInitList,
-                          iter   = niter,
-                          chains = nchain,
-                          thin   = nthin,
-                          control = list(adapt_delta   = adapt_delta,
-                                         max_treedepth = max_treedepth,
-                                         stepsize      = stepsize))
-  }
-  parVals <- rstan::extract(fit, permuted = T)
-  if (inc_postpred) {
-    parVals$y_pred[parVals$y_pred == -1] <- NA
-  }
-
-  d   <- parVals$d
-  A   <- parVals$A
-  v   <- parVals$v
-  tau <- parVals$tau
-
-  if (indPars == "mean") {
-    allIndPars <- c(mean(d),
+  if (ind_pars == "mean") {
+    all_ind_pars <- c(mean(d),
                      mean(A),
                      as.vector(apply(v, c(2,3), mean)),
                      mean(tau))
-  } else if (indPars == "median") {
-    allIndPars <- c(median(d),
+  } else if (ind_pars == "median") {
+    all_ind_pars <- c(median(d),
                      median(A),
                      as.vector(apply(v, c(2,3), median)),
                      median(tau))
-  } else if (indPars == "mode") {
-    allIndPars <- c(estimate_mode(d),
+  } else if (ind_pars == "mode") {
+    all_ind_pars <- c(estimate_mode(d),
                      estimate_mode(A),
                      as.vector(apply(v, c(2,3), estimate_mode)),
                      estimate_mode(tau))
   }
 
-  allIndPars           <- t(as.data.frame(allIndPars))
-  allIndPars           <- as.data.frame(allIndPars)
-  allIndPars$subjID    <- subjID
-  colnames(allIndPars) <- c("d",
+  all_ind_pars           <- t(as.data.frame(all_ind_pars))
+  all_ind_pars           <- as.data.frame(all_ind_pars)
+  all_ind_pars$subjID    <- subjID
+  colnames(all_ind_pars) <- c("d",
                             "A",
                             apply(expand.grid(paste0("v_cd", 1:N_cond),
                                               paste0("_ch", 1:N_choice)),
@@ -346,15 +333,15 @@ choiceRT_lba_single <- function(data           = "choose",
 
 
   # Wrap up data into a list
-  modelData        <- list(modelName, allIndPars, parVals, fit, rawdata)
-  names(modelData) <- c("model", "allIndPars", "parVals", "fit", "rawdata")
-  class(modelData) <- "hBayesDM"
+  model_data        <- list(modelName, all_ind_pars, par_vals, fit, raw_data)
+  names(model_data) <- c("model", "all_ind_pars", "par_vals", "fit", "raw_data")
+  class(model_data) <- "hBayesDM"
 
   # Total time of computations
   endTime  <- Sys.time()
   timeTook <- endTime - startTime
 
-  # If saveDir is specified, save modelData as a file. If not, don't save
+  # If saveDir is specified, save model_data as a file. If not, don't save
   # Save each file with its model name and time stamp (date & time (hr & min))
   if (!is.null(saveDir)) {
     currTime  <- Sys.time()
@@ -363,7 +350,7 @@ choiceRT_lba_single <- function(data           = "choose",
     currMin   <- substr(currTime, 15, 16)
     timeStamp <- paste0(currDate, "_", currHr, "_", currMin)
     dataFileName = sub(pattern = "(.*)\\..*$", replacement = "\\1", basename(data))
-    save(modelData, file = file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData")))
+    save(model_data, file = file.path(saveDir, paste0(modelName, "_", dataFileName, "_", timeStamp, ".RData")))
   }
 
   # Inform user of completion
@@ -371,6 +358,6 @@ choiceRT_lba_single <- function(data           = "choose",
   cat("**** Model fitting is complete! ****\n")
   cat("************************************\n")
 
-  return(modelData)
+  return(model_data)
 }
 

@@ -9,7 +9,6 @@
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "level1_choice", "level2_choice", "reward"
 #' @templateVar PARAMETERS \code{a} (learning rate for both stages 1 & 2), \code{beta} (inverse temperature for both stages 1 & 2), \code{pi} (perseverance), \code{w} (model-based weight)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred_step1", "y_pred_step2"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

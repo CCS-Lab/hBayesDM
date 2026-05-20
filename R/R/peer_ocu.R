@@ -5,11 +5,9 @@
 #' @templateVar TASK_CITE (Chung et al., 2015)
 #' @templateVar MODEL_NAME Other-Conferred Utility (OCU) Model
 #' @templateVar MODEL_CODE ocu
-#' @templateVar MODEL_CITE 
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "condition", "p_gamble", "safe_Hpayoff", "safe_Lpayoff", "risky_Hpayoff", "risky_Lpayoff", "choice"
 #' @templateVar PARAMETERS \code{rho} (risk preference), \code{tau} (inverse temperature), \code{ocu} (other-conferred utility)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 8
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

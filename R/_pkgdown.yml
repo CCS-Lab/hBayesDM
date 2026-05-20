@@ -26,12 +26,12 @@ reference:
   contents:
   - estimate_mode
   - extract_ic
-  - HDIofMCMC
+  - hdi
   - multiplot
-  - plotDist
-  - plotHDI
-  - plotInd
-  - printFit
+  - plot_dist
+  - plot_hdi
+  - plot_ind
+  - print_fit
   - rhat
 
 articles:

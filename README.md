@@ -1,14 +1,15 @@
 # hBayesDM <img src="https://github.com/CCS-Lab/hBayesDM/raw/master/logo.png" align="right" width="200px">
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Build Status](https://travis-ci.org/CCS-Lab/hBayesDM.svg?branch=develop)](https://travis-ci.org/CCS-Lab/hBayesDM)
+[![R](https://github.com/CCS-Lab/hBayesDM/actions/workflows/R.yaml/badge.svg)](https://github.com/CCS-Lab/hBayesDM/actions/workflows/R.yaml)
+[![Python](https://github.com/CCS-Lab/hBayesDM/actions/workflows/Python.yaml/badge.svg)](https://github.com/CCS-Lab/hBayesDM/actions/workflows/Python.yaml)
 [![CRAN Latest Release](https://www.r-pkg.org/badges/version-last-release/hBayesDM)](https://cran.r-project.org/package=hBayesDM)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hBayesDM)](https://cran.r-project.org/web/packages/hBayesDM/index.html)
 [![DOI](https://zenodo.org/badge/doi/10.1162/CPSY_a_00002.svg)](https://doi.org/10.1162/CPSY_a_00002)
 
-**hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. hBayesDM uses [Stan](https://mc-stan.org/) for Bayesian inference.
+**hBayesDM** (hierarchical Bayesian modeling of Decision-Making tasks) is a user-friendly package that offers hierarchical Bayesian analysis of various computational models on an array of decision-making tasks. hBayesDM uses [Stan](https://mc-stan.org/) (via [CmdStan](https://mc-stan.org/users/interfaces/cmdstan)) for Bayesian inference.
 
-Now, **hBayesDM** supports both [R](./R) and [Python](./Python)!
+**hBayesDM** supports both [R](./R) (≥ 4.4) and [Python](./Python) (≥ 3.13).
 
 ## Quick Links
 

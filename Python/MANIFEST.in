@@ -1,5 +1,0 @@
-include README.rst
-include LICENSE
-recursive-include hbayesdm/common *.stan *.txt
-graft hbayesdm/common
-exclude hbayesdm/version.py

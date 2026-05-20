@@ -1,5 +1,4 @@
 #' @templateVar MODEL_FUNCTION igt_pvl_delta
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Iowa Gambling Task
 #' @templateVar TASK_CODE igt
 #' @templateVar TASK_CITE (Ahn et al., 2008)
@@ -9,7 +8,6 @@
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
 #' @templateVar PARAMETERS \code{A} (learning rate), \code{alpha} (outcome sensitivity), \code{cons} (response consistency), \code{lambda} (loss aversion)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

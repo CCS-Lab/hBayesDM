@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -25,9 +25,9 @@ class GngM3(TaskModel):
             parameters=OrderedDict([
                 ('xi', (0, 0.1, 1)),
                 ('ep', (0, 0.2, 1)),
-                ('b', (-Inf, 0, Inf)),
-                ('pi', (-Inf, 0, Inf)),
-                ('rho', (0, exp(2), Inf)),
+                ('b', (-inf, 0, inf)),
+                ('pi', (-inf, 0, inf)),
+                ('rho', (0, exp(2), inf)),
             ]),
             regressors=OrderedDict([
                 ('Qgo', 2),

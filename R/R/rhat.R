@@ -19,23 +19,27 @@
 rhat <- function(fit = NULL, less = NULL) {
   if (!inherits(fit, "hBayesDM")) {
     stop("Error: The 'fit' object is not of class hBayesDM!")
-  } else {
-    summaryData <- rstan::summary(fit$fit)
-    if ("Rhat" %in% colnames(summaryData[["summary"]])) {
-      rhatData <- data.frame(Rhat = summaryData[["summary"]][, "Rhat"])
-    } else {
-      stop("\r The 'fit' object is estimated with variational inference! Rhat values cannot be computed.")
-    }
   }
+  if (inherits(fit$fit, "CmdStanVB")) {
+    stop("\r The 'fit' object is estimated with variational inference! Rhat values cannot be computed.")
+  }
+
+  # Bind posterior::rhat locally so cmdstanr's $summary() looks it up by
+  # value rather than resolving the string "rhat" by name (which would find
+  # this function and recurse).
+  rhat_fn <- posterior::rhat
+  summary_df <- fit$fit$summary(variables = NULL, rhat = rhat_fn)
+  rhat_data <- data.frame(Rhat = summary_df$rhat,
+                         row.names = summary_df$variable)
+
   if (!is.null(less)) {
-    if (all(rhatData$Rhat <= less)) {
+    if (all(rhat_data$Rhat <= less, na.rm = TRUE)) {
       cat("TRUE: All Rhat values are less than ", less, "\n", sep = "")
       return(TRUE)
     } else {
       cat("FALSE: Some Rhat values are greater than ", less, "\n", sep = "")
       return(FALSE)
     }
-  } else {
-    return(rhatData)
   }
+  rhat_data
 }

@@ -8,8 +8,8 @@
   x = NULL,
   type = "dist",
   ncols = NULL,
-  fontSize = NULL,
-  binSize = NULL,
+  font_size = NULL,
+  bin_size = NULL,
   ...
 )
 }
@@ -20,9 +20,9 @@
 
 \item{ncols}{Integer value specifying how many plots there should be per row. Defaults to the number of parameters.}
 
-\item{fontSize}{Integer value specifying the size of the font used for plotting. Defaults to 10.}
+\item{font_size}{Integer value specifying the size of the font used for plotting. Defaults to 10.}
 
-\item{binSize}{Integer value specifying how wide the bars on the histogram should be. Defaults to 30.}
+\item{bin_size}{Integer value specifying how wide the bars on the histogram should be. Defaults to 30.}
 
 \item{...}{Additional arguments to be passed on}
 }

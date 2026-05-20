@@ -1,18 +1,30 @@
-#include /pre/license.stan
+/*
+    hBayesDM is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    hBayesDM is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with hBayesDM.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 // based on codes/comments by Guido Biele, Joseph Burling, Andrew Ellis, and potentially others @ Stan mailing lists
 data {
-  int<lower=1> N;      // Number of subjects
+  int<lower=1> N; // Number of subjects
   int<lower=0> Nu_max; // Max (across subjects) number of upper boundary responses
   int<lower=0> Nl_max; // Max (across subjects) number of lower boundary responses
-  int<lower=0> Nu[N];  // Number of upper boundary responses for each subj
-  int<lower=0> Nl[N];  // Number of lower boundary responses for each subj
-  real RTu[N, Nu_max];  // upper boundary response times
-  real RTl[N, Nl_max];  // lower boundary response times
-  real minRT[N];       // minimum RT for each subject of the observed data
-  real RTbound;        // lower bound or RT across all subjects (e.g., 0.1 second)
+  array[N] int<lower=0> Nu; // Number of upper boundary responses for each subj
+  array[N] int<lower=0> Nl; // Number of lower boundary responses for each subj
+  array[N, Nu_max] real RTu; // upper boundary response times
+  array[N, Nl_max] real RTl; // lower boundary response times
+  array[N] real minRT; // minimum RT for each subject of the observed data
+  real RTbound; // lower bound or RT across all subjects (e.g., 0.1 second)
 }
-
 parameters {
   // parameters of the DDM (parameter names in Ratcliffs DDM), from https://github.com/gbiele/stan_wiener_test/blob/master/stan_wiener_test.R
   // also see: https://groups.google.com/forum///!searchin/stan-users/wiener%7Csort:relevance/stan-users/-6wJfA-t2cQ/Q8HS-DXgBgAJ
@@ -23,75 +35,74 @@ parameters {
   ///* upper boundary of tau must be smaller than minimum RT
   //to avoid zero likelihood for fast responses.
   //tau can for physiological reasone not be faster than 0.1 s.*/
-
+  
   // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
   vector[4] mu_pr;
   vector<lower=0>[4] sigma;
-
+  
   // Subject-level raw parameters (for Matt trick)
   vector[N] alpha_pr;
   vector[N] beta_pr;
   vector[N] delta_pr;
   vector[N] tau_pr;
 }
-
 transformed parameters {
   // Transform subject-level raw parameters
-  vector<lower=0>[N]                         alpha; // boundary separation
-  vector<lower=0, upper=1>[N]                beta;  // initial bias
-  vector[N]                                  delta; // drift rate
+  vector<lower=0>[N] alpha; // boundary separation
+  vector<lower=0, upper=1>[N] beta; // initial bias
+  vector[N] delta; // drift rate
   vector<lower=RTbound, upper=max(minRT)>[N] tau; // nondecision time
-
-  for (i in 1:N) {
+  
+  for (i in 1 : N) {
     beta[i] = Phi_approx(mu_pr[2] + sigma[2] * beta_pr[i]);
-    tau[i]  = Phi_approx(mu_pr[4] + sigma[4] * tau_pr[i]) * (minRT[i] - RTbound) + RTbound;
+    tau[i] = Phi_approx(mu_pr[4] + sigma[4] * tau_pr[i])
+             * (minRT[i] - RTbound) + RTbound;
   }
   alpha = exp(mu_pr[1] + sigma[1] * alpha_pr);
   delta = mu_pr[3] + sigma[3] * delta_pr;
 }
-
 model {
   // Hyperparameters
-  mu_pr  ~ normal(0, 1);
+  mu_pr ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
-
+  
   // Individual parameters for non-centered parameterization
   alpha_pr ~ normal(0, 1);
-  beta_pr  ~ normal(0, 1);
+  beta_pr ~ normal(0, 1);
   delta_pr ~ normal(0, 1);
-  tau_pr   ~ normal(0, 1);
-
+  tau_pr ~ normal(0, 1);
+  
   // Begin subject loop
-  for (i in 1:N) {
+  for (i in 1 : N) {
     // Response time distributed along wiener first passage time distribution
-    RTu[i, :Nu[i]] ~ wiener(alpha[i], tau[i], beta[i], delta[i]);
-    RTl[i, :Nl[i]] ~ wiener(alpha[i], tau[i], 1-beta[i], -delta[i]);
-
+    RTu[i,  : Nu[i]] ~ wiener(alpha[i], tau[i], beta[i], delta[i]);
+    RTl[i,  : Nl[i]] ~ wiener(alpha[i], tau[i], 1 - beta[i], -delta[i]);
   } // end of subject loop
 }
-
 generated quantities {
   // For group level parameters
-  real<lower=0>                         mu_alpha; // boundary separation
-  real<lower=0, upper=1>                mu_beta;  // initial bias
-  real                                  mu_delta; // drift rate
+  real<lower=0> mu_alpha; // boundary separation
+  real<lower=0, upper=1> mu_beta; // initial bias
+  real mu_delta; // drift rate
   real<lower=RTbound, upper=max(minRT)> mu_tau; // nondecision time
-
+  
   // For log likelihood calculation
-  real log_lik[N];
-
+  array[N] real log_lik;
+  
   // Assign group level parameter values
   mu_alpha = exp(mu_pr[1]);
-  mu_beta  = Phi_approx(mu_pr[2]);
+  mu_beta = Phi_approx(mu_pr[2]);
   mu_delta = mu_pr[3];
-  mu_tau   = Phi_approx(mu_pr[4]) * (mean(minRT)-RTbound) + RTbound;
-
-  { // local section, this saves time and space
+  mu_tau = Phi_approx(mu_pr[4]) * (mean(minRT) - RTbound) + RTbound;
+  
+  {
+    // local section, this saves time and space
     // Begin subject loop
-    for (i in 1:N) {
-      log_lik[i] = wiener_lpdf(RTu[i, :Nu[i]] | alpha[i], tau[i], beta[i], delta[i]);
-      log_lik[i] += wiener_lpdf(RTl[i, :Nl[i]] | alpha[i], tau[i], 1-beta[i], -delta[i]);
+    for (i in 1 : N) {
+      log_lik[i] = wiener_lpdf(RTu[i,  : Nu[i]] | alpha[i], tau[i], beta[i], delta[i]);
+      log_lik[i] += wiener_lpdf(RTl[i,  : Nl[i]] | alpha[i], tau[i], 1
+                                                                    - beta[i], -delta[i]);
     }
   }
 }

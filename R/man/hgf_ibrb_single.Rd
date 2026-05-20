@@ -12,13 +12,14 @@ hgf_ibrb_single(
   ncore = 1,
   nthin = 1,
   inits = "vb",
-  indPars = "mean",
-  modelRegressor = FALSE,
+  ind_pars = "mean",
+  model_regressor = FALSE,
   vb = FALSE,
   inc_postpred = FALSE,
   adapt_delta = 0.95,
   stepsize = 1,
   max_treedepth = 10,
+  seed = 42,
   ...
 )
 }
@@ -44,10 +45,10 @@ high.}
 \item{inits}{Character value specifying how the initial values should be generated.
 Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
-\item{indPars}{Character value specifying how to summarize individual parameters. Current options
+\item{ind_pars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+\item{model_regressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
 Not available for this model.}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
@@ -66,6 +67,9 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
+\item{seed}{Integer seed used for MCMC sampling and (when applicable) variational inference, to
+make results reproducible. Defaults to \code{42}.}
+
 \item{...}{For this model, it's possible to set \strong{model-specific argument(s)} as follows: 
 \describe{
   \item{L}{Total level of hierarchy. Defaults to minimum level of 3}
@@ -80,27 +84,28 @@ on each new iteration. See \bold{Details} below.}
 }}
 }
 \value{
-A class "hBayesDM" object \code{modelData} with the following components:
+A class "hBayesDM" object \code{model_data} with the following components:
 \describe{
-  \item{model}{Character value that is the name of the model (\\code{"hgf_ibrb_single"}).}
-  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
-    \code{indPars}) for each subject.}
-  \item{parVals}{List object containing the posterior samples over different parameters.}
-  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
-    model.}
-  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{model}{Character value that is the name of the model (\code{"hgf_ibrb_single"}).}
+  \item{all_ind_pars}{Data.frame containing the summarized parameter values (as specified by
+    \code{ind_pars}) for each subject.}
+  \item{par_vals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A \code{CmdStanMCMC} object (or \code{CmdStanVB} when \code{vb = TRUE})
+    produced by \pkg{cmdstanr}. Use \code{fit$draws()}, \code{fit$summary()}, etc. to
+    interact with the posterior; see \pkg{cmdstanr} documentation for details.}
+  \item{raw_data}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  \item{modelRegressor}{List object containing the extracted model-based regressors.}
+  
 }
 }
 \description{
-Individual Bayesian Modeling of the NA using Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses.
+Individual Bayesian Modeling using Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses.
 It has the following parameters: \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief).
 
 \itemize{
-  \item \strong{Task}: NA 
+  
   \item \strong{Model}: Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses (Mathys C, 2011; Mathys CD et al., 2014)
 }
 }
@@ -111,7 +116,7 @@ This section describes some of the function arguments in greater detail.
   extension information, e.g. ".txt") of the file that contains the behavioral data-set of all
   subjects of interest for the current analysis. The file should be a \strong{tab-delimited} text
   file, whose rows represent trial-by-trial observations and columns represent variables.\cr
-For the NA, there should be 3 columns of data with the
+For the Individual-level Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses, there should be 3 columns of data with the
   labels "trialNum", "u", "y". It is not necessary for the columns to be in this particular order,
   however it is necessary that they be labeled correctly and contain the information below:
 \describe{
@@ -155,8 +160,13 @@ For the NA, there should be 3 columns of data with the
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
   Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
-  and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
-  description of these arguments.
+  and Reference Manual}, or to the help pages for \code{cmdstanr::sample()} for a less
+  technical description of these arguments.
+
+\strong{First-fit compile cost:} hBayesDM 2.0 compiles each Stan model on first use via
+  \pkg{cmdstanr} (no install-time precompile). Expect a one-time ~30s wait per model;
+  subsequent fits reuse the cached binary.
+
 
 \subsection{Contributors}{\href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@gmail.com}>, \href{https://github.com/juhajulia}{Juha Lee} <\email{juhajulia44@gmail.com}>, \href{https://github.com/0150362}{Yusom Jo} <\email{yaun2288@snu.ac.kr}>}
 }
@@ -180,7 +190,7 @@ rhat(output)
 plot(output)
 
 # Show the WAIC and LOOIC model fit estimates
-printFit(output)
+print_fit(output)
 }
 }
 \references{

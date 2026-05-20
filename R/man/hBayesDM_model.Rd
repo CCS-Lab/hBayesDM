@@ -40,9 +40,9 @@ not available for this model, \code{NULL}.}
 simulations. Default is \code{"y_pred"}. OR if posterior predictions are not yet available for
 this model, \code{NULL}.}
 
-\item{stanmodel_arg}{Leave as \code{NULL} (default) for completed models. Else should either be a
-character value (specifying the name of a Stan file) OR a \code{stanmodel} object (returned as
-a result of running \code{\link[rstan]{stan_model}}).}
+\item{stanmodel_arg}{Leave as \code{NULL} (default) for completed models. Else should be either a
+character value (the path to a Stan file) or a pre-compiled \code{cmdstanr::CmdStanModel}
+object.}
 
 \item{preprocess_func}{Function to preprocess the raw data before it gets passed to Stan. Takes
 (at least) two arguments: a data.table object \code{raw_data} and a list object

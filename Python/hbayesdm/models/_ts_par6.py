@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -24,9 +24,9 @@ class TsPar6(TaskModel):
             ),
             parameters=OrderedDict([
                 ('a1', (0, 0.5, 1)),
-                ('beta1', (0, 1, Inf)),
+                ('beta1', (0, 1, inf)),
                 ('a2', (0, 0.5, 1)),
-                ('beta2', (0, 1, Inf)),
+                ('beta2', (0, 1, inf)),
                 ('pi', (0, 1, 5)),
                 ('w', (0, 0.5, 1)),
             ]),

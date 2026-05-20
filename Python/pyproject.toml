@@ -1,52 +1,72 @@
-[tool.poetry]
+[project]
 name = "hbayesdm"
-version = "1.3.1.9000"
+version = "2.0.0.dev0"
 description = "Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks"
-authors = ["hBayesDM developers <hbayesdm-users@googlegroups.com>"]
-license = "GPLv3"
 readme = "README.rst"
-repository = "https://github.com/CCS-Lab/hBayesDM"
-documentation = "http://hbayesdm.readthedocs.io/"
+license = { text = "GPL-3.0-only" }
+authors = [
+  { name = "hBayesDM developers", email = "hbayesdm-users@googlegroups.com" },
+]
+requires-python = ">=3.13"
 classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.6",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3 :: Only"
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3 :: Only",
 ]
-include = [
-  {path="hbayesdm/common/extdata/**/*"},
-  {path="hbayesdm/common/stan_files/**/*"}
+dependencies = [
+  "numpy>=2.1,<3.0",
+  "scipy>=1.14,<2.0",
+  "pandas>=2.2,<3.0",
+  "cmdstanpy>=1.2.5,<2.0",
+  "matplotlib>=3.9,<4.0",
+  "arviz>=1.1,<2.0",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.6.1"
-numpy = "^1.19.4"
-scipy = "^1.5.4"
-pandas = "^1.1.5"
-pystan = "^2.19.1"
-matplotlib = "^3.3.3"
-arviz = "^0.10.0"
-importlib-metadata = "^3.3.0"
+[project.urls]
+Repository = "https://github.com/CCS-Lab/hBayesDM"
+Documentation = "http://hbayesdm.readthedocs.io/"
 
-[tool.poetry.dev-dependencies]
-autopep8 = "^1.5.4"
-pylint = "^2.6.0"
-pytest = "^6.1.2"
-flake8 = "^3.8.4"
-pytest-rerunfailures = "^9.1.1"
-Sphinx = "^3.3.1"
-sphinx-autodoc-typehints = "^1.11.1"
-sphinx-rtd-theme = "^0.5.0"
-mypy = "^0.790"
-
-[[tool.poetry.source]]
-name = "test"
-url = "https://test.pypi.org/legacy/"
-secondary = true
+[dependency-groups]
+dev = [
+  "pytest>=8.3",
+  "pytest-rerunfailures>=14",
+  "ruff>=0.7",
+  "mypy>=1.13",
+  "sphinx>=8",
+  "sphinx-autodoc-typehints>=2.5",
+  "sphinx-rtd-theme>=3",
+  # Codegen pipeline (commons/convert-to-{r,py}.py).
+  "pyyaml>=6",
+]
 
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hbayesdm"]
+
+[tool.hatch.build.targets.sdist]
+include = ["hbayesdm", "README.rst"]
+
+[tool.hatch.build]
+include = [
+  "hbayesdm/**/*.py",
+  "hbayesdm/common/extdata/**/*",
+  "hbayesdm/common/stan_files/**/*",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.13"
+ignore_missing_imports = true
+follow_imports = "skip"

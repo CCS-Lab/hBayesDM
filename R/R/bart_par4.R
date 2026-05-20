@@ -2,14 +2,12 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@@gmail.com}>, \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@@gmail.com}>, \href{https://ccs-lab.github.io/team/ayoung-lee/}{Ayoung Lee} <\email{aylee2008@@naver.com}>, \href{https://ccs-lab.github.io/team/jeongbin-oh/}{Jeongbin Oh} <\email{ows0104@@gmail.com}>, \href{https://ccs-lab.github.io/team/jiyoon-lee/}{Jiyoon Lee} <\email{nicole.lee2001@@gmail.com}>, \href{https://ccs-lab.github.io/team/junha-jang/}{Junha Jang} <\email{andy627robo@@naver.com}>
 #' @templateVar TASK_NAME Balloon Analogue Risk Task
 #' @templateVar TASK_CODE bart
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Re-parameterized version of BART model with 4 parameters
 #' @templateVar MODEL_CODE par4
 #' @templateVar MODEL_CITE (van Ravenzwaaij et al., 2011)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "pumps", "explosion"
 #' @templateVar PARAMETERS \code{phi} (prior belief of balloon not bursting), \code{eta} (updating rate), \code{gam} (risk-taking parameter), \code{tau} (inverse temperature)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

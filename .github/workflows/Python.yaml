@@ -1,0 +1,62 @@
+name: Python
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pytest:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} (Python ${{ matrix.python-version }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.13"]
+
+    env:
+      CMDSTAN_VERSION: "2.36.0"
+
+    defaults:
+      run:
+        working-directory: ./Python
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --all-groups
+
+      - name: Cache CmdStan
+        id: cmdstan-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cmdstan
+          key: cmdstan-${{ runner.os }}-${{ env.CMDSTAN_VERSION }}
+
+      - name: Install CmdStan
+        if: steps.cmdstan-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          uv run python -c "import cmdstanpy; cmdstanpy.install_cmdstan(version='${CMDSTAN_VERSION}', cores=2)"
+
+      - name: Lint
+        run: uv run ruff check hbayesdm
+        continue-on-error: true
+
+      - name: Run user-facing tests
+        run: uv run pytest tests/test_user_facing.py -v --reruns 2

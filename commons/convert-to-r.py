@@ -4,6 +4,7 @@ Generate R codes for hBayesDM using model information defined in YAML files.
 .. moduleauthor:: Jethro Lee <dlemfh96@snu.ac.kr>
 .. moduleauthor:: Jaeyeong Yang <jaeyeong.yang1125@gmail.com>
 """
+
 import argparse
 import re
 import sys
@@ -20,21 +21,22 @@ except ImportError:
 
 from utils import model_info, preprocess_func_prefix, extract_or_empty_string
 
+
 def represent_none(self, _):
-    return self.represent_scalar('tag:yaml.org,2002:null', '')
+    return self.represent_scalar("tag:yaml.org,2002:null", "")
 
 
 Dumper.add_representer(type(None), represent_none)
 
 PATH_ROOT = Path(__file__).absolute().parent
-PATH_MODELS = PATH_ROOT / 'models'
-PATH_TEMPLATE = PATH_ROOT / 'templates'
-PATH_OUTPUT = PATH_ROOT / '_r-codes'
-PATH_OUTPUT_TEST = PATH_ROOT / '_r-tests'
+PATH_MODELS = PATH_ROOT / "models"
+PATH_TEMPLATE = PATH_ROOT / "templates"
+PATH_OUTPUT = PATH_ROOT / "_r-codes"
+PATH_OUTPUT_TEST = PATH_ROOT / "_r-tests"
 
-TEMPLATE_DOCS = PATH_TEMPLATE / 'R_DOCS_TEMPLATE.txt'
-TEMPLATE_CODE = PATH_TEMPLATE / 'R_CODE_TEMPLATE.txt'
-TEMPLATE_TEST = PATH_TEMPLATE / 'R_TEST_TEMPLATE.txt'
+TEMPLATE_DOCS = PATH_TEMPLATE / "R_DOCS_TEMPLATE.txt"
+TEMPLATE_CODE = PATH_TEMPLATE / "R_CODE_TEMPLATE.txt"
+TEMPLATE_TEST = PATH_TEMPLATE / "R_TEST_TEMPLATE.txt"
 
 
 def ordered_load(stream, Loader=Loader, object_pairs_hook=OrderedDict):
@@ -44,9 +46,8 @@ def ordered_load(stream, Loader=Loader, object_pairs_hook=OrderedDict):
     def construct_mapping(loader, node):
         loader.flatten_mapping(node)
         return object_pairs_hook(loader.construct_pairs(node))
-    OrderedLoader.add_constructor(
-        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        construct_mapping)
+
+    OrderedLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, construct_mapping)
     return yaml.load(stream, OrderedLoader)
 
 
@@ -55,9 +56,8 @@ def ordered_dump(data, stream=None, Dumper=Dumper, **kwds):
         pass
 
     def _dict_representer(dumper, data):
-        return dumper.represent_mapping(
-            yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-            data.items())
+        return dumper.represent_mapping(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, data.items())
+
     OrderedDumper.add_representer(OrderedDict, _dict_representer)
     return yaml.dump(data, stream, OrderedDumper, **kwds)
 
@@ -67,44 +67,38 @@ def parse_cite_string(cite):
     if not cite:
         return None
 
-    fullcite = cite.replace('\n', '')
+    fullcite = cite.replace("\n", "")
 
-    regex_authoryear = r'(?P<authors>^.+?)\s\((?P<year>\d+?)\)'
-    regex_author = r'(?=\s\&)?\s?(?P<author>[^,&]+?,\s[^,&]+?)(?=,|\n|\r|$)'
+    regex_authoryear = r"(?P<authors>^.+?)\s\((?P<year>\d+?)\)"
+    regex_author = r"(?=\s\&)?\s?(?P<author>[^,&]+?,\s[^,&]+?)(?=,|\n|\r|$)"
 
     m_ay = re.search(regex_authoryear, fullcite)
-    year = m_ay.group('year')
+    year = m_ay.group("year")
 
     authors = []
-    for m in re.finditer(regex_author, m_ay.group('authors')):
-        authors.append(m.group('author'))
+    for m in re.finditer(regex_author, m_ay.group("authors")):
+        authors.append(m.group("author"))
 
-    firstauthor = authors[0].split(',')[0]
-    shortcite = '{}{}'.format(firstauthor, year)
+    firstauthor = authors[0].split(",")[0]
+    shortcite = "{}{}".format(firstauthor, year)
     if len(authors) == 1:
-        barecite = '{}, {}'.format(firstauthor, year)
+        barecite = "{}, {}".format(firstauthor, year)
     else:
-        barecite = '{} et al., {}'.format(firstauthor, year)
+        barecite = "{} et al., {}".format(firstauthor, year)
 
-    return {
-        'authors': authors,
-        'year': year,
-        'shortcite': shortcite,
-        'barecite': barecite,
-        'fullcite': fullcite
-    }
+    return {"authors": authors, "year": year, "shortcite": shortcite, "barecite": barecite, "fullcite": fullcite}
 
 
 def format_parencite(cites):
     if len(cites) == 0:
-        return ''
-    return '(' + '; '.join([c['barecite'] for c in cites if c]) + ')'
+        return ""
+    return "(" + "; ".join([c["barecite"] for c in cites if c]) + ")"
 
 
-def format_fullcite(cites, sep='\n#\' '):
+def format_fullcite(cites, sep="\n#' "):
     if len(cites) == 0:
-        return ''
-    return sep.join([c['fullcite'] for c in cites if c])
+        return ""
+    return sep.join([c["fullcite"] for c in cites if c])
 
 
 def format_references_block(cites_formatted):
@@ -118,13 +112,13 @@ def generate_docs(info):
     model_function, _, _, _ = model_info(info)
 
     # Citations
-    if info['task_name'].get('cite'):
-        task_cite = [parse_cite_string(c) for c in info['task_name']['cite']]
+    if info["task_name"].get("cite"):
+        task_cite = [parse_cite_string(c) for c in info["task_name"]["cite"]]
     else:
         task_cite = []
 
-    if info['model_name'].get('cite'):
-        model_cite = [parse_cite_string(c) for c in info['model_name']['cite']]
+    if info["model_name"].get("cite"):
+        model_cite = [parse_cite_string(c) for c in info["model_name"]["cite"]]
     else:
         model_cite = []
 
@@ -132,88 +126,83 @@ def generate_docs(info):
     model_parencite = format_parencite(model_cite)
 
     if len(task_cite + model_cite) > 0:
-        references = format_fullcite(task_cite + model_cite, sep='\n#\'\n#\' ')
+        references = format_fullcite(task_cite + model_cite, sep="\n#'\n#' ")
         references = format_references_block(references)
     else:
-        references = ''
+        references = ""
 
     # Notes
-    if info.get('notes'):
-        notes = '#\' @note\n#\' \\strong{Notes:}\n#\' ' + \
-                '\n#\' '.join(info['notes'])
-        notes = '\n#\' ' + notes + '\n#\''
+    if info.get("notes"):
+        notes = "#' @note\n#' \\strong{Notes:}\n#' " + "\n#' ".join(info["notes"])
+        notes = "\n#' " + notes + "\n#'"
     else:
-        notes = ''
+        notes = ""
 
     # Contributors
-    if info.get('contributors'):
-        contributors = ', '.join([
-            r'\href{%s}{%s} <\email{%s}>'
-            % (c['link'], c['name'], c['email'].replace('@', '@@'))
-            for c in info['contributors']
-        ])
+    if info.get("contributors"):
+        contributors = ", ".join(
+            [
+                r"\href{%s}{%s} <\email{%s}>" % (c["link"], c["name"], c["email"].replace("@", "@@"))
+                for c in info["contributors"]
+            ]
+        )
     else:
-        contributors = ''
+        contributors = ""
 
     # Data columns
-    data_columns = ', '.join([
-        r'"%s"' % k for k in info.get('data_columns', {}).keys()
-    ])
-    data_columns_len = len(info['data_columns'])
-    data_columns_details = '\n#\' '.join([
-        r'@templateVar DETAILS_DATA_%d \item{%s}{%s}'
-        % (i + 1, k, v.replace('\n', '\\cr'))
-        for i, (k, v) in enumerate(info['data_columns'].items())
-    ])
+    data_columns = ", ".join([r'"%s"' % k for k in info.get("data_columns", {}).keys()])
+    data_columns_len = len(info["data_columns"])
+    data_columns_details = "\n#' ".join(
+        [
+            r"@templateVar DETAILS_DATA_%d \item{%s}{%s}" % (i + 1, k, v.replace("\n", "\\cr"))
+            for i, (k, v) in enumerate(info["data_columns"].items())
+        ]
+    )
 
     # Parameters
-    parameters = ', '.join([
-        '\\code{%s} (%s)' % (k, v['desc'])
-        for k, v in info['parameters'].items()
-    ])
+    parameters = ", ".join(["\\code{%s} (%s)" % (k, v["desc"]) for k, v in info["parameters"].items()])
 
     # Regressors
-    if info.get('regressors'):
-        regressors = ', '.join([
-            '"%s"' % k for k in info['regressors'].keys()
-        ])
+    if info.get("regressors"):
+        regressors = ", ".join(['"%s"' % k for k in info["regressors"].keys()])
     else:
-        regressors = ''
+        regressors = ""
 
     # Postpreds
-    if info.get('postpreds'):
-        postpreds = ', '.join(['"%s"' % v for v in info['postpreds']])
+    if info.get("postpreds"):
+        postpreds = ", ".join(['"%s"' % v for v in info["postpreds"]])
     else:
-        postpreds = ''
+        postpreds = ""
 
     # Additional arguments
-    if info.get('additional_args'):
-        additional_args = info.get('additional_args', {})
+    if info.get("additional_args"):
+        additional_args = info.get("additional_args", {})
         additional_args_len = len(additional_args)
         if additional_args_len > 0:
-            additional_args_details = '\n#\' '.join([
-                r'@templateVar ADDITIONAL_ARGS_%d \item{%s}{%s}'
-                % (i + 1, v['code'], v['desc'])
-                for i, v in enumerate(additional_args)
-            ])
-            additional_args_details += '\n#\''
+            additional_args_details = "\n#' ".join(
+                [
+                    r"@templateVar ADDITIONAL_ARGS_%d \item{%s}{%s}" % (i + 1, v["code"], v["desc"])
+                    for i, v in enumerate(additional_args)
+                ]
+            )
+            additional_args_details += "\n#'"
     else:
         additional_args_len = 0
-        additional_args_details = ''
+        additional_args_details = ""
 
     # Read template for docstring
-    with open(TEMPLATE_DOCS, 'r') as f:
+    with open(TEMPLATE_DOCS, "r") as f:
         docs_template = f.read()
 
     docs = docs_template % dict(
         model_function=model_function,
-        task_name=extract_or_empty_string(info, 'task_name', 'desc'),
-        task_code=extract_or_empty_string(info, 'task_name', 'code'),
+        task_name=extract_or_empty_string(info, "task_name", "desc"),
+        task_code=extract_or_empty_string(info, "task_name", "code"),
         task_parencite=task_parencite,
-        model_name=extract_or_empty_string(info, 'model_name', 'desc'),
-        model_code=extract_or_empty_string(info, 'model_name', 'code'),
+        model_name=extract_or_empty_string(info, "model_name", "desc"),
+        model_code=extract_or_empty_string(info, "model_name", "code"),
         model_parencite=model_parencite,
-        model_type=extract_or_empty_string(info, 'model_type', 'desc'),
+        model_type=extract_or_empty_string(info, "model_type", "desc"),
         notes=notes,
         contributor=contributors,
         data_columns=data_columns,
@@ -227,6 +216,17 @@ def generate_docs(info):
         references=references,
     )
 
+    # roxygen2 >= 8.0 errors on empty `@templateVar X` lines; the shared
+    # template at R/man-roxygen/model-documentation.R uses get0() so a
+    # *missing* templateVar degrades gracefully. Drop interpolation-empty
+    # lines instead of emitting them with a trailing blank value.
+    docs = re.sub(
+        r"^#' @templateVar \w+ *\n",
+        "",
+        docs,
+        flags=re.MULTILINE,
+    )
+
     return docs
 
 
@@ -235,34 +235,37 @@ def generate_code(info):
     preprocess_func = preprocess_func_prefix(info) + "_preprocess_func"
 
     # Data columns
-    data_columns = ', '.join([
-        r'"%s"' % k for k in info.get('data_columns', {}).keys()
-    ])
+    data_columns = ", ".join([r'"%s"' % k for k in info.get("data_columns", {}).keys()])
 
     # Parameters
-    _params = info.get('parameters', {})
+    _params = info.get("parameters", {})
     if _params and len(_params) > 0:
-        parameters = ',\n    '.join([
-            '"{}" = c({}, {}, {})'
-            .format(k,
-                    v['info'][0] if v['info'][0] is not None else 'NULL',
-                    v['info'][1] if v['info'][1] is not None else 'NULL',
-                    v['info'][2] if v['info'][2] is not None else 'NULL')
-            for k, v in _params.items()
-        ])
-        parameters = 'list(\n    ' + parameters + '\n  )'
+        parameters = ",\n    ".join(
+            [
+                '"{}" = c({}, {}, {})'.format(
+                    k,
+                    v["info"][0] if v["info"][0] is not None else "NULL",
+                    v["info"][1] if v["info"][1] is not None else "NULL",
+                    v["info"][2] if v["info"][2] is not None else "NULL",
+                )
+                for k, v in _params.items()
+            ]
+        )
+        parameters = "list(\n    " + parameters + "\n  )"
     else:
-        parameters = 'NULL'
+        parameters = "NULL"
 
     # Additional Args
-    _additional_args = info.get('additional_args', {})
+    _additional_args = info.get("additional_args", {})
     if _additional_args and len(_additional_args) > 0:
+
         def format_default(val):
             if val is None:
                 return "NULL"
             if isinstance(val, bool):
                 return "TRUE" if val else "FALSE"
             if isinstance(val, list):
+
                 def to_r_literal(x):
                     if isinstance(x, bool):
                         return "TRUE" if x else "FALSE"
@@ -273,39 +276,41 @@ def generate_code(info):
                     if isinstance(x, list):
                         return f"c({', '.join(to_r_literal(y) for y in x)})"
                     return str(x)
+
                 return f"c({', '.join(to_r_literal(x) for x in val)})"
             return val
-        additional_args = ',\n    '.join([f"'{arg['code']}' = {format_default(arg['default'])}" for arg in _additional_args])
-        additional_args = 'list(\n    ' + additional_args + '\n  )'
+
+        additional_args = ",\n    ".join(
+            [f"'{arg['code']}' = {format_default(arg['default'])}" for arg in _additional_args]
+        )
+        additional_args = "list(\n    " + additional_args + "\n  )"
     else:
-        additional_args = 'NULL'
+        additional_args = "NULL"
 
     # Regressors
-    _regs = info.get('regressors', {})
+    _regs = info.get("regressors", {})
     if _regs and len(_regs) > 0:
-        regressors = ',\n    '.join([
-            '"{}" = {}'.format(k, v) for k, v in _regs.items()
-        ])
-        regressors = 'list(\n    ' + regressors + '\n  )'
+        regressors = ",\n    ".join(['"{}" = {}'.format(k, v) for k, v in _regs.items()])
+        regressors = "list(\n    " + regressors + "\n  )"
     else:
-        regressors = 'NULL'
+        regressors = "NULL"
 
     # Postpreds
-    _postpreds = info.get('postpreds', [])
+    _postpreds = info.get("postpreds", [])
     if _postpreds and len(_postpreds) > 0:
-        postpreds = ', '.join(['"%s"' % v for v in _postpreds])
-        postpreds = 'c(' + postpreds + ')'
+        postpreds = ", ".join(['"%s"' % v for v in _postpreds])
+        postpreds = "c(" + postpreds + ")"
     else:
-        postpreds = 'NULL'
+        postpreds = "NULL"
 
     # Read template for model codes
-    with open(TEMPLATE_CODE, 'r') as f:
+    with open(TEMPLATE_CODE, "r") as f:
         code_template = f.read()
 
     code = code_template % dict(
         model_function=model_function,
-        task_code=extract_or_empty_string(info, 'task_name', 'code'),
-        model_code=extract_or_empty_string(info, 'model_name', 'code'),
+        task_code=extract_or_empty_string(info, "task_name", "code"),
+        model_code=extract_or_empty_string(info, "model_name", "code"),
         model_type=model_type_code,
         data_columns=data_columns,
         parameters=parameters,
@@ -322,7 +327,7 @@ def generate_test(info):
     model_function, _, _, _ = model_info(info)
 
     # Read template for model tests
-    with open(TEMPLATE_TEST, 'r') as f:
+    with open(TEMPLATE_TEST, "r") as f:
         test_template = f.read()
 
     test = test_template % dict(model_function=model_function)
@@ -333,11 +338,11 @@ def generate_test(info):
 def main(info_fn):
     # Check if file exists
     if not info_fn.exists():
-        print('FileNotFound:', info_fn)
+        print("FileNotFound:", info_fn)
         sys.exit(1)
 
     # Load model information
-    with open(info_fn, 'r') as f:
+    with open(info_fn, "r") as f:
         info = ordered_load(f, Loader=Loader)
 
     # Generate codes
@@ -355,39 +360,31 @@ def main(info_fn):
         PATH_OUTPUT_TEST.mkdir(exist_ok=True)
 
     # Write model codes
-    code_fn = PATH_OUTPUT / (model_function + '.R')
-    with open(code_fn, 'w') as f:
+    code_fn = PATH_OUTPUT / (model_function + ".R")
+    with open(code_fn, "w") as f:
         f.write(output)
 
     # Write test codes
-    test_fn = PATH_OUTPUT_TEST / ('test_' + model_function + '.R')
-    with open(test_fn, 'w') as f:
+    test_fn = PATH_OUTPUT_TEST / ("test_" + model_function + ".R")
+    with open(test_fn, "w") as f:
         f.write(test)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '-v', '--verbose',
-        help='Whether to print its process.',
-        action='store_true')
-    parser.add_argument(
-        'info_files',
-        help='YAML-formatted file(s) for model information.',
-        type=str,
-        nargs='*')
+    parser.add_argument("-v", "--verbose", help="Whether to print its process.", action="store_true")
+    parser.add_argument("info_files", help="YAML-formatted file(s) for model information.", type=str, nargs="*")
 
     args = parser.parse_args()
 
     if args.info_files:
         info_fns = [PATH_MODELS / fn for fn in args.info_files]
     else:
-        info_fns = sorted(PATH_MODELS.glob('*.yml'))
+        info_fns = sorted(PATH_MODELS.glob("*.yml"))
 
     num_models = len(info_fns)
 
     for i, info_fn in enumerate(info_fns):
         main(info_fn)
         if args.verbose:
-            print('[{:2d} / {:2d}] Done for {}'
-                  .format(i + 1, num_models, info_fn))
+            print("[{:2d} / {:2d}] Done for {}".format(i + 1, num_models, info_fn))

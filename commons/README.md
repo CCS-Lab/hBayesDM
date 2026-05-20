@@ -16,5 +16,7 @@
 
 ## How to add a model
 
-Please check out the [wiki](https://github.com/CCS-Lab/hBayesDM/wiki) of the GitHub repository.
+See [`../CONTRIBUTING.md`](../CONTRIBUTING.md) at the repository root for the
+full contributor walkthrough (prerequisites, naming conventions, code
+generation, preprocess function, roxygen, testing).
 

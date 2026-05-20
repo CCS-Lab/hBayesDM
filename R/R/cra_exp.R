@@ -2,7 +2,6 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@@gmail.com}>
 #' @templateVar TASK_NAME Choice Under Risk and Ambiguity Task
 #' @templateVar TASK_CODE cra
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Exponential Subjective Value Model
 #' @templateVar MODEL_CODE exp
 #' @templateVar MODEL_CITE (Hsu et al., 2005)

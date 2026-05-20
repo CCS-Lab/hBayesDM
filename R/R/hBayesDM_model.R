@@ -8,12 +8,11 @@
 #' @keywords internal
 #'
 #' @include settings.R
-#' @include stanmodels.R
+#' @include fit_cmdstan.R
 #' @importFrom utils head
 #' @importFrom stats complete.cases qnorm median
 #' @importFrom data.table fread
 #' @importFrom parallel detectCores
-#' @importFrom rstan stan_model vb sampling extract
 #'
 #' @param task_name Character value for name of task. E.g. \code{"gng"}.
 #' @param model_name Character value for name of model. E.g. \code{"m1"}.
@@ -30,9 +29,9 @@
 #' @param postpreds Character vector of name(s) for the trial-level posterior predictive
 #'   simulations. Default is \code{"y_pred"}. OR if posterior predictions are not yet available for
 #'   this model, \code{NULL}.
-#' @param stanmodel_arg Leave as \code{NULL} (default) for completed models. Else should either be a
-#'   character value (specifying the name of a Stan file) OR a \code{stanmodel} object (returned as
-#'   a result of running \code{\link[rstan]{stan_model}}).
+#' @param stanmodel_arg Leave as \code{NULL} (default) for completed models. Else should be either a
+#'   character value (the path to a Stan file) or a pre-compiled \code{cmdstanr::CmdStanModel}
+#'   object.
 #' @param preprocess_func Function to preprocess the raw data before it gets passed to Stan. Takes
 #'   (at least) two arguments: a data.table object \code{raw_data} and a list object
 #'   \code{general_info}. Possible to include additional argument(s) to use during preprocessing.
@@ -121,19 +120,20 @@ hBayesDM_model <- function(task_name = "",
            ncore          = 1,
            nthin          = 1,
            inits          = "vb",
-           indPars        = "mean",
-           modelRegressor = FALSE,
+           ind_pars        = "mean",
+           model_regressor = FALSE,
            vb             = FALSE,
            inc_postpred   = FALSE,
            adapt_delta    = 0.95,
            stepsize       = 1,
            max_treedepth  = 10,
+           seed           = 42, 
            ...) {
 
     ############### Stop checks ###############
 
     # Check if regressor available for this model
-    if (modelRegressor && is.null(regressors)) {
+    if (model_regressor && is.null(regressors)) {
       stop("** Model-based regressors are not available for this model. **\n")
     }
 
@@ -279,7 +279,9 @@ hBayesDM_model <- function(task_name = "",
       # set default values if not specified in args
       for (nm in names(additional_args)) {
         if (!nm %in% names(args)) {
-          args[[nm]] <- additional_args[[nm]]
+          # Single-bracket list assignment so NULL defaults survive (the
+          # double-bracket form would drop the entry instead).
+          args[nm] <- list(additional_args[[nm]])
         }
       }
       data_list <- do.call(preprocess_func, c(list(raw_data, general_info), args))
@@ -299,7 +301,7 @@ hBayesDM_model <- function(task_name = "",
       pars <- c(pars, paste0("logit_", names(parameters)))
     }
     pars <- c(pars, "log_lik")
-    if (modelRegressor) {
+    if (model_regressor) {
       pars <- c(pars, names(regressors))
     }
     if (inc_postpred) {
@@ -378,7 +380,7 @@ hBayesDM_model <- function(task_name = "",
     }
 
     # When extracting model-based regressors
-    if (modelRegressor) {
+    if (model_regressor) {
       cat("\n")
       cat("**************************************\n")
       cat("**  Extract model-based regressors  **\n")
@@ -390,18 +392,8 @@ hBayesDM_model <- function(task_name = "",
       cat("\n")
     }
 
-    # Designate the Stan model
-    if (is.null(stanmodel_arg)) {
-      if (FLAG_BUILD_ALL) {
-        stanmodel_arg <- stanmodels[[model]]
-      } else {
-        model_path <- system.file("stan_files", paste0(model, ".stan"),
-                                  package="hBayesDM")
-        stanmodel_arg <- rstan::stan_model(model_path)
-      }
-    } else if (is.character(stanmodel_arg)) {
-      stanmodel_arg <- rstan::stan_model(stanmodel_arg)
-    }
+    # The Stan model name to use (cmdstanr will lazily compile on first use)
+    stan_model_name <- if (is.null(stanmodel_arg)) model else stanmodel_arg
 
     # Initial values for the parameters
     gen_init <- NULL
@@ -420,8 +412,10 @@ hBayesDM_model <- function(task_name = "",
         cat("****************************************\n")
 
         make_gen_init_from_vb <- function() {
-          fit_vb <- rstan::vb(object = stanmodel_arg, data = data_list)
-          m_vb <- colMeans(as.data.frame(fit_vb))
+          stan_model_obj <- .hbayesdm_compile(stan_model_name)
+          fit_vb <- stan_model_obj$variational(data = data_list)
+          draws_df <- posterior::as_draws_df(fit_vb$draws())
+          m_vb <- colMeans(as.data.frame(draws_df))
 
           function() {
             ret <- list(
@@ -454,6 +448,8 @@ hBayesDM_model <- function(task_name = "",
       cat("** Use random values as initial values **\n")
       cat("*****************************************\n")
       gen_init <- "random"
+    } else if (inits == 0) {
+      gen_init <- 0
     } else {
       if (inits[1] == "fixed") {
         # plausible values of each parameter
@@ -496,58 +492,49 @@ hBayesDM_model <- function(task_name = "",
 
     ############### Fit & extract ###############
 
-    # Fit the Stan model
-    if (vb) {
-      fit <- rstan::vb(object = stanmodel_arg,
-                       data   = data_list,
-                       pars   = pars,
-                       init   = gen_init)
-    } else {
-      fit <- rstan::sampling(object  = stanmodel_arg,
-                             data    = data_list,
-                             pars    = pars,
-                             init    = gen_init,
-                             chains  = nchain,
-                             iter    = niter,
-                             warmup  = nwarmup,
-                             thin    = nthin,
-                             control = list(adapt_delta   = adapt_delta,
-                                            stepsize      = stepsize,
-                                            max_treedepth = max_treedepth))
-    }
-
-    # Extract from the Stan fit object
-    parVals <- rstan::extract(fit, permuted = TRUE)
-
-    # Trial-level posterior predictive simulations
-    if (inc_postpred) {
-      for (pp in postpreds) {
-        parVals[[pp]][parVals[[pp]] == -1] <- NA
-      }
-    }
+    fit_result <- .hbayesdm_fit(
+      model_name    = stan_model_name,
+      data_list     = data_list,
+      pars          = pars,
+      gen_init      = gen_init,
+      vb            = vb,
+      nchain        = nchain,
+      niter         = niter,
+      nwarmup       = nwarmup,
+      nthin         = nthin,
+      adapt_delta   = adapt_delta,
+      stepsize      = stepsize,
+      max_treedepth = max_treedepth,
+      ncore         = ncore,
+      seed          = seed,
+      inc_postpred  = inc_postpred,
+      postpreds     = postpreds
+    )
+    fit <- fit_result$fit
+    par_vals <- fit_result$par_vals
 
     # Define measurement of individual parameters
-    measure_indPars <- switch(indPars, mean = mean, median = median, mode = estimate_mode)
+    measure_ind_pars <- switch(ind_pars, mean = mean, median = median, mode = estimate_mode)
 
     # Define which individual parameters to measure
-    which_indPars <- names(parameters)
+    which_ind_pars <- names(parameters)
     if ((task_name == "dd") && (model_type == "single")) {
-      which_indPars <- c(which_indPars, log_parameter1)
+      which_ind_pars <- c(which_ind_pars, log_parameter1)
     }
 
     # Measure all individual parameters (per subject)
     compute_individual_params <- function(x, i = NULL) {
-      a <- parVals[[x]]
+      a <- par_vals[[x]]
       d <- dim(a)
       if (model_type == "single") {
         if (is.null(d) || length(d) == 1) {
-          val <- measure_indPars(a) # real typed parameter
+          val <- measure_ind_pars(a) # real typed parameter
           names(val) <- x
           return(val)
         } else if (length(d) == 2) {
           param_cnt <- ncol(a)
           if (param_cnt == 0) return(numeric(0))
-          val <- apply(a, 2, measure_indPars) # vector typed parameter (multiple parameters for single subject)
+          val <- apply(a, 2, measure_ind_pars) # vector typed parameter (multiple parameters for single subject)
           names(val) <- paste0(x, "[", seq_along(val), "]")
           return(val)
         }
@@ -556,7 +543,7 @@ hBayesDM_model <- function(task_name = "",
         if (length(d) == 2) {
           param_cnt <- d[2]
           if (param_cnt == 0) return(numeric(0))
-          val <- measure_indPars(a[, i]) # vector typed parameter (one for each subject)
+          val <- measure_ind_pars(a[, i]) # vector typed parameter (one for each subject)
           names(val) <- x
           return(val)
         } else if (length(d) == 3) {
@@ -564,7 +551,7 @@ hBayesDM_model <- function(task_name = "",
           if (param_cnt == 0) return(numeric(0))
           slice <- a[, i, , drop = TRUE]
           if (is.null(dim(slice))) slice <- cbind(slice)
-          vals <- apply(slice, 2L, measure_indPars)
+          vals <- apply(slice, 2L, measure_ind_pars)
           names(vals) <- paste0(x, "[", seq_along(vals), "]")
           return(vals)
         }
@@ -573,24 +560,25 @@ hBayesDM_model <- function(task_name = "",
     }
 
     if (model_type == "single") {
-      first_row_param <- unlist(lapply(which_indPars, compute_individual_params), use.names = TRUE)
-      allIndPars <- as.data.frame(t(first_row_param), check.names = FALSE)
-      allIndPars <- cbind(subjID = subjs[1], allIndPars, row.names = NULL)
+      first_row_param <- unlist(lapply(which_ind_pars, compute_individual_params), use.names = TRUE)
+      all_ind_pars <- as.data.frame(t(first_row_param), check.names = FALSE)
+      all_ind_pars <- cbind(subjID = subjs[1], all_ind_pars, row.names = NULL)
     } else {
-      first_subj_params <- unlist(lapply(which_indPars, function(x) compute_individual_params(x, i = 1)), use.names = TRUE)
+      first_subj_params <- unlist(lapply(which_ind_pars, function(x) compute_individual_params(x, i = 1)), use.names = TRUE)
       rows <- lapply(seq_len(n_subj), function(i) {
-        unlist(lapply(which_indPars, function(x) compute_individual_params(x, i = i)), use.names = TRUE)
+        unlist(lapply(which_ind_pars, function(x) compute_individual_params(x, i = i)), use.names = TRUE)
       })
       mat <- do.call(rbind, rows)
       colnames(mat) <- names(first_subj_params)
-      allIndPars <- cbind(subjID = subjs, as.data.frame(mat, check.names = FALSE), row.names = NULL)
+      all_ind_pars <- cbind(subjID = subjs, as.data.frame(mat, check.names = FALSE), row.names = NULL)
     }
 
     # Model regressors (for model-based neuroimaging, etc.)
-    if (modelRegressor) {
-      model_regressor <- list()
+    regressor_list <- NULL
+    if (model_regressor) {
+      regressor_list <- list()
       for (r in names(regressors)) {
-        model_regressor[[r]] <- apply(parVals[[r]], c(1:regressors[[r]]) + 1, measure_indPars)
+        regressor_list[[r]] <- apply(par_vals[[r]], c(1:regressors[[r]]) + 1, measure_ind_pars)
       }
     }
 
@@ -599,18 +587,18 @@ hBayesDM_model <- function(task_name = "",
     raw_data <- as.data.frame(raw_data)
 
     # Wrap up data into a list
-    modelData                   <- list()
-    modelData$model             <- model
-    modelData$allIndPars        <- allIndPars
-    modelData$parVals           <- parVals
-    modelData$fit               <- fit
-    modelData$rawdata           <- raw_data
-    if (modelRegressor) {
-      modelData$modelRegressor  <- model_regressor
+    model_data                   <- list()
+    model_data$model             <- model
+    model_data$all_ind_pars        <- all_ind_pars
+    model_data$par_vals           <- par_vals
+    model_data$fit               <- fit
+    model_data$raw_data           <- raw_data
+    if (model_regressor) {
+      model_data$model_regressor <- regressor_list
     }
 
     # Object class definition
-    class(modelData) <- "hBayesDM"
+    class(model_data) <- "hBayesDM"
 
     # Inform user of completion
     cat("\n")
@@ -618,7 +606,7 @@ hBayesDM_model <- function(task_name = "",
     cat("**** Model fitting is complete! ****\n")
     cat("************************************\n")
 
-    return(modelData)
+    return(model_data)
   }
 }
 

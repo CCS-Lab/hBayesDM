@@ -1,19 +1,19 @@
+## Submission notes — 2.0.0
+
+This is a **major version** with breaking changes. The Stan backend has been
+swapped from rstan to **cmdstanr**, and CmdStan is now a system dependency
+rather than something compiled at install time.
+
+* No C++ code is compiled when the package is installed; `LinkingTo` is empty.
+* Stan models compile on first use via cmdstanr's lazy compilation (cached on
+  disk by cmdstanr after the initial build).
+* Users must install CmdStan once via `cmdstanr::install_cmdstan()` before
+  fitting models. Tests and examples that fit models are wrapped in
+  `\dontrun{}` / `skip_on_cran()` so CRAN check machines do not need CmdStan.
+* Minimum R version raised to 4.4.
+
 ## R CMD check results
 
-There were no ERRORs or WARNINGs. 
-
-There was 2 NOTEs:
-
-- The installed package size is about 5.5Mb including example data.
-```
-N  checking installed package size ...
-     installed size is  5.5Mb
-     sub-directories of 1Mb or more:
-       R         3.1Mb
-       extdata   1.3Mb
-```
-- To compile hBayesDM using rstan, GNU make is required.
-```
-N  checking for GNU extensions in Makefiles ...
-   GNU make is a SystemRequirements.
-```
+No ERRORs or WARNINGs expected. The package size NOTE persists due to the
+bundled example data and `inst/stan` files; the previous "GNU make required"
+NOTE is gone since rstan is no longer linked against.

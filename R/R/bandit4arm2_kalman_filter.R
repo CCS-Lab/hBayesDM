@@ -2,14 +2,12 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>
 #' @templateVar TASK_NAME 4-Armed Bandit Task (modified)
 #' @templateVar TASK_CODE bandit4arm2
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Kalman Filter
 #' @templateVar MODEL_CODE kalman_filter
 #' @templateVar MODEL_CITE (Daw et al., 2006)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome"
 #' @templateVar PARAMETERS \code{lambda} (decay factor), \code{theta} (decay center), \code{beta} (inverse softmax temperature), \code{mu0} (anticipated initial mean of all 4 options), \code{s0} (anticipated initial sd (uncertainty factor) of all 4 options), \code{sD} (sd of diffusion noise)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

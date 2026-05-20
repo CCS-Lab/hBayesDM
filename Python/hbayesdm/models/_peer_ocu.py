@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -28,8 +28,8 @@ class PeerOcu(TaskModel):
             ),
             parameters=OrderedDict([
                 ('rho', (0, 1, 2)),
-                ('tau', (0, 1, Inf)),
-                ('ocu', (-Inf, 0, Inf)),
+                ('tau', (0, 1, inf)),
+                ('ocu', (-inf, 0, inf)),
             ]),
             regressors=OrderedDict([
                 

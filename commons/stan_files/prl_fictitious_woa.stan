@@ -1,4 +1,17 @@
-#include /pre/license.stan
+/*
+    hBayesDM is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    hBayesDM is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with hBayesDM.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /**
  * Probabilistic Reversal Learning (PRL) Task
@@ -7,157 +20,153 @@
  */
 
 data {
-  int<lower=1> N;                       // Number of subjects
-  int<lower=1> T;                       // Maximum number of trials across subjects
-  int<lower=1, upper=T> Tsubj[N];       // Number of trials/blocks for each subject
-  int<lower=-1, upper=2> choice[N, T];  // The choices subjects made
-  real outcome[N, T];                   // The outcome
+  int<lower=1> N; // Number of subjects
+  int<lower=1> T; // Maximum number of trials across subjects
+  array[N] int<lower=1, upper=T> Tsubj; // Number of trials/blocks for each subject
+  array[N, T] int<lower=-1, upper=2> choice; // The choices subjects made
+  array[N, T] real outcome; // The outcome
 }
-
 transformed data {
   // Default value for (re-)initializing parameter vectors
   vector[2] initV;
   initV = rep_vector(0.0, 2);
 }
-
 // Declare all parameters as vectors for vectorizing
 parameters {
   // Hyper(group)-parameters
   vector[2] mu_pr;
   vector<lower=0>[2] sigma;
-
+  
   // Subject-level raw parameters (for Matt trick)
-  vector[N] eta_pr;   // learning rate
-  vector[N] beta_pr;  // inverse temperature
+  vector[N] eta_pr; // learning rate
+  vector[N] beta_pr; // inverse temperature
 }
-
 transformed parameters {
   // Transform subject-level raw parameters
   vector<lower=0, upper=1>[N] eta;
   vector<lower=0, upper=10>[N] beta;
-
-  for (i in 1:N) {
-    eta[i]   = Phi_approx(mu_pr[1] + sigma[1] * eta_pr[i]);
-    beta[i]  = Phi_approx(mu_pr[2] + sigma[2] * beta_pr[i]) * 10;
+  
+  for (i in 1 : N) {
+    eta[i] = Phi_approx(mu_pr[1] + sigma[1] * eta_pr[i]);
+    beta[i] = Phi_approx(mu_pr[2] + sigma[2] * beta_pr[i]) * 10;
   }
 }
-
 model {
   // Hyperparameters
-  mu_pr  ~ normal(0, 1);
+  mu_pr ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
-
+  
   // Individual parameters
-  eta_pr    ~ normal(0, 1);
-  beta_pr   ~ normal(0, 1);
-
-  for (i in 1:N) {
+  eta_pr ~ normal(0, 1);
+  beta_pr ~ normal(0, 1);
+  
+  for (i in 1 : N) {
     // Define values
-    vector[2] ev;    // expected value
-    vector[2] prob;  // probability
+    vector[2] ev; // expected value
+    vector[2] prob; // probability
     real prob_1_;
-
-    real PE;     // prediction error
-    real PEnc;   // fictitious prediction error (PE-non-chosen)
-
+    
+    real PE; // prediction error
+    real PEnc; // fictitious prediction error (PE-non-chosen)
+    
     // Initialize values
     ev = initV; // initial ev values
-
-    for (t in 1:(Tsubj[i])) {
+    
+    for (t in 1 : Tsubj[i]) {
       // Compute action probabilities
       prob[1] = 1 / (1 + exp(beta[i] * (ev[2] - ev[1])));
       prob_1_ = prob[1];
       prob[2] = 1 - prob_1_;
       choice[i, t] ~ categorical(prob);
-
+      
       // Prediction error
-      PE   =  outcome[i, t] - ev[choice[i, t]];
-      PEnc = -outcome[i, t] - ev[3-choice[i, t]];
-
+      PE = outcome[i, t] - ev[choice[i, t]];
+      PEnc = -outcome[i, t] - ev[3 - choice[i, t]];
+      
       // Value updating (learning)
-      ev[choice[i, t]]   += eta[i] * PE;
-      ev[3-choice[i, t]] += eta[i] * PEnc;
+      ev[choice[i, t]] += eta[i] * PE;
+      ev[3 - choice[i, t]] += eta[i] * PEnc;
     }
   }
 }
-
 generated quantities {
   // For group level parameters
   real<lower=0, upper=1> mu_eta;
   real<lower=0, upper=10> mu_beta;
-
+  
   // For log likelihood calculation
-  real log_lik[N];
-
+  array[N] real log_lik;
+  
   // For model regressors
-  real ev_c[N, T];    // Expected value of the chosen option
-  real ev_nc[N, T];   // Expected value of the non-chosen option
-
-  real pe_c[N, T];   //Prediction error of the chosen option
-  real pe_nc[N, T];  //Prediction error of the non-chosen option
-  real dv[N, T];     //Decision value = PE_chosen - PE_non-chosen
-
+  array[N, T] real ev_c; // Expected value of the chosen option
+  array[N, T] real ev_nc; // Expected value of the non-chosen option
+  
+  array[N, T] real pe_c; //Prediction error of the chosen option
+  array[N, T] real pe_nc; //Prediction error of the non-chosen option
+  array[N, T] real dv; //Decision value = PE_chosen - PE_non-chosen
+  
   // For posterior predictive check
-  real y_pred[N, T];
-
+  array[N, T] real y_pred;
+  
   // Set all posterior predictions, model regressors to 0 (avoids NULL values)
-  for (i in 1:N) {
-    for (t in 1:T) {
+  for (i in 1 : N) {
+    for (t in 1 : T) {
       ev_c[i, t] = 0;
       ev_nc[i, t] = 0;
-
+      
       pe_c[i, t] = 0;
       pe_nc[i, t] = 0;
-      dv[i, t] =0;
-
+      dv[i, t] = 0;
+      
       y_pred[i, t] = -1;
     }
   }
-
-  mu_eta    = Phi_approx(mu_pr[1]);
-  mu_beta   = Phi_approx(mu_pr[2]) * 10;
-
-  { // local section, this saves time and space
-    for (i in 1:N) {
+  
+  mu_eta = Phi_approx(mu_pr[1]);
+  mu_beta = Phi_approx(mu_pr[2]) * 10;
+  
+  {
+    // local section, this saves time and space
+    for (i in 1 : N) {
       // Define values
-      vector[2] ev;     // expected value
-      vector[2] prob;   // probability
+      vector[2] ev; // expected value
+      vector[2] prob; // probability
       real prob_1_;
-
-      real PE;          // prediction error
-      real PEnc;        // fictitious prediction error (PE-non-chosen)
-
+      
+      real PE; // prediction error
+      real PEnc; // fictitious prediction error (PE-non-chosen)
+      
       // Initialize values
       ev = initV; // initial ev values
-
+      
       log_lik[i] = 0;
-
-      for (t in 1:(Tsubj[i])) {
+      
+      for (t in 1 : Tsubj[i]) {
         // compute action probabilities
         prob[1] = 1 / (1 + exp(beta[i] * (ev[2] - ev[1])));
         prob_1_ = prob[1];
         prob[2] = 1 - prob_1_;
-
+        
         log_lik[i] += categorical_lpmf(choice[i, t] | prob);
-
+        
         // generate posterior prediction for current trial
         y_pred[i, t] = categorical_rng(prob);
-
+        
         // prediction error
-        PE   =  outcome[i, t] - ev[choice[i, t]];
-        PEnc = -outcome[i, t] - ev[3-choice[i, t]];
-
+        PE = outcome[i, t] - ev[choice[i, t]];
+        PEnc = -outcome[i, t] - ev[3 - choice[i, t]];
+        
         // Store values for model regressors
-        ev_c[i, t]   = ev[choice[i, t]];
-        ev_nc[i, t]  = ev[3 - choice[i, t]];
-
-        pe_c[i, t]   = PE;
-        pe_nc[i, t]  = PEnc;
-        dv[i, t]     = PE - PEnc;
-
+        ev_c[i, t] = ev[choice[i, t]];
+        ev_nc[i, t] = ev[3 - choice[i, t]];
+        
+        pe_c[i, t] = PE;
+        pe_nc[i, t] = PEnc;
+        dv[i, t] = PE - PEnc;
+        
         // value updating (learning)
-        ev[choice[i, t]]   += eta[i] * PE;
-        ev[3-choice[i, t]] += eta[i] * PEnc;
+        ev[choice[i, t]] += eta[i] * PE;
+        ev[3 - choice[i, t]] += eta[i] * PEnc;
       }
     }
   }

@@ -2,14 +2,12 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/yoonseo-zoh/}{Yoonseo Zoh} <\email{zohyos7@@gmail.com}>
 #' @templateVar TASK_NAME Description Based Decison Making Task
 #' @templateVar TASK_CODE dbdm
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Probability Weight Function
 #' @templateVar MODEL_CODE prob_weight
 #' @templateVar MODEL_CITE (Erev et al., 2010; Hertwig et al., 2004; Jessup et al., 2008)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "opt1hprob", "opt2hprob", "opt1hval", "opt1lval", "opt2hval", "opt2lval", "choice"
 #' @templateVar PARAMETERS \code{tau} (probability weight function), \code{rho} (subject utility function), \code{lambda} (loss aversion parameter), \code{beta} (inverse softmax temperature)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 8
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

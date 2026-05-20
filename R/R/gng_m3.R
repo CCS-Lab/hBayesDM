@@ -1,8 +1,6 @@
 #' @templateVar MODEL_FUNCTION gng_m3
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Orthogonalized Go/Nogo Task
 #' @templateVar TASK_CODE gng
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME RW + noise + bias + pi
 #' @templateVar MODEL_CODE m3
 #' @templateVar MODEL_CITE (Guitart-Masip et al., 2012)

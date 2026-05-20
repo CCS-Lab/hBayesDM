@@ -1,127 +1,137 @@
-#include /pre/license.stan
+/*
+    hBayesDM is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    hBayesDM is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with hBayesDM.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 data {
-  int<lower=1> N;            // Number of subjects
-  int<lower=1> T;            // Maximum number of trials
-  int<lower=0> Tsubj[N];     // Number of trials for each subject
-  int<lower=2> P;            // Number of max pump + 1 ** CAUTION **
-  int<lower=0> pumps[N, T];  // Number of pump
-  int<lower=0,upper=1> explosion[N, T];  // Whether the balloon exploded (0 or 1)
+  int<lower=1> N; // Number of subjects
+  int<lower=1> T; // Maximum number of trials
+  array[N] int<lower=0> Tsubj; // Number of trials for each subject
+  int<lower=2> P; // Number of max pump + 1 ** CAUTION **
+  array[N, T] int<lower=0> pumps; // Number of pump
+  array[N, T] int<lower=0, upper=1> explosion; // Whether the balloon exploded (0 or 1)
 }
-
-transformed data{
+transformed data {
   // Whether a subject pump the button or not (0 or 1)
-  int d[N, T, P];
-
-  for (j in 1:N) {
-    for (k in 1:Tsubj[j]) {
-      for (l in 1:P) {
-        if (l <= pumps[j, k])
+  array[N, T, P] int d;
+  
+  for (j in 1 : N) {
+    for (k in 1 : Tsubj[j]) {
+      for (l in 1 : P) {
+        if (l <= pumps[j, k]) 
           d[j, k, l] = 1;
-        else
+        else 
           d[j, k, l] = 0;
       }
     }
   }
 }
-
 parameters {
   // Group-level parameters
   vector[4] mu_pr;
   vector<lower=0>[4] sigma;
-
+  
   // Normally distributed error for Matt trick
   vector[N] phi_pr;
   vector[N] eta_pr;
   vector[N] gam_pr;
   vector[N] tau_pr;
 }
-
 transformed parameters {
   // Subject-level parameters with Matt trick
-  vector<lower=0,upper=1>[N] phi;
+  vector<lower=0, upper=1>[N] phi;
   vector<lower=0>[N] eta;
   vector<lower=0>[N] gam;
   vector<lower=0>[N] tau;
-
+  
   phi = Phi_approx(mu_pr[1] + sigma[1] * phi_pr);
   eta = exp(mu_pr[2] + sigma[2] * eta_pr);
   gam = exp(mu_pr[3] + sigma[3] * gam_pr);
   tau = exp(mu_pr[4] + sigma[4] * tau_pr);
 }
-
 model {
   // Prior
-  mu_pr  ~ normal(0, 1);
+  mu_pr ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
-
+  
   phi_pr ~ normal(0, 1);
   eta_pr ~ normal(0, 1);
   gam_pr ~ normal(0, 1);
   tau_pr ~ normal(0, 1);
-
+  
   // Likelihood
-  for (j in 1:N) {
+  for (j in 1 : N) {
     // Initialize n_succ and n_pump for a subject
-    int n_succ = 0;  // Number of successful pumps
-    int n_pump = 0;  // Number of total pumps
-
-    for (k in 1:Tsubj[j]) {
-      real p_burst;  // Belief on a balloon to be burst
-      real omega;    // Optimal number of pumps
-
+    int n_succ = 0; // Number of successful pumps
+    int n_pump = 0; // Number of total pumps
+    
+    for (k in 1 : Tsubj[j]) {
+      real p_burst; // Belief on a balloon to be burst
+      real omega; // Optimal number of pumps
+      
       p_burst = 1 - ((phi[j] + eta[j] * n_succ) / (1 + eta[j] * n_pump));
       omega = -gam[j] / log1m(p_burst);
-
+      
       // Calculate likelihood with bernoulli distribution
-      for (l in 1:(pumps[j, k] + 1 - explosion[j, k]))
+      for (l in 1 : (pumps[j, k] + 1 - explosion[j, k])) 
         d[j, k, l] ~ bernoulli_logit(tau[j] * (omega - l));
-
+      
       // Update n_succ and n_pump after each trial ends
       n_succ += pumps[j, k] - explosion[j, k];
       n_pump += pumps[j, k];
     }
   }
 }
-
 generated quantities {
   // Actual group-level mean
   real<lower=0, upper=1> mu_phi = Phi_approx(mu_pr[1]);
   real<lower=0> mu_eta = exp(mu_pr[2]);
   real<lower=0> mu_gam = exp(mu_pr[3]);
   real<lower=0> mu_tau = exp(mu_pr[4]);
-
+  
   // Log-likelihood for model fit
-  real log_lik[N];
-
+  array[N] real log_lik;
+  
   // For posterior predictive check
-  real y_pred[N, T, P];
-
+  array[N, T, P] real y_pred;
+  
   // Set all posterior predictions to 0 (avoids NULL values)
-  for (j in 1:N)
-    for (k in 1:T)
-      for(l in 1:P)
+  for (j in 1 : N) 
+    for (k in 1 : T) 
+      for (l in 1 : P) 
         y_pred[j, k, l] = -1;
-
-  { // Local section to save time and space
-    for (j in 1:N) {
+  
+  {
+    // Local section to save time and space
+    for (j in 1 : N) {
       int n_succ = 0;
       int n_pump = 0;
-
+      
       log_lik[j] = 0;
-
-      for (k in 1:Tsubj[j]) {
-        real p_burst;  // Belief on a balloon to be burst
-        real omega;    // Optimal number of pumps
-
+      
+      for (k in 1 : Tsubj[j]) {
+        real p_burst; // Belief on a balloon to be burst
+        real omega; // Optimal number of pumps
+        
         p_burst = 1 - ((phi[j] + eta[j] * n_succ) / (1 + eta[j] * n_pump));
         omega = -gam[j] / log1m(p_burst);
-
-        for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | tau[j] * (omega - l));
+        
+        for (l in 1 : (pumps[j, k] + 1 - explosion[j, k])) {
+          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | tau[j]
+                                                          * (omega - l));
           y_pred[j, k, l] = bernoulli_logit_rng(tau[j] * (omega - l));
         }
-
+        
         n_succ += pumps[j, k] - explosion[j, k];
         n_pump += pumps[j, k];
       }

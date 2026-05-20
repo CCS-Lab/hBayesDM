@@ -1,15 +1,12 @@
 #' @templateVar MODEL_FUNCTION ra_prospect
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Risk Aversion Task
 #' @templateVar TASK_CODE ra
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Prospect Theory
 #' @templateVar MODEL_CODE prospect
 #' @templateVar MODEL_CITE (Sokol-Hessner et al., 2009)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "gain", "loss", "cert", "gamble"
 #' @templateVar PARAMETERS \code{rho} (risk aversion), \code{lambda} (loss aversion), \code{tau} (inverse temperature)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 5
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

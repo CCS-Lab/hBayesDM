@@ -12,13 +12,14 @@ prl_rp_multipleB(
   ncore = 1,
   nthin = 1,
   inits = "vb",
-  indPars = "mean",
-  modelRegressor = FALSE,
+  ind_pars = "mean",
+  model_regressor = FALSE,
   vb = FALSE,
   inc_postpred = FALSE,
   adapt_delta = 0.95,
   stepsize = 1,
   max_treedepth = 10,
+  seed = 42,
   ...
 )
 }
@@ -44,10 +45,10 @@ high.}
 \item{inits}{Character value specifying how the initial values should be generated.
 Possible options are "vb" (default), "fixed", "random", or your own initial values.}
 
-\item{indPars}{Character value specifying how to summarize individual parameters. Current options
+\item{ind_pars}{Character value specifying how to summarize individual parameters. Current options
 are: "mean", "median", or "mode".}
 
-\item{modelRegressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
+\item{model_regressor}{Whether to export model-based regressors (\code{TRUE} or \code{FALSE}).
 For this model they are: "ev_c", "ev_nc", "pe".}
 
 \item{vb}{Use variational inference to approximately draw from a posterior distribution. Defaults
@@ -66,22 +67,26 @@ take on each new iteration. See \bold{Details} below.}
 \item{max_treedepth}{Integer value specifying how many leapfrog steps the MCMC sampler can take
 on each new iteration. See \bold{Details} below.}
 
+\item{seed}{Integer seed used for MCMC sampling and (when applicable) variational inference, to
+make results reproducible. Defaults to \code{42}.}
+
 \item{...}{For this model, there is no model-specific argument.}
 }
 \value{
-A class "hBayesDM" object \code{modelData} with the following components:
+A class "hBayesDM" object \code{model_data} with the following components:
 \describe{
-  \item{model}{Character value that is the name of the model (\\code{"prl_rp_multipleB"}).}
-  \item{allIndPars}{Data.frame containing the summarized parameter values (as specified by
-    \code{indPars}) for each subject.}
-  \item{parVals}{List object containing the posterior samples over different parameters.}
-  \item{fit}{A class \code{\link[rstan]{stanfit}} object that contains the fitted Stan
-    model.}
-  \item{rawdata}{Data.frame containing the raw data used to fit the model, as specified by
+  \item{model}{Character value that is the name of the model (\code{"prl_rp_multipleB"}).}
+  \item{all_ind_pars}{Data.frame containing the summarized parameter values (as specified by
+    \code{ind_pars}) for each subject.}
+  \item{par_vals}{List object containing the posterior samples over different parameters.}
+  \item{fit}{A \code{CmdStanMCMC} object (or \code{CmdStanVB} when \code{vb = TRUE})
+    produced by \pkg{cmdstanr}. Use \code{fit$draws()}, \code{fit$summary()}, etc. to
+    interact with the posterior; see \pkg{cmdstanr} documentation for details.}
+  \item{raw_data}{Data.frame containing the raw data used to fit the model, as specified by
     the user.}
   
   
-  \item{modelRegressor}{List object containing the extracted model-based regressors.}
+  \item{model_regressor}{List object containing the extracted model-based regressors.}
 }
 }
 \description{
@@ -144,8 +149,13 @@ For the Probabilistic Reversal Learning Task, there should be 4 columns of data 
   Hamiltonian Monte Carlo (Hoffman & Gelman, 2014, Journal of Machine Learning Research)' for
   more information on the sampler control parameters. One can also refer to 'Section 34.2. HMC
   Algorithm Parameters' of the \href{https://mc-stan.org/users/documentation/}{Stan User's Guide
-  and Reference Manual}, or to the help page for \code{\link[rstan]{stan}} for a less technical
-  description of these arguments.
+  and Reference Manual}, or to the help pages for \code{cmdstanr::sample()} for a less
+  technical description of these arguments.
+
+\strong{First-fit compile cost:} hBayesDM 2.0 compiles each Stan model on first use via
+  \pkg{cmdstanr} (no install-time precompile). Expect a one-time ~30s wait per model;
+  subsequent fits reuse the cached binary.
+
 
 \subsection{Contributors}{\href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang (for model-based regressors)} <\email{jaeyeong.yang1125@gmail.com}>, \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park (for model-based regressors)} <\email{hrpark12@gmail.com}>}
 }
@@ -169,7 +179,7 @@ rhat(output)
 plot(output)
 
 # Show the WAIC and LOOIC model fit estimates
-printFit(output)
+print_fit(output)
 }
 }
 \references{

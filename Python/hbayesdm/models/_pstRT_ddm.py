@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -23,11 +23,11 @@ class PstrtDdm(TaskModel):
                 'RT',
             ),
             parameters=OrderedDict([
-                ('a', (0, 1.8, Inf)),
-                ('tau', (0, 0.3, Inf)),
-                ('d1', (-Inf, 0.8, Inf)),
-                ('d2', (-Inf, 0.4, Inf)),
-                ('d3', (-Inf, 0.3, Inf)),
+                ('a', (0, 1.8, inf)),
+                ('tau', (0, 0.3, inf)),
+                ('d1', (-inf, 0.8, inf)),
+                ('d2', (-inf, 0.4, inf)),
+                ('d3', (-inf, 0.3, inf)),
             ]),
             regressors=OrderedDict([
                 

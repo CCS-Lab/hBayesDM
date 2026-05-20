@@ -1,16 +1,12 @@
 #' @templateVar MODEL_FUNCTION choiceRT_ddm_single
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Choice Reaction Time Task
 #' @templateVar TASK_CODE choiceRT
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Drift Diffusion Model
 #' @templateVar MODEL_CODE ddm
 #' @templateVar MODEL_CITE (Ratcliff, 1978)
 #' @templateVar MODEL_TYPE Individual
 #' @templateVar DATA_COLUMNS "subjID", "choice", "RT"
 #' @templateVar PARAMETERS \code{alpha} (boundary separation), \code{beta} (bias), \code{delta} (drift rate), \code{tau} (non-decision time)
-#' @templateVar REGRESSORS 
-#' @templateVar POSTPREDS 
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{choice}{Choice made for the current trial, coded as 1/2 to indicate lower/upper boundary or left/right choices (e.g., 1 1 1 2 1 2).}

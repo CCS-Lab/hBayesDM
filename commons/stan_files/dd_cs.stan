@@ -1,105 +1,123 @@
-#include /pre/license.stan
+/*
+    hBayesDM is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    hBayesDM is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with hBayesDM.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 data {
   int<lower=1> N;
   int<lower=1> T;
-  int<lower=1, upper=T> Tsubj[N];
-  real<lower=0> delay_later[N, T];
-  real<lower=0> amount_later[N, T];
-  real<lower=0> delay_sooner[N, T];
-  real<lower=0> amount_sooner[N, T];
-  int<lower=-1, upper=1> choice[N, T]; // 0 for instant reward, 1 for delayed reward
+  array[N] int<lower=1, upper=T> Tsubj;
+  array[N, T] real<lower=0> delay_later;
+  array[N, T] real<lower=0> amount_later;
+  array[N, T] real<lower=0> delay_sooner;
+  array[N, T] real<lower=0> amount_sooner;
+  array[N, T] int<lower=-1, upper=1> choice; // 0 for instant reward, 1 for delayed reward
 }
-
 transformed data {
+  
 }
-
 parameters {
-// Declare all parameters as vectors for vectorizing
+  // Declare all parameters as vectors for vectorizing
   // Hyper(group)-parameters
   vector[3] mu_pr;
   vector<lower=0>[3] sigma;
-
+  
   // Subject-level raw parameters (for Matt trick)
-  vector[N] r_pr;     // (exponential) discounting rate (Impatience)
-  vector[N] s_pr;     // time-sensitivity
-  vector[N] beta_pr;  // inverse temperature
+  vector[N] r_pr; // (exponential) discounting rate (Impatience)
+  vector[N] s_pr; // time-sensitivity
+  vector[N] beta_pr; // inverse temperature
 }
-
 transformed parameters {
   // Transform subject-level raw parameters
-  vector<lower=0, upper=1>[N]  r;
+  vector<lower=0, upper=1>[N] r;
   vector<lower=0, upper=10>[N] s;
-  vector<lower=0, upper=5>[N]  beta;
-
-  for (i in 1:N) {
-    r[i]    = Phi_approx(mu_pr[1] + sigma[1] * r_pr[i]);
-    s[i]    = Phi_approx(mu_pr[2] + sigma[2] * s_pr[i]) * 10;
+  vector<lower=0, upper=5>[N] beta;
+  
+  for (i in 1 : N) {
+    r[i] = Phi_approx(mu_pr[1] + sigma[1] * r_pr[i]);
+    s[i] = Phi_approx(mu_pr[2] + sigma[2] * s_pr[i]) * 10;
     beta[i] = Phi_approx(mu_pr[3] + sigma[3] * beta_pr[i]) * 5;
   }
 }
-
 model {
-// Constant-sensitivity model (Ebert & Prelec, 2007)
+  // Constant-sensitivity model (Ebert & Prelec, 2007)
   // Hyperparameters
-  mu_pr  ~ normal(0, 1);
+  mu_pr ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
-
+  
   // individual parameters
-  r_pr    ~ normal(0, 1);
-  s_pr    ~ normal(0, 1);
+  r_pr ~ normal(0, 1);
+  s_pr ~ normal(0, 1);
   beta_pr ~ normal(0, 1);
-
-  for (i in 1:N) {
+  
+  for (i in 1 : N) {
     // Define values
     real ev_later;
     real ev_sooner;
-
-    for (t in 1:(Tsubj[i])) {
-      ev_later  = amount_later[i, t] * exp(-1* (pow(r[i] * delay_later[i, t], s[i])));
-      ev_sooner = amount_sooner[i, t] * exp(-1* (pow(r[i] * delay_sooner[i, t], s[i])));
+    
+    for (t in 1 : Tsubj[i]) {
+      ev_later = amount_later[i, t]
+                 * exp(-1 * pow(r[i] * delay_later[i, t], s[i]));
+      ev_sooner = amount_sooner[i, t]
+                  * exp(-1 * pow(r[i] * delay_sooner[i, t], s[i]));
       choice[i, t] ~ bernoulli_logit(beta[i] * (ev_later - ev_sooner));
     }
   }
 }
 generated quantities {
   // For group level parameters
-  real<lower=0, upper=1>  mu_r;
+  real<lower=0, upper=1> mu_r;
   real<lower=0, upper=10> mu_s;
-  real<lower=0, upper=5>  mu_beta;
-
+  real<lower=0, upper=5> mu_beta;
+  
   // For log likelihood calculation
-  real log_lik[N];
-
+  array[N] real log_lik;
+  
   // For posterior predictive check
-  real y_pred[N, T];
-
+  array[N, T] real y_pred;
+  
   // Set all posterior predictions to 0 (avoids NULL values)
-  for (i in 1:N) {
-    for (t in 1:T) {
+  for (i in 1 : N) {
+    for (t in 1 : T) {
       y_pred[i, t] = -1;
     }
   }
-
-  mu_r    = Phi_approx(mu_pr[1]);
-  mu_s    = Phi_approx(mu_pr[2]) * 10;
+  
+  mu_r = Phi_approx(mu_pr[1]);
+  mu_s = Phi_approx(mu_pr[2]) * 10;
   mu_beta = Phi_approx(mu_pr[3]) * 5;
-
-  { // local section, this saves time and space
-    for (i in 1:N) {
+  
+  {
+    // local section, this saves time and space
+    for (i in 1 : N) {
       // Define values
       real ev_later;
       real ev_sooner;
-
+      
       log_lik[i] = 0;
-
-      for (t in 1:(Tsubj[i])) {
-        ev_later  = amount_later[i, t] * exp(-1* (pow(r[i] * delay_later[i, t], s[i])));
-        ev_sooner = amount_sooner[i, t] * exp(-1* (pow(r[i] * delay_sooner[i, t], s[i])));
-        log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i] * (ev_later - ev_sooner));
-
+      
+      for (t in 1 : Tsubj[i]) {
+        ev_later = amount_later[i, t]
+                   * exp(-1 * pow(r[i] * delay_later[i, t], s[i]));
+        ev_sooner = amount_sooner[i, t]
+                    * exp(-1 * pow(r[i] * delay_sooner[i, t], s[i]));
+        log_lik[i] += bernoulli_logit_lpmf(choice[i, t] | beta[i]
+                                                          * (ev_later
+                                                             - ev_sooner));
+        
         // generate posterior prediction for current trial
-        y_pred[i, t] = bernoulli_rng(inv_logit(beta[i] * (ev_later - ev_sooner)));
+        y_pred[i, t] = bernoulli_rng(inv_logit(beta[i]
+                                               * (ev_later - ev_sooner)));
       }
     }
   }

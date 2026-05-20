@@ -1,0 +1,88 @@
+name: R
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (R ${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest,  r: '4.4'}
+          - {os: windows-latest, r: '4.4'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+      CMDSTAN_VERSION: "2.36.0"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: ./R
+          extra-packages: |
+            any::rcmdcheck
+            any::testthat
+            any::covr
+            stan-dev/cmdstanr
+          needs: check
+
+      - name: Cache CmdStan
+        id: cmdstan-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cmdstan
+          key: cmdstan-${{ runner.os }}-${{ env.CMDSTAN_VERSION }}
+
+      - name: Install CmdStan
+        if: steps.cmdstan-cache.outputs.cache-hit != 'true'
+        run: |
+          cmdstanr::check_cmdstan_toolchain(fix = TRUE, quiet = FALSE)
+          cmdstanr::install_cmdstan(version = Sys.getenv("CMDSTAN_VERSION"), cores = 2)
+        shell: Rscript {0}
+
+      - name: R CMD check
+        uses: r-lib/actions/check-r-package@v2
+        with:
+          working-directory: ./R
+          args: 'c("--no-manual", "--as-cran", "--no-build-vignettes", "--no-tests", "--no-examples")'
+          error-on: '"warning"'
+
+      - name: Install hBayesDM
+        shell: bash
+        run: R CMD INSTALL R
+
+      - name: Run user-facing tests
+        env:
+          NOT_CRAN: "true"
+          TEST_FILE: ${{ github.workspace }}/R/tests/testthat/test_user_facing.R
+        run: |
+          Rscript -e "testthat::test_file(Sys.getenv('TEST_FILE'), reporter = 'progress')"
+
+      - name: Upload coverage to codecov
+        if: matrix.config.os == 'ubuntu-latest'
+        env:
+          NOT_CRAN: "true"
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          TEST_FILE: ${{ github.workspace }}/R/tests/testthat/test_user_facing.R
+        run: |
+          Rscript -e "covr::codecov(path = 'R', quiet = FALSE, type = 'none', code = sprintf('testthat::test_file(\"%s\", reporter = \"progress\")', Sys.getenv('TEST_FILE')))"

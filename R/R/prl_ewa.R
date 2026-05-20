@@ -2,7 +2,6 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang (for model-based regressors)} <\email{jaeyeong.yang1125@@gmail.com}>, \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park (for model-based regressors)} <\email{hrpark12@@gmail.com}>
 #' @templateVar TASK_NAME Probabilistic Reversal Learning Task
 #' @templateVar TASK_CODE prl
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Experience-Weighted Attraction Model
 #' @templateVar MODEL_CODE ewa
 #' @templateVar MODEL_CITE (Ouden et al., 2013)

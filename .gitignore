@@ -356,3 +356,6 @@ CRAN-RELEASE
 Python/.idea
 Python/hbayesdm/version.py
 
+# compiled stan objects
+commons/stan_files/*
+!commons/stan_files/*.stan

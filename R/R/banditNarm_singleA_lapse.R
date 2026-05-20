@@ -2,14 +2,12 @@
 #' @templateVar CONTRIBUTOR \href{https://github.com/cheoljun95}{Cheol Jun Cho} <\email{cjfwndnsl@@gmail.com}>
 #' @templateVar TASK_NAME N-Armed Bandit Task
 #' @templateVar TASK_CODE banditNarm
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME 4 Parameter Model, without C (choice perseveration) but with xi (noise). Single learning rate both for R and P.
 #' @templateVar MODEL_CODE singleA_lapse
 #' @templateVar MODEL_CITE (Aylward et al., 2018)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "gain", "loss"
 #' @templateVar PARAMETERS \code{A} (learning rate), \code{R} (reward sensitivity), \code{P} (punishment sensitivity), \code{xi} (noise)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

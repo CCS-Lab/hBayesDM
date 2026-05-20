@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -26,8 +26,8 @@ class IgtOrl(TaskModel):
                 ('Arew', (0, 0.1, 1)),
                 ('Apun', (0, 0.1, 1)),
                 ('K', (0, 0.1, 5)),
-                ('betaF', (-Inf, 0.1, Inf)),
-                ('betaP', (-Inf, 1, Inf)),
+                ('betaF', (-inf, 0.1, inf)),
+                ('betaP', (-inf, 1, inf)),
             ]),
             regressors=OrderedDict([
                 

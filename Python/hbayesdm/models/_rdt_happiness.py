@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -28,12 +28,12 @@ class RdtHappiness(TaskModel):
                 'RT_happy',
             ),
             parameters=OrderedDict([
-                ('w0', (-Inf, 1, Inf)),
-                ('w1', (-Inf, 1, Inf)),
-                ('w2', (-Inf, 1, Inf)),
-                ('w3', (-Inf, 1, Inf)),
+                ('w0', (-inf, 1, inf)),
+                ('w1', (-inf, 1, inf)),
+                ('w2', (-inf, 1, inf)),
+                ('w3', (-inf, 1, inf)),
                 ('gam', (0, 0.5, 1)),
-                ('sig', (0, 1, Inf)),
+                ('sig', (0, 1, inf)),
             ]),
             regressors=OrderedDict([
                 
@@ -99,8 +99,8 @@ def rdt_happiness(
     correctly and contain the information below:
 
     - "subjID": A unique identifier for each subject in the data-set.
-    - "gain": Possible (50\%) gain outcome of a risky option (e.g. 9).
-    - "loss": Possible (50\%) loss outcome of a risky option (e.g. 5, or -5).
+    - "gain": Possible (50%) gain outcome of a risky option (e.g. 9).
+    - "loss": Possible (50%) loss outcome of a risky option (e.g. 5, or -5).
     - "cert": Guaranteed amount of a safe option.
     - "type": loss == -1, mixed == 0, gain == 1
     - "gamble": If gamble was taken, gamble == 1; else gamble == 0.

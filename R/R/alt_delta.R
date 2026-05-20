@@ -5,11 +5,9 @@
 #' @templateVar TASK_CITE (Browning et al., 2015)
 #' @templateVar MODEL_NAME Rescorla-Wagner (Delta) Model
 #' @templateVar MODEL_CODE delta
-#' @templateVar MODEL_CITE 
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "choice", "outcome", "bluePunish", "orangePunish"
 #' @templateVar PARAMETERS \code{A} (learning rate), \code{beta} (inverse temperature), \code{gamma} (risk preference)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 5
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

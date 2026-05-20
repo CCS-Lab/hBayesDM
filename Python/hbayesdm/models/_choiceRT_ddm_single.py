@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -22,9 +22,9 @@ class ChoicertDdmSingle(TaskModel):
                 'RT',
             ),
             parameters=OrderedDict([
-                ('alpha', (0, 0.5, Inf)),
+                ('alpha', (0, 0.5, inf)),
                 ('beta', (0, 0.5, 1)),
-                ('delta', (-Inf, 0, Inf)),
+                ('delta', (-inf, 0, inf)),
                 ('tau', (0, 0.15, 1)),
             ]),
             regressors=OrderedDict([

@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -22,8 +22,8 @@ class Task2AfcSdt(TaskModel):
                 'response',
             ),
             parameters=OrderedDict([
-                ('d', (-Inf, 0, Inf)),
-                ('c', (-Inf, 0, Inf)),
+                ('d', (-inf, 0, inf)),
+                ('c', (-inf, 0, inf)),
             ]),
             regressors=OrderedDict([
                 

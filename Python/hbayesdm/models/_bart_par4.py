@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -23,9 +23,9 @@ class BartPar4(TaskModel):
             ),
             parameters=OrderedDict([
                 ('phi', (0, 0.5, 1)),
-                ('eta', (0, 1, Inf)),
-                ('gam', (0, 1, Inf)),
-                ('tau', (0, 1, Inf)),
+                ('eta', (0, 1, inf)),
+                ('gam', (0, 1, inf)),
+                ('tau', (0, 1, inf)),
             ]),
             regressors=OrderedDict([
                 

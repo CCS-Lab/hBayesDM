@@ -1,16 +1,11 @@
 #' @templateVar MODEL_FUNCTION hgf_ibrb
 #' @templateVar CONTRIBUTOR \href{https://github.com/bugoverdose}{Jinwoo Jeong} <\email{jwjeong96@@gmail.com}>, \href{https://github.com/juhajulia}{Juha Lee} <\email{juhajulia44@@gmail.com}>, \href{https://github.com/0150362}{Yusom Jo} <\email{yaun2288@@snu.ac.kr}>
-#' @templateVar TASK_NAME 
-#' @templateVar TASK_CODE 
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Hierarchical Bayesian version of the Hierarchical Gaussian Filter model for binary inputs and binary responses
 #' @templateVar MODEL_CODE hgf_ibrb
 #' @templateVar MODEL_CITE (Mathys C, 2011; Mathys CD et al., 2014)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "trialNum", "u", "y"
 #' @templateVar PARAMETERS \code{kappa} (phasic volatility for coupling with higher level for each level (2 ~ L-1)), \code{omega} (tonic volatility for each level (2 ~ L)), \code{zeta} (inverse decision noise, the tendency to choose the response that corresponds with one\'s current belief)
-#' @templateVar REGRESSORS 
-#' @templateVar POSTPREDS 
 #' @templateVar LENGTH_DATA_COLUMNS 4
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{trialNum}{Nominal integer representing the trial number: 1, 2, ...}

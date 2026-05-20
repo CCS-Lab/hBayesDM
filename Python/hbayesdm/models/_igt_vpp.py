@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -27,8 +27,8 @@ class IgtVpp(TaskModel):
                 ('alpha', (0, 0.5, 2)),
                 ('cons', (0, 1, 5)),
                 ('lambda', (0, 1, 10)),
-                ('epP', (-Inf, 0, Inf)),
-                ('epN', (-Inf, 0, Inf)),
+                ('epP', (-inf, 0, inf)),
+                ('epN', (-inf, 0, inf)),
                 ('K', (0, 0.5, 1)),
                 ('w', (0, 0.5, 1)),
             ]),

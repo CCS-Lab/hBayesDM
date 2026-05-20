@@ -2,7 +2,6 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang (for model-based regressors)} <\email{jaeyeong.yang1125@@gmail.com}>, \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park (for model-based regressors)} <\email{hrpark12@@gmail.com}>
 #' @templateVar TASK_NAME Probabilistic Reversal Learning Task
 #' @templateVar TASK_CODE prl
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Fictitious Update Model
 #' @templateVar MODEL_CODE fictitious
 #' @templateVar MODEL_CITE (Glascher et al., 2009)

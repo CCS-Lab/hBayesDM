@@ -5,12 +5,10 @@
 #' @templateVar TASK_CITE (Rogers et al., 1999)
 #' @templateVar MODEL_NAME Cumulative Model
 #' @templateVar MODEL_CODE cm
-#' @templateVar MODEL_CITE 
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "gamble_type", "percentage_staked", "trial_initial_points", "assessment_stage", "red_chosen", "n_red_boxes"
 #' @templateVar PARAMETERS \code{alpha} (probability distortion), \code{c} (color bias), \code{rho} (relative loss sensitivity), \code{beta} (discounting rate), \code{gamma} (choice sensitivity)
 #' @templateVar REGRESSORS "y_hat_col", "y_hat_bet", "bet_utils"
-#' @templateVar POSTPREDS 
 #' @templateVar LENGTH_DATA_COLUMNS 7
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
 #' @templateVar DETAILS_DATA_2 \item{gamble_type}{Integer value representng whether the bets on the current trial were presented in descending (0) or ascending (1) order.}

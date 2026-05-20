@@ -5,18 +5,18 @@
 #' estimated as shortest credible interval.
 #' Based on John Kruschke's codes.
 #'
-#' @param sampleVec A vector of representative values from a probability distribution (e.g., MCMC samples).
-#' @param credMass A scalar between 0 and 1, indicating the mass within the credible interval that is to be estimated.
+#' @param sample_vec A vector of representative values from a probability distribution (e.g., MCMC samples).
+#' @param ci_prob A scalar between 0 and 1, indicating the mass within the credible interval that is to be estimated.
 #'
 #' @return A vector containing the limits of the HDI
 #'
 #' @export
 
-HDIofMCMC = function(sampleVec,
-                     credMass = 0.95) {
+hdi = function(sample_vec,
+                     ci_prob = 0.95) {
 
-    sortedPts = sort(sampleVec)
-    ciIdxInc = floor(credMass * length(sortedPts))
+    sortedPts = sort(sample_vec)
+    ciIdxInc = floor(ci_prob * length(sortedPts))
     nCIs = length(sortedPts) - ciIdxInc
     ciWidth = rep(0 , nCIs)
     for (i in 1:nCIs) {

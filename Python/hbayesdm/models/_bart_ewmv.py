@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -25,8 +25,8 @@ class BartEwmv(TaskModel):
                 ('phi', (0, 0.5, 1)),
                 ('eta', (0, 0.5, 1)),
                 ('rho', (-0.5, 0, 0.5)),
-                ('tau', (0, 1, Inf)),
-                ('lambda', (0, 1, Inf)),
+                ('tau', (0, 1, inf)),
+                ('lambda', (0, 1, inf)),
             ]),
             regressors=OrderedDict([
                 

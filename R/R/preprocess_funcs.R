@@ -519,7 +519,7 @@ hgf_ibrb_preprocess_func <- function(raw_data, general_info,
   y <- array(-1, c(n_subj, t_max))
 
   # Write from raw_data to the data arrays
-  id_map <- setNames(seq_along(unique(subjs)), unique(subjs))
+  id_map <- stats::setNames(seq_along(unique(subjs)), unique(subjs))
   data_length <- nrow(raw_data)
   for (i in 1:data_length) {
     n <- id_map[[ as.character(subjIDs[i]) ]]
@@ -818,7 +818,7 @@ pst_preprocess_func <- function(raw_data, general_info) {
 }
 
 # Make a function
-pstRT_preprocess_func <- function(raw_data, general_info, RTbound, initQ) {
+pstRT_preprocess_func <- function(raw_data, general_info, RTbound = 0.1, initQ = 0.5) {
   # Use raw_data as a data.frame
   raw_data <- as.data.frame(raw_data)
 

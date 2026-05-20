@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -26,8 +26,8 @@ class CraExp(TaskModel):
             ),
             parameters=OrderedDict([
                 ('alpha', (0, 1, 2)),
-                ('beta', (-Inf, 0, Inf)),
-                ('gamma', (0, 1, Inf)),
+                ('beta', (-inf, 0, inf)),
+                ('gamma', (0, 1, inf)),
             ]),
             regressors=OrderedDict([
                 ('sv', 2),

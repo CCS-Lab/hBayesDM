@@ -1,7 +1,7 @@
 from typing import Sequence, Union, Any
 from collections import OrderedDict
 
-from numpy import Inf, exp
+from numpy import inf, exp
 import pandas as pd
 
 from hbayesdm.base import TaskModel
@@ -28,9 +28,9 @@ class CgtCm(TaskModel):
             parameters=OrderedDict([
                 ('alpha', (0, 1, 5)),
                 ('c', (0, 0.5, 1)),
-                ('rho', (0, 1, Inf)),
-                ('beta', (0, 1, Inf)),
-                ('gamma', (0, 1, Inf)),
+                ('rho', (0, 1, inf)),
+                ('beta', (0, 1, inf)),
+                ('gamma', (0, 1, inf)),
             ]),
             regressors=OrderedDict([
                 ('y_hat_col', 2),

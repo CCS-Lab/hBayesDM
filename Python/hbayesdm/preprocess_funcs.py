@@ -31,7 +31,7 @@ def alt_preprocess_func(self, raw_data, general_info, additional_args):
         blue_punish[s][:t] = subj_data['bluepunish']
         orange_punish[s][:t] = subj_data['orangepunish']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -42,7 +42,7 @@ def alt_preprocess_func(self, raw_data, general_info, additional_args):
         'orangePunish': orange_punish,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -67,7 +67,7 @@ def bandit2arm_preprocess_func(self, raw_data, general_info, additional_args):
         choice[s][:t] = subj_data['choice']
         outcome[s][:t] = subj_data['outcome']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -76,7 +76,7 @@ def bandit2arm_preprocess_func(self, raw_data, general_info, additional_args):
         'outcome': outcome,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 def banditNarm_preprocess_func(self, raw_data, general_info, additional_args):
@@ -109,7 +109,7 @@ def banditNarm_preprocess_func(self, raw_data, general_info, additional_args):
         los[s][:t] = -1 * np.abs(subj_data['loss'])  # Use abs
         choice[s][:t] = subj_data['choice']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -120,7 +120,7 @@ def banditNarm_preprocess_func(self, raw_data, general_info, additional_args):
         'Narm': n_arm,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -147,7 +147,7 @@ def bandit4arm_preprocess_func(self, raw_data, general_info, additional_args):
         los[s][:t] = -1 * np.abs(subj_data['loss'])  # Use abs
         choice[s][:t] = subj_data['choice']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -157,7 +157,7 @@ def bandit4arm_preprocess_func(self, raw_data, general_info, additional_args):
         'choice': choice,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -182,7 +182,7 @@ def bandit4arm2_preprocess_func(self, raw_data, general_info, additional_args):
         choice[s][:t] = subj_data['choice']
         outcome[s][:t] = subj_data['outcome']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -191,7 +191,7 @@ def bandit4arm2_preprocess_func(self, raw_data, general_info, additional_args):
         'outcome': outcome,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -216,7 +216,7 @@ def bart_preprocess_func(self, raw_data, general_info, additional_args):
         pumps[s][:t] = subj_data['pumps']
         explosion[s][:t] = subj_data['explosion']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -226,7 +226,7 @@ def bart_preprocess_func(self, raw_data, general_info, additional_args):
         'explosion': explosion,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -272,7 +272,7 @@ def choiceRT_preprocess_func(self, raw_data, general_info, additional_args):
     # Use additional_args if provided
     RTbound = additional_args.get('RTbound', 0.1)
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'Nu_max': np.max(Nu),
@@ -285,7 +285,7 @@ def choiceRT_preprocess_func(self, raw_data, general_info, additional_args):
         'RTbound': RTbound,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -308,7 +308,7 @@ def choiceRT_single_preprocess_func(self, raw_data, general_info, additional_arg
     # Use additional_args if provided
     RTbound = additional_args.get('RTbound', 0.1)
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'Nu': Nu,
         'Nl': Nl,
@@ -318,7 +318,7 @@ def choiceRT_single_preprocess_func(self, raw_data, general_info, additional_arg
         'RTbound': RTbound,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -349,7 +349,7 @@ def cra_preprocess_func(self, raw_data, general_info, additional_args):
         reward_var[s][:t] = subj_data['rewardvar']
         reward_fix[s][:t] = subj_data['rewardfix']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -361,7 +361,7 @@ def cra_preprocess_func(self, raw_data, general_info, additional_args):
         'reward_fix': reward_fix,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -396,7 +396,7 @@ def dbdm_preprocess_func(self, raw_data, general_info, additional_args):
         opt2lval[s][:t] = subj_data['opt2lval']
         choice[s][:t] = subj_data['choice']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -410,7 +410,7 @@ def dbdm_preprocess_func(self, raw_data, general_info, additional_args):
         'choice': choice,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -441,7 +441,7 @@ def dd_preprocess_func(self, raw_data, general_info, additional_args):
         amount_sooner[s][:t] = subj_data['amountsooner']
         choice[s][:t] = subj_data['choice']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -453,7 +453,7 @@ def dd_preprocess_func(self, raw_data, general_info, additional_args):
         'choice': choice,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -468,7 +468,7 @@ def dd_single_preprocess_func(self, raw_data, general_info, additional_args):
     amount_sooner = raw_data['amountsooner']
     choice = raw_data['choice']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'Tsubj': t_subjs,
         'delay_later': delay_later,
@@ -478,7 +478,7 @@ def dd_single_preprocess_func(self, raw_data, general_info, additional_args):
         'choice': choice,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -505,7 +505,7 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
         pressed[s][:t] = subj_data['keypressed']
         outcome[s][:t] = subj_data['outcome']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -515,7 +515,7 @@ def gng_preprocess_func(self, raw_data, general_info, additional_args):
         'outcome': outcome,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -547,7 +547,7 @@ def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
         if raw_y[i] in (0, 1):
             y[n, t] = int(raw_y[i])
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_list = {
         "N": n_subj,
         "T": t_max,
@@ -567,7 +567,7 @@ def hgf_ibrb_preprocess_func(self, raw_data, general_info, additional_args):
         "zeta_upper": additional_args.get('zeta_upper'),
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_list
 
 
@@ -590,7 +590,7 @@ def hgf_ibrb_single_preprocess_func(self, raw_data, general_info, additional_arg
         if raw_y[t] in (0, 1):
             y[t] = int(raw_y[i])
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_list = {
         "T": t_max,
         "L": additional_args.get('L'),
@@ -609,7 +609,7 @@ def hgf_ibrb_single_preprocess_func(self, raw_data, general_info, additional_arg
         "zeta_upper": additional_args.get('zeta_upper'),
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_list
 
 
@@ -637,7 +637,7 @@ def igt_preprocess_func(self, raw_data, general_info, additional_args):
     # Use additional_args if provided
     payscale = additional_args.get('payscale', 100)
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -647,7 +647,7 @@ def igt_preprocess_func(self, raw_data, general_info, additional_args):
         'sign_out': np.sign(rl_matrix),
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -682,7 +682,7 @@ def peer_preprocess_func(self, raw_data, general_info, additional_args):
         risky_Lpayoff[s][:t] = subj_data['riskylpayoff']
         choice[s][:t] = subj_data['choice']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -696,7 +696,7 @@ def peer_preprocess_func(self, raw_data, general_info, additional_args):
         'choice': choice,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -721,7 +721,7 @@ def prl_preprocess_func(self, raw_data, general_info, additional_args):
         choice[s][:t] = subj_data['choice']
         outcome[s][:t] = np.sign(subj_data['outcome'])  # Use sign
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -730,7 +730,7 @@ def prl_preprocess_func(self, raw_data, general_info, additional_args):
         'outcome': outcome,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -758,7 +758,7 @@ def prl_multipleB_preprocess_func(self, raw_data, general_info, additional_args)
             choice[s][b][:t] = subj_block_data['choice']
             outcome[s][b][:t] = np.sign(subj_block_data['outcome'])  # Use sign
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'B': b_max,
@@ -769,7 +769,7 @@ def prl_multipleB_preprocess_func(self, raw_data, general_info, additional_args)
         'outcome': outcome,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -798,7 +798,7 @@ def pst_preprocess_func(self, raw_data, general_info, additional_args):
         choice[s][:t] = subj_data['choice']
         reward[s][:t] = subj_data['reward']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -809,7 +809,7 @@ def pst_preprocess_func(self, raw_data, general_info, additional_args):
         'reward': reward,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
   
   
@@ -857,7 +857,7 @@ def pstRT_preprocess_func(self, raw_data, general_info, additional_args):
     RTbound = additional_args.get('RTbound', 0.1)
     initQ = additional_args.get('initQ', 0.5)
     
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -874,7 +874,7 @@ def pstRT_preprocess_func(self, raw_data, general_info, additional_args):
         'prob': prob
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict    
   
 
@@ -903,7 +903,7 @@ def ra_preprocess_func(self, raw_data, general_info, additional_args):
         cert[s][:t] = subj_data['cert']
         gamble[s][:t] = subj_data['gamble']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -914,7 +914,7 @@ def ra_preprocess_func(self, raw_data, general_info, additional_args):
         'gamble': gamble,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -951,7 +951,7 @@ def rdt_preprocess_func(self, raw_data, general_info, additional_args):
         happy[s][:t] = subj_data['happy']
         RT_happy[s][:t] = subj_data['rthappy']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -966,7 +966,7 @@ def rdt_preprocess_func(self, raw_data, general_info, additional_args):
         'RT_happy': RT_happy,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 def task2AFC_preprocess_func(self, raw_data, general_info, additional_args):
@@ -997,7 +997,7 @@ def task2AFC_preprocess_func(self, raw_data, general_info, additional_args):
             elif stim == 0 and resp == 1:
                 f[s] += 1
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N' : n_subj,
         'h' : h,
@@ -1006,7 +1006,7 @@ def task2AFC_preprocess_func(self, raw_data, general_info, additional_args):
         'noise' : noise,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 def ts_preprocess_func(self, raw_data, general_info, additional_args):
@@ -1035,7 +1035,7 @@ def ts_preprocess_func(self, raw_data, general_info, additional_args):
     # Use additional_args if provided
     trans_prob = additional_args.get('trans_prob', 0.7)
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -1046,7 +1046,7 @@ def ts_preprocess_func(self, raw_data, general_info, additional_args):
         'trans_prob': trans_prob,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -1071,7 +1071,7 @@ def ug_preprocess_func(self, raw_data, general_info, additional_args):
         offer[s][:t] = subj_data['offer']
         accept[s][:t] = subj_data['accept']
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -1080,7 +1080,7 @@ def ug_preprocess_func(self, raw_data, general_info, additional_args):
         'accept': accept,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -1124,7 +1124,7 @@ def wcs_preprocess_func(self, raw_data, general_info, additional_args):
         for r in range(3):
             deck_match_rule[t][r][answer[r][t]] = 1
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -1135,7 +1135,7 @@ def wcs_preprocess_func(self, raw_data, general_info, additional_args):
         'deck_match_rule': deck_match_rule,
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict
 
 
@@ -1195,7 +1195,7 @@ def cgt_preprocess_func(self, raw_data, general_info, additional_args):
     # Remove the unnecessary intermediate column
     raw_data.drop(columns='bet_time', inplace=True)
 
-    # Wrap into a dict for pystan
+    # Wrap into a dict for cmdstanpy
     data_dict = {
         'N': n_subj,
         'T': t_max,
@@ -1210,5 +1210,5 @@ def cgt_preprocess_func(self, raw_data, general_info, additional_args):
         'bet_chosen': bet_chosen
     }
 
-    # Returned data_dict will directly be passed to pystan
+    # Returned data_dict will directly be passed to cmdstanpy
     return data_dict

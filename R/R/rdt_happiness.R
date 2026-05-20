@@ -2,14 +2,12 @@
 #' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@@gmail.com}>
 #' @templateVar TASK_NAME Risky Decision Task
 #' @templateVar TASK_CODE rdt
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Happiness Computational Model
 #' @templateVar MODEL_CODE happiness
 #' @templateVar MODEL_CITE (Rutledge et al., 2014)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "gain", "loss", "cert", "type", "gamble", "outcome", "happy", "RT_happy"
 #' @templateVar PARAMETERS \code{w0} (baseline), \code{w1} (weight of certain rewards), \code{w2} (weight of expected values), \code{w3} (weight of reward prediction errors), \code{gam} (forgetting factor), \code{sig} (standard deviation of error)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 9
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}

@@ -1,20 +1,16 @@
 import multiprocessing
-import os
-import pickle
-import tempfile
+import re
 import warnings
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Sequence, Tuple, Union
 
-import re
 import arviz as az
+import cmdstanpy
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from pystan import StanModel
-from pystan import __version__ as _pystan_version
 from scipy import stats
 
 __all__ = ['TaskModel']
@@ -44,7 +40,6 @@ class TaskModel(metaclass=ABCMeta):
                  additional_args: 'OrderedDict[str, Any]',
                  additional_args_desc: 'OrderedDict[str, str]',
                  **kwargs):
-        # Assign attributes
         self.__task_name = task_name
         self.__model_name = model_name
         self.__model_type = model_type
@@ -61,9 +56,7 @@ class TaskModel(metaclass=ABCMeta):
             p = list(self.parameters_desc)[0]
             self.__parameters_desc['log' + p.upper()] = 'log(%s)' % p
 
-        # Run model function
-        model, all_ind_pars, par_vals, fit, raw_data, model_regressor \
-            = self._run(**kwargs)
+        self._run(**kwargs)
 
     @property
     def task_name(self) -> str:
@@ -119,7 +112,31 @@ class TaskModel(metaclass=ABCMeta):
 
     @property
     def fit(self) -> Any:
+        """The CmdStanMCMC or CmdStanVB fit object."""
         return self.__fit
+
+    @property
+    def idata(self) -> Any:
+        """ArviZ ``DataTree`` built lazily from the fit.
+
+        For VB fits, only the ``posterior`` group is populated and convergence
+        diagnostics like ``rhat`` are not meaningful.
+        """
+        if self.__idata is None:
+            if self.__vb:
+                # mean=False returns the variational *sample* (n_draws, *dims)
+                # rather than the variational mean.
+                vb_samples = self.__fit.stan_variables(mean=False)
+                self.__idata = az.from_dict(
+                    {'posterior': {p: np.expand_dims(np.asarray(v), axis=0)
+                                   for p, v in vb_samples.items()}}
+                )
+            else:
+                self.__idata = az.from_cmdstanpy(
+                    posterior=self.__fit,
+                    log_likelihood='log_lik',
+                )
+        return self.__idata
 
     @property
     def raw_data(self) -> pd.DataFrame:
@@ -144,8 +161,7 @@ class TaskModel(metaclass=ABCMeta):
              adapt_delta: float = 0.95,
              stepsize: float = 1,
              max_treedepth: int = 10,
-             **additional_args: Any) \
-            -> Tuple[str, pd.DataFrame, OrderedDict, Any, Dict]:
+             **additional_args: Any) -> None:
         """Run the hbayesdm modeling function."""
         self._check_regressor(model_regressor)
         self._check_postpred(inc_postpred)
@@ -157,7 +173,6 @@ class TaskModel(metaclass=ABCMeta):
         self._check_missing_values(raw_data, insensitive_data_columns)
 
         general_info = self._prepare_general_info(raw_data)
-        # set default values if not specified
         for key, value in self.__additional_args.items():
             if key not in additional_args:
                 additional_args[key] = value
@@ -181,75 +196,41 @@ class TaskModel(metaclass=ABCMeta):
 
         sm = self._designate_stan_model(model)
         fit = self._fit_stan_model(
-            vb, sm, data_dict, pars, gen_init, nchain, niter, nwarmup, nthin,
+            vb, sm, data_dict, gen_init, nchain, niter, nwarmup, nthin,
             adapt_delta, stepsize, max_treedepth, ncore)
 
         measure = self._define_measure_function(ind_pars)
-        par_vals = self._extract_from_fit(fit, inc_postpred)
+        par_vals = self._extract_from_fit(fit, pars, vb, inc_postpred)
         all_ind_pars = self._measure_all_ind_pars(
             measure, par_vals, general_info['subjs'])
-        model_regressor = self._extract_model_regressor(
+        regressor_summary = self._extract_model_regressor(
             measure, par_vals) if model_regressor else None
 
         self._revert_initial_columns(raw_data, initial_columns)
         self._inform_completion()
 
-        # Assign results as attributes
         self.__model = model
         self.__all_ind_pars = all_ind_pars
         self.__par_vals = par_vals
         self.__fit = fit
+        self.__vb = vb
+        self.__idata = None
         self.__raw_data = raw_data
-        self.__model_regressor = model_regressor
-
-        return model, all_ind_pars, par_vals, fit, raw_data, model_regressor
+        self.__model_regressor = regressor_summary
 
     def _check_regressor(self, requested_by_user: bool):
-        """Check if regressors are available for this model.
-
-        Parameters
-        ----------
-        requested_by_user
-            Whether model regressors are requested by user.
-        """
         if requested_by_user and not self.regressors:
             raise RuntimeError(
                 'Model-based regressors are not available for this model.')
 
     def _check_postpred(self, requested_by_user: bool):
-        """Check if posterior predictive check is available for this model.
-
-        Parameters
-        ----------
-        requested_by_user
-            Whether PPC is requested by user.
-        """
         if requested_by_user and not self.postpreds:
             raise RuntimeError(
                 'Posterior predictions are not yet available for this model.')
 
     def _handle_data_args(self, data) -> Tuple[pd.DataFrame, List]:
-        """Handle user data arguments and return raw_data.
-
-        Parameters
-        ----------
-        data : Union[pandas.DataFrame, str]
-            Pandas DataFrame object that holds the data.
-            String of filepath for the data file.
-
-        Returns
-        -------
-        raw_data : pandas.DataFrame
-            Properly imported raw data as a Pandas DataFrame.
-        initial_columns : List
-            Initial column names of raw data, as given by the user.
-        """
         if isinstance(data, pd.DataFrame):
-            if not isinstance(data, pd.DataFrame):
-                raise RuntimeError(
-                    'Please provide `data` argument as a pandas.DataFrame.')
             raw_data = data
-
         elif isinstance(data, str):
             if data == "example":
                 filename = "exampleData.txt"
@@ -268,62 +249,27 @@ class TaskModel(metaclass=ABCMeta):
             else:
                 if data.endswith('.csv'):
                     raw_data = pd.read_csv(data)
-                else:  # Read the file as a tsv format
+                else:
                     raw_data = pd.read_csv(data, sep='\t')
-
         else:
             raise RuntimeError(
                 'Invalid `data` argument given: ' + str(data))
 
-        # Save initial column names of raw data for later
         initial_columns = list(raw_data.columns)
-
-        # Assign case- & underscore-insensitive column names
         raw_data.columns = [
             col.replace('_', '').lower() for col in raw_data.columns]
-
         return raw_data, initial_columns
 
     def _get_insensitive_data_columns(self) -> List:
-        """Return list of case- & underscore-insensitive data column names.
-
-        Returns
-        -------
-        insensitive_data_columns
-            List of data columns, with underscores removed and case ignored.
-        """
         return [col.replace('_', '').lower() for col in self.data_columns]
 
-    def _check_data_columns(self,
-                            raw_data: pd.DataFrame,
-                            insensitive_data_columns: List):
-        """Check if necessary data columns all exist in raw data,
-        while ignoring case and underscores in column names.
-
-        Parameters
-        ----------
-        raw_data
-            The raw behavioral data as a Pandas DataFrame.
-        insensitive_data_columns
-            Case- & underscore-insensitive data columns of this model.
-        """
+    def _check_data_columns(self, raw_data, insensitive_data_columns):
         if not set(insensitive_data_columns).issubset(set(raw_data.columns)):
             raise RuntimeError(
                 'Data is missing one or more necessary data columns.\n' +
                 'Necessary data columns are: ' + repr(self.data_columns))
 
-    def _check_missing_values(self,
-                              raw_data: pd.DataFrame,
-                              insensitive_data_columns: List):
-        """Remove rows containing NaNs in necessary columns.
-
-        Parameters
-        ----------
-        raw_data
-            The raw behavioral data as a Pandas DataFrame.
-        insensitive_data_columns
-            Case- & underscore-insensitive data columns of this model.
-        """
+    def _check_missing_values(self, raw_data, insensitive_data_columns):
         initial = raw_data.copy()
         raw_data.dropna(subset=insensitive_data_columns, inplace=True)
         nan_rows = set(initial.index).difference(raw_data.index)
@@ -334,24 +280,6 @@ class TaskModel(metaclass=ABCMeta):
             print('These rows are removed prior to modeling the data.')
 
     def _prepare_general_info(self, raw_data: pd.DataFrame) -> Dict:
-        """Prepare general infos about the raw data.
-
-        Parameters
-        ----------
-        raw_data
-            The raw behavioral data as a Pandas DataFrame.
-
-        Returns
-        -------
-        general_info : Dict
-            'grouped_data': data grouped by subjs (& blocks) - Pandas GroupBy,
-            'subjs': list of all subjects in data,
-            'n_subj': total number of subjects in data,
-            'b_subjs': number of blocks per subj,
-            'b_max': max number of blocks across all subjs,
-            't_subjs': number of trials (per block) per subj,
-            't_max': max number of trials across all subjs (& blocks).
-        """
         if self.model_type == '' or self.model_type == 'single':
             grouped_data = raw_data.groupby('subjid', sort=False)
             trials_per_subj = grouped_data.size()
@@ -362,7 +290,7 @@ class TaskModel(metaclass=ABCMeta):
             b_subjs, b_max = None, None
             if self.model_type == 'single' and n_subj != 1:
                 raise RuntimeError(
-                    'More than 1 unique subjects exist in data, ' +
+                    'More than 1 unique subjects exist in data, '
                     'while using \'single\' type model.')
         else:
             grouped_data = raw_data.groupby(['subjid', 'block'], sort=False)
@@ -381,86 +309,32 @@ class TaskModel(metaclass=ABCMeta):
                 't_subjs': t_subjs, 't_max': t_max}
 
     @abstractmethod
-    def _preprocess_func(self,
-                         raw_data: pd.DataFrame,
-                         general_info: Dict,
-                         additional_args: Dict) -> Dict:
-        """Preprocess the raw data to pass to pystan.
-
-        This function should be overridden in each specific model class.
-
-        Parameters
-        ----------
-        raw_data
-            The raw behavioral data as a Pandas DataFrame.
-        general_info
-            Holds general infos about the raw data.
-        additional_args
-            Optional additional argument(s) that may be used.
-
-        Returns
-        -------
-        data_dict
-            Will directly be passed to pystan.
-        """
-        pass
+    def _preprocess_func(self, raw_data, general_info, additional_args) -> Dict:
+        """Preprocess raw data into the dict passed to Stan. Override per model."""
 
     def _prepare_pars(self, model_regressor: bool, inc_postpred: bool) -> List:
-        """Prepare the parameters of interest for pystan.
-
-        Parameters
-        ----------
-        model_regressor
-            Whether user requested to extract model-based regressors.
-        inc_postpred
-            Whether user requested to include posterior predictive checks.
-
-        Returns
-        -------
-        pars
-            List of parameters of interest for pystan.
-        """
         pars = []
         if self.model_type != 'single':
             pars += ['mu_' + p for p in self.parameters]
             pars += ['sigma']
-        pars += self.parameters_desc
+        pars += list(self.parameters_desc)
         if self.model_name == "dd" and self.model_type == 'single':
-            pars += ['log' + self.parameters[0].upper()]
+            pars += ['log' + list(self.parameters)[0].upper()]
         if self.model_name == "hgf_ibrb" and self.model_type == 'single':
             pars += ['logit_' + p for p in self.parameters]
         pars += ['log_lik']
         if model_regressor:
-            pars += self.regressors
+            pars += list(self.regressors)
         if inc_postpred:
-            pars += self.postpreds
+            pars += list(self.postpreds)
         return pars
 
-    def _prepare_gen_init_vb(self,
-                             data_dict: Dict,
-                             n_subj: int,
-                             ) -> Union[str, Callable]:
-        """Prepare initial values for the parameters using Variational Bayesian
-        methods.
-
-        Parameters
-        ----------
-        data_dict
-            Dict holding the data to pass to Stan.
-        n_subj
-            Total number of subjects in data.
-
-        Returns
-        -------
-        gen_init : Union[str, Callable]
-            A function that returns initial values for each parameter, based on
-            the variational Bayesian method.
-        """
+    def _prepare_gen_init_vb(self, data_dict: Dict, n_subj: int) -> Union[str, Callable]:
         model = self._get_model_full_name()
         sm = self._designate_stan_model(model)
 
         try:
-            fit = sm.vb(data=data_dict)
+            fit = sm.variational(data=data_dict)
         except Exception:
             warnings.warn(
                 'Failed to get VB estimates for initial values. '
@@ -468,30 +342,16 @@ class TaskModel(metaclass=ABCMeta):
                 RuntimeWarning, stacklevel=1)
             return 'random'
 
-        dict_vb_raw = dict(zip(fit['mean_par_names'], fit['mean_pars']))
-        dict_vb = {}
-        tmp = {}
-        for param_name, v in dict_vb_raw.items():
-            m = re.match(r"^([a-zA-Z_]\w*)\[(\d+)\]$", param_name)
-            if m:
-                base, idx = m.group(1), int(m.group(2))
-                tmp.setdefault(base, {})[idx] = v # handle parameter[i] cases
-            else:
-                dict_vb[param_name] = v # scalar
-        for base, idx_vals in tmp.items():
-            length = max(idx_vals)
-            vec = np.zeros(length, dtype=float)
-            for i in range(length):
-                vec[i] = idx_vals.get(i+1, np.nan)
-            dict_vb[base] = vec # parameter[i] into parameter vector
+        # cmdstanpy returns variational means via stan_variables()
+        dict_vb = {k: np.asarray(v) for k, v in fit.stan_variables().items()}
 
-        dict_init = {}
+        dict_init: Dict[str, Any] = {}
         if self.model_type == 'single':
             for p in self.parameters:
                 dict_init[p] = dict_vb[p]
         else:
-            dict_init['mu_pr'] = dict_vb["mu_pr"]
-            dict_init['sigma'] = dict_vb["sigma"]
+            dict_init['mu_pr'] = dict_vb['mu_pr']
+            dict_init['sigma'] = dict_vb['sigma']
             for p in self.parameters:
                 dict_init[f"{p}_pr"] = dict_vb[f"{p}_pr"]
 
@@ -500,26 +360,7 @@ class TaskModel(metaclass=ABCMeta):
 
         return gen_init
 
-    def _prepare_gen_init(self,
-                          inits: Union[str, Sequence[float]],
-                          n_subj: int,
-                          ) -> Union[str, Callable]:
-        """Prepare initial values for the parameters.
-
-        Parameters
-        ----------
-        inits
-            User-defined inits. Can be the strings 'random' or 'fixed',
-            or a list of float values to use as initial values for parameters.
-        n_subj
-            Total number of subjects in data.
-
-        Returns
-        -------
-        gen_init : Union[str, Callable]
-            Either a string 'random', or a function that returns a Dict
-            holding the initial values for each parameter.
-        """
+    def _prepare_gen_init(self, inits, n_subj: int) -> Union[str, Callable]:
         if inits == 'random':
             return 'random'
 
@@ -542,8 +383,8 @@ class TaskModel(metaclass=ABCMeta):
                     else:
                         return stats.norm.ppf((v - lb) / (ub - lb))
 
-                primes = [get_prime(inits[i], lb, ub) for i, (lb, _, ub) in
-                          enumerate(self.parameters.values())]
+                primes = [get_prime(inits[i], lb, ub) for i, (lb, _, ub)
+                          in enumerate(self.parameters.values())]
                 group_level = {'mu_pr': primes, 'sigma': [1.0] * len(primes)}
                 indiv_level = {param + '_pr': [prime] * n_subj for
                                param, prime in zip(self.parameters, primes)}
@@ -552,69 +393,18 @@ class TaskModel(metaclass=ABCMeta):
         return gen_init
 
     def _get_model_full_name(self) -> str:
-        """Return full name of model.
-
-        Returns
-        -------
-        model
-            Full name of the model.
-        """
-        model_meta = []
-        if (self.task_name != ""):
-            model_meta.append(self.task_name)
-        if (self.model_name != ""):
-            model_meta.append(self.model_name)
-        if (self.model_type != ""):
-            model_meta.append(self.model_type)
-        return "_".join(model_meta)
+        parts = [p for p in (self.task_name, self.model_name, self.model_type)
+                 if p]
+        return "_".join(parts)
 
     def _set_number_of_cores(self, ncore: int) -> int:
-        """Set number of cores for parallel computing.
-
-        Parameters
-        ----------
-        ncore
-            Number of cores to use, specified by user.
-
-        Returns
-        -------
-        ncore
-            Actual number of cores to use (value to be passed to pystan).
-        """
         local_cores = multiprocessing.cpu_count()
         if ncore == -1 or ncore > local_cores:
             return local_cores
         return ncore
 
-    def _print_for_user(self, model: str, data: pd.DataFrame, vb: bool,
-                        nchain: int, ncore: int, niter: int, nwarmup: int,
-                        general_info: Dict, additional_args: Dict,
-                        model_regressor: bool):
-        """Print information for user.
-
-        Parameters
-        ----------
-        model
-            Full name of model.
-        data
-            Pandas DataFrame object holding user data.
-        vb
-            Whether to use variational Bayesian analysis.
-        nchain
-            Number of chains to run.
-        ncore
-            Number of cores to use.
-        niter
-            Number of iterations per chain.
-        nwarmup
-            Number of warm-up iterations.
-        general_info
-            Dict holding general infos about the raw data.
-        additional_args
-            Optional additional arguments that may be used.
-        model_regressor
-            Whether to extract model-based regressors.
-        """
+    def _print_for_user(self, model, data, vb, nchain, ncore, niter, nwarmup,
+                        general_info, additional_args, model_regressor):
         print()
         print('Model  =', model)
         if isinstance(data, pd.DataFrame):
@@ -638,301 +428,185 @@ class TaskModel(metaclass=ABCMeta):
         elif self.model_type == 'multipleB':
             print(' # of (max) trials...')
             print('      ...per block per subject  =', general_info['t_max'])
-        else:  # (self.model_type == 'single')
+        else:
             print(' # of trials (for this subject) =', general_info['t_max'])
 
-        # Models with additional arguments
         if additional_args:
             for arg, default_value in additional_args.items():
                 print(' `{}` is set to                '.format(arg)[:31],
                       '= {}'.format(additional_args.get(arg, default_value)))
 
-        # When extracting model-based regressors
         if model_regressor:
             print()
             print('**************************************')
             print('**  Extract model-based regressors  **')
             print('**************************************')
 
-        # An empty newline before Stan begins
         print()
 
-    def _designate_stan_model(self, model: str) -> StanModel:
-        """Designate the stan model to use for sampling.
+    def _designate_stan_model(self, model: str) -> cmdstanpy.CmdStanModel:
+        """Compile the Stan model via cmdstanpy.
 
-        Parameters
-        ----------
-        model
-            Full name of the model.
-
-        Returns
-        -------
-        sm
-            Compiled StanModel obj to use for sampling & fitting.
+        cmdstanpy caches the compiled binary alongside the .stan file.
         """
-        model_path = str(PATH_STAN / (model + '.stan'))
-        tempdir = Path(tempfile.gettempdir())
-
-        if getattr(os, 'getuid', None) is None:
-            uid = 'windows'
-        else:
-            uid = os.getuid()
-
-        cache_file = tempdir / (
-            'cached-hBayesDM_model-%s-pystan_%s_user-%d.pkl' %
-            (model, _pystan_version, uid)
+        model_path = PATH_STAN / (model + '.stan')
+        if not model_path.exists():
+            raise FileNotFoundError(f"Stan file not found: {model_path}")
+        return cmdstanpy.CmdStanModel(
+            model_name=model,
+            stan_file=str(model_path),
+            stanc_options={'include-paths': [str(PATH_STAN)]},
         )
 
-        if os.path.exists(cache_file):
-            try:
-                with open(cache_file, 'rb') as cached_stan_model:
-                    sm = pickle.load(cached_stan_model)
-                with open(model_path, 'r') as model_stan_code:
-                    assert sm.model_code == model_stan_code.read()
-                does_exist = True
-            except Exception:
-                print('Invalid cached StanModel:', cache_file)
-                print('Remove the cached model...')
-                os.remove(cache_file)
-                does_exist = False
-        else:
-            does_exist = False
-
-        if does_exist:
-            print('Using cached StanModel:', cache_file)
-        else:
-            sm = StanModel(file=model_path, model_name=model,
-                           include_paths=[str(PATH_STAN)])
-            with open(cache_file, 'wb') as f:
-                pickle.dump(sm, f)
-
-        return sm
-
-    def _fit_stan_model(self, vb: bool, sm: StanModel, data_dict: Dict,
-                        pars: List, gen_init: Union[str, Callable],
+    def _fit_stan_model(self, vb: bool, sm: cmdstanpy.CmdStanModel,
+                        data_dict: Dict,
+                        gen_init: Union[str, Callable],
                         nchain: int, niter: int, nwarmup: int, nthin: int,
                         adapt_delta: float, stepsize: float,
                         max_treedepth: int, ncore: int) -> Any:
-        """Fit the stan model.
+        inits = self._resolve_inits(gen_init, nchain)
 
-        Parameters
-        ----------
-        vb
-            Whether to perform variational Bayesian analysis.
-        sm
-            The StanModel object to use to fit the model.
-        data_dict
-            Dict holding the data to pass to Stan.
-        pars
-            List specifying the parameters of interest.
-        gen_init
-            String or function to specify how to generate the initial values.
-        nchain
-            Number of chains to run.
-        niter
-            Number of iterations per chain.
-        nwarmup
-            Number of warm-up iterations.
-        nthin
-            Use every `i == nthin` sample to generate posterior distribution.
-        adapt_delta
-            Advanced control argument for sampler.
-        stepsize
-            Advanced control argument for sampler.
-        max_treedepth
-            Advanced control argument for sampler.
-        ncore
-            Argument for parallel computing while sampling multiple chains.
-
-        Returns
-        -------
-        fit
-            The fitted result returned by `vb` or `sampling` function.
-        """
         if vb:
-            return sm.vb(data=data_dict,
-                         pars=pars,
-                         init=gen_init)
-        else:
-            return sm.sampling(data=data_dict,
-                               pars=pars,
-                               init=gen_init,
-                               chains=nchain,
-                               iter=niter,
-                               warmup=nwarmup,
-                               thin=nthin,
-                               control={'adapt_delta': adapt_delta,
-                                        'stepsize': stepsize,
-                                        'max_treedepth': max_treedepth},
-                               n_jobs=ncore)
+            # cmdstanpy's variational() takes inits only as a perturbation
+            # scale (Optional[float]); dict inits are not supported.
+            return sm.variational(data=data_dict)
+
+        iter_sampling = max(1, niter - nwarmup)
+        return sm.sample(
+            data=data_dict,
+            chains=nchain,
+            parallel_chains=ncore,
+            iter_warmup=nwarmup,
+            iter_sampling=iter_sampling,
+            thin=nthin,
+            adapt_delta=adapt_delta,
+            step_size=stepsize,
+            max_treedepth=max_treedepth,
+            inits=inits,
+            show_progress=False,
+        )
+
+    @staticmethod
+    def _resolve_inits(gen_init, nchain: int):
+        if gen_init == 'random' or gen_init is None:
+            return None
+        if callable(gen_init):
+            # cmdstanpy accepts a list of dicts (one per chain) or a single dict
+            return [gen_init() for _ in range(nchain)]
+        return gen_init
 
     def _define_measure_function(self, ind_pars: str) -> Callable:
-        """Define which function to use to summarize results.
-
-        Parameters
-        ----------
-        ind_pars
-            String specifying how to summarize results.
-
-        Returns
-        -------
-        measure
-            Function to use to summarize (measure) the results.
-        """
         return {
             'mean': np.mean,
             'median': np.median,
             'mode': stats.mode,
         }[ind_pars]
 
-    def _extract_from_fit(self, fit: Any, inc_postpred: bool) -> OrderedDict:
-        """Extract from the stan fit object.
+    def _extract_from_fit(self, fit: Any, pars: List[str],
+                          vb: bool, inc_postpred: bool) -> OrderedDict:
+        """Extract requested parameters from a cmdstanpy fit.
 
-        Parameters
-        ----------
-        fit
-            Fitted result of sampling the stan model.
-        inc_postpred
-            Whether user requested to include posterior predictive checks.
-
-        Returns
-        -------
-        par_vals
-            Entire raw draws of MCMC sampler, for each parameter (& subject).
+        For MCMC, returns draws merged across chains: shape (n_draws, *param_dims).
+        For VB, returns the variational mean as a single array (no draw dim).
         """
-        par_vals = fit.extract(permuted=True)
+        all_vars = fit.stan_variables()
+        par_vals: OrderedDict = OrderedDict()
+        for p in pars:
+            if p in all_vars:
+                par_vals[p] = np.asarray(all_vars[p])
         if inc_postpred:
             for pp in self.postpreds:
-                par_vals[pp][par_vals[pp] == -1] = np.nan
+                if pp in par_vals:
+                    arr = par_vals[pp].astype(float)
+                    arr[arr == -1] = np.nan
+                    par_vals[pp] = arr
         return par_vals
 
-    def _measure_all_ind_pars(self,
-                              measure: Callable,
-                              par_vals: OrderedDict,
+    def _measure_all_ind_pars(self, measure: Callable, par_vals: OrderedDict,
                               subjs: List) -> pd.DataFrame:
-        """Measure all individual parameters (per subject).
-
-        Parameters
-        ----------
-        measure
-            Function to use to summarize the samples.
-        par_vals
-            Raw draws of MCMC sampler (per parameter & subject).
-        subjs
-            List of all the subjects in the data.
-
-        Returns
-        -------
-        all_ind_pars
-            Pandas DataFrame summarizing the draws per parameter (& subject).
-        """
-        # Define which parameters to measure
         which_pars = list(self.parameters_desc)
 
-        # Measure all individual parameters
         if self.model_type == 'single':
             cols = {}
             for p in which_pars:
                 a = np.asarray(par_vals[p])
                 if a.ndim == 1:
-                    col = {p: measure(a)}
+                    cols[p] = measure(a)
                 else:
                     flat = a.reshape(a.shape[0], -1)
-                    col = {f"{p}[{i+1}]": measure(flat[:, i]) for i in range(flat.shape[1])}
-                cols.update(col)
+                    for i in range(flat.shape[1]):
+                        cols[f"{p}[{i+1}]"] = measure(flat[:, i])
             return pd.DataFrame([cols], index=subjs)
-        else:
-            N = len(subjs)
-            cols = {}
-            for p in which_pars:
-                a = np.asarray(par_vals[p])
-                if a.ndim == 1:
-                    cols[p] = np.repeat(measure(a), N) # single parameter (scalar)
-                elif a.ndim == 2:
-                    cols[p] = measure(a, axis=0) # single parameter for each subject (vector)
-                elif a.ndim == 3:
-                    vals = measure(a, axis=0)
-                    K = vals.shape[1]
-                    for j in range(K):
-                        cols[f"{p}[{j+1}]"] = vals[:, j] # multiple parameters for each subject (matrix)
-                else:
-                    raise ValueError(f"Unexpected ndim for {p}: {a.ndim}")
-            return pd.DataFrame(cols, index=subjs)
 
-    def _extract_model_regressor(
-            self, measure: Callable, par_vals: OrderedDict) -> Dict:
-        """Model regressors (for model-based neuroimaging, etc.).
+        N = len(subjs)
+        cols: Dict[str, Any] = {}
+        for p in which_pars:
+            a = np.asarray(par_vals[p])
+            if a.ndim == 1:
+                cols[p] = np.repeat(measure(a), N)
+            elif a.ndim == 2:
+                cols[p] = measure(a, axis=0)
+            elif a.ndim == 3:
+                vals = measure(a, axis=0)
+                K = vals.shape[1]
+                for j in range(K):
+                    cols[f"{p}[{j+1}]"] = vals[:, j]
+            else:
+                raise ValueError(f"Unexpected ndim for {p}: {a.ndim}")
+        return pd.DataFrame(cols, index=subjs)
 
-        Parameters
-        ----------
-        measure
-            Function to use to summarize the samples.
-        par_vals
-            Raw draws of MCMC sampler.
-
-        Returns
-        -------
-        model_regressor
-            Dict containing summarized model regressor values.
-        """
+    def _extract_model_regressor(self, measure: Callable,
+                                 par_vals: OrderedDict) -> Dict:
         return {r: np.apply_over_axes(
             measure,
             par_vals[r],
             [i + 1 for i in range(dim_size)]
         ).squeeze() for r, dim_size in self.regressors.items()}
 
-    def _revert_initial_columns(self,
-                                raw_data: pd.DataFrame,
+    def _revert_initial_columns(self, raw_data: pd.DataFrame,
                                 initial_columns: List):
-        """Give back initial column names of raw data.
-
-        Parameters
-        ----------
-        raw_data
-            Data used to fit the model, as specified by the user.
-        initial_columns
-            Initial column names of raw data, as given by the user.
-        """
-        print(raw_data.columns)
-        print(initial_columns)
         raw_data.columns = initial_columns
 
     def _inform_completion(self):
-        """Inform user of completion."""
         print('************************************')
         print('**** Model fitting is complete! ****')
         print('************************************')
 
     def __str__(self):
-        return self.fit.stansummary()
+        try:
+            return str(self.fit.summary())
+        except Exception:
+            return repr(self.fit)
 
     def plot(self,
              type: str = 'dist',
-             credible_interval: float = 0.94,
+             ci_prob: float = 0.95,
              point_estimate: str = 'mean',
-             bins: Union[int, Sequence, str] = 'auto',
-             round_to: int = 2,
              **kwargs):
-        """General purpose plotting for hbayesdm-py.
+        """Plot hyper-parameter distributions or traces.
 
-        This function plots hyper-parameters.
+        For hierarchical models, the group-level ``mu_*`` parameters are
+        plotted; for ``single`` models, the individual parameters themselves.
 
         Parameters
         ----------
-        type
-            Current options are: 'dist', 'trace'. Defaults to 'dist'.
-        credible_interval
-            Credible interval to plot. Defaults to 0.94.
-        point_estimate
-            Show point estimate on plot.
-            Options are: 'mean', 'median' or 'mode'. Defaults to 'mean'.
-        bins
-            Controls the number of bins. Defaults to 'auto'.
-            Accepts the same values (or keywords) as plt.hist() does.
-        round_to
-            Controls formatting for floating point numbers. Defaults to 2.
+        type : {'dist', 'trace'}
+            ``'dist'`` plots posterior densities with a credible interval and
+            point estimate (via ``arviz.plot_dist``). ``'trace'`` plots MCMC
+            traces alongside marginal densities (via ``arviz.plot_trace``).
+        ci_prob : float
+            Credible interval probability mass for ``type='dist'``. Defaults
+            to 0.95.
+        point_estimate : {'mean', 'median', 'mode'} or None
+            Which posterior point estimate to mark on density plots. Set to
+            ``None`` to omit. Only applies when ``type='dist'``.
         **kwargs
-            Passed as-is to plt.hist().
+            Forwarded to the underlying arviz plotting function.
+
+        Raises
+        ------
+        RuntimeError
+            If ``type`` is not one of the supported options.
         """
         type_options = ('dist', 'trace')
         if type not in type_options:
@@ -945,49 +619,45 @@ class TaskModel(metaclass=ABCMeta):
             var_names = ['mu_' + p for p in self.parameters_desc]
 
         if type == 'dist':
-            kwargs.setdefault('color', 'black')
-            axes = az.plot_posterior(self.fit,
-                                     kind='hist',
-                                     var_names=var_names,
-                                     credible_interval=credible_interval,
-                                     point_estimate=point_estimate,
-                                     bins=bins,
-                                     round_to=round_to,
-                                     **kwargs)
-            for ax, (p, desc) in zip(axes, self.parameters_desc.items()):
-                ax.set_title('{} ({})'.format(p, desc))
+            az.plot_dist(self.idata,
+                         var_names=var_names,
+                         ci_prob=ci_prob,
+                         point_estimate=point_estimate,
+                         **kwargs)
         elif type == 'trace':
-            az.plot_trace(self.fit, var_names=var_names)
+            az.plot_trace(self.idata, var_names=var_names, **kwargs)
 
         plt.show()
 
     def plot_ind(self,
                  var_names: Union[str, List[str]] = None,
-                 show_density: bool = True,
-                 credible_interval: float = 0.94):
-        """Plots individual posterior distributions, using ArviZ.
+                 ci_prob: float = 0.95,
+                 **kwargs):
+        """Plot per-subject posterior summaries via ``arviz.plot_forest``.
+
+        Renders a forest plot with one row per subject for each requested
+        parameter, showing posterior intervals so that individual differences
+        can be compared at a glance.
 
         Parameters
         ----------
         var_names
-            Parameter(s) to plot. If not specified, show all model parameters.
-        show_density
-            Whether to show density. True or False. Defaults to True.
-        credible_interval
-            Credible interval to plot. Defaults to 0.94.
+            Parameter name(s) to plot. Defaults to all individual-level
+            parameters (``self.parameters_desc``).
+        ci_prob
+            Outer credible interval probability mass. The inner interval is
+            fixed at 0.5 (IQR-like). Defaults to 0.95.
+        **kwargs
+            Forwarded to ``arviz.plot_forest``.
         """
         if var_names is None:
             var_names = list(self.parameters_desc)
 
-        if show_density:
-            kind = 'ridgeplot'
-        else:
-            kind = 'forestplot'
-
-        az.plot_forest(self.fit,
-                       kind=kind,
+        # plot_forest draws both an inner and outer interval; fix the inner at
+        # 0.5 (IQR-ish) and let the caller control the outer band.
+        az.plot_forest(self.idata,
                        var_names=var_names,
-                       credible_interval=credible_interval,
+                       ci_probs=[0.5, ci_prob],
                        combined=True,
-                       colors='gray', ridgeplot_alpha=0.8)
+                       **kwargs)
         plt.show()

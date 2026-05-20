@@ -1,15 +1,12 @@
 #' @templateVar MODEL_FUNCTION ug_bayes
-#' @templateVar CONTRIBUTOR 
 #' @templateVar TASK_NAME Norm-Training Ultimatum Game
 #' @templateVar TASK_CODE ug
-#' @templateVar TASK_CITE 
 #' @templateVar MODEL_NAME Ideal Observer Model
 #' @templateVar MODEL_CODE bayes
 #' @templateVar MODEL_CITE (Xiang et al., 2013)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "offer", "accept"
 #' @templateVar PARAMETERS \code{alpha} (envy), \code{beta} (guilt), \code{tau} (inverse temperature)
-#' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
 #' @templateVar DETAILS_DATA_1 \item{subjID}{A unique identifier for each subject in the data-set.}
