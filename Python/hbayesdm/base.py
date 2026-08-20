@@ -627,6 +627,8 @@ class TaskModel(metaclass=ABCMeta):
         elif type == 'trace':
             az.plot_trace(self.idata, var_names=var_names, **kwargs)
 
+        plt.tight_layout()
+
         plt.show()
 
     def plot_ind(self,
