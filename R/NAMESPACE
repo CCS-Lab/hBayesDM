@@ -75,32 +75,46 @@ export(ug_bayes)
 export(ug_delta)
 export(wcs_sql)
 import(methods)
-importFrom(bayesplot,mcmc_areas)
-importFrom(bayesplot,mcmc_intervals)
-importFrom(bayesplot,mcmc_trace)
+importFrom(bayesplot,
+  mcmc_areas,
+  mcmc_intervals,
+  mcmc_trace
+)
 importFrom(data.table,fread)
-importFrom(ggplot2,aes)
-importFrom(ggplot2,geom_histogram)
-importFrom(ggplot2,geom_segment)
-importFrom(ggplot2,ggplot)
-importFrom(ggplot2,ggtitle)
-importFrom(ggplot2,theme)
-importFrom(ggplot2,xlab)
-importFrom(ggplot2,ylab)
-importFrom(grid,grid.layout)
-importFrom(grid,grid.newpage)
-importFrom(grid,pushViewport)
-importFrom(grid,viewport)
-importFrom(loo,loo)
-importFrom(loo,relative_eff)
-importFrom(loo,waic)
+importFrom(ggplot2,
+  aes,
+  geom_histogram,
+  geom_segment,
+  ggplot,
+  ggtitle,
+  theme,
+  xlab,
+  ylab
+)
+importFrom(grid,
+  grid.layout,
+  grid.newpage,
+  pushViewport,
+  viewport
+)
+importFrom(loo,
+  loo,
+  relative_eff,
+  waic
+)
 importFrom(parallel,detectCores)
-importFrom(posterior,as_draws_array)
-importFrom(posterior,as_draws_rvars)
-importFrom(posterior,draws_of)
-importFrom(stats,complete.cases)
-importFrom(stats,density)
-importFrom(stats,median)
-importFrom(stats,qnorm)
-importFrom(utils,head)
-importFrom(utils,read.table)
+importFrom(posterior,
+  as_draws_array,
+  as_draws_rvars,
+  draws_of
+)
+importFrom(stats,
+  complete.cases,
+  density,
+  median,
+  qnorm
+)
+importFrom(utils,
+  head,
+  read.table
+)
