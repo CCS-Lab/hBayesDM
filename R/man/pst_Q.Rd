@@ -157,7 +157,7 @@ For the Probabilistic Selection Task, there should be 4 columns of data with the
   subsequent fits reuse the cached binary.
 
 
-\subsection{Contributors}{\href{https://david-munoztord.com/}{David Munoz Tord} <\email{david.munoztord@unige.ch}>}
+\subsection{Contributors}{\href{https://github.com/munoztd0/}{David Munoz Tord} <\email{david.munoztord@unige.ch}>}
 }
 \examples{
 \dontrun{

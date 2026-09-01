@@ -16,7 +16,7 @@ notes:
 contributors:
 - name: David Munoz Tord
   email: david.munoztord@unige.ch
-  link: https://david-munoztord.com/
+  link: https://github.com/munoztd0/
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   type: Two-digit number indicating which pair of stimuli were presented for that
