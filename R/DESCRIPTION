@@ -28,7 +28,6 @@ Depends:
     R (>= 4.4),
     methods
 Imports:
-    cmdstanr (>= 0.8.1),
     posterior (>= 1.6),
     bayesplot (>= 1.11),
     loo (>= 2.7),
@@ -127,5 +126,6 @@ Collate:
     'wcs_sql.R'
     'zzz.R'
 Suggests:
+    cmdstanr (>= 0.8.1),
     testthat
 Config/roxygen2/version: 8.1.0

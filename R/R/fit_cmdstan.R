@@ -18,6 +18,19 @@ NULL
   path
 }
 
+.hbayesdm_require_cmdstanr <- function() {
+  if (!requireNamespace("cmdstanr", quietly = TRUE)) {
+    stop(
+      paste0(
+        "Model fitting requires the 'cmdstanr' package.\n",
+        "Install it with:\n",
+        "install.packages('cmdstanr', repos = c('https://stan-dev.r-universe.dev', 'https://cloud.r-project.org'))"
+      ),
+      call. = FALSE
+    )
+  }
+}
+
 #' Load (and compile if necessary) a CmdStanModel for an hBayesDM model.
 #'
 #' cmdstanr lazily compiles on first use and caches the binary, so subsequent
@@ -26,6 +39,7 @@ NULL
 .hbayesdm_compile <- function(model_name) {
   stan_file <- .hbayesdm_stan_file(model_name)
   include_dir <- dirname(stan_file)
+  .hbayesdm_require_cmdstanr()
   cmdstanr::cmdstan_model(
     stan_file = stan_file,
     include_paths = include_dir,

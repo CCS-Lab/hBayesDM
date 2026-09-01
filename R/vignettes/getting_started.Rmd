@@ -105,7 +105,7 @@ reuse the cached binary and start sampling immediately.
 
 First, open RStudio (or just R) and load the package:
 
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r results='hide', message=FALSE, warning=FALSE, eval=FALSE}
 library(hBayesDM)
 ```
 
@@ -145,7 +145,7 @@ Equivalent shorter form (the defaults are 2000 / 1000 / 4 chains for `gng` model
 output1 = gng_m1("example", ncore=4)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 file_output1 = './cached_output1.rda'
 if (file.exists(file_output1)) {
   load(file_output1)
@@ -232,7 +232,7 @@ Always visually diagnose MCMC performance (well-mixed, stationary chains) before
 
 Trace plots of the hyper-parameters:
 
-```{r echo=TRUE}
+```{r echo=TRUE, eval=FALSE}
 plot(output1, type="trace")   # traceplot via bayesplot::mcmc_trace
 ```
 
@@ -240,14 +240,14 @@ Well-mixed traces look like "fuzzy caterpillars" and confirm what the $\hat{R}$ 
 
 For posterior interval / density plots of the hyper-parameters:
 
-```{r echo=TRUE}
+```{r echo=TRUE, eval=FALSE}
 plot(output1, type="simple")  # bayesplot::mcmc_intervals
 plot(output1)                 # type="dist" — per-model density plots
 ```
 
 To inspect individual subjects, use `plot_ind()` (built on `bayesplot::mcmc_areas` / `mcmc_intervals`). For example, each subject's $\epsilon$ (learning rate) posterior:
 
-```{r echo=TRUE, message=FALSE, warning=FALSE, fig.height=5, fig.width=8}
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=8}
 plot_ind(output1, "ep")
 ```
 
@@ -255,7 +255,7 @@ You can also call `rhat(output1)` to get a data.frame of Rhat values, or `rhat(o
 
 <!--
 Their posterior means are also stored in `OUTPUT_object$all_ind_pars`:
-```{r echo=TRUE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
 output1$all_ind_pars
 ```
 -->
@@ -309,7 +309,7 @@ The hBayesDM package currently provides the following model-based regressors. Wi
 
 As an example, if you would like to extract trial-by-trial stimulus values (i.e., expected value of stimulus on each trial), first fit a model like the following (set the `model_regressor` input variable to `TRUE`. Its default value is `FALSE`):
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 #load("~/Dropbox/Public/modelRegressorSaved_m3.RData")
 ```
 
@@ -319,7 +319,7 @@ As an example, if you would like to extract trial-by-trial stimulus values (i.e.
 output3 = gng_m3(data="example", niter=2000, nwarmup=1000, model_regressor=TRUE)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 file_output3 = './cached_output3.rda'
 if (file.exists(file_output3)) {
   load(file_output3)
@@ -333,7 +333,7 @@ if (file.exists(file_output3)) {
 
 Once the sampling is completed, all model-based regressors are contained in the `model_regressor` list.
 
-```{r eval=TRUE}
+```{r eval=FALSE}
 ## store all subjects' stimulus value (SV) in ‘sv_all’
 sv_all = output3$model_regressor$SV
 
