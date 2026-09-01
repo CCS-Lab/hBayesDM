@@ -7,6 +7,7 @@ Author:
     Woo-Young Ahn [aut],
     Nate Haines [aut],
     Lei Zhang [aut],
+    Jinwoo Jeong [ctb],
     Harhim Park [ctb],
     Jaeyeong Yang [ctb],
     Jethro Lee [ctb]
@@ -15,6 +16,7 @@ Authors@R: c(
     person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut")),
     person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
     person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")),
+    person("Jinwoo", "Jeong", email = "jwjeong96@gmail.com", role = c("ctb")),
     person("Harhim", "Park", email = "hrpark12@gmail.com", role = c("ctb")),
     person("Jaeyeong", "Yang", email = "jaeyeong.yang1125@gmail.com", role = c("ctb")),
     person("Jethro", "Lee", email = "dlemfh96@snu.ac.kr", role = c("ctb")))
