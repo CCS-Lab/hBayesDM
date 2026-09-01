@@ -1,6 +1,9 @@
 context("Test user-facing API (plots, diagnostics, IC, HDI helpers)")
 library(hBayesDM)
 
+skip_if_not_installed("cmdstanr")
+skip_on_cran()
+
 # Fit one small hierarchical model and reuse across assertions to avoid
 # repeated cmdstanr compile cost.
 fitted <- suppressWarnings(suppressMessages(
@@ -10,7 +13,6 @@ fitted <- suppressWarnings(suppressMessages(
 ))
 
 test_that("result object has expected structure", {
-  skip_on_cran()
   expect_s3_class(fitted, "hBayesDM")
   expect_true(inherits(fitted$fit, "CmdStanMCMC"))
   expect_s3_class(fitted$all_ind_pars, "data.frame")
@@ -20,7 +22,6 @@ test_that("result object has expected structure", {
 })
 
 test_that("plot dispatcher accepts trace and simple", {
-  skip_on_cran()
   expect_silent(p_trace <- plot(fitted, type = "trace"))
   expect_silent(p_simple <- plot(fitted, type = "simple"))
   expect_true(inherits(p_trace, "ggplot") || inherits(p_trace, "gg"))
@@ -28,7 +29,6 @@ test_that("plot dispatcher accepts trace and simple", {
 })
 
 test_that("plot_ind returns a ggplot for an individual-level parameter", {
-  skip_on_cran()
   # Pick the first per-subject parameter that actually has draws stored.
   ind_par <- names(fitted$par_vals)[
     !startsWith(names(fitted$par_vals), "mu_") &
@@ -39,7 +39,6 @@ test_that("plot_ind returns a ggplot for an individual-level parameter", {
 })
 
 test_that("rhat returns data.frame, and threshold form returns logical", {
-  skip_on_cran()
   rd <- rhat(fitted)
   expect_s3_class(rd, "data.frame")
   expect_true("Rhat" %in% colnames(rd))
@@ -48,14 +47,12 @@ test_that("rhat returns data.frame, and threshold form returns logical", {
 })
 
 test_that("extract_ic returns LOOIC by default", {
-  skip_on_cran()
   ic <- extract_ic(fitted)
   expect_true("LOOIC" %in% names(ic))
   expect_true(is.finite(ic$LOOIC$estimates[3, 1]))
 })
 
 test_that("print_fit returns a data.frame with weights column", {
-  skip_on_cran()
   tab <- print_fit(fitted)
   expect_s3_class(tab, "data.frame")
   expect_equal(nrow(tab), 1L)
@@ -70,7 +67,6 @@ test_that("hdi returns 2-vector from samples", {
 })
 
 test_that("model_regressor=TRUE extracts regressors for gng_m1", {
-  skip_on_cran()
   m <- suppressWarnings(suppressMessages(
     gng_m1(data = "example", niter = 40, nwarmup = 20,
            nchain = 1, ncore = 1, model_regressor = TRUE)
@@ -86,7 +82,6 @@ test_that("model_regressor=TRUE extracts regressors for gng_m1", {
 })
 
 test_that("model_regressor=TRUE errors when model has no regressors", {
-  skip_on_cran()
   expect_error(
     dd_hyperbolic(data = "example", niter = 20, nwarmup = 10,
                   nchain = 1, ncore = 1, model_regressor = TRUE),
@@ -95,7 +90,6 @@ test_that("model_regressor=TRUE errors when model has no regressors", {
 })
 
 test_that("vb=TRUE returns a CmdStanVB fit with usable summaries", {
-  skip_on_cran()
   m <- suppressWarnings(suppressMessages(
     dd_hyperbolic(data = "example", niter = 20, nwarmup = 10,
                   nchain = 1, ncore = 1, vb = TRUE)
