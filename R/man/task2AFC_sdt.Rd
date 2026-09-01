@@ -157,7 +157,7 @@ For the 2-alternative forced choice task, there should be 3 columns of data with
   subsequent fits reuse the cached binary.
 
 
-\subsection{Contributors}{\href{https://heesunpark26.github.io/}{Heesun Park} <\email{heesunpark26@gmail.com}>}
+\subsection{Contributors}{\href{https://github.com/heesunpark26/}{Heesun Park} <\email{heesunpark26@gmail.com}>}
 }
 \examples{
 \dontrun{

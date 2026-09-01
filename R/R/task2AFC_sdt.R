@@ -1,5 +1,5 @@
 #' @templateVar MODEL_FUNCTION task2AFC_sdt
-#' @templateVar CONTRIBUTOR \href{https://heesunpark26.github.io/}{Heesun Park} <\email{heesunpark26@@gmail.com}>
+#' @templateVar CONTRIBUTOR \href{https://github.com/heesunpark26/}{Heesun Park} <\email{heesunpark26@@gmail.com}>
 #' @templateVar TASK_NAME 2-alternative forced choice task
 #' @templateVar TASK_CODE task2AFC
 #' @templateVar MODEL_NAME Signal detection theory model

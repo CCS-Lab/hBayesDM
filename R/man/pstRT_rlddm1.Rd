@@ -168,7 +168,7 @@ For the Probabilistic Selection Task (with RT data), there should be 6 columns o
   subsequent fits reuse the cached binary.
 
 
-\subsection{Contributors}{\href{https://hydoh.github.io/}{Hoyoung Doh} <\email{hoyoung.doh@gmail.com}>, \href{https://medicine.yale.edu/lab/goldfarb/profile/sanghoon_kang/}{Sanghoon Kang} <\email{sanghoon.kang@yale.edu}>, \href{https://jihyuncindyhur.github.io/}{Jihyun K. Hur} <\email{jihyun.hur@yale.edu}>}
+\subsection{Contributors}{\href{https://github.com/hydoh/}{Hoyoung Doh} <\email{hoyoung.doh@gmail.com}>, \href{https://github.com/sanghoon-kang/}{Sanghoon Kang} <\email{sanghoon.kang@yale.edu}>, \href{https://jihyuncindyhur.github.io/}{Jihyun K. Hur} <\email{jihyun.hur@yale.edu}>}
 }
 \examples{
 \dontrun{
