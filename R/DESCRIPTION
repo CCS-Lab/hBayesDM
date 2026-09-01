@@ -4,15 +4,15 @@ Version: 2.0.0
 Date: 2026-09-01
 Author:
     CCS Lab [cre],
-    Woo-Young Ahn [aut, cre],
+    Woo-Young Ahn [aut],
     Nate Haines [aut],
     Lei Zhang [aut],
     Harhim Park [ctb],
     Jaeyeong Yang [ctb],
     Jethro Lee [ctb]
 Authors@R: c(
-    person("CCS Lab", NULL, email = "ccsl.snu@gmail.com", role = "cre"),
-    person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut", "cre")),
+    person("CCS Lab", NULL, email = "ccsl.snu@gmail.com", role = c("cre")),
+    person("Woo-Young", "Ahn", email = "wooyoung.ahn@gmail.com", role = c("aut")),
     person("Nate", "Haines", email = "haines.175@osu.edu", role = c("aut")),
     person("Lei", "Zhang", email = "bnuzhanglei2008@gmail.com", role = c("aut")),
     person("Harhim", "Park", email = "hrpark12@gmail.com", role = c("ctb")),
