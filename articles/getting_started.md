@@ -154,57 +154,6 @@ output1 = gng_m1("example", ncore=4)
 ```
 
 
-```
-## Warning in gng_m1(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.
-```
-
-```
-## 
-## Model name  = gng_m1 
-## Data file   = example 
-## 
-## Details:
-##  # of chains                    = 4 
-##  # of cores used                = 3 
-##  # of MCMC samples (per chain)  = 2000 
-##  # of burn-in samples           = 1000 
-##  # of subjects                  = 10 
-##  # of (max) trials per subject  = 240 
-## 
-## 
-## ****************************************
-## ** Use VB estimates as initial values **
-## ****************************************
-## ------------------------------------------------------------ 
-## EXPERIMENTAL ALGORITHM: 
-##   This procedure has not been thoroughly tested and may be unstable 
-##   or buggy. The interface is subject to change. 
-## ------------------------------------------------------------ 
-## Gradient evaluation took 0.000601 seconds 
-## 1000 transitions using 10 leapfrog steps per transition would take 6.01 seconds. 
-## Adjust your expectations accordingly! 
-## Begin eta adaptation. 
-## Iteration:   1 / 250 [  0%]  (Adaptation) 
-## Iteration:  50 / 250 [ 20%]  (Adaptation) 
-## Iteration: 100 / 250 [ 40%]  (Adaptation) 
-## Iteration: 150 / 250 [ 60%]  (Adaptation) 
-## Iteration: 200 / 250 [ 80%]  (Adaptation) 
-## Success! Found best value [eta = 1] earlier than expected. 
-## Begin stochastic gradient ascent. 
-##   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes  
-##    100         -846.796             1.000            1.000 
-##    200         -815.045             0.519            1.000 
-##    300         -809.962             0.348            0.039 
-##    400         -809.490             0.261            0.039 
-##    500         -810.612             0.209            0.006   MEDIAN ELBO CONVERGED 
-## Drawing a sample of size 1000 from the approximate posterior...  
-## COMPLETED. 
-## Finished in  3.4 seconds.
-## 
-## ************************************
-## **** Model fitting is complete! ****
-## ************************************
-```
 
 
 On first use cmdstanr compiles the Stan model (~30 s); subsequent fits of the same model reuse the cached binary. Sampling for `gng_m1` on the example data then takes 2–3 minutes. Occasional "numerical problems" warnings during warmup or a small number of "divergent transitions after warmup" can usually be ignored — see Stan's [Runtime warnings and convergence problems](https://mc-stan.org/misc/warnings.html) for guidance on when to act on them.
@@ -288,8 +237,6 @@ Trace plots of the hyper-parameters:
 plot(output1, type="trace")   # traceplot via bayesplot::mcmc_trace
 ```
 
-![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
-
 Well-mixed traces look like "fuzzy caterpillars" and confirm what the $\hat{R}$ values suggest (see [this StackExchange thread](http://stats.stackexchange.com/questions/20437/why-should-we-care-about-rapid-mixing-in-mcmc-chains) for why mixing matters). Trace plots show post-warmup draws only.
 
 For posterior interval / density plots of the hyper-parameters:
@@ -297,25 +244,8 @@ For posterior interval / density plots of the hyper-parameters:
 
 ``` r
 plot(output1, type="simple")  # bayesplot::mcmc_intervals
-```
-
-![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
-
-``` r
 plot(output1)                 # type="dist" — per-model density plots
 ```
-
-```
-## Warning: [1m[22mThe dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
-## [36mℹ[39m Please use `after_stat(density)` instead.
-## [36mℹ[39m The deprecated feature was likely used in the [34mhBayesDM[39m package.
-##   Please report the issue at [3m[34m<https://github.com/CCS-Lab/hBayesDM/issues>[39m[23m.
-## [90mThis warning is displayed once per session.[39m
-## [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was[39m
-## [90mgenerated.[39m
-```
-
-![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-11-2.png)<!-- -->
 
 To inspect individual subjects, use `plot_ind()` (built on `bayesplot::mcmc_areas` / `mcmc_intervals`). For example, each subject's $\epsilon$ (learning rate) posterior:
 
@@ -324,8 +254,6 @@ To inspect individual subjects, use `plot_ind()` (built on `bayesplot::mcmc_area
 plot_ind(output1, "ep")
 ```
 
-![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
-
 You can also call `rhat(output1)` to get a data.frame of Rhat values, or `rhat(output1, less = 1.05)` to get a `TRUE`/`FALSE` summary check.
 
 <!--
@@ -333,20 +261,6 @@ Their posterior means are also stored in `OUTPUT_object$all_ind_pars`:
 
 ``` r
 output1$all_ind_pars
-```
-
-```
-##    subjID         xi        ep      rho
-## 1       1 0.03897796 0.1397173 5.966414
-## 2       2 0.03557815 0.1617626 6.149581
-## 3       3 0.04238519 0.1280776 5.925848
-## 4       4 0.03145392 0.1492270 6.231363
-## 5       5 0.03443664 0.1495206 6.158726
-## 6       6 0.04086663 0.1540498 6.284718
-## 7       7 0.04289236 0.1491891 5.778701
-## 8       8 0.03409124 0.1606623 6.529559
-## 9       9 0.03956299 0.1457318 6.053287
-## 10     10 0.04735283 0.1311994 5.539021
 ```
 -->
 
@@ -410,61 +324,6 @@ output3 = gng_m3(data="example", niter=2000, nwarmup=1000, model_regressor=TRUE)
 ```
 
 
-```
-## Warning in gng_m3(data = "example", niter = 2000, nwarmup = 1000, nchain = 4, : Number of cores specified for parallel computing greater than number of locally available cores. Using all locally available cores.
-```
-
-```
-## 
-## Model name  = gng_m3 
-## Data file   = example 
-## 
-## Details:
-##  # of chains                    = 4 
-##  # of cores used                = 3 
-##  # of MCMC samples (per chain)  = 2000 
-##  # of burn-in samples           = 1000 
-##  # of subjects                  = 10 
-##  # of (max) trials per subject  = 240 
-## 
-## **************************************
-## **  Extract model-based regressors  **
-## **************************************
-## 
-## 
-## ****************************************
-## ** Use VB estimates as initial values **
-## ****************************************
-## ------------------------------------------------------------ 
-## EXPERIMENTAL ALGORITHM: 
-##   This procedure has not been thoroughly tested and may be unstable 
-##   or buggy. The interface is subject to change. 
-## ------------------------------------------------------------ 
-## Gradient evaluation took 0.000695 seconds 
-## 1000 transitions using 10 leapfrog steps per transition would take 6.95 seconds. 
-## Adjust your expectations accordingly! 
-## Begin eta adaptation. 
-## Iteration:   1 / 250 [  0%]  (Adaptation) 
-## Iteration:  50 / 250 [ 20%]  (Adaptation) 
-## Iteration: 100 / 250 [ 40%]  (Adaptation) 
-## Iteration: 150 / 250 [ 60%]  (Adaptation) 
-## Iteration: 200 / 250 [ 80%]  (Adaptation) 
-## Success! Found best value [eta = 1] earlier than expected. 
-## Begin stochastic gradient ascent. 
-##   iter             ELBO   delta_ELBO_mean   delta_ELBO_med   notes  
-##    100         -829.292             1.000            1.000 
-##    200         -817.856             0.507            1.000 
-##    300         -818.345             0.338            0.014 
-##    400         -816.956             0.254            0.014 
-##    500         -816.838             0.203            0.002   MEDIAN ELBO CONVERGED 
-## Drawing a sample of size 1000 from the approximate posterior...  
-## COMPLETED. 
-## Finished in  4.1 seconds.
-## 
-## ************************************
-## **** Model fitting is complete! ****
-## ************************************
-```
 
 
 Once the sampling is completed, all model-based regressors are contained in the `model_regressor` list.
@@ -475,25 +334,13 @@ Once the sampling is completed, all model-based regressors are contained in the 
 sv_all = output3$model_regressor$SV
 
 dim(output3$model_regressor$SV)  # number of rows=# of subjects (=10), number of columns=# of trials (=240)
-```
 
-```
-## [1]  10 240
-```
-
-``` r
 ## visualize SV (Subject #1)
 plot(sv_all[1, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #1)")
-```
 
-![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
-
-``` r
 ## visualize SV (Subject #5)
 plot(sv_all[5, ], type="l", xlab="Trial", ylab="Stimulus Value (subject #5)")
 ```
-
-![](/private/var/folders/tb/y368xp_x10s3ty1b_mtl5mxr0000gn/T/RtmpehbdSE/file3169192c1650/articles/getting_started_files/figure-html/unnamed-chunk-18-2.png)<!-- -->
 
 Similarly, users can extract and visualize other model-based regressors. **W(Go)**, **W(NoGo)**, **Q(Go)**, **Q(NoGo)** are stored in `Wgo`, `Wnogo`, `Qgo`, and `Qnogo`, respectively.
 
