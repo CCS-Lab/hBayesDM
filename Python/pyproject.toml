@@ -1,6 +1,6 @@
 [project]
 name = "hbayesdm"
-version = "2.1.0.9000"
+version = "2.0.1"
 description = "Python interface for hBayesDM, hierarchical Bayesian modeling of RL-DM tasks"
 readme = "README.rst"
 license = { text = "GPL-3.0-only" }
