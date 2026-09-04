@@ -87,9 +87,9 @@ NULL
       max_treedepth   = max_treedepth,
       init            = inits,
       seed            = seed,
-      refresh         = 0,
-      show_messages   = FALSE,
-      show_exceptions = FALSE
+      refresh         = 100,
+      show_messages   = TRUE,
+      show_exceptions = TRUE
     )
   }
 
