@@ -483,7 +483,7 @@ class TaskModel(metaclass=ABCMeta):
             step_size=stepsize,
             max_treedepth=max_treedepth,
             inits=inits,
-            show_progress=False,
+            show_progress=True,
         )
 
     @staticmethod
