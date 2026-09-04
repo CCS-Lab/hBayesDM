@@ -1,4 +1,8 @@
-# hBayesDM 2.0.0 (in development)
+# hBayesDM 2.0.1
+
+* Enable progress bar for MCMC
+
+# hBayesDM 2.0.0
 
 Major refactor; **breaking changes**.
 
@@ -68,14 +72,6 @@ posterior::as_draws_df(output$fit$draws())   # tidy data.frame
 posterior::as_draws_rvars(output$fit$draws())
 output$par_vals[["mu_k"]]                     # already-extracted samples
 ```
-
-# hBayesDM 2.0.0
-
-* Replaced `rstan` and `pystan` with `cmdstanr` and `cmdstanpy`, respectively.
-* `fit` objects now use `CmdStanMCMC` or `CmdStanVB` in R and the corresponding CmdStanPy objects in Python.
-* Updated the minimum requirements to R 4.4 and Python 3.13.
-* Fixed issues related to model arguments, R-hat calculation, and variational inference.
-* See the [main pull request](https://github.com/CCS-Lab/hBayesDM/pull/182) for details on the major changes.
 
 # hBayesDM 1.3.1
 
