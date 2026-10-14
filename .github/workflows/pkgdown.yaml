@@ -6,6 +6,7 @@ on:
       - develop
     paths:
       - 'R/vignettes/**'
+  workflow_dispatch: # allow manual deployment
 
 permissions:
   contents: write
