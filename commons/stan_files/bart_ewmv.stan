@@ -113,11 +113,21 @@ generated quantities {
   // For posterior predictive check
   array[N, T, P] real y_pred;
   
+  // Additional model outputs
+  array[N, T] real p_burst_pred;
+  array[N, T, P] real u_pump_pred;
+  
   // Set all posterior predictions to 0 (avoids NULL values)
-  for (j in 1 : N) 
-    for (k in 1 : T) 
-      for (l in 1 : P) 
+  for (j in 1 : N) {
+    for (k in 1 : T) {
+      p_burst_pred[j, k] = -1;
+  
+      for (l in 1 : P) {
         y_pred[j, k, l] = -1;
+        u_pump_pred[j , k, l] = -9999;
+      }
+    }
+  }
   
   {
     // Local section to save time and space
@@ -130,6 +140,8 @@ generated quantities {
       log_lik[j] = 0;
       
       for (k in 1 : Tsubj[j]) {
+        p_burst_pred[j, k] = p_burst;
+        
         real u_gain = 1;
         real u_loss;
         real u_pump;
@@ -143,6 +155,9 @@ generated quantities {
           u_pump = (1 - p_burst) * u_gain - lambda[j] * p_burst * u_loss
                    + rho[j] * p_burst * (1 - p_burst)
                      * (u_gain + lambda[j] * u_loss) ^ 2;
+                     
+          u_pump_pred[j, k, l] = u_pump;
+          
           // u_stop always equals 0.
           
           delta_u = u_pump - u_stop;
